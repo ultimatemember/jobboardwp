@@ -1,0 +1,64 @@
+#jb-job-submission h3:first-child {
+  margin-top: 0; }
+
+#jb-job-submission .jb-company-logo-wrapper {
+  display: none; }
+  #jb-job-submission .jb-company-logo-wrapper .jb-company-logo-image-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    text-align: center;
+    border-radius: 5px;
+    border: 0; }
+    #jb-job-submission .jb-company-logo-wrapper .jb-company-logo-image-wrapper img {
+      object-fit: fill;
+      width: 100%;
+      height: auto; }
+  #jb-job-submission .jb-company-logo-wrapper.jb-company-logo-uploaded {
+    display: block; }
+
+#jb-job-submission .jb-uploader {
+  width: 100%;
+  margin: 0 0 10px 0; }
+  #jb-job-submission .jb-uploader .jb-uploader-dropzone {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    background-color: #fff;
+    border: 3px dashed lightgray;
+    cursor: copy;
+    padding: 1em; }
+    #jb-job-submission .jb-uploader .jb-uploader-dropzone:hover {
+      box-shadow: 0 0 4px 1px lightgray inset; }
+    #jb-job-submission .jb-uploader .jb-uploader-dropzone span {
+      color: rgba(51, 51, 51, 0.6);
+      margin: 0;
+      text-align: center; }
+  #jb-job-submission .jb-uploader.jb-company-logo-uploaded {
+    display: none; }
+
+.jb-form-field-content .select2-container {
+  width: 100% !important; }
+  .jb-form-field-content .select2-container .select2-selection {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap; }
+    .jb-form-field-content .select2-container .select2-selection ul {
+      width: 100%;
+      padding: 5px 5px 0 5px; }
+      .jb-form-field-content .select2-container .select2-selection ul .select2-selection__clear {
+        margin: 0; }
+      .jb-form-field-content .select2-container .select2-selection ul li {
+        margin: 0 5px 5px 0; }
+        .jb-form-field-content .select2-container .select2-selection ul li.select2-search input {
+          margin-top: 0; }
+
+.select2-dropdown .select2-results .select2-results__options .select2-results__option {
+  margin: 0; }

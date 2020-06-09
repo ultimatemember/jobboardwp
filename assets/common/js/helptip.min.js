@@ -1,0 +1,1 @@
+function jb_init_helptips(){var t=jQuery(".jb-helptip");0<t.length&&t.tooltip({tooltipClass:"jb-helptip",content:function(){return jQuery(this).attr("title")}})}

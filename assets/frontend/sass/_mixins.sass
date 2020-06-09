@@ -1,0 +1,53 @@
+=flex ($direction, $justify, $align, $wrap)
+  display: flex
+  flex-direction: $direction
+  justify-content: $justify
+  align-items: $align
+  flex-wrap: $wrap
+
+=link ($link, $active-link)
+  color: $link
+  text-decoration: none
+  outline: none
+  cursor: pointer
+  transition: 0.2s
+  box-shadow: none
+  &:hover, &:focus, &:active
+    color: $active-link
+
+=border-box
+  box-sizing: border-box
+  -moz-box-sizing: border-box
+  -webkit-box-sizing: border-box
+
+=box-shadow
+  box-shadow: 0 7px 14px 0 $shadow1, 0 3px 6px 0 $shadow2
+  -webkit-box-shadow: 0 7px 14px 0 $shadow1, 0 3px 6px 0 $shadow2
+
+=border-radius ($tl, $tr, $br, $bl)
+  border-radius: $tl $tr $br $bl
+  -moz-border-radius: $tl $tr $br $bl
+  -webkit-border-radius: $tl $tr $br $bl
+
+=background-transition ($time)
+  -webkit-transition: background-color #{$time}ms ease-in
+  -ms-transition: background-color #{$time}ms ease-in
+  transition: background-color #{$time}ms ease-in
+
+=transition ($time,$action)
+  -webkit-transition: $time $action
+  -moz-transition: $time $action
+  -ms-transition: $time $action
+  -o-transition: $time $action
+  transition: $time $action
+
+
+=keyframes ($name)
+  @-webkit-keyframes #{$name}
+    @content
+  @-moz-keyframes #{$name}
+    @content
+  @-ms-keyframes #{$name}
+    @content
+  @keyframes #{$name}
+    @content

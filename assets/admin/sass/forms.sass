@@ -1,0 +1,79 @@
+@import "color"
+@import "selectors"
+
+=flex ($direction, $justify, $align, $wrap)
+  display: flex
+  flex-direction: $direction
+  justify-content: $justify
+  align-items: $align
+  flex-wrap: $wrap
+
+.#{$prefix}form-table
+  &.#{$prefix}third-column
+    .#{$prefix}forms-line th
+      width: 33%
+  &.#{$prefix}half-column
+    .#{$prefix}forms-line th
+      width: 50%
+  &.#{$prefix}two-thirds-column
+    .#{$prefix}forms-line th
+      width: 83%
+  td
+    box-sizing: border-box
+    -moz-box-sizing: border-box
+    -webkit-box-sizing: border-box
+    select,
+    input[type="text"],
+    input[type="number"],
+    .select2
+      margin: 3px 0 0 0
+
+  .#{$prefix}req
+    color: #a00
+
+  &.#{$prefix}top-label
+    .#{$prefix}forms-line
+      .wp-picker-container
+        margin: 3px 0 0 0
+        width: 100%
+        .wp-picker-open + .wp-picker-input-wrap
+          +flex( row, flex-start, center, nowrap )
+          .wp-picker-clear
+            margin-bottom: 0
+
+@media (min-width: 782px)
+  .#{$prefix}form-table
+    &.#{$prefix}top-label
+      .#{$prefix}forms-line
+        .wp-picker-container
+          .wp-picker-holder
+            position: relative
+            left: -22px
+
+.#{$prefix}forms-line[data-field_type="separator"]
+  td
+    padding: 15px 0 0 0
+    font-size: 12px
+    font-weight: bold
+
+input[type=text].#{$prefix}forms-field.#{$prefix}long-field,
+input[type=number].#{$prefix}forms-field.#{$prefix}long-field,
+select.#{$prefix}forms-field.#{$prefix}long-field,
+textarea.#{$prefix}forms-field.#{$prefix}long-field
+  width: 100% !important
+input[type=text].#{$prefix}forms-field.#{$prefix}medium-field,
+input[type=number].#{$prefix}forms-field.#{$prefix}medium-field,
+select.#{$prefix}forms-field.#{$prefix}medium-field,
+textarea.#{$prefix}forms-field.#{$prefix}medium-field
+  width: 50% !important
+input[type=text].#{$prefix}forms-field.#{$prefix}small-field,
+input[type=number].#{$prefix}forms-field.#{$prefix}small-field,
+select.#{$prefix}forms-field.#{$prefix}small-field,
+textarea.#{$prefix}forms-field.#{$prefix}small-field
+  width: 25% !important
+
+.description
+  .#{$prefix}valid-license
+    color: #007000
+  .#{$prefix}invalid-license
+    color: #aa0000

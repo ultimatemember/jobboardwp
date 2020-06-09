@@ -1,0 +1,41 @@
+@import "color"
+@import "selectors"
+@import "mixins"
+@import "notice"
+@import "tooltip"
+
+.#{$prefix}job-submission-form-notice
+  +flex( row, flex-start, baseline, nowrap )
+  font-size: 14px
+  width: 100%
+  margin: 0 0 15px 0
+  padding: 10px 15px
+  background: #fff
+  color: #000
+  border-left: 5px solid $notice-text
+  +box-shadow
+
+.#{$prefix}job-submission-form-error
+  +flex( row, flex-start, baseline, nowrap )
+  font-size: 14px
+  width: 100%
+  margin: 0 0 15px 0
+  padding: 10px 15px
+  background: #fff
+  color: #000
+  border-left: 5px solid $error-text
+  +box-shadow
+
+
+p.#{$prefix}form-error-row
+  input
+    border: 1px solid $error-text
+  .#{$prefix}form-field-error
+    color: $error-text
+    font-size: 0.9em
+div.#{$prefix}form-error-row
+  input, textarea, .wp-editor-wrap
+    border: 1px solid $error-text
+  .#{$prefix}form-field-error
+    color: $error-text
+    font-size: 0.9em

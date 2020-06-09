@@ -1,0 +1,127 @@
+#wp-admin-bar-jb_edit_job > .ab-item .ab-icon:before {
+  content: "\f464";
+  top: 2px; }
+
+body.post-type-jb-job .wp-list-table .column-title {
+  width: 35%; }
+  body.post-type-jb-job .wp-list-table .column-title .jb-job-data {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    width: 100%; }
+    body.post-type-jb-job .wp-list-table .column-title .jb-job-data .jb-job-title-company {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      flex-wrap: nowrap;
+      width: calc( 100% - 54px);
+      margin: 0 10px 0 0; }
+    body.post-type-jb-job .wp-list-table .column-title .jb-job-data .jb-job-company-logo-wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: nowrap;
+      text-align: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+      border: 2px solid #fff;
+      box-shadow: 0 7px 14px 0 rgba(50, 50, 93, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
+      -webkit-box-shadow: 0 7px 14px 0 rgba(50, 50, 93, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
+      overflow: hidden; }
+      body.post-type-jb-job .wp-list-table .column-title .jb-job-data .jb-job-company-logo-wrapper .jb-job-company-logo {
+        object-fit: cover;
+        width: 40px;
+        height: 40px; }
+      body.post-type-jb-job .wp-list-table .column-title .jb-job-data .jb-job-company-logo-wrapper .dashicons {
+        color: #a4a4a4; }
+
+body.post-type-jb-job .wp-list-table .column-type {
+  width: 10%; }
+  body.post-type-jb-job .wp-list-table .column-type .jb-job-type {
+    font-size: 12px;
+    text-align: center;
+    padding: 5px 9px;
+    border: 0;
+    border-radius: 3px;
+    margin: 0; }
+    body.post-type-jb-job .wp-list-table .column-type .jb-job-type:not(:first-child) {
+      margin-left: 2px; }
+    body.post-type-jb-job .wp-list-table .column-type .jb-job-type:not(:last-child) {
+      margin-bottom: 2px; }
+
+body.post-type-jb-job .wp-list-table .column-filled {
+  width: 5%;
+  text-align: center; }
+
+body.post-type-jb-job .wp-list-table .column-status {
+  width: 7%;
+  text-align: center; }
+
+body.post-type-jb-job .wp-list-table .column-location {
+  width: 10%; }
+
+body.post-type-jb-job .wp-list-table .column-category {
+  width: 13%; }
+
+body.post-type-jb-job .wp-list-table .column-posted {
+  width: 10%; }
+
+body.post-type-jb-job .wp-list-table .column-expires {
+  width: 10%; }
+
+#jb-settings-emails table.emailnotifications th.column-email.column-primary {
+  padding-left: 48px; }
+
+#jb-settings-emails table.emailnotifications .column-configure {
+  width: 60px;
+  text-align: center; }
+  #jb-settings-emails table.emailnotifications .column-configure .jb-email-configure span {
+    line-height: 24px; }
+
+#jb-settings-emails table.emailnotifications .jb-notification-status {
+  margin-right: 18px;
+  font-size: 28px;
+  line-height: 22px;
+  color: #a00;
+  float: left;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box; }
+  #jb-settings-emails table.emailnotifications .jb-notification-status.jb-notification-is-active {
+    color: #46b450; }
+
+#jb-settings-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-wrap: nowrap; }
+
+.jb-wrap {
+  clear: both;
+  scroll-snap-align: center; }
+
+body.taxonomy-jb_job_type table.wp-list-table .column-ID {
+  width: 74px;
+  text-align: center; }
+
+@media screen and (max-width: 782px) {
+  body.taxonomy-jb_job_type table.wp-list-table .column-ID {
+    text-align: left; }
+  body.post-type-jb-job .wp-list-table td:before {
+    font-weight: bold; }
+  body.post-type-jb-job .wp-list-table .column-filled,
+  body.post-type-jb-job .wp-list-table .column-status {
+    text-align: left; }
+  body.post-type-jb-job .wp-list-table .column-type .jb-job-types {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+    flex-wrap: wrap;
+    margin-bottom: 2px; } }

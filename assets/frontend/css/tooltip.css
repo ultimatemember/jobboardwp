@@ -1,0 +1,88 @@
+*[data-jb_tooltip] {
+  cursor: pointer; }
+
+.jb-tooltip {
+  z-index: 200;
+  display: none;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 7px 14px 0 rgba(50, 50, 93, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
+  -webkit-box-shadow: 0 7px 14px 0 rgba(50, 50, 93, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
+  word-wrap: break-word; }
+
+#jb-user-card-tooltip {
+  position: fixed;
+  width: 300px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box; }
+
+.jb-user-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin: 0;
+  width: 100%;
+  font-size: 14px;
+  color: #000;
+  cursor: default;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box; }
+  .jb-user-card-wrapper .jb-user-card-avatar {
+    text-align: center;
+    margin: 0 0 10px 0; }
+    .jb-user-card-wrapper .jb-user-card-avatar a img {
+      border-radius: 100%; }
+  .jb-user-card-wrapper .jb-user-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap; }
+    .jb-user-card-wrapper .jb-user-card-content > :not(:last-child) {
+      margin: 0 0 5px 0; }
+    .jb-user-card-wrapper .jb-user-card-content .jb-user-card-name {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: baseline;
+      flex-wrap: wrap; }
+      .jb-user-card-wrapper .jb-user-card-content .jb-user-card-name a {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box; }
+    .jb-user-card-wrapper .jb-user-card-content .jb-user-card-tags {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: stretch;
+      flex-wrap: nowrap;
+      padding: 0; }
+      .jb-user-card-wrapper .jb-user-card-content .jb-user-card-tags .jb-user-card-tag {
+        border: 1px solid #dddddd;
+        border-radius: 3px 3px 3px 3px;
+        -moz-border-radius: 3px 3px 3px 3px;
+        -webkit-border-radius: 3px 3px 3px 3px;
+        font-size: 0.8em;
+        padding: 3px 5px;
+        margin-right: 3px;
+        line-height: 1;
+        cursor: default; }
+    .jb-user-card-wrapper .jb-user-card-content .jb-user-card-description {
+      text-align: center; }
+    .jb-user-card-wrapper .jb-user-card-content .jb-user-card-stats {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: stretch;
+      flex-wrap: nowrap; }
+      .jb-user-card-wrapper .jb-user-card-content .jb-user-card-stats span {
+        margin-right: 10px; }
+      .jb-user-card-wrapper .jb-user-card-content .jb-user-card-stats > :last-child {
+        margin: 0; }

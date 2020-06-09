@@ -1,0 +1,116 @@
+@import "selectors"
+@import "color"
+@import "mixins"
+
+#wp-admin-bar-jb_edit_job > .ab-item .ab-icon:before
+  content: "\f464"
+  top: 2px
+
+body.post-type-jb-job .wp-list-table
+  .column-title
+    width: 35%
+    .#{$job}data
+      +flex(row, flex-start, center, nowrap)
+      width: 100%
+      .#{$job}title-company
+        +flex(column, flex-start, stretch, nowrap)
+        width: calc( 100% - 54px )
+        margin: 0 10px 0 0
+      .#{$job}company-logo-wrapper
+        +flex(row, center, center, nowrap)
+        text-align: center
+        width: 40px
+        height: 40px
+        border-radius: 100%
+        border: 2px solid #fff
+        +box-shadow
+        overflow: hidden
+        .#{$job}company-logo
+          object-fit: cover
+          width: 40px
+          height: 40px
+        .dashicons
+          color: #a4a4a4
+  .column-type
+    width: 10%
+    .#{$job}type
+      font-size: 12px
+      text-align: center
+      padding: 5px 9px
+      border: 0
+      border-radius: 3px
+      margin: 0
+      &:not(:first-child)
+        margin-left: 2px
+      &:not(:last-child)
+        margin-bottom: 2px
+  .column-filled
+    width: 5%
+    text-align: center
+  .column-status
+    width: 7%
+    text-align: center
+  .column-location
+    width: 10%
+  .column-category
+    width: 13%
+  .column-posted
+    width: 10%
+  .column-expires
+    width: 10%
+
+
+
+##{$prefix}settings-emails
+  table.emailnotifications
+    th.column-email.column-primary
+      padding-left: 48px
+    .column-configure
+      width: 60px
+      text-align: center
+      .#{$prefix}email-configure span
+        line-height: 24px
+
+
+    .#{$prefix}notification-status
+      margin-right: 18px
+      font-size: 28px
+      line-height: 22px
+      color: #a00
+      float: left
+      box-sizing: border-box
+      -moz-box-sizing: border-box
+      -webkit-box-sizing: border-box
+      &.#{$prefix}notification-is-active
+        color: #46b450
+
+
+##{$prefix}settings-wrap
+  +flex( column, flex-start, stretch, nowrap )
+
+
+.#{$prefix}wrap
+  clear: both
+  scroll-snap-align: center
+
+body.taxonomy-jb_job_type
+  table.wp-list-table
+    .column-ID
+      width: 74px
+      text-align: center
+
+@media screen and (max-width: 782px)
+  body.taxonomy-jb_job_type
+    table.wp-list-table
+      .column-ID
+        text-align: left
+  body.post-type-jb-job .wp-list-table
+    td:before
+      font-weight: bold
+    .column-filled,
+    .column-status
+      text-align: left
+    .column-type
+      .#{$job}types
+        +flex( row, flex-start, baseline, wrap )
+        margin-bottom: 2px
