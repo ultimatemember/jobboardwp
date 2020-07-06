@@ -15,7 +15,7 @@
   position: relative
   font-size: 14px
 
-  .#{$jobs}overlay
+  .#{$prefix}overlay
     display: none
     position: absolute
     width: 100%
@@ -52,15 +52,13 @@
   .#{$jobs}header
     +flex( column, flex-start, stretch, nowrap )
     width: 100%
-    margin: 0 0 15px 0
+    margin: 0 0 10px 0
     .#{$jobs}header-row
       +flex( row, flex-start, baseline, nowrap )
       width: 100%
       &.#{$jobs}search-row
-
-
         .#{$jobs}search-line
-          +flex( row, flex-start, center, nowrap )
+          +flex( row, flex-end, center, nowrap )
           width: 100%
           margin: 0 0 10px 0
           label
@@ -78,6 +76,11 @@
           .#{$prefix}do-search
             min-width: 15%
             width: auto
+      &.#{$jobs}filters-row
+        flex-wrap: wrap
+        label
+          margin: 0 10px 7px 0
+
 
   .#{$jobs}wrapper
     +flex( column, flex-start, stretch, nowrap )
@@ -85,7 +88,7 @@
     &.#{$prefix}no-jobs
       align-items: center
     .#{$job}list-row
-      +flex( row, flex-start, center, nowrap )
+      +flex( row, flex-start, flex-start, nowrap )
       width: 100%
       padding: 15px 0
       margin: 0
@@ -112,16 +115,19 @@
         width: calc( 100% - 80px )
         margin: 0
         +flex( column, flex-start, stretch, nowrap )
-        .job_title
+        .#{$job}title
           +flex( row, space-between, center, wrap )
           width: 100%
-          margin: 0 0 10px 0
-          a
-            font-weight: bold
-            font-size: 16px
-            margin: 0 15px 0 0
+          margin: 0
+          .#{$job}title-link-line
+            margin: 0 15px 10px 0
+            .#{$job}title-link
+              font-weight: bold
+              font-size: 16px
+              overflow: auto
           .#{$job}types
             +flex( row, flex-start, baseline, wrap )
+            margin: 0 0 10px 0
             .#{$job}type
               font-size: 12px
               font-weight: bold
@@ -135,24 +141,75 @@
           width: 100%
           .#{$prefix}row-left-side
             +flex( row, flex-start, baseline, wrap )
-            min-width: calc( 85% - 10px )
+            max-width: calc( 85% - 10px )
             margin: 0 10px 0 0
             & > div
+              +flex( row, flex-start, baseline, nowrap )
               margin: 0 20px 5px 0
               i
                 color: $icon-color
+                margin: 0 5px 0 0
           .#{$prefix}row-right-side
             +flex( row, flex-end, baseline, nowrap )
             max-width: 15%
             .date
               font-size: 12px
               color: #888888
+            .#{$job}types
+              +flex( row, flex-start, baseline, wrap )
+              margin: 0 0 10px 0
+              .#{$job}type
+                font-size: 12px
+                font-weight: bold
+                padding: 5px 9px
+                border: 0
+                border-radius: 3px
+                &:not(:first-child)
+                  margin: 0 0 0 5px
 
       &.#{$job}list-no-logo
         .#{$prefix}row-data
           width: 100%
+
   .#{$jobs}pagination-box
     +flex( row, center, baseline, nowrap )
+
+  &.#{$prefix}ui-xs, &.#{$prefix}ui-xs
+    .#{$jobs}header
+      .#{$jobs}header-row
+        &.#{$jobs}search-row
+          .#{$jobs}search-line
+            +flex( column, flex-start, stretch, nowrap )
+            width: 100%
+            margin: 0 0 10px 0
+            label
+              width: 100%
+              margin: 0 0 10px 0
+              min-width: auto
+              max-width: none
+            .#{$prefix}do-search
+              width: 100%
+              min-width: auto
+
+    .#{$jobs}wrapper
+      .#{$job}list-row
+        .#{$prefix}row-data
+          .#{$job}title
+            .#{$job}title-link-line
+              width: 100%
+              margin: 0 0 10px 0
+        .#{$prefix}row-info
+          +flex( column, flex-start, stretch, nowrap )
+          .#{$prefix}row-left-side
+            +flex( row, flex-start, baseline, wrap )
+            width: 100%
+            margin: 0 0 5px 0
+            max-width: none
+          .#{$prefix}row-right-side
+            +flex( column, flex-start, stretch, nowrap )
+            width: 100%
+            margin: 0 0 10px 0
+            max-width: none
 
 
 .select2-dropdown

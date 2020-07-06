@@ -118,7 +118,7 @@
             &.jb-status-filled
               background: #cbf4c9
               color: #0e6245
-            &.jb-status-expired
+            &.jb-status-jb-expired
               background: #fedce4
               color: #a3052a
             &.jb-status-pending
@@ -153,6 +153,12 @@
               &.jb-status-not-filled
                 background: #fedce4
                 color: #a3052a
+              &.jb-status-jb-expired
+                background: #fedce4
+                color: #a3052a
+              &.jb-status-pending
+                background: #f8e5b9
+                color: #983705
 
       .#{$prefix}row-actions
         +flex( row, flex-end, center, nowrap )
@@ -168,6 +174,12 @@
           .#{$prefix}dropdown
             text-align: left
             width: 100%
+
+    .#{$job}dashboard-empty-row
+      text-align: center
+      width: 100%
+      padding: 0
+      margin: 10px 0
 
   &.#{$prefix}ui-xs
     border: none

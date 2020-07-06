@@ -16,8 +16,8 @@
   -moz-border-radius: 5px 5px 5px 5px;
   -webkit-border-radius: 5px 5px 5px 5px; }
   .jb-dropdown ul {
-    margin: 0;
-    padding: 0; }
+    margin: 0 !important;
+    padding: 0 !important; }
     .jb-dropdown ul li {
       list-style-type: none;
       padding: 0;
@@ -204,7 +204,7 @@
             #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag.jb-status-filled {
               background: #cbf4c9;
               color: #0e6245; }
-            #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag.jb-status-expired {
+            #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag.jb-status-jb-expired {
               background: #fedce4;
               color: #a3052a; }
             #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag.jb-status-pending {
@@ -237,6 +237,12 @@
           #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag.jb-status-not-filled {
             background: #fedce4;
             color: #a3052a; }
+          #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag.jb-status-jb-expired {
+            background: #fedce4;
+            color: #a3052a; }
+          #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag.jb-status-pending {
+            background: #f8e5b9;
+            color: #983705; }
       #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-actions {
         display: flex;
         flex-direction: row;
@@ -255,6 +261,11 @@
           #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-actions .jb-job-actions-dropdown .jb-dropdown {
             text-align: left;
             width: 100%; }
+    #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-empty-row {
+      text-align: center;
+      width: 100%;
+      padding: 0;
+      margin: 10px 0; }
   #jb-job-dashboard.jb-ui-xs {
     border: none;
     border-radius: 0; }

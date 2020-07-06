@@ -1,11 +1,15 @@
 @import "color"
 @import "selectors"
 @import "mixins"
+@import "job/info"
+@import "job/company"
+@import "job/content"
 
-.#{$job}preview-wrapper
+##{$job}preview-wrapper
   font-size: 14px
   background: #a4a4a4
   padding: 5px
+  margin: 0 0 10px 0
   h2
     margin-top: 10px
     margin-bottom: 25px
@@ -16,114 +20,22 @@
     width: 100%
     margin: 0
     padding: 15px 10px
-    background: #fff
+    background: $white
     .#{$job}title
       width: 100%
       margin: 0 0 10px 0
       h3
         margin-top: 0
-    .#{$job}info
-      +flex( column, flex-start, stretch, nowrap )
-      width: 100%
-      .#{$job}info-row
-        +flex( row, flex-start, baseline, wrap )
-        width: 100%
-        .#{$job}types
-          +flex( row, flex-start, baseline, wrap )
-          width: 100%
-          .#{$job}type
-            font-size: 12px
-            font-weight: bold
-            padding: 5px 9px
-            border: 0
-            border-radius: 3px
-            &:not(:first-child)
-              margin: 0 0 0 5px
-        &:not(:first-child)
-          margin: 5px 0 0 0
-        &.#{$job}info-row-first
-          & > div
-            margin: 0 20px 5px 0
-            i
-              color: $icon-color
+    +job-info
 
-  .#{$job}company
-    +flex( row, space-between, center, wrap )
-    padding: 15px 10px
-    border-top: 1px solid $border-color
-    border-bottom: 1px solid $border-color
-    background: #fff
-    .#{$job}company-info
-      +flex( row, flex-start, center, nowrap )
-      min-width: calc( 80% - 10px )
-      margin: 0 10px 0 0
-      .#{$job}logo
-        +flex( row, flex-start, center, nowrap )
-        width: 60px
-        margin: 0 20px 0 0
-        .#{$job}company-logo-wrapper
-          +flex(row, center, center, nowrap)
-          width: 60px
-          height: 60px
-          border-radius: 5px
-          border: 0
-          overflow: hidden
-          .#{$job}company-logo
-            object-fit: fill
-            width: 60px
-            height: auto
-      .#{$job}company-title-tagline
-        +flex( column, flex-start, stretch, nowrap )
-        .#{$job}company-name
-          font-size: 16px
-        .#{$job}company-tagline
-          font-style: italic
-          font-size: 14px
-      &.#{$job}no-logo
-        .#{$job}company-title-tagline
-          width: 100%
-          margin: 0
-    .#{$job}company-links
-      +flex( row, flex-end, center, nowrap )
-      max-width: 20%
-      a
-        font-size: 16px
-        width: 30px
-        height: 30px
-        border: 1px solid $border-color
-        border-radius: 3px
-        text-align: center
-        line-height: 30px
-        color: $link
-        &:hover,&:active
-          color: $active-link
-        &:visited
-          color: $link
-        &:not(:last-child)
-          margin: 0 5px 0 0
 
-  .#{$job}content
-    +flex( column, flex-start, stretch, nowrap )
-    width: 100%
-    padding: 15px 10px
-    background: #fff
-    .#{$job}content-separator
-      width: 100%
-      font-weight: bold
-      margin: 0 0 15px 0
-      &:not(:first-child)
-        margin: 15px 0
-    .#{$job}content-section
-      width: 100%
+  +job-company( 'standard' )
+
+  +job-content()
+
+  & > div
+    padding: 15px 10px !important
+    background: $white
 
   &.#{$prefix}ui-xs
-    .#{$job}company
-      +flex( column, flex-start, stretch, nowrap )
-      .#{$job}company-info
-        width: 100%
-        min-width: auto
-        margin: 0 0 10px 0
-      .#{$job}company-links
-        +flex( row, flex-start, baseline, nowrap )
-        width: 100%
-        max-width: none
+    +job-company( 'xs' )

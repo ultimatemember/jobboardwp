@@ -39,13 +39,13 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 
 			wp_register_script( 'jb-helptip', $this->js_url['common'] . 'helptip' . JB()->scrips_prefix . '.js', [ 'jquery', 'jquery-ui-tooltip' ], jb_version, true );
 
-			wp_register_script( 'jb-tooltip', $this->js_url['frontend'] . 'tooltip' . JB()->scrips_prefix . '.js', array( 'jquery' ), jb_version, true );
+			wp_register_script( 'jb-tooltip', $this->js_url['frontend'] . 'tooltip' . JB()->scrips_prefix . '.js', [ 'jquery' ], jb_version, true );
 
-			wp_register_script( 'jb-dropdown', $this->js_url['frontend'] . 'dropdown' . JB()->scrips_prefix . '.js', array( 'jquery' ), jb_version, true );
+			wp_register_script( 'jb-dropdown', $this->js_url['frontend'] . 'dropdown' . JB()->scrips_prefix . '.js', [ 'jquery' ], jb_version, true );
 
-			wp_register_script( 'jb-notice', $this->js_url['frontend'] . 'notice' . JB()->scrips_prefix . '.js', array( 'jquery' ), jb_version, true );
+			wp_register_script( 'jb-notice', $this->js_url['frontend'] . 'notice' . JB()->scrips_prefix . '.js', [ 'jquery' ], jb_version, true );
 
-			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', array( 'jquery', 'wp-util', 'wp-i18n', 'wp-hooks', 'select2', 'jb-tipsy', 'jb-notice', 'jb-dropdown', 'jb-tooltip', 'jb-helptip' ), jb_version, true );
+			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', [ 'jquery', 'wp-util', 'wp-i18n', 'wp-hooks', 'select2', 'jb-tipsy', 'jb-notice', 'jb-dropdown', 'jb-tooltip', 'jb-helptip' ], jb_version, true );
 
 			$localize_data = apply_filters( 'jb_enqueue_localize', [
 				'nonce' => wp_create_nonce( 'jb-frontend-nonce' )
@@ -53,8 +53,10 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 			wp_localize_script( 'jb-front-global', 'jb_front_data', $localize_data );
 
 
+			wp_register_script( 'jb-front-forms', $this->js_url['frontend'] . 'forms' . JB()->scrips_prefix . '.js', [ 'jb-front-global' ], jb_version, true );
+
 			wp_register_script( 'jb-jobs', $this->js_url['frontend'] . 'jobs' . JB()->scrips_prefix . '.js', [ 'jb-front-global' ], jb_version, true );
-			wp_register_script( 'jb-post-job', $this->js_url['frontend'] . 'post-job' . JB()->scrips_prefix . '.js', [ 'jb-front-global', 'plupload' ], jb_version, true );
+			wp_register_script( 'jb-post-job', $this->js_url['frontend'] . 'post-job' . JB()->scrips_prefix . '.js', [ 'jb-front-forms', 'plupload' ], jb_version, true );
 			wp_register_script( 'jb-single-job', $this->js_url['frontend'] . 'single-job' . JB()->scrips_prefix . '.js', [ 'jb-front-global' ], jb_version, true );
 			wp_register_script( 'jb-preview-job', $this->js_url['frontend'] . 'preview-job' . JB()->scrips_prefix . '.js', [ 'jb-front-global' ], jb_version, true );
 			wp_register_script( 'jb-jobs-dashboard', $this->js_url['frontend'] . 'jobs-dashboard' . JB()->scrips_prefix . '.js', [ 'jb-front-global' ], jb_version, true );

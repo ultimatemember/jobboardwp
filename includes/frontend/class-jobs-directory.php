@@ -18,13 +18,13 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 		/**
 		 * @var array
 		 */
-		var $filters = array();
+		var $filters = [];
 
 
 		/**
 		 * @var array
 		 */
-		var $filter_types = array();
+		var $filter_types = [];
 
 
 		/**
@@ -42,15 +42,15 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 		 *
 		 */
 		function init_variables() {
-			$this->filters = apply_filters( 'jb_jobs_directory_filters', array(
+			$this->filters = apply_filters( 'jb_jobs_directory_filters', [
 				'job_type'  => __( 'Job Type', 'jobboardwp' ),
 				'company'   => __( 'Company', 'jobboardwp' ),
-			) );
+			] );
 
-			$this->filter_types = apply_filters( 'jb_jobs_directory_filter_types', array(
+			$this->filter_types = apply_filters( 'jb_jobs_directory_filter_types', [
 				'job_type'  => 'select',
 				'company'   => 'select',
-			) );
+			] );
 		}
 
 
@@ -62,16 +62,16 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 		function get_db_values( $filter ) {
 			global $wpdb;
 
-			$values = array();
+			$values = [];
 
 			switch ( $filter ) {
 				case 'job_type':
 
-					$values = get_terms( array(
+					$values = get_terms( [
 						'taxonomy'      => 'jb-job-type',
 						'hide_empty'    => true,
 						'fields'        => 'ids',
-					) );
+					] );
 
 					break;
 				case 'company':
@@ -100,16 +100,16 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 		function get_filter_options( $filter ) {
 			global $wpdb;
 
-			$values = array();
+			$values = [];
 
 			switch ( $filter ) {
 				case 'job_type':
 
-					$values = get_terms( array(
+					$values = get_terms( [
 						'taxonomy'      => 'jb-job-type',
 						'hide_empty'    => true,
 						'fields'        => 'id=>name',
-					) );
+					] );
 
 					break;
 				case 'company':
@@ -156,7 +156,7 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 				}
 				case 'select': {
 					// getting value from GET line
-					$filter_from_url = ! empty( $_GET[ 'jb_' . $filter ] ) ? explode( '||', sanitize_text_field( $_GET[ 'jb_' . $filter ] ) ) : array();
+					$filter_from_url = ! empty( $_GET[ 'jb_' . $filter ] ) ? explode( '||', sanitize_text_field( $_GET[ 'jb_' . $filter ] ) ) : [];
 
 					$options = $this->get_filter_options( $filter );
 					if ( empty( $options ) ) {

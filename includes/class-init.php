@@ -102,8 +102,17 @@ if ( ! class_exists( 'JB' ) ) {
 			spl_autoload_register( [ $this, 'jb__autoloader' ] );
 
 			if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-				//run activation
+				// run activation
 				register_activation_hook( jb_plugin, [ $this->install(), 'activation' ] );
+				if ( is_multisite() && ! defined( 'DOING_AJAX' ) ) {
+					add_action( 'wp_loaded', [ $this->install(), 'maybe_network_activation' ] );
+				}
+
+				// deactivation
+				register_deactivation_hook( jb_plugin, [ $this->common()->cron(), 'unschedule_tasks' ] );
+
+				// init cron tasks
+				$this->common()->cron()->maybe_schedule_tasks();
 
 				// textdomain loading
 				$this->localize();
@@ -179,6 +188,8 @@ if ( ! class_exists( 'JB' ) ) {
 
 
 		/**
+		 * Getting the Config class instance
+		 *
 		 * @since 1.0
 		 *
 		 * @return jb\Config
@@ -193,6 +204,8 @@ if ( ! class_exists( 'JB' ) ) {
 
 
 		/**
+		 * Getting the Install class instance
+		 *
 		 * @since 1.0
 		 *
 		 * @return jb\admin\Install()
@@ -206,33 +219,8 @@ if ( ! class_exists( 'JB' ) ) {
 
 
 		/**
-		 * @since 1.0
+		 * Getting the Options class instance
 		 *
-		 * @return jb\common\Common()
-		 */
-		function common() {
-			if ( empty( $this->classes['jb\common\common'] ) ) {
-				$this->classes['jb\common\common'] = new jb\common\Common();
-			}
-			return $this->classes['jb\common\common'];
-		}
-
-
-		/**
-		 * @since 1.0
-		 *
-		 * @return jb\common\Permalinks
-		 */
-		function permalinks() {
-			if ( empty( $this->classes['jb\common\permalinks'] ) ) {
-				$this->classes['jb\common\permalinks'] = new jb\common\Permalinks();
-			}
-
-			return $this->classes['jb\common\permalinks'];
-		}
-
-
-		/**
 		 * @since 1.0
 		 *
 		 * @return jb\common\Options()
@@ -246,6 +234,23 @@ if ( ! class_exists( 'JB' ) ) {
 
 
 		/**
+		 * Getting the Common class instance
+		 *
+		 * @since 1.0
+		 *
+		 * @return jb\common\Common()
+		 */
+		function common() {
+			if ( empty( $this->classes['jb\common\common'] ) ) {
+				$this->classes['jb\common\common'] = new jb\common\Common();
+			}
+			return $this->classes['jb\common\common'];
+		}
+
+
+		/**
+		 * Getting the Admin class instance
+		 *
 		 * @since 1.0
 		 *
 		 * @return jb\admin\Common()
@@ -259,6 +264,8 @@ if ( ! class_exists( 'JB' ) ) {
 
 
 		/**
+		 * Getting the Frontend class instance
+		 *
 		 * @since 1.0
 		 *
 		 * @return jb\frontend\Common()
@@ -272,6 +279,8 @@ if ( ! class_exists( 'JB' ) ) {
 
 
 		/**
+		 * Getting the AJAX class instance
+		 *
 		 * @since 1.0
 		 *
 		 * @return jb\ajax\Common()

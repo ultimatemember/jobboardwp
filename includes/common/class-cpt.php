@@ -88,7 +88,7 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 		 * @return array
 		 */
 		function get_taxonomies() {
-			$jobs_slug = JB()->permalinks()->get_slug( 'jobs' );
+			$jobs_slug = JB()->common()->permalinks()->get_slug( 'jobs' );
 
 			$taxonomies = [
 				'jb-job-type'   => [
@@ -280,12 +280,12 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 			}
 
 			$wp_admin_bar->add_menu(
-				array(
+				[
 					'parent'    => 'new-content',
 					'id'        => 'new-jb-job',
 					'title'     => __( 'Job', 'jobboardwp' ),
-					'href'      => add_query_arg( array( 'post_type' => 'jb-job' ), admin_url( 'post-new.php' ) ),
-				)
+					'href'      => add_query_arg( [ 'post_type' => 'jb-job' ], admin_url( 'post-new.php' ) ),
+				]
 			);
 		}
 	}

@@ -1,21 +1,17 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 
-$not_searched = false;
-$current_page = ( ! empty( $_GET['jb-page'] ) && is_numeric( $_GET['jb-page'] ) ) ? (int) $_GET['jb-page'] : 1; ?>
+$current_page = ( ! empty( $_GET['jb-page'] ) && is_numeric( $_GET['jb-page'] ) ) ? absint( $_GET['jb-page'] ) : 1; ?>
 
 <div class="jb jb-jobs" data-base-post="<?php echo esc_attr( $post->ID ) ?>"
-	 data-searched="<?php echo $not_searched ? '0' : '1'; ?>"
 	 data-page="<?php echo esc_attr( $current_page ) ?>"
-	 data-no-jobs="<?php esc_attr_e( 'No Jobs','jobboardwp' ) ?>"
-	 data-no-jobs-search="<?php esc_attr_e( 'No Jobs found','jobboardwp' ) ?>">
+	 data-no-jobs="<?php echo esc_attr( $jb_jobs_wrapper['no-jobs-text'] ) ?>"
+	 data-no-jobs-search="<?php echo esc_attr( $jb_jobs_wrapper['no-jobs-search-text'] ) ?>">
 
-	<div class="jb-jobs-overlay">
-		<div class="jb-ajax-loading"></div>
-	</div>
+	<?php JB()->get_template_part( 'ajax-overlay', $jb_jobs_wrapper );
 
-	<?php JB()->get_template_part( 'jobs/search-bar' );
+	JB()->get_template_part( 'jobs/search-bar', $jb_jobs_wrapper );
 
-	JB()->get_template_part( 'jobs/list' );
+	JB()->get_template_part( 'jobs/list', $jb_jobs_wrapper );
 
-	do_action( 'jb_jobs_footer' ); ?>
+	do_action( 'jb_jobs_footer', $jb_jobs_wrapper ); ?>
 </div>

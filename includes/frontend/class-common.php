@@ -83,14 +83,16 @@ if ( ! class_exists( 'jb\frontend\Common' ) ) {
 		/**
 		 * @since 1.0
 		 *
+		 * @param array|bool $data
+		 *
 		 * @return Forms
 		 */
-		function forms() {
-			if ( empty( JB()->classes['jb\frontend\forms'] ) ) {
-				JB()->classes['jb\frontend\forms'] = new Forms();
+		function forms( $data = false ) {
+			if ( empty( JB()->classes['jb\frontend\forms' . $data['id'] ] ) ) {
+				JB()->classes['jb\frontend\forms' . $data['id'] ] = new Forms( $data );
 			}
 
-			return JB()->classes['jb\frontend\forms'];
+			return JB()->classes['jb\frontend\forms' . $data['id'] ];
 		}
 
 

@@ -125,7 +125,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 			$custom_templates = JB()->common()->job()->get_templates();
 			if ( count( $custom_templates ) ) {
-			    $job_templates = array_merge( $job_templates, $custom_templates );
+				$job_templates = array_merge( $job_templates, $custom_templates );
 			}
 
 			global $wp_roles;
@@ -157,8 +157,18 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 									'type'      => 'select',
 									'options'   => $job_templates,
 									'label'     => __( 'Job Template', 'jobboardwp' ),
-									'helptip'   => __( 'You could select the template applied for a job CPT.', 'jobboardwp' ),
+									'helptip'   => __( 'Select which template you would like applied to the job CPT.', 'jobboardwp' ),
 									'size'      => 'medium',
+								],
+								[
+									'id'        => 'job-dateformat',
+									'type'      => 'select',
+									'options'   => [
+										'relative' => __( 'Relative to the posting date (e.g., 1 hour, 1 day, 1 week ago)', 'jobboardwp' ),
+										'default'  => __( 'Default date format set via WP > Settings > General', 'jobboardwp' ),
+									],
+									'label'     => __( 'Date format', 'jobboardwp' ),
+									'helptip'   => __( 'Select the date format used for jobs on the front-end.', 'jobboardwp' ),
 								],
 							],
 						],
@@ -190,6 +200,23 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 									'label'         => __( 'Email new users a link to set a password', 'jobboardwp' ),
 									'helptip'       => __( 'Sends an email to the user with their username and a link to set their password. If this is not enabled, a "password" field will display instead, and their email address won\'t be verified.', 'jobboardwp' ),
 									'conditional'   => [ 'account-creation', '=', '1' ],
+								],
+								[
+									'id'        => 'full-name-required',
+									'type'      => 'checkbox',
+									'label'     => __( 'First and Last names required', 'jobboardwp' ),
+									'helptip'   => __( 'Make the first and last name fields required.', 'jobboardwp' ),
+								],
+								[
+									'id'            => 'my-details-section',
+									'type'          => 'select',
+									'label'         => __( 'Logged in users "My Details" section', 'jobboardwp' ),
+									'options'       => [
+										'0' => __( 'Hidden', 'jobboardwp' ),
+										'1' => __( 'Visible with editable email, first/last name fields', 'jobboardwp' ),
+									],
+									'helptip'   => __( 'Whether to display the "My Details" section for logged in users.', 'jobboardwp' ),
+									'size'          => 'medium',
 								],
 								[
 									'id'            => 'account-role',
@@ -233,6 +260,12 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 									'size'      => 'small',
 								],
 								[
+									'id'            => 'required-job-type',
+									'type'          => 'checkbox',
+									'label'         => __( 'Required job type', 'jobboardwp' ),
+									'helptip'       => __( 'Job type is required.', 'jobboardwp' ),
+								],
+								[
 									'id'            => 'application-method',
 									'type'          => 'select',
 									'label'         => __( 'Application Method', 'jobboardwp' ),
@@ -243,6 +276,13 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 									],
 									'helptip'       => __( 'Choose the application method employers will need to provide. Specify URL or email address only, or allow employers to choose which they prefer.', 'jobboardwp' ),
 									'size'          => 'small',
+								],
+								[
+									'id'        => 'job-submitted-notice',
+									'type'      => 'text',
+									'label'     => __( 'Job successfully submitted notice', 'jobboardwp' ),
+									'helptip'   => __( 'Visible when job is successfully submitted.', 'jobboardwp' ),
+									'size'      => 'long',
 								],
 							],
 						],
@@ -262,17 +302,41 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 									'label'     => __( 'Hide Logos', 'jobboardwp' ),
 									'helptip'   => __( 'Hide jobs logo on list page', 'jobboardwp' ),
 								],
-							],
-						],
-						'jobs_dashboard'  => [
-							'title'     => __( 'Jobs Dashboard', 'jobboardwp' ),
-							'fields'    => [
 								[
-									'id'        => 'jobs-dashboard-pagination',
-									'type'      => 'number',
-									'label'     => __( 'Jobs per page', 'jobboardwp' ),
-									'helptip'   => __( 'Number of jobs to display per page.', 'jobboardwp' ),
-									'size'      => 'small',
+									'id'        => 'jobs-list-hide-filled',
+									'type'      => 'checkbox',
+									'label'     => __( 'Hide filled jobs', 'jobboardwp' ),
+									'helptip'   => __( 'Hide filled jobs on list page', 'jobboardwp' ),
+								],
+								[
+									'id'        => 'jobs-list-hide-expired',
+									'type'      => 'checkbox',
+									'label'     => __( 'Hide expired jobs', 'jobboardwp' ),
+									'helptip'   => __( 'Hide expired jobs in job archives/search', 'jobboardwp' ),
+								],
+								[
+									'id'        => 'jobs-list-hide-search',
+									'type'      => 'checkbox',
+									'label'     => __( 'Hide search', 'jobboardwp' ),
+									'helptip'   => __( 'Hide search field in the jobs list.', 'jobboardwp' ),
+								],
+								[
+									'id'        => 'jobs-list-hide-location-search',
+									'type'      => 'checkbox',
+									'label'     => __( 'Hide search by the location', 'jobboardwp' ),
+									'helptip'   => __( 'Hide search by the location field in the jobs list.', 'jobboardwp' ),
+								],
+								[
+									'id'        => 'jobs-list-hide-filters',
+									'type'      => 'checkbox',
+									'label'     => __( 'Hide filters', 'jobboardwp' ),
+									'helptip'   => __( 'Hide search filters in the jobs list.', 'jobboardwp' ),
+								],
+								[
+									'id'        => 'jobs-list-hide-job-types',
+									'type'      => 'checkbox',
+									'label'     => __( 'Hide job types', 'jobboardwp' ),
+									'helptip'   => __( 'Hide job types in the jobs list row.', 'jobboardwp' ),
 								],
 							],
 						],
@@ -386,7 +450,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					'type'          => 'text',
 					'label'         => __( 'Subject Line', 'jobboardwp' ),
 					'helptip'       => __( 'This is the subject line of the e-mail', 'jobboardwp' ),
-					'conditional'   => [ $email_key . '_on', '=', 1 ],
+					'conditional'   => [ $email_key . '_on', '=', '1' ],
 				],
 				[
 					'id'            => $email_key,
@@ -395,7 +459,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					'helptip'       => __( 'This is the content of the e-mail', 'jobboardwp' ),
 					'value'         => JB()->common()->mail()->get_template( $email_key ),
 					'in_theme'      => $in_theme,
-					'conditional'   => [ $email_key . '_on', '=', 1 ],
+					'conditional'   => [ $email_key . '_on', '=', '1' ],
 				],
 			], $email_key );
 

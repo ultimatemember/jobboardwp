@@ -177,8 +177,18 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			//save metadata
 			foreach ( $_POST['jb-job-meta'] as $k => $v ) {
 				if ( strstr( $k, 'jb-' ) ) {
+					if ( 'jb-author' == $k ) {
+						global $wpdb;
+						$wpdb->update( $wpdb->posts, [ 'post_author' => $v ], [ 'ID' => $post_id ], [ '%d' ], [ '%d' ] );
+						continue;
+					}
+
 					if ( 'jb-expiry-date' == $k ) {
 						$v = date( 'Y-m-d', strtotime( $v, current_time( 'timestamp' ) ) );
+					}
+
+					if ( $_POST['jb-job-meta']['jb-location-type'] !== '0' && 'jb-location-preferred' == $k ) {
+						$k = 'jb-location';
 					}
 
 					update_post_meta( $post_id, $k, $v );

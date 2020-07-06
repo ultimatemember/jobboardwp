@@ -36,12 +36,34 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 					case 'install_core_pages': {
 						JB()->install()->core_pages();
 
-//						if ( JB()->permalinks()->are_pages_installed() ) {
-//							JB()->admin()->notices()->dismiss( 'wrong_pages' );
-//						}
-
 						$url = add_query_arg( [ 'page' => 'jb-settings' ], admin_url( 'admin.php' ) );
 						exit( wp_redirect( $url ) );
+
+						break;
+					}
+					case 'approve_job': {
+
+						if ( ! empty( $_GET['job-id'] ) && wp_verify_nonce( $_GET['nonce'], 'jb-approve-job' . $_GET['job-id'] ) ) {
+
+							$job_id = absint( $_GET['job-id'] );
+							$job = get_post( $job_id );
+
+							if ( ! empty( $job ) && ! is_wp_error( $job ) ) {
+								if ( $job->post_status == 'pending' ) {
+									wp_update_post( [ 'ID' => $job_id, 'post_status' => 'publish' ] );
+
+									$user = get_userdata( $job->post_author );
+									if ( ! empty( $user ) && ! is_wp_error( $user ) ) {
+										JB()->common()->mail()->send( $user->user_email, 'job_is_approved', [ 'job_id' => $job_id ] );
+									}
+
+									$url = add_query_arg( [ 'jb-approved' => '1' ], wp_get_referer() );
+									exit( wp_redirect( $url ) );
+								}
+							}
+
+							exit( wp_redirect( wp_get_referer() ) );
+						}
 
 						break;
 					}

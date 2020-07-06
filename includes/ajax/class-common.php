@@ -28,6 +28,10 @@ if ( ! class_exists( 'jb\ajax\Common' ) ) {
 			add_action( 'wp_ajax_nopriv_jb-upload-company-logo', [ $this->employer(), 'upload_logo' ] );
 
 			add_action( 'wp_ajax_jb-get-employer-jobs', [ $this->jobs(), 'get_employer_jobs' ] );
+
+			add_action( 'wp_ajax_jb-delete-job', [ $this->jobs(), 'delete_job' ] );
+			add_action( 'wp_ajax_jb-fill-job', [ $this->jobs(), 'fill_job' ] );
+			add_action( 'wp_ajax_jb-unfill-job', [ $this->jobs(), 'unfill_job' ] );
 		}
 
 

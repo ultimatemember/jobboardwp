@@ -10,6 +10,16 @@ $company_tagline = '';
 $is_filled = false;
 $expiry_date = '';
 $location_type = '0';
+$author = get_current_user_id();
+
+$users = ['0' => __( 'Guest', 'jobboardwp' ),];
+$users_query = get_users( [
+	'fields' => [ 'ID', 'display_name' ],
+] );
+
+foreach ( $users_query as $user ) {
+	$users[ $user->ID ] = $user->display_name;
+}
 
 if ( $post_id ) {
 	$location_type = get_post_meta( $post_id, 'jb-location-type', true );
@@ -20,10 +30,20 @@ if ( $post_id ) {
 	$company_tagline = get_post_meta( $post_id, 'jb-company-tagline', true );
 	$is_filled = get_post_meta( $post_id, 'jb-is-filled', true );
 
+	$job = get_post( $post_id );
+	$author = $job->post_author;
+
 	$expiry_date = JB()->common()->job()->get_expiry_date( $post_id );
 }
 
 $fields = apply_filters( 'jb_job-data', [
+	[
+		'id'        => 'jb-author',
+		'type'      => 'select',
+		'label'     => __( 'Posted by', 'jobboardwp' ),
+		'options'   => $users,
+		'value'     => $author,
+	],
 	[
 		'id'            => 'jb-application-contact',
 		'type'          => 'text',
@@ -41,7 +61,7 @@ $fields = apply_filters( 'jb_job-data', [
 			''  => __( 'Onsite or remote', 'jobboardwp' ),
 		],
 		'value'     => $location_type,
-		'size'      => 'small'
+		'size'      => 'small',
 	],
 	[
 		'id'            => 'jb-location',
@@ -61,22 +81,22 @@ $fields = apply_filters( 'jb_job-data', [
 		'conditional'   => [ 'jb-location-type', '!=', '0' ],
 	],
 	[
-		'id'            => 'jb-company-name',
-		'type'          => 'text',
-		'label'         => __( 'Company name', 'jobboardwp' ),
-		'value'         => $company_name,
+		'id'    => 'jb-company-name',
+		'type'  => 'text',
+		'label' => __( 'Company name', 'jobboardwp' ),
+		'value' => $company_name,
 	],
 	[
-		'id'            => 'jb-company-website',
-		'type'          => 'text',
-		'label'         => __( 'Company website', 'jobboardwp' ),
-		'value'         => $company_website,
+		'id'    => 'jb-company-website',
+		'type'  => 'text',
+		'label' => __( 'Company website', 'jobboardwp' ),
+		'value' => $company_website,
 	],
 	[
-		'id'            => 'jb-company-tagline',
-		'type'          => 'text',
-		'label'         => __( 'Company tagline', 'jobboardwp' ),
-		'value'         => $company_tagline,
+		'id'    => 'jb-company-tagline',
+		'type'  => 'text',
+		'label' => __( 'Company tagline', 'jobboardwp' ),
+		'value' => $company_tagline,
 	],
 	[
 		'id'            => 'jb-is-filled',
@@ -86,16 +106,16 @@ $fields = apply_filters( 'jb_job-data', [
 		'value'         => $is_filled,
 	],
 	[
-		'id'            => 'jb-expiry-date',
-		'type'          => 'datepicker',
-		'label'         => __( 'Expiry Date', 'jobboardwp' ),
-		'value'         => $expiry_date,
-		'size'          => 'small',
+		'id'    => 'jb-expiry-date',
+		'type'  => 'datepicker',
+		'label' => __( 'Expiry Date', 'jobboardwp' ),
+		'value' => $expiry_date,
+		'size'  => 'small',
 	],
 ] );
 
 JB()->admin()->forms( [
-	'class'             => 'jb-data jb-third-column',
-	'prefix_id'         => 'jb-job-meta',
-	'fields'            => $fields
+	'class'     => 'jb-data jb-third-column',
+	'prefix_id' => 'jb-job-meta',
+	'fields'    => $fields,
 ] )->display();

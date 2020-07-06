@@ -19,6 +19,58 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		 * Permalinks constructor.
 		 */
 		function __construct() {
+			add_action( 'wp_login_failed', array( &$this, 'login_failed' ) );
+			add_filter( 'authenticate', array( &$this, 'verify_username_password' ), 1, 3 );
+		}
+
+
+		/**
+		 * Verifies username and password. Redirects visitor
+		 * to the login page with login empty status if
+		 * eather username or password is empty.
+		 *
+		 * @param mixed $user
+		 * @param string $username
+		 * @param string $password
+		 *
+		 * @return \WP_Error
+		 */
+		public function verify_username_password( $user, $username, $password ) {
+			//use WP native function for fill $_SERVER variables by correct values
+			wp_fix_server_vars();
+
+			if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+				$postid = url_to_postid( $_SERVER['HTTP_REFERER'] );
+
+				if ( ! empty( $postid ) && $postid == $this->get_preset_page_id( 'job-post' ) ) {
+					if ( $user === null && ( $username == "" || $password == "" ) ) {
+						return new \WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: Invalid username, email address or incorrect password.' ) );
+					}
+				}
+			}
+
+			return $user;
+		}
+
+
+		/**
+		 * Redirects visitor to the login page with login
+		 * failed status.
+		 *
+		 * @return void
+		 */
+		public function login_failed() {
+			//use WP native function for fill $_SERVER variables by correct values
+			wp_fix_server_vars();
+
+			if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+				$postid = url_to_postid( $_SERVER['HTTP_REFERER'] );
+
+				if ( ! empty( $postid ) && $postid == $this->get_preset_page_id( 'job-post' ) ) {
+					$logout_link = add_query_arg( array( 'login' => 'failed' ), $this->get_preset_page_link( 'job-post' ) );
+					exit( wp_redirect( $logout_link ) );
+				}
+			}
 		}
 
 

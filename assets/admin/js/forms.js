@@ -138,8 +138,9 @@ jQuery( document ).ready( function($) {
 	 */
 	function run_check_conditions() {
 		jQuery( '.jb-forms-line' ).removeClass('jb-forms-line-conditioned').each( function() {
-			if ( typeof jQuery(this).data('conditional') === 'undefined' || jQuery(this).hasClass('jb-forms-line-conditioned') )
+			if ( typeof jQuery(this).data('conditional') === 'undefined' || jQuery(this).hasClass('jb-forms-line-conditioned') ) {
 				return;
+			}
 
 			if ( check_condition( jQuery(this) ) ) {
 				jQuery(this).show();

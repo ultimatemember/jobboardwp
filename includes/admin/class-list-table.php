@@ -15,6 +15,10 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 	 */
 	class List_Table extends \WP_Posts_List_Table {
 
+		function __construct( $args = [] ) {
+			parent::__construct( $args );
+        }
+
 
 		function column_title( $post ) {
 
@@ -56,13 +60,6 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 					} ?>
 
 				</div>
-
-			<?php /*$company_logo = get_the_post_thumbnail( $post->ID, 'thumbnail', array( 'class' => 'jb-job-company-logo' ) );
-			if ( ! empty( $company_logo ) ) {
-				echo '<div class="jb-job-company-logo-wrapper">' . $company_logo . '</div>';
-			} else { */?><!--
-				<div class="jb-job-company-logo-wrapper"><span class="dashicons dashicons-building"></span></div>
-			--><?php /*}*/ ?>
 			</div>
 
 			<?php if ( $can_edit_post && $post->post_status != 'trash' ) {

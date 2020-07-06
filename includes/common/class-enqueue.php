@@ -76,7 +76,8 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 				wp_register_style( 'jb-far', $this->url['common'] . 'libs/fontawesome/css/regular' . JB()->scrips_prefix . '.css', [], $this->fa_version );
 				wp_register_style( 'jb-fas', $this->url['common'] . 'libs/fontawesome/css/solid' . JB()->scrips_prefix . '.css', [], $this->fa_version );
 				wp_register_style( 'jb-fab', $this->url['common'] . 'libs/fontawesome/css/brands' . JB()->scrips_prefix . '.css', [], $this->fa_version );
-				wp_register_style( 'jb-font-awesome', $this->url['common'] . 'libs/fontawesome/css/fontawesome' . JB()->scrips_prefix . '.css', [ 'jb-far', 'jb-fas', 'jb-fab' ], $this->fa_version );
+				wp_register_style( 'jb-fa', $this->url['common'] . 'libs/fontawesome/css/v4-shims' . JB()->scrips_prefix . '.css', [], $this->fa_version );
+				wp_register_style( 'jb-font-awesome', $this->url['common'] . 'libs/fontawesome/css/fontawesome' . JB()->scrips_prefix . '.css', [ 'jb-fa', 'jb-far', 'jb-fas', 'jb-fab' ], $this->fa_version );
 			}
 		}
 

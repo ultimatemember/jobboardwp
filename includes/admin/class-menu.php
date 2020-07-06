@@ -41,7 +41,6 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 		public function add_pending_count() {
 			global $menu;
 
-
 			$pending_jobs = get_posts( [
 				'post_type'     => 'jb-job',
 				'post_status'   => 'pending',
@@ -76,8 +75,8 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 			add_menu_page( __( 'Job Board', 'jobboardwp' ), __( 'Job Board', 'jobboardwp' ), 'manage_options', $this->slug, '', 'dashicons-businessman', 40 );
 			add_submenu_page( $this->slug, __( 'Dashboard', 'jobboardwp' ), __( 'Dashboard', 'jobboardwp' ), 'manage_options', $this->slug, '' );
 
-
 			add_submenu_page( $this->slug, __( 'Jobs', 'jobboardwp' ), __( 'Jobs', 'jobboardwp' ), 'read_private_jb-jobs', 'edit.php?post_type=jb-job' );
+			add_submenu_page( $this->slug, __( 'Add New', 'jobboardwp' ), __( 'Add New', 'jobboardwp' ), 'create_jb-jobs', 'post-new.php?post_type=jb-job' );
 			add_submenu_page( $this->slug, __( 'Job Types', 'jobboardwp' ), __( 'Job Types', 'jobboardwp' ), 'manage_jb-job-types', 'edit-tags.php?taxonomy=jb-job-type&post_type=jb-job' );
 
 			if ( JB()->options()->get( 'job-categories' ) ) {

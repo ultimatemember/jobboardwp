@@ -312,5 +312,23 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 			$content = str_replace( $tags, $tags_replace, $content );
 			return $content;
 		}
+
+
+		/**
+		 * Get admin e-mails
+		 *
+		 * @return array
+		 */
+		function multi_admin_email() {
+			$emails = JB()->options()->get( 'admin_email' );
+
+			$emails_array = explode( ',', $emails );
+			if ( ! empty( $emails_array ) ) {
+				$emails_array = array_map( 'trim', $emails_array );
+			}
+
+			$emails_array = array_unique( $emails_array );
+			return $emails_array;
+		}
 	}
 }

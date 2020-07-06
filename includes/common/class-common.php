@@ -38,6 +38,20 @@ if ( ! class_exists( 'jb\common\Common' ) ) {
 			$this->cpt();
 			$this->rewrite();
 			$this->mail();
+			$this->cron();
+		}
+
+
+		/**
+		 * @since 1.0
+		 *
+		 * @return Cron()
+		 */
+		function cron() {
+			if ( empty( JB()->classes['jb\common\cron'] ) ) {
+				JB()->classes['jb\common\cron'] = new Cron();
+			}
+			return JB()->classes['jb\common\cron'];
 		}
 
 
@@ -122,6 +136,20 @@ if ( ! class_exists( 'jb\common\Common' ) ) {
 			}
 
 			return JB()->classes['jb\common\filesystem'];
+		}
+
+
+		/**
+		 * @since 1.0
+		 *
+		 * @return Permalinks
+		 */
+		function permalinks() {
+			if ( empty( JB()->classes['jb\common\permalinks'] ) ) {
+				JB()->classes['jb\common\permalinks'] = new Permalinks();
+			}
+
+			return JB()->classes['jb\common\permalinks'];
 		}
 	}
 }

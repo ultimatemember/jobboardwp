@@ -187,14 +187,19 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 		 * Regarding page setup
 		 */
 		function install_core_page_notice() {
-			if ( JB()->permalinks()->are_pages_installed() || ! current_user_can( 'manage_options' ) ) {
+			if ( JB()->common()->permalinks()->are_pages_installed() || ! current_user_can( 'manage_options' ) ) {
 				return;
+			}
+
+			$page_titles = [];
+			foreach ( JB()->config()->get( 'core_pages' ) as $slug => $array ) {
+				$page_titles[] = $array['title'];
 			}
 
 			ob_start(); ?>
 
 			<p>
-				<?php printf( __( 'To add job board functionality to your website %s needs to create several front-end pages.', 'jobboardwp' ), jb_plugin_name ); ?>
+				<?php printf( __( 'To add job board functionality to your website %s needs to create the following pages: %s.', 'jobboardwp' ), jb_plugin_name, implode( ', ', $page_titles ) ); ?>
 			</p>
 			<p>
 				<a href="<?php echo esc_attr( add_query_arg( 'jb_adm_action', 'install_core_pages' ) ); ?>" class="button button-primary">

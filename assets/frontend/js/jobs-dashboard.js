@@ -180,4 +180,73 @@ jQuery( document ).ready( function($) {
 			wp.JB.jobs_dashboard.ajax();
 		}
 	});
+
+
+	$(document.body).on('click', '.jb-jobs-action-fill', function() {
+		var job_id = $(this).data('job-id');
+
+		var request = {
+			job_id: job_id,
+			nonce: jb_front_data.nonce
+		};
+
+		wp.ajax.send( 'jb-fill-job', {
+			data:  request,
+			success: function( answer ) {
+				var template = wp.template( 'jb-jobs-dashboard-line' );
+				$('.jb-job-dashboard-row[data-job-id="' + job_id + '"]').replaceWith( template( answer.jobs ) );
+				wp.hooks.doAction( 'jb_jobs_dashboard_job_filled', answer );
+			},
+			error: function( data ) {
+				console.log( data );
+			}
+		} );
+	});
+
+	$(document.body).on('click', '.jb-jobs-action-un-fill', function() {
+		var job_id = $(this).data('job-id');
+
+		var request = {
+			job_id: job_id,
+			nonce: jb_front_data.nonce
+		};
+
+		wp.ajax.send( 'jb-unfill-job', {
+			data:  request,
+			success: function( answer ) {
+				var template = wp.template( 'jb-jobs-dashboard-line' );
+				$('.jb-job-dashboard-row[data-job-id="' + job_id + '"]').replaceWith( template( answer.jobs ) );
+				wp.hooks.doAction( 'jb_jobs_dashboard_job_unfilled', answer );
+			},
+			error: function( data ) {
+				console.log( data );
+			}
+		} );
+	});
+
+	$(document.body).on('click', '.jb-jobs-action-delete', function() {
+
+		if ( ! confirm( wp.i18n.__( 'Are you sure that you want to delete this job?', 'jobboardwp' ) ) ) {
+			return false;
+		}
+
+		var job_id = $(this).data('job-id');
+
+		var request = {
+			job_id: job_id,
+			nonce: jb_front_data.nonce
+		};
+
+		wp.ajax.send( 'jb-delete-job', {
+			data:  request,
+			success: function( answer ) {
+				$('.jb-job-dashboard-row[data-job-id="' + job_id + '"]').remove();
+
+				wp.hooks.doAction( 'jb_jobs_dashboard_job_deleted', answer, job_id );
+			},
+			error: function( data ) {
+				console.log( data );
+			}
+		} );
+	});
 });

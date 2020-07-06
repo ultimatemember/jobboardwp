@@ -2,8 +2,8 @@
 /*
 Plugin Name: JobBoardWP
 Plugin URI: https://jobboardwp.com/
-Description: A full-featured, powerful forum plugin for WordPress
-Version: 0.0.1
+Description: A full-featured, powerful job board plugin for WordPress
+Version: 1.0.0
 Author: JobBoardWP
 Author URI: https://jobboardwp.com/
 Text Domain: jobboardwp

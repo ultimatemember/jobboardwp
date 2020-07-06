@@ -150,11 +150,11 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 		 * @return Forms
 		 */
 		function forms( $data = false ) {
-			if ( empty( JB()->classes['jb\admin\forms'] ) ) {
-				JB()->classes['jb\admin\forms'] = new Forms( $data );
+			if ( empty( JB()->classes[ 'jb\admin\forms' . $data['class'] ] ) ) {
+				JB()->classes['jb\admin\forms' . $data['class'] ] = new Forms( $data );
 			}
 
-			return JB()->classes['jb\admin\forms'];
+			return JB()->classes['jb\admin\forms' . $data['class'] ];
 		}
 
 

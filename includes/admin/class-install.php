@@ -33,25 +33,40 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 		 * @since 1.0
 		 */
 		function activation() {
-
 			$this->install_process = true;
 
+			$this->single_site_activation();
 			if ( is_multisite() ) {
-				//get all blogs
-				$blogs = get_sites();
-				if ( ! empty( $blogs ) ) {
-					foreach ( $blogs as $blog ) {
-						switch_to_blog( $blog->blog_id );
-						//make activation script for each sites blog
-						$this->single_site_activation();
-						restore_current_blog();
-					}
-				}
-			} else {
-				$this->single_site_activation();
+				update_network_option( get_current_network_id(), 'jb_maybe_network_wide_activation', 1 );
 			}
 
 			$this->install_process = false;
+		}
+
+
+		/**
+		 *
+		 */
+		function maybe_network_activation() {
+			$maybe_activation = get_network_option( get_current_network_id(), 'jb_maybe_network_wide_activation' );
+
+			if ( $maybe_activation ) {
+
+				delete_network_option( get_current_network_id(), 'jb_maybe_network_wide_activation' );
+
+				if ( is_plugin_active_for_network( jb_plugin ) ) {
+					// get all blogs
+					$blogs = get_sites();
+					if ( ! empty( $blogs ) ) {
+						foreach( $blogs as $blog ) {
+							switch_to_blog( $blog->blog_id );
+							//make activation script for each sites blog
+							$this->single_site_activation();
+							restore_current_blog();
+						}
+					}
+				}
+			}
 		}
 
 

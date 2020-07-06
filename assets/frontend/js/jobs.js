@@ -7,6 +7,7 @@ if ( typeof ( wp.JB.jobs_list ) !== 'object' ) {
 }
 
 wp.JB.jobs_list = {
+	first_load: true,
 	is_search: false,
 	objects: {
 		wrapper: jQuery( '.jb-jobs' ),
@@ -72,6 +73,7 @@ wp.JB.jobs_list = {
 			var data = {};
 
 			var url_data = wp.JB.jobs_list.url.parse();
+
 			jQuery.each( url_data, function( key ) {
 				if ( url_data[ key ] !== '' ) {
 					data[ key ] = url_data[ key ];
@@ -96,11 +98,14 @@ wp.JB.jobs_list = {
 			var data = {};
 
 			var query = window.location.search.substring( 1 );
-			var attrs = query.split( '&' );
-			jQuery.each( attrs, function( i ) {
-				var attr = attrs[ i ].split( '=' );
-				data[ attr[0] ] = attr[1];
-			});
+
+			if ( query !== '' ) {
+				var attrs = query.split( '&' );
+				jQuery.each( attrs, function( i ) {
+					var attr = attrs[ i ].split( '=' );
+					data[ attr[0] ] = attr[1];
+				});
+			}
 			return data;
 		},
 		get_page: function() {
@@ -130,6 +135,20 @@ wp.JB.jobs_list = {
 			} else {
 				return '';
 			}
+		},
+		get_type_tag: function() {
+			if ( wp.JB.jobs_list.objects.wrapper.find('.jb-job-type-filter').length ) {
+				return wp.JB.jobs_list.objects.wrapper.find( '.jb-job-type-filter' ).val();
+			} else {
+				return '';
+			}
+		},
+		get_category: function() {
+			if ( wp.JB.jobs_list.objects.wrapper.find('.jb-job-category-filter').length ) {
+				return wp.JB.jobs_list.objects.wrapper.find( '.jb-job-category-filter' ).val();
+			} else {
+				return '';
+			}
 		}
 	},
 	ajax: function( append ) {
@@ -138,10 +157,19 @@ wp.JB.jobs_list = {
 			search:  wp.JB.jobs_list.url.get_search(),
 			location:  wp.JB.jobs_list.url.get_location(),
 			remote_only:  wp.JB.jobs_list.url.get_type(),
+			type:  wp.JB.jobs_list.url.get_type_tag(),
+			category:  wp.JB.jobs_list.url.get_category(),
 			nonce: jb_front_data.nonce
 		};
 
 		wp.JB.jobs_list.is_search = !! ( request.search || request.location || request.remote_only );
+
+		if ( wp.JB.jobs_list.first_load ) {
+			if ( request.page > 1 ) {
+				request.get_previous = true;
+			}
+			wp.JB.jobs_list.first_load = false;
+		}
 
 		wp.JB.jobs_list.preloader.show();
 
@@ -159,7 +187,7 @@ wp.JB.jobs_list = {
 				wp.JB.jobs_list.objects.wrapper.data( 'total_pages', answer.pagination.total_pages );
 
 				if ( answer.pagination.total_pages > 0 ) {
-                    wp.JB.jobs_list.objects.wrapper.find('.jb-jobs-wrapper').removeClass('jb-no-jobs');
+					wp.JB.jobs_list.objects.wrapper.find('.jb-jobs-wrapper').removeClass('jb-no-jobs');
 
 					if ( answer.pagination.total_pages == answer.pagination.current_page ) {
 						wp.JB.jobs_list.objects.wrapper.find( '.jb-load-more-jobs' ).hide();
@@ -183,11 +211,14 @@ wp.JB.jobs_list = {
 
 				wp.hooks.doAction( 'jb_jobs_list_loaded', answer );
 
+				wp.JB.jobs_list.objects.wrapper.find( '.jb-do-search' ).removeClass('disabled');
+
 				wp.JB.jobs_list.preloader.hide();
 			},
 			error: function( data ) {
 				console.log( data );
 				wp.JB.jobs_list.preloader.hide();
+				wp.JB.jobs_list.objects.wrapper.find( '.jb-do-search' ).removeClass('disabled');
 			}
 		});
 	}
@@ -210,6 +241,105 @@ jQuery( document ).ready( function($) {
 		wp.JB.jobs_list.preloader.show();
 
 		wp.JB.jobs_list.objects.wrapper.data( 'page', 1 );
+		wp.JB.jobs_list.url.set( 'jb-page', '' );
+
+		var search = wp.JB.jobs_list.url.get_search();
+		wp.JB.jobs_list.url.set( 'jb-search', search );
+
+		var location = wp.JB.jobs_list.url.get_location();
+		wp.JB.jobs_list.url.set( 'jb-location-search', location );
+
+		$(this).addClass('disabled');
+
+		wp.JB.jobs_list.ajax();
+	});
+
+
+	//make search on Enter click
+	$( document.body ).on( 'keypress', '.jb-search-line, .jb-search-location', function(e) {
+		if ( e.which === 13 ) {
+
+			var button = $(this).parents('.jb-jobs').find('.jb-do-search');
+
+			if ( button.hasClass('disabled') ) {
+				return;
+			}
+			if ( wp.JB.jobs_list.is_busy() ) {
+				return;
+			}
+
+			wp.JB.jobs_list.preloader.show();
+
+			wp.JB.jobs_list.objects.wrapper.data( 'page', 1 );
+			wp.JB.jobs_list.url.set( 'jb-page', '' );
+
+			var search = wp.JB.jobs_list.url.get_search();
+			wp.JB.jobs_list.url.set( 'jb-search', search );
+
+			var location = wp.JB.jobs_list.url.get_location();
+			wp.JB.jobs_list.url.set( 'jb-location-search', location );
+
+			button.addClass('disabled');
+
+			wp.JB.jobs_list.ajax();
+		}
+	});
+
+
+	$( document.body ).on( 'click', '.jb-only-remote', function() {
+		wp.JB.jobs_list.objects.wrapper.find( '.jb-do-search' ).addClass('disabled');
+
+		if ( wp.JB.jobs_list.is_busy() ) {
+			return;
+		}
+
+		wp.JB.jobs_list.preloader.show();
+
+		wp.JB.jobs_list.objects.wrapper.data( 'page', 1 );
+		wp.JB.jobs_list.url.set( 'jb-page', '' );
+
+		var is_remote = wp.JB.jobs_list.url.get_type();
+		if ( is_remote ) {
+			wp.JB.jobs_list.url.set( 'jb-is-remote', is_remote );
+		} else {
+			wp.JB.jobs_list.url.set( 'jb-is-remote', '' );
+		}
+
+		wp.JB.jobs_list.ajax();
+	});
+
+
+	$( document.body ).on( 'change', '.jb-job-type-filter', function() {
+		wp.JB.jobs_list.objects.wrapper.find( '.jb-do-search' ).addClass('disabled');
+
+		if ( wp.JB.jobs_list.is_busy() ) {
+			return;
+		}
+
+		wp.JB.jobs_list.preloader.show();
+
+		wp.JB.jobs_list.objects.wrapper.data( 'page', 1 );
+		wp.JB.jobs_list.url.set( 'jb-page', '' );
+
+		wp.JB.jobs_list.url.set( 'jb-job-type', $(this).val() );
+
+		wp.JB.jobs_list.ajax();
+	});
+
+
+	$( document.body ).on( 'change', '.jb-job-category-filter', function() {
+		wp.JB.jobs_list.objects.wrapper.find( '.jb-do-search' ).addClass('disabled');
+
+		if ( wp.JB.jobs_list.is_busy() ) {
+			return;
+		}
+
+		wp.JB.jobs_list.preloader.show();
+
+		wp.JB.jobs_list.objects.wrapper.data( 'page', 1 );
+		wp.JB.jobs_list.url.set( 'jb-page', '' );
+
+		wp.JB.jobs_list.url.set( 'jb-job-category', $(this).val() );
 
 		wp.JB.jobs_list.ajax();
 	});
@@ -227,6 +357,8 @@ jQuery( document ).ready( function($) {
 
 		var page = wp.JB.jobs_list.objects.wrapper.data( 'page' )*1 + 1;
 		wp.JB.jobs_list.objects.wrapper.data( 'page', page );
+
+		wp.JB.jobs_list.url.set( 'jb-page', page );
 
 		wp.JB.jobs_list.ajax( true );
 	});

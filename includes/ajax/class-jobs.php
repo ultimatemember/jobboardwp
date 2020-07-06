@@ -27,9 +27,15 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		var $query_args = [];
 
 
+		/**
+		 * @var string
+		 */
 		var $search = '';
 
 
+		/**
+		 * @var string
+		 */
 		var $company_name_meta = '';
 
 
@@ -49,6 +55,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		}
 
 
+		/**
+		 * @param $where
+		 * @param $query
+		 *
+		 * @return string|string[]|null
+		 */
 		function change_where_posts( $where, $query ) {
 			if ( ! empty( $_POST['search'] ) ) {
 				$from = '/' . preg_quote( $this->search, '/' ) . '/';
@@ -58,6 +70,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		}
 
 
+		/**
+		 * @param $search
+		 * @param $query
+		 *
+		 * @return mixed
+		 */
 		function set_search( $search, $query ) {
 			$this->search = $search;
 			return $search;
@@ -101,11 +119,11 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 						$this->company_name_meta = $meta_join_for_search;
 
-						preg_match(
-							"/\( (" . $meta_join_for_search . ".meta_key = 'jb-company-name' AND " . $meta_join_for_search . ".meta_value LIKE " . $search_meta . ") \)/im",
-							$sql['where'],
-							$join_matches
-						);
+//						preg_match(
+//							"/\( (" . $meta_join_for_search . ".meta_key = 'jb-company-name' AND " . $meta_join_for_search . ".meta_value LIKE " . $search_meta . ") \)/im",
+//							$sql['where'],
+//							$join_matches
+//						);
 
 						$sql['where'] = preg_replace(
 							"/\( (" . $meta_join_for_search . ".meta_key = 'jb-company-name' AND " . $meta_join_for_search . ".meta_value LIKE " . $search_meta . ") \)/im",
@@ -154,7 +172,6 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 		/**
 		 *
-		 *
 		 */
 		function get_jobs() {
 			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
@@ -169,14 +186,47 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			 */
 			$paged = ! empty( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
 
+			$statuses = [ 'publish' ];
+			if ( JB()->options()->get( 'jobs-list-hide-filled' ) ) {
+				if ( ! isset( $query_args['meta_query'] ) ) {
+					$query_args['meta_query'] = [];
+				}
+
+				$query_args['meta_query'] = array_merge( $query_args['meta_query'], [
+					'relation'  => 'AND',
+					[
+						'relation'  => 'OR',
+						[
+							'key'       => 'jb-is-filled',
+							'value'     => false,
+						],
+						[
+							'key'       => 'jb-is-filled',
+							'compare'   => 'NOT EXISTS',
+						],
+					],
+				] );
+			}
+
+			if ( ! JB()->options()->get( 'jobs-list-hide-expired' ) ) {
+				$statuses[] = 'jb-expired';
+			}
+
 			$query_args = [
-				'posts_per_page'    => $this->jobs_per_page,
-				'offset'            => $this->jobs_per_page * ( $paged - 1 ),
 				'orderby'           => 'date',
 				'order'             => 'DESC',
 				'post_type'         => 'jb-job',
-				'post_status'       => [ 'publish' ],
+				'post_status'       => $statuses,
 			];
+
+			if ( ! empty( $_POST['get_previous'] ) ) {
+				// first loading with page > 1....to show the jobs above
+				$query_args['posts_per_page'] = $this->jobs_per_page * $paged;
+				$query_args['offset'] = 0;
+			} else {
+				$query_args['posts_per_page'] = $this->jobs_per_page;
+				$query_args['offset'] = $this->jobs_per_page * ( $paged - 1 );
+			}
 
 			if ( ! empty( $_POST['search'] ) ) {
 				$search = trim( stripslashes( $_POST['search'] ) );
@@ -234,32 +284,62 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				] );
 			}
 
-			add_filter( 'get_meta_sql', array( &$this, 'change_meta_sql' ), 10, 6 );
-			add_filter( 'posts_search', array( &$this, 'set_search' ), 10, 2 );
-			add_filter( 'posts_where', array( &$this, 'change_where_posts' ), 10, 2 );
+			$type = ! empty( $_POST['type'] ) ? absint( $_POST['type'] ) : '';
+			if ( ! empty( $type ) ) {
+				$query_args['tax_query'][] = array(
+					'taxonomy'  => 'jb-job-type',
+					'field'     => 'id',
+					'terms'     => $type,
+				);
+			}
 
-			add_filter( 'posts_search_orderby', array( &$this, 'relevance_search' ), 10, 2 );
+			if ( JB()->options()->get( 'job-categories' ) ) {
+				$category = ! empty( $_POST['category'] ) ? absint( $_POST['category'] ) : '';
+				if ( ! empty( $category ) ) {
+					$query_args['tax_query'][] = array(
+						'taxonomy'  => 'jb-job-category',
+						'field'     => 'id',
+						'terms'     => $category,
+					);
+				}
+			}
+
+			add_filter( 'get_meta_sql', [ &$this, 'change_meta_sql' ], 10, 6 );
+			add_filter( 'posts_search', [ &$this, 'set_search' ], 10, 2 );
+			add_filter( 'posts_where', [ &$this, 'change_where_posts' ], 10, 2 );
+
+			add_filter( 'posts_search_orderby', [ &$this, 'relevance_search' ], 10, 2 );
 
 			$get_posts = new \WP_Query;
 			$jobs_query = $get_posts->query( $query_args );
 
-			remove_filter( 'posts_where', array( &$this, 'change_where_posts' ), 10 );
-			remove_filter( 'posts_search', array( &$this, 'set_search' ), 10 );
-			remove_filter( 'get_meta_sql', array( &$this, 'change_meta_sql' ), 10 );
-			remove_filter( 'posts_search_orderby', array( &$this, 'relevance_search' ), 10 );
+			remove_filter( 'posts_where', [ &$this, 'change_where_posts' ], 10 );
+			remove_filter( 'posts_search', [ &$this, 'set_search' ], 10 );
+			remove_filter( 'get_meta_sql', [ &$this, 'change_meta_sql' ], 10 );
+			remove_filter( 'posts_search_orderby', [ &$this, 'relevance_search' ], 10 );
 
 			$jobs = [];
 			if ( ! empty( $jobs_query ) ) {
 				foreach ( $jobs_query as $job_post ) {
 
 					$job_company_data = JB()->common()->job()->get_company_data( $job_post->ID );
+
 					$location = JB()->common()->job()->get_location( $job_post->ID, true );
+					$location_type = get_post_meta( $job_post->ID, 'jb-location-type', true );
+
+					if ( $location_type == '1' && empty( $location ) ) {
+						$formatted_location = __( 'Remote', 'jobboardwp' );
+					} elseif ( empty( $location ) ) {
+						$formatted_location = __( 'Anywhere', 'jobboardwp' );
+					} else {
+						$formatted_location = $location;
+					}
 
 					$data_types = [];
 					$types = wp_get_post_terms( $job_post->ID, 'jb-job-type', [
 						'orderby'   => 'name',
 						'order'     => 'ASC',
-					] );;
+					] );
 					foreach ( $types as $type ) {
 						$data_types[] = [
 							'name'      => $type->name,
@@ -271,7 +351,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 					$jobs[] = [
 						'title'     => $job_post->post_title,
 						'permalink' => get_permalink( $job_post ),
-						'date'      => JB()->common()->job()->get_posted_date( $job_post->ID, true ),
+						'date'      => JB()->common()->job()->get_posted_date( $job_post->ID ),
 						'expires'   => JB()->common()->job()->get_expiry_date( $job_post->ID ),
 						'company'   => [
 							'name'      => $job_company_data['name'],
@@ -281,8 +361,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 							'facebook'  => $job_company_data['facebook'],
 							'instagram' => $job_company_data['instagram'],
 						],
-						'logo'      => JB()->options()->get( 'jobs-list-no-logo' ) ? '' : JB()->common()->job()->get_logo( $job_post->ID ),
-						'location'  => JB()->common()->job()->get_location_link( $location ),
+						'logo'      => JB()->common()->job()->get_logo( $job_post->ID ),
+						'location'  => $formatted_location,
 						'types'     => $data_types,
 					];
 				}
@@ -295,90 +375,144 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 
 			wp_send_json_success( $response );
+		}
 
 
+		/**
+		 *
+		 */
+		function delete_job() {
+			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
 
-			do_action( 'um_member_directory_before_query' );
-
-			// Prepare default user query values
-			$this->query_args = array(
-				'fields'        => 'ids',
-				'number'        => 0,
-				'meta_query'    => array(
-					'relation' => 'AND'
-				),
-			);
-
-			// handle pagination options
-			$this->pagination_options();
-
-			// handle general search line
-			$this->general_search();
-
-			$this->query_args = apply_filters( 'um_prepare_user_query_args', $this->query_args );
-
-			//unset empty meta_query attribute
-			if ( isset( $this->query_args['meta_query']['relation'] ) && count( $this->query_args['meta_query'] ) == 1 ) {
-				unset( $this->query_args['meta_query'] );
+			if ( empty( $_POST['job_id'] ) ) {
+				wp_send_json_error( __( 'Wrong job ID.', 'jobboardwp' ) );
 			}
 
-			/**
-			 * UM hook
-			 *
-			 * @type action
-			 * @title um_user_before_query
-			 * @description Action before users query on member directory
-			 * @input_vars
-			 * [{"var":"$query_args","type":"array","desc":"Query arguments"},
-			 * {"var":"$md_class","type":"um\core\Member_Directory","desc":"Member Directory class"}]
-			 * @change_log
-			 * ["Since: 2.0"]
-			 * @usage add_action( 'um_user_before_query', 'function_name', 10, 1 );
-			 * @example
-			 * <?php
-			 * add_action( 'um_user_before_query', 'my_user_before_query', 10, 1 );
-			 * function my_user_before_query( $query_args ) {
-			 *     // your code here
-			 * }
-			 * ?>
-			 */
-			do_action( 'um_user_before_query', $this->query_args, $this );
+			$job_id = absint( $_POST['job_id'] );
 
-			add_filter( 'get_meta_sql', array( &$this, 'change_meta_sql' ), 10, 6 );
+			$job = get_post( $job_id );
+			if ( is_wp_error( $job ) || empty( $job ) ) {
+				wp_send_json_error( __( 'Wrong job.', 'jobboardwp' ) );
+			}
 
-			add_filter( 'pre_user_query', array( &$this, 'pagination_changes' ), 10, 1 );
+			if ( get_current_user_id() != $job->post_author ) {
+				wp_send_json_error( __( 'You haven\'t ability to delete this job.', 'jobboardwp' ) );
+			}
 
-			$user_query = new \WP_User_Query( $this->query_args );
+			$result = wp_delete_post( $job_id, true );
+			if ( ! empty( $result ) ) {
+				wp_send_json_success();
+			} else {
+				wp_send_json_error( __( 'Something went wrong.', 'jobboardwp' ) );
+			}
+		}
 
-			remove_filter( 'pre_user_query', array( &$this, 'pagination_changes' ), 10 );
 
-			remove_filter( 'get_meta_sql', array( &$this, 'change_meta_sql' ), 10 );
+		/**
+		 *
+		 */
+		function fill_job() {
+			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
 
-			/**
-			 * UM hook
-			 *
-			 * @type action
-			 * @title um_user_after_query
-			 * @description Action before users query on member directory
-			 * @input_vars
-			 * [{"var":"$query_args","type":"array","desc":"Query arguments"},
-			 * {"var":"$user_query","type":"array","desc":"User Query"}]
-			 * @change_log
-			 * ["Since: 2.0"]
-			 * @usage add_action( 'um_user_after_query', 'function_name', 10, 2 );
-			 * @example
-			 * <?php
-			 * add_action( 'um_user_after_query', 'my_user_after_query', 10, 2 );
-			 * function my_user_after_query( $query_args, $user_query ) {
-			 *     // your code here
-			 * }
-			 * ?>
-			 */
-			do_action( 'um_user_after_query', $this->query_args, $user_query );
+			if ( empty( $_POST['job_id'] ) ) {
+				wp_send_json_error( __( 'Wrong job ID', 'jobboardwp' ) );
+			}
 
-			$pagination_data = $this->calculate_pagination( $directory_data, $user_query->total_users );
+			$job_id = absint( $_POST['job_id'] );
 
-			$user_ids = ! empty( $user_query->results ) ? array_unique( $user_query->results ) : array();
+			$job = get_post( $job_id );
+			if ( is_wp_error( $job ) || empty( $job ) ) {
+				wp_send_json_error( __( 'Wrong job', 'jobboardwp' ) );
+			}
+
+			if ( get_current_user_id() != $job->post_author ) {
+				wp_send_json_error( __( 'You haven\'t ability to fill this job.', 'jobboardwp' ) );
+			}
+
+			if ( JB()->common()->job()->is_filled( $job_id ) ) {
+				wp_send_json_error( __( 'Job is already filled.', 'jobboardwp' ) );
+			}
+
+			update_post_meta( $job_id, 'jb-is-filled', true );
+
+			if ( JB()->common()->job()->is_filled( $job_id ) ) {
+				$job = get_post( $job_id );
+
+				$jobs = [];
+				$jobs[] = $this->get_job_data( $job );
+
+				wp_send_json_success( [ 'jobs' => $jobs ] );
+			} else {
+				wp_send_json_error( __( 'Something went wrong.', 'jobboardwp' ) );
+			}
+		}
+
+
+		/**
+		 *
+		 */
+		function unfill_job() {
+			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
+
+			if ( empty( $_POST['job_id'] ) ) {
+				wp_send_json_error( __( 'Wrong job ID', 'jobboardwp' ) );
+			}
+
+			$job_id = absint( $_POST['job_id'] );
+
+			$job = get_post( $job_id );
+			if ( is_wp_error( $job ) || empty( $job ) ) {
+				wp_send_json_error( __( 'Wrong job', 'jobboardwp' ) );
+			}
+
+			if ( get_current_user_id() != $job->post_author ) {
+				wp_send_json_error( __( 'You haven\'t ability to un-fill this job.', 'jobboardwp' ) );
+			}
+
+			if ( ! JB()->common()->job()->is_filled( $job_id ) ) {
+				wp_send_json_error( __( 'Job isn\'t filled yet.', 'jobboardwp' ) );
+			}
+
+			update_post_meta( $job_id, 'jb-is-filled', false );
+
+			if ( ! JB()->common()->job()->is_filled( $job_id ) ) {
+				$job = get_post( $job_id );
+
+				$jobs = [];
+				$jobs[] = $this->get_job_data( $job );
+
+				wp_send_json_success( [ 'jobs' => $jobs ] );
+			} else {
+				wp_send_json_error( __( 'Something went wrong.', 'jobboardwp' ) );
+			}
+		}
+
+
+		/**
+		 * @param $job_post
+		 *
+		 * @return array
+		 */
+		function get_job_data( $job_post ) {
+			if ( $job_post->post_status != 'publish' ) {
+				$status_label = JB()->common()->job()->get_status( $job_post->ID );
+				$status = $job_post->post_status == 'jb-preview' ? 'draft' : $job_post->post_status;
+			} else {
+				$status_label = JB()->common()->job()->is_filled( $job_post->ID ) ? __( 'Filled', 'jobboardwp' ) : __( 'Not-filled', 'jobboardwp' );
+				$status = JB()->common()->job()->is_filled( $job_post->ID ) ? 'filled' : 'not-filled';
+			}
+
+			return apply_filters( 'jb_job_dashboard_job_data_response', [
+				'id'                => $job_post->ID,
+				'title'             => $job_post->post_title,
+				'permalink'         => get_permalink( $job_post ),
+				'is_published'      => $job_post->post_status == 'publish',
+				'status_label'      => $status_label,
+				'status'            => $status,
+				'date'              => JB()->common()->job()->get_posted_date( $job_post->ID ),
+				'expires'           => JB()->common()->job()->get_expiry_date( $job_post->ID ),
+				'actions'           => JB()->common()->job()->get_actions( $job_post->ID ),
+			], $job_post );
 		}
 
 
@@ -390,17 +524,9 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			$employer = get_current_user_id();
 
-			/**
-			 * Handle pagination
-			 *
-			 */
-//			$paged = ! empty( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
-
 			$get_posts = new \WP_Query;
 			$jobs_query = $get_posts->query( [
 				'author'        => $employer,
-//				'number'        => $this->jobs_per_page,
-//				'paged'         => $paged,
 				'orderby'       => 'date',
 				'order'         => 'DESC',
 				'post_type'     => 'jb-job',
@@ -410,30 +536,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			$jobs = [];
 			if ( ! empty( $jobs_query ) ) {
 				foreach ( $jobs_query as $job_post ) {
-					if ( $job_post->post_status != 'publish' ) {
-						$status_label = JB()->common()->job()->get_status( $job_post->ID );
-						$status = $job_post->post_status == 'jb-preview' ? 'draft' : $job_post->post_status;
-					} else {
-						$status_label = JB()->common()->job()->is_filled( $job_post->ID ) ? __( 'Filled', 'jobboardwp' ) : __( 'Not-filled', 'jobboardwp' );
-						$status = JB()->common()->job()->is_filled( $job_post->ID ) ? 'filled' : 'not-filled';
-					}
-
-					$jobs[] = [
-						'title'             => $job_post->post_title,
-						'permalink'         => get_permalink( $job_post ),
-						'is_published'      => $job_post->post_status == 'publish',
-						'status_label'      => $status_label,
-						'status'            => $status,
-						'date'              => JB()->common()->job()->get_posted_date( $job_post->ID ),
-						'expires'           => JB()->common()->job()->get_expiry_date( $job_post->ID ),
-						'actions'           => JB()->common()->job()->get_actions( $job_post->ID ),
-					];
+					$jobs[] = $this->get_job_data( $job_post );
 				}
 			}
 
 			$response = apply_filters( 'jb_job_dashboard_response', [
-//				'pagination'    => $this->calculate_pagination( $get_posts->post_count ),
-				'jobs'          => $jobs,
+				'jobs'  => $jobs,
 			] );
 
 			wp_send_json_success( $response );

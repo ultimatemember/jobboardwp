@@ -3,14 +3,14 @@
 global $wpdb;
 
 if ( isset( $_REQUEST['_wp_http_referer'] ) ) {
-	$redirect = remove_query_arg( array( '_wp_http_referer' ), wp_unslash( $_REQUEST['_wp_http_referer'] ) );
+	$redirect = remove_query_arg( [ '_wp_http_referer' ], wp_unslash( $_REQUEST['_wp_http_referer'] ) );
 } else {
 	$redirect = get_admin_url(). 'admin.php?page=forumwp';
 }
 
 //remove extra query arg
 if ( ! empty( $_GET['_wp_http_referer'] ) ) {
-	JB()->admin()->js_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
+	JB()->admin()->js_redirect( remove_query_arg( [ '_wp_http_referer', '_wpnonce' ], wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
 }
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
@@ -33,7 +33,7 @@ class JB_Emails_List_Table extends WP_List_Table {
 	/**
 	 * @var array
 	 */
-	var $sortable_columns = array();
+	var $sortable_columns = [];
 
 
 	/**
@@ -45,19 +45,19 @@ class JB_Emails_List_Table extends WP_List_Table {
 	/**
 	 * @var array
 	 */
-	var $actions = array();
+	var $actions = [];
 
 
 	/**
 	 * @var array
 	 */
-	var $bulk_actions = array();
+	var $bulk_actions = [];
 
 
 	/**
 	 * @var array
 	 */
-	var $columns = array();
+	var $columns = [];
 
 
 	/**
@@ -65,12 +65,12 @@ class JB_Emails_List_Table extends WP_List_Table {
 	 *
 	 * @param array $args
 	 */
-	function __construct( $args = array() ){
-		$args = wp_parse_args( $args, array(
+	function __construct( $args = [] ){
+		$args = wp_parse_args( $args, [
 			'singular'  => __( 'item', 'jobboardwp' ),
 			'plural'    => __( 'items', 'jobboardwp' ),
 			'ajax'      => false
-		) );
+		] );
 
 		$this->no_items_message = $args['plural'] . ' ' . __( 'not found.', 'jobboardwp' );
 
@@ -85,7 +85,7 @@ class JB_Emails_List_Table extends WP_List_Table {
 	 * @return mixed
 	 */
 	function __call( $name, $arguments ) {
-		return call_user_func_array( array( $this, $name ), $arguments );
+		return call_user_func_array( [ $this, $name ], $arguments );
 	}
 
 
@@ -94,9 +94,9 @@ class JB_Emails_List_Table extends WP_List_Table {
 	 */
 	function prepare_items() {
 		$columns  = $this->get_columns();
-		$hidden   = array();
+		$hidden   = [];
 		$sortable = $this->get_sortable_columns();
-		$this->_column_headers = array( $columns, $hidden, $sortable );
+		$this->_column_headers = [ $columns, $hidden, $sortable ];
 	}
 
 
@@ -128,13 +128,13 @@ class JB_Emails_List_Table extends WP_List_Table {
 	 *
 	 * @return $this
 	 */
-	function set_sortable_columns( $args = array() ) {
-		$return_args = array();
-		foreach( $args as $k=>$val ) {
-			if( is_numeric( $k ) ) {
-				$return_args[ $val ] = array( $val, $val == $this->default_sorting_field );
-			} else if( is_string( $k ) ) {
-				$return_args[ $k ] = array( $val, $k == $this->default_sorting_field );
+	function set_sortable_columns( $args = [] ) {
+		$return_args = [];
+		foreach ( $args as $k => $val ) {
+			if ( is_numeric( $k ) ) {
+				$return_args[ $val ] = [ $val, $val == $this->default_sorting_field ];
+			} elseif ( is_string( $k ) ) {
+				$return_args[ $k ] = [ $val, $k == $this->default_sorting_field ];
 			} else {
 				continue;
 			}
@@ -157,9 +157,9 @@ class JB_Emails_List_Table extends WP_List_Table {
 	 *
 	 * @return $this
 	 */
-	function set_columns( $args = array() ) {
+	function set_columns( $args = [] ) {
 		if ( count( $this->bulk_actions ) ) {
-			$args = array_merge( array( 'cb' => '<input type="checkbox" />' ), $args );
+			$args = array_merge( [ 'cb' => '<input type="checkbox" />' ], $args );
 		}
 		$this->columns = $args;
 
@@ -180,7 +180,7 @@ class JB_Emails_List_Table extends WP_List_Table {
 	 *
 	 * @return $this
 	 */
-	function set_actions( $args = array() ) {
+	function set_actions( $args = [] ) {
 		$this->actions = $args;
 		return $this;
 	}
@@ -199,7 +199,7 @@ class JB_Emails_List_Table extends WP_List_Table {
 	 *
 	 * @return $this
 	 */
-	function set_bulk_actions( $args = array() ) {
+	function set_bulk_actions( $args = [] ) {
 		$this->bulk_actions = $args;
 		return $this;
 	}
@@ -221,7 +221,7 @@ class JB_Emails_List_Table extends WP_List_Table {
 	function column_email( $item ) {
 		$active = JB()->options()->get( $item['key'] . '_on' );
 
-		return '<span class="dashicons jb-notification-status ' . ( ! empty( $active ) ? 'jb-notification-is-active dashicons-yes' : 'dashicons-no-alt' ) . '"></span><a href="' . add_query_arg( array( 'email' => $item['key'] ) ) . '"><strong>'. $item['title'] . '</strong></a>';
+		return '<span class="dashicons jb-notification-status ' . ( ! empty( $active ) ? 'jb-notification-is-active dashicons-yes' : 'dashicons-no-alt' ) . '"></span><a href="' . add_query_arg( [ 'email' => $item['key'] ] ) . '"><strong>'. $item['title'] . '</strong></a>';
 	}
 
 
@@ -245,7 +245,7 @@ class JB_Emails_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	function column_configure( $item ) {
-		return '<a class="button jb-email-configure" href="' . add_query_arg( array( 'email' => $item['key'] ) ) . '"><span class="dashicons dashicons-admin-generic"></span></a>';
+		return '<a class="button jb-email-configure" href="' . add_query_arg( [ 'email' => $item['key'] ] ) . '"><span class="dashicons dashicons-admin-generic"></span></a>';
 	}
 
 
@@ -262,26 +262,26 @@ class JB_Emails_List_Table extends WP_List_Table {
 	/**
 	 * @param array $attr
 	 */
-	function jb_set_pagination_args( $attr = array() ) {
+	function jb_set_pagination_args( $attr = [] ) {
 		$this->set_pagination_args( $attr );
 	}
 }
 
 
-$ListTable = new JB_Emails_List_Table( array(
+$ListTable = new JB_Emails_List_Table( [
 	'singular'  => __( 'Email Notification', 'jobboardwp' ),
 	'plural'    => __( 'Email Notifications', 'jobboardwp' ),
 	'ajax'      => false
-));
+] );
 
 $per_page   = 20;
 $paged      = $ListTable->get_pagenum();
 
-$columns = apply_filters( 'jb_email_templates_columns', array(
+$columns = apply_filters( 'jb_email_templates_columns', [
 	'email'         => __( 'Email', 'jobboardwp' ),
 	'recipients'    => __( 'Recipient(s)', 'jobboardwp' ),
 	'configure'     => '',
-) );
+] );
 
 $ListTable->set_columns( $columns );
 
@@ -289,7 +289,7 @@ $emails = JB()->config()->get( 'email_notifications' );
 
 $ListTable->prepare_items();
 $ListTable->items = $emails;
-$ListTable->jb_set_pagination_args( array( 'total_items' => count( $emails ), 'per_page' => $per_page ) ); ?>
+$ListTable->jb_set_pagination_args( [ 'total_items' => count( $emails ), 'per_page' => $per_page ] ); ?>
 
 <form action="" method="get" name="jb-settings-emails" id="jb-settings-emails">
 	<input type="hidden" name="page" value="jb-settings" />

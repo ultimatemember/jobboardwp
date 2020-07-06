@@ -1,0 +1,16 @@
+@import "../color"
+@import "../selectors"
+@import "../mixins"
+
+=job-footer()
+  .#{$job}footer
+    +flex( column, flex-start, stretch, nowrap )
+    padding: 15px 0 0 0
+    .#{$job}footer-row
+      +flex( row, flex-start, baseline, nowrap )
+      width: 100%
+      &:not(:first-child)
+        margin: 5px 0 0 0
+      .#{$job}apply-wrapper
+        .#{$job}apply-description
+          display: none

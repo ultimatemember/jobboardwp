@@ -281,7 +281,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 			$label = $data['label'];
 			if ( ! empty( $data['required'] ) ) {
-				$label = $label . '&nbsp;<span class="jb-req" title="'. esc_attr( 'Required', 'jobboardwp' ).'">*</span>';
+				$label = $label . ' <span class="jb-req" title="'. esc_attr( 'Required', 'jobboardwp' ).'">*</span>';
 			}
 
 			$helptip = ! empty( $data['helptip'] ) ? JB()->helptip( $data['helptip'], false, false ) : '';
@@ -375,55 +375,6 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
-		 * Render text field
-		 *
-		 * @param $field_data
-		 *
-		 * @return bool|string
-		 */
-		function render_icon_select( $field_data ) {
-
-			if ( empty( $field_data['id'] ) ) {
-				return false;
-			}
-
-			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
-			$id_attr = ' id="' . $id . '" ';
-
-			$class = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
-			$class .= ! empty( $field_data['size'] ) ? 'jb-' . $field_data['size'] . '-field' : 'jb-long-field';
-			$class_attr = ' class="jb-forms-field jb-icon-select-field ' . $class . '" ';
-
-			$data = [
-				'field_id' => $field_data['id'],
-			];
-
-			$data_attr = '';
-			foreach ( $data as $key => $value ) {
-				$data_attr .= " data-{$key}=\"{$value}\" ";
-			}
-
-			$name = $field_data['id'];
-			$name = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
-			$name_attr = ' name="' . $name . '" ';
-
-			$value = $this->get_field_value( $field_data );
-			$value_attr = ' data-value="' . esc_attr( $value ) . '" ';
-
-			$html = "<select $id_attr $name_attr $class_attr $data_attr $value_attr></select>";
-
-			return $html;
-		}
-
-
-//		function ajax_icons() {
-//			JB()->admin()->check_ajax_nonce();
-//			$icons = file_get_contents( jb_path . 'assets/common/libs/fontawesome/metadata/icons.json' );
-//			wp_send_json_success( json_decode( $icons ) );
-//		}
-
-
-		/**
 		 * Render number field
 		 *
 		 * @param $field_data
@@ -505,49 +456,6 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$value_attr = ' value="' . $value . '" ';
 
 			$html = "<input type=\"text\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr />";
-
-			return $html;
-		}
-
-
-		/**
-		 * @param $field_data
-		 *
-		 * @return bool|string
-		 */
-		function render_icon( $field_data ) {
-
-			if ( empty( $field_data['id'] ) )
-				return false;
-
-			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
-			$id_attr = ' id="' . $id . '" ';
-
-			$name = $field_data['id'];
-			$name = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
-			$name_attr = ' name="' . $name . '" ';
-
-			$value = $this->get_field_value( $field_data );
-			$value_attr = ' value="' . $value . '" ';
-
-			$html = '<a href="#" class="button" data-modal="JB_fonticons" data-modal-size="normal" data-dynamic-content="um_admin_fonticon_selector" data-arg1="" data-arg2="" data-back="">' . __( 'Choose Icon', 'jobboardwp' ) . '</a>
-				<span class="jb-admin-icon-value">';
-
-			if ( ! empty( $value ) ) {
-				$html .= '<i class="' . $value . '"></i>';
-			} else {
-				$html .= __( 'No Icon', 'jobboardwp' );
-			}
-
-			$html .= '</span><input type="hidden" ' . $name_attr . ' ' . $id_attr . ' ' . $value_attr . ' />';
-
-			if ( get_post_meta( get_the_ID(), '_um_icon', true ) ) {
-				$html .= '<span class="jb-admin-icon-clear show"><i class="jb-icon-android-cancel"></i></span>';
-			} else {
-				$html .= '<span class="jb-admin-icon-clear"><i class="jb-icon-android-cancel"></i></span>';
-			}
-
-			$html .= '</span>';
 
 			return $html;
 		}
