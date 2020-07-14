@@ -280,7 +280,8 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 			}
 
 			$attachments = null;
-			$content_type = apply_filters( 'jb_email_template_content_type', 'text/html', $template, $args, $email );
+			//$content_type = apply_filters( 'jb_email_template_content_type', 'text/html', $template, $args, $email );
+			$content_type = apply_filters( 'jb_email_template_content_type', 'text/plain', $template, $args, $email );
 
 			$headers = 'From: '. JB()->options()->get( 'mail_from' ) .' <'. JB()->options()->get( 'mail_from_addr' ) .'>' . "\r\n";
 			$headers .= "Content-Type: {$content_type}\r\n";
@@ -291,7 +292,28 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 			$message = $this->prepare_template( $template, $args );
 
 			// Send mail
-			wp_mail( $email, $subject, $message, $headers, $attachments );
+			wp_mail( $email, $subject, html_entity_decode( $message ), $headers, $attachments );
+		}
+
+
+		/**
+		 * @param \WP_Post $job
+		 *
+		 * @return string
+		 */
+		function get_job_details( $job ) {
+			$company_data = JB()->common()->job()->get_company_data( $job->ID );
+
+			$details = __( 'Job Title:', 'jobboardwp' ) . ' ' . $job->post_title . "\n\r" .
+			__( 'Description:', 'jobboardwp' ) . ' ' . $job->post_content . "\n\r" .
+			__( 'Posted by:', 'jobboardwp' ) . ' ' . JB()->common()->job()->get_job_author( $job->ID ) . "\n\r" .
+			__( 'Application Contact:', 'jobboardwp' ) . ' ' . get_post_meta( $job->ID, 'jb-application-contact', true ) . "\n\r" .
+			__( 'Location:', 'jobboardwp' ) . ' ' . JB()->common()->job()->get_location( $job->ID ) . "\n\r" .
+			__( 'Company name:', 'jobboardwp' ) . ' ' . $company_data['name'] . "\n\r" .
+			__( 'Company website:', 'jobboardwp' ) . ' ' . $company_data['website'] . "\n\r" .
+			__( 'Company tagline:', 'jobboardwp' ) . ' ' . $company_data['tagline'];
+
+			return $details;
 		}
 
 
@@ -307,7 +329,23 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 			$tags = array_map( function( $item ) {
 				return '{' . $item . '}';
 			}, array_keys( $args ) );
+
 			$tags_replace = array_values( $args );
+
+			$tags[] = '{site_url}';
+			$tags[] = '{site_name}';
+			$tags_replace[] = get_bloginfo( 'url' );
+			$tags_replace[] = get_bloginfo( 'blogname' );
+
+
+//			{view_job_url}
+//			{approve_job_url}
+//			{trash_job_url}
+//			{job_title}
+//			{view_job_url}
+
+			$tags = apply_filters( 'jb-mail-placeholders', $tags, $args );
+			$tags_replace = apply_filters( 'jb-mail-replace-placeholders', $tags_replace, $args );
 
 			$content = str_replace( $tags, $tags_replace, $content );
 			return $content;

@@ -25,7 +25,34 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 			$this->js_url['frontend'] = jb_url . 'assets/frontend/js/';
 			$this->css_url['frontend'] = jb_url . 'assets/frontend/css/';
 
-			add_action( 'wp_enqueue_scripts', [ &$this, 'register_scripts' ] );
+			add_action( 'wp_enqueue_scripts', [ &$this, 'register_scripts' ], 11 );
+
+			add_action( 'wp_enqueue_scripts', [ &$this, 'enqueue_gmap' ], 10 );
+		}
+
+
+		/**
+		 *
+		 */
+		function enqueue_gmap() {
+			$key = JB()->options()->get( 'googlemaps-api-key' );
+			if ( empty( $key ) ) {
+				return;
+			}
+
+			wp_register_script(
+				'jb-location-field',
+				$this->js_url['frontend'] . 'location_field' . JB()->scrips_prefix . '.js',
+				[ 'jquery', 'wp-hooks', 'wp-i18n', 'wp-hooks' ],
+				jb_version,
+				true
+			);
+
+			wp_localize_script('jb-location-field', 'jb_location_var', [
+				'api_key'   => $key,
+				'is_ssl'    => is_ssl(),
+				'region'    => $this->get_g_locale(),
+			] );
 		}
 
 
@@ -53,7 +80,13 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 			wp_localize_script( 'jb-front-global', 'jb_front_data', $localize_data );
 
 
-			wp_register_script( 'jb-front-forms', $this->js_url['frontend'] . 'forms' . JB()->scrips_prefix . '.js', [ 'jb-front-global' ], jb_version, true );
+			$forms_deps = [ 'jb-front-global' ];
+			$key = JB()->options()->get( 'googlemaps-api-key' );
+			if ( ! empty( $key ) ) {
+				$forms_deps[] = 'jb-location-field';
+			}
+
+			wp_register_script( 'jb-front-forms', $this->js_url['frontend'] . 'forms' . JB()->scrips_prefix . '.js', $forms_deps, jb_version, true );
 
 			wp_register_script( 'jb-jobs', $this->js_url['frontend'] . 'jobs' . JB()->scrips_prefix . '.js', [ 'jb-front-global' ], jb_version, true );
 			wp_register_script( 'jb-post-job', $this->js_url['frontend'] . 'post-job' . JB()->scrips_prefix . '.js', [ 'jb-front-forms', 'plupload' ], jb_version, true );

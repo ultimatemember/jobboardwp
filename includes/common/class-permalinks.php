@@ -19,8 +19,8 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		 * Permalinks constructor.
 		 */
 		function __construct() {
-			add_action( 'wp_login_failed', array( &$this, 'login_failed' ) );
-			add_filter( 'authenticate', array( &$this, 'verify_username_password' ), 1, 3 );
+			add_action( 'wp_login_failed', [ &$this, 'login_failed' ] );
+			add_filter( 'authenticate', [ &$this, 'verify_username_password' ], 1, 3 );
 		}
 
 
@@ -67,7 +67,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 				$postid = url_to_postid( $_SERVER['HTTP_REFERER'] );
 
 				if ( ! empty( $postid ) && $postid == $this->get_preset_page_id( 'job-post' ) ) {
-					$logout_link = add_query_arg( array( 'login' => 'failed' ), $this->get_preset_page_link( 'job-post' ) );
+					$logout_link = add_query_arg( [ 'login' => 'failed' ], $this->get_preset_page_link( 'job-post' ) );
 					exit( wp_redirect( $logout_link ) );
 				}
 			}

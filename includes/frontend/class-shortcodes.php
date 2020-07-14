@@ -241,7 +241,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 							</span>
 						<?php }
 
-						$login_args = array(
+						$login_args = [
 							'echo'           => false,
 							'remember'       => true,
 							'redirect'       => $redirect,
@@ -256,7 +256,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 							'label_log_in'   => __( 'Log In', 'jobboardwp' ),
 							'value_username' => '',
 							'value_remember' => false,
-						);
+						];
 
 						echo wp_login_form( $login_args ); ?>
 

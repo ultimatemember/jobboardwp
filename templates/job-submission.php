@@ -42,6 +42,7 @@
 		$job_title = '';
 		$job_location_type = '0';
 		$job_location = '';
+		$job_location_data = '';
 		$job_type = '';
 		$job_category = '';
 		$job_description = '';
@@ -73,6 +74,7 @@
 			$job_title = $data['title'];
 			$job_location_type = $data['location_type'];
 			$job_location = $data['location'];
+			$job_location_data = $data['location_data'];
 			$job_type = $data['type'];
 			$job_category = $data['category'];
 			$job_description = $data['description'];
@@ -208,13 +210,15 @@
 
 		$sections = [];
 
-		if ( ! ( is_user_logged_in() && JB()->options()->get( 'my-details-section' ) == '0' ) ) {
+		if ( ! ( is_user_logged_in() && JB()->options()->get( 'your-details-section' ) == '0' ) ) {
 			$sections['my-details'] = [
 				'title'         => __( 'Your Details', 'jobboardwp' ),
 				'fields'        => $my_details_fields,
 				'wrap_fields'   => true,
 			];
 		}
+
+		$gmap_key = JB()->options()->get( 'googlemaps-api-key' );
 
 		$sections = array_merge( $sections, [
 			'job-details'       => [
@@ -239,33 +243,36 @@
 						'condition_sections'    => [
 							'0' => [
 								[
-									'type'          => 'text',
+									'type'          => empty( $gmap_key ) ? 'text' : 'location_autocomplete',
 									'label'         => __( 'Location', 'jobboardwp' ),
 									'placeholder'   => __( 'City, State, or Country', 'jobboardwp' ),
 									'name'          => 'job_location',
 									'id'            => 'job_location-0',
 									'value'         => $job_location,
+									'value_data'    => $job_location_data,
 									'required'      => true,
 								],
 							],
 							'1' => [
 								[
-									'type'          => 'text',
+									'type'          => empty( $gmap_key ) ? 'text' : 'location_autocomplete',
 									'label'         => __( 'Preferred Location', 'jobboardwp' ),
 									'placeholder'   => __( 'City, State, or Country', 'jobboardwp' ),
 									'name'          => 'job_location',
 									'id'            => 'job_location-1',
 									'value'         => $job_location,
+                                    'value_data'    => $job_location_data,
 								],
 							],
 							''  => [
 								[
-									'type'          => 'text',
+									'type'          => empty( $gmap_key ) ? 'text' : 'location_autocomplete',
 									'label'         => __( 'Preferred Location', 'jobboardwp' ),
 									'placeholder'   => __( 'City, State, or Country', 'jobboardwp' ),
 									'name'          => 'job_location',
 									'id'            => 'job_location-',
 									'value'         => $job_location,
+									'value_data'    => $job_location_data,
 								],
 							],
 						],

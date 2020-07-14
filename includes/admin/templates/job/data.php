@@ -2,6 +2,8 @@
 
 global $post_id;
 
+$gmap_key = JB()->options()->get( 'googlemaps-api-key' );
+
 $location = '';
 $app_contact = '';
 $company_name = '';
@@ -11,6 +13,7 @@ $is_filled = false;
 $expiry_date = '';
 $location_type = '0';
 $author = get_current_user_id();
+$job_location_data = '';
 
 $users = ['0' => __( 'Guest', 'jobboardwp' ),];
 $users_query = get_users( [
@@ -24,6 +27,9 @@ foreach ( $users_query as $user ) {
 if ( $post_id ) {
 	$location_type = get_post_meta( $post_id, 'jb-location-type', true );
 	$location = get_post_meta( $post_id, 'jb-location', true );
+
+	$job_location_data = JB()->common()->job()->get_location_data( $post_id );
+
 	$app_contact = get_post_meta( $post_id, 'jb-application-contact', true );
 	$company_name = get_post_meta( $post_id, 'jb-company-name', true );
 	$company_website = get_post_meta( $post_id, 'jb-company-website', true );
@@ -65,12 +71,13 @@ $fields = apply_filters( 'jb_job-data', [
 	],
 	[
 		'id'            => 'jb-location',
-		'type'          => 'text',
+		'type'          => empty( $gmap_key ) ? 'text' : 'location_autocomplete',
 		'label'         => __( 'Location', 'jobboardwp' ),
 		'description'   => __( 'Required for onsite jobs.', 'jobboardwp' ),
 		'value'         => $location,
 		'required'      => true,
 		'conditional'   => [ 'jb-location-type', '=', '0' ],
+		'value_data'    => $job_location_data,
 	],
 	[
 		'id'            => 'jb-location-preferred',

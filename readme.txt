@@ -1,4 +1,4 @@
-﻿=== JobBoardWP - A full-featured, powerful job board plugin for WordPress ===
+﻿=== JobBoardWP - Job Board Listings and Submissions ===
 Author URI: https://jobboardwp.com/
 Plugin URI: https://wordpress.org/plugins/jobboardwp/
 Contributors: nsinelnikov
@@ -10,17 +10,51 @@ Stable tag: 1.0
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
-A full-featured, powerful job board plugin for WordPress.
+Add a modern job board to your website. Display job listings and allow employers to submit and manage jobs all from the front-end.
 
 == Description ==
 
-JobBoardWP will allow you to display jobs on your website.
+JobBoardWP is an easy to use and lightweight plugin that enables you to add job board functionality to your website. With a clean, modern UI, job seekers can view and search for jobs, whilst employers can submit jobs to your job board and manage their jobs from the jobs dashboard.
 
-= Features of the plugin include: =
+= FRONT-END FEATURES: =
 
-* Jobs List
-* Jobs Dashboard
-* Posting Job form
+The plugin adds three pages to the front-end of your website:
+
+* Jobs page
+
+The jobs page displays a list of jobs with keyword and location search. Job seekers can also filter jobs to show only remote jobs or certain job types/categories.
+
+* Post Job page
+
+The post job page is where users can submit a job via the job submission form. You can choose for jobs to appear automatically on the jobs page or require admin approval. The form enables users to add personal, job and company details. Users can save their form as a draft and preview the job before submitting the job.
+
+* Jobs Dashboard page
+
+The jobs dashboard page is where users manage their submitted jobs. The shortcode on the page outputs a list of jobs a user has submitted. The user can see the status of their jobs, when they expire and manage their jobs. Actions users can take on their job dashboard include: deleting jobs, editing jobs, continuing job submission, marking a job as filled and re-submitting a job.
+
+= ADMIN FEATURES: =
+
+The plugin makes it easy for you to manage your job board from the wp-admin.
+
+* Jobs
+
+As the admin you can see a list of all jobs and filter by status (published, pending, expired etc). You can view, edit and approve jobs from the wp-admin jobs list.
+
+* Add New
+
+You can also create your own new jobs directly from the wp-admin.
+
+* Job Types
+
+Job types allow users to select the type of job they are listing when they submit a job. The plugin comes with 7 built in job types (Freelance, Full-time, Graduate, Internship, Part-time, Temporary, Voulnteer) and each tag is assigned a default tag color (tag colors can be changed easily). You can delete, add and edit the job types.
+
+* Job Categories
+
+Job categories allow users to
+
+* Settings
+
+The plugin provides various settings so you can customize how your job board looks and functions.
 
 Read about all of the plugin's features at [JobBoardWP](https://jobboardwp.com)
 

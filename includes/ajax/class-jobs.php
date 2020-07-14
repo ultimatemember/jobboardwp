@@ -256,13 +256,33 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						$query_args['meta_query'] = [];
 					}
 
-					$query_args['meta_query'] = array_merge( $query_args['meta_query'], [
-						'relation'  => 'AND',
-						[
-							'key'       => 'jb-location',
+					$location_meta_keys = [ 'jb-location' ];
+					$key = JB()->options()->get( 'googlemaps-api-key' );
+					if ( ! empty( $key ) ) {
+						$location_meta_keys = array_merge( $location_meta_keys, [ 'jb-location-formatted-address', 'jb-location-state-long' ] );
+					}
+
+					$location_query = [];
+					if ( count( $location_meta_keys ) > 1 ) {
+						$location_query['relation'] = 'OR';
+						foreach ( $location_meta_keys as $location_meta_key ) {
+							$location_query[] = [
+								'key'       => $location_meta_key,
+								'value'     => $location,
+								'compare'   => 'LIKE',
+							];
+						}
+					} else {
+						$location_query = [
+							'key'       => $location_meta_keys[0],
 							'value'     => $location,
 							'compare'   => 'LIKE',
-						],
+						];
+					}
+
+					$query_args['meta_query'] = array_merge( $query_args['meta_query'], [
+						'relation'  => 'AND',
+						$location_query,
 					] );
 				}
 			}
@@ -286,21 +306,21 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			$type = ! empty( $_POST['type'] ) ? absint( $_POST['type'] ) : '';
 			if ( ! empty( $type ) ) {
-				$query_args['tax_query'][] = array(
+				$query_args['tax_query'][] = [
 					'taxonomy'  => 'jb-job-type',
 					'field'     => 'id',
 					'terms'     => $type,
-				);
+				];
 			}
 
 			if ( JB()->options()->get( 'job-categories' ) ) {
 				$category = ! empty( $_POST['category'] ) ? absint( $_POST['category'] ) : '';
 				if ( ! empty( $category ) ) {
-					$query_args['tax_query'][] = array(
+					$query_args['tax_query'][] = [
 						'taxonomy'  => 'jb-job-category',
 						'field'     => 'id',
 						'terms'     => $category,
-					);
+					];
 				}
 			}
 

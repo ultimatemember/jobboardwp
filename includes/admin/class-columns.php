@@ -136,9 +136,14 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				$app_ids[] = $post_id;
 				wp_update_post( ['ID' => $post_id, 'post_status' => 'publish'] );
 
+				$post = get_post( $post_id );
 				$user = get_userdata( $post->post_author );
 				if ( ! empty( $user ) && ! is_wp_error( $user ) ) {
-					JB()->common()->mail()->send( $user->user_email, 'job_is_approved', [ 'job_id' => $post_id ] );
+					JB()->common()->mail()->send( $user->user_email, 'job_approved', [
+						'job_id'        => $post_id,
+						'job_title'     => $post->post_title,
+						'view_job_url'  => get_permalink( $post ),
+					] );
 				}
 			}
 			$redirect_to = add_query_arg( 'jb-approved', count( $post_ids ), $redirect_to );

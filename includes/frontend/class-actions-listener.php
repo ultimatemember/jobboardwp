@@ -20,6 +20,70 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 		 */
 		function __construct() {
 			add_action( 'wp_loaded', [ $this, 'actions_listener' ], 10 );
+			add_filter( 'jb_job_submitted_data', [ $this, 'add_location_data' ], 10, 2 );
+		}
+
+
+		/**
+		 * @param array $job_data
+		 * @param array $posting_form
+		 *
+		 * @return array
+		 */
+		function add_location_data( $job_data, $posting_form ) {
+			$key = JB()->options()->get( 'googlemaps-api-key' );
+			if ( empty( $key ) || empty( $_POST['job_location_data'] ) ) {
+				return $job_data;
+			}
+
+			$location_data = json_decode( stripslashes( $_POST['job_location_data'] ) );
+
+			$job_data['meta_input']['jb-location-raw-data'] = $location_data;
+			$job_data['meta_input']['jb-location-lat']               = sanitize_text_field( $location_data->geometry->location->lat );
+			$job_data['meta_input']['jb-location-long']              = sanitize_text_field( $location_data->geometry->location->lng );
+			$job_data['meta_input']['jb-location-formatted-address'] = sanitize_text_field( $location_data->formatted_address );
+
+			if ( ! empty( $location_data->address_components ) ) {
+				$address_data = $location_data->address_components;
+				$job_data['meta_input']['jb-location-street-number'] = false;
+				$job_data['meta_input']['jb-location-street']        = false;
+				$job_data['meta_input']['jb-location-city']          = false;
+				$job_data['meta_input']['jb-location-state-short']   = false;
+				$job_data['meta_input']['jb-location-state-long']    = false;
+				$job_data['meta_input']['jb-location-postcode']      = false;
+				$job_data['meta_input']['jb-location-country-short'] = false;
+				$job_data['meta_input']['jb-location-country-long']  = false;
+
+				foreach ( $address_data as $data ) {
+					switch ( $data->types[0] ) {
+						case 'street_number':
+							$job_data['meta_input']['jb-location-street-number'] = sanitize_text_field( $data->long_name );
+							break;
+						case 'route':
+							$job_data['meta_input']['jb-location-street'] = sanitize_text_field( $data->long_name );
+							break;
+						case 'sublocality_level_1':
+						case 'locality':
+						case 'postal_town':
+							$job_data['meta_input']['jb-location-city'] = sanitize_text_field( $data->long_name );
+							break;
+						case 'administrative_area_level_1':
+						case 'administrative_area_level_2':
+							$job_data['meta_input']['jb-location-state-short'] = sanitize_text_field( $data->short_name );
+							$job_data['meta_input']['jb-location-state-long']  = sanitize_text_field( $data->long_name );
+							break;
+						case 'postal_code':
+							$job_data['meta_input']['jb-location-postcode'] = sanitize_text_field( $data->long_name );
+							break;
+						case 'country':
+							$job_data['meta_input']['jb-location-country-short'] = sanitize_text_field( $data->short_name );
+							$job_data['meta_input']['jb-location-country-long']  = sanitize_text_field( $data->long_name );
+							break;
+					}
+				}
+			}
+
+			return $job_data;
 		}
 
 
@@ -140,7 +204,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 					wp_new_user_notification( $user_id, null, $notify );
 				}
 			} else {
-				if ( JB()->options()->get( 'my-details-section' ) == '1' ) {
+				if ( JB()->options()->get( 'your-details-section' ) == '1' ) {
 					$author_fname = ! empty( $_POST['author_first_name'] ) ? sanitize_text_field( $_POST['author_first_name'] ) : '';
 					$author_lname = ! empty( $_POST['author_last_name'] ) ? sanitize_text_field( $_POST['author_last_name'] ) : '';;
 
@@ -477,6 +541,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								],
 							];
 
+							$job_data = apply_filters( 'jb_job_submitted_data', $job_data, $posting_form );
+
 							if ( ! empty( $_GET['job-id'] ) ) {
 								$job_id = absint( $_GET['job-id'] );
 								$job = get_post( $job_id );
@@ -593,35 +659,30 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								] );
 
 								if ( ! empty( $is_edited ) ) {
-									if ( JB()->options()->get( 'published-job-editing' ) == '2' ) {
-										$emails = JB()->common()->mail()->multi_admin_email();
-										if ( ! empty( $emails ) ) {
-											foreach ( $emails as $email ) {
-												JB()->common()->mail()->send( $email, 'edited_job_waiting_approve', [ 'job_id' => $job_id ] );
-											}
-										}
-									} else {
-										$emails = JB()->common()->mail()->multi_admin_email();
-										if ( ! empty( $emails ) ) {
-											foreach ( $emails as $email ) {
-												JB()->common()->mail()->send( $email, 'job_is_edited', [ 'job_id' => $job_id ] );
-											}
+									$emails = JB()->common()->mail()->multi_admin_email();
+									if ( ! empty( $emails ) ) {
+										foreach ( $emails as $email ) {
+											JB()->common()->mail()->send( $email, 'job_edited', [
+												'job_id'            => $job_id,
+												'job_title'         => $job->post_title,
+												'job_details'       => JB()->common()->mail()->get_job_details( $job ),
+												'view_job_url'      => get_permalink( $job ),
+												'approve_job_url'   => add_query_arg( ['jb_adm_action' => 'approve_job', 'job-id' => $job_id, 'nonce' => wp_create_nonce( 'jb-approve-job' . $job_id ) ], admin_url() ),
+												'trash_job_url'     => get_delete_post_link( $job_id ),
+											] );
 										}
 									}
 								} else {
-									if ( JB()->options()->get( 'job-moderation' ) ) {
-										$emails = JB()->common()->mail()->multi_admin_email();
-										if ( ! empty( $emails ) ) {
-											foreach ( $emails as $email ) {
-												JB()->common()->mail()->send( $email, 'job_waiting_approve', [ 'job_id' => $job_id ] );
-											}
-										}
-									} else {
-										$emails = JB()->common()->mail()->multi_admin_email();
-										if ( ! empty( $emails ) ) {
-											foreach ( $emails as $email ) {
-												JB()->common()->mail()->send( $email, 'new_job_posted', [ 'job_id' => $job_id ] );
-											}
+									$emails = JB()->common()->mail()->multi_admin_email();
+									if ( ! empty( $emails ) ) {
+										foreach ( $emails as $email ) {
+											JB()->common()->mail()->send( $email, 'job_submitted', [
+												'job_id'            => $job_id,
+												'job_details'       => JB()->common()->mail()->get_job_details( $job ),
+												'view_job_url'      => get_permalink( $job ),
+												'approve_job_url'   => add_query_arg( ['jb_adm_action' => 'approve_job', 'job-id' => $job_id, 'nonce' => wp_create_nonce( 'jb-approve-job' . $job_id ) ], admin_url() ),
+												'trash_job_url'     => get_delete_post_link( $job_id ),
+											] );
 										}
 									}
 								}

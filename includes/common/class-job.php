@@ -191,6 +191,21 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Returns the job location data.
+		 *
+		 * @param int $job_id Job post ID
+		 *
+		 * @return string
+		 */
+		function get_location_data( $job_id ) {
+			$location_data = get_post_meta( $job_id, 'jb-location-raw-data', true );
+			$location_data = ! empty( $location_data ) ? $location_data : '';
+
+			return $location_data;
+		}
+
+
+		/**
 		 * Returns the job location.
 		 *
 		 * @param int $job_id Job post ID
@@ -442,6 +457,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				'category'          => $job_categories,
 				'location'          => $this->get_location( $job_id, true ),
 				'location_type'     => $this->get_location_type( $job_id, true ),
+				'location_data'     => $this->get_location_data( $job_id ),
 				'app_contact'       => get_post_meta( $job_id, 'jb-application-contact', true ),
 				'company_name'      => $company_name,
 				'company_website'   => $company_website,
@@ -607,7 +623,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			if ( ! empty( $location ) ) {
 				$data['jobLocation']            = [];
 				$data['jobLocation']['@type']   = 'Place';
-				//$data['jobLocation']['address'] = $this->get_structured_location( $job );
+				$data['jobLocation']['address'] = $this->get_structured_location( $job );
 				if ( empty( $data['jobLocation']['address'] ) ) {
 					$data['jobLocation']['address'] = $location;
 				}
@@ -618,62 +634,54 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
-		 * Gets the job listing location data.
+		 * Gets the job location data.
 		 *
 		 * @see http://schema.org/PostalAddress
 		 *
-		 * @param WP_Post $post
+		 * @param \WP_Post $job
 		 * @return array|bool
 		 */
-//		function get_structured_location( $post ) {
-//			$post = get_post( $post );
-//
-//			if ( ! $post || 'job_listing' !== $post->post_type ) {
-//				return false;
-//			}
-//
-//			$mapping                    = [];
-//			$mapping['streetAddress']   = [ 'street_number', 'street' ];
-//			$mapping['addressLocality'] = 'city';
-//			$mapping['addressRegion']   = 'state_short';
-//			$mapping['postalCode']      = 'postcode';
-//			$mapping['addressCountry']  = 'country_short';
-//
-//			$address          = [];
-//			$address['@type'] = 'PostalAddress';
-//			foreach ( $mapping as $schema_key => $geolocation_key ) {
-//				if ( is_array( $geolocation_key ) ) {
-//					$values = [];
-//					foreach ( $geolocation_key as $sub_geo_key ) {
-//						$geo_value = get_post_meta( $post->ID, 'geolocation_' . $sub_geo_key, true );
-//						if ( ! empty( $geo_value ) ) {
-//							$values[] = $geo_value;
-//						}
-//					}
-//					$value = implode( ' ', $values );
-//				} else {
-//					$value = get_post_meta( $post->ID, 'geolocation_' . $geolocation_key, true );
-//				}
-//				if ( ! empty( $value ) ) {
-//					$address[ $schema_key ] = $value;
-//				}
-//			}
-//
-//			// No address parts were found.
-//			if ( 1 === count( $address ) ) {
-//				$address = false;
-//			}
-//
-//			/**
-//			 * Gets the job listing location structured data.
-//			 *
-//			 * @since 1.28.0
-//			 *
-//			 * @param array|bool $address Array of address data.
-//			 * @param WP_Post    $post
-//			 */
-//			return apply_filters( 'wpjm_get_job_listing_location_structured_data', $address, $post );
-//		}
+		function get_structured_location( $job ) {
+			$address = [
+				'@type' => 'PostalAddress',
+			];
+
+			$mapping = [
+				'streetAddress'     => [
+					'street-number',
+					'street'
+				],
+				'addressLocality'   => 'city',
+				'addressRegion'     => 'state-short',
+				'postalCode'        => 'postcode',
+				'addressCountry'    => 'country-short',
+			];
+			foreach ( $mapping as $schema_key => $meta_key ) {
+				if ( is_array( $meta_key ) ) {
+					$values = [];
+					foreach ( $meta_key as $sub_meta_key ) {
+						$meta = get_post_meta( $job->ID, 'jb-location-' . $sub_meta_key, true );
+						if ( ! empty( $meta ) ) {
+							$values[] = $meta;
+						}
+					}
+					$value = implode( ' ', $values );
+				} else {
+					$value = get_post_meta( $job->ID, 'jb-location-' . $meta_key, true );
+				}
+
+				if ( ! empty( $value ) ) {
+					$address[ $schema_key ] = $value;
+				}
+			}
+
+			// No address parts were found.
+			if ( 1 === count( $address ) ) {
+				$address = false;
+			}
+
+			return apply_filters( 'jb-job-location-structured-data', $address, $job );
+		}
 
 
 		/**

@@ -74,6 +74,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 				'job-categories'                    => true,
 				'job-template'                      => '',
 				'job-dateformat'                    => 'default',
+				'googlemaps-api-key'                => '',
 				'jobs-list-pagination'              => 10,
 				'jobs-list-no-logo'                 => false,
 				'jobs-list-hide-filled'             => false,
@@ -88,7 +89,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 				'account-username-generate'         => true,
 				'account-password-email'            => true,
 				'full-name-required'                => true,
-				'my-details-section'                => '0',
+				'your-details-section'                => '0',
 				'account-role'                      => 'jb_employer',
 				'job-moderation'                    => true,
 				'pending-job-editing'               => true,
@@ -96,7 +97,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 				'job-duration'                      => 30,
 				'required-job-type'                 => true,
 				'application-method'                => '',
-				'job-submitted-notice'              => __( 'Job is submitted successfully. It will be visible once approved.', 'jobboardwp' ),
+				'job-submitted-notice'              => __( 'Thank you for submitting your job. It will be appear on the website once approved.', 'jobboardwp' ),
 
 				'disable-styles'                    => false,
 				'disable-fa-styles'                 => false,
@@ -216,15 +217,15 @@ if ( ! class_exists( 'jb\Config' ) ) {
 		 */
 		function init_core_pages() {
 			$this->core_pages = apply_filters( 'jb_core_pages', [
-				'jobs'                  => [
+				'jobs'              => [
 					'title'     => __( 'Jobs', 'jobboardwp' ),
 					'content'   => '[jb_jobs /]'
 				],
-				'job-post'              => [
+				'job-post'          => [
 					'title'     => __( 'Post Job', 'jobboardwp' ),
 					'content'   => '[jb_post_job /]',
 				],
-				'jobs-dashboard'        => [
+				'jobs-dashboard'    => [
 					'title'     => __( 'Jobs Dashboard', 'jobboardwp' ),
 					'content'   => '[jb_jobs_dashboard /]',
 				],
@@ -237,42 +238,26 @@ if ( ! class_exists( 'jb\Config' ) ) {
 		 */
 		function init_email_notifications() {
 			$this->email_notifications = apply_filters( 'jb_email_notifications', [
-				'new_job_posted'                => [
-					'key'               => 'new_job_posted',
-					'title'             => __( 'New job posted', 'jobboardwp' ),
-					'subject'           => __( 'New job posted at {site_name}', 'jobboardwp' ),
+				'job_submitted' => [
+					'key'               => 'job_submitted',
+					'title'             => __( 'Job Submitted', 'jobboardwp' ),
+					'subject'           => __( 'New Job Submission - {site_name}', 'jobboardwp' ),
 					'description'       => __( 'Whether to send the admin an email when new job is posted on website.', 'jobboardwp' ),
 					'recipient'         => 'admin',
 					'default_active'    => true,
 				],
-				'job_waiting_approve'           => [
-					'key'               => 'job_waiting_approve',
-					'title'             => __( 'New job waiting an approve', 'jobboardwp' ),
-					'subject'           => __( 'New job waiting an approve at {site_name}', 'jobboardwp' ),
-					'description'       => __( 'Whether to send the admin an email when job is waiting an approve.', 'jobboardwp' ),
-					'recipient'         => 'admin',
-					'default_active'    => true,
-				],
-				'job_is_approved'               => [
-					'key'               => 'job_is_approved',
-					'title'             => __( 'Your job is approved', 'jobboardwp' ),
-					'subject'           => __( 'Your job is approved at {site_name}', 'jobboardwp' ),
+				'job_approved'  => [
+					'key'               => 'job_approved',
+					'title'             => __( 'Job Listing Approved', 'jobboardwp' ),
+					'subject'           => __( 'Job listing is now live - {site_name}', 'jobboardwp' ),
 					'description'       => __( 'Whether to send the job\'s author an email when job is approved.', 'jobboardwp' ),
 					'recipient'         => 'user',
 					'default_active'    => true,
 				],
-				'edited_job_waiting_approve'    => [
-					'key'               => 'edited_job_waiting_approve',
-					'title'             => __( 'Edited job waiting an approve', 'jobboardwp' ),
-					'subject'           => __( 'Edited job waiting an approve at {site_name}', 'jobboardwp' ),
-					'description'       => __( 'Whether to send the admin an email when edited job is waiting an approve.', 'jobboardwp' ),
-					'recipient'         => 'admin',
-					'default_active'    => true,
-				],
-				'job_is_edited'                 => [
-					'key'               => 'job_is_edited',
-					'title'             => __( 'Job is edited', 'jobboardwp' ),
-					'subject'           => __( 'Job is edited at {site_name}', 'jobboardwp' ),
+				'job_edited'    => [
+					'key'               => 'job_edited',
+					'title'             => __( 'Job has been edited', 'jobboardwp' ),
+					'subject'           => __( 'A job listing has been edited - {site_name}', 'jobboardwp' ),
 					'description'       => __( 'Whether to send the admin an email when new job is edited on website.', 'jobboardwp' ),
 					'recipient'         => 'admin',
 					'default_active'    => true,

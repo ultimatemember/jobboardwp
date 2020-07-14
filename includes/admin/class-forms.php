@@ -375,6 +375,62 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
+		 * Render text field
+		 *
+		 * @param $field_data
+		 *
+		 * @return bool|string
+		 */
+		function render_location_autocomplete( $field_data ) {
+
+			if ( empty( $field_data['id'] ) ) {
+				return false;
+			}
+
+			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $field_data['id'];
+			$id_attr = ' id="' . $id . '" ';
+
+			$class = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class .= ! empty( $field_data['size'] ) ? 'jb-' . $field_data['size'] . '-field' : 'jb-long-field';
+			$class_attr = ' class="jb-forms-field jb-location-autocomplete ' . $class . '" ';
+
+			$data = [
+				'field_id' => $field_data['id']
+			];
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= " data-{$key}=\"{$value}\" ";
+			}
+
+			$placeholder_attr = ! empty( $field_data['placeholder'] ) ? ' placeholder="' . $field_data['placeholder'] . '"' : '';
+			$required = ! empty( $field_data['required'] ) ? ' required' : '';
+
+			$name = isset( $field_data['name'] ) ? $field_data['name'] : $field_data['id'];
+			$name_loco = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . '-data]' : $name . '-data';
+			$name = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+
+			$name_attr = ' name="' . $name . '" ';
+			$name_loco_data_attr = ' name="' . $name_loco . '" ';
+
+			$value = $this->get_field_value( $field_data );
+			$value_attr = ' value="' . esc_attr( $value ) . '" ';
+
+			$field_data_data = $field_data;
+			$field_data_data['name'] = ( isset( $field_data['name'] ) ? $field_data['name'] : $field_data['id'] ) . '-data';
+			$field_data_data['value'] = $field_data['value_data'];
+			$field_data_data['encode'] = true;
+			$value_data = $this->get_field_value( $field_data_data );
+			$value_data = esc_attr( $value_data );
+
+			$html = "<input type=\"text\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $required />
+					 <input type=\"hidden\" $name_loco_data_attr class=\"jb-location-autocomplete-data\" value=\"$value_data\" />";
+
+			return $html;
+		}
+
+
+		/**
 		 * Render number field
 		 *
 		 * @param $field_data
@@ -852,6 +908,12 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			}
 
 			$value = is_string( $value ) ? stripslashes( $value ) : $value;
+
+			if ( ! empty( $value ) ) {
+				if ( isset( $field_data['encode'] ) ) {
+					$value = json_encode( $value, JSON_UNESCAPED_UNICODE );
+				}
+			}
 
 			return $value;
 		}

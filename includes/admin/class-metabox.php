@@ -187,6 +187,50 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 						$v = date( 'Y-m-d', strtotime( $v, current_time( 'timestamp' ) ) );
 					}
 
+					if ( 'jb-location-data' == $k ) {
+
+						$v = json_decode( stripslashes( $v ) );
+
+						update_post_meta( $post_id, 'jb-location-raw-data', $v );
+						update_post_meta( $post_id, 'jb-location-lat', sanitize_text_field( $v->geometry->location->lat ) );
+						update_post_meta( $post_id, 'jb-location-long', sanitize_text_field( $v->geometry->location->lng ) );
+						update_post_meta( $post_id, 'jb-location-formatted-address', sanitize_text_field( $v->formatted_address ) );
+
+						if ( ! empty( $v->address_components ) ) {
+							$address_data = $v->address_components;
+
+							foreach ( $address_data as $data ) {
+								switch ( $data->types[0] ) {
+									case 'street_number':
+										update_post_meta( $post_id, 'jb-location-street-number', sanitize_text_field( $data->long_name ) );
+										break;
+									case 'route':
+										update_post_meta( $post_id, 'jb-location-street', sanitize_text_field( $data->long_name ) );
+										break;
+									case 'sublocality_level_1':
+									case 'locality':
+									case 'postal_town':
+										update_post_meta( $post_id, 'jb-location-city', sanitize_text_field( $data->long_name ) );
+										break;
+									case 'administrative_area_level_1':
+									case 'administrative_area_level_2':
+										update_post_meta( $post_id, 'jb-location-state-short', sanitize_text_field( $data->short_name ) );
+										update_post_meta( $post_id, 'jb-location-state-long', sanitize_text_field( $data->long_name ) );
+										break;
+									case 'postal_code':
+										update_post_meta( $post_id, 'jb-location-postcode', sanitize_text_field( $data->long_name ) );
+										break;
+									case 'country':
+										update_post_meta( $post_id, 'jb-location-country-short', sanitize_text_field( $data->short_name ) );
+										update_post_meta( $post_id, 'jb-location-country-long', sanitize_text_field( $data->long_name ) );
+										break;
+								}
+							}
+						}
+
+						continue;
+					}
+
 					if ( $_POST['jb-job-meta']['jb-location-type'] !== '0' && 'jb-location-preferred' == $k ) {
 						$k = 'jb-location';
 					}
