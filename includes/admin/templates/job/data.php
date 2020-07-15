@@ -34,6 +34,9 @@ if ( $post_id ) {
 	$company_name = get_post_meta( $post_id, 'jb-company-name', true );
 	$company_website = get_post_meta( $post_id, 'jb-company-website', true );
 	$company_tagline = get_post_meta( $post_id, 'jb-company-tagline', true );
+	$company_twitter = get_post_meta( $post_id, 'jb-company-twitter', true );
+	$company_facebook = get_post_meta( $post_id, 'jb-company-facebook', true );
+	$company_instagram = get_post_meta( $post_id, 'jb-company-instagram', true );
 	$is_filled = get_post_meta( $post_id, 'jb-is-filled', true );
 
 	$job = get_post( $post_id );
@@ -118,6 +121,24 @@ $fields = apply_filters( 'jb_job-data', [
 		'label' => __( 'Expiry Date', 'jobboardwp' ),
 		'value' => $expiry_date,
 		'size'  => 'small',
+	],
+	[
+		'id'    => 'jb-company-twitter',
+		'type'  => 'text',
+		'label' => __( 'Company twitter', 'jobboardwp' ),
+		'value' => $company_twitter,
+	],
+	[
+		'id'    => 'jb-company-facebook',
+		'type'  => 'text',
+		'label' => __( 'Company facebook', 'jobboardwp' ),
+		'value' => $company_facebook,
+	],
+	[
+		'id'    => 'jb-company-instagram',
+		'type'  => 'text',
+		'label' => __( 'Company instagram', 'jobboardwp' ),
+		'value' => $company_instagram,
 	],
 ] );
 
