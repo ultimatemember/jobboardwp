@@ -1,3 +1,14 @@
+// extends AJAX request arguments
+wp.hooks.addFilter( 'jb_jobs_request', 'jb_autocomplete_location', function( request ) {
+	if ( wp.JB.jobs_list.objects.wrapper.find('.jb-location-autocomplete-data').length ) {
+		request['location_data'] = wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data' ).val();
+		request['location'] = '';
+	}
+
+	return request;
+}, 10 );
+
+
 function JBLocationSelectOnEnter( input ) {
 	// store the original event binding function
 	var _addEventListener = ( input.addEventListener ) ? input.addEventListener : input.attachEvent;
@@ -52,7 +63,7 @@ function JBLocationAutocomplete() {
 		JBLocationSelectOnEnter( jQuery(this).get(0) );
 
 		var autocomplete = new google.maps.places.Autocomplete( jQuery(this).get(0), {
-			types: ['(cities)']
+			types: ['(regions)']
 		});
 
 		autocomplete.addListener( 'place_changed', function(e) {
@@ -70,6 +81,12 @@ function JBLocationAutocomplete() {
 			}
 		});
 
+		if ( jQuery(this).val() !== '' ) {
+			$selected_autocomplete = jQuery(this);
+
+            google.maps.event.trigger( autocomplete, 'place_changed' );
+		}
+
 	}).on('click', function() {
 		$selected_autocomplete = jQuery(this);
 	});
@@ -78,6 +95,6 @@ function JBLocationAutocomplete() {
 var jb_location_script = document.createElement( 'script' );
 jb_location_script.src = '//maps.googleapis.com/maps/api/js?key=' + jb_location_var.api_key + '&libraries=places&callback=JBLocationAutocomplete';
 if ( jb_location_var.region ) {
-    jb_location_script.src += '&language=' + jb_location_var.region;
+	jb_location_script.src += '&language=' + jb_location_var.region;
 }
 document.body.appendChild( jb_location_script );

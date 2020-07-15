@@ -25,7 +25,8 @@
 
 					<label>
 						<span><?php _e( 'Find Jobs:', 'jobboardwp' ); ?></span>
-						<input type="search" class="jb-search-location" placeholder="<?php esc_attr_e( 'City, State or Country', 'jobboardwp' ) ?>" value="<?php echo esc_attr( $search_from_url2 ) ?>" aria-label="<?php esc_attr_e( 'Find Jobs by location', 'jobboardwp' ) ?>" speech />
+						<input type="search" class="jb-search-location jb-location-autocomplete" placeholder="<?php esc_attr_e( 'City, State or Country', 'jobboardwp' ) ?>" value="<?php echo esc_attr( $search_from_url2 ) ?>" aria-label="<?php esc_attr_e( 'Find Jobs by location', 'jobboardwp' ) ?>" speech />
+						<input type="hidden" class="jb-location-autocomplete-data" value="" />
 					</label>
 				<?php } ?>
 

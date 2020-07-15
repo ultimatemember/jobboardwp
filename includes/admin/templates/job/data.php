@@ -109,20 +109,6 @@ $fields = apply_filters( 'jb_job-data', [
 		'value' => $company_tagline,
 	],
 	[
-		'id'            => 'jb-is-filled',
-		'type'          => 'checkbox',
-		'label'         => __( 'Position Filled', 'jobboardwp' ),
-		'description'   => __( 'Filled listings will no longer accept applications.', 'jobboardwp' ),
-		'value'         => $is_filled,
-	],
-	[
-		'id'    => 'jb-expiry-date',
-		'type'  => 'datepicker',
-		'label' => __( 'Expiry Date', 'jobboardwp' ),
-		'value' => $expiry_date,
-		'size'  => 'small',
-	],
-	[
 		'id'    => 'jb-company-twitter',
 		'type'  => 'text',
 		'label' => __( 'Company twitter', 'jobboardwp' ),
@@ -139,6 +125,20 @@ $fields = apply_filters( 'jb_job-data', [
 		'type'  => 'text',
 		'label' => __( 'Company instagram', 'jobboardwp' ),
 		'value' => $company_instagram,
+	],
+	[
+		'id'            => 'jb-is-filled',
+		'type'          => 'checkbox',
+		'label'         => __( 'Position Filled', 'jobboardwp' ),
+		'description'   => __( 'Filled listings will no longer accept applications.', 'jobboardwp' ),
+		'value'         => $is_filled,
+	],
+	[
+		'id'    => 'jb-expiry-date',
+		'type'  => 'datepicker',
+		'label' => __( 'Expiry Date', 'jobboardwp' ),
+		'value' => $expiry_date,
+		'size'  => 'small',
 	],
 ] );
 

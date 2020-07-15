@@ -201,12 +201,12 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 							foreach ( $address_data as $data ) {
 								switch ( $data->types[0] ) {
-									case 'street_number':
-										update_post_meta( $post_id, 'jb-location-street-number', sanitize_text_field( $data->long_name ) );
-										break;
-									case 'route':
-										update_post_meta( $post_id, 'jb-location-street', sanitize_text_field( $data->long_name ) );
-										break;
+//									case 'street_number':
+//										update_post_meta( $post_id, 'jb-location-street-number', sanitize_text_field( $data->long_name ) );
+//										break;
+//									case 'route':
+//										update_post_meta( $post_id, 'jb-location-street', sanitize_text_field( $data->long_name ) );
+//										break;
 									case 'sublocality_level_1':
 									case 'locality':
 									case 'postal_town':
@@ -217,9 +217,9 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 										update_post_meta( $post_id, 'jb-location-state-short', sanitize_text_field( $data->short_name ) );
 										update_post_meta( $post_id, 'jb-location-state-long', sanitize_text_field( $data->long_name ) );
 										break;
-									case 'postal_code':
-										update_post_meta( $post_id, 'jb-location-postcode', sanitize_text_field( $data->long_name ) );
-										break;
+//									case 'postal_code':
+//										update_post_meta( $post_id, 'jb-location-postcode', sanitize_text_field( $data->long_name ) );
+//										break;
 									case 'country':
 										update_post_meta( $post_id, 'jb-location-country-short', sanitize_text_field( $data->short_name ) );
 										update_post_meta( $post_id, 'jb-location-country-long', sanitize_text_field( $data->long_name ) );

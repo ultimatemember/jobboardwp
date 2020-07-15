@@ -45,23 +45,23 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 
 			if ( ! empty( $location_data->address_components ) ) {
 				$address_data = $location_data->address_components;
-				$job_data['meta_input']['jb-location-street-number'] = false;
-				$job_data['meta_input']['jb-location-street']        = false;
-				$job_data['meta_input']['jb-location-city']          = false;
-				$job_data['meta_input']['jb-location-state-short']   = false;
-				$job_data['meta_input']['jb-location-state-long']    = false;
-				$job_data['meta_input']['jb-location-postcode']      = false;
-				$job_data['meta_input']['jb-location-country-short'] = false;
-				$job_data['meta_input']['jb-location-country-long']  = false;
+//				$job_data['meta_input']['jb-location-street-number'] = false;
+//				$job_data['meta_input']['jb-location-street']        = false;
+//				$job_data['meta_input']['jb-location-city']          = false;
+//				$job_data['meta_input']['jb-location-state-short']   = false;
+//				$job_data['meta_input']['jb-location-state-long']    = false;
+//				$job_data['meta_input']['jb-location-postcode']      = false;
+//				$job_data['meta_input']['jb-location-country-short'] = false;
+//				$job_data['meta_input']['jb-location-country-long']  = false;
 
 				foreach ( $address_data as $data ) {
 					switch ( $data->types[0] ) {
-						case 'street_number':
-							$job_data['meta_input']['jb-location-street-number'] = sanitize_text_field( $data->long_name );
-							break;
-						case 'route':
-							$job_data['meta_input']['jb-location-street'] = sanitize_text_field( $data->long_name );
-							break;
+//						case 'street_number':
+//							$job_data['meta_input']['jb-location-street-number'] = sanitize_text_field( $data->long_name );
+//							break;
+//						case 'route':
+//							$job_data['meta_input']['jb-location-street'] = sanitize_text_field( $data->long_name );
+//							break;
 						case 'sublocality_level_1':
 						case 'locality':
 						case 'postal_town':
@@ -72,9 +72,9 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							$job_data['meta_input']['jb-location-state-short'] = sanitize_text_field( $data->short_name );
 							$job_data['meta_input']['jb-location-state-long']  = sanitize_text_field( $data->long_name );
 							break;
-						case 'postal_code':
-							$job_data['meta_input']['jb-location-postcode'] = sanitize_text_field( $data->long_name );
-							break;
+//						case 'postal_code':
+//							$job_data['meta_input']['jb-location-postcode'] = sanitize_text_field( $data->long_name );
+//							break;
 						case 'country':
 							$job_data['meta_input']['jb-location-country-short'] = sanitize_text_field( $data->short_name );
 							$job_data['meta_input']['jb-location-country-long']  = sanitize_text_field( $data->long_name );

@@ -251,39 +251,96 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			if ( ! empty( $_POST['location'] ) ) {
 				$location = trim( stripslashes( $_POST['location'] ) );
 				if ( ! empty( $location ) ) {
-
 					if ( ! isset( $query_args['meta_query'] ) ) {
 						$query_args['meta_query'] = [];
 					}
 
-					$location_meta_keys = [ 'jb-location' ];
-					$key = JB()->options()->get( 'googlemaps-api-key' );
-					if ( ! empty( $key ) ) {
-						$location_meta_keys = array_merge( $location_meta_keys, [ 'jb-location-formatted-address', 'jb-location-state-long' ] );
-					}
-
-					$location_query = [];
-					if ( count( $location_meta_keys ) > 1 ) {
-						$location_query['relation'] = 'OR';
-						foreach ( $location_meta_keys as $location_meta_key ) {
-							$location_query[] = [
-								'key'       => $location_meta_key,
-								'value'     => $location,
-								'compare'   => 'LIKE',
-							];
-						}
-					} else {
-						$location_query = [
-							'key'       => $location_meta_keys[0],
-							'value'     => $location,
-							'compare'   => 'LIKE',
-						];
-					}
-
 					$query_args['meta_query'] = array_merge( $query_args['meta_query'], [
 						'relation'  => 'AND',
-						$location_query,
+						[
+							'relation'  => 'OR',
+							[
+								'key'       => 'jb-location',
+								'value'     => $location,
+								'compare'   => 'LIKE',
+							],
+							[
+								'key'       => 'jb-location-preferred',
+								'value'     => $location,
+								'compare'   => 'LIKE',
+							],
+						]
 					] );
+				}
+			}
+
+			$key = JB()->options()->get( 'googlemaps-api-key' );
+			if ( ! empty( $_POST['location_data'] ) && ! empty( $key ) ) {
+
+				$location_data = json_decode( stripslashes( $_POST['location_data'] ) );
+
+				if ( ! empty( $location_data->address_components ) ) {
+					$address_data = $location_data->address_components;
+
+					$address_query = [];
+					foreach ( $address_data as $data ) {
+						switch ( $data->types[0] ) {
+							case 'sublocality_level_1':
+							case 'locality':
+							case 'postal_town':
+								$address_query[] = [
+									'key'       => 'jb-location-city',
+									'value'     => sanitize_text_field( $data->long_name ),
+									'compare'   => '=',
+								];
+								break;
+							case 'administrative_area_level_1':
+							case 'administrative_area_level_2':
+
+								$address_query[] = [
+									'relation' => 'OR',
+									[
+										'key'       => 'jb-location-state-short',
+										'value'     => sanitize_text_field( $data->short_name ),
+										'compare'   => '=',
+									],
+									[
+										'key'       => 'jb-location-state-long',
+										'value'     => sanitize_text_field( $data->long_name ),
+										'compare'   => '=',
+									]
+								];
+
+								break;
+							case 'country':
+
+								$address_query[] = [
+									'relation' => 'OR',
+									[
+										'key'       => 'jb-location-country-short',
+										'value'     => sanitize_text_field( $data->short_name ),
+										'compare'   => '=',
+									],
+									[
+										'key'       => 'jb-location-country-long',
+										'value'     => sanitize_text_field( $data->long_name ),
+										'compare'   => '=',
+									]
+								];
+
+								break;
+						}
+					}
+
+					if ( ! empty( $address_query ) ) {
+						$address_query['relation'] = 'AND';
+
+						if ( ! isset( $query_args['meta_query'] ) ) {
+							$query_args['meta_query'] = [];
+						}
+
+						$query_args['meta_query'] = array_merge( $query_args['meta_query'], [ $address_query ] );
+					}
 				}
 			}
 

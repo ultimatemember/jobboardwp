@@ -81,14 +81,16 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 
 
 			$forms_deps = [ 'jb-front-global' ];
+			$jobs_deps = [ 'jb-front-global' ];
 			$key = JB()->options()->get( 'googlemaps-api-key' );
 			if ( ! empty( $key ) ) {
 				$forms_deps[] = 'jb-location-field';
+				$jobs_deps[] = 'jb-location-field';
 			}
 
 			wp_register_script( 'jb-front-forms', $this->js_url['frontend'] . 'forms' . JB()->scrips_prefix . '.js', $forms_deps, jb_version, true );
 
-			wp_register_script( 'jb-jobs', $this->js_url['frontend'] . 'jobs' . JB()->scrips_prefix . '.js', [ 'jb-front-global' ], jb_version, true );
+			wp_register_script( 'jb-jobs', $this->js_url['frontend'] . 'jobs' . JB()->scrips_prefix . '.js', $jobs_deps, jb_version, true );
 			wp_register_script( 'jb-post-job', $this->js_url['frontend'] . 'post-job' . JB()->scrips_prefix . '.js', [ 'jb-front-forms', 'plupload' ], jb_version, true );
 			wp_register_script( 'jb-single-job', $this->js_url['frontend'] . 'single-job' . JB()->scrips_prefix . '.js', [ 'jb-front-global' ], jb_version, true );
 			wp_register_script( 'jb-preview-job', $this->js_url['frontend'] . 'preview-job' . JB()->scrips_prefix . '.js', [ 'jb-front-global' ], jb_version, true );

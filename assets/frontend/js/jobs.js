@@ -171,6 +171,8 @@ wp.JB.jobs_list = {
 			wp.JB.jobs_list.first_load = false;
 		}
 
+		request = wp.hooks.applyFilters( 'jb_jobs_request', request );
+
 		wp.JB.jobs_list.preloader.show();
 
 		wp.ajax.send( 'jb-get-jobs', {

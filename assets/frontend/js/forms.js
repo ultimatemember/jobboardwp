@@ -37,12 +37,12 @@ jQuery( document ).ready( function($) {
 	$( 'input.jb-forms-condition-option:checked' ).trigger('click');
 
 	$( document.body ).on( 'click', '.jb-change-media', function() {
-        $(this).parents('.jb-uploaded-wrapper').removeClass('jb-uploaded').addClass('jb-waiting-change');
+		$(this).parents('.jb-uploaded-wrapper').removeClass('jb-uploaded').addClass('jb-waiting-change');
 		$(this).parents('.jb-uploaded-wrapper').siblings('.jb-uploader').removeClass('jb-uploaded');
 	});
 
 	$( document.body ).on( 'click', '.jb-cancel-change-media', function() {
-        $(this).parents('.jb-uploaded-wrapper').addClass('jb-uploaded').removeClass('jb-waiting-change');
+		$(this).parents('.jb-uploaded-wrapper').addClass('jb-uploaded').removeClass('jb-waiting-change');
 		$(this).parents('.jb-uploaded-wrapper').siblings('.jb-uploader').addClass('jb-uploaded');
 	});
 
@@ -126,6 +126,7 @@ jQuery( document ).ready( function($) {
 						}
 
 					} else {
+						// translators: %s is the error status code.
 						console.error( wp.i18n.__( 'File was not loaded, Status Code %s', 'jobboardwp' ), [ result.status ] );
 					}
 				},

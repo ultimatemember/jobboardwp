@@ -52,7 +52,7 @@ function JBLocationAutocomplete() {
 		JBLocationSelectOnEnter( jQuery(this).get(0) );
 
 		var autocomplete = new google.maps.places.Autocomplete( jQuery(this).get(0), {
-			types: ['(cities)']
+			types: ['(regions)']
 		});
 
 		autocomplete.addListener( 'place_changed', function(e) {

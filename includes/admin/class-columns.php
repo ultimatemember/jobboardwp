@@ -112,6 +112,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		function my_bulk_action_admin_notice() {
 			if ( ! empty( $_REQUEST['jb-approved'] ) ) {
 				$approved_count = intval( $_REQUEST['jb-approved'] );
+				// translators: %s is the count of approved jobs.
 				printf( '<div class="jb-admin-notice notice updated fade">' .
 						_n( '<p>%s job is approved.</p>',
 							'<p>%s jobs are approved.</p>',
@@ -197,6 +198,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				unset( $actions['inline hide-if-no-js'] );
 
 				if ( $post->post_status == 'pending' ) {
+					// translators: %s is a job title.
 					$actions['jb-approve'] = '<a href="' . esc_attr( add_query_arg( ['jb_adm_action' => 'approve_job', 'job-id' => $post->ID, 'nonce' => wp_create_nonce( 'jb-approve-job' . $post->ID ) ], admin_url() ) ) . '" aria-label="' . esc_attr( sprintf( __( 'Approve %s',  'jobboardwp' ), $post->post_title ) ) . '">' . __( 'Approve',  'jobboardwp' ) . '</a>';
 				}
 
@@ -217,6 +219,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 			if ( $post->post_type == 'page' ) {
 				foreach ( JB()->config()->get( 'core_pages' ) as $page_key => $page_value ) {
 					if ( JB()->options()->get( $page_key . '_page' ) == $post->ID ) {
+						// translators: %s is a pre-defined page title.
 						$post_states[ 'jb_page_' . $page_key ] = sprintf( __( 'JB %s', 'jobboardwp' ), $page_value['title'] );
 					}
 				}
@@ -274,6 +277,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 					switch ( $type_raw ) {
 						case '0': {
 							$location = JB()->common()->job()->get_location_link( JB()->common()->job()->get_location( $id ) );
+							// translators: %s is a location type and %s is a location.
 							printf( __( '%s (%s)', 'jobboardwp' ), $type, $location );
 
 							break;
@@ -337,6 +341,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 					$author = JB()->common()->job()->get_job_author( $id );
 
 					$post = get_post( $id );
+					// translators: %s is a posted job date. %s is an author URL and %s is Author display name
 					printf( __( '%s <br />by <a href="%s" title="Filter by author">%s</a>', 'jobboardwp' ), $posted, esc_url( add_query_arg( 'author', $post->post_author ) ), $author );
 					break;
 				case 'expires':
