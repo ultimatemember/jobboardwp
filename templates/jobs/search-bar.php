@@ -21,12 +21,31 @@
 				}
 
 				if ( ! $jb_jobs_search_bar['hide-location-search'] ) {
-					$search_from_url2 = ! empty( $_GET['jb-location-search'] ) ? stripslashes( $_GET['jb-location-search'] ) : ''; ?>
+					$search_from_url2 = ! empty( $_GET['jb-location-search'] ) ? stripslashes( $_GET['jb-location-search'] ) : '';
+
+					$classes = ['jb-search-location'];
+					$key = JB()->options()->get( 'googlemaps-api-key' );
+					if ( ! empty( $key ) ) {
+						$classes[] = 'jb-location-autocomplete';
+					} ?>
 
 					<label>
 						<span><?php _e( 'Find Jobs:', 'jobboardwp' ); ?></span>
-						<input type="search" class="jb-search-location jb-location-autocomplete" placeholder="<?php esc_attr_e( 'City, State or Country', 'jobboardwp' ) ?>" value="<?php echo esc_attr( $search_from_url2 ) ?>" aria-label="<?php esc_attr_e( 'Find Jobs by location', 'jobboardwp' ) ?>" speech />
-						<input type="hidden" class="jb-location-autocomplete-data" value="" />
+						<input type="search" class="<?php echo esc_attr( implode( ' ', $classes ) ) ?>" placeholder="<?php esc_attr_e( 'City, State or Country', 'jobboardwp' ) ?>" value="<?php echo esc_attr( $search_from_url2 ) ?>" aria-label="<?php esc_attr_e( 'Find Jobs by location', 'jobboardwp' ) ?>" speech />
+						<?php if ( ! empty( $key ) ) {
+
+							$search_location_city = ! empty( $_GET['jb-location-search-city'] ) ? stripslashes( $_GET['jb-location-search-city'] ) : '';
+							$search_location_state_short = ! empty( $_GET['jb-location-search-state-short'] ) ? stripslashes( $_GET['jb-location-search-state-short'] ) : '';
+							$search_location_state_long = ! empty( $_GET['jb-location-search-state-long'] ) ? stripslashes( $_GET['jb-location-search-state-long'] ) : '';
+							$search_location_country_short = ! empty( $_GET['jb-location-search-country-short'] ) ? stripslashes( $_GET['jb-location-search-country-short'] ) : '';
+							$search_location_country_long = ! empty( $_GET['jb-location-search-country-long'] ) ? stripslashes( $_GET['jb-location-search-country-long'] ) : ''; ?>
+
+							<input type="hidden" class="jb-location-autocomplete-data jb-location-city" value="<?php echo esc_attr( $search_location_city ) ?>" />
+							<input type="hidden" class="jb-location-autocomplete-data jb-location-state-short" value="<?php echo esc_attr( $search_location_state_short ) ?>" />
+							<input type="hidden" class="jb-location-autocomplete-data jb-location-state-long" value="<?php echo esc_attr( $search_location_state_long ) ?>" />
+							<input type="hidden" class="jb-location-autocomplete-data jb-location-country-short" value="<?php echo esc_attr( $search_location_country_short ) ?>" />
+							<input type="hidden" class="jb-location-autocomplete-data jb-location-country-long" value="<?php echo esc_attr( $search_location_country_long ) ?>" />
+						<?php } ?>
 					</label>
 				<?php } ?>
 

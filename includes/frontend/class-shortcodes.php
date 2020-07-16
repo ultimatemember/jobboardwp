@@ -117,7 +117,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					ob_start(); ?>
 
 					<p>
-						<?php printf( __( 'Have an account? You could <a href="%s">sign in</a>.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
+						<?php printf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
 					</p>
 
 					<?php return ob_get_clean();
@@ -273,7 +273,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					ob_start(); ?>
 
 					<p>
-						<?php printf( __( 'Have an account? You could <a href="%s">sign in</a>.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
+						<?php printf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
 					</p>
 
 					<?php $html .= ob_get_clean();

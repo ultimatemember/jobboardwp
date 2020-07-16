@@ -275,72 +275,57 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			}
 
 			$key = JB()->options()->get( 'googlemaps-api-key' );
-			if ( ! empty( $_POST['location_data'] ) && ! empty( $key ) ) {
+			if ( ! empty( $key ) ) {
 
-				$location_data = json_decode( stripslashes( $_POST['location_data'] ) );
+				$address_query = [];
+				if ( ! empty( $_POST['location-city'] ) ) {
+					$address_query[] = [
+						'key'       => 'jb-location-city',
+						'value'     => sanitize_text_field( $_POST['location-city'] ),
+						'compare'   => '=',
+					];
+				}
 
-				if ( ! empty( $location_data->address_components ) ) {
-					$address_data = $location_data->address_components;
+				if ( ! empty( $_POST['location-state-short'] ) && ! empty( $_POST['location-state-long'] ) ) {
+					$address_query[] = [
+						'relation' => 'OR',
+						[
+							'key'       => 'jb-location-state-short',
+							'value'     => sanitize_text_field( $_POST['location-state-short'] ),
+							'compare'   => '=',
+						],
+						[
+							'key'       => 'jb-location-state-long',
+							'value'     => sanitize_text_field( $_POST['location-state-long'] ),
+							'compare'   => '=',
+						]
+					];
+				}
 
-					$address_query = [];
-					foreach ( $address_data as $data ) {
-						switch ( $data->types[0] ) {
-							case 'sublocality_level_1':
-							case 'locality':
-							case 'postal_town':
-								$address_query[] = [
-									'key'       => 'jb-location-city',
-									'value'     => sanitize_text_field( $data->long_name ),
-									'compare'   => '=',
-								];
-								break;
-							case 'administrative_area_level_1':
-							case 'administrative_area_level_2':
+				if ( ! empty( $_POST['location-country-short'] ) && ! empty( $_POST['location-country-long'] ) ) {
+					$address_query[] = [
+						'relation' => 'OR',
+						[
+							'key'       => 'jb-location-country-short',
+							'value'     => sanitize_text_field( $_POST['location-country-short'] ),
+							'compare'   => '=',
+						],
+						[
+							'key'       => 'jb-location-country-long',
+							'value'     => sanitize_text_field( $_POST['location-country-long'] ),
+							'compare'   => '=',
+						]
+					];
+				}
 
-								$address_query[] = [
-									'relation' => 'OR',
-									[
-										'key'       => 'jb-location-state-short',
-										'value'     => sanitize_text_field( $data->short_name ),
-										'compare'   => '=',
-									],
-									[
-										'key'       => 'jb-location-state-long',
-										'value'     => sanitize_text_field( $data->long_name ),
-										'compare'   => '=',
-									]
-								];
+				if ( ! empty( $address_query ) ) {
+					$address_query['relation'] = 'AND';
 
-								break;
-							case 'country':
-
-								$address_query[] = [
-									'relation' => 'OR',
-									[
-										'key'       => 'jb-location-country-short',
-										'value'     => sanitize_text_field( $data->short_name ),
-										'compare'   => '=',
-									],
-									[
-										'key'       => 'jb-location-country-long',
-										'value'     => sanitize_text_field( $data->long_name ),
-										'compare'   => '=',
-									]
-								];
-
-								break;
-						}
+					if ( ! isset( $query_args['meta_query'] ) ) {
+						$query_args['meta_query'] = [];
 					}
 
-					if ( ! empty( $address_query ) ) {
-						$address_query['relation'] = 'AND';
-
-						if ( ! isset( $query_args['meta_query'] ) ) {
-							$query_args['meta_query'] = [];
-						}
-
-						$query_args['meta_query'] = array_merge( $query_args['meta_query'], [ $address_query ] );
-					}
+					$query_args['meta_query'] = array_merge( $query_args['meta_query'], [ $address_query ] );
 				}
 			}
 

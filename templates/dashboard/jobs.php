@@ -3,11 +3,9 @@
 
 if ( ! is_user_logged_in() ) { ?>
 
-	<div id="jb-job-dashboard" class="jb">
-		<p>
-			<?php printf( __( 'Have an account? You could <a href="%s">sign in</a>.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
-		</p>
-	</div>
+	<p>
+		<?php printf( __( '<a href="%s">Sign in</a> to view your job listings.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
+	</p>
 
 <?php } else {
 

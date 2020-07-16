@@ -1,14 +1,3 @@
-// extends AJAX request arguments
-wp.hooks.addFilter( 'jb_jobs_request', 'jb_autocomplete_location', function( request ) {
-	if ( wp.JB.jobs_list.objects.wrapper.find('.jb-location-autocomplete-data').length ) {
-		request['location_data'] = wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data' ).val();
-		request['location'] = '';
-	}
-
-	return request;
-}, 10 );
-
-
 function JBLocationSelectOnEnter( input ) {
 	// store the original event binding function
 	var _addEventListener = ( input.addEventListener ) ? input.addEventListener : input.attachEvent;
@@ -77,15 +66,33 @@ function JBLocationAutocomplete() {
 			}
 
 			if ( typeof $selected_autocomplete !== 'undefined' ) {
-				$selected_autocomplete.siblings('.jb-location-autocomplete-data').val( JSON.stringify( place ) );
+				$selected_autocomplete.siblings('.jb-location-autocomplete-data').val( '' );
+				if ( typeof place.address_components !== 'undefined' ) {
+					jQuery.each( place.address_components, function( i ) {
+						if ( typeof place.address_components[ i ].types !== 'undefined' ) {
+
+							switch ( place.address_components[ i ].types[0] ) {
+								case 'sublocality_level_1':
+								case 'locality':
+								case 'postal_town':
+									$selected_autocomplete.siblings('.jb-location-autocomplete-data.jb-location-city').val( place.address_components[ i ].long_name );
+									break;
+								case 'administrative_area_level_1':
+								case 'administrative_area_level_2':
+									$selected_autocomplete.siblings('.jb-location-autocomplete-data.jb-location-state-short').val( place.address_components[ i ].short_name );
+									$selected_autocomplete.siblings('.jb-location-autocomplete-data.jb-location-state-long').val( place.address_components[ i ].long_name );
+									break;
+								case 'country':
+									$selected_autocomplete.siblings('.jb-location-autocomplete-data.jb-location-country-short').val( place.address_components[ i ].short_name );
+									$selected_autocomplete.siblings('.jb-location-autocomplete-data.jb-location-country-long').val( place.address_components[ i ].long_name );
+									break;
+							}
+						}
+					});
+				}
+
 			}
 		});
-
-		if ( jQuery(this).val() !== '' ) {
-			$selected_autocomplete = jQuery(this);
-
-            google.maps.event.trigger( autocomplete, 'place_changed' );
-		}
 
 	}).on('click', function() {
 		$selected_autocomplete = jQuery(this);
@@ -98,3 +105,41 @@ if ( jb_location_var.region ) {
 	jb_location_script.src += '&language=' + jb_location_var.region;
 }
 document.body.appendChild( jb_location_script );
+
+
+// extends AJAX request arguments
+wp.hooks.addFilter( 'jb_jobs_request', 'jb_autocomplete_location', function( request ) {
+	if ( wp.JB.jobs_list.objects.wrapper.find('.jb-location-autocomplete-data').length ) {
+		request['location-city'] = wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-city' ).val();
+		request['location-state-short'] = wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-state-short' ).val();
+		request['location-state-long'] = wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-state-long' ).val();
+		request['location-country-short'] = wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-country-short' ).val();
+		request['location-country-long'] = wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-country-long' ).val();
+		request['location'] = '';
+	}
+
+	return request;
+}, 10 );
+
+// add location data to URL on search click
+wp.hooks.addAction( 'jb_jobs_list_do_search', 'jb_autocomplete_location', function() {
+	if ( wp.JB.jobs_list.objects.wrapper.find('.jb-location-autocomplete-data.jb-location-city').length ) {
+		wp.JB.jobs_list.url.set( 'jb-location-search-city', wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-city' ).val() );
+	}
+
+	if ( wp.JB.jobs_list.objects.wrapper.find('.jb-location-autocomplete-data.jb-location-state-short').length ) {
+		wp.JB.jobs_list.url.set( 'jb-location-search-state-short', wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-state-short' ).val() );
+	}
+
+	if ( wp.JB.jobs_list.objects.wrapper.find('.jb-location-autocomplete-data.jb-location-state-long').length ) {
+		wp.JB.jobs_list.url.set( 'jb-location-search-state-long', wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-state-long' ).val() );
+	}
+
+	if ( wp.JB.jobs_list.objects.wrapper.find('.jb-location-autocomplete-data.jb-location-country-short').length ) {
+		wp.JB.jobs_list.url.set( 'jb-location-search-country-short', wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-country-short' ).val() );
+	}
+
+	if ( wp.JB.jobs_list.objects.wrapper.find('.jb-location-autocomplete-data.jb-location-country-long').length ) {
+		wp.JB.jobs_list.url.set( 'jb-location-search-country-long', wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-country-long' ).val() );
+	}
+}, 10 );

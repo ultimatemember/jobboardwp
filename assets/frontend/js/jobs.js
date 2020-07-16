@@ -251,6 +251,8 @@ jQuery( document ).ready( function($) {
 		var location = wp.JB.jobs_list.url.get_location();
 		wp.JB.jobs_list.url.set( 'jb-location-search', location );
 
+        wp.hooks.doAction( 'jb_jobs_list_do_search' );
+
 		$(this).addClass('disabled');
 
 		wp.JB.jobs_list.ajax();
@@ -280,6 +282,8 @@ jQuery( document ).ready( function($) {
 
 			var location = wp.JB.jobs_list.url.get_location();
 			wp.JB.jobs_list.url.set( 'jb-location-search', location );
+
+            wp.hooks.doAction( 'jb_jobs_list_do_search' );
 
 			button.addClass('disabled');
 
