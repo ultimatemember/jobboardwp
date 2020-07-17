@@ -647,7 +647,11 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							}
 
 							if ( ! empty( $is_edited ) ) {
-								$status = JB()->options()->get( 'published-job-editing' ) == '2' ? 'pending' : 'publish';
+								if ( JB()->options()->get( 'published-job-editing' ) == '2' && JB()->options()->get( 'job-moderation' ) ) {
+									$status = 'publish';
+								} else {
+									$status = 'pending';
+								}
 							} else {
 								$status = JB()->options()->get( 'job-moderation' ) ? 'pending' : 'publish';
 							}
