@@ -551,8 +551,6 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								} else {
 									$job_data['ID'] = $job_id;
 									wp_update_post( $job_data );
-
-									update_post_meta( $job_id, 'jb-last-edit-date', time() );
 								}
 							} else {
 								$job_id = wp_insert_post( $job_data );
@@ -641,7 +639,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 						if ( $_POST['jb-job-submission-step'] == 'publish' ) {
 
 							$is_edited = get_post_meta( $job_id, 'jb-last-edit-date', true );
-
+							update_post_meta( $job_id, 'jb-last-edit-date', time() );
 							if ( ! empty( $is_edited ) && JB()->options()->get( 'published-job-editing' ) == '0' ) {
 								$preview_form->add_error( 'global', __( 'Security action, Please try again.', 'jobboardwp' ) );
 							}
@@ -698,7 +696,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								exit( wp_redirect( $url ) );
 							}
 						} elseif ( $_POST['jb-job-submission-step'] == 'draft' ) {
-
+							delete_post_meta( $job_id, 'jb-last-edit-date', time() );
 							if ( ! $preview_form->has_errors() ) {
 								wp_update_post( [
 									'ID'            => $job_id,
