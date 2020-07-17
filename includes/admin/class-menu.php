@@ -17,6 +17,8 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 
 		/**
 		 * @var string Main Menu slug
+		 *
+		 * @since 1.0
 		 */
 		var $slug = 'jobboardwp';
 
@@ -37,6 +39,8 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 
 		/**
 		 * Change label for admin menu item to show number of Job Listing items pending approval.
+		 *
+		 * @since 1.0
 		 */
 		public function add_pending_count() {
 			global $menu;
@@ -70,6 +74,8 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 
 		/**
 		 * Add admin menus
+		 *
+		 * @since 1.0
 		 */
 		function menu() {
 			add_menu_page( __( 'Job Board', 'jobboardwp' ), __( 'Job Board', 'jobboardwp' ), 'manage_options', $this->slug, '', 'dashicons-businessman', 40 );
@@ -90,9 +96,11 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 
 		/**
 		 * Hide first submenu and replace to Jobs
-		 * @param $submenu_file
+		 * @param string $submenu_file
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function remove_dashboard( $submenu_file ) {
 			global $plugin_page;
@@ -118,6 +126,8 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 
 		/**
 		 * Made selected Job Board menu on Add/Edit CPT and Term Taxonomies
+		 *
+		 * @since 1.0
 		 */
 		function selected_menu( $classes ) {
 			global $submenu, $pagenow;
@@ -142,6 +152,8 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 		 * Return admin submenu variable for display pages
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function change_parent_file() {
 			global $pagenow;
@@ -161,6 +173,8 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 		 * @param string $parent_file
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function change_submenu_file( $submenu_file, $parent_file ) {
 			global $pagenow;
@@ -184,6 +198,8 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 
 		/**
 		 * Handle redirect if wrong settings tab is open
+		 *
+		 * @since 1.0
 		 */
 		function wrong_settings() {
 			global $pagenow;
@@ -198,6 +214,16 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 				if ( ! $custom_section && empty( $settings_struct ) ) {
 					wp_redirect( add_query_arg( [ 'page' => 'jb-settings' ], admin_url( 'admin.php' ) ) );
 					exit;
+				} else {
+					//remove extra query arg for Email list table
+					$email_key = empty( $_GET['email'] ) ? '' : urldecode( $_GET['email'] );
+					$email_notifications = JB()->config()->get( 'email_notifications' );
+
+					if ( empty( $email_key ) || empty( $email_notifications[ $email_key ] ) ) {
+						if ( ! empty( $_GET['_wp_http_referer'] ) ) {
+							wp_redirect( remove_query_arg( [ '_wp_http_referer', '_wpnonce' ], wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
+						}
+					}
 				}
 			}
 		}
@@ -205,6 +231,8 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 
 		/**
 		 * Settings page callback
+		 *
+		 * @since 1.0
 		 */
 		function settings() {
 			include_once JB()->admin()->templates_path . 'settings' . DIRECTORY_SEPARATOR . 'settings.php';

@@ -17,6 +17,8 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 
 		/**
 		 * @var string
+		 *
+		 * @since 1.0
 		 */
 		var $templates_path = '';
 
@@ -30,7 +32,9 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 
 
 		/**
+		 * Init admin variables
 		 *
+		 * @since 1.0
 		 */
 		function init_variables() {
 			$this->templates_path = jb_path . 'includes' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
@@ -39,6 +43,8 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 
 		/**
 		 * All admin includes in one function
+		 *
+		 * @since 1.0
 		 */
 		function includes() {
 			$this->menu();
@@ -159,9 +165,11 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 
 
 		/**
-		 * Check if ForumWP screen is loaded
+		 * Check if JobBoard screen is loaded
 		 *
 		 * @return bool
+		 *
+		 * @since 1.0
 		 */
 		function is_own_screen() {
 			global $current_screen;
@@ -180,9 +188,11 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 
 
 		/**
-		 * Check if current page load ForumWP CPT
+		 * Check if current page load JobBoard CPT
 		 *
 		 * @return bool
+		 *
+		 * @since 1.0
 		 */
 		function is_own_post_type() {
 			$cpt = array_keys( JB()->common()->cpt()->get() );

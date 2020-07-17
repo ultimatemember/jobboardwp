@@ -144,7 +144,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 
 		/**
-		 * Save forum metabox
+		 * Save job metabox
 		 *
 		 * @param $post_id
 		 * @param $post

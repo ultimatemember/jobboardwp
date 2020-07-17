@@ -16,7 +16,9 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
-		 * @var bool
+		 * @var bool|array Inited form data
+		 *
+		 * @since 1.0
 		 */
 		var $form_data;
 
@@ -35,7 +37,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 		/**
 		 * Set Form Data
 		 *
-		 * @param $data
+		 * @param bool|array $data
 		 *
 		 * @return $this
 		 */
@@ -48,9 +50,10 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 		/**
 		 * Render form
 		 *
-		 *
 		 * @param bool $echo
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function display( $echo = true ) {
 
@@ -98,9 +101,13 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
+		 * Render form field's row
+		 *
 		 * @param array $data
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_form_row( $data ) {
 
@@ -257,9 +264,13 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
+		 * Render field by a hook
+		 *
 		 * @param array $data
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_field_by_hook( $data ) {
 			return apply_filters( 'jb_render_field_type_' . $data['type'], '', $data, $this->form_data, $this );
@@ -267,9 +278,13 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
-		 * @param $data
+		 * Render field label
 		 *
-		 * @return bool|string
+		 * @param array $data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_field_label( $data ) {
 			if ( empty( $data['label'] ) ) {
@@ -291,9 +306,13 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
-		 * @param $field_data
+		 * Render hidden field
 		 *
-		 * @return bool|string
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_hidden( $field_data ) {
 
@@ -332,14 +351,15 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 		/**
 		 * Render text field
 		 *
-		 * @param $field_data
+		 * @param array $field_data
 		 *
-		 * @return bool|string
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_text( $field_data ) {
-
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
@@ -375,16 +395,17 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
-		 * Render text field
+		 * Render location autocomplete text
 		 *
-		 * @param $field_data
+		 * @param array $field_data
 		 *
-		 * @return bool|string
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_location_autocomplete( $field_data ) {
-
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $field_data['id'];
@@ -433,14 +454,15 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 		/**
 		 * Render number field
 		 *
-		 * @param $field_data
+		 * @param array $field_data
 		 *
-		 * @return bool|string
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_number( $field_data ) {
-
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
@@ -475,14 +497,17 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
-		 * @param $field_data
+		 * Render color-picker field
 		 *
-		 * @return bool|string
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_color( $field_data ) {
-
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
@@ -518,14 +543,18 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
-		 * @param $field_data
+		 * Render textarea field
 		 *
-		 * @return bool|string
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_textarea( $field_data ) {
 
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
@@ -559,14 +588,17 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
-		 * @param $field_data
+		 * Render checkbox
 		 *
-		 * @return bool|string
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_checkbox( $field_data ) {
-
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
@@ -601,14 +633,17 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
-		 * @param $field_data
+		 * Render select
 		 *
-		 * @return bool|string
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_select( $field_data ) {
-
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			$multiple = ! empty( $field_data['multi'] ) ? 'multiple' : '';
@@ -664,63 +699,17 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
-		 * @param $field_data
+		 * Render datepicker field
 		 *
-		 * @return bool|string
-		 */
-		function render_multi_checkbox( $field_data ) {
-
-			if ( empty( $field_data['id'] ) )
-				return false;
-
-			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
-
-			$class = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
-			$class .= ! empty( $field_data['size'] ) ? $field_data['size'] : 'jb-long-field';
-			$class_attr = ' class="jb-forms-field ' . $class . '" ';
-
-			$name = $field_data['id'];
-			$name = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
-
-			$values = $this->get_field_value( $field_data );
-
-			$i = 0;
-			$html = "<input type=\"hidden\" name=\"$name\" value=\"\" />";
-
-			$columns = ( ! empty( $field_data['columns'] ) && is_numeric( $field_data['columns'] ) ) ? $field_data['columns'] : 1;
-			while ( $i < $columns ) {
-				$per_page = ceil( count( $field_data['options'] ) / $columns );
-				$section_fields_per_page = array_slice( $field_data['options'], $i*$per_page, $per_page );
-				$html .= '<span class="jb-form-fields-section" style="width:' . floor( 100 / $columns ) . '% !important;">';
-
-				foreach ( $section_fields_per_page as $k => $title ) {
-					$id_attr = ' id="' . $id . '_' . $k . '" ';
-					$for_attr = ' for="' . $id . '_' . $k . '" ';
-					$name_attr = ' name="' . $name . '[' . $k . ']" ';
-
-					$html .= "<label $for_attr>
-						<input type=\"checkbox\" " . checked( in_array( $k, $values ), true, false ) . "$id_attr $name_attr value=\"1\" $class_attr>
-						<span>$title</span>
-					</label>";
-				}
-
-				$html .= '</span>';
-				$i++;
-			}
-
-			return $html;
-		}
-
-
-		/**
-		 * @param $field_data
+		 * @param array $field_data
 		 *
-		 * @return bool|string
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_datepicker( $field_data ) {
-
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
@@ -756,14 +745,17 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
-		 * @param $field_data
+		 * Render media uploader
 		 *
-		 * @return bool|string
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_media( $field_data ) {
-
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
@@ -776,8 +768,9 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				'field_id' => $field_data['id'] . '_url',
 			];
 
-			if ( ! empty( $field_data['default']['url'] ) )
+			if ( ! empty( $field_data['default']['url'] ) ) {
 				$data['default'] = esc_attr( $field_data['default']['url'] );
+			}
 
 			$data_attr = '';
 			foreach ( $data as $key => $value ) {
@@ -798,11 +791,11 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$image_url = ! empty( $value['url'] ) ? $value['url'] : '';
 
 			$html = "<div class=\"jb-media-upload\">" .
-			        "<input type=\"hidden\" class=\"jb-media-upload-data-id\" name=\"{$name}[id]\" id=\"{$id}_id\" value=\"$image_id\">" .
-			        "<input type=\"hidden\" class=\"jb-media-upload-data-width\" name=\"{$name}[width]\" id=\"{$id}_width\" value=\"$image_width\">" .
-			        "<input type=\"hidden\" class=\"jb-media-upload-data-height\" name=\"{$name}[height]\" id=\"{$id}_height\" value=\"$image_height\">" .
-			        "<input type=\"hidden\" class=\"jb-media-upload-data-thumbnail\" name=\"{$name}[thumbnail]\" id=\"{$id}_thumbnail\" value=\"$image_thumbnail\">" .
-			        "<input type=\"hidden\" $class_attr name=\"{$name}[url]\" id=\"{$id}_url\" value=\"$image_url\" $data_attr>";
+					"<input type=\"hidden\" class=\"jb-media-upload-data-id\" name=\"{$name}[id]\" id=\"{$id}_id\" value=\"$image_id\">" .
+					"<input type=\"hidden\" class=\"jb-media-upload-data-width\" name=\"{$name}[width]\" id=\"{$id}_width\" value=\"$image_width\">" .
+					"<input type=\"hidden\" class=\"jb-media-upload-data-height\" name=\"{$name}[height]\" id=\"{$id}_height\" value=\"$image_height\">" .
+					"<input type=\"hidden\" class=\"jb-media-upload-data-thumbnail\" name=\"{$name}[thumbnail]\" id=\"{$id}_thumbnail\" value=\"$image_thumbnail\">" .
+					"<input type=\"hidden\" $class_attr name=\"{$name}[url]\" id=\"{$id}_url\" value=\"$image_url\" $data_attr>";
 
 			if ( ! isset( $field_data['preview'] ) || $field_data['preview'] !== false ) {
 				$html .= '<img src="' . $image_url . '" alt="" class="icon_preview"><div style="clear:both;"></div>';
@@ -820,13 +813,17 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
-		 * @param $field_data
+		 * Render email template field
 		 *
-		 * @return bool|string
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_email_template( $field_data ) {
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
@@ -871,31 +868,13 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 
 		/**
-		 * @param $field_data
-		 *
-		 * @return mixed
-		 */
-		function render_info_text( $field_data ) {
-			return $field_data['value'];
-		}
-
-
-		/**
-		 * @param $field_data
-		 *
-		 * @return mixed
-		 */
-		function render_separator( $field_data ) {
-			return $field_data['value'] . '<hr />';
-		}
-
-
-		/**
 		 * Get field value
 		 *
 		 * @param array $field_data
 		 * @param string $i
 		 * @return string|array
+		 *
+		 * @since 1.0
 		 */
 		function get_field_value( $field_data, $i = '' ) {
 			$default = ( $field_data['type'] == 'multi_checkbox' ) ? [] : '';
@@ -916,51 +895,6 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			}
 
 			return $value;
-		}
-
-
-		/**
-		 * Help Tip displaying
-		 *
-		 * Function for render/displaying JobBoard help tip
-		 *
-		 * @since  2.0.0
-		 *
-		 * @param string $tip Help tip text
-		 * @param bool $allow_html Allow sanitized HTML if true or escape
-		 * @param bool $echo Return HTML or echo
-		 * @return string
-		 */
-		function tooltip( $tip, $allow_html = false, $echo = true ) {
-
-			if ( $allow_html ) {
-				$tip = htmlspecialchars( wp_kses( html_entity_decode( $tip ), [
-					'br'     => [],
-					'em'     => [],
-					'strong' => [],
-					'small'  => [],
-					'span'   => [],
-					'ul'     => [],
-					'li'     => [],
-					'ol'     => [],
-					'p'      => [],
-				] ) );
-
-			} else {
-				$tip = esc_attr( $tip );
-			}
-
-			ob_start(); ?>
-
-			<span class="jb-tooltip dashicons dashicons-editor-help" title="<?php echo $tip ?>"></span>
-
-			<?php if ( $echo ) {
-				ob_get_flush();
-				return '';
-			} else {
-				return ob_get_clean();
-			}
-
 		}
 	}
 }

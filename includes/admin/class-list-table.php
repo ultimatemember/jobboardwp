@@ -15,11 +15,24 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 	 */
 	class List_Table extends \WP_Posts_List_Table {
 
+
+		/**
+		 * List_Table constructor.
+		 *
+		 * @param array $args
+		 */
 		function __construct( $args = [] ) {
 			parent::__construct( $args );
-        }
+		}
 
 
+		/**
+		 * Change the title column content at wp-admin Jobs page
+		 *
+		 * @param \WP_Post $post
+		 *
+		 * @since 1.0
+		 */
 		function column_title( $post ) {
 
 			$can_edit_post = current_user_can( 'edit_post', $post->ID ); ?>

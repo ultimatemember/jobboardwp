@@ -66,13 +66,9 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 
 			wp_register_script( 'jb-helptip', $this->js_url['common'] . 'helptip' . JB()->scrips_prefix . '.js', [ 'jquery', 'jquery-ui-tooltip' ], jb_version, true );
 
-			wp_register_script( 'jb-tooltip', $this->js_url['frontend'] . 'tooltip' . JB()->scrips_prefix . '.js', [ 'jquery' ], jb_version, true );
-
 			wp_register_script( 'jb-dropdown', $this->js_url['frontend'] . 'dropdown' . JB()->scrips_prefix . '.js', [ 'jquery' ], jb_version, true );
 
-			wp_register_script( 'jb-notice', $this->js_url['frontend'] . 'notice' . JB()->scrips_prefix . '.js', [ 'jquery' ], jb_version, true );
-
-			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', [ 'jquery', 'wp-util', 'wp-i18n', 'wp-hooks', 'select2', 'jb-tipsy', 'jb-notice', 'jb-dropdown', 'jb-tooltip', 'jb-helptip' ], jb_version, true );
+			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', [ 'jquery', 'wp-util', 'wp-i18n', 'wp-hooks', 'select2', 'jb-tipsy', 'jb-dropdown', 'jb-helptip' ], jb_version, true );
 
 			$localize_data = apply_filters( 'jb_enqueue_localize', [
 				'nonce' => wp_create_nonce( 'jb-frontend-nonce' )

@@ -113,7 +113,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 
 		/**
-		 * Check if the Forum or Topic has custom template, or load by default page template
+		 * Check if the Job has custom template, or load by default page template
 		 *
 		 * @param string $single_template
 		 *
@@ -170,7 +170,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 
 		/**
-		 * If it's forum or topic individual page loading by default Page template from theme
+		 * If it's job individual page loading by default Page template from theme
 		 *
 		 * @param string $template
 		 *
@@ -243,7 +243,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 
 		/**
-		 * Set default content of the forum and topic page
+		 * Set default content of the job page
 		 *
 		 * @param $content
 		 *

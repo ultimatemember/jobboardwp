@@ -135,7 +135,12 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						return __( 'Security check wrong', 'jobboardwp' );
 					}
 
-					if ( ! in_array( $job->post_status, [ 'draft', 'publish', 'jb-preview', 'jb-expired' ] ) ) {
+					$statuses = [ 'draft', 'publish', 'jb-preview', 'jb-expired' ];
+					if ( JB()->options()->get( 'pending-job-editing' ) ) {
+						$statuses[] = 'pending';
+					}
+
+					if ( ! in_array( $job->post_status, $statuses ) ) {
 						return __( 'Wrong job', 'jobboardwp' );
 					}
 

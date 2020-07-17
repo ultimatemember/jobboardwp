@@ -45,7 +45,9 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 
 
 		/**
+		 * Check if plugin is network activated make the first installation on all blogs
 		 *
+		 * @since 1.0
 		 */
 		function maybe_network_activation() {
 			$maybe_activation = get_network_option( get_current_network_id(), 'jb_maybe_network_wide_activation' );
@@ -72,6 +74,8 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 
 		/**
 		 * Single site plugin activation handler
+		 *
+		 * @since 1.0
 		 */
 		function single_site_activation() {
 			$version = JB()->options()->get( 'version' );
@@ -104,6 +108,8 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 		 * Set default JB settings
 		 *
 		 * @param array $defaults
+		 *
+		 * @since 1.0
 		 */
 		function set_defaults( $defaults ) {
 			if ( ! empty( $defaults ) ) {
@@ -116,6 +122,8 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 
 		/**
 		 * Parse user capabilities and set the proper capabilities for roles
+		 *
+		 * @since 1.0
 		 */
 		function create_roles() {
 			global $wp_roles;
@@ -155,7 +163,9 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 
 
 		/**
+		 * Create pre-defined Job Types
 		 *
+		 * @since 1.0
 		 */
 		function create_job_types() {
 			// create post types here because on install there aren't registered CPT and terms
@@ -216,6 +226,8 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 
 		/**
 		 * Install Core Pages
+		 *
+		 * @since 1.0
 		 */
 		function core_pages() {
 			foreach ( JB()->config()->get( 'core_pages' ) as $slug => $array ) {

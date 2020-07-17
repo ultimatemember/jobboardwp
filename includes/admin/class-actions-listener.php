@@ -24,7 +24,9 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 
 
 		/**
+		 * Handle wp-admin actions
 		 *
+		 * @since 1.0
 		 */
 		function actions_listener() {
 			if ( ! current_user_can( 'manage_options' ) ) {
@@ -55,7 +57,10 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 
 							if ( ! empty( $job ) && ! is_wp_error( $job ) ) {
 								if ( $job->post_status == 'pending' ) {
-									wp_update_post( [ 'ID' => $job_id, 'post_status' => 'publish' ] );
+									wp_update_post( [
+										'ID'            => $job_id,
+										'post_status'   => 'publish',
+									] );
 
 									$job = get_post( $job_id );
 									$user = get_userdata( $job->post_author );

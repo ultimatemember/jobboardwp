@@ -2,17 +2,6 @@
 
 global $wpdb;
 
-if ( isset( $_REQUEST['_wp_http_referer'] ) ) {
-	$redirect = remove_query_arg( [ '_wp_http_referer' ], wp_unslash( $_REQUEST['_wp_http_referer'] ) );
-} else {
-	$redirect = get_admin_url(). 'admin.php?page=forumwp';
-}
-
-//remove extra query arg
-if ( ! empty( $_GET['_wp_http_referer'] ) ) {
-	JB()->admin()->js_redirect( remove_query_arg( [ '_wp_http_referer', '_wpnonce' ], wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
-}
-
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
@@ -271,7 +260,7 @@ class JB_Emails_List_Table extends WP_List_Table {
 $ListTable = new JB_Emails_List_Table( [
 	'singular'  => __( 'Email Notification', 'jobboardwp' ),
 	'plural'    => __( 'Email Notifications', 'jobboardwp' ),
-	'ajax'      => false
+	'ajax'      => false,
 ] );
 
 $per_page   = 20;
@@ -289,7 +278,7 @@ $emails = JB()->config()->get( 'email_notifications' );
 
 $ListTable->prepare_items();
 $ListTable->items = $emails;
-$ListTable->jb_set_pagination_args( [ 'total_items' => count( $emails ), 'per_page' => $per_page ] ); ?>
+$ListTable->jb_set_pagination_args( [ 'total_items' => count( $emails ), 'per_page' => $per_page, ] ); ?>
 
 <form action="" method="get" name="jb-settings-emails" id="jb-settings-emails">
 	<input type="hidden" name="page" value="jb-settings" />

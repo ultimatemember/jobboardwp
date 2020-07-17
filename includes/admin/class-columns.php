@@ -22,19 +22,18 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		function __construct() {
 			add_filter( 'display_post_states', [ &$this, 'add_display_post_states' ], 10, 2 );
 
+			add_action( 'restrict_manage_posts', [ $this, 'display_jobs_meta_filters' ] );
 
 			add_filter( 'manage_edit-jb-job_columns', [ &$this, 'job_columns' ] );
 			add_action( 'manage_jb-job_posts_custom_column', [ &$this, 'job_columns_content' ], 10, 3 );
 			add_filter( 'manage_edit-jb-job_sortable_columns', [ $this, 'sortable_columns' ] );
 			add_filter( 'bulk_actions-edit-jb-job', [ &$this, 'remove_from_bulk_actions' ], 10, 1 );
-			add_filter( 'handle_bulk_actions-edit-jb-job', [ &$this, 'my_bulk_action_handler' ], 10, 3 );
+			add_filter( 'handle_bulk_actions-edit-jb-job', [ &$this, 'custom_bulk_action_handler' ], 10, 3 );
 
-			add_action( 'admin_notices', [ &$this, 'my_bulk_action_admin_notice' ] );
+			add_action( 'admin_notices', [ &$this, 'after_approve_notice' ] );
 
 			add_filter( 'views_edit-jb-job', [ &$this, 'replace_list_table' ], 10, 1 );
 			add_filter( 'post_row_actions', [ &$this, 'remove_quick_edit' ] , 10, 2 );
-
-			add_action( 'restrict_manage_posts', [ $this, 'jobs_meta_filters' ] );
 
 			add_filter( 'request', [ $this, 'sort_columns' ] );
 			add_action( 'parse_query', [ $this, 'filter_meta' ] );
@@ -42,11 +41,35 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 
 
 		/**
+		 * Add a post display state for special Job Board pages in the page list table.
+		 *
+		 * @param array $post_states An array of post display states.
+		 * @param \WP_Post $post The current post object.
+		 *
+		 * @return array
+		 *
+		 * @since 1.0
+		 */
+		function add_display_post_states( $post_states, $post ) {
+			if ( $post->post_type == 'page' ) {
+				foreach ( JB()->config()->get( 'core_pages' ) as $page_key => $page_value ) {
+					if ( JB()->options()->get( $page_key . '_page' ) == $post->ID ) {
+						// translators: %s is a pre-defined page title.
+						$post_states[ 'jb_page_' . $page_key ] = sprintf( __( 'JB %s', 'jobboardwp' ), $page_value['title'] );
+					}
+				}
+			}
+
+			return $post_states;
+		}
+
+
+		/**
 		 * Output dropdowns for filters based on post meta.
 		 *
-		 * @since 1.31.0
+		 * @since 1.0
 		 */
-		function jobs_meta_filters() {
+		function display_jobs_meta_filters() {
 			global $typenow;
 
 			// Only add the filters for job_listings.
@@ -109,7 +132,12 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		}
 
 
-		function my_bulk_action_admin_notice() {
+		/**
+		 * Added admin notice after bulk approve job posts
+		 *
+		 * @since 1.0
+		 */
+		function after_approve_notice() {
 			if ( ! empty( $_REQUEST['jb-approved'] ) ) {
 				$approved_count = intval( $_REQUEST['jb-approved'] );
 				// translators: %s is the count of approved jobs.
@@ -123,7 +151,18 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		}
 
 
-		function my_bulk_action_handler( $redirect_to, $doaction, $post_ids ) {
+		/**
+		 * Handler for the bulk approve
+		 *
+		 * @param string $redirect_to
+		 * @param string $doaction
+		 * @param array $post_ids
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		function custom_bulk_action_handler( $redirect_to, $doaction, $post_ids ) {
 			if ( $doaction !== 'jb-approve' ) {
 				return $redirect_to;
 			}
@@ -135,7 +174,10 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 					continue;
 				}
 				$app_ids[] = $post_id;
-				wp_update_post( ['ID' => $post_id, 'post_status' => 'publish'] );
+				wp_update_post( [
+					'ID'            => $post_id,
+					'post_status'   => 'publish',
+				] );
 
 				$post = get_post( $post_id );
 				$user = get_userdata( $post->post_author );
@@ -152,6 +194,15 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		}
 
 
+		/**
+		 * Changed jobs bulk actions
+		 *
+		 * @param array $actions
+		 *
+		 * @return array
+		 *
+		 * @since 1.0
+		 */
 		function remove_from_bulk_actions( $actions ) {
 			unset( $actions['edit'] );
 
@@ -167,6 +218,8 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		 * @param $views
 		 *
 		 * @return mixed
+		 *
+		 * @since 1.0
 		 */
 		function replace_list_table( $views ) {
 			global $wp_list_table;
@@ -177,21 +230,25 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 
 			$wp_list_table = new List_Table();
 
-			$wp_list_table->set_pagination_args([
+			$wp_list_table->set_pagination_args( [
 				'total_items' => $total_items,
 				'total_pages' => $total_pages,
 				'per_page'    => $per_page,
-			]);
+			] );
 
 			return $views;
 		}
 
 
 		/**
+		 * Remove ability to job's quick edit
+		 *
 		 * @param array $actions
 		 * @param \WP_Post $post
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function remove_quick_edit( $actions, $post ) {
 			if ( $post->post_type == 'jb-job' ) {
@@ -208,33 +265,13 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 
 
 		/**
-		 * Add a post display state for special Job Board pages in the page list table.
-		 *
-		 * @param array $post_states An array of post display states.
-		 * @param \WP_Post $post The current post object.
-		 *
-		 * @return mixed
-		 */
-		function add_display_post_states( $post_states, $post ) {
-			if ( $post->post_type == 'page' ) {
-				foreach ( JB()->config()->get( 'core_pages' ) as $page_key => $page_value ) {
-					if ( JB()->options()->get( $page_key . '_page' ) == $post->ID ) {
-						// translators: %s is a pre-defined page title.
-						$post_states[ 'jb_page_' . $page_key ] = sprintf( __( 'JB %s', 'jobboardwp' ), $page_value['title'] );
-					}
-				}
-			}
-
-			return $post_states;
-		}
-
-
-		/**
 		 * Custom columns for JB Job
 		 *
 		 * @param array $columns
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function job_columns( $columns ) {
 
@@ -263,10 +300,12 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 
 
 		/**
-		 * Display custom columns for Forum
+		 * Display custom columns for Jobs
 		 *
 		 * @param string $column_name
 		 * @param int $id
+		 *
+		 * @since 1.0
 		 */
 		function job_columns_content( $column_name, $id ) {
 			switch ( $column_name ) {
@@ -363,7 +402,15 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		}
 
 
-
+		/**
+		 * Added sortable columns
+		 *
+		 * @param array $columns
+		 *
+		 * @return array
+		 *
+		 * @since 1.0
+		 */
 		function sortable_columns( $columns ) {
 			$custom = [
 				'posted'    => 'date',
@@ -376,8 +423,10 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		/**
 		 * Sorts the admin listing of Job Listings by updating the main query in the request.
 		 *
-		 * @param mixed $vars Variables with sort arguments.
+		 * @param array $vars Variables with sort arguments.
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function sort_columns( $vars ) {
 			if ( isset( $vars['orderby'] ) ) {
@@ -399,6 +448,8 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		 * Filters by meta fields.
 		 *
 		 * @param \WP_Query $wp
+		 *
+		 * @since 1.0
 		 */
 		function filter_meta( $wp ) {
 			global $pagenow;

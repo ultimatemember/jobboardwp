@@ -16,31 +16,41 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 
 
 		/**
-		 * @var
+		 * @var array JS URLs
+		 *
+		 * @since 1.0
 		 */
 		var $js_url = [];
 
 
 		/**
-		 * @var
+		 * @var array CSS URLs
+		 *
+		 * @since 1.0
 		 */
 		var $css_url = [];
 
 
 		/**
-		 * @var array
+		 * @var array assets URLs
+		 *
+		 * @since 1.0
 		 */
 		var $url = [];
 
 
 		/**
-		 * @var array
+		 * @var array Google Autocomplete locales
+		 *
+		 * @since 1.0
 		 */
 		var $g_locales = [];
 
 
 		/**
-		 * @var string
+		 * @var string FontAwesome version
+		 *
+		 * @since 1.0
 		 */
 		var $fa_version = '5.13.0';
 
@@ -53,6 +63,7 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 			$this->js_url['common'] = jb_url . 'assets/common/js/';
 			$this->css_url['common'] = jb_url . 'assets/common/css/';
 
+			// see all locales here https://developers.google.com/maps/faq#languagesupport
 			$this->g_locales = [
 				'af'        => __( 'Afrikaans', 'jobboardwp' ),
 				'sq'        => __( 'Albanian', 'jobboardwp' ),
@@ -145,7 +156,11 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 
 
 		/**
+		 * Getting current Google Autocomplete locale
+		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_g_locale() {
 			$locale = get_locale();
@@ -166,6 +181,8 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 
 		/**
 		 * Init variables for enqueue scripts
+		 *
+		 * @since 1.0
 		 */
 		function init_variables() {
 			JB()->scrips_prefix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
@@ -173,7 +190,9 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 
 
 		/**
+		 * Register common JS/CSS libraries
 		 *
+		 * @since 1.0
 		 */
 		function common_libs() {
 			global $wp_scripts;
@@ -192,9 +211,13 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 
 
 		/**
+		 * Add FontAwesome style to dependencies if it's not disabled
+		 *
 		 * @param array $styles
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function extends_styles( $styles ) {
 			if ( JB()->options()->get( 'disable-fa-styles' ) ) {
