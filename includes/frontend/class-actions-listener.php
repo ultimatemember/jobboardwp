@@ -696,7 +696,6 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								exit( wp_redirect( $url ) );
 							}
 						} elseif ( $_POST['jb-job-submission-step'] == 'draft' ) {
-							delete_post_meta( $job_id, 'jb-last-edit-date', time() );
 							if ( ! $preview_form->has_errors() ) {
 								wp_update_post( [
 									'ID'            => $job_id,
