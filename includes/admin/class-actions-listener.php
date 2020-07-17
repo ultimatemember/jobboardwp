@@ -62,6 +62,8 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 										'post_status'   => 'publish',
 									] );
 
+									delete_post_meta( $job_id, 'jb-had-pending' );
+
 									$job = get_post( $job_id );
 									$user = get_userdata( $job->post_author );
 									if ( ! empty( $user ) && ! is_wp_error( $user ) ) {

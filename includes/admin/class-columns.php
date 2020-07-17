@@ -179,6 +179,8 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 					'post_status'   => 'publish',
 				] );
 
+				delete_post_meta( $post_id, 'jb-had-pending' );
+
 				$post = get_post( $post_id );
 				$user = get_userdata( $post->post_author );
 				if ( ! empty( $user ) && ! is_wp_error( $user ) ) {

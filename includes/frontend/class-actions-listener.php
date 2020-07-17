@@ -45,23 +45,9 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 
 			if ( ! empty( $location_data->address_components ) ) {
 				$address_data = $location_data->address_components;
-//				$job_data['meta_input']['jb-location-street-number'] = false;
-//				$job_data['meta_input']['jb-location-street']        = false;
-//				$job_data['meta_input']['jb-location-city']          = false;
-//				$job_data['meta_input']['jb-location-state-short']   = false;
-//				$job_data['meta_input']['jb-location-state-long']    = false;
-//				$job_data['meta_input']['jb-location-postcode']      = false;
-//				$job_data['meta_input']['jb-location-country-short'] = false;
-//				$job_data['meta_input']['jb-location-country-long']  = false;
 
 				foreach ( $address_data as $data ) {
 					switch ( $data->types[0] ) {
-//						case 'street_number':
-//							$job_data['meta_input']['jb-location-street-number'] = sanitize_text_field( $data->long_name );
-//							break;
-//						case 'route':
-//							$job_data['meta_input']['jb-location-street'] = sanitize_text_field( $data->long_name );
-//							break;
 						case 'sublocality_level_1':
 						case 'locality':
 						case 'postal_town':
@@ -72,9 +58,6 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							$job_data['meta_input']['jb-location-state-short'] = sanitize_text_field( $data->short_name );
 							$job_data['meta_input']['jb-location-state-long']  = sanitize_text_field( $data->long_name );
 							break;
-//						case 'postal_code':
-//							$job_data['meta_input']['jb-location-postcode'] = sanitize_text_field( $data->long_name );
-//							break;
 						case 'country':
 							$job_data['meta_input']['jb-location-country-short'] = sanitize_text_field( $data->short_name );
 							$job_data['meta_input']['jb-location-country-long']  = sanitize_text_field( $data->long_name );
@@ -552,6 +535,10 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									$job_data['ID'] = $job_id;
 									wp_update_post( $job_data );
 
+									if ( $job->post_status == 'pending' ) {
+										update_post_meta( $job_id, 'jb-had-pending', true );
+									}
+
 									update_post_meta( $job_id, 'jb-last-edit-date', time() );
 								}
 							} else {
@@ -641,15 +628,19 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 						if ( $_POST['jb-job-submission-step'] == 'publish' ) {
 
 							$is_edited = get_post_meta( $job_id, 'jb-last-edit-date', true );
+							$was_pending = get_post_meta( $job_id, 'jb-had-pending', true );
 
 							if ( ! empty( $is_edited ) && JB()->options()->get( 'published-job-editing' ) == '0' ) {
 								$preview_form->add_error( 'global', __( 'Security action, Please try again.', 'jobboardwp' ) );
 							}
 
 							if ( ! empty( $is_edited ) ) {
-								if ( JB()->options()->get( 'published-job-editing' ) == '2' && JB()->options()->get( 'job-moderation' ) ) {
+								if ( JB()->options()->get( 'published-job-editing' ) == '2' ) {
 									$status = 'publish';
-								} else {
+									if ( ! empty( $was_pending ) ) {
+										$status = 'pending';
+									}
+								} elseif ( JB()->options()->get( 'published-job-editing' ) == '1' ) {
 									$status = 'pending';
 								}
 							} else {
