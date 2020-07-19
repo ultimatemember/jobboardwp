@@ -534,12 +534,9 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								} else {
 									$job_data['ID'] = $job_id;
 									wp_update_post( $job_data );
-
 									if ( $job->post_status == 'pending' ) {
 										update_post_meta( $job_id, 'jb-had-pending', true );
 									}
-
-									update_post_meta( $job_id, 'jb-last-edit-date', time() );
 								}
 							} else {
 								$job_id = wp_insert_post( $job_data );
@@ -559,7 +556,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									set_post_thumbnail( $job_id, $image_id );
 								}
 
-								if ( ! empty( $_POST['job_type'] ) ){
+								if ( ! empty( $_POST['job_type'] ) ) {
 									if ( is_array( $_POST['job_type'] ) ) {
 										$type_ids = array_map( 'absint', $_POST['job_type'] );
 									} else {
@@ -630,6 +627,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							$is_edited = get_post_meta( $job_id, 'jb-last-edit-date', true );
 							$was_pending = get_post_meta( $job_id, 'jb-had-pending', true );
 
+							update_post_meta( $job_id, 'jb-last-edit-date', time() );
 							if ( ! empty( $is_edited ) && JB()->options()->get( 'published-job-editing' ) == '0' ) {
 								$preview_form->add_error( 'global', __( 'Security action, Please try again.', 'jobboardwp' ) );
 							}
@@ -662,7 +660,11 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 												'job_title'         => $job->post_title,
 												'job_details'       => JB()->common()->mail()->get_job_details( $job ),
 												'view_job_url'      => get_permalink( $job ),
-												'approve_job_url'   => add_query_arg( ['jb_adm_action' => 'approve_job', 'job-id' => $job_id, 'nonce' => wp_create_nonce( 'jb-approve-job' . $job_id ) ], admin_url() ),
+												'approve_job_url'   => add_query_arg( [
+													'jb_adm_action' => 'approve_job',
+													'job-id'        => $job_id,
+													'nonce'         => wp_create_nonce( 'jb-approve-job' . $job_id ),
+												], admin_url() ),
 												'trash_job_url'     => get_delete_post_link( $job_id ),
 											] );
 										}
@@ -675,19 +677,24 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 												'job_id'            => $job_id,
 												'job_details'       => JB()->common()->mail()->get_job_details( $job ),
 												'view_job_url'      => get_permalink( $job ),
-												'approve_job_url'   => add_query_arg( ['jb_adm_action' => 'approve_job', 'job-id' => $job_id, 'nonce' => wp_create_nonce( 'jb-approve-job' . $job_id ) ], admin_url() ),
+												'approve_job_url'   => add_query_arg( [
+													'jb_adm_action' => 'approve_job',
+													'job-id'        => $job_id,
+													'nonce'         => wp_create_nonce( 'jb-approve-job' . $job_id ),
+												], admin_url() ),
 												'trash_job_url'     => get_delete_post_link( $job_id ),
 											] );
 										}
 									}
 								}
 
+								$job_post_page_url = JB()->common()->permalinks()->get_preset_page_link( 'job-post' );
 								if ( empty( $is_edited ) && JB()->options()->get( 'job-moderation' ) ) {
-									$url = add_query_arg( [ 'msg' => 'on-moderation' ], JB()->common()->permalinks()->get_preset_page_link( 'job-post' ) );
+									$url = add_query_arg( [ 'msg' => 'on-moderation' ], $job_post_page_url );
 								} elseif ( ! empty( $is_edited ) && JB()->options()->get( 'published-job-editing' ) ) {
-									$url = add_query_arg( [ 'msg' => 'on-moderation' ], JB()->common()->permalinks()->get_preset_page_link( 'job-post' ) );
+									$url = add_query_arg( [ 'msg' => 'on-moderation' ], $job_post_page_url );
 								} else {
-									$url = add_query_arg( [ 'msg' => 'published', 'published-id' => $job_id ], JB()->common()->permalinks()->get_preset_page_link( 'job-post' ) );
+									$url = add_query_arg( [ 'msg' => 'published', 'published-id' => $job_id ], $job_post_page_url );
 								}
 
 								exit( wp_redirect( $url ) );

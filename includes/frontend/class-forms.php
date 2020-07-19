@@ -461,7 +461,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			<span class="jb-uploader jb-uploader<?php if ( ! empty( $field_data['value'] ) ) { ?> jb-uploaded jb-<?php echo esc_attr( $id ) ?>-uploaded<?php } ?>">
 				<span id="jb_<?php echo esc_attr( $id ) ?>_filelist" class="jb-uploader-dropzone">
-					<span><?php _e( 'Drop files to upload', 'jobboardwp' ) ?></span>
+					<span><?php _e( 'Drop file to upload', 'jobboardwp' ) ?></span>
 					<span><?php _e( 'or', 'jobboardwp' ) ?></span>
 					<input type="button" class="jb-select-media" data-action="<?php echo esc_attr( $field_data['action'] ) ?>" id="jb_<?php echo esc_attr( $id ) ?>_plupload" value="<?php echo esc_attr( $select_label ) ?>" />
 				</span>
