@@ -23,11 +23,15 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 
 
 		/**
+		 * Generate unique filename
+		 *
 		 * @param string $dir
 		 * @param string $name
 		 * @param string $ext
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function unique_filename( $dir, $name, $ext ) {
 			$hashed = hash('ripemd160', time() . mt_rand( 10, 1000 ) );
@@ -39,6 +43,8 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 
 		/**
 		 * Uploading Logo AJAX process
+		 *
+		 * @since 1.0
 		 */
 		function upload_logo() {
 			$nonce = isset( $_REQUEST['nonce'] ) ? $_REQUEST['nonce'] : '';
@@ -63,14 +69,14 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 				$fileName = uniqid( 'file_' );
 			}
 
-			$mimes = [
+			$mimes = apply_filters( 'jb_uploading_logo_mime_types', [
 				'jpg|jpeg|jpe'  => 'image/jpeg',
 				'gif'           => 'image/gif',
 				'png'           => 'image/png',
 				'bmp'           => 'image/bmp',
 				'tiff|tif'      => 'image/tiff',
 				'ico'           => 'image/x-icon',
-			];
+			] );
 
 			$image_type = wp_check_filetype( $fileName, $mimes );
 			if ( ! $image_type['ext'] ) {

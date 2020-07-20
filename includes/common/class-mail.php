@@ -18,6 +18,8 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 
 		/**
 		 * @var array
+		 *
+		 * @since 1.0
 		 */
 		var $path_by_slug = [];
 
@@ -32,6 +34,8 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 
 		/**
 		 * Init paths for email notifications
+		 *
+		 * @since 1.0
 		 */
 		function init_paths() {
 			$this->path_by_slug = apply_filters( 'jb_email_templates_extends', $this->path_by_slug );
@@ -42,6 +46,8 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 		 * Check blog ID on multisite, return '' if single site
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_blog_id() {
 			$blog_id = '';
@@ -58,6 +64,8 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 		 *
 		 * @param string $template_name
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function locate_template( $template_name ) {
 			// check if there is template at theme folder
@@ -86,10 +94,14 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 
 
 		/**
+		 * Get email template
+		 *
 		 * @param $slug
 		 * @param $args
 		 *
 		 * @return bool|string
+		 *
+		 * @since 1.0
 		 */
 		function get_template( $slug, $args = [] ) {
 			$located = $this->locate_template( $slug );
@@ -122,6 +134,8 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 		 * @param string $template_name
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_template_file( $location, $template_name ) {
 			$template_name_file = $this->get_template_filename( $template_name );
@@ -145,51 +159,16 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 
 
 		/**
+		 * Get template filename
+		 *
 		 * @param string $template_name
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_template_filename( $template_name ) {
 			return apply_filters( 'jb_change_email_template_file', $template_name );
-		}
-
-
-		/**
-		 * Ajax copy template to the theme
-		 *
-		 * @param string $template
-		 * @return bool
-		 */
-		function copy_template( $template ) {
-
-			$in_theme = $this->template_in_theme( $template );
-			if ( $in_theme ) {
-				return false;
-			}
-
-			$plugin_template_path = $this->get_template_file( 'plugin', $template );
-			$theme_template_path = $this->get_template_file( 'theme', $template );
-
-			$temp_path = str_replace( trailingslashit( get_stylesheet_directory() ), '', $theme_template_path );
-			$temp_path = str_replace( '/', DIRECTORY_SEPARATOR, $temp_path );
-			$folders = explode( DIRECTORY_SEPARATOR, $temp_path );
-			$folders = array_splice( $folders, 0, count( $folders ) - 1 );
-			$cur_folder = '';
-			$theme_dir = trailingslashit( get_stylesheet_directory() );
-
-			foreach ( $folders as $folder ) {
-				$prev_dir = $cur_folder;
-				$cur_folder .= $folder . DIRECTORY_SEPARATOR;
-				if ( ! is_dir( $theme_dir . $cur_folder ) && wp_is_writable( $theme_dir . $prev_dir ) ) {
-					mkdir( $theme_dir . $cur_folder, 0777 );
-				}
-			}
-
-			if ( file_exists( $plugin_template_path ) && copy( $plugin_template_path, $theme_template_path ) ) {
-				return true;
-			} else {
-				return false;
-			}
 		}
 
 
@@ -199,6 +178,8 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 		 * @access public
 		 * @param string $template_name
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function template_in_theme( $template_name ) {
 			$template_name_file = $this->get_template_filename( $template_name );
@@ -216,9 +197,13 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 
 
 		/**
-		 * @param $slug
-		 * @param $args
+		 * Get email template content
+		 *
+		 * @param string $slug
+		 * @param array $args
 		 * @return bool|string
+		 *
+		 * @since 1.0
 		 */
 		function get_email_template( $slug, $args = [] ) {
 			$located = $this->locate_template( $slug );
@@ -239,9 +224,11 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 		/**
 		 * Prepare email template to send
 		 *
-		 * @param $slug
-		 * @param $args
-		 * @return mixed|string
+		 * @param string $slug
+		 * @param array $args
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function prepare_template( $slug, $args = [] ) {
 			global $wp_query;
@@ -269,6 +256,8 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 		 * @param string $email
 		 * @param null $template
 		 * @param array $args
+		 *
+		 * @since 1.0
 		 */
 		function send( $email, $template, $args = [] ) {
 			if ( ! is_email( $email ) ) {
@@ -297,9 +286,13 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 
 
 		/**
+		 * Get job details for placeholder
+		 *
 		 * @param \WP_Post $job
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_job_details( $job ) {
 			$company_data = JB()->common()->job()->get_company_data( $job->ID );
@@ -320,10 +313,12 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 		/**
 		 * Replace placeholders
 		 *
-		 * @param $content
-		 * @param $args
+		 * @param string $content
+		 * @param array $args
 		 *
-		 * @return mixed
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function replace_placeholders( $content, $args ) {
 			$tags = array_map( function( $item ) {
@@ -337,13 +332,6 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 			$tags_replace[] = get_bloginfo( 'url' );
 			$tags_replace[] = get_bloginfo( 'blogname' );
 
-
-//			{view_job_url}
-//			{approve_job_url}
-//			{trash_job_url}
-//			{job_title}
-//			{view_job_url}
-
 			$tags = apply_filters( 'jb-mail-placeholders', $tags, $args );
 			$tags_replace = apply_filters( 'jb-mail-replace-placeholders', $tags_replace, $args );
 
@@ -356,6 +344,8 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 		 * Get admin e-mails
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function multi_admin_email() {
 			$emails = JB()->options()->get( 'admin_email' );

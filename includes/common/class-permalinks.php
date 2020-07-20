@@ -34,6 +34,8 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		 * @param string $password
 		 *
 		 * @return \WP_Error
+		 *
+		 * @since 1.0
 		 */
 		public function verify_username_password( $user, $username, $password ) {
 			//use WP native function for fill $_SERVER variables by correct values
@@ -58,6 +60,8 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		 * failed status.
 		 *
 		 * @return void
+		 *
+		 * @since 1.0
 		 */
 		public function login_failed() {
 			//use WP native function for fill $_SERVER variables by correct values
@@ -75,9 +79,13 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 
 
 		/**
+		 * Get page slug
+		 *
 		 * @param string $key Pre-set page key
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_slug( $key ) {
 			$preset_page_id = $this->get_preset_page_id( $key );
@@ -95,9 +103,13 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 
 
 		/**
+		 * Get preset page ID
+		 *
 		 * @param string $key
 		 *
 		 * @return int
+		 *
+		 * @since 1.0
 		 */
 		function get_preset_page_id( $key ) {
 			$page_id = JB()->options()->get( $key . '_page' );
@@ -106,9 +118,13 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 
 
 		/**
+		 * Get preset page link
+		 *
 		 * @param string $key
 		 *
 		 * @return false|string
+		 *
+		 * @since 1.0
 		 */
 		function get_preset_page_link( $key ) {
 			$page_id = $this->get_preset_page_id( $key );
@@ -120,6 +136,8 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		 * Are JB pages installed
 		 *
 		 * @return bool
+		 *
+		 * @since 1.0
 		 */
 		function are_pages_installed() {
 			$installed = true;

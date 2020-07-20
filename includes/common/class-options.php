@@ -16,6 +16,8 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 
 		/**
 		 * @var array
+		 *
+		 * @since 1.0
 		 */
 		var $options = [];
 
@@ -33,6 +35,8 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 		 * @param string $option
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_key( $option ) {
 			return apply_filters( 'jb_options_key', "jb_{$option}", $option );
@@ -46,6 +50,8 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 		 * @param mixed $default
 		 *
 		 * @return mixed
+		 *
+		 * @since 1.0
 		 */
 		function get( $option_id, $default = false ) {
 			if ( isset( $this->options[ $option_id ] ) ) {
@@ -63,6 +69,8 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 		 *
 		 * @param string $option_id
 		 * @param mixed $value
+		 *
+		 * @since 1.0
 		 */
 		function add( $option_id, $value ) {
 			if ( ! isset( $this->options[ $option_id ] ) ) {
@@ -77,6 +85,8 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 		 *
 		 * @param string $option_id
 		 * @param mixed $value
+		 *
+		 * @since 1.0
 		 */
 		function update( $option_id, $value ) {
 			$this->options[ $option_id ] = $value;
@@ -87,7 +97,9 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 		/**
 		 * Delete JB option
 		 *
-		 * @param $option_id
+		 * @param string $option_id
+		 *
+		 * @since 1.0
 		 */
 		function delete( $option_id ) {
 			if ( isset( $this->options[ $option_id ] ) ) {
@@ -103,6 +115,8 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 		 *
 		 * @param string $option_id
 		 * @return mixed
+		 *
+		 * @since 1.0
 		 */
 		function get_default( $option_id ) {
 			$settings_defaults = JB()->config()->get( 'defaults' );

@@ -18,6 +18,8 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 		/**
 		 * @var array
+		 *
+		 * @since 1.0
 		 */
 		var $nonce = [];
 
@@ -32,13 +34,15 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 			add_action( 'jb-job-type_add_form_fields', [ &$this, 'job_type_create' ] );
 			add_action( 'jb-job-type_edit_form_fields', [ &$this, 'job_type_edit' ] );
-			add_action( 'create_jb-job-type', [ &$this, 'save_job_type_meta' ] );
-			add_action( 'edited_jb-job-type', [ &$this, 'save_job_type_meta' ] );
+			add_action( 'create_jb-job-type', [ &$this, 'save_job_type_meta' ], 10, 1 );
+			add_action( 'edited_jb-job-type', [ &$this, 'save_job_type_meta' ], 10, 1 );
 		}
 
 
 		/**
 		 * Add custom fields on Job Type Create form
+		 *
+		 * @since 1.0
 		 */
 		function job_type_create() {
 			include_once JB()->admin()->templates_path . 'job-type' . DIRECTORY_SEPARATOR . 'styling-create.php';
@@ -50,7 +54,9 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 		/**
 		 * Add custom fields on Job Type Edit form
 		 *
-		 * @param $term
+		 * @param \WP_Term $term
+		 *
+		 * @since 1.0
 		 */
 		function job_type_edit( $term ) {
 			$termID = $term->term_id;
@@ -67,15 +73,16 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 		/**
 		 * Save custom data for Job Type
-		 * @param $termID
 		 *
-		 * @return mixed
+		 * @param int $termID
+		 *
+		 * @since 1.0
 		 */
 		function save_job_type_meta( $termID ) {
 
 			// validate nonce
 			if ( ! isset( $_REQUEST['jb_job_type_styling_nonce'] ) || ! wp_verify_nonce( $_REQUEST['jb_job_type_styling_nonce'], basename( __FILE__ ) ) ) {
-				return $termID;
+				return;
 			}
 
 			// validate user
@@ -83,7 +90,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			$taxonomy = get_taxonomy( $term->taxonomy );
 
 			if ( ! current_user_can( $taxonomy->cap->edit_terms, $termID ) ) {
-				return $termID;
+				return;
 			}
 
 			if ( ! empty( $_REQUEST['jb-color'] ) ) {
@@ -97,13 +104,13 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			} else {
 				delete_term_meta( $termID, 'jb-background' );
 			}
-
-			return $termID;
 		}
 
 
 		/**
 		 * Checking CPT screen
+		 *
+		 * @since 1.0
 		 */
 		function add_metabox() {
 			global $current_screen;
@@ -121,7 +128,9 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 		 * Load a form metabox
 		 *
 		 * @param $object
-		 * @param $box
+		 * @param array $box
+		 *
+		 * @since 1.0
 		 */
 		function load_metabox_job( $object, $box ) {
 			$metabox = str_replace( 'jb-job-','', $box['id'] );
@@ -137,6 +146,8 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 		/**
 		 * Add form metabox
+		 *
+		 * @since 1.0
 		 */
 		function add_metabox_job() {
 			add_meta_box( 'jb-job-data', __( 'Job Data', 'jobboardwp' ), [ &$this, 'load_metabox_job' ], 'jb-job', 'normal', 'core' );
@@ -146,8 +157,10 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 		/**
 		 * Save job metabox
 		 *
-		 * @param $post_id
-		 * @param $post
+		 * @param int $post_id
+		 * @param \WP_Post $post
+		 *
+		 * @since 1.0
 		 */
 		function save_metabox_job( $post_id, $post ) {
 			// validate nonce
@@ -201,12 +214,6 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 							foreach ( $address_data as $data ) {
 								switch ( $data->types[0] ) {
-//									case 'street_number':
-//										update_post_meta( $post_id, 'jb-location-street-number', sanitize_text_field( $data->long_name ) );
-//										break;
-//									case 'route':
-//										update_post_meta( $post_id, 'jb-location-street', sanitize_text_field( $data->long_name ) );
-//										break;
 									case 'sublocality_level_1':
 									case 'locality':
 									case 'postal_town':
@@ -217,9 +224,6 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 										update_post_meta( $post_id, 'jb-location-state-short', sanitize_text_field( $data->short_name ) );
 										update_post_meta( $post_id, 'jb-location-state-long', sanitize_text_field( $data->long_name ) );
 										break;
-//									case 'postal_code':
-//										update_post_meta( $post_id, 'jb-location-postcode', sanitize_text_field( $data->long_name ) );
-//										break;
 									case 'country':
 										update_post_meta( $post_id, 'jb-location-country-short', sanitize_text_field( $data->short_name ) );
 										update_post_meta( $post_id, 'jb-location-country-long', sanitize_text_field( $data->long_name ) );

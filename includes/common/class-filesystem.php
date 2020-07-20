@@ -10,6 +10,7 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 
 	/**
 	 * Class Filesystem
+	 *
 	 * @package jb\common
 	 */
 	class Filesystem {
@@ -17,24 +18,32 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 
 		/**
 		 * @var string
+		 *
+		 * @since 1.0
 		 */
 		var $upload_dir = '';
 
 
 		/**
 		 * @var string
+		 *
+		 * @since 1.0
 		 */
 		var $upload_url = '';
 
 
 		/**
 		 * @var string
+		 *
+		 * @since 1.0
 		 */
 		var $temp_upload_dir = '';
 
 
 		/**
 		 * @var string
+		 *
+		 * @since 1.0
 		 */
 		var $temp_upload_url = '';
 
@@ -50,7 +59,9 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 
 
 		/**
+		 * Init uploading URL and directory
 		 *
+		 * @since 1.0
 		 */
 		function init_paths() {
 			$this->temp_upload_dir = $this->get_upload_dir( 'jobboardwp/temp', 'allow' );
@@ -64,6 +75,8 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 * @param string $dir
 		 *
 		 * @return bool
+		 *
+		 * @since 1.0
 		 */
 		function recursive_delete_files( $dir ) {
 			if ( is_dir( $dir ) ) {
@@ -85,6 +98,8 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 
 		/**
 		 * Remove all files, which are older then 24 hours
+		 *
+		 * @since 1.0
 		 */
 		function clear_temp_dir() {
 			$maxFileAge = 24 * 3600; // Temp file age in seconds
@@ -117,6 +132,8 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 * @param string $dir_access
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_upload_dir( $dir = '', $dir_access = '' ) {
 
@@ -158,6 +175,8 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 * @param string $url
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_upload_url( $url = '' ) {
 			if ( empty( $this->upload_url ) ) {
@@ -173,10 +192,12 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		/**
 		 * Format Bytes
 		 *
-		 * @param $size
+		 * @param int $size
 		 * @param int $precision
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function format_bytes( $size, $precision = 1 ) {
 			if ( is_numeric( $size ) ) {

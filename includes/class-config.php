@@ -51,9 +51,13 @@ if ( ! class_exists( 'jb\Config' ) ) {
 
 
 		/**
+		 * Get variable from config
+		 *
 		 * @param string $key
 		 *
 		 * @return mixed
+		 *
+		 * @since 1.0
 		 */
 		function get( $key ) {
 			if ( empty( $this->$key ) ) {
@@ -64,7 +68,9 @@ if ( ! class_exists( 'jb\Config' ) ) {
 
 
 		/**
+		 * Init plugin defaults
 		 *
+		 * @since 1.0
 		 */
 		function init_defaults() {
 			$this->defaults = apply_filters( 'jb_settings_defaults', [
@@ -118,6 +124,8 @@ if ( ! class_exists( 'jb\Config' ) ) {
 
 		/**
 		 * Initialize JB custom roles list
+		 *
+		 * @since 1.0
 		 */
 		function init_custom_roles() {
 			$this->custom_roles = apply_filters( 'jb_roles_list', [
@@ -128,6 +136,8 @@ if ( ! class_exists( 'jb\Config' ) ) {
 
 		/**
 		 * Initialize JB roles capabilities list
+		 *
+		 * @since 1.0
 		 */
 		function init_capabilities_map() {
 			$this->capabilities_map = apply_filters( 'jb_roles_capabilities_list', [
@@ -168,7 +178,9 @@ if ( ! class_exists( 'jb\Config' ) ) {
 
 
 		/**
+		 * Initialize JB custom capabilities
 		 *
+		 * @since 1.0
 		 */
 		function init_all_caps() {
 			$this->all_caps = apply_filters( 'jb_all_caps_list', [
@@ -201,7 +213,9 @@ if ( ! class_exists( 'jb\Config' ) ) {
 
 
 		/**
+		 * Initialize JB permalink options
 		 *
+		 * @since 1.0
 		 */
 		function init_permalink_options() {
 			$this->permalink_options = apply_filters( 'jb_permalink_options', [
@@ -213,7 +227,9 @@ if ( ! class_exists( 'jb\Config' ) ) {
 
 
 		/**
+		 * Initialize JB core pages
 		 *
+		 * @since 1.0
 		 */
 		function init_core_pages() {
 			$this->core_pages = apply_filters( 'jb_core_pages', [
@@ -234,7 +250,9 @@ if ( ! class_exists( 'jb\Config' ) ) {
 
 
 		/**
+		 * Initialize JB email notifications
 		 *
+		 * @since 1.0
 		 */
 		function init_email_notifications() {
 			$this->email_notifications = apply_filters( 'jb_email_notifications', [

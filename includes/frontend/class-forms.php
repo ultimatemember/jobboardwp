@@ -18,18 +18,24 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 		/**
 		 * @var bool
+		 *
+		 * @since 1.0
 		 */
 		var $form_data;
 
 
 		/**
 		 * @var string
+		 *
+		 * @since 1.0
 		 */
 		var $error_class = 'jb-form-error-row';
 
 
 		/**
 		 * @var array
+		 *
+		 * @since 1.0
 		 */
 		var $types = [
 			'text',
@@ -58,9 +64,11 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		/**
 		 * Set Form Data
 		 *
-		 * @param $data
+		 * @param array $data
 		 *
 		 * @return $this
+		 *
+		 * @since 1.0
 		 */
 		function set_data( $data ) {
 			$this->form_data = $data;
@@ -74,6 +82,8 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		 *
 		 * @param bool $echo
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function display( $echo = true ) {
 			if ( empty( $this->form_data['fields'] ) && empty( $this->form_data['sections'] ) && empty( $this->form_data['hiddens'] ) ) {
@@ -136,7 +146,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			}
 
 			if ( $this->has_error( 'global' ) ) {
-				foreach ( $this->get_errors( 'global' ) as $error ) { ?>
+				foreach ( $this->get_error( 'global' ) as $error ) { ?>
 					<span class="jb-frontend-form-error"><?php echo $error ?></span>
 				<?php }
 			}
@@ -168,9 +178,13 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
-		 * @param $data
+		 * Validate type of the field
+		 *
+		 * @param array $data
 		 *
 		 * @return bool
+		 *
+		 * @since 1.0
 		 */
 		function validate_type( $data ) {
 			return ( ! empty( $data['type'] ) && in_array( $data['type'], $this->types ) );
@@ -183,6 +197,8 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		 * @param array $field_data
 		 * @param string $i
 		 * @return string|array
+		 *
+		 * @since 1.0
 		 */
 		function get_field_value( $field_data, $i = '' ) {
 			$default = ( $field_data['type'] == 'multi_checkbox' ) ? [] : '';
@@ -220,9 +236,13 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
+		 * Render form row
+		 *
 		 * @param array $data
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_form_row( $data ) {
 
@@ -259,7 +279,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 					if ( $this->has_error( $data['id'] ) ) { ?>
 						<span class="jb-form-field-error">
-							<?php echo $this->get_errors( $data['id'] ); ?>
+							<?php echo $this->get_error( $data['id'] ); ?>
 						</span>
 					<?php } ?>
 
@@ -272,9 +292,13 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
-		 * @param $data
+		 * Render form section
+		 *
+		 * @param array $data
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_section( $data ) {
 			$html = '';
@@ -308,9 +332,13 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
-		 * @param $data
+		 * Render field label
+		 *
+		 * @param array $data
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_label( $data ) {
 			return '<p>' . $data['label'] . '</p>';
@@ -318,10 +346,14 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
-		 * @param $id
-		 * @param $data
+		 * Render button
+		 *
+		 * @param string $id
+		 * @param array $data
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_button( $id, $data ) {
 
@@ -350,10 +382,14 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
+		 * Render hidden field
+		 *
 		 * @param string $id
 		 * @param string $value
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_hidden( $id, $value ) {
 			if ( empty( $value ) ) {
@@ -385,9 +421,13 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
-		 * @param $data
+		 * Render field label
 		 *
-		 * @return bool|string
+		 * @param array $data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_field_label( $data ) {
 			if ( empty( $data['label'] ) ) {
@@ -414,17 +454,21 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
-		 * @param $field_data
+		 * Render media uploader field
 		 *
-		 * @return false|string
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_media( $field_data ) {
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			if ( empty( $field_data['action'] ) ) {
-				return false;
+				return '';
 			}
 
 			$thumb_w = get_option( 'thumbnail_size_w' );
@@ -479,14 +523,16 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		/**
 		 * Render text field
 		 *
-		 * @param $field_data
+		 * @param array $field_data
 		 *
-		 * @return bool|string
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_text( $field_data ) {
 
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $field_data['id'];
@@ -522,16 +568,17 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
-		 * Render text field
+		 * Render location autocomplete field
 		 *
-		 * @param $field_data
+		 * @param array $field_data
 		 *
-		 * @return bool|string
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_location_autocomplete( $field_data ) {
-
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $field_data['id'];
@@ -576,16 +623,18 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
-		 * Render text field
+		 * Render password field
 		 *
-		 * @param $field_data
+		 * @param array $field_data
 		 *
-		 * @return bool|string
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_password( $field_data ) {
 
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $field_data['id'];
@@ -621,18 +670,22 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
-		 * @param $field_data
+		 * Render dropdown field
 		 *
-		 * @return bool|string
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_select( $field_data ) {
 
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			if ( empty( $field_data['options'] ) ) {
-				return false;
+				return '';
 			}
 
 			$multiple = ! empty( $field_data['multi'] ) ? 'multiple' : '';
@@ -688,21 +741,25 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
-		 * @param $field_data
+		 * Render conditional radio
 		 *
-		 * @return bool|string
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_conditional_radio( $field_data ) {
 			if ( empty( $field_data['id'] ) ) {
-				return false;
+				return '';
 			}
 
 			if ( empty( $field_data['options'] ) ) {
-				return false;
+				return '';
 			}
 
 			if ( empty( $field_data['condition_sections'] ) ) {
-				return false;
+				return '';
 			}
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $field_data['id'];
@@ -748,9 +805,13 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
-		 * @param $field_data
+		 * Render WP Editor field
 		 *
-		 * @return false|string
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_wp_editor( $field_data ) {
 
@@ -818,10 +879,14 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
+		 * Remove unusable MCE button for JB WP Editors
+		 *
 		 * @param array $mce_buttons
 		 * @param int $editor_id
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function filter_mce_buttons( $mce_buttons, $editor_id ) {
 			$mce_buttons = array_diff( $mce_buttons, [ 'alignright', 'alignleft', 'aligncenter', 'wp_adv', 'wp_more', 'fullscreen', 'formatselect', 'spellchecker' ] );
@@ -832,8 +897,12 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
+		 * Add form error
+		 *
 		 * @param string $field
 		 * @param string $text
+		 *
+		 * @since 1.0
 		 */
 		function add_error( $field, $text ) {
 			if ( $field === 'global' ) {
@@ -850,7 +919,11 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
+		 * Add form notice
+		 *
 		 * @param string $text
+		 *
+		 * @since 1.0
 		 */
 		function add_notice( $text, $key ) {
 			$this->notices[ $key ] = apply_filters( 'jb_form_notice', $text, $key );
@@ -858,10 +931,12 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
-		 * If a form has error
+		 * If a form has error by field key
 		 *
-		 * @param  string  $field
+		 * @param  string $field
 		 * @return boolean
+		 *
+		 * @since 1.0
 		 */
 		function has_error( $field ) {
 			return ! empty( $this->errors[ $field ] ) || ! empty( $this->errors[ $field ] );
@@ -872,6 +947,8 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		 * If a form has errors
 		 *
 		 * @return boolean
+		 *
+		 * @since 1.0
 		 */
 		function has_errors() {
 			return ! empty( $this->errors );
@@ -882,6 +959,8 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		 * If a form has notices
 		 *
 		 * @return boolean
+		 *
+		 * @since 1.0
 		 */
 		function has_notices() {
 			return ! empty( $this->notices );
@@ -890,6 +969,8 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 		/**
 		 * Flush errors
+		 *
+		 * @since 1.0
 		 */
 		function flush_errors() {
 			$this->errors = [];
@@ -898,6 +979,8 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 		/**
 		 * Flush notices
+		 *
+		 * @since 1.0
 		 */
 		function flush_notices() {
 			$this->notices = [];
@@ -905,18 +988,25 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 
 		/**
+		 * Get a form error by a field key
+		 *
 		 * @param string $field
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
-		function get_errors( $field ) {
+		function get_error( $field ) {
 			return ! empty( $this->errors[ $field ] ) ? $this->errors[ $field ] : [];
 		}
 
 
 		/**
+		 * Get a form notices
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function get_notices() {
 			return ! empty( $this->notices ) ? $this->notices : [];

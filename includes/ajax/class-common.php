@@ -37,6 +37,8 @@ if ( ! class_exists( 'jb\ajax\Common' ) ) {
 
 		/**
 		 * All AJAX includes
+		 *
+		 * @since 1.0
 		 */
 		function includes() {
 			JB()->admin()->metabox();
@@ -46,7 +48,9 @@ if ( ! class_exists( 'jb\ajax\Common' ) ) {
 		/**
 		 * Check nonce
 		 *
-		 * @param bool $action
+		 * @param bool|string $action
+		 *
+		 * @since 1.0
 		 */
 		function check_nonce( $action = false ) {
 			$nonce = isset( $_REQUEST['nonce'] ) ? $_REQUEST['nonce'] : '';
@@ -60,6 +64,8 @@ if ( ! class_exists( 'jb\ajax\Common' ) ) {
 
 		/**
 		 * @return Notices()
+		 *
+		 * @since 1.0
 		 */
 		function notices() {
 			if ( empty( JB()->classes['jb\ajax\notices'] ) ) {
@@ -71,6 +77,8 @@ if ( ! class_exists( 'jb\ajax\Common' ) ) {
 
 		/**
 		 * @return Jobs()
+		 *
+		 * @since 1.0
 		 */
 		function jobs() {
 			if ( empty( JB()->classes['jb\ajax\jobs'] ) ) {
@@ -82,6 +90,8 @@ if ( ! class_exists( 'jb\ajax\Common' ) ) {
 
 		/**
 		 * @return Employer()
+		 *
+		 * @since 1.0
 		 */
 		function employer() {
 			if ( empty( JB()->classes['jb\ajax\employer'] ) ) {

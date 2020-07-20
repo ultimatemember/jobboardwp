@@ -153,6 +153,8 @@ if ( ! class_exists( 'JB' ) ) {
 		 * Loading JB textdomain
 		 *
 		 * 'jobboardwp' by default
+		 *
+		 * @since 1.0
 		 */
 		function localize() {
 			$language_locale = ( get_locale() != '' ) ? get_locale() : 'en_US';
@@ -314,6 +316,8 @@ if ( ! class_exists( 'JB' ) ) {
 		 * @param string $class
 		 *
 		 * @return stdClass
+		 *
+		 * @since 1.0
 		 */
 		function call_class( $class ) {
 			$key = strtolower( $class );

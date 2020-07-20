@@ -17,6 +17,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 		/**
 		 * @var array
+		 *
+		 * @since 1.0
 		 */
 		var $config;
 
@@ -41,6 +43,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * Handler for settings forms
 		 * when "Save Settings" button click
 		 *
+		 *
+		 * @since 1.0
 		 */
 		function save_settings() {
 			if ( ! isset( $_POST['jb-settings-action'] ) || 'save' !== $_POST['jb-settings-action'] ) {
@@ -87,6 +91,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 		/**
 		 * Set JB Settings
+		 *
+		 * @since 1.0
 		 */
 		function init() {
 			$pages = get_posts(
@@ -406,6 +412,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 		/**
 		 * Display Email Notifications Templates List
+		 *
+		 * @since 1.0
 		 */
 		function email_templates_list_table() {
 			$email_key = empty( $_GET['email'] ) ? '' : urldecode( $_GET['email'] );
@@ -425,6 +433,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * @param string $section
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function email_template_fields( $fields, $tab, $section ) {
 			if ( 'email' !== $tab ) {
@@ -479,6 +489,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 		/**
 		 * Include admin files conditionally.
+		 *
+		 * @since 1.0
 		 */
 		function conditional_includes() {
 			$screen = get_current_screen();
@@ -519,6 +531,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 		/**
 		 * Show a slug input box for job post type slug.
+		 *
+		 * @since 1.0
 		 */
 		function job_base_slug_input() {
 			$defaults = JB()->config()->get( 'defaults' );
@@ -530,6 +544,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 		/**
 		 * Show a slug input box for job type slug.
+		 *
+		 * @since 1.0
 		 */
 		function job_type_slug_input() {
 			$defaults = JB()->config()->get( 'defaults' );
@@ -541,6 +557,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 		/**
 		 * Show a slug input box for job category slug.
+		 *
+		 * @since 1.0
 		 */
 		function job_category_slug_input() {
 			$defaults = JB()->config()->get( 'defaults' );
@@ -552,6 +570,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 		/**
 		 * Save permalinks handler
+		 *
+		 * @since 1.0
 		 */
 		function permalinks_save() {
 			if ( ! isset( $_POST['permalink_structure'] ) ) {
@@ -582,6 +602,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * @param string $page
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function tabs_menu( $page = 'settings' ) {
 			switch( $page ) {
@@ -638,6 +660,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * @param string $tab
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function subtabs_menu( $tab = '' ) {
 			if ( empty( $tab ) ) {
@@ -704,6 +728,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * @param string $current_subtab
 		 *
 		 * @return false|string
+		 *
+		 * @since 1.0
 		 */
 		function display_section( $current_tab, $current_subtab ) {
 			$fields = $this->get_settings( $current_tab, $current_subtab );
@@ -728,6 +754,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * @param bool $assoc Return Associated array
 		 *
 		 * @return bool|array
+		 *
+		 * @since 1.0
 		 */
 		function get_settings( $tab = '', $section = '', $assoc = false ) {
 			if ( empty( $tab ) ) {
@@ -776,10 +804,14 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 
 		/**
+		 * Checking if the settings section is custom
+		 *
 		 * @param string $current_tab
 		 * @param string $current_subtab
 		 *
 		 * @return bool
+		 *
+		 * @since 1.0
 		 */
 		function section_is_custom( $current_tab, $current_subtab ) {
 			$custom_section = in_array( $current_tab, apply_filters( 'jb_settings_custom_tabs', [] ) )

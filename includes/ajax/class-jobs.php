@@ -17,24 +17,32 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 		/**
 		 * @var int
+		 *
+		 * @since 1.0
 		 */
 		var $jobs_per_page;
 
 
 		/**
 		 * @var array
+		 *
+		 * @since 1.0
 		 */
 		var $query_args = [];
 
 
 		/**
 		 * @var string
+		 *
+		 * @since 1.0
 		 */
 		var $search = '';
 
 
 		/**
 		 * @var string
+		 *
+		 * @since 1.0
 		 */
 		var $company_name_meta = '';
 
@@ -49,6 +57,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 		/**
 		 * Init variables
+		 *
+		 * @since 1.0
 		 */
 		function init_variables() {
 			$this->jobs_per_page = JB()->options()->get( 'jobs-list-pagination' );
@@ -56,10 +66,14 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 
 		/**
-		 * @param $where
-		 * @param $query
+		 * Replace 'WHERE' by the searching request
 		 *
-		 * @return string|string[]|null
+		 * @param string $where
+		 * @param \WP_Query $query
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function change_where_posts( $where, $query ) {
 			if ( ! empty( $_POST['search'] ) ) {
@@ -71,10 +85,14 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 
 		/**
-		 * @param $search
-		 * @param $query
+		 * Set class search variable
 		 *
-		 * @return mixed
+		 * @param string $search
+		 * @param \WP_Query $query
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function set_search( $search, $query ) {
 			$this->search = $search;
@@ -84,7 +102,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 		/**
 		 * Change mySQL meta query join attribute
-		 * for search only by UM user meta fields and WP core fields in WP Users table
+		 * for search by the company name
 		 *
 		 * @param array $sql Array containing the query's JOIN and WHERE clauses.
 		 * @param $queries
@@ -93,7 +111,9 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		 * @param $primary_id_column
 		 * @param \WP_Query $context
 		 *
-		 * @return mixed
+		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function change_meta_sql( $sql, $queries, $type, $primary_table, $primary_id_column, $context ) {
 			if ( ! empty( $_POST['search'] ) ) {
@@ -119,12 +139,6 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 						$this->company_name_meta = $meta_join_for_search;
 
-//						preg_match(
-//							"/\( (" . $meta_join_for_search . ".meta_key = 'jb-company-name' AND " . $meta_join_for_search . ".meta_value LIKE " . $search_meta . ") \)/im",
-//							$sql['where'],
-//							$join_matches
-//						);
-
 						$sql['where'] = preg_replace(
 							"/\( (" . $meta_join_for_search . ".meta_key = 'jb-company-name' AND " . $meta_join_for_search . ".meta_value LIKE " . $search_meta . ") \)/im",
 							"( $1 " . $search_query . " )",
@@ -142,10 +156,14 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 
 		/**
+		 * Searching by relevance
+		 *
 		 * @param string $search_orderby
 		 * @param \WP_Query $query
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function relevance_search( $search_orderby, $query ) {
 			global $wpdb;
@@ -171,7 +189,9 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 
 		/**
+		 * AJAX response for getting jobs
 		 *
+		 * @since 1.0
 		 */
 		function get_jobs() {
 			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
@@ -441,7 +461,9 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 
 		/**
+		 * AJAX handler for job delete
 		 *
+		 * @since 1.0
 		 */
 		function delete_job() {
 			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
@@ -471,7 +493,9 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 
 		/**
+		 * AJAX handler for making a job filled
 		 *
+		 * @since 1.0
 		 */
 		function fill_job() {
 			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
@@ -511,7 +535,9 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 
 		/**
+		 * AJAX handler for making a job unfilled
 		 *
+		 * @since 1.0
 		 */
 		function unfill_job() {
 			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
@@ -551,9 +577,13 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 
 		/**
-		 * @param $job_post
+		 * Prepare job data for AJAX response
+		 *
+		 * @param \WP_Post $job_post
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function get_job_data( $job_post ) {
 			if ( $job_post->post_status != 'publish' ) {
@@ -565,21 +595,23 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			}
 
 			return apply_filters( 'jb_job_dashboard_job_data_response', [
-				'id'                => $job_post->ID,
-				'title'             => $job_post->post_title,
-				'permalink'         => get_permalink( $job_post ),
-				'is_published'      => $job_post->post_status == 'publish',
-				'status_label'      => $status_label,
-				'status'            => $status,
-				'date'              => JB()->common()->job()->get_posted_date( $job_post->ID ),
-				'expires'           => JB()->common()->job()->get_expiry_date( $job_post->ID ),
-				'actions'           => JB()->common()->job()->get_actions( $job_post->ID ),
+				'id'            => $job_post->ID,
+				'title'         => $job_post->post_title,
+				'permalink'     => get_permalink( $job_post ),
+				'is_published'  => $job_post->post_status == 'publish',
+				'status_label'  => $status_label,
+				'status'        => $status,
+				'date'          => JB()->common()->job()->get_posted_date( $job_post->ID ),
+				'expires'       => JB()->common()->job()->get_expiry_date( $job_post->ID ),
+				'actions'       => JB()->common()->job()->get_actions( $job_post->ID ),
 			], $job_post );
 		}
 
 
 		/**
+		 * AJAX handler for getting employer's jobs
 		 *
+		 * @since 1.0
 		 */
 		function get_employer_jobs() {
 			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
@@ -616,6 +648,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		 * @param int $total_jobs
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function calculate_pagination( $total_jobs ) {
 

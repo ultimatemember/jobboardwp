@@ -39,6 +39,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 * @param array $atts
 		 *
 		 * @return string
+		 * @since 1.0
 		 */
 		function job_post( $atts ) {
 			$default = apply_filters( 'jb_post_job_shortcode_default_atts', [] );
@@ -186,11 +187,15 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 
 		/**
-		 * @param $html
-		 * @param $section_data
-		 * @param $form_data
+		 * Customize rendering 'my-details' section based on 'account-creation' option
+		 *
+		 * @param string $html
+		 * @param array $section_data
+		 * @param array $form_data
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function render_section( $html, $section_data, $form_data ) {
 			if ( $section_data['key'] == 'my-details' ) {
@@ -296,6 +301,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 * @param array $atts
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function single_job( $atts ) {
 			$default = apply_filters( 'jb_job_shortcode_default_atts', [
@@ -327,6 +334,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 * @param array $atts
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function jobs( $atts ) {
 			$default = apply_filters( 'jb_jobs_shortcode_default_atts', [
@@ -364,6 +373,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 * @param array $atts
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function jobs_dashboard( $atts ) {
 			$default = apply_filters( 'jb_jobs_dashboard_shortcode_default_atts', [] );

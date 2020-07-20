@@ -17,12 +17,16 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 
 		/**
 		 * @var array
+		 *
+		 * @since 1.0
 		 */
 		var $filters = [];
 
 
 		/**
 		 * @var array
+		 *
+		 * @since 1.0
 		 */
 		var $filter_types = [];
 
@@ -39,7 +43,9 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 
 
 		/**
+		 * Init jobs directory variables
 		 *
+		 * @since 1.0
 		 */
 		function init_variables() {
 			$this->filters = apply_filters( 'jb_jobs_directory_filters', [
@@ -55,47 +61,13 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 
 
 		/**
-		 * @param $filter
+		 * Get values from DB for build filter values
+		 *
+		 * @param string $filter
 		 *
 		 * @return array|int|\WP_Error
-		 */
-		function get_db_values( $filter ) {
-			global $wpdb;
-
-			$values = [];
-
-			switch ( $filter ) {
-				case 'job_type':
-
-					$values = get_terms( [
-						'taxonomy'      => 'jb-job-type',
-						'hide_empty'    => true,
-						'fields'        => 'ids',
-					] );
-
-					break;
-				case 'company':
-
-					$values = $wpdb->get_col(
-					"SELECT DISTINCT meta_value
-						FROM $wpdb->postmeta
-						WHERE meta_key = 'jb_company_name' AND 
-							  meta_value != ''"
-					);
-
-					break;
-				default:
-					break;
-			}
-
-			return $values;
-		}
-
-
-		/**
-		 * @param $filter
 		 *
-		 * @return array|int|\WP_Error
+		 * @since 1.0
 		 */
 		function get_filter_options( $filter ) {
 			global $wpdb;
@@ -140,9 +112,10 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 		 * @param string $filter
 		 *
 		 * @return string $filter
+		 *
+		 * @since 1.0
 		 */
 		function show_filter( $filter ) {
-
 			if ( empty( $this->filter_types[ $filter ] ) ) {
 				return '';
 			}
@@ -190,10 +163,8 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 				}
 			}
 
-
 			return $filter;
 		}
-
 
 	}
 }

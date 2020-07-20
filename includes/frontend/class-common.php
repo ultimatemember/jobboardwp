@@ -22,13 +22,18 @@ if ( ! class_exists( 'jb\frontend\Common' ) ) {
 		}
 
 
+		/**
+		 * @return bool
+		 *
+		 * @since 1.0
+		 */
 		function is_job_page() {
 			return is_singular( [ 'jb-job' ] );
 		}
 
 
 		/**
-		 *
+		 * @since 1.0
 		 */
 		function includes() {
 			$this->enqueue();

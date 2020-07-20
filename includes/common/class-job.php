@@ -24,9 +24,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Render job types layout
+		 *
 		 * @param int $job_id
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function display_types( $job_id ) {
 
@@ -71,6 +75,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * Calculates and returns the job expiry date.
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function calculate_expiry() {
 			$duration = absint( JB()->options()->get( 'job-duration' ) );
@@ -89,6 +95,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * @param int $job_id Job post ID
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_expiry_date( $job_id ) {
 			$expiry_date = get_post_meta( $job_id, 'jb-expiry-date', true );
@@ -103,11 +111,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
-		 * Returns the job expiry date.
+		 * Returns the job posted date.
 		 *
 		 * @param int $job_id Job post ID
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_posted_date( $job_id ) {
 			$posted_date = '';
@@ -133,6 +143,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * @param int $job_id Job post ID
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_html_datetime( $job_id ) {
 			$datetime = get_post_time( 'c', false, $job_id );
@@ -141,11 +153,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
-		 * Returns the job expiry date.
+		 * Returns the job author.
 		 *
 		 * @param int $job_id Job post ID
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_job_author( $job_id ) {
 			$job = get_post( $job_id );
@@ -167,6 +181,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * @param bool $raw RAW or formatted location
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_location_type( $job_id, $raw = false ) {
 			$location = get_post_meta( $job_id, 'jb-location-type', true );
@@ -196,6 +212,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * @param int $job_id Job post ID
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_location_data( $job_id ) {
 			$location_data = get_post_meta( $job_id, 'jb-location-raw-data', true );
@@ -212,6 +230,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * @param bool $raw RAW or formatted location
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_location( $job_id, $raw = false ) {
 			$location = get_post_meta( $job_id, 'jb-location', true );
@@ -232,9 +252,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Get location link
+		 *
 		 * @param $location
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_location_link( $location ) {
 			if ( empty( $location ) ) {
@@ -244,12 +268,15 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			return $location;
 		}
 
+
 		/**
-		 * Returns the job expiry date.
+		 * Returns the job company.
 		 *
 		 * @param int $job_id Job post ID
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_company( $job_id ) {
 			$company_name = get_post_meta( $job_id, 'jb-company-name', true );
@@ -271,9 +298,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
-		 * @param $job_id
+		 * Build job's company data
+		 *
+		 * @param int $job_id
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function get_company_data( $job_id ) {
 			$company_name = get_post_meta( $job_id, 'jb-company-name', true );
@@ -295,10 +326,14 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Get job logo
+		 *
 		 * @param int $job_id
 		 * @param bool $raw
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_logo( $job_id, $raw = false ) {
 			if ( $raw ) {
@@ -326,11 +361,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
-		 * Returns the job expiry date.
+		 * Returns the job status.
 		 *
 		 * @param int $job_id Job post ID
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_status( $job_id ) {
 			$job = get_post( $job_id );
@@ -349,9 +386,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Is job filled?
+		 *
 		 * @param int $job_id
 		 *
 		 * @return bool
+		 *
+		 * @since 1.0
 		 */
 		function is_filled( $job_id ) {
 			$filled = get_post_meta( $job_id, 'jb-is-filled', true );
@@ -360,9 +401,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Is job expired?
+		 *
 		 * @param int $job_id
 		 *
 		 * @return bool
+		 *
+		 * @since 1.0
 		 */
 		function is_expired( $job_id ) {
 			$job = get_post( $job_id );
@@ -380,9 +425,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Can job be applied?
+		 *
 		 * @param int $job_id
 		 *
 		 * @return bool
+		 *
+		 * @since 1.0
 		 */
 		function can_applied( $job_id ) {
 			$job = get_post( $job_id );
@@ -400,9 +449,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Get job RAW data
+		 *
 		 * @param int $job_id
 		 *
 		 * @return array|bool
+		 *
+		 * @since 1.0
 		 */
 		function get_raw_data( $job_id ) {
 			$job = get_post( $job_id );
@@ -471,9 +524,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Get job actions
+		 *
 		 * @param int|\WP_Post $job
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function get_actions( $job ) {
 			if ( is_numeric( $job ) ) {
@@ -540,9 +597,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Get job preview link
+		 *
 		 * @param $job_id
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_preview_link( $job_id ) {
 			$post_job_page = JB()->common()->permalinks()->get_preset_page_link( 'job-post' );
@@ -551,9 +612,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Get job edit link
+		 *
 		 * @param $job_id
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function get_edit_link( $job_id ) {
 			$post_job_page = JB()->common()->permalinks()->get_preset_page_link( 'job-post' );
@@ -562,9 +627,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Get job's structured data for schema.org
+		 *
 		 * @param int|\WP_Post $job
 		 *
 		 * @return array|bool
+		 *
+		 * @since 1.0
 		 */
 		function get_structured_data( $job ) {
 			if ( is_numeric( $job ) ) {
@@ -640,6 +709,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 *
 		 * @param \WP_Post $job
 		 * @return array|bool
+		 *
+		 * @since 1.0
 		 */
 		function get_structured_location( $job ) {
 			$address = [
@@ -647,28 +718,12 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			];
 
 			$mapping = [
-				'streetAddress'     => [
-					'street-number',
-					'street'
-				],
 				'addressLocality'   => 'city',
 				'addressRegion'     => 'state-short',
-				'postalCode'        => 'postcode',
 				'addressCountry'    => 'country-short',
 			];
 			foreach ( $mapping as $schema_key => $meta_key ) {
-				if ( is_array( $meta_key ) ) {
-					$values = [];
-					foreach ( $meta_key as $sub_meta_key ) {
-						$meta = get_post_meta( $job->ID, 'jb-location-' . $sub_meta_key, true );
-						if ( ! empty( $meta ) ) {
-							$values[] = $meta;
-						}
-					}
-					$value = implode( ' ', $values );
-				} else {
-					$value = get_post_meta( $job->ID, 'jb-location-' . $meta_key, true );
-				}
+				$value = get_post_meta( $job->ID, 'jb-location-' . $meta_key, true );
 
 				if ( ! empty( $value ) ) {
 					$address[ $schema_key ] = $value;
@@ -687,7 +742,9 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		/**
 		 * Get Templates
 		 *
-		 * @return mixed
+		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function get_templates() {
 
@@ -738,6 +795,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * @param $file
 		 *
 		 * @return mixed|string
+		 *
+		 * @since 1.0
 		 */
 		function get_template_name( $file ) {
 			$file = basename( $file );
@@ -748,6 +807,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 		/**
 		 * Maintenance task to expire jobs.
+		 *
+		 * @since 1.0
 		 */
 		function check_for_expired_jobs() {
 			// Change status to expired.
@@ -832,7 +893,9 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
-		 * Deletes old previewed jobs after 30 days to keep the DB clean.
+		 * Deletes old previewed jobs to keep the DB clean.
+		 *
+		 * @since 1.0
 		 */
 		function delete_old_previews() {
 			// Delete old jobs stuck in preview.

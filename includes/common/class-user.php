@@ -24,10 +24,14 @@ if ( ! class_exists( 'jb\common\User' ) ) {
 
 
 		/**
+		 * Get company data by the user
+		 *
 		 * @param int|null $user_id
 		 * @param string|null $field
 		 *
 		 * @return string|array
+		 *
+		 * @since 1.0
 		 */
 		function get_company_data( $user_id = null, $field = null ) {
 			$company_data = [
@@ -69,6 +73,8 @@ if ( ! class_exists( 'jb\common\User' ) ) {
 		 *
 		 * @param array $data
 		 * @param int|null $user_id
+		 *
+		 * @since 1.0
 		 */
 		function set_company_data( $data, $user_id = null ) {
 			$company_data = wp_parse_args( $data, [

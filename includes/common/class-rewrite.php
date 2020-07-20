@@ -28,6 +28,8 @@ if ( ! class_exists( 'jb\common\Rewrite' ) ) {
 
 		/**
 		 * Init variables for permalinks
+		 *
+		 * @since 1.0
 		 */
 		function init_variables() {
 			if ( get_option( 'permalink_structure' ) ) {
@@ -38,6 +40,8 @@ if ( ! class_exists( 'jb\common\Rewrite' ) ) {
 
 		/**
 		 * Update "flush" option for reset rules on wp_loaded hook
+		 *
+		 * @since 1.0
 		 */
 		function reset_rules() {
 			JB()->options()->update( 'flush_rewrite_rules', true );
@@ -48,6 +52,8 @@ if ( ! class_exists( 'jb\common\Rewrite' ) ) {
 		 * Reset Rewrite rules if need it.
 		 *
 		 * @return void
+		 *
+		 * @since 1.0
 		 */
 		function maybe_flush_rewrite_rules() {
 			$flush_exists = JB()->options()->get( 'flush_rewrite_rules' );

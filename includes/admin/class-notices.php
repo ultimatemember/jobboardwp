@@ -20,6 +20,8 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 		 * Notices list
 		 *
 		 * @var array
+		 *
+		 * @since 1.0
 		 */
 		var $list = [];
 
@@ -34,7 +36,9 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 
 
 		/**
+		 * Initialize all admin notices
 		 *
+		 * @since 1.0
 		 */
 		function create_list() {
 			$this->install_core_page_notice();
@@ -44,6 +48,8 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 
 		/**
 		 * Render all admin notices
+		 *
+		 * @since 1.0
 		 */
 		function render() {
 			if ( ! current_user_can( 'manage_options' ) ) {
@@ -67,7 +73,11 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 
 
 		/**
+		 * Getting all admin notices
+		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function get_admin_notices() {
 			return $this->list;
@@ -75,7 +85,11 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 
 
 		/**
-		 * @param $admin_notices
+		 * Set admin notices variable
+		 *
+		 * @param array $admin_notices
+		 *
+		 * @since 1.0
 		 */
 		function set_admin_notices( $admin_notices ) {
 			$this->list = $admin_notices;
@@ -83,10 +97,14 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 
 
 		/**
-		 * @param $a
-		 * @param $b
+		 * Sorting notices in predefined priority
+		 *
+		 * @param array $a
+		 * @param array $b
 		 *
 		 * @return mixed
+		 *
+		 * @since 1.0
 		 */
 		function notice_priority_sort( $a, $b ) {
 			if ( $a['priority'] == $b['priority'] ) {
@@ -102,6 +120,8 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 		 * @param string $key
 		 * @param array $data
 		 * @param int $priority
+		 *
+		 * @since 1.0
 		 */
 		function add( $key, $data, $priority = 10 ) {
 			$admin_notices = $this->get_admin_notices();
@@ -117,6 +137,8 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 		 * Remove notice from JB notices array
 		 *
 		 * @param string $key
+		 *
+		 * @since 1.0
 		 */
 		function remove_notice( $key ) {
 			$admin_notices = $this->get_admin_notices();
@@ -135,6 +157,8 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 		 * @param bool $echo
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function display( $key, $echo = true ) {
 			$admin_notices = $this->get_admin_notices();
@@ -175,6 +199,8 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 		 * Dismiss notices by key
 		 *
 		 * @param string $key
+		 *
+		 * @since 1.0
 		 */
 		function dismiss( $key ) {
 			$hidden_notices = JB()->options()->get( 'hidden_admin_notices', [] );
@@ -185,6 +211,8 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 
 		/**
 		 * Regarding page setup
+		 *
+		 * @since 1.0
 		 */
 		function install_core_page_notice() {
 			if ( JB()->common()->permalinks()->are_pages_installed() || ! current_user_can( 'manage_options' ) ) {

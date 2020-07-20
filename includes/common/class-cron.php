@@ -25,7 +25,9 @@ if ( ! class_exists( 'jb\common\Cron' ) ) {
 
 
 		/**
+		 * Clear scheduled tasks
 		 *
+		 * @since 1.0
 		 */
 		function unschedule_tasks() {
 			wp_clear_scheduled_hook( 'jb_check_for_expired_jobs' );
@@ -33,9 +35,10 @@ if ( ! class_exists( 'jb\common\Cron' ) ) {
 		}
 
 
-
 		/**
+		 * Maybe create scheduled events
 		 *
+		 * @since 1.0
 		 */
 		function maybe_schedule_tasks() {
 			if ( ! wp_next_scheduled( 'jb_check_for_expired_jobs' ) ) {
@@ -45,8 +48,6 @@ if ( ! class_exists( 'jb\common\Cron' ) ) {
 				wp_schedule_event( time(), 'daily', 'jb_delete_old_previews' );
 			}
 		}
-
-
 
 	}
 }

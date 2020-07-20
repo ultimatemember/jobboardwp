@@ -25,10 +25,14 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 
 
 		/**
+		 * Parse and save location data
+		 *
 		 * @param array $job_data
 		 * @param array $posting_form
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function add_location_data( $job_data, $posting_form ) {
 			$key = JB()->options()->get( 'googlemaps-api-key' );
@@ -75,6 +79,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 		 * $_POST validation on form submission
 		 *
 		 * @return int|\WP_Error
+		 *
+		 * @since 1.0
 		 */
 		function maybe_create_user() {
 			/**
@@ -244,6 +250,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 		 * Allows for immediate access to the logged in cookie after mid-request login.
 		 *
 		 * @param string $logged_in_cookie Logged in cookie.
+		 *
+		 * @since 1.0
 		 */
 		function update_global_login_cookie( $logged_in_cookie ) {
 			$_COOKIE[ LOGGED_IN_COOKIE ] = $logged_in_cookie;
@@ -251,7 +259,9 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 
 
 		/**
+		 * Main frontend action listener
 		 *
+		 * @since 1.0
 		 */
 		function actions_listener() {
 			if ( ! empty( $_POST['jb-action'] ) ) {
@@ -627,7 +637,6 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							$is_edited = get_post_meta( $job_id, 'jb-last-edit-date', true );
 							$was_pending = get_post_meta( $job_id, 'jb-had-pending', true );
 
-							update_post_meta( $job_id, 'jb-last-edit-date', time() );
 							if ( ! empty( $is_edited ) && JB()->options()->get( 'published-job-editing' ) == '0' ) {
 								$preview_form->add_error( 'global', __( 'Security action, Please try again.', 'jobboardwp' ) );
 							}
@@ -650,6 +659,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									'ID'            => $job_id,
 									'post_status'   => $status,
 								] );
+
+								update_post_meta( $job_id, 'jb-last-edit-date', time() );
 
 								if ( ! empty( $is_edited ) ) {
 									$emails = JB()->common()->mail()->multi_admin_email();

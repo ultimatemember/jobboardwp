@@ -32,7 +32,9 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 
 
 		/**
+		 * Google Maps enqueue
 		 *
+		 * @since 1.0
 		 */
 		function enqueue_gmap() {
 			$key = JB()->options()->get( 'googlemaps-api-key' );
@@ -57,7 +59,9 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 
 
 		/**
+		 * Register frontend scripts
 		 *
+		 * @since 1.0
 		 */
 		function register_scripts() {
 			wp_register_script( 'select2', $this->url['common'] . 'libs/select2/js/select2.full.min.js', [ 'jquery' ], jb_version, true );

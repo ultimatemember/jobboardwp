@@ -24,6 +24,8 @@ if ( ! class_exists( 'jb\common\Common' ) ) {
 
 		/**
 		 * Init variables for getting templates
+		 *
+		 * @since 1.0
 		 */
 		function init_template_path() {
 			JB()->templates_path = jb_path . 'templates' . DIRECTORY_SEPARATOR;
@@ -32,7 +34,9 @@ if ( ! class_exists( 'jb\common\Common' ) ) {
 
 
 		/**
+		 * Common plugin includes
 		 *
+		 * @since 1.0
 		 */
 		function includes() {
 			$this->cpt();

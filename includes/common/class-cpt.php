@@ -30,6 +30,8 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 		 * Get all JB CPT
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function get() {
 			$cpt = [
@@ -86,6 +88,8 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 		 * Get all CPT taxonomies
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function get_taxonomies() {
 			$jobs_slug = JB()->common()->permalinks()->get_slug( 'jobs' );
@@ -182,6 +186,8 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 		 * Get all custom post statuses
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function get_post_statuses() {
 			$statuses = [
@@ -210,6 +216,8 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 
 		/**
 		 * Create CPT & Taxonomies
+		 *
+		 * @since 1.0
 		 */
 		function create_post_types() {
 			$cpt = $this->get();
@@ -226,6 +234,8 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 
 		/**
 		 * Register Job Board statuses
+		 *
+		 * @since 1.0
 		 */
 		function register_post_statuses() {
 			$order_statuses = $this->get_post_statuses();
@@ -237,7 +247,11 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 
 
 		/**
+		 * Expand wp-admin bar links
+		 *
 		 * @param \WP_Admin_Bar $wp_admin_bar
+		 *
+		 * @since 1.0
 		 */
 		function toolbar_links( $wp_admin_bar ) {
 			global $post;
@@ -260,7 +274,7 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 				'href'  => get_edit_post_link(),
 				'meta'  => [
 					'class' => 'jb-child-toolbar',
-				]
+				],
 			];
 
 			$wp_admin_bar->add_node( $args );
@@ -268,7 +282,11 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 
 
 		/**
+		 * Expand wp-admin bar links
+		 *
 		 * @param \WP_Admin_Bar $wp_admin_bar
+		 *
+		 * @since 1.0
 		 */
 		function new_cpt_links( $wp_admin_bar ) {
 			if ( ! is_user_logged_in() ) {
@@ -279,14 +297,12 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 				return;
 			}
 
-			$wp_admin_bar->add_menu(
-				[
-					'parent'    => 'new-content',
-					'id'        => 'new-jb-job',
-					'title'     => __( 'Job', 'jobboardwp' ),
-					'href'      => add_query_arg( [ 'post_type' => 'jb-job' ], admin_url( 'post-new.php' ) ),
-				]
-			);
+			$wp_admin_bar->add_menu( [
+				'parent'    => 'new-content',
+				'id'        => 'new-jb-job',
+				'title'     => __( 'Job', 'jobboardwp' ),
+				'href'      => add_query_arg( [ 'post_type' => 'jb-job' ], admin_url( 'post-new.php' ) ),
+			] );
 		}
 	}
 }

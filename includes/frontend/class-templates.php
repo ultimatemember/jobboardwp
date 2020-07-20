@@ -38,6 +38,8 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 		/**
 		 * Change WP native job post content
+		 *
+		 * @since 1.0
 		 */
 		function change_wp_native_post_content() {
 			$template = JB()->options()->get( 'job-template' );
@@ -52,7 +54,9 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 
 		/**
+		 * Enqueue single job assets
 		 *
+		 * @since 1.0
 		 */
 		function enqueue_single_job() {
 			wp_enqueue_script( 'jb-single-job' );
@@ -61,9 +65,13 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 
 		/**
-		 * @param $content
+		 * Add JB block before the job post content
+		 *
+		 * @param string $content
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function before_job_content( $content ) {
 			global $post;
@@ -88,9 +96,13 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 
 		/**
-		 * @param $content
+		 * Add JB block after the job post content
+		 *
+		 * @param string $content
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function after_job_content( $content ) {
 			global $post;
@@ -118,6 +130,8 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 * @param string $single_template
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function cpt_template( $single_template ) {
 			global $post;
@@ -138,9 +152,13 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 
 		/**
-		 * @param $types
+		 * Callback for twentytwenty WP native theme to disable showing post meta
+		 *
+		 * @param array $types
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function add_cpt_meta( $types ) {
 			$types[] = 'jb-job';
@@ -149,11 +167,15 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 
 		/**
-		 * @param $has_thumbnail
-		 * @param $post
-		 * @param $thumbnail_id
+		 * Hide job thumbnail
+		 *
+		 * @param bool $has_thumbnail
+		 * @param int|\WP_Post $post
+		 * @param int $thumbnail_id
 		 *
 		 * @return bool
+		 *
+		 * @since 1.0
 		 */
 		function hide_post_thumbnail( $has_thumbnail, $post, $thumbnail_id ) {
 
@@ -175,6 +197,8 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 * @param string $template
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function cpt_template_include( $template ) {
 
@@ -218,6 +242,8 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 		/**
 		 * Clear the post title
+		 *
+		 * @since 1.0
 		 */
 		function on_wp_head_finish() {
 			add_filter( 'the_title', [ $this, 'clear_title' ], 10, 2 );
@@ -226,10 +252,13 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 		/**
 		 * Return empty title
-		 * @param $title
-		 * @param $post_id
+		 *
+		 * @param string $title
+		 * @param int $post_id
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function clear_title( $title, $post_id ) {
 			$post = get_post( $post_id );
@@ -245,9 +274,11 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		/**
 		 * Set default content of the job page
 		 *
-		 * @param $content
+		 * @param string $content
 		 *
 		 * @return string
+		 *
+		 * @since 1.0
 		 */
 		function cpt_content( $content ) {
 			global $post;
@@ -267,10 +298,12 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 * Add hidden class if users need to add some custom CSS on page template to hide a header when title is hidden
 		 *
 		 * @param array $classes
-		 * @param $class
+		 * @param string $class
 		 * @param int $post_id
 		 *
 		 * @return array
+		 *
+		 * @since 1.0
 		 */
 		function hidden_title_class( $classes, $class, $post_id ) {
 			$classes[] = 'jb-hidden-title';
@@ -281,6 +314,8 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 		/**
 		 * Add structured data to the footer of job listing pages.
+		 *
+		 * @since 1.0
 		 */
 		function output_structured_data() {
 			if ( ! is_singular( 'jb-job' ) ) {
@@ -297,11 +332,13 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 
 		/**
-		 * New menu
+		 * Dropdown menu template
 		 *
 		 * @param string $element
 		 * @param string $trigger
 		 * @param array $items
+		 *
+		 * @since 1.0
 		 */
 		function dropdown_menu( $element, $trigger, $items = [] ) {
 			?>
@@ -325,6 +362,8 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 * @param $display
 		 *
 		 * @return bool
+		 *
+		 * @since 1.0
 		 */
 		function check_preloader_css( $size, $display ) {
 			if ( ! empty( $this->preloader_styles[ $size ][ $display ] ) ) {
