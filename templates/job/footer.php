@@ -17,14 +17,24 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 
 					<div class="jb-job-apply-description">
 						<?php if ( is_email( $contact ) ) {
-							$contact_mailto = add_query_arg([ 'subject' => esc_html__( sprintf( __( 'Application via %s job on %s', 'jobboardwp' ), $title, home_url() ) ) ], 'mailto:' . $contact ); ?>
+							// translators: %1$s: application type, %2$s: home URL
+							$contact_mailto = add_query_arg(
+								[
+									'subject' => esc_html__( sprintf( __( 'Application via %1$s job on %2$s', 'jobboardwp' ), $title, home_url() ) )
+								],
+								'mailto:' . $contact
+							); ?>
 
 							<p>
-								<?php printf( __( 'To apply for this job <strong>email your details to</strong> <a href="%s">%s</a>.', 'jobboardwp' ), $contact_mailto, $contact ); ?>
+								<?php
+								// translators: %1$s: mailto URL, %2$s: contact email
+								printf( __( 'To apply for this job <strong>email your details to</strong> <a href="%1$s">%2$s</a>.', 'jobboardwp' ), $contact_mailto, $contact ); ?>
 							</p>
 						<?php } else { ?>
 							<p>
-								<?php printf( __( 'To apply for this job please visit <a href="%s">%s</a>.', 'jobboardwp' ), $contact, $contact ); ?>
+								<?php
+								// translators: %1$s: application's website URL
+								printf( __( 'To apply for this job please visit <a href="%1$s">%1$s</a>.', 'jobboardwp' ), $contact ); ?>
 							</p>
 						<?php } ?>
 

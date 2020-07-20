@@ -198,6 +198,7 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 					'exclude_from_search'       => true,
 					'show_in_admin_all_list'    => true,
 					'show_in_admin_status_list' => true,
+					// translators: %s: posts count
 					'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'jobboardwp' ),
 				],
 				'jb-preview'    => [
@@ -206,6 +207,7 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 					'exclude_from_search'       => true,
 					'show_in_admin_all_list'    => false,
 					'show_in_admin_status_list' => true,
+					// translators: %s: posts count
 					'label_count'               => _n_noop( 'Preview <span class="count">(%s)</span>', 'Preview <span class="count">(%s)</span>', 'jobboardwp' ),
 				],
 			];

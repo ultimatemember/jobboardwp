@@ -4,7 +4,12 @@ $current_tab = empty( $_GET['tab'] ) ? '' : urldecode( $_GET['tab'] );
 $current_subtab = empty( $_GET['section'] ) ? '' : urldecode( $_GET['section'] ); ?>
 
 <div id="jb-settings-wrap" class="wrap">
-	<h2><?php printf( __( '%s - Settings', 'jobboardwp' ), jb_plugin_name ) ?></h2>
+	<h2>
+		<?php
+			// translators: %s: plugin name
+			printf( __( '%s - Settings', 'jobboardwp' ), jb_plugin_name );
+		?>
+	</h2>
 
 	<?php echo JB()->admin()->settings()->tabs_menu() . JB()->admin()->settings()->subtabs_menu( $current_tab );
 

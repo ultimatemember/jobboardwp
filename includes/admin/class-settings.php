@@ -117,6 +117,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				$general_pages_fields[] = [
 					'id'            => $page_id . '_page',
 					'type'          => 'select',
+					// translators: %s: page title
 					'label'         => sprintf( __( '%s page', 'jobboardwp' ), $page_title ),
 					'options'       => $page_options,
 					'placeholder'   => __( 'Choose a page...', 'jobboardwp' ),

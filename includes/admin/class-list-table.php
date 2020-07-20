@@ -45,10 +45,10 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 
 						if ( $can_edit_post && $post->post_status != 'trash' ) {
 							printf(
-								'(#%s)&nbsp;<a class="row-title" href="%s" aria-label="%s">%s</a>',
+								'(#%1$s)&nbsp;<a class="row-title" href="%2$s" aria-label="%3$s">%4$s</a>',
 								$post->ID,
 								get_edit_post_link( $post->ID ),
-								/* translators: %s: Post title. */
+								// translators: %s: Post title.
 								esc_attr( sprintf( __( '&#8220;%s&#8221; (Edit)' ), $title ) ),
 								$title
 							);
@@ -67,9 +67,11 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 					$company_website = get_post_meta( $post->ID, 'jb-company-website', true );
 
 					if ( ! empty( $company_website ) ) {
-						printf( "<div class=\"company\"><span title=\"%s\"><a href=\"%s\">%s</a></span></div>\n", $company_tagline, $company_website, $company_name );
+						// translators: %1$s: Company tagline, %2$s: Company website link, %3$s: Company name
+						printf( '<div class="company"><span title="%1$s"><a href="%2$s">%3$s</a></span></div>' . "\n", $company_tagline, $company_website, $company_name );
 					} else {
-						printf( "<div class=\"company\"><span title=\"%s\">%s</span></div>\n", $company_tagline, $company_name );
+						// translators: %1$s: Company tagline, %2$s: Company name
+						printf( '<div class="company"><span title="%1$s">%2$s</span></div>' . "\n", $company_tagline, $company_name );
 					} ?>
 
 				</div>
@@ -81,7 +83,7 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 				if ( $lock_holder ) {
 					$lock_holder   = get_userdata( $lock_holder );
 					$locked_avatar = get_avatar( $lock_holder->ID, 18 );
-					/* translators: %s: User's display name. */
+					// translators: %s: User's display name.
 					$locked_text = esc_html( sprintf( __( '%s is currently editing' ), $lock_holder->display_name ) );
 				} else {
 					$locked_avatar = '';

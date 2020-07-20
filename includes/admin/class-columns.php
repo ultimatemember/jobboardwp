@@ -318,8 +318,9 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 					switch ( $type_raw ) {
 						case '0': {
 							$location = JB()->common()->job()->get_location_link( JB()->common()->job()->get_location( $id ) );
-							// translators: %s is a location type and %s is a location.
-							printf( __( '%s (%s)', 'jobboardwp' ), $type, $location );
+
+							// translators: %1$s is a location type; %2$s is a location.
+							printf( __( '%1$s (%2$s)', 'jobboardwp' ), $type, $location );
 
 							break;
 						}
@@ -382,8 +383,8 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 					$author = JB()->common()->job()->get_job_author( $id );
 
 					$post = get_post( $id );
-					// translators: %s is a posted job date. %s is an author URL and %s is Author display name
-					printf( __( '%s <br />by <a href="%s" title="Filter by author">%s</a>', 'jobboardwp' ), $posted, esc_url( add_query_arg( 'author', $post->post_author ) ), $author );
+					// translators: %1$s is a posted job date. %2$s is an author URL and %3$s is Author display name
+					printf( __( '%1$s <br />by <a href="%2$s" title="Filter by author">%3$s</a>', 'jobboardwp' ), $posted, esc_url( add_query_arg( 'author', $post->post_author ) ), $author );
 					break;
 				case 'expires':
 					$expiry = JB()->common()->job()->get_expiry_date( $id );

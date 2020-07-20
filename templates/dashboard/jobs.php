@@ -4,7 +4,9 @@
 if ( ! is_user_logged_in() ) { ?>
 
 	<p>
-		<?php printf( __( '<a href="%s">Sign in</a> to view your job listings.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
+		<?php
+		// translators: %s: login link
+		printf( __( '<a href="%s">Sign in</a> to view your job listings.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
 	</p>
 
 <?php } else {

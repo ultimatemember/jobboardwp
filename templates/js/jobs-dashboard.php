@@ -86,7 +86,9 @@
 		<# }); #>
 	<# } else { #>
 		<div class="jb-job-dashboard-empty-row">
-			<?php printf( __( 'No created jobs yet. <a href="%s">Create</a> new one.', 'jobboardwp' ), JB()->common()->permalinks()->get_preset_page_link( 'job-post' ) ); ?>
+			<?php
+			// translators: %s: Post a job URL
+			printf( __( 'No created jobs yet. <a href="%s">Create</a> new one.', 'jobboardwp' ), JB()->common()->permalinks()->get_preset_page_link( 'job-post' ) ); ?>
 		</div>
 	<# } #>
 </script>

@@ -58,6 +58,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				if ( ! empty( $_GET['msg'] ) ) {
 					switch ( sanitize_key( $_GET['msg'] ) ) {
 						case 'draft':
+						    // translators: %s: jobs dashboard page link
 							$posting_form->add_notice(
 								sprintf( __( 'Job\'s draft was saved. You could resumed it from the <a href="%s" title="Job Dashboard">job dashboard</a>', 'jobboardwp' ), $jobs_dashboard_link ),
 								'draft'
@@ -77,6 +78,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						case 'published':
 
 							if ( ! empty( $_GET['published-id'] ) ) {
+							    // translators: %s: link to the published job
 								$posting_form->add_notice(
 									sprintf( __( 'Job is posted successfully. To view your job <a href="%s">click here</a>', 'jobboardwp' ), get_permalink( $_GET['published-id'] ) ),
 									'published'
@@ -118,7 +120,9 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					ob_start(); ?>
 
 					<p>
-						<?php printf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
+						<?php
+						// translators: %s: login link
+						printf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
 					</p>
 
 					<?php return ob_get_clean();
@@ -283,7 +287,9 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					ob_start(); ?>
 
 					<p>
-						<?php printf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
+						<?php
+						// translators: %s: login link
+						printf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
 					</p>
 
 					<?php $html .= ob_get_clean();

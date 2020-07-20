@@ -178,7 +178,7 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 
 			ob_start();
 
-			printf( '<div class="jb-admin-notice notice %s" data-key="%s">%s</div>',
+			printf( '<div class="jb-admin-notice notice %1$s" data-key="%2$s">%3$s</div>',
 				esc_attr( $class ),
 				esc_attr( $key ),
 				$message
@@ -227,7 +227,10 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 			ob_start(); ?>
 
 			<p>
-				<?php printf( __( 'To add job board functionality to your website %s needs to create the following pages: %s.', 'jobboardwp' ), jb_plugin_name, implode( ', ', $page_titles ) ); ?>
+				<?php
+				// translators: %1$s: plugin name, %2$s: list of pre-defined pages
+				printf( __( 'To add job board functionality to your website %1$s needs to create the following pages: %2$s.', 'jobboardwp' ), jb_plugin_name, implode( ', ', $page_titles ) );
+				?>
 			</p>
 			<p>
 				<a href="<?php echo esc_attr( add_query_arg( 'jb_adm_action', 'install_core_pages' ) ); ?>" class="button button-primary">
