@@ -6,14 +6,14 @@ jQuery( document ).ready( function($) {
 	$('.jb-tip-s').tipsy({gravity: 's', opacity: 1, live: 'a.live', offset: 3 });
 
 
-	if( typeof( $.fn.select2 ) === "function" ){
+	if ( typeof( $.fn.select2 ) === "function" ) {
 		$(".jb-s1").select2({
 			allowClear: true
 		});
 
 		$(".jb-s2").select2({
 			allowClear: false,
-        	placeholder: 'Please select...'
+        	placeholder: wp.i18n.__( 'Please select...', 'jobboardwp' )
 		});
 	}
 
