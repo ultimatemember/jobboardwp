@@ -1,7 +1,7 @@
 ﻿=== JobBoardWP - Job Board Listings and Submissions ===
 Author URI: https://jobboardwp.com/
 Plugin URI: https://wordpress.org/plugins/jobboardwp/
-Contributors: nsinelnikov
+Contributors: ultimatemember, nsinelnikov
 Tags: jobs, jobs board
 Requires PHP: 5.6
 Requires at least: 5.0
@@ -76,9 +76,13 @@ Got a problem or need help with JobBoardWP? Head over to our [documentation](htt
 4. Screenshot 4
 5. Screenshot 5
 6. Screenshot 6
+7. Screenshot 7
+8. Screenshot 8
+9. Screenshot 9
+10. Screenshot 10
 
 == Changelog ==
 
-= 1.0.0: July xx, 2020 =
+= 1.0.0: July 21, 2020 =
 
 * Initial Release
