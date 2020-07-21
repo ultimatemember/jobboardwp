@@ -30,7 +30,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 			add_filter( 'bulk_actions-edit-jb-job', [ &$this, 'remove_from_bulk_actions' ], 10, 1 );
 			add_filter( 'handle_bulk_actions-edit-jb-job', [ &$this, 'custom_bulk_action_handler' ], 10, 3 );
 
-			add_action( 'admin_notices', [ &$this, 'after_approve_notice' ] );
+			add_action( 'admin_notices', [ &$this, 'after_bulk_action_notice' ] );
 
 			add_filter( 'views_edit-jb-job', [ &$this, 'replace_list_table' ], 10, 1 );
 			add_filter( 'post_row_actions', [ &$this, 'remove_quick_edit' ] , 10, 2 );
@@ -147,11 +147,11 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 
 
 		/**
-		 * Added admin notice after bulk approve job posts
+		 * Added admin notice after bulk approve or delete job posts
 		 *
 		 * @since 1.0
 		 */
-		function after_approve_notice() {
+		function after_bulk_action_notice() {
 			if ( ! empty( $_REQUEST['jb-approved'] ) ) {
 				$approved_count = intval( $_REQUEST['jb-approved'] );
 				// translators: %s is the count of approved jobs.
@@ -161,6 +161,15 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 							$approved_count,
 							'jobboardwp'
 						) . '</div>', $approved_count );
+			} elseif ( ! empty( $_REQUEST['jb-deleted'] ) ) {
+				$deleted_count = intval( $_REQUEST['jb-deleted'] );
+				// translators: %s is the count of deleted jobs.
+				printf( '<div class="jb-admin-notice notice updated fade">' .
+						_n( '<p>%s job is deleted.</p>',
+							'<p>%s jobs are deleted.</p>',
+							$deleted_count,
+							'jobboardwp'
+						) . '</div>', $deleted_count );
 			}
 		}
 
@@ -177,43 +186,47 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		 * @since 1.0
 		 */
 		function custom_bulk_action_handler( $redirect_to, $doaction, $post_ids ) {
-			if ( $doaction !== 'jb-approve' ) {
-				return $redirect_to;
+			if ( $doaction == 'jb-approve' ) {
+				$app_ids = [];
+				foreach ( $post_ids as $post_id ) {
+					$post = get_post( $post_id );
+					if ( $post->post_status != 'pending' ) {
+						continue;
+					}
+					$app_ids[] = $post_id;
+
+					$args = [
+						'ID'            => $post_id,
+						'post_status'   => 'publish',
+					];
+
+					// a fix for restored from trash pending jobs
+					if ( '__trashed' === substr( $post->post_name, 0, 9 ) ) {
+						$args['post_name'] = sanitize_title( $post->post_title );
+					}
+
+					wp_update_post( $args );
+
+					delete_post_meta( $post_id, 'jb-had-pending' );
+
+					$post = get_post( $post_id );
+					$user = get_userdata( $post->post_author );
+					if ( ! empty( $user ) && ! is_wp_error( $user ) ) {
+						JB()->common()->mail()->send( $user->user_email, 'job_approved', [
+							'job_id'        => $post_id,
+							'job_title'     => $post->post_title,
+							'view_job_url'  => get_permalink( $post ),
+						] );
+					}
+				}
+				$redirect_to = add_query_arg( 'jb-approved', count( $post_ids ), $redirect_to );
+			} elseif ( $doaction == 'jb-delete' ) {
+				foreach ( $post_ids as $post_id ) {
+					wp_delete_post( $post_id, true );
+				}
+				$redirect_to = add_query_arg( 'jb-deleted', count( $post_ids ), $redirect_to );
 			}
 
-			$app_ids = [];
-			foreach ( $post_ids as $post_id ) {
-				$post = get_post( $post_id );
-				if ( $post->post_status != 'pending' ) {
-					continue;
-				}
-				$app_ids[] = $post_id;
-
-				$args = [
-					'ID'            => $post_id,
-					'post_status'   => 'publish',
-				];
-
-				// a fix for restored from trash pending jobs
-				if ( '__trashed' === substr( $post->post_name, 0, 9 ) ) {
-					$args['post_name'] = sanitize_title( $post->post_title );
-				}
-
-				wp_update_post( $args );
-
-				delete_post_meta( $post_id, 'jb-had-pending' );
-
-				$post = get_post( $post_id );
-				$user = get_userdata( $post->post_author );
-				if ( ! empty( $user ) && ! is_wp_error( $user ) ) {
-					JB()->common()->mail()->send( $user->user_email, 'job_approved', [
-						'job_id'        => $post_id,
-						'job_title'     => $post->post_title,
-						'view_job_url'  => get_permalink( $post ),
-					] );
-				}
-			}
-			$redirect_to = add_query_arg( 'jb-approved', count( $post_ids ), $redirect_to );
 			return $redirect_to;
 		}
 
@@ -230,7 +243,8 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		function remove_from_bulk_actions( $actions ) {
 			unset( $actions['edit'] );
 
-			$actions = ['jb-approve' => __( 'Approve', 'jobboardwp' ),] + $actions;
+			$actions = [ 'jb-approve' => __( 'Approve', 'jobboardwp' ), ] + $actions;
+			$actions = $actions + [ 'jb-delete' => __( 'Delete permanently', 'jobboardwp' ), ];
 			return $actions;
 		}
 
