@@ -36,6 +36,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			add_action( 'init', [ $this, 'init' ], 10 );
 
 			add_action( 'admin_init', [ $this, 'save_settings' ], 10 );
+
+			add_filter( 'jb_change_settings_before_save', array( $this, 'save_email_templates' ) );
 		}
 
 
@@ -818,6 +820,39 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			$custom_section = in_array( $current_tab, apply_filters( 'jb_settings_custom_tabs', [] ) )
 							  || in_array( $current_subtab, apply_filters( 'jb_settings_custom_subtabs', [], $current_tab ) );
 			return $custom_section;
+		}
+
+
+		/**
+		 * @param $settings
+		 *
+		 * @return mixed
+		 */
+		function save_email_templates( $settings ) {
+
+			if ( empty( $settings['jb_email_template'] ) ) {
+				return $settings;
+			}
+
+			$template = $settings['jb_email_template'];
+			$content = stripslashes( $settings[ $template ] );
+
+			$theme_template_path = JB()->common()->mail()->get_template_file( 'theme', $template );
+
+			if ( ! file_exists( $theme_template_path ) ) {
+				JB()->common()->mail()->copy_email_template( $template );
+			}
+
+			$fp = fopen( $theme_template_path, "w" );
+			$result = fputs( $fp, $content );
+			fclose( $fp );
+
+			if ( $result !== false ) {
+				unset( $settings['jb_email_template'] );
+				unset( $settings[ $template ] );
+			}
+
+			return $settings;
 		}
 
 	}

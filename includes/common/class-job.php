@@ -760,7 +760,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			if ( is_dir( $dir ) ) {
 				$handle = opendir( $dir );
 				while ( false !== ( $filename = readdir( $handle ) ) ) {
-					if ( $filename != '.' && $filename != '..' ) {
+					if ( $filename != '.' && $filename != '..' && $filename != 'emails' ) {
 
 						$clean_filename = $this->get_template_name( $filename );
 
