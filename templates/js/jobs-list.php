@@ -13,7 +13,7 @@
 				<?php } ?>
 				<div class="jb-row-data">
 					<div class="jb-job-title">
-                        <span class="jb-job-title-link-line"><a href="{{{job.permalink}}}" class="jb-job-title-link">{{{job.title}}}</a></span>
+						<span class="jb-job-title-link-line"><a href="{{{job.permalink}}}" class="jb-job-title-link">{{{job.title}}}</a></span>
 						<?php if ( ! $jb_js_jobs_list['hide-job-types'] ) { ?>
 							<# if ( job.types.length > 0 ) { #>
 								<div class="jb-job-types jb-responsive jb-ui-m jb-ui-l jb-ui-xl">
@@ -28,12 +28,14 @@
 					</div>
 					<div class="jb-row-info">
 						<div class="jb-row-left-side">
-							<div class="company">
-								<i class="far fa-building"></i>
-								<span title="{{{job.company.tagline}}}">
-									{{{job.company.name}}}
-								</span>
-							</div>
+							<# if ( job.company.name ) { #>
+								<div class="company">
+									<i class="far fa-building"></i>
+									<span title="{{{job.company.tagline}}}">
+										{{{job.company.name}}}
+									</span>
+								</div>
+							<# } #>
 
 							<# if ( job.location ) { #>
 								<div class="location">
@@ -42,10 +44,10 @@
 								</div>
 							<# } #>
 
-                            <div class="jb-responsive jb-ui-s jb-ui-xs date" title="<?php esc_attr_e( 'Posted', 'jobboardwp' ) ?>">
-                                <i class="far fa-calendar-alt"></i>
-	                            <?php _e( 'Posted', 'jobboardwp' ) ?> {{{job.date}}}
-                            </div>
+							<div class="jb-responsive jb-ui-s jb-ui-xs date" title="<?php esc_attr_e( 'Posted', 'jobboardwp' ) ?>">
+								<i class="far fa-calendar-alt"></i>
+								<?php _e( 'Posted', 'jobboardwp' ) ?> {{{job.date}}}
+							</div>
 
 							<# if ( job.expires ) { #>
 								<div class="expires" title="<?php esc_attr_e( 'Expires', 'jobboardwp' ) ?>">
@@ -61,15 +63,15 @@
 							</div>
 
 							<?php if ( ! $jb_js_jobs_list['hide-job-types'] ) { ?>
-                                <# if ( job.types.length > 0 ) { #>
-                                    <div class="jb-job-types jb-responsive jb-ui-s jb-ui-xs">
-                                        <# _.each( job.types, function( type, t_key, t_list ) { #>
-                                            <div class="jb-job-type" style="color:{{{type.color}}};background:{{{type.bg_color}}};">
-                                                {{{type.name}}}
-                                            </div>
-                                        <# }); #>
-                                    </div>
-                                <# } #>
+								<# if ( job.types.length > 0 ) { #>
+									<div class="jb-job-types jb-responsive jb-ui-s jb-ui-xs">
+										<# _.each( job.types, function( type, t_key, t_list ) { #>
+											<div class="jb-job-type" style="color:{{{type.color}}};background:{{{type.bg_color}}};">
+												{{{type.name}}}
+											</div>
+										<# }); #>
+									</div>
+								<# } #>
 							<?php } ?>
 						</div>
 					</div>

@@ -77,41 +77,55 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				return;
 			}
 
-			$selected_cat = isset( $_GET['jb-job-category'] ) ? sanitize_text_field( wp_unslash( $_GET['jb-job-category'] ) ) : '';
+			$categories = get_terms( [
+				'taxonomy'      => 'jb-job-category',
+				'hide_empty'    => false,
+			] );
 
-			$dropdown_options = [
-				'selected'          => $selected_cat,
-				'name'              => 'jb-job-category',
-				'taxonomy'          => 'jb-job-category',
-				'show_option_all'   => get_taxonomy( 'jb-job-category' )->labels->all_items,
-				'hide_empty'        => false,
-				'hierarchical'      => 1,
-				'show_count'        => 0,
-				'orderby'           => 'name',
-				'value_field'       => 'slug',
-				'option_none_value' => '',
-			];
+			if ( ! empty( $categories ) ) {
+				$selected_cat = isset( $_GET['jb-job-category'] ) ? sanitize_text_field( wp_unslash( $_GET['jb-job-category'] ) ) : '';
 
-			echo '<label class="screen-reader-text" for="jb-job-category">' . __( 'Filter by job category', 'jobboardwp' ) . '</label>';
-			wp_dropdown_categories( $dropdown_options );
+				$dropdown_options = [
+					'selected'          => $selected_cat,
+					'name'              => 'jb-job-category',
+					'taxonomy'          => 'jb-job-category',
+					'show_option_all'   => get_taxonomy( 'jb-job-category' )->labels->all_items,
+					'hide_empty'        => false,
+					'hierarchical'      => 1,
+					'show_count'        => 0,
+					'orderby'           => 'name',
+					'value_field'       => 'slug',
+					'option_none_value' => '',
+				];
 
-			$selected_cat = isset( $_GET['jb-job-type'] ) ? sanitize_text_field( wp_unslash( $_GET['jb-job-type'] ) ) : '';
+				echo '<label class="screen-reader-text" for="jb-job-category">' . __( 'Filter by job category', 'jobboardwp' ) . '</label>';
+				wp_dropdown_categories( $dropdown_options );
+			}
 
-			$dropdown_options = [
-				'selected'          => $selected_cat,
-				'name'              => 'jb-job-type',
-				'taxonomy'          => 'jb-job-type',
-				'show_option_all'   => get_taxonomy( 'jb-job-type' )->labels->all_items,
-				'hide_empty'        => false,
-				'hierarchical'      => 1,
-				'show_count'        => 0,
-				'orderby'           => 'name',
-				'value_field'       => 'slug',
-				'option_none_value' => '',
-			];
+			$types = get_terms( [
+				'taxonomy'      => 'jb-job-type',
+				'hide_empty'    => false,
+			] );
 
-			echo '<label class="screen-reader-text" for="jb-job-type">' . __( 'Filter by job type', 'jobboardwp' ) . '</label>';
-			wp_dropdown_categories( $dropdown_options );
+			if ( ! empty( $types ) ) {
+				$selected_cat = isset( $_GET['jb-job-type'] ) ? sanitize_text_field( wp_unslash( $_GET['jb-job-type'] ) ) : '';
+
+				$dropdown_options = [
+					'selected'          => $selected_cat,
+					'name'              => 'jb-job-type',
+					'taxonomy'          => 'jb-job-type',
+					'show_option_all'   => get_taxonomy( 'jb-job-type' )->labels->all_items,
+					'hide_empty'        => false,
+					'hierarchical'      => 1,
+					'show_count'        => 0,
+					'orderby'           => 'name',
+					'value_field'       => 'slug',
+					'option_none_value' => '',
+				];
+
+				echo '<label class="screen-reader-text" for="jb-job-type">' . __( 'Filter by job type', 'jobboardwp' ) . '</label>';
+				wp_dropdown_categories( $dropdown_options );
+			}
 
 			$selected = isset( $_GET['jb-is-filled'] ) ? sanitize_text_field( wp_unslash( $_GET['jb-is-filled'] ) ) : '';
 
@@ -174,10 +188,18 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 					continue;
 				}
 				$app_ids[] = $post_id;
-				wp_update_post( [
+
+				$args = [
 					'ID'            => $post_id,
 					'post_status'   => 'publish',
-				] );
+				];
+
+				// a fix for restored from trash pending jobs
+				if ( '__trashed' === substr( $post->post_name, 0, 9 ) ) {
+					$args['post_name'] = sanitize_title( $post->post_title );
+				}
+
+				wp_update_post( $args );
 
 				delete_post_meta( $post_id, 'jb-had-pending' );
 

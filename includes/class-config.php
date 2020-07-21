@@ -258,7 +258,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 			$this->email_notifications = apply_filters( 'jb_email_notifications', [
 				'job_submitted' => [
 					'key'               => 'job_submitted',
-					'title'             => __( 'Job Submitted', 'jobboardwp' ),
+					'title'             => __( 'Job submitted', 'jobboardwp' ),
 					'subject'           => __( 'New Job Submission - {site_name}', 'jobboardwp' ),
 					'description'       => __( 'Whether to send the admin an email when new job is posted on website.', 'jobboardwp' ),
 					'recipient'         => 'admin',
@@ -266,7 +266,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 				],
 				'job_approved'  => [
 					'key'               => 'job_approved',
-					'title'             => __( 'Job Listing Approved', 'jobboardwp' ),
+					'title'             => __( 'Job listing approved', 'jobboardwp' ),
 					'subject'           => __( 'Job listing is now live - {site_name}', 'jobboardwp' ),
 					'description'       => __( 'Whether to send the job\'s author an email when job is approved.', 'jobboardwp' ),
 					'recipient'         => 'user',

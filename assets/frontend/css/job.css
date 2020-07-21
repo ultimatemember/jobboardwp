@@ -119,6 +119,22 @@
       .jb .jb-job-company .jb-job-company-links a:not(:last-child) {
         margin: 0 5px 0 0; }
 
+.jb .jb-job-filled-notice, .jb .jb-job-expired-notice {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
+  flex-wrap: nowrap;
+  width: 100%;
+  margin: 15px 0;
+  padding: 10px 15px;
+  background: #fbf3f1;
+  color: #b6312f;
+  border-radius: 5px;
+  border: none; }
+  .jb .jb-job-filled-notice i, .jb .jb-job-expired-notice i {
+    margin: 0 10px 0 0; }
+
 .jb .jb-job-footer {
   display: flex;
   flex-direction: column;

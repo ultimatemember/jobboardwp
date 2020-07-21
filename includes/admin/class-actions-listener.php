@@ -57,10 +57,17 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 
 							if ( ! empty( $job ) && ! is_wp_error( $job ) ) {
 								if ( $job->post_status == 'pending' ) {
-									wp_update_post( [
+									$args = [
 										'ID'            => $job_id,
 										'post_status'   => 'publish',
-									] );
+									];
+
+									// a fix for restored from trash pending jobs
+									if ( '__trashed' === substr( $job->post_name, 0, 9 ) ) {
+										$args['post_name'] = sanitize_title( $job->post_title );
+									}
+
+									wp_update_post( $args );
 
 									delete_post_meta( $job_id, 'jb-had-pending' );
 

@@ -197,7 +197,11 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 					}
 
 					if ( 'jb-expiry-date' == $k ) {
-						$v = date( 'Y-m-d', strtotime( $v, current_time( 'timestamp' ) ) );
+						if ( empty( $v ) ) {
+							$v = JB()->common()->job()->calculate_expiry();
+						} else {
+							$v = date( 'Y-m-d', strtotime( $v, current_time( 'timestamp' ) ) );
+						}
 					}
 
 					if ( 'jb-location-data' == $k ) {
@@ -242,6 +246,8 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 					update_post_meta( $post_id, $k, $v );
 				}
 			}
+
+			update_post_meta( $post_id, 'jb-last-edit-date', time() );
 		}
 	}
 }

@@ -702,7 +702,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								$job_post_page_url = JB()->common()->permalinks()->get_preset_page_link( 'job-post' );
 								if ( empty( $is_edited ) && JB()->options()->get( 'job-moderation' ) ) {
 									$url = add_query_arg( [ 'msg' => 'on-moderation' ], $job_post_page_url );
-								} elseif ( ! empty( $is_edited ) && JB()->options()->get( 'published-job-editing' ) ) {
+								} elseif ( ! empty( $is_edited ) && JB()->options()->get( 'published-job-editing' ) == '1' ) {
 									$url = add_query_arg( [ 'msg' => 'on-moderation' ], $job_post_page_url );
 								} else {
 									$url = add_query_arg( [ 'msg' => 'published', 'published-id' => $job_id ], $job_post_page_url );
