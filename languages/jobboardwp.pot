@@ -88,7 +88,7 @@ msgid "Location"
 msgstr ""
 
 #: includes/admin/class-columns.php:289
-msgid "Filled?"
+msgid "Filled"
 msgstr ""
 
 #: includes/admin/class-columns.php:290
