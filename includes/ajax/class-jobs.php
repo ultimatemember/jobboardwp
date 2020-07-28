@@ -534,6 +534,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				$jobs = [];
 				$jobs[] = $this->get_job_data( $job );
 
+				do_action( 'jb_fill_job', $job_id, $job );
+
 				wp_send_json_success( [ 'jobs' => $jobs ] );
 			} else {
 				wp_send_json_error( __( 'Something went wrong.', 'jobboardwp' ) );
@@ -575,6 +577,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 				$jobs = [];
 				$jobs[] = $this->get_job_data( $job );
+
+				do_action( 'jb_unfill_job', $job_id, $job );
 
 				wp_send_json_success( [ 'jobs' => $jobs ] );
 			} else {

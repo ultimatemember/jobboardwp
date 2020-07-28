@@ -680,6 +680,9 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 											] );
 										}
 									}
+
+									do_action( 'jb_job_edited', $job_id, $job );
+
 								} else {
 									$emails = JB()->common()->mail()->multi_admin_email();
 									if ( ! empty( $emails ) ) {
@@ -697,6 +700,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 											] );
 										}
 									}
+
+									do_action( 'jb_job_published', $job_id, $job );
 								}
 
 								$job_post_page_url = JB()->common()->permalinks()->get_preset_page_link( 'job-post' );
