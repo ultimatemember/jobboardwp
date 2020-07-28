@@ -218,6 +218,8 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 							'view_job_url'  => get_permalink( $post ),
 						] );
 					}
+
+					do_action( 'jb_job_is_approved', $post_id, $post );
 				}
 				$redirect_to = add_query_arg( 'jb-approved', count( $post_ids ), $redirect_to );
 			} elseif ( $doaction == 'jb-delete' ) {

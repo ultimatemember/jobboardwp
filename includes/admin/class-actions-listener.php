@@ -81,6 +81,8 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 										] );
 									}
 
+									do_action( 'jb_job_is_approved', $job_id, $job );
+
 									$url = add_query_arg( [ 'jb-approved' => '1' ], $referrer );
 									exit( wp_redirect( $url ) );
 								}

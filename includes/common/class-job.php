@@ -849,6 +849,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 					$job_data['ID']          = $job_id;
 					$job_data['post_status'] = 'jb-expired';
 					wp_update_post( $job_data );
+
+					do_action( 'jb_job_is_expired', $job_id );
 				}
 			}
 
