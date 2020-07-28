@@ -2,7 +2,7 @@
 Author URI: https://jobboardwp.com/
 Plugin URI: https://wordpress.org/plugins/jobboardwp/
 Contributors: ultimatemember, nsinelnikov
-Tags: jobs, jobs board
+Tags: job, job board, job portal, job listing, job manager
 Requires PHP: 5.6
 Requires at least: 5.0
 Tested up to: 5.4.2
@@ -50,13 +50,15 @@ Job types allow users to select the type of job they are listing when they submi
 
 = Job Categories =
 
-Job categories allow users to
+You can create custom categories for jobs in the wp-admin and allow users to select a category for their job submission when submitting a job.
 
 = Settings =
 
-The plugin provides various settings so you can customize how your job board looks and functions.
+The plugin provides various settings so you can customize how your job board looks and functions. You can also enable/disable emails and change email text.
 
-Read about all of the plugin's features at [JobBoardWP](https://jobboardwp.com)
+= GOOGLE STRUCTURED DATA: =
+
+The plugin has been built to work with Google search by adding structured data to job listings. This allows job listings to appear in Google job search results.
 
 = Documentation & Support =
 

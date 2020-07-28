@@ -196,6 +196,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		function get_jobs() {
 			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
 
+			$query_args = [];
+
 			global $wpdb;
 			// Prepare for BIG SELECT query
 			$wpdb->query( 'SET SQL_BIG_SELECTS=1' );
@@ -205,6 +207,11 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			 *
 			 */
 			$paged = ! empty( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
+
+			$employer = ! empty( $_POST['employer'] ) ? absint( $_POST['employer'] ) : '';
+			if ( ! empty( $employer ) ) {
+				$query_args['post_author'] = $employer;
+			}
 
 			$statuses = [ 'publish' ];
 			if ( JB()->options()->get( 'jobs-list-hide-filled' ) ) {
@@ -232,12 +239,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				$statuses[] = 'jb-expired';
 			}
 
-			$query_args = [
+			$query_args = array_merge( $query_args, [
 				'orderby'           => 'date',
 				'order'             => 'DESC',
 				'post_type'         => 'jb-job',
 				'post_status'       => $statuses,
-			];
+			] );
 
 			if ( ! empty( $_POST['get_previous'] ) ) {
 				// first loading with page > 1....to show the jobs above

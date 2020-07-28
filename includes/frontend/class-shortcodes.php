@@ -345,6 +345,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 */
 		function jobs( $atts ) {
 			$default = apply_filters( 'jb_jobs_shortcode_default_atts', [
+				'employer-id'           => '',
 				'per-page'              => JB()->options()->get( 'jobs-list-pagination' ),
 				'no-logo'               => JB()->options()->get( 'jobs-list-no-logo' ),
 				'hide-filled'           => JB()->options()->get( 'jobs-list-hide-filled' ),

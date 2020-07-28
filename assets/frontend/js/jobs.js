@@ -115,6 +115,13 @@ wp.JB.jobs_list = {
 			}
 			return page;
 		},
+		get_employer: function() {
+			var employer_id = wp.JB.jobs_list.objects.wrapper.data( 'employer' );
+			if ( ! employer_id || typeof employer_id == 'undefined' ) {
+				employer_id = '';
+			}
+			return employer_id;
+		},
 		get_search: function() {
 			if ( wp.JB.jobs_list.objects.wrapper.find('.jb-search-line').length ) {
 				return wp.JB.jobs_list.objects.wrapper.find( '.jb-search-line' ).val();
@@ -159,6 +166,7 @@ wp.JB.jobs_list = {
 			remote_only:  wp.JB.jobs_list.url.get_type(),
 			type:  wp.JB.jobs_list.url.get_type_tag(),
 			category:  wp.JB.jobs_list.url.get_category(),
+			employer:  wp.JB.jobs_list.url.get_employer(),
 			nonce: jb_front_data.nonce
 		};
 
@@ -251,7 +259,7 @@ jQuery( document ).ready( function($) {
 		var location = wp.JB.jobs_list.url.get_location();
 		wp.JB.jobs_list.url.set( 'jb-location-search', location );
 
-        wp.hooks.doAction( 'jb_jobs_list_do_search' );
+		wp.hooks.doAction( 'jb_jobs_list_do_search' );
 
 		$(this).addClass('disabled');
 
@@ -283,7 +291,7 @@ jQuery( document ).ready( function($) {
 			var location = wp.JB.jobs_list.url.get_location();
 			wp.JB.jobs_list.url.set( 'jb-location-search', location );
 
-            wp.hooks.doAction( 'jb_jobs_list_do_search' );
+			wp.hooks.doAction( 'jb_jobs_list_do_search' );
 
 			button.addClass('disabled');
 
