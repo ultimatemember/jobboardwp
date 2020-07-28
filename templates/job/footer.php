@@ -42,7 +42,8 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 					</div>
 				</div>
 
-			<?php } ?>
+				<?php do_action( 'jb_after_job_apply_block', $job_id );
+			} ?>
 		</div>
 	</div>
 
