@@ -436,15 +436,18 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		function can_applied( $job_id ) {
 			$job = get_post( $job_id );
 
+			$can_applied = false;
 			if ( empty( $job ) || is_wp_error( $job ) ) {
-				return false;
+				return $can_applied;
 			}
 
 			if ( ! $this->is_filled( $job_id ) && ! in_array( $job->post_status, [ 'jb-preview', 'jb-expired' ] ) ) {
-				return true;
+				$can_applied = true;
 			}
 
-			return false;
+			$can_applied = apply_filters( 'jb_can_applied_job', $can_applied, $job_id );
+
+			return $can_applied;
 		}
 
 
