@@ -437,7 +437,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						];
 					}
 
-					$jobs[] = [
+					$jobs[] = apply_filters( 'jb_jobs_job_data_response', [
 						'title'     => $job_post->post_title,
 						'permalink' => get_permalink( $job_post ),
 						'date'      => JB()->common()->job()->get_posted_date( $job_post->ID ),
@@ -453,7 +453,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						'logo'      => JB()->common()->job()->get_logo( $job_post->ID ),
 						'location'  => $formatted_location,
 						'types'     => $data_types,
-					];
+					] );
 				}
 			}
 
@@ -461,7 +461,6 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				'pagination'    => $this->calculate_pagination( $get_posts->found_posts ),
 				'jobs'          => $jobs,
 			] );
-
 
 			wp_send_json_success( $response );
 		}
