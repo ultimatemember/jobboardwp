@@ -76,6 +76,15 @@
 						</div>
 					</div>
 				</div>
+				<# if ( job.actions.length > 0 ) { #>
+					<div class="jb-row-actions">
+						<# _.each( job.actions, function( action, a_key, a_list ) { #>
+							<a href="{{{action.url}}}" class="{{{action.class}}}">
+								<i class="{{{action.img}}}"></i>
+							</a>
+						<# }); #>
+					</div>
+				<# } #>
 			</div>
 		<# }); #>
 	<# } #>

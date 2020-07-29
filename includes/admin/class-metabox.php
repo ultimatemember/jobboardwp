@@ -200,7 +200,14 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 						if ( empty( $v ) ) {
 							$v = JB()->common()->job()->calculate_expiry();
 						} else {
-							$v = date( 'Y-m-d', strtotime( $v, current_time( 'timestamp' ) ) );
+							$date = strtotime( $v, current_time( 'timestamp' ) );
+							$v = date( 'Y-m-d', $date );
+
+							if ( current_time( 'timestamp' ) >= $date ) {
+								global $wpdb;
+								$wpdb->update( $wpdb->posts, [ 'post_status' => 'jb-expired' ], [ 'ID' => $post_id ], [ '%d' ], [ '%d' ] );
+								do_action( 'jb_job_is_expired', $post_id );
+							}
 						}
 					}
 
