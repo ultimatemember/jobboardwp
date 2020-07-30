@@ -153,6 +153,8 @@
       margin: 5px 0 0 0; }
     .jb .jb-job-footer .jb-job-footer-row .jb-job-apply-wrapper .jb-job-apply-description {
       display: none; }
+    .jb .jb-job-footer .jb-job-footer-row .jb-job-after-apply-wrapper {
+      padding: 0 0 0 10px; }
 
 .jb.jb-ui-xs .jb-job-company {
   display: flex;
@@ -355,6 +357,8 @@
         margin: 5px 0 0 0; }
       .jb-single-job-wrapper .jb-job-footer .jb-job-footer-row .jb-job-apply-wrapper .jb-job-apply-description {
         display: none; }
+      .jb-single-job-wrapper .jb-job-footer .jb-job-footer-row .jb-job-after-apply-wrapper {
+        padding: 0 0 0 10px; }
   .jb-single-job-wrapper.jb-ui-xs .jb-job-company {
     display: flex;
     flex-direction: column;

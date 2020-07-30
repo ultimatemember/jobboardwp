@@ -3,7 +3,7 @@
 <script type="text/template" id="tmpl-jb-jobs-list-line">
 	<# if ( data.length > 0 ) { #>
 		<# _.each( data, function( job, key, list ) { #>
-			<div class="jb-job-list-row<?php if ( $jb_js_jobs_list['no-logo'] ) { ?> jb-job-list-no-logo<?php } else { ?><# if ( ! job.logo ) { #> jb-job-list-no-logo<# } #><?php } ?>">
+			<div class="jb-job-list-row<?php if ( $jb_js_jobs_list['no-logo'] ) { ?> jb-job-list-no-logo<?php } else { ?><# if ( ! job.logo ) { #> jb-job-list-no-logo<# } #><?php } ?><# if ( job.actions.length > 0 ) { #> jb-job-list-with-actions<# } #>">
 				<?php if ( ! $jb_js_jobs_list['no-logo'] ) { ?>
 					<# if ( job.logo ) { #>
 						<div class="jb-job-logo">

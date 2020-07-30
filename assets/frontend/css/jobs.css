@@ -250,8 +250,16 @@
                 border-radius: 3px; }
                 .jb-jobs .jb-jobs-wrapper .jb-job-list-row .jb-row-data .jb-row-info .jb-row-right-side .jb-job-types .jb-job-type:not(:first-child) {
                   margin: 0 0 0 5px; }
+      .jb-jobs .jb-jobs-wrapper .jb-job-list-row .jb-row-actions {
+        margin: 0 0 0 10px; }
       .jb-jobs .jb-jobs-wrapper .jb-job-list-row.jb-job-list-no-logo .jb-row-data {
         width: 100%; }
+      .jb-jobs .jb-jobs-wrapper .jb-job-list-row.jb-job-list-no-logo.jb-job-list-with-actions .jb-row-data {
+        width: calc( 100% - 60px); }
+      .jb-jobs .jb-jobs-wrapper .jb-job-list-row.jb-job-list-with-actions {
+        align-items: center; }
+        .jb-jobs .jb-jobs-wrapper .jb-job-list-row.jb-job-list-with-actions:not(.jb-job-list-no-logo) .jb-row-data {
+          width: calc( 100% - 140px); }
   .jb-jobs .jb-jobs-pagination-box {
     display: flex;
     flex-direction: row;

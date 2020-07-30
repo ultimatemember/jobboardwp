@@ -88,6 +88,8 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 				$jobs_deps[] = 'jb-location-field';
 			}
 
+			$jobs_deps = apply_filters( 'jb-jobs-scripts-enqueue', $jobs_deps );
+
 			wp_register_script( 'jb-front-forms', $this->js_url['frontend'] . 'forms' . JB()->scrips_prefix . '.js', $forms_deps, jb_version, true );
 
 			wp_register_script( 'jb-jobs', $this->js_url['frontend'] . 'jobs' . JB()->scrips_prefix . '.js', $jobs_deps, jb_version, true );

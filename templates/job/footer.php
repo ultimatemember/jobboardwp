@@ -41,9 +41,10 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 						<a href="javascript:void(0);" class="jb-job-apply-hide"><?php _e( 'Cancel', 'jobboardwp' ); ?></a>
 					</div>
 				</div>
-
-				<?php do_action( 'jb_after_job_apply_block', $job_id );
-			} ?>
+				<div class="jb-job-after-apply-wrapper">
+					<?php do_action( 'jb_after_job_apply_block', $job_id ); ?>
+				</div>
+			<?php } ?>
 		</div>
 	</div>
 

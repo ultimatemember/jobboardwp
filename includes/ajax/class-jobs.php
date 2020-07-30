@@ -453,7 +453,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						'logo'      => JB()->common()->job()->get_logo( $job_post->ID ),
 						'location'  => $formatted_location,
 						'types'     => $data_types,
-					] );
+						'actions'   => [],
+					], $job_post );
 				}
 			}
 
@@ -491,6 +492,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			$result = wp_delete_post( $job_id, true );
 			if ( ! empty( $result ) ) {
+				do_action( 'jb-after-job-delete', $job_id, $result );
+
 				wp_send_json_success();
 			} else {
 				wp_send_json_error( __( 'Something went wrong.', 'jobboardwp' ) );

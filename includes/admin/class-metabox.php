@@ -196,6 +196,18 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 						continue;
 					}
 
+					if ( 'jb-is-filled' == $k ) {
+						if ( ! empty( $v ) ) {
+							if ( ! JB()->common()->job()->is_filled( $post_id ) ) {
+								do_action( 'jb_fill_job', $post_id, $post );
+							}
+						} else {
+							if ( JB()->common()->job()->is_filled( $post_id ) ) {
+								do_action( 'jb_unfill_job', $post_id, $post );
+							}
+						}
+					}
+
 					if ( 'jb-expiry-date' == $k ) {
 						if ( empty( $v ) ) {
 							$v = JB()->common()->job()->calculate_expiry();
@@ -205,7 +217,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 							if ( current_time( 'timestamp' ) >= $date ) {
 								global $wpdb;
-								$wpdb->update( $wpdb->posts, [ 'post_status' => 'jb-expired' ], [ 'ID' => $post_id ], [ '%d' ], [ '%d' ] );
+								$wpdb->update( $wpdb->posts, [ 'post_status' => 'jb-expired' ], [ 'ID' => $post_id ], [ '%s' ], [ '%d' ] );
 								do_action( 'jb_job_is_expired', $post_id );
 							}
 						}

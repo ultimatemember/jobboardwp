@@ -167,9 +167,19 @@
                 &:not(:first-child)
                   margin: 0 0 0 5px
 
+      .#{$prefix}row-actions
+        margin: 0 0 0 10px
       &.#{$job}list-no-logo
         .#{$prefix}row-data
           width: 100%
+        &.#{$job}list-with-actions
+          .#{$prefix}row-data
+            width: calc( 100% - 60px )
+      &.#{$job}list-with-actions
+        align-items: center
+        &:not(.#{$job}list-no-logo)
+          .#{$prefix}row-data
+            width: calc( 100% - 140px )
 
   .#{$jobs}pagination-box
     +flex( row, center, baseline, nowrap )
