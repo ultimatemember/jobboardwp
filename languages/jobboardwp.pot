@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the JobBoardWP plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: JobBoardWP 1.0.0\n"
+"Project-Id-Version: JobBoardWP 1.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jobboardwp\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-07-21T14:51:16+03:00\n"
+"POT-Creation-Date: 2020-08-12T16:16:08+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: jobboardwp\n"
@@ -20,7 +20,6 @@ msgid "JobBoardWP"
 msgstr ""
 
 #. Plugin URI of the plugin
-#. Author URI of the plugin
 msgid "https://jobboardwp.com/"
 msgstr ""
 
@@ -46,8 +45,8 @@ msgid "Select Filled"
 msgstr ""
 
 #: includes/admin/class-columns.php:134
-#: includes/admin/class-columns.php:325
-#: includes/ajax/class-jobs.php:593
+#: includes/admin/class-columns.php:327
+#: includes/ajax/class-jobs.php:606
 msgid "Filled"
 msgstr ""
 
@@ -70,63 +69,63 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s is a job title.
-#: includes/admin/class-columns.php:246
-#: includes/admin/class-columns.php:297
+#: includes/admin/class-columns.php:248
+#: includes/admin/class-columns.php:299
 msgid "Approve"
 msgstr ""
 
-#: includes/admin/class-columns.php:247
+#: includes/admin/class-columns.php:249
 msgid "Delete permanently"
 msgstr ""
 
 #. translators: %s is a job title.
-#: includes/admin/class-columns.php:297
+#: includes/admin/class-columns.php:299
 msgid "Approve %s"
 msgstr ""
 
-#: includes/admin/class-columns.php:322
+#: includes/admin/class-columns.php:324
 msgid "(#ID) Position"
 msgstr ""
 
-#: includes/admin/class-columns.php:323
-#: includes/frontend/class-shortcodes.php:392
+#: includes/admin/class-columns.php:325
+#: includes/frontend/class-shortcodes.php:393
 msgid "Status"
 msgstr ""
 
-#: includes/admin/class-columns.php:324
+#: includes/admin/class-columns.php:326
 #: includes/admin/templates/job/data.php:81
 #: templates/job-submission.php:247
 msgid "Location"
 msgstr ""
 
-#: includes/admin/class-columns.php:326
+#: includes/admin/class-columns.php:328
 msgid "Type"
 msgstr ""
 
-#: includes/admin/class-columns.php:327
+#: includes/admin/class-columns.php:329
 msgid "Category"
 msgstr ""
 
-#: includes/admin/class-columns.php:328
-#: includes/frontend/class-shortcodes.php:393
+#: includes/admin/class-columns.php:330
+#: includes/frontend/class-shortcodes.php:394
 #: templates/js/jobs-list.php:47
 #: templates/js/jobs-list.php:49
 #: templates/js/jobs-list.php:61
 msgid "Posted"
 msgstr ""
 
-#: includes/admin/class-columns.php:329
+#: includes/admin/class-columns.php:331
 #: templates/js/jobs-list.php:53
 msgid "Expires"
 msgstr ""
 
 #. translators: %1$s is a location type; %2$s is a location.
-#: includes/admin/class-columns.php:359
+#: includes/admin/class-columns.php:361
 msgid "%1$s (%2$s)"
 msgstr ""
 
 #. translators: %1$s is a posted job date. %2$s is an author URL and %3$s is Author display name
-#: includes/admin/class-columns.php:423
+#: includes/admin/class-columns.php:425
 msgid "%1$s <br />by <a href=\"%2$s\" title=\"Filter by author\">%3$s</a>"
 msgstr ""
 
@@ -645,7 +644,7 @@ msgid "Onsite"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:72
-#: includes/ajax/class-jobs.php:413
+#: includes/ajax/class-jobs.php:420
 #: includes/common/class-job.php:201
 #: includes/common/class-job.php:245
 #: templates/job-submission.php:240
@@ -772,62 +771,62 @@ msgstr ""
 msgid "Upload successful."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:415
+#: includes/ajax/class-jobs.php:422
 #: includes/common/class-job.php:247
 msgid "Anywhere"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:472
+#: includes/ajax/class-jobs.php:479
 msgid "Wrong job ID."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:479
+#: includes/ajax/class-jobs.php:486
 msgid "Wrong job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:483
+#: includes/ajax/class-jobs.php:490
 msgid "You haven't ability to delete this job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:490
-#: includes/ajax/class-jobs.php:532
-#: includes/ajax/class-jobs.php:574
+#: includes/ajax/class-jobs.php:499
+#: includes/ajax/class-jobs.php:543
+#: includes/ajax/class-jobs.php:587
 msgid "Something went wrong."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:504
-#: includes/ajax/class-jobs.php:546
+#: includes/ajax/class-jobs.php:513
+#: includes/ajax/class-jobs.php:557
 msgid "Wrong job ID"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:511
-#: includes/ajax/class-jobs.php:553
-#: includes/frontend/class-actions-listener.php:543
-#: includes/frontend/class-actions-listener.php:618
-#: includes/frontend/class-actions-listener.php:632
+#: includes/ajax/class-jobs.php:520
+#: includes/ajax/class-jobs.php:564
+#: includes/frontend/class-actions-listener.php:545
+#: includes/frontend/class-actions-listener.php:623
+#: includes/frontend/class-actions-listener.php:637
 #: includes/frontend/class-shortcodes.php:115
 #: includes/frontend/class-shortcodes.php:132
 #: includes/frontend/class-shortcodes.php:149
 msgid "Wrong job"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:515
+#: includes/ajax/class-jobs.php:524
 msgid "You haven't ability to fill this job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:519
+#: includes/ajax/class-jobs.php:528
 msgid "Job is already filled."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:557
+#: includes/ajax/class-jobs.php:568
 msgid "You haven't ability to un-fill this job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:561
+#: includes/ajax/class-jobs.php:572
 msgid "Job isn't filled yet."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:593
+#: includes/ajax/class-jobs.php:606
 msgid "Not-filled"
 msgstr ""
 
@@ -903,8 +902,8 @@ msgid "Add New Job"
 msgstr ""
 
 #: includes/common/class-cpt.php:45
-#: includes/common/class-job.php:566
-#: includes/common/class-job.php:576
+#: includes/common/class-job.php:571
+#: includes/common/class-job.php:581
 msgid "Edit"
 msgstr ""
 
@@ -927,7 +926,7 @@ msgid "Search Jobs"
 msgstr ""
 
 #: includes/common/class-cpt.php:51
-#: includes/frontend/class-shortcodes.php:357
+#: includes/frontend/class-shortcodes.php:358
 msgid "No Jobs found"
 msgstr ""
 
@@ -1428,25 +1427,25 @@ msgstr ""
 msgid "Zulu"
 msgstr ""
 
-#: includes/common/class-job.php:545
+#: includes/common/class-job.php:550
 msgid "Submit again"
 msgstr ""
 
-#: includes/common/class-job.php:548
-#: includes/common/class-job.php:558
-#: includes/common/class-job.php:591
+#: includes/common/class-job.php:553
+#: includes/common/class-job.php:563
+#: includes/common/class-job.php:596
 msgid "Delete"
 msgstr ""
 
-#: includes/common/class-job.php:555
+#: includes/common/class-job.php:560
 msgid "Continue submission"
 msgstr ""
 
-#: includes/common/class-job.php:582
+#: includes/common/class-job.php:587
 msgid "Mark as filled"
 msgstr ""
 
-#: includes/common/class-job.php:586
+#: includes/common/class-job.php:591
 msgid "Mark as un-filled"
 msgstr ""
 
@@ -1528,7 +1527,7 @@ msgid "Please use another username"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:278
-#: includes/frontend/class-actions-listener.php:622
+#: includes/frontend/class-actions-listener.php:627
 msgid "Security issue, Please try again"
 msgstr ""
 
@@ -1606,15 +1605,15 @@ msgstr ""
 msgid "Wrong image URL"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:556
+#: includes/frontend/class-actions-listener.php:558
 msgid "Job submission issue, Please try again"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:626
+#: includes/frontend/class-actions-listener.php:631
 msgid "Wrong action, Please try again"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:641
+#: includes/frontend/class-actions-listener.php:646
 msgid "Security action, Please try again."
 msgstr ""
 
@@ -1737,19 +1736,19 @@ msgstr ""
 msgid "Log In"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:356
+#: includes/frontend/class-shortcodes.php:357
 msgid "No Jobs"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:358
+#: includes/frontend/class-shortcodes.php:359
 msgid "Load more jobs"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:391
+#: includes/frontend/class-shortcodes.php:392
 msgid "Title"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:394
+#: includes/frontend/class-shortcodes.php:395
 #: templates/js/jobs-list.php:56
 msgid "Closing on"
 msgstr ""
