@@ -5,8 +5,8 @@ Contributors: ultimatemember, nsinelnikov
 Tags: job, job board, job portal, job listing, job manager
 Requires PHP: 5.6
 Requires at least: 5.0
-Tested up to: 5.4.2
-Stable tag: 1.0
+Tested up to: 5.5
+Stable tag: 1.0.1
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -84,6 +84,10 @@ Got a problem or need help with JobBoardWP? Head over to our [documentation](htt
 10. Screenshot 10
 
 == Changelog ==
+
+= 1.0.1: August 12, 2020 =
+
+* Added: Hooks for the integration with [Ultimate Member](https://wordpress.org/plugins/ultimate-member) and [Ultimate Member - JobBoardWP integration](https://wordpress.org/plugins/um-jobboardwp) plugins
 
 = 1.0.0: July 21, 2020 =
 

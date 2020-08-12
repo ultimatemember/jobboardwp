@@ -506,7 +506,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				$job_categories = $categories;
 			}
 
-			return [
+			$response = apply_filters( 'jb-job-raw-data', [
 				'title'             => $job->post_title,
 				'description'       => $job->post_content,
 				'type'              => $job_types,
@@ -522,7 +522,9 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				'company_facebook'  => $company_facebook,
 				'company_instagram' => $company_instagram,
 				'company_logo'      => $company_logo,
-			];
+			], $job_id );
+
+			return $response;
 		}
 
 

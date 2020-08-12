@@ -509,6 +509,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							}
 						}
 
+						do_action( 'jb-job-submission-validation', $posting_form, $user_id );
+
 						if ( ! $posting_form->has_errors() ) {
 
 							$expiry = JB()->common()->job()->calculate_expiry();
@@ -581,7 +583,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								}
 
 								if ( empty( $_GET['job-id'] ) ) {
-									JB()->common()->user()->set_company_data( [
+
+									$company_data = apply_filters( 'jb-save-job-user-company-data', [
 										'name'      => $company_name,
 										'website'   => $company_website,
 										'tagline'   => $company_tagline,
@@ -589,7 +592,9 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 										'facebook'  => $company_facebook,
 										'instagram' => $company_instagram,
 										'logo'      => $company_logo,
-									] );
+									], $job_id );
+
+									JB()->common()->user()->set_company_data( $company_data );
 								}
 							}
 
