@@ -141,7 +141,9 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 			if ( ! $blog_id ) {
 				$blog_id = get_current_blog_id();
 			} else {
-				switch_to_blog( $blog_id );
+				if ( is_multisite() ) {
+					switch_to_blog( $blog_id );
+				}
 			}
 
 			if ( empty( $this->upload_dir[ $blog_id ] ) ) {
@@ -173,7 +175,9 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 
 			$upload_dir = $this->upload_dir[ $blog_id ] . $dir;
 
-			restore_current_blog();
+			if ( is_multisite() ) {
+				restore_current_blog();
+			}
 
 			//return dir path
 			return $upload_dir;
@@ -194,7 +198,9 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 			if ( ! $blog_id ) {
 				$blog_id = get_current_blog_id();
 			} else {
-				switch_to_blog( $blog_id );
+				if ( is_multisite() ) {
+					switch_to_blog( $blog_id );
+				}
 			}
 
 			if ( empty( $this->upload_url[ $blog_id ] ) ) {
@@ -204,7 +210,9 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 
 			$upload_url = $this->upload_url[ $blog_id ] . $url;
 
-			restore_current_blog();
+			if ( is_multisite() ) {
+				restore_current_blog();
+			}
 
 			//return dir path
 			return $upload_url;

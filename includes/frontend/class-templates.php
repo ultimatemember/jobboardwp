@@ -203,40 +203,53 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		function cpt_template_include( $template ) {
 
 			if ( JB()->frontend()->is_job_page() ) {
-				$t = get_template_directory() . DIRECTORY_SEPARATOR . 'singular.php';
-				$child_template = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'singular.php';
-				if ( file_exists( $child_template ) ) {
-					$t = $child_template;
-				}
 
-				// load page.php if singular isn't found
-				if ( ! file_exists( $t ) ) {
-					$t = get_template_directory() . DIRECTORY_SEPARATOR . 'page.php';
-					$child_template = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'page.php';
+				$template_setting = JB()->options()->get( 'job-template' );
+				if ( $template_setting == 'default' ) {
+					$t = get_template_directory() . DIRECTORY_SEPARATOR . 'singular.php';
+					$child_template = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'singular.php';
 					if ( file_exists( $child_template ) ) {
 						$t = $child_template;
 					}
-				}
 
-				// load index.php if page isn't found
-				if ( ! file_exists( $t ) ) {
-					$t = get_template_directory() . DIRECTORY_SEPARATOR . 'index.php';
-					$child_template = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'index.php';
+					// load page.php if singular isn't found
+					if ( ! file_exists( $t ) ) {
+						$t = get_template_directory() . DIRECTORY_SEPARATOR . 'page.php';
+						$child_template = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'page.php';
+						if ( file_exists( $child_template ) ) {
+							$t = $child_template;
+						}
+					}
+
+					// load index.php if page isn't found
+					if ( ! file_exists( $t ) ) {
+						$t = get_template_directory() . DIRECTORY_SEPARATOR . 'index.php';
+						$child_template = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'index.php';
+						if ( file_exists( $child_template ) ) {
+							$t = $child_template;
+						}
+					}
+
+					if ( ! file_exists( $t ) ) {
+						return $template;
+					}
+
+					add_action( 'wp_head', [ &$this, 'on_wp_head_finish' ], 99999999 );
+					add_filter( 'the_content', [ &$this, 'cpt_content' ], 10, 1 );
+					add_filter( 'post_class', [ &$this, 'hidden_title_class' ], 10, 3 );
+
+					return apply_filters( 'jb_template_include', $t );
+				} else {
+					$t = get_template_directory() . DIRECTORY_SEPARATOR . 'jobboardwp' . DIRECTORY_SEPARATOR . $template_setting . '.php';
+					$child_template = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'jobboardwp' . DIRECTORY_SEPARATOR . $template_setting . '.php';
 					if ( file_exists( $child_template ) ) {
 						$t = $child_template;
 					}
-				}
-
-				if ( ! file_exists( $t ) ) {
-					return $template;
-				}
-
-				add_action( 'wp_head', [ &$this, 'on_wp_head_finish' ], 99999999 );
-				add_filter( 'the_content', [ &$this, 'cpt_content' ], 10, 1 );
-				add_filter( 'post_class', [ &$this, 'hidden_title_class' ], 10, 3 );
+					return apply_filters( 'jb_template_include', $t );
+                }
 			}
 
-			return apply_filters( 'jb_template_include', $t );
+			return $template;
 		}
 
 

@@ -770,7 +770,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 						$clean_filename = $this->get_template_name( $filename );
 
 						$source = file_get_contents( $dir . DIRECTORY_SEPARATOR . $filename );
-						$tokens = token_get_all( $source );
+						$tokens = @\token_get_all( $source );
 						$comment = [
 							T_COMMENT, // All comments since PHP5
 							T_DOC_COMMENT, // PHPDoc comments

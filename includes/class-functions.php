@@ -12,32 +12,32 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 
 		/**
 		 * @var string
-         *
-         * @since 1.0
+		 *
+		 * @since 1.0
 		 */
 		var $templates_path;
 
 
 		/**
 		 * @var string
-         *
-         * @since 1.0
+		 *
+		 * @since 1.0
 		 */
 		var $theme_templates;
 
 
 		/**
 		 * @var bool CPU Links Structure
-         *
-         * @since 1.0
+		 *
+		 * @since 1.0
 		 */
 		var $is_permalinks;
 
 
 		/**
 		 * @var string Standard or Minified versions
-         *
-         * @since 1.0
+		 *
+		 * @since 1.0
 		 */
 		var $scrips_prefix = '';
 
@@ -55,8 +55,8 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * @param string $type String containing name of request type (ajax, frontend, cron or admin)
 		 *
 		 * @return bool
-         *
-         * @since 1.0
+		 *
+		 * @since 1.0
 		 */
 		public function is_request( $type ) {
 			switch ( $type ) {
@@ -79,8 +79,8 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 *
 		 * @param string $slug
 		 * @return string
-         *
-         * @since 1.0
+		 *
+		 * @since 1.0
 		 */
 		function get_template( $slug ) {
 			$file_list = $this->templates_path . "{$slug}.php";
@@ -99,8 +99,8 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 *
 		 * @param string $slug
 		 * @param array $args
-         *
-         * @since 1.0
+		 *
+		 * @since 1.0
 		 */
 		function get_template_part( $slug, $args = [] ) {
 			global $wp_query;
@@ -123,8 +123,8 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * @param bool $echo
 		 *
 		 * @return false|string
-         *
-         * @since 1.0
+		 *
+		 * @since 1.0
 		 */
 		function helptip( $tip, $allow_html = false, $echo = true ) {
 
@@ -169,8 +169,8 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * @param string $value
 		 * @param int $expire
 		 * @param string $path
-         *
-         * @since 1.0
+		 *
+		 * @since 1.0
 		 */
 		function setcookie( $name, $value = '', $expire = 0, $path = '' ) {
 			if ( empty( $value ) ) {

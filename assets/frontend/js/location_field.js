@@ -66,7 +66,14 @@ function JBLocationAutocomplete() {
 			}
 
 			if ( typeof $selected_autocomplete !== 'undefined' ) {
-				$selected_autocomplete.siblings('.jb-location-autocomplete-data').val( '' );
+				if ( $selected_autocomplete.siblings('.jb-location-autocomplete-data').length > 1 ) {
+                   // jobs list filter
+					$selected_autocomplete.siblings('.jb-location-autocomplete-data').val( '' );
+				} else {
+					// post a job form
+                    $selected_autocomplete.siblings('.jb-location-autocomplete-data').val( JSON.stringify( place ) );
+				}
+
 				if ( typeof place.address_components !== 'undefined' ) {
 					jQuery.each( place.address_components, function( i ) {
 						if ( typeof place.address_components[ i ].types !== 'undefined' ) {
