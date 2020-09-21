@@ -17,19 +17,19 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 
 
 		/**
-		 * @var string
+		 * @var array
 		 *
 		 * @since 1.0
 		 */
-		var $upload_dir = '';
+		var $upload_dir = [];
 
 
 		/**
-		 * @var string
+		 * @var array
 		 *
 		 * @since 1.0
 		 */
-		var $upload_url = '';
+		var $upload_url = [];
 
 
 		/**
@@ -130,16 +130,23 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 *
 		 * @param string $dir
 		 * @param string $dir_access
+		 * @param int|null $blog_id
 		 *
 		 * @return string
 		 *
 		 * @since 1.0
 		 */
-		function get_upload_dir( $dir = '', $dir_access = '' ) {
+		function get_upload_dir( $dir = '', $dir_access = '', $blog_id = null ) {
 
-			if ( empty( $this->upload_dir ) ) {
+			if ( ! $blog_id ) {
+				$blog_id = get_current_blog_id();
+			} else {
+				switch_to_blog( $blog_id );
+			}
+
+			if ( empty( $this->upload_dir[ $blog_id ] ) ) {
 				$uploads            = wp_upload_dir();
-				$this->upload_dir   = str_replace( '/', DIRECTORY_SEPARATOR, $uploads['basedir'] . DIRECTORY_SEPARATOR );
+				$this->upload_dir[ $blog_id ]   = str_replace( '/', DIRECTORY_SEPARATOR, $uploads['basedir'] . DIRECTORY_SEPARATOR );
 			}
 
 			$dir = str_replace( '/', DIRECTORY_SEPARATOR, $dir );
@@ -151,21 +158,25 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 				foreach ( $folders as $folder ) {
 					$prev_dir = $cur_folder;
 					$cur_folder .= $folder . DIRECTORY_SEPARATOR;
-					if ( ! is_dir( $this->upload_dir . $cur_folder ) && wp_is_writable( $this->upload_dir . $prev_dir ) ) {
-						mkdir( $this->upload_dir . $cur_folder, 0777 );
+					if ( ! is_dir( $this->upload_dir[ $blog_id ] . $cur_folder ) && wp_is_writable( $this->upload_dir[ $blog_id ] . $prev_dir ) ) {
+						mkdir( $this->upload_dir[ $blog_id ] . $cur_folder, 0777 );
 						if ( $dir_access == 'deny' ) {
-							$htp = fopen( $this->upload_dir . $cur_folder . DIRECTORY_SEPARATOR . '.htaccess', 'w' );
+							$htp = fopen( $this->upload_dir[ $blog_id ] . $cur_folder . DIRECTORY_SEPARATOR . '.htaccess', 'w' );
 							fputs( $htp, 'deny from all' ); // $file being the .htpasswd file
 						} elseif ( $dir_access == 'allow' ) {
-							$htp = fopen( $this->upload_dir . $cur_folder . DIRECTORY_SEPARATOR . '.htaccess', 'w' );
+							$htp = fopen( $this->upload_dir[ $blog_id ] . $cur_folder . DIRECTORY_SEPARATOR . '.htaccess', 'w' );
 							fputs( $htp, 'allow from all' ); // $file being the .htpasswd file
 						}
 					}
 				}
 			}
 
+			$upload_dir = $this->upload_dir[ $blog_id ] . $dir;
+
+			restore_current_blog();
+
 			//return dir path
-			return $this->upload_dir . $dir;
+			return $upload_dir;
 		}
 
 
@@ -173,19 +184,30 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 * Get upload url of plugin
 		 *
 		 * @param string $url
+		 * @param int|null $blog_id
 		 *
 		 * @return string
 		 *
 		 * @since 1.0
 		 */
-		function get_upload_url( $url = '' ) {
-			if ( empty( $this->upload_url ) ) {
-				$uploads            = wp_upload_dir();
-				$this->upload_url   = $uploads['baseurl'] . '/';
+		function get_upload_url( $url = '', $blog_id = null ) {
+			if ( ! $blog_id ) {
+				$blog_id = get_current_blog_id();
+			} else {
+				switch_to_blog( $blog_id );
 			}
 
+			if ( empty( $this->upload_url[ $blog_id ] ) ) {
+				$uploads = wp_upload_dir();
+				$this->upload_url[ $blog_id ] = $uploads['baseurl'] . '/';
+			}
+
+			$upload_url = $this->upload_url[ $blog_id ] . $url;
+
+			restore_current_blog();
+
 			//return dir path
-			return $this->upload_url . $url;
+			return $upload_url;
 		}
 
 

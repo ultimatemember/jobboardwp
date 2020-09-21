@@ -454,8 +454,24 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							} else {
 								$company_logo_temp = $_POST['company_logo'];
 
-								$logos_dir = JB()->common()->filesystem()->get_upload_dir( 'jobboardwp/logos', 'allow' );
-								$logos_url = JB()->common()->filesystem()->get_upload_url( 'jobboardwp/logos' );
+								if ( is_multisite() ) {
+									$main_blog = get_network()->site_id;
+
+									$current_blog_url = get_bloginfo( 'url' );
+									switch_to_blog( $main_blog );
+									$main_blog_url = get_bloginfo( 'url' );
+									restore_current_blog();
+
+									$logos_dir = JB()->common()->filesystem()->get_upload_dir( 'jobboardwp/logos', 'allow', $main_blog );
+
+									$logos_url = JB()->common()->filesystem()->get_upload_url( 'jobboardwp/logos', $main_blog );
+									if ( $current_blog_url != $main_blog_url ) {
+										$logos_url = str_replace( $current_blog_url, $main_blog_url, $logos_url );
+									}
+								} else {
+									$logos_dir = JB()->common()->filesystem()->get_upload_dir( 'jobboardwp/logos', 'allow' );
+									$logos_url = JB()->common()->filesystem()->get_upload_url( 'jobboardwp/logos' );
+								}
 
 								$type = wp_check_filetype( $company_logo_temp );
 								$newname = $logos_dir . DIRECTORY_SEPARATOR . $user_id . '.' . $type['ext'];
@@ -474,7 +490,21 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							} else {
 
 								$type = wp_check_filetype( $company_logo_post );
-								$logos_url = JB()->common()->filesystem()->get_upload_url( 'jobboardwp/logos' );
+								if ( is_multisite() ) {
+									$main_blog = get_network()->site_id;
+
+									$current_blog_url = get_bloginfo( 'url' );
+									switch_to_blog( $main_blog );
+									$main_blog_url = get_bloginfo( 'url' );
+									restore_current_blog();
+
+									$logos_url = JB()->common()->filesystem()->get_upload_url( 'jobboardwp/logos', $main_blog );
+									if ( $current_blog_url != $main_blog_url ) {
+										$logos_url = str_replace( $current_blog_url, $main_blog_url, $logos_url );
+									}
+								} else {
+									$logos_url = JB()->common()->filesystem()->get_upload_url( 'jobboardwp/logos' );
+								}
 
 								if ( $company_logo_post != $logos_url . '/' . $user_id . '.' . $type['ext'] ) {
 

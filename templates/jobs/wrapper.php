@@ -6,7 +6,9 @@ $current_page = ( ! empty( $_GET['jb-page'] ) && is_numeric( $_GET['jb-page'] ) 
 	 data-employer="<?php echo esc_attr( $jb_jobs_wrapper['employer-id'] ) ?>"
 	 data-page="<?php echo esc_attr( $current_page ) ?>"
 	 data-no-jobs="<?php echo esc_attr( $jb_jobs_wrapper['no-jobs-text'] ) ?>"
-	 data-no-jobs-search="<?php echo esc_attr( $jb_jobs_wrapper['no-jobs-search-text'] ) ?>">
+	 data-no-jobs-search="<?php echo esc_attr( $jb_jobs_wrapper['no-jobs-search-text'] ) ?>"
+	 data-category="<?php echo esc_attr( $jb_jobs_wrapper['category'] ) ?>"
+	 data-type="<?php echo esc_attr( $jb_jobs_wrapper['type'] ) ?>">
 
 	<?php JB()->get_template_part( 'ajax-overlay', $jb_jobs_wrapper );
 

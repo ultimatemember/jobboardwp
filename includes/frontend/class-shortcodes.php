@@ -357,6 +357,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				'no-jobs-text'          => __( 'No Jobs', 'jobboardwp' ),
 				'no-jobs-search-text'   => __( 'No Jobs found', 'jobboardwp' ),
 				'load-more-text'        => __( 'Load more jobs','jobboardwp' ),
+				'category'              => '',
+				'type'                  => '',
 			] );
 
 			$atts = shortcode_atts( $default, $atts );

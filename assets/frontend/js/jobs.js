@@ -147,14 +147,14 @@ wp.JB.jobs_list = {
 			if ( wp.JB.jobs_list.objects.wrapper.find('.jb-job-type-filter').length ) {
 				return wp.JB.jobs_list.objects.wrapper.find( '.jb-job-type-filter' ).val();
 			} else {
-				return '';
+				return wp.JB.jobs_list.objects.wrapper.data('type');
 			}
 		},
 		get_category: function() {
 			if ( wp.JB.jobs_list.objects.wrapper.find('.jb-job-category-filter').length ) {
 				return wp.JB.jobs_list.objects.wrapper.find( '.jb-job-category-filter' ).val();
 			} else {
-				return '';
+				return wp.JB.jobs_list.objects.wrapper.data('category');
 			}
 		}
 	},
