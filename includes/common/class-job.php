@@ -81,7 +81,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		function calculate_expiry() {
 			$duration = absint( JB()->options()->get( 'job-duration' ) );
 
-			if ( $duration ) {
+			if ( ! empty( $duration ) ) {
 				return date( 'Y-m-d', strtotime( "+{$duration} days", current_time( 'timestamp' ) ) );
 			}
 
@@ -829,6 +829,11 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 							'key'     => 'jb-expiry-date',
 							'value'   => date( 'Y-m-d', current_time( 'timestamp' ) ),
 							'compare' => '<',
+						],
+						[
+							'key'     => 'jb-expiry-date',
+							'value'   => '',
+							'compare' => '!=',
 						],
 						[
 							'relation'  => 'OR',

@@ -182,9 +182,9 @@ if ( ! class_exists( 'JB' ) ) {
 			if ( $this->is_request( 'ajax' ) ) {
 				$this->ajax()->includes();
 			} elseif ( $this->is_request( 'admin' ) ) {
-				JB()->admin()->includes();
+				$this->admin()->includes();
 			} elseif ( $this->is_request( 'frontend' ) ) {
-				JB()->frontend()->includes();
+				$this->frontend()->includes();
 			}
 		}
 
