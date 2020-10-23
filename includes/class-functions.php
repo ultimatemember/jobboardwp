@@ -111,7 +111,9 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 
 			$template = $this->get_template( $slug );
 
-			load_template( $template, false );
+			if ( file_exists( $template ) ) {
+			    load_template( $template, false );
+			}
 		}
 
 

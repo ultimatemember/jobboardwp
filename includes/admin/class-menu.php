@@ -222,6 +222,7 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 					if ( empty( $email_key ) || empty( $email_notifications[ $email_key ] ) ) {
 						if ( ! empty( $_GET['_wp_http_referer'] ) ) {
 							wp_redirect( remove_query_arg( [ '_wp_http_referer', '_wpnonce' ], wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
+							exit;
 						}
 					}
 				}

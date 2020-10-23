@@ -218,12 +218,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 									'conditional'   => [ 'account-creation', '=', '1' ],
 								],
 								[
-									'id'        => 'full-name-required',
-									'type'      => 'checkbox',
-									'label'     => __( 'First and Last names required', 'jobboardwp' ),
-									'helptip'   => __( 'Make the first and last name fields required.', 'jobboardwp' ),
-								],
-								[
 									'id'            => 'your-details-section',
 									'type'          => 'select',
 									'label'         => __( '"Your Details" for logged in users', 'jobboardwp' ),
@@ -233,6 +227,13 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 									],
 									'helptip'   => __( 'Select if the "Your Details" section is shown for logged in users.', 'jobboardwp' ),
 									'size'          => 'medium',
+								],
+								[
+									'id'            => 'full-name-required',
+									'type'          => 'checkbox',
+									'label'         => __( 'First and Last names required', 'jobboardwp' ),
+									'helptip'       => __( 'Make the first and last name fields required.', 'jobboardwp' ),
+									'conditional'   => [ 'account-creation||your-details-section', '=', 1 ],
 								],
 								[
 									'id'            => 'account-role',

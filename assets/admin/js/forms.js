@@ -19,7 +19,7 @@ jQuery( document ).ready( function($) {
 	var datepicker = $('.jb-datepicker');
 	if ( datepicker.length ) {
 		datepicker.datepicker({
-            dateFormat: $(this).data('format')
+			dateFormat: $(this).data('format')
 		});
 	}
 
@@ -123,7 +123,9 @@ jQuery( document ).ready( function($) {
 	 * On option fields change
 	 */
 	jQuery( document.body ).on( 'change', '.jb-forms-field', function() {
-		if ( jQuery('.jb-forms-line[data-conditional*=\'"' + jQuery(this).data('field_id') + '",\']').length > 0 ) {
+		if ( jQuery('.jb-forms-line[data-conditional*=\'"' + jQuery(this).data('field_id') + '",\']').length > 0 ||
+			 jQuery('.jb-forms-line[data-conditional*=\'' + jQuery(this).data('field_id') + '|\']').length > 0 ||
+			 jQuery('.jb-forms-line[data-conditional*=\'|' + jQuery(this).data('field_id') + '\']').length > 0 ) {
 			run_check_conditions();
 		}
 	});
@@ -168,28 +170,72 @@ jQuery( document ).ready( function($) {
 		var value = conditional[2];
 
 		var prefix = form_line.data( 'prefix' );
-
-		var condition_field = jQuery( '#' + prefix + '_' + conditional[0] );
 		var parent_condition = true;
-		if ( typeof condition_field.parents('.jb-forms-line').data('conditional') !== 'undefined' ) {
-			parent_condition = check_condition( condition_field.parents('.jb-forms-line') );
+
+		if ( conditional[0].indexOf( '||' ) === -1 ) {
+			var condition_field = jQuery( '#' + prefix + '_' + conditional[0] );
+
+			if ( typeof condition_field.parents('.jb-forms-line').data('conditional') !== 'undefined' ) {
+				parent_condition = check_condition( condition_field.parents('.jb-forms-line') );
+			}
 		}
 
 		var tagName = '';
 		var input_type = '';
 		var own_condition = false;
 		if ( condition === '=' ) {
-			tagName = condition_field.prop("tagName").toLowerCase();
 
-			if ( tagName === 'input' ) {
-				input_type = condition_field.attr('type');
-				if ( input_type === 'checkbox' ) {
-					own_condition = ( value === '1' ) ? condition_field.is(':checked') : ! condition_field.is(':checked');
-				} else {
+			if ( conditional[0].indexOf( '||' ) !== -1 ) {
+
+				var complete_condition = false;
+
+				var selectors = conditional[0].split('||');
+
+				jQuery.each( selectors, function( i ) {
+					var condition_field = jQuery( '#' + prefix + '_' + selectors[i] );
+
+					own_condition = false;
+
+					parent_condition = true;
+					if ( typeof condition_field.parents('.jb-forms-line').data('conditional') !== 'undefined' ) {
+						parent_condition = check_condition( condition_field.parents('.jb-forms-line') );
+					}
+
+					var tagName = condition_field.prop("tagName").toLowerCase();
+
+					if ( tagName === 'input' ) {
+						var input_type = condition_field.attr('type');
+						if ( input_type === 'checkbox' ) {
+							own_condition = ( value == '1' ) ? condition_field.is(':checked') : ! condition_field.is(':checked');
+						} else {
+							own_condition = ( condition_field.val() == value );
+						}
+					} else if ( tagName === 'select' ) {
+						own_condition = ( condition_field.val() == value );
+					}
+
+					if ( own_condition && parent_condition ) {
+						complete_condition = true;
+					}
+				});
+
+				return complete_condition;
+
+			} else {
+
+				tagName = condition_field.prop("tagName").toLowerCase();
+
+				if ( tagName === 'input' ) {
+					input_type = condition_field.attr('type');
+					if ( input_type === 'checkbox' ) {
+						own_condition = ( value === '1' ) ? condition_field.is(':checked') : ! condition_field.is(':checked');
+					} else {
+						own_condition = ( condition_field.val() === value );
+					}
+				} else if ( tagName === 'select' ) {
 					own_condition = ( condition_field.val() === value );
 				}
-			} else if ( tagName === 'select' ) {
-				own_condition = ( condition_field.val() === value );
+
 			}
 		} else if ( condition === '!=' ) {
 			tagName = condition_field.prop("tagName").toLowerCase();
