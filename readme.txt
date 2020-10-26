@@ -87,6 +87,18 @@ Got a problem or need help with JobBoardWP? Head over to our [documentation](htt
 
 == Changelog ==
 
+= 1.0.2: November xx, 2020 =
+
+* Added: Job Category attribute for the jobs shortcode
+* Added: Job Type attribute for the jobs shortcode
+* Fixed: Mutisite support (Job logos)
+* Fixed: Custom Job template parsing
+* Fixed: Location field JS
+* Fixed: Empty "Expired Date" data issues
+* Fixed: "Sign In" typo and wp-login redirect on click
+* Fixed: WP-Admin settings structure
+* Tweak: Updated conditional logic for wp-admin settings (made the dependency from more than 1 field)
+
 = 1.0.1: August 12, 2020 =
 
 * Added: Hooks for the integration with [Ultimate Member](https://wordpress.org/plugins/ultimate-member) and [Ultimate Member - JobBoardWP integration](https://wordpress.org/plugins/um-jobboardwp) plugins
