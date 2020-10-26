@@ -7,7 +7,7 @@
 
 		<span>
 			<?php _e( 'You must sign in to create a new job.', 'jobboardwp' ) ?>
-			<a class="button" href="<?php echo esc_url( wp_login_url( get_permalink() ) ) ?>"><?php esc_attr_e( 'Sing in', 'jobboardwp' ) ?></a>
+			<a class="button" href="<?php echo esc_url( wp_login_url( get_permalink(), true ) ) ?>"><?php esc_attr_e( 'Sign in', 'jobboardwp' ) ?></a>
 		</span>
 
 	<?php } else {

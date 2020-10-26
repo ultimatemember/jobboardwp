@@ -71,6 +71,11 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 				$postid = url_to_postid( $_SERVER['HTTP_REFERER'] );
 
 				if ( ! empty( $postid ) && $postid == $this->get_preset_page_id( 'job-post' ) ) {
+
+					if ( ! empty( $_GET['redirect_to'] ) && $_SERVER['HTTP_REFERER'] == $_GET['redirect_to'] ) {
+						return;
+					}
+
 					$logout_link = add_query_arg( [ 'login' => 'failed' ], $this->get_preset_page_link( 'job-post' ) );
 					exit( wp_redirect( $logout_link ) );
 				}
