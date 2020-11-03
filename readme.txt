@@ -6,7 +6,7 @@ Tags: job, job board, job portal, job listing, job manager
 Requires PHP: 5.6
 Requires at least: 5.0
 Tested up to: 5.5
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -87,7 +87,7 @@ Got a problem or need help with JobBoardWP? Head over to our [documentation](htt
 
 == Changelog ==
 
-= 1.0.2: November xx, 2020 =
+= 1.0.2: November 3, 2020 =
 
 * Added: Job Category attribute for the jobs shortcode
 * Added: Job Type attribute for the jobs shortcode
