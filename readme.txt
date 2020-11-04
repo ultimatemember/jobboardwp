@@ -16,8 +16,6 @@ Add a modern job board to your website. Display job listings and allow employers
 
 JobBoardWP is an easy to use and lightweight plugin that enables you to add job board functionality to your website. With a clean, modern UI, job seekers can view and search for jobs, whilst employers can submit jobs to your job board and manage their jobs from the jobs dashboard.
 
-= The plugin is multisite compatible =
-
 = FRONT-END FEATURES: =
 
 The plugin adds three pages to the front-end of your website:
@@ -66,6 +64,24 @@ The plugin has been built to work with Google search by adding structured data t
 
 Got a problem or need help with JobBoardWP? Head over to our [documentation](http://docs.jobboardwp.com/) and perform a search of the knowledge base. If you can’t find a solution to your issue then you can create a topic on the [support forum](https://wordpress.org/support/plugin/jobboardwp/).
 
+== Frequently Asked Questions ==
+
+= Where can I find JobBoardWP documentation and user guides? =
+
+For help setting up and configuring JobBoardWP please refer to our [documentation](http://docs.jobboardwp.com/)
+
+= Where can I get support or talk to other users? =
+
+If you get stuck, you can ask for help in the [JobBoardWP Support Forum](https://wordpress.org/support/plugin/jobboardwp).
+
+= Will JobBoardWP work with my theme? =
+
+Yes! JobBoardWP will work with any theme, but may require some styling or making [custom templates](https://docs.jobboardwp.com/article/1570-templates-structure).
+
+= Will JobBoardWP work with WordPress Multisite installation? =
+
+Yes! JobBoardWP is WordPress Multisite compatible.
+
 == Installation ==
 
 1. Activate the plugin
@@ -91,7 +107,7 @@ Got a problem or need help with JobBoardWP? Head over to our [documentation](htt
 
 * Added: Job Category attribute for the jobs shortcode
 * Added: Job Type attribute for the jobs shortcode
-* Fixed: Mutisite support (Job logos)
+* Fixed: Multisite support (Job logos)
 * Fixed: Custom Job template parsing
 * Fixed: Location field JS
 * Fixed: Empty "Expired Date" data issues
