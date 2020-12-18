@@ -22,6 +22,12 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 
 		/**
+		 * @var
+		 */
+		var $template_replaced = false;
+
+
+		/**
 		 * Templates constructor.
 		 */
 		function __construct() {
@@ -300,6 +306,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			remove_filter( 'has_post_thumbnail', [ &$this, 'hide_post_thumbnail' ] );
 
 			if ( JB()->frontend()->is_job_page() ) {
+				$this->template_replaced = true;
 				$content = JB()->frontend()->shortcodes()->single_job( [ 'id' => $post->ID ] );
 			}
 

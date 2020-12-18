@@ -2,6 +2,8 @@
 
 if ( ! empty ( $jb_single_job['id'] ) ) {
 
+	$default_template_replaced = $jb_single_job['default_template_replaced'];
+
 	$job_id = $jb_single_job['id'];
 	$title = get_the_title( $job_id ); ?>
 
@@ -22,7 +24,7 @@ if ( ! empty ( $jb_single_job['id'] ) ) {
 
 		JB()->get_template_part( 'job/notices', [ 'job_id' => $job_id ] );
 
-		JB()->get_template_part( 'job/content', [ 'job_id' => $job_id ] );
+		JB()->get_template_part( 'job/content', [ 'job_id' => $job_id, 'default_template_replaced' => $default_template_replaced ] );
 
 		JB()->get_template_part( 'job/footer', [ 'job_id' => $job_id, 'title' => $title ] ); ?>
 	</div>

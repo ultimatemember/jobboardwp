@@ -322,6 +322,11 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				return '';
 			}
 
+			$atts['default_template_replaced'] = false;
+			if ( JB()->frontend()->templates()->template_replaced ) {
+			    $atts['default_template_replaced'] = true;
+			}
+
 			wp_enqueue_script( 'jb-single-job' );
 			wp_enqueue_style( 'jb-job' );
 
