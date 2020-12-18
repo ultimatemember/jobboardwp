@@ -66,13 +66,11 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 		function register_scripts() {
 			wp_register_script( 'select2', $this->url['common'] . 'libs/select2/js/select2.full.min.js', [ 'jquery' ], jb_version, true );
 
-			wp_register_script( 'jb-tipsy', $this->url['common'] . 'libs/tipsy/js/tipsy' . JB()->scrips_prefix . '.js', [ 'jquery' ], jb_version, true );
-
 			wp_register_script( 'jb-helptip', $this->js_url['common'] . 'helptip' . JB()->scrips_prefix . '.js', [ 'jquery', 'jquery-ui-tooltip' ], jb_version, true );
 
 			wp_register_script( 'jb-dropdown', $this->js_url['frontend'] . 'dropdown' . JB()->scrips_prefix . '.js', [ 'jquery' ], jb_version, true );
 
-			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', [ 'jquery', 'wp-util', 'wp-i18n', 'wp-hooks', 'select2', 'jb-tipsy', 'jb-dropdown', 'jb-helptip' ], jb_version, true );
+			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', [ 'jquery', 'wp-util', 'wp-i18n', 'wp-hooks', 'select2', 'jb-dropdown', 'jb-helptip' ], jb_version, true );
 
 			$localize_data = apply_filters( 'jb_enqueue_localize', [
 				'nonce' => wp_create_nonce( 'jb-frontend-nonce' )
@@ -101,11 +99,9 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 
 			wp_register_style( 'select2', $this->url['common'] . 'libs/select2/css/select2' . JB()->scrips_prefix . '.css', [], jb_version );
 
-			wp_register_style( 'jb-tipsy', $this->url['common'] . 'libs/tipsy/css/tipsy' . JB()->scrips_prefix . '.css', [], jb_version );
-
 			wp_register_style( 'jb-helptip', $this->css_url['common'] . 'helptip' . JB()->scrips_prefix . '.css', [ 'dashicons', 'jquery-ui' ], jb_version );
 
-			$common_frontend_deps = apply_filters( 'jb_frontend_common_styles_deps', [ 'select2', 'jb-tipsy', 'jb-helptip' ] );
+			$common_frontend_deps = apply_filters( 'jb_frontend_common_styles_deps', [ 'select2', 'jb-helptip' ] );
 			wp_register_style( 'jb-common', $this->css_url['frontend'] . 'common' . JB()->scrips_prefix . '.css', $common_frontend_deps, jb_version );
 
 

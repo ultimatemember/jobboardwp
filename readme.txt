@@ -5,7 +5,7 @@ Contributors: ultimatemember, nsinelnikov
 Tags: job, job board, job portal, job listing, job manager
 Requires PHP: 5.6
 Requires at least: 5.0
-Tested up to: 5.5
+Tested up to: 5.6
 Stable tag: 1.0.2
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
@@ -102,6 +102,10 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 10. Screenshot 10
 
 == Changelog ==
+
+= 1.0.3: December xx, 2020 =
+
+* Fixed: Job description formatting
 
 = 1.0.2: November 3, 2020 =
 

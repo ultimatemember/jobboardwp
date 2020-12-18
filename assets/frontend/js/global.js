@@ -1,11 +1,5 @@
 jQuery( document ).ready( function($) {
 
-	$('.jb-tip-n').tipsy({gravity: 'n', opacity: 1, live: 'a.live', offset: 3 });
-	$('.jb-tip-w').tipsy({gravity: 'w', opacity: 1, live: 'a.live', offset: 3 });
-	$('.jb-tip-e').tipsy({gravity: 'e', opacity: 1, live: 'a.live', offset: 3 });
-	$('.jb-tip-s').tipsy({gravity: 's', opacity: 1, live: 'a.live', offset: 3 });
-
-
 	if ( typeof( $.fn.select2 ) === "function" ) {
 		$(".jb-s1").select2({
 			allowClear: true
@@ -13,7 +7,7 @@ jQuery( document ).ready( function($) {
 
 		$(".jb-s2").select2({
 			allowClear: false,
-        	placeholder: wp.i18n.__( 'Please select...', 'jobboardwp' )
+			placeholder: wp.i18n.__( 'Please select...', 'jobboardwp' )
 		});
 	}
 
@@ -27,7 +21,6 @@ jQuery( document ).ready( function($) {
 		jb_init_helptips();
 	});
 });
-
 
 
 //important order by ASC
