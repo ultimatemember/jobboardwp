@@ -91,106 +91,110 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 			$user_id = get_current_user_id();
 
 			if ( ! is_user_logged_in() ) {
-				$username = '';
-				$password = '';
-				$author_email = '';
-				$author_fname = ! empty( $_POST['author_first_name'] ) ? sanitize_text_field( $_POST['author_first_name'] ) : '';
-				$author_lname = ! empty( $_POST['author_last_name'] ) ? sanitize_text_field( $_POST['author_last_name'] ) : '';;
+				$user_id = 0;
 
-				if ( JB()->options()->get( 'full-name-required' ) ) {
-					if ( empty( $author_fname ) ) {
-						$posting_form->add_error( 'author_first_name', __( 'Please fill the first name field.', 'jobboardwp' ) );
-					}
+				if ( JB()->options()->get( 'account-required' ) ) {
+					$username = '';
+					$password = '';
+					$author_email = '';
+					$author_fname = ! empty( $_POST['author_first_name'] ) ? sanitize_text_field( $_POST['author_first_name'] ) : '';
+					$author_lname = ! empty( $_POST['author_last_name'] ) ? sanitize_text_field( $_POST['author_last_name'] ) : '';;
 
-					if ( empty( $author_lname ) ) {
-						$posting_form->add_error( 'author_last_name', __( 'Please fill the last name field.', 'jobboardwp' ) );
-					}
-				}
-
-				if ( empty( $_POST['author_email'] ) ) {
-					$posting_form->add_error( 'author_email', __( 'Please fill email address', 'jobboardwp' ) );
-				} else {
-					$author_email = sanitize_email( trim( $_POST['author_email'] ) );
-
-					if ( ! is_email( $author_email ) ) {
-						$posting_form->add_error( 'author_email', __( 'Wrong email address format', 'jobboardwp' ) );
-					}
-
-					if ( email_exists( $author_email ) ) {
-						$posting_form->add_error( 'author_email', __( 'Please use another email address', 'jobboardwp' ) );
-					}
-				}
-
-				$notify = 'admin';
-				if ( ! JB()->options()->get( 'account-password-email' ) ) {
-					if ( empty( $_POST['author_password'] ) || empty( $_POST['author_password_confirm'] ) ) {
-						if ( empty( $_POST['author_password'] ) ) {
-							$posting_form->add_error( 'author_password', __( 'Password is required', 'jobboardwp' ) );
+					if ( JB()->options()->get( 'full-name-required' ) ) {
+						if ( empty( $author_fname ) ) {
+							$posting_form->add_error( 'author_first_name', __( 'Please fill the first name field.', 'jobboardwp' ) );
 						}
 
-						if ( empty( $_POST['author_password_confirm'] ) ) {
-							$posting_form->add_error( 'author_password_confirm', __( 'Please confirm the password', 'jobboardwp' ) );
+						if ( empty( $author_lname ) ) {
+							$posting_form->add_error( 'author_last_name', __( 'Please fill the last name field.', 'jobboardwp' ) );
+						}
+					}
+
+					if ( empty( $_POST['author_email'] ) ) {
+						$posting_form->add_error( 'author_email', __( 'Please fill email address', 'jobboardwp' ) );
+					} else {
+						$author_email = sanitize_email( trim( $_POST['author_email'] ) );
+
+						if ( ! is_email( $author_email ) ) {
+							$posting_form->add_error( 'author_email', __( 'Wrong email address format', 'jobboardwp' ) );
+						}
+
+						if ( email_exists( $author_email ) ) {
+							$posting_form->add_error( 'author_email', __( 'Please use another email address', 'jobboardwp' ) );
+						}
+					}
+
+					$notify = 'admin';
+					if ( ! JB()->options()->get( 'account-password-email' ) ) {
+						if ( empty( $_POST['author_password'] ) || empty( $_POST['author_password_confirm'] ) ) {
+							if ( empty( $_POST['author_password'] ) ) {
+								$posting_form->add_error( 'author_password', __( 'Password is required', 'jobboardwp' ) );
+							}
+
+							if ( empty( $_POST['author_password_confirm'] ) ) {
+								$posting_form->add_error( 'author_password_confirm', __( 'Please confirm the password', 'jobboardwp' ) );
+							}
+						} else {
+							$password = sanitize_text_field( trim( $_POST['author_password'] ) );
+							$password_confirm = sanitize_text_field( trim( $_POST['author_password_confirm'] ) );
+
+							if ( $password != $password_confirm ) {
+								$posting_form->add_error( 'author_password_confirm', __( 'Your passwords do not match', 'jobboardwp' ) );
+							}
 						}
 					} else {
-						$password = sanitize_text_field( trim( $_POST['author_password'] ) );
-						$password_confirm = sanitize_text_field( trim( $_POST['author_password_confirm'] ) );
-
-						if ( $password != $password_confirm ) {
-							$posting_form->add_error( 'author_password_confirm', __( 'Your passwords do not match', 'jobboardwp' ) );
-						}
+						// User is forced to set up account with email sent to them. This password will remain a secret.
+						$password = wp_generate_password();
+						$notify = 'both';
 					}
-				} else {
-					// User is forced to set up account with email sent to them. This password will remain a secret.
-					$password = wp_generate_password();
-					$notify = 'both';
-				}
 
-				if ( ! JB()->options()->get( 'account-username-generate' ) ) {
+					if ( ! JB()->options()->get( 'account-username-generate' ) ) {
 
-					if ( empty( $_POST['author_username'] ) ) {
-						$posting_form->add_error( 'author_username', __( 'Username is required', 'jobboardwp' ) );
+						if ( empty( $_POST['author_username'] ) ) {
+							$posting_form->add_error( 'author_username', __( 'Username is required', 'jobboardwp' ) );
+						} else {
+							$username = sanitize_user( trim( $_POST['author_username'] ) );
+							if ( username_exists( $username ) ) {
+								$posting_form->add_error( 'author_username', __( 'Please use another username', 'jobboardwp' ) );
+							}
+						}
+
 					} else {
-						$username = sanitize_user( trim( $_POST['author_username'] ) );
-						if ( username_exists( $username ) ) {
-							$posting_form->add_error( 'author_username', __( 'Please use another username', 'jobboardwp' ) );
+						$username = sanitize_user( current( explode( '@', $author_email ) ), true );
+
+						// Ensure username is unique.
+						$append     = 1;
+						$o_username = $username;
+
+						while ( username_exists( $username ) ) {
+							$username = $o_username . $append;
+							$append ++;
 						}
 					}
 
-				} else {
-					$username = sanitize_user( current( explode( '@', $author_email ) ), true );
+					if ( ! $posting_form->has_errors() ) {
+						// Create account.
+						$userdata = [
+							'user_login'    => $username,
+							'user_pass'     => $password,
+							'user_email'    => $author_email,
+							'role'          => JB()->options()->get( 'account-role' ),
+							'first_name'    => $author_fname,
+							'last_name'     => $author_lname,
+						];
+						$userdata = apply_filters( 'jb_job_submission_create_account_data', $userdata );
 
-					// Ensure username is unique.
-					$append     = 1;
-					$o_username = $username;
+						$user_id = wp_insert_user( $userdata );
 
-					while ( username_exists( $username ) ) {
-						$username = $o_username . $append;
-						$append ++;
+						// Login here
+						add_action( 'set_logged_in_cookie', [ $this, 'update_global_login_cookie' ] );
+						wp_set_auth_cookie( $user_id, true, is_ssl() );
+						wp_set_current_user( $user_id );
+						remove_action( 'set_logged_in_cookie', [ $this, 'update_global_login_cookie' ] );
+
+						//Notify admin or user + admin about new user registration
+						wp_new_user_notification( $user_id, null, $notify );
 					}
-				}
-
-				if ( ! $posting_form->has_errors() ) {
-					// Create account.
-					$userdata = [
-						'user_login'    => $username,
-						'user_pass'     => $password,
-						'user_email'    => $author_email,
-						'role'          => JB()->options()->get( 'account-role' ),
-						'first_name'    => $author_fname,
-						'last_name'     => $author_lname,
-					];
-					$userdata = apply_filters( 'jb_job_submission_create_account_data', $userdata );
-
-					$user_id = wp_insert_user( $userdata );
-
-					// Login here
-					add_action( 'set_logged_in_cookie', [ $this, 'update_global_login_cookie' ] );
-					wp_set_auth_cookie( $user_id, true, is_ssl() );
-					wp_set_current_user( $user_id );
-					remove_action( 'set_logged_in_cookie', [ $this, 'update_global_login_cookie' ] );
-
-					//Notify admin or user + admin about new user registration
-					wp_new_user_notification( $user_id, null, $notify );
 				}
 			} else {
 				if ( JB()->options()->get( 'your-details-section' ) == '1' ) {
