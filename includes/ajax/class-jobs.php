@@ -229,6 +229,10 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						],
 						[
 							'key'       => 'jb-is-filled',
+							'value'     => 0,
+						],
+						[
+							'key'       => 'jb-is-filled',
 							'compare'   => 'NOT EXISTS',
 						],
 					],
