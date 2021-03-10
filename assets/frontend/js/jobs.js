@@ -115,6 +115,13 @@ wp.JB.jobs_list = {
 			}
 			return page;
 		},
+		get_per_page: function() {
+			var per_page = wp.JB.jobs_list.objects.wrapper.data( 'per-page' );
+			if ( ! per_page || typeof per_page == 'undefined' ) {
+				per_page = null;
+			}
+			return per_page;
+		},
 		get_employer: function() {
 			var employer_id = wp.JB.jobs_list.objects.wrapper.data( 'employer' );
 			if ( ! employer_id || typeof employer_id == 'undefined' ) {
@@ -161,6 +168,7 @@ wp.JB.jobs_list = {
 	ajax: function( append ) {
 		var request = {
 			page:  wp.JB.jobs_list.url.get_page(),
+			per_page:  wp.JB.jobs_list.url.get_per_page(),
 			search:  wp.JB.jobs_list.url.get_search(),
 			location:  wp.JB.jobs_list.url.get_location(),
 			remote_only:  wp.JB.jobs_list.url.get_type(),

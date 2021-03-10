@@ -714,6 +714,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
 			$id_attr = ' id="' . esc_attr( $id ) . '" ';
+			$id_hidden_attr = ' id="' . esc_attr( $id . '_hidden' ) . '" ';
 
 			$class = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
 			$class .= ! empty( $field_data['size'] ) ? 'jb-' . $field_data['size'] . '-field' : 'jb-long-field';
@@ -721,7 +722,6 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 			$data = [
 				'field_id' => $field_data['id'],
-				'format' => ! empty( $field_data['format'] ) ? $field_data['format'] : get_option( 'date_format' ),
 			];
 
 			$data_attr = '';
@@ -735,10 +735,13 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$name = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
 			$name_attr = ' name="' . $name . '" ';
 
-			$value = $this->get_field_value( $field_data );
+			$hidden_value = $this->get_field_value( $field_data );
+			$hidden_value_attr = ' value="' . $hidden_value . '" ';
+
+			$value = ! empty( $hidden_value ) ? date_i18n( get_option( 'date_format' ), strtotime( $hidden_value ) ) : '';
 			$value_attr = ' value="' . $value . '" ';
 
-			$html = "<input type=\"text\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr />";
+			$html = "<input type=\"text\" $id_attr $class_attr $data_attr $value_attr $placeholder_attr /><input type=\"hidden\" class=\"jb-datepicker-default-format\" $name_attr $hidden_value_attr />";
 
 			return $html;
 		}

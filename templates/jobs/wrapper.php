@@ -5,6 +5,7 @@ $current_page = ( ! empty( $_GET['jb-page'] ) && is_numeric( $_GET['jb-page'] ) 
 <div class="jb jb-jobs" data-base-post="<?php echo esc_attr( $post->ID ) ?>"
 	 data-employer="<?php echo esc_attr( $jb_jobs_wrapper['employer-id'] ) ?>"
 	 data-page="<?php echo esc_attr( $current_page ) ?>"
+	 data-per-page="<?php echo esc_attr( $jb_jobs_wrapper['per-page'] ) ?>"
 	 data-no-jobs="<?php echo esc_attr( $jb_jobs_wrapper['no-jobs-text'] ) ?>"
 	 data-no-jobs-search="<?php echo esc_attr( $jb_jobs_wrapper['no-jobs-search-text'] ) ?>"
 	 data-category="<?php echo esc_attr( $jb_jobs_wrapper['category'] ) ?>"

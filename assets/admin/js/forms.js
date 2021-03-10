@@ -18,11 +18,15 @@ jQuery( document ).ready( function($) {
 	 */
 	var datepicker = $('.jb-datepicker');
 	if ( datepicker.length ) {
-		datepicker.datepicker({
-			dateFormat: $(this).data('format')
+		datepicker.each( function() {
+			var $this = $(this);
+			// we don't use dateFormat WP datepicker UI gets the default format from WP settings by default
+			$this.datepicker({
+				altField:   $this.siblings('.jb-datepicker-default-format'),
+				altFormat: 'yy-mm-dd'
+			});
 		});
 	}
-
 
 	jb_init_helptips();
 

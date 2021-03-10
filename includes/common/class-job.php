@@ -111,6 +111,25 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Returns the job's raw expiry date.
+		 *
+		 * @param int $job_id Job post ID
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		function get_expiry_date_raw( $job_id ) {
+			$expiry_date = get_post_meta( $job_id, 'jb-expiry-date', true );
+			if ( empty( $expiry_date ) ) {
+				return '';
+			}
+
+			return $expiry_date;
+		}
+
+
+		/**
 		 * Returns the job posted date.
 		 *
 		 * @param int $job_id Job post ID
@@ -612,7 +631,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 */
 		function get_preview_link( $job_id ) {
 			$post_job_page = JB()->common()->permalinks()->get_preset_page_link( 'job-post' );
-			return add_query_arg( [ 'preview' => 1, 'job-id' => $job_id, 'nonce' => wp_create_nonce( 'jb-job-preview' . $job_id ) ], $post_job_page );
+			return add_query_arg( [ 'jb-preview' => 1, 'job-id' => $job_id, 'nonce' => wp_create_nonce( 'jb-job-preview' . $job_id ) ], $post_job_page );
 		}
 
 

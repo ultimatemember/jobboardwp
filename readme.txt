@@ -5,8 +5,8 @@ Contributors: ultimatemember, nsinelnikov
 Tags: job, job board, job portal, job listing, job manager
 Requires PHP: 5.6
 Requires at least: 5.0
-Tested up to: 5.6
-Stable tag: 1.0.3
+Tested up to: 5.7
+Stable tag: 1.0.4
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -102,6 +102,13 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 10. Screenshot 10
 
 == Changelog ==
+
+= 1.0.4: March 10, 2021 =
+
+* Added: Ability to get jobs feed
+* Fixed: Jobs list pagination via shortcode attribute `per-page="{number}"`
+* Fixed: `preview` to `jb-preview` argument in $_GET attribute to avoid the conflicts
+* Fixed: Expiration date saving with localized date
 
 = 1.0.3: December 23, 2020 =
 

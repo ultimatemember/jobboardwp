@@ -133,7 +133,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 				}
 
-				if ( empty( $_GET['preview'] ) ) {
+				if ( empty( $_GET['jb-preview'] ) ) {
 
 					// edit job form
 					if ( ! wp_verify_nonce( $_GET['nonce'], 'jb-job-draft' . $job_id ) ) {

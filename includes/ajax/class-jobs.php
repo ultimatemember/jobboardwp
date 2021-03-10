@@ -61,7 +61,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		 * @since 1.0
 		 */
 		function init_variables() {
-			$this->jobs_per_page = JB()->options()->get( 'jobs-list-pagination' );
+			$this->jobs_per_page = ! empty( $_POST['per_page'] ) ? absint( $_POST['per_page'] ) : JB()->options()->get( 'jobs-list-pagination' );
 		}
 
 
@@ -636,13 +636,19 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			$employer = get_current_user_id();
 
 			$get_posts = new \WP_Query;
-			$jobs_query = $get_posts->query( [
+
+			$args = [
 				'author'        => $employer,
 				'orderby'       => 'date',
 				'order'         => 'DESC',
 				'post_type'     => 'jb-job',
 				'post_status'   => [ 'publish', 'draft', 'pending', 'jb-preview', 'jb-expired' ],
-			] );
+				'posts_per_page' => -1
+			];
+
+			$args = apply_filters( 'jb_get_employer_jobs_args', $args );
+
+			$jobs_query = $get_posts->query( $args );
 
 			$jobs = [];
 			if ( ! empty( $jobs_query ) ) {

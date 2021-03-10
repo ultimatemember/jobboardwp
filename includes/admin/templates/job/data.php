@@ -45,7 +45,7 @@ if ( $post_id ) {
 	$job = get_post( $post_id );
 	$author = $job->post_author;
 
-	$expiry_date = JB()->common()->job()->get_expiry_date( $post_id );
+	$expiry_date = JB()->common()->job()->get_expiry_date_raw( $post_id );
 }
 
 $fields = apply_filters( 'jb_job-data', [

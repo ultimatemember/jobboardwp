@@ -23,6 +23,22 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 
 			add_action( 'admin_bar_menu', [ &$this, 'toolbar_links' ], 999, 1 );
 			add_action( 'admin_bar_menu', [ &$this, 'new_cpt_links' ], 999, 1 );
+
+			add_filter( 'request', [ &$this, 'change_feed_request' ], 10, 1 );
+		}
+
+
+		/**
+		 * @param array $qv
+		 *
+		 * @return array
+		 */
+		function change_feed_request( $qv ) {
+			if ( isset( $qv['feed'] ) && isset( $_GET['post_type'] ) && 'jb_job' == $_GET['post_type'] ) {
+				$qv['post_type'] = 'jb-job';
+			}
+
+			return $qv;
 		}
 
 
