@@ -76,6 +76,12 @@
 			$job_location = $data['location'];
 			$job_location_data = $data['location_data'];
 			$job_type = $data['type'];
+
+			// workaround on the submission form because Job Type isn't multiple dropdown
+			if ( count( $job_type ) == 1 ) {
+				$job_type = $job_type[0];
+			}
+
 			$job_category = $data['category'];
 			$job_description = $data['description'];
 			$job_application = $data['app_contact'];
@@ -261,7 +267,7 @@
 									'name'          => 'job_location',
 									'id'            => 'job_location-1',
 									'value'         => $job_location,
-                                    'value_data'    => $job_location_data,
+									'value_data'    => $job_location_data,
 								],
 							],
 							''  => [
@@ -280,7 +286,6 @@
 					],
 					[
 						'type'      => 'select',
-						//'multi'     => true,
 						'label'     => __( 'Job Type', 'jobboardwp' ),
 						'id'        => 'job_type',
 						'class'     => 'jb-s2',
