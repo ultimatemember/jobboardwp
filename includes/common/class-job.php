@@ -333,14 +333,16 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			$company_facebook = get_post_meta( $job_id, 'jb-company-facebook', true );
 			$company_instagram = get_post_meta( $job_id, 'jb-company-instagram', true );
 
-			return [
+			$company_data = apply_filters( 'jb-job-company-data', [
 				'name'      => $company_name,
 				'website'   => $company_website,
 				'tagline'   => $company_tagline,
 				'twitter'   => $company_twitter,
 				'facebook'  => $company_facebook,
 				'instagram' => $company_instagram,
-			];
+			], $job_id );
+
+			return $company_data;
 		}
 
 
