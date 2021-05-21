@@ -171,6 +171,13 @@ wp.JB.jobs_list = {
 			}
 			return expired;
 		},
+		get_filled: function() {
+			var filled = wp.JB.jobs_list.objects.wrapper.data( 'filled' );
+			if ( typeof filled == 'undefined' ) {
+				filled = null;
+			}
+			return filled;
+		}
 	},
 	ajax: function( append ) {
 		var request = {
@@ -183,6 +190,7 @@ wp.JB.jobs_list = {
 			category:  wp.JB.jobs_list.url.get_category(),
 			employer:  wp.JB.jobs_list.url.get_employer(),
 			expired:  wp.JB.jobs_list.url.get_expired(),
+			filled:  wp.JB.jobs_list.url.get_filled(),
 			nonce: jb_front_data.nonce
 		};
 

@@ -214,7 +214,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			}
 
 			$statuses = [ 'publish' ];
-			if ( JB()->options()->get( 'jobs-list-hide-filled' ) ) {
+			if ( ( JB()->options()->get( 'jobs-list-hide-filled' ) && ! isset( $_POST['filled'] ) ) || ( isset( $_POST['filled'] ) && $_POST['filled'] == 1 ) ) {
 				if ( ! isset( $query_args['meta_query'] ) ) {
 					$query_args['meta_query'] = [];
 				}
