@@ -3,6 +3,7 @@
 $current_page = ( ! empty( $_GET['jb-page'] ) && is_numeric( $_GET['jb-page'] ) ) ? absint( $_GET['jb-page'] ) : 1; ?>
 
 <div class="jb jb-jobs" data-base-post="<?php echo esc_attr( $post->ID ) ?>"
+	 data-expired="<?php echo esc_attr( $jb_jobs_wrapper['hide-expired'] ) ?>"
 	 data-employer="<?php echo esc_attr( $jb_jobs_wrapper['employer-id'] ) ?>"
 	 data-page="<?php echo esc_attr( $current_page ) ?>"
 	 data-per-page="<?php echo esc_attr( $jb_jobs_wrapper['per-page'] ) ?>"
