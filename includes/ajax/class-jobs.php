@@ -214,7 +214,9 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			}
 
 			$statuses = [ 'publish' ];
-			if ( ( JB()->options()->get( 'jobs-list-hide-filled' ) && ! isset( $_POST['filled'] ) ) || ( isset( $_POST['filled'] ) && $_POST['filled'] == 1 ) ) {
+			if ( ! empty( $_POST['filled_only'] ) ) {
+				// show only filled jobs
+
 				if ( ! isset( $query_args['meta_query'] ) ) {
 					$query_args['meta_query'] = [];
 				}
@@ -225,34 +227,52 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						'relation'  => 'OR',
 						[
 							'key'       => 'jb-is-filled',
-							'value'     => false,
+							'value'     => true,
 						],
 						[
 							'key'       => 'jb-is-filled',
-							'value'     => 0,
-						],
-						[
-							'key'       => 'jb-is-filled',
-							'compare'   => 'NOT EXISTS',
+							'value'     => 1,
 						],
 					],
 				] );
-			}
+			} else {
+				// regular logic
 
-			if ( ! JB()->options()->get( 'jobs-list-hide-expired' ) ) {
-				$statuses[] = 'jb-expired';
-			}
-			if ( isset( $_POST['expired'] ) && $_POST['expired'] == 0 ) {
-				$statuses[] = 'jb-expired';
-			} elseif ( isset( $_POST['expired'] ) && $_POST['expired'] == 1 ) {
-				$statuses = [ 'publish' ];
+				if ( ! empty( $_POST['hide_filled'] ) ) {
+					if ( ! isset( $query_args['meta_query'] ) ) {
+						$query_args['meta_query'] = [];
+					}
+
+					$query_args['meta_query'] = array_merge( $query_args['meta_query'], [
+						'relation'  => 'AND',
+						[
+							'relation'  => 'OR',
+							[
+								'key'       => 'jb-is-filled',
+								'value'     => false,
+							],
+							[
+								'key'       => 'jb-is-filled',
+								'value'     => 0,
+							],
+							[
+								'key'       => 'jb-is-filled',
+								'compare'   => 'NOT EXISTS',
+							],
+						],
+					] );
+				}
+
+				if ( empty( $_POST['hide_expired'] ) ) {
+					$statuses[] = 'jb-expired';
+				}
 			}
 
 			$query_args = array_merge( $query_args, [
-				'orderby'           => 'date',
-				'order'             => 'DESC',
-				'post_type'         => 'jb-job',
-				'post_status'       => $statuses,
+				'orderby'       => 'date',
+				'order'         => 'DESC',
+				'post_type'     => 'jb-job',
+				'post_status'   => $statuses,
 			] );
 
 			if ( ! empty( $_POST['get_previous'] ) ) {

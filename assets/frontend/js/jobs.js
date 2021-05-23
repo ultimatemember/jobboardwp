@@ -164,33 +164,41 @@ wp.JB.jobs_list = {
 				return wp.JB.jobs_list.objects.wrapper.data('category');
 			}
 		},
-		get_expired: function() {
-			var expired = wp.JB.jobs_list.objects.wrapper.data( 'expired' );
-			if ( typeof expired == 'undefined' ) {
-				expired = null;
+		get_hide_expired: function() {
+			var hide_expired = wp.JB.jobs_list.objects.wrapper.data( 'hide-expired' );
+			if ( typeof hide_expired == 'undefined' ) {
+				hide_expired = null;
 			}
-			return expired;
+			return hide_expired;
 		},
-		get_filled: function() {
-			var filled = wp.JB.jobs_list.objects.wrapper.data( 'filled' );
-			if ( typeof filled == 'undefined' ) {
-				filled = null;
+		get_hide_filled: function() {
+			var hide_filled = wp.JB.jobs_list.objects.wrapper.data( 'hide-filled' );
+			if ( typeof hide_filled == 'undefined' ) {
+				hide_filled = null;
 			}
-			return filled;
+			return hide_filled;
+		},
+		get_filled_only: function() {
+			var filled_only = wp.JB.jobs_list.objects.wrapper.data( 'filled-only' );
+			if ( typeof filled_only == 'undefined' ) {
+				filled_only = null;
+			}
+			return filled_only;
 		}
 	},
 	ajax: function( append ) {
 		var request = {
-			page:  wp.JB.jobs_list.url.get_page(),
-			per_page:  wp.JB.jobs_list.url.get_per_page(),
-			search:  wp.JB.jobs_list.url.get_search(),
-			location:  wp.JB.jobs_list.url.get_location(),
-			remote_only:  wp.JB.jobs_list.url.get_type(),
-			type:  wp.JB.jobs_list.url.get_type_tag(),
-			category:  wp.JB.jobs_list.url.get_category(),
-			employer:  wp.JB.jobs_list.url.get_employer(),
-			expired:  wp.JB.jobs_list.url.get_expired(),
-			filled:  wp.JB.jobs_list.url.get_filled(),
+			page: wp.JB.jobs_list.url.get_page(),
+			per_page: wp.JB.jobs_list.url.get_per_page(),
+			search: wp.JB.jobs_list.url.get_search(),
+			location: wp.JB.jobs_list.url.get_location(),
+			remote_only: wp.JB.jobs_list.url.get_type(),
+			type: wp.JB.jobs_list.url.get_type_tag(),
+			category: wp.JB.jobs_list.url.get_category(),
+			employer: wp.JB.jobs_list.url.get_employer(),
+			hide_expired: wp.JB.jobs_list.url.get_hide_expired(),
+			hide_filled: wp.JB.jobs_list.url.get_hide_filled(),
+			filled_only: wp.JB.jobs_list.url.get_filled_only(),
 			nonce: jb_front_data.nonce
 		};
 

@@ -364,6 +364,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				'load-more-text'        => __( 'Load more jobs','jobboardwp' ),
 				'category'              => '',
 				'type'                  => '',
+				'filled-only'           => false, //shortcode attribute only if attribute set 0||1
 			] );
 
 			$atts = shortcode_atts( $default, $atts );
