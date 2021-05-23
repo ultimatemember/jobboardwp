@@ -403,6 +403,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			add_filter( 'posts_search_orderby', [ &$this, 'relevance_search' ], 10, 2 );
 
+			$query_args = apply_filters( 'jb_get_jobs_query_args', $query_args );
+
 			$get_posts = new \WP_Query;
 			$jobs_query = $get_posts->query( $query_args );
 

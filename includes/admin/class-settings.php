@@ -37,7 +37,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 			add_action( 'admin_init', [ $this, 'save_settings' ], 10 );
 
-			add_filter( 'jb_change_settings_before_save', array( $this, 'save_email_templates' ) );
+			add_filter( 'jb_change_settings_before_save', [ $this, 'save_email_templates' ] );
 		}
 
 
