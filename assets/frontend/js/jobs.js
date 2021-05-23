@@ -163,6 +163,20 @@ wp.JB.jobs_list = {
 			} else {
 				return wp.JB.jobs_list.objects.wrapper.data('category');
 			}
+		},
+		get_expired: function() {
+			var expired = wp.JB.jobs_list.objects.wrapper.data( 'expired' );
+			if ( typeof expired == 'undefined' ) {
+				expired = null;
+			}
+			return expired;
+		},
+		get_filled: function() {
+			var filled = wp.JB.jobs_list.objects.wrapper.data( 'filled' );
+			if ( typeof filled == 'undefined' ) {
+				filled = null;
+			}
+			return filled;
 		}
 	},
 	ajax: function( append ) {
@@ -175,6 +189,8 @@ wp.JB.jobs_list = {
 			type:  wp.JB.jobs_list.url.get_type_tag(),
 			category:  wp.JB.jobs_list.url.get_category(),
 			employer:  wp.JB.jobs_list.url.get_employer(),
+			expired:  wp.JB.jobs_list.url.get_expired(),
+			filled:  wp.JB.jobs_list.url.get_filled(),
 			nonce: jb_front_data.nonce
 		};
 

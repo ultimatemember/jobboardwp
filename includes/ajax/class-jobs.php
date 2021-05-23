@@ -214,7 +214,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			}
 
 			$statuses = [ 'publish' ];
-			if ( JB()->options()->get( 'jobs-list-hide-filled' ) ) {
+			if ( ( JB()->options()->get( 'jobs-list-hide-filled' ) && ! isset( $_POST['filled'] ) ) || ( isset( $_POST['filled'] ) && $_POST['filled'] == 1 ) ) {
 				if ( ! isset( $query_args['meta_query'] ) ) {
 					$query_args['meta_query'] = [];
 				}
@@ -241,6 +241,11 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			if ( ! JB()->options()->get( 'jobs-list-hide-expired' ) ) {
 				$statuses[] = 'jb-expired';
+			}
+			if ( isset( $_POST['expired'] ) && $_POST['expired'] == 0 ) {
+				$statuses[] = 'jb-expired';
+			} elseif ( isset( $_POST['expired'] ) && $_POST['expired'] == 1 ) {
+				$statuses = [ 'publish' ];
 			}
 
 			$query_args = array_merge( $query_args, [
