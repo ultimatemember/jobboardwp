@@ -15,13 +15,13 @@ jQuery( document ).ready( function($) {
 	$( window ).on( 'resize', function() {
 		jb_responsive();
 	});
-
-	$( window ).on( 'load',function() {
-		jb_responsive();
-		jb_init_helptips();
-	});
+	
 });
 
+jQuery( window ).load(function() {
+	jb_responsive();
+	jb_init_helptips();
+});
 
 //important order by ASC
 var jb_resolutions = {
