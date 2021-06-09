@@ -268,9 +268,21 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 
+			if ( isset( $_POST['orderby'] ) && $_POST['orderby'] == 'title' ) {
+				$orderby = 'title';
+			} else {
+				$orderby = 'date';
+			}
+			if ( isset( $_POST['order'] ) && $_POST['order'] == 'ASC' ) {
+				$order = 'ASC';
+			} else {
+				$order = 'DESC';
+			}
+
+
 			$query_args = array_merge( $query_args, [
-				'orderby'       => 'date',
-				'order'         => 'DESC',
+				'orderby'       => $orderby,
+				'order'         => $order,
 				'post_type'     => 'jb-job',
 				'post_status'   => $statuses,
 			] );

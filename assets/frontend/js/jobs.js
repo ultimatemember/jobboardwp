@@ -184,6 +184,20 @@ wp.JB.jobs_list = {
 				filled_only = null;
 			}
 			return filled_only;
+		},
+		get_orderby: function() {
+			var orderby = wp.JB.jobs_list.objects.wrapper.data( 'orderby' );
+			if ( typeof orderby == 'undefined' ) {
+				orderby = 'date';
+			}
+			return orderby;
+		},
+		get_order: function() {
+			var order = wp.JB.jobs_list.objects.wrapper.data( 'order' );
+			if ( typeof order == 'undefined' ) {
+				order = 'DESC';
+			}
+			return order;
 		}
 	},
 	ajax: function( append ) {
@@ -199,6 +213,8 @@ wp.JB.jobs_list = {
 			hide_expired: wp.JB.jobs_list.url.get_hide_expired(),
 			hide_filled: wp.JB.jobs_list.url.get_hide_filled(),
 			filled_only: wp.JB.jobs_list.url.get_filled_only(),
+			orderby: wp.JB.jobs_list.url.get_orderby(),
+			order: wp.JB.jobs_list.url.get_order(),
 			nonce: jb_front_data.nonce
 		};
 
