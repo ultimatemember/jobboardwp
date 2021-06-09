@@ -364,8 +364,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				'load-more-text'        => __( 'Load more jobs','jobboardwp' ),
 				'category'              => '',
 				'type'                  => '',
-				'orderby'				=> 'date',
-				'order'					=> 'DESC',
+				'orderby'               => 'date',
+				'order'                 => 'DESC',
 				'filled-only'           => false, //shortcode attribute only if attribute set 0||1
 			] );
 

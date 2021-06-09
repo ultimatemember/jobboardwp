@@ -18,7 +18,7 @@ jQuery( document ).ready( function($) {
 	
 });
 
-jQuery( window ).load(function() {
+jQuery( window ).on( 'load', function() {
 	jb_responsive();
 	jb_init_helptips();
 });

@@ -106,7 +106,9 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 = 1.0.6: June xx, 2021 =
 
 * Added: hide-filled="0||1" hide-expired="0||1" filled-only="0||1" attributes for the [jb_jobs] shortcode
+* Added: orderby="title||date" order="ASC||DESC" attributes for the [jb_jobs] shortcode
 * Added: `jb_get_jobs_query_args` hook for 3rd-party integrations to jobs query attributes array
+* Fixed: Responsive JS scripts for some themes and screen width
 
 = 1.0.5: May 4, 2021 =
 
