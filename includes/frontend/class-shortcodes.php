@@ -29,6 +29,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			add_shortcode( 'jb_job', [ &$this, 'single_job' ] );
 			add_shortcode( 'jb_jobs', [ &$this, 'jobs' ] );
 			add_shortcode( 'jb_jobs_dashboard', [ &$this, 'jobs_dashboard' ] );
+			add_shortcode( 'jb_job_categories_list', [ &$this, 'job_categories_list' ] );
 		}
 
 
@@ -412,6 +413,31 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			ob_start();
 
 			JB()->get_template_part( 'dashboard/jobs', $atts );
+
+			return ob_get_clean();
+		}
+
+
+		/**
+		 * Jobs dashboard shortcode
+		 * [jb_job_categories_list /]
+		 *
+		 * @param array $atts
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		function job_categories_list( $atts = array() ) {
+			$default = array();
+			$atts    = shortcode_atts( $default, $atts );
+
+			wp_enqueue_script( 'jb-jobs-category' );
+			wp_enqueue_style( 'jb-jobs-category' );
+
+			ob_start();
+
+			JB()->get_template_part( 'dashboard/jobs-category', $atts );
 
 			return ob_get_clean();
 		}

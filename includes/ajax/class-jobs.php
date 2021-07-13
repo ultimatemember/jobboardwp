@@ -510,6 +510,25 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		}
 
 
+		public function get_categories() {
+			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
+
+			$terms = get_terms( array(
+				'taxonomy'   => 'jb-job-category',
+				'hide_empty' => 0,
+				'pad_counts' => 1
+			) );
+
+			foreach ( $terms as $key => $term ) {
+				if ( 0 !== $term->parent ) {
+					$terms[$key]->class = 'subcat';
+				}
+			}
+
+			wp_send_json_success( $terms );
+		}
+
+
 		/**
 		 * AJAX handler for job delete
 		 *

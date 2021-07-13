@@ -95,6 +95,7 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 			wp_register_script( 'jb-single-job', $this->js_url['frontend'] . 'single-job' . JB()->scrips_prefix . '.js', [ 'jb-front-global' ], jb_version, true );
 			wp_register_script( 'jb-preview-job', $this->js_url['frontend'] . 'preview-job' . JB()->scrips_prefix . '.js', [ 'jb-front-global' ], jb_version, true );
 			wp_register_script( 'jb-jobs-dashboard', $this->js_url['frontend'] . 'jobs-dashboard' . JB()->scrips_prefix . '.js', [ 'jb-front-global' ], jb_version, true );
+			wp_register_script( 'jb-jobs-category', $this->js_url['frontend'] . 'jobs-category' . JB()->scrips_prefix . '.js', [ 'jb-front-global' ], jb_version, true );
 
 
 			wp_register_style( 'select2', $this->url['common'] . 'libs/select2/css/select2' . JB()->scrips_prefix . '.css', [], jb_version );
@@ -114,6 +115,7 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 			wp_register_style( 'jb-post-job', $this->css_url['frontend'] . 'post-job' . JB()->scrips_prefix . '.css', [ 'jb-forms' ], jb_version );
 			wp_register_style( 'jb-preview-job', $this->css_url['frontend'] . 'preview-job' . JB()->scrips_prefix . '.css', [ 'jb-forms' ], jb_version );
 			wp_register_style( 'jb-jobs-dashboard', $this->css_url['frontend'] . 'jobs-dashboard' . JB()->scrips_prefix . '.css', [ 'jb-common' ], jb_version );
+			wp_register_style( 'jb-jobs-category', $this->css_url['frontend'] . 'jobs-category' . JB()->scrips_prefix . '.css', [ 'jb-common' ], jb_version );
 
 			global $post;
 
