@@ -99,7 +99,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			if ( $preset_page_id ) {
 				$preset_page = get_post( $preset_page_id );
 				if ( ! empty( $preset_page ) && ! is_wp_error( $preset_page ) ) {
-					$slug = $preset_page->post_name . '/';
+					$slug = $preset_page->post_name;
 				}
 			}
 
