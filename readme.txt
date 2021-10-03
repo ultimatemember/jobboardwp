@@ -105,6 +105,7 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 = 1.0.7: October 4, 2021 =
 
+* Added: [jb_job_categories_list] shortcode for displaying all available Job Categories
 * Added: Ability for job post date be translatable
 * Fixed: Calculating job categories or tags when they are disabled
 * Fixed: Jobs category pages visibility

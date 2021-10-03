@@ -510,22 +510,69 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		}
 
 
-		public function get_categories() {
-			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
-
-			$terms = get_terms( array(
-				'taxonomy'   => 'jb-job-category',
-				'hide_empty' => 0,
-				'pad_counts' => 1
-			) );
+		function build_categories_structure( $terms, $children, $parent = 0, $level = 0 ) {
+			$structured_terms = array();
 
 			foreach ( $terms as $key => $term ) {
-				if ( 0 !== $term->parent ) {
-					$terms[$key]->class = 'subcat';
+				if ( $term->parent !== $parent ) {
+					continue;
+				}
+
+				$term->level = $level;
+
+				$structured_terms[ $key ] = $term;
+
+				unset( $terms[ $key ] );
+
+				if ( isset( $children[ $term->term_id ] ) ) {
+					$structured_terms = array_merge( $structured_terms, $this->build_categories_structure( $terms, $children, $term->term_id, $level + 1 ) );
 				}
 			}
 
-			wp_send_json_success( $terms );
+			return $structured_terms;
+		}
+
+
+		public function get_categories() {
+			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
+
+			$args = apply_filters( 'jb_get_job_categories_args', array(
+				'taxonomy'   => 'jb-job-category',
+				'hide_empty' => 0,
+				'get'        => 'all',
+			) );
+
+			$terms = get_terms( $args );
+
+			if ( is_taxonomy_hierarchical( 'jb-job-category' ) ) {
+				$children = _get_term_hierarchy( 'jb-job-category' );
+
+				$terms = $this->build_categories_structure( $terms, $children );
+
+				foreach ( $terms as $key => $term ) {
+					$terms[ $key ]->permalink = get_term_link( $term );
+				}
+			} else {
+				$args = apply_filters( 'jb_get_job_categories_args', array(
+					'taxonomy'   => 'jb-job-category',
+					'hide_empty' => 0,
+					'get'        => 'all',
+				) );
+
+				$terms = get_terms( $args );
+
+				foreach ( $terms as $key => $term ) {
+					$terms[ $key ]->level = 0;
+					$terms[ $key ]->permalink = get_term_link( $term );
+				}
+			}
+
+			$response = apply_filters( 'jb_get_job_categories_response', array(
+				'terms' => $terms,
+				'total' => count( $terms ),
+			) );
+
+			wp_send_json_success( $response );
 		}
 
 

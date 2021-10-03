@@ -266,7 +266,7 @@
     justify-content: center;
     align-items: baseline;
     flex-wrap: nowrap; }
-  .jb-jobs.jb-ui-xs .jb-jobs-header .jb-jobs-header-row.jb-jobs-search-row .jb-jobs-search-line, .jb-jobs.jb-ui-xs .jb-jobs-header .jb-jobs-header-row.jb-jobs-search-row .jb-jobs-search-line {
+  .jb-jobs.jb-ui-xs .jb-jobs-header .jb-jobs-header-row.jb-jobs-search-row .jb-jobs-search-line, .jb-jobs.jb-ui-s .jb-jobs-header .jb-jobs-header-row.jb-jobs-search-row .jb-jobs-search-line {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -274,24 +274,24 @@
     flex-wrap: nowrap;
     width: 100%;
     margin: 0 0 10px 0; }
-    .jb-jobs.jb-ui-xs .jb-jobs-header .jb-jobs-header-row.jb-jobs-search-row .jb-jobs-search-line label, .jb-jobs.jb-ui-xs .jb-jobs-header .jb-jobs-header-row.jb-jobs-search-row .jb-jobs-search-line label {
+    .jb-jobs.jb-ui-xs .jb-jobs-header .jb-jobs-header-row.jb-jobs-search-row .jb-jobs-search-line label, .jb-jobs.jb-ui-s .jb-jobs-header .jb-jobs-header-row.jb-jobs-search-row .jb-jobs-search-line label {
       width: 100%;
       margin: 0 0 10px 0;
       min-width: auto;
       max-width: none; }
-    .jb-jobs.jb-ui-xs .jb-jobs-header .jb-jobs-header-row.jb-jobs-search-row .jb-jobs-search-line .jb-do-search, .jb-jobs.jb-ui-xs .jb-jobs-header .jb-jobs-header-row.jb-jobs-search-row .jb-jobs-search-line .jb-do-search {
+    .jb-jobs.jb-ui-xs .jb-jobs-header .jb-jobs-header-row.jb-jobs-search-row .jb-jobs-search-line .jb-do-search, .jb-jobs.jb-ui-s .jb-jobs-header .jb-jobs-header-row.jb-jobs-search-row .jb-jobs-search-line .jb-do-search {
       width: 100%;
       min-width: auto; }
-  .jb-jobs.jb-ui-xs .jb-jobs-wrapper .jb-job-list-row .jb-row-data .jb-job-title .jb-job-title-link-line, .jb-jobs.jb-ui-xs .jb-jobs-wrapper .jb-job-list-row .jb-row-data .jb-job-title .jb-job-title-link-line {
+  .jb-jobs.jb-ui-xs .jb-jobs-wrapper .jb-job-list-row .jb-row-data .jb-job-title .jb-job-title-link-line, .jb-jobs.jb-ui-s .jb-jobs-wrapper .jb-job-list-row .jb-row-data .jb-job-title .jb-job-title-link-line {
     width: 100%;
     margin: 0 0 10px 0; }
-  .jb-jobs.jb-ui-xs .jb-jobs-wrapper .jb-job-list-row .jb-row-info, .jb-jobs.jb-ui-xs .jb-jobs-wrapper .jb-job-list-row .jb-row-info {
+  .jb-jobs.jb-ui-xs .jb-jobs-wrapper .jb-job-list-row .jb-row-info, .jb-jobs.jb-ui-s .jb-jobs-wrapper .jb-job-list-row .jb-row-info {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
     flex-wrap: nowrap; }
-    .jb-jobs.jb-ui-xs .jb-jobs-wrapper .jb-job-list-row .jb-row-info .jb-row-left-side, .jb-jobs.jb-ui-xs .jb-jobs-wrapper .jb-job-list-row .jb-row-info .jb-row-left-side {
+    .jb-jobs.jb-ui-xs .jb-jobs-wrapper .jb-job-list-row .jb-row-info .jb-row-left-side, .jb-jobs.jb-ui-s .jb-jobs-wrapper .jb-job-list-row .jb-row-info .jb-row-left-side {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
@@ -300,7 +300,7 @@
       width: 100%;
       margin: 0 0 5px 0;
       max-width: none; }
-    .jb-jobs.jb-ui-xs .jb-jobs-wrapper .jb-job-list-row .jb-row-info .jb-row-right-side, .jb-jobs.jb-ui-xs .jb-jobs-wrapper .jb-job-list-row .jb-row-info .jb-row-right-side {
+    .jb-jobs.jb-ui-xs .jb-jobs-wrapper .jb-job-list-row .jb-row-info .jb-row-right-side, .jb-jobs.jb-ui-s .jb-jobs-wrapper .jb-job-list-row .jb-row-info .jb-row-right-side {
       display: flex;
       flex-direction: column;
       justify-content: flex-start;

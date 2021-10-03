@@ -432,12 +432,12 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			$default = array();
 			$atts    = shortcode_atts( $default, $atts );
 
-			wp_enqueue_script( 'jb-jobs-category' );
-			wp_enqueue_style( 'jb-jobs-category' );
+			wp_enqueue_script( 'jb-job-categories' );
+			wp_enqueue_style( 'jb-job-categories' );
 
 			ob_start();
 
-			JB()->get_template_part( 'dashboard/jobs-category', $atts );
+			JB()->get_template_part( 'job-categories', $atts );
 
 			return ob_get_clean();
 		}
