@@ -24,6 +24,9 @@ if ( ! class_exists( 'jb\ajax\Common' ) ) {
 			add_action( 'wp_ajax_jb-get-jobs', [ $this->jobs(), 'get_jobs' ] );
 			add_action( 'wp_ajax_nopriv_jb-get-jobs', [ $this->jobs(), 'get_jobs' ] );
 
+			add_action( 'wp_ajax_jb-get-categories', [ $this->jobs(), 'get_categories' ] );
+			add_action( 'wp_ajax_nopriv_jb-get-categories', [ $this->jobs(), 'get_categories' ] );
+
 			add_action( 'wp_ajax_jb-upload-company-logo', [ $this->employer(), 'upload_logo' ] );
 			add_action( 'wp_ajax_nopriv_jb-upload-company-logo', [ $this->employer(), 'upload_logo' ] );
 
