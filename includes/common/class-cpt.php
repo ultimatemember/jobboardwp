@@ -144,7 +144,7 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 							'assign_terms' => 'edit_jb-job-types',
 						],
 						'rewrite'               => [
-							'slug'       => _x( $jobs_slug . JB()->options()->get( 'job_type_slug' ), 'slug', 'jobboardwp' ),
+							'slug'       => _x( untrailingslashit( trailingslashit( $jobs_slug ) . JB()->options()->get( 'job-type-slug' ) ), 'slug', 'jobboardwp' ),
 							'with_front' => true,
 						],
 						'show_in_rest'      => true,
@@ -186,7 +186,7 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 							'assign_terms' => 'edit_jb-job-categories',
 						],
 						'rewrite'               => [
-							'slug'       => _x( $jobs_slug . JB()->options()->get( 'job_category_slug' ), 'slug', 'jobboardwp' ),
+							'slug'       => _x( untrailingslashit( trailingslashit( $jobs_slug ) . JB()->options()->get( 'job-category-slug' ) ), 'slug', 'jobboardwp' ),
 							'with_front' => false,
 						],
 						'show_in_rest'      => true
