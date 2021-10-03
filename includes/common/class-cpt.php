@@ -145,7 +145,7 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 						],
 						'rewrite'               => [
 							'slug'       => _x( $jobs_slug . JB()->options()->get( 'job_type_slug' ), 'slug', 'jobboardwp' ),
-							'with_front' => false,
+							'with_front' => true,
 						],
 						'show_in_rest'      => true,
 					],
