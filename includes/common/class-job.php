@@ -142,13 +142,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			$posted_date = '';
 
 			if ( JB()->is_request( 'admin' ) && ! JB()->is_request( 'ajax' ) ) {
-				$posted_date = get_post_time( get_option( 'date_format' ), false, $job_id );
+				$posted_date = get_post_time( get_option( 'date_format' ), false, $job_id, true );
 			} else {
 				$dateformat = JB()->options()->get('job-dateformat' );
 				if ( $dateformat == 'relative' ) {
 					$posted_date = human_time_diff( get_post_time( 'U', false, $job_id ), current_time( 'timestamp' ) );
 				} elseif ( $dateformat == 'default' ) {
-					$posted_date = get_post_time( get_option( 'date_format' ), false, $job_id );
+					$posted_date = get_post_time( get_option( 'date_format' ), false, $job_id, true );
 				}
 			}
 
@@ -166,7 +166,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * @since 1.0
 		 */
 		function get_html_datetime( $job_id ) {
-			$datetime = get_post_time( 'c', false, $job_id );
+			$datetime = get_post_time( 'c', false, $job_id, true );
 			return $datetime;
 		}
 
