@@ -55,6 +55,7 @@
 		$company_facebook = '';
 		$company_instagram = '';
 		$company_logo = '';
+		$job_expired = '';
 
 		if ( is_user_logged_in() ) {
 			$c_data = JB()->common()->user()->get_company_data();
@@ -93,6 +94,7 @@
 			$company_facebook = $data['company_facebook'];
 			$company_instagram = $data['company_instagram'];
 			$company_logo = $data['company_logo'];
+			$job_expired = $data['job_expired'];
 		}
 
 		$my_details_fields = [];
@@ -300,6 +302,12 @@
 						'class'     => 'jb-s2',
 						'options'   => $categories_options,
 						'value'     => $job_category,
+					],
+					[
+						'type'      => 'datepicker',
+						'label'     => __( 'Expired date', 'jobboardwp' ),
+						'id'        => 'job_expire',
+						'value'     => $job_expired,
 					],
 					[
 						'type'      => 'wp_editor',

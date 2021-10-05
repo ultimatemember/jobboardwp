@@ -547,7 +547,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 
 						if ( ! $posting_form->has_errors() ) {
 
-							$expiry = JB()->common()->job()->calculate_expiry();
+							$expiry = ! empty( $_POST['job_expire'] ) ? $_POST['job_expire'] : JB()->common()->job()->calculate_expiry();
 
 							$job_data = [
 								'post_type'         => 'jb-job',

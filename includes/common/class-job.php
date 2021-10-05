@@ -494,6 +494,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			$company_twitter = get_post_meta( $job_id, 'jb-company-twitter', true );
 			$company_facebook = get_post_meta( $job_id, 'jb-company-facebook', true );
 			$company_instagram = get_post_meta( $job_id, 'jb-company-instagram', true );
+			$job_expired = get_post_meta( $job_id, 'jb-expiry-date', true );
 
 			$company_logo = '';
 			$attachment_id = get_post_thumbnail_id( $job_id );
@@ -542,6 +543,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				'company_twitter'   => $company_twitter,
 				'company_facebook'  => $company_facebook,
 				'company_instagram' => $company_instagram,
+				'job_expired' => $job_expired,
 				'company_logo'      => $company_logo,
 			], $job_id );
 

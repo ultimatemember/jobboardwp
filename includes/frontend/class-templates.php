@@ -65,6 +65,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 * @since 1.0
 		 */
 		function enqueue_single_job() {
+			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jb-single-job' );
 			wp_enqueue_style( 'jb-job' );
 		}

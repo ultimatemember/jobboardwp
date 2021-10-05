@@ -24,6 +24,24 @@ wp.JB.forms = {
 jQuery( document ).ready( function($) {
 	wp.JB.forms.setObjects();
 
+	/**
+	 * jQuery UI - Datepicker
+	 *
+	 * @type {*|jQuery|HTMLElement}
+	 */
+	var datepicker = $('.jb-datepicker');
+	if ( datepicker.length ) {
+		datepicker.each( function() {
+
+			var $this = $(this);
+			// we don't use dateFormat WP datepicker UI gets the default format from WP settings by default
+			$this.datepicker({
+				altField:   $this.siblings('.jb-datepicker-default-format'),
+				altFormat: 'yy-mm-dd'
+			});
+		});
+	}
+
 	$( document.body ).on( 'click', 'input.jb-forms-condition-option', function() {
 		var value = $(this).val();
 
