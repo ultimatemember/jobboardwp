@@ -78,6 +78,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 				'job-type-slug'                     => 'job-type',
 				'job-category-slug'                 => 'job-category',
 				'job-categories'                    => true,
+				'job-breadcrumbs'                   => false,
 				'job-template'                      => '',
 				'job-dateformat'                    => 'default',
 				'googlemaps-api-key'                => '',

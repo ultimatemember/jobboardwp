@@ -186,6 +186,12 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 									'helptip'   => __( 'Enable using GoogleMaps API for getting extended data about job location.', 'jobboardwp' ),
 									'size'      => 'medium',
 								],
+								[
+									'id'        => 'job-breadcrumbs',
+									'type'      => 'checkbox',
+									'label'     => __( 'Show breadcrumbs on the job page', 'jobboardwp' ),
+									'size'      => 'medium',
+								],
 							],
 						],
 						'job_submission'  => [

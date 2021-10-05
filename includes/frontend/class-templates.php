@@ -89,6 +89,9 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 				<div class="jb">
 					<?php do_action( 'jb_before_job_content', $post->ID );
 
+					if ( JB()->options()->get( 'job-breadcrumbs' ) ) {
+						JB()->get_template_part( 'job/breadcrumbs', [ 'job_id' => $post->ID ] );
+					}
 					JB()->get_template_part( 'job/notices', [ 'job_id' => $post->ID ] );
 					JB()->get_template_part( 'job/info', [ 'job_id' => $post->ID ] );
 					JB()->get_template_part( 'job/company', [ 'job_id' => $post->ID ] ); ?>
