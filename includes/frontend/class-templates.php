@@ -342,6 +342,10 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 				return;
 			}
 
+			if ( JB()->options()->get( 'disable-structured-data' ) ) {
+				return;
+			}
+
 			if ( empty( $structured_data = JB()->common()->job()->get_structured_data( get_post() ) ) ) {
 				return;
 			}
