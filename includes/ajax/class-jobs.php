@@ -545,13 +545,13 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		}
 
 
-		public function output_terms_hierarchically( $categories, $job_category, $level = 0, $tab = '', $result = '' ){
+		public function output_terms_hierarchically( $categories, $job_category, $tab = '', $result = '' ){
 			foreach ( $categories as $key => $cat ) {
 				if ( is_array( $cat ) ) { ?>
 					<?php if ( ! empty( $cat['name'] ) ) { ?>
 						<option value="<?php echo esc_attr( $cat['term_id'] ) ?>" <?php selected( $job_category, $cat['term_id'] ) ?>><?php echo $tab . ' ' . esc_html( $cat['name'] ); ?></option>
 					<?php }
-					$result .= $this->output_terms_hierarchically( $cat, $job_category, $level++, $tab . '-' );
+					$result .= $this->output_terms_hierarchically( $cat, $job_category, $tab . '-' );
 				}
 			}
 			return $result;

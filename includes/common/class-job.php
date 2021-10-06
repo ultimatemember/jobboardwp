@@ -543,7 +543,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				'company_twitter'   => $company_twitter,
 				'company_facebook'  => $company_facebook,
 				'company_instagram' => $company_instagram,
-				'job_expired' => $job_expired,
+				'job_expired'       => $job_expired,
 				'company_logo'      => $company_logo,
 			], $job_id );
 
