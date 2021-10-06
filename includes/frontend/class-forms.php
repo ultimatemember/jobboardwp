@@ -892,10 +892,11 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			add_filter( 'mce_buttons', [ $this, 'filter_mce_buttons' ], 10, 2 );
 
 			add_action( 'after_wp_tiny_mce', function( $settings ) {
-				if ( isset( $settings['jb_job_description']['plugins'] ) && false !== strpos( $settings['jb_job_description']['plugins'], 'wplink' ) ) {
-					echo '<style>
-						#link-selector > .howto, #link-selector > #search-panel { display:none; }
-					</style>';
+
+				if ( isset( $settings['_job_description']['plugins'] ) && false !== strpos( $settings['_job_description']['plugins'], 'wplink' ) ) {
+					echo '<script>
+						jQuery("#link-selector > .howto, #link-selector > #search-panel").remove();
+					</script>';
 				}
 			} );
 
