@@ -533,12 +533,37 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		}
 
 
+		public function sort_terms_hierarchically( $cats, $parentId = 0) {
+			$into = [];
+			foreach ($cats as $i => $cat) {
+				if ($cat->parent == $parentId) {
+					$cat->children = $this->sort_terms_hierarchically( $cats, $cat->term_id );
+					$into[$cat->term_id] = (array) $cat;
+				}
+			}
+			return $into;
+		}
+
+
+		public function output_terms_hierarchically( $categories, $job_category, $level = 0, $tab = '', $result = '' ){
+			foreach ( $categories as $key => $cat ) {
+				if ( is_array( $cat ) ) { ?>
+					<?php if ( ! empty( $cat['name'] ) ) { ?>
+						<option value="<?php echo esc_attr( $cat['term_id'] ) ?>" <?php selected( $job_category, $cat['term_id'] ) ?>><?php echo $tab . ' ' . esc_html( $cat['name'] ); ?></option>
+					<?php }
+					$result .= $this->output_terms_hierarchically( $cat, $job_category, $level++, $tab . '-' );
+				}
+			}
+			return $result;
+		}
+
+
 		public function get_categories() {
 			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
 
 			$args = apply_filters( 'jb_get_job_categories_args', array(
 				'taxonomy'   => 'jb-job-category',
-				'hide_empty' => 0,
+				'hide_empty' => 1,
 				'get'        => 'all',
 			) );
 
@@ -555,7 +580,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			} else {
 				$args = apply_filters( 'jb_get_job_categories_args', array(
 					'taxonomy'   => 'jb-job-category',
-					'hide_empty' => 0,
+					'hide_empty' => 1,
 					'get'        => 'all',
 				) );
 

@@ -1,4 +1,6 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+<?php if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} ?>
 
 <div class="jb-jobs-header">
 
@@ -58,7 +60,7 @@
 	if ( ! $jb_jobs_search_bar['hide-filters'] ) {
 
 		$is_remote = ! empty( $_GET['jb-is-remote'] );
-		$job_type = ! empty( $_GET['jb-job-type'] ) ? $_GET['jb-job-type'] : ''; ?>
+		$job_type  = ! empty( $_GET['jb-job-type'] ) ? $_GET['jb-job-type'] : ''; ?>
 
 		<div class="jb-jobs-header-row jb-jobs-filters-row">
 			<label>
@@ -66,8 +68,8 @@
 			</label>
 
 			<?php $types = get_terms( [
-				'taxonomy'      => 'jb-job-type',
-				'hide_empty'    => false,
+				'taxonomy'   => 'jb-job-type',
+				'hide_empty' => false,
 			] );
 
 			if ( ! empty( $types ) ) { ?>
@@ -86,16 +88,19 @@
 			if ( JB()->options()->get( 'job-categories' ) ) {
 				$job_category = ! empty( $_GET['jb-job-category'] ) ? $_GET['jb-job-category'] : '';
 				$categories = get_terms( [
-					'taxonomy'      => 'jb-job-category',
-					'hide_empty'    => false,
+					'taxonomy'   => 'jb-job-category',
+					'hide_empty' => 1,
 				] );
+
+				$categories = JB()->ajax()->jobs()->sort_terms_hierarchically( $categories );
+
 				if ( ! empty( $categories ) ) { ?>
 					<label>
 						<select class="jb-job-category-filter">
 							<option value="" <?php selected( $job_category, '' ) ?>><?php esc_attr_e( 'Select job category', 'jobboardwp' ); ?></option>
-							<?php foreach ( $categories as $category ) { ?>
-								<option value="<?php echo esc_attr( $category->term_id ) ?>" <?php selected( $job_category, $category->term_id ) ?>><?php echo esc_html( $category->name ) ?></option>
-							<?php } ?>
+							<?php
+								echo JB()->ajax()->jobs()->output_terms_hierarchically( $categories, $job_category );
+							?>
 						</select>
 					</label>
 				<?php }
