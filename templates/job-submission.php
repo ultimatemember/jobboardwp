@@ -33,9 +33,11 @@
 				'taxonomy'      => 'jb-job-category',
 				'hide_empty'    => false,
 			] );
-
+			$categories = JB()->ajax()->jobs()->sort_terms_hierarchically( $categories );
+			$categories = JB()->ajax()->jobs()->get_terms_hierarchically( $categories );
 			foreach ( $categories as $category ) {
-				$categories_options[ $category->term_id ] = $category->name;
+				$term_id = $category['term_id'];
+				$categories_options[ $term_id ] = $category['name'];
 			}
 		}
 

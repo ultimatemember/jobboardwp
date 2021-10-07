@@ -558,6 +558,23 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		}
 
 
+		public function get_terms_hierarchically( $categories, $tab = '', $result = array() ){
+			foreach ( $categories as $key => $cat ) {
+				if ( is_array( $cat ) ) { ?>
+					<?php if ( ! empty( $cat['name'] ) ) {
+						$term_id = $cat['term_id'];
+						if( $term_id ){
+							$result[ $term_id ] = array( 'name' => $tab . $cat['name'], 'term_id' => $term_id );
+						}
+					}
+
+					$result = array_merge( $result, $this->get_terms_hierarchically( $cat, $tab . '-' ) );
+				}
+			}
+			return $result;
+		}
+
+
 		public function get_categories() {
 			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
 
