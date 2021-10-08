@@ -37,7 +37,7 @@
 			$categories = JB()->ajax()->jobs()->get_terms_hierarchically( $categories );
 			foreach ( $categories as $category ) {
 				$term_id = $category['term_id'];
-				$categories_options[ $term_id ] = $category['name'];
+				$categories_options[ $term_id ] = $category['tab_name'];
 			}
 		}
 

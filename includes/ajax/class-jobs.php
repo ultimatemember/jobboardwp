@@ -558,19 +558,36 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		}
 
 
-		public function get_terms_hierarchically( $categories, $tab = '', $result = array() ){
+		public function get_terms_hierarchically( $categories, $tab = '', $level = 0, $result = array() ){
+
 			foreach ( $categories as $key => $cat ) {
-				if ( is_array( $cat ) ) { ?>
-					<?php if ( ! empty( $cat['name'] ) ) {
+				if ( is_array( $cat ) ) {
+					if ( ! empty( $cat['name'] ) ) {
 						$term_id = $cat['term_id'];
-						if( $term_id ){
-							$result[ $term_id ] = array( 'name' => $tab . $cat['name'], 'term_id' => $term_id );
+						if ( $term_id ) {
+							if ( $cat['parent'] == 0 ){
+								$level = 0;
+							}
+
+							$result[ $term_id ] = array(
+								'name'     => $cat['name'],
+								'tab_name' => $tab . $cat['name'],
+								'term_id'  => $term_id,
+								'level'    => $level,
+								'count'    => $cat['count']
+							);
 						}
+						if ( ! empty( $cat['children'] ) ){
+							$level++;
+						}
+
 					}
 
-					$result = array_merge( $result, $this->get_terms_hierarchically( $cat, $tab . '-' ) );
+					$result = array_merge( $result, $this->get_terms_hierarchically( $cat, $tab . '-', $level ) );
+
 				}
 			}
+
 			return $result;
 		}
 
@@ -580,25 +597,24 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			$args = apply_filters( 'jb_get_job_categories_args', array(
 				'taxonomy'   => 'jb-job-category',
-				'hide_empty' => 1,
-				'get'        => 'all',
+				'hide_empty' => 0,
+				'pad_counts'  => 1
 			) );
 
 			$terms = get_terms( $args );
 
 			if ( is_taxonomy_hierarchical( 'jb-job-category' ) ) {
-				$children = _get_term_hierarchy( 'jb-job-category' );
+				$terms = $this->sort_terms_hierarchically( $terms );
 
-				$terms = $this->build_categories_structure( $terms, $children );
+				$terms = $this->get_terms_hierarchically( $terms );
 
 				foreach ( $terms as $key => $term ) {
-					$terms[ $key ]->permalink = get_term_link( $term );
+					$terms[ $key ]['permalink'] = get_term_link( $term['term_id'] );
 				}
 			} else {
 				$args = apply_filters( 'jb_get_job_categories_args', array(
 					'taxonomy'   => 'jb-job-category',
-					'hide_empty' => 1,
-					'get'        => 'all',
+					'hide_empty' => 0,
 				) );
 
 				$terms = get_terms( $args );
