@@ -101,6 +101,8 @@ if ( ! class_exists( 'jb\Config' ) ) {
 				'pending-job-editing'               => true,
 				'published-job-editing'             => '1',
 				'job-duration'                      => 30,
+				'job-reminder'                      => false,
+				'job-time'                          => '',
 				'required-job-type'                 => true,
 				'application-method'                => '',
 				'job-submitted-notice'              => __( 'Thank you for submitting your job. It will be appear on the website once approved.', 'jobboardwp' ),
@@ -278,6 +280,14 @@ if ( ! class_exists( 'jb\Config' ) ) {
 					'subject'           => __( 'A job listing has been edited - {site_name}', 'jobboardwp' ),
 					'description'       => __( 'Whether to send the admin an email when new job is edited on website.', 'jobboardwp' ),
 					'recipient'         => 'admin',
+					'default_active'    => true,
+				],
+				'job_reminder'  => [
+					'key'               => 'job_reminder',
+					'title'             => __( 'Job reminder', 'jobboardwp' ),
+					'subject'           => __( 'Your job will expire - {site_name}', 'jobboardwp' ),
+					'description'       => __( 'Whether to send the job\'s author an email before job is expired.', 'jobboardwp' ),
+					'recipient'         => 'user',
 					'default_active'    => true,
 				],
 			] );

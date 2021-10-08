@@ -832,6 +832,53 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Maintenance task to reminder for expire jobs.
+		 *
+		 * @since 1.0
+		 */
+		function check_for_reminder_expired_jobs() {
+			$days = absint( JB()->options()->get( 'job-time' ) );
+			if ( isset( $days ) && (int) $days > 0 ) {
+				$time    = date( 'Y-m-d', strtotime( '+' . $days . ' days' ) );
+				$job_ids = get_posts(
+					[
+						'post_type'      => 'jb-job',
+						'post_status'    => 'publish',
+						'fields'         => 'ids',
+						'posts_per_page' => - 1,
+						'meta_query'     => [
+							'relation' => 'AND',
+							[
+								'key'     => 'jb-expiry-date',
+								'value'   => $time,
+								'compare' => '=',
+							],
+							[
+								'key'     => 'jb-expiry-date',
+								'value'   => '',
+								'compare' => '!=',
+							]
+						],
+					]
+				);
+
+				if ( $job_ids ) {
+					foreach ( $job_ids as $job_id ) {
+						$author_id = get_post_field( 'post_author', $job_id );
+						$user      = get_userdata( $author_id );
+						JB()->common()->mail()->send( $user->user_email, 'job_reminder', [
+							'job_id'       => $job_id,
+							'job_title'    => get_the_title( $job_id ),
+							'job_time'     => $days,
+							'view_job_url' => get_permalink( $job_id ),
+						] );
+					}
+				}
+			}
+		}
+
+
+		/**
 		 * Maintenance task to expire jobs.
 		 *
 		 * @since 1.0

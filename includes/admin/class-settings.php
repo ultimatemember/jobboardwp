@@ -271,10 +271,25 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 								],
 								[
 									'id'        => 'job-duration',
-									'type'      => 'text',
+									'type'      => 'number',
 									'label'     => __( 'Job duration', 'jobboardwp' ),
 									'helptip'   => __( 'Set how long you want jobs to appear on the jobs list. After the set duration jobs will set to expired. If you do not want jobs to have an expiration date, leave this field blank.', 'jobboardwp' ),
 									'size'      => 'small',
+								],
+								[
+									'id'          => 'job-reminder',
+									'type'        => 'checkbox',
+									'label'       => __( 'Send reminder to the author?', 'jobboardwp' ),
+									'helptip'     => __( 'Enable notification to the job author about the job expiration', 'jobboardwp' ),
+									'conditional' => [ 'job-duration', '!=', '' ],
+								],
+								[
+									'id'          => 'job-time',
+									'type'        => 'number',
+									'label'       => __( 'Reminder time for "X" days', 'jobboardwp' ),
+									'helptip'     => __( 'Set the number of days before expiration when the job author receives an email.', 'jobboardwp' ),
+									'conditional' => [ 'job-reminder', '=', '1' ],
+									'size'        => 'small',
 								],
 								[
 									'id'            => 'required-job-type',
