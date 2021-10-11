@@ -837,8 +837,10 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * @since 1.0
 		 */
 		function check_for_reminder_expired_jobs() {
-			$days = absint( JB()->options()->get( 'job-time' ) );
-			if ( isset( $days ) && (int) $days > 0 ) {
+			$duration = JB()->options()->get( 'job-duration' );
+			$reminder = JB()->options()->get( 'job-reminder' );
+			$days     = absint( JB()->options()->get( 'job-time' ) );
+			if ( ! empty( $duration ) && ! empty( $reminder ) && ! empty( $days ) && $days > 0 ) {
 				$time    = date( 'Y-m-d', strtotime( '+' . $days . ' days' ) );
 				$job_ids = get_posts(
 					[
