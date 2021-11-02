@@ -1,4 +1,5 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php // phpcs:ignore WordPress.Files.FileName.NotHyphenatedLowercase -- todo changing email notifications keys
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } ?>
 
