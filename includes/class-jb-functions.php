@@ -1,4 +1,6 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit;
+<?php if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 if ( ! class_exists( 'JB_Functions' ) ) {
@@ -15,7 +17,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		var $templates_path;
+		public $templates_path;
 
 
 		/**
@@ -23,7 +25,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		var $theme_templates;
+		public $theme_templates;
 
 
 		/**
@@ -31,7 +33,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		var $is_permalinks;
+		public $is_permalinks;
 
 
 		/**
@@ -39,14 +41,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		var $scrips_prefix = '';
-
-
-		/**
-		 * JB_Functions constructor.
-		 */
-		function __construct() {
-		}
+		public $scrips_prefix = '';
 
 
 		/**
@@ -60,13 +55,13 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 */
 		public function is_request( $type ) {
 			switch ( $type ) {
-				case 'admin' :
+				case 'admin':
 					return is_admin();
-				case 'ajax' :
+				case 'ajax':
 					return defined( 'DOING_AJAX' );
-				case 'cron' :
+				case 'cron':
 					return defined( 'DOING_CRON' );
-				case 'frontend' :
+				case 'frontend':
 					return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
 			}
 
@@ -82,7 +77,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function get_template( $slug ) {
+		public function get_template( $slug ) {
 			$file_list = $this->templates_path . "{$slug}.php";
 
 			$theme_file = $this->theme_templates . "{$slug}.php";
@@ -102,7 +97,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function get_template_part( $slug, $args = [] ) {
+		public function get_template_part( $slug, $args = array() ) {
 			global $wp_query;
 
 			$query_title = str_replace( '-', '_', sanitize_title( $slug ) );
@@ -112,7 +107,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			$template = $this->get_template( $slug );
 
 			if ( file_exists( $template ) ) {
-			    load_template( $template, false );
+				load_template( $template, false );
 			}
 		}
 
@@ -128,39 +123,45 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function helptip( $tip, $allow_html = false, $echo = true ) {
+		public function helptip( $tip, $allow_html = false, $echo = true ) {
 
 			wp_enqueue_script( 'jb-helptip' );
 			wp_enqueue_style( 'jb-helptip' );
 
 			if ( $allow_html ) {
-				$tip = htmlspecialchars( wp_kses( html_entity_decode( $tip ), [
-					'br'     => [],
-					'em'     => [],
-					'strong' => [],
-					'small'  => [],
-					'span'   => [],
-					'ul'     => [],
-					'li'     => [],
-					'ol'     => [],
-					'p'      => [],
-				] ) );
+				$tip = htmlspecialchars(
+					wp_kses(
+						html_entity_decode( $tip ),
+						array(
+							'br'     => array(),
+							'em'     => array(),
+							'strong' => array(),
+							'small'  => array(),
+							'span'   => array(),
+							'ul'     => array(),
+							'li'     => array(),
+							'ol'     => array(),
+							'p'      => array(),
+						)
+					)
+				);
 
 			} else {
 				$tip = esc_attr( $tip );
 			}
 
-			ob_start(); ?>
+			ob_start();
+			?>
 
-			<span class="jb-helptip dashicons dashicons-editor-help" title="<?php echo $tip ?>"></span>
+			<span class="jb-helptip dashicons dashicons-editor-help" title="<?php echo $tip; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output ?>"></span>
 
-			<?php if ( $echo ) {
+			<?php
+			if ( $echo ) {
 				ob_get_flush();
 				return '';
 			} else {
 				return ob_get_clean();
 			}
-
 		}
 
 
@@ -174,7 +175,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function setcookie( $name, $value = '', $expire = 0, $path = '' ) {
+		public function setcookie( $name, $value = '', $expire = 0, $path = '' ) {
 			if ( empty( $value ) ) {
 				$expire = time() - YEAR_IN_SECONDS;
 			}
@@ -184,6 +185,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 
 			$levels = ob_get_level();
 			for ( $i = 0; $i < $levels; $i++ ) {
+				// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 				@ob_end_clean();
 			}
 

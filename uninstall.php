@@ -1,12 +1,7 @@
 <?php
-/**
- * Uninstall JobBoardWP
- *
- */
-
-
-if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) exit;
-
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+	exit;
+}
 
 delete_option( 'jb_last_version_upgrade' );
 delete_option( 'jb_first_activation_date' );

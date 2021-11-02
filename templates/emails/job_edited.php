@@ -1,4 +1,6 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+<?php if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} ?>
 
 The job listing {job_title} has been edited.
 

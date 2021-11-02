@@ -1,7 +1,8 @@
 <?php namespace jb\frontend;
 
-
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
@@ -18,18 +19,15 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		/**
 		 * Shortcodes constructor.
 		 */
-		function __construct() {
-
+		public function __construct() {
 			// posting a job form
-			add_shortcode( 'jb_post_job', [ &$this, 'job_post' ] );
-			add_filter( 'jb_forms_before_render_section', [ &$this, 'render_section' ], 10, 3 );
+			add_shortcode( 'jb_post_job', array( &$this, 'job_post' ) );
+			add_filter( 'jb_forms_before_render_section', array( &$this, 'render_section' ), 10, 3 );
 
-
-
-			add_shortcode( 'jb_job', [ &$this, 'single_job' ] );
-			add_shortcode( 'jb_jobs', [ &$this, 'jobs' ] );
-			add_shortcode( 'jb_jobs_dashboard', [ &$this, 'jobs_dashboard' ] );
-			add_shortcode( 'jb_job_categories_list', [ &$this, 'job_categories_list' ] );
+			add_shortcode( 'jb_job', array( &$this, 'single_job' ) );
+			add_shortcode( 'jb_jobs', array( &$this, 'jobs' ) );
+			add_shortcode( 'jb_jobs_dashboard', array( &$this, 'jobs_dashboard' ) );
+			add_shortcode( 'jb_job_categories_list', array( &$this, 'job_categories_list' ) );
 		}
 
 
@@ -42,25 +40,26 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 * @return string
 		 * @since 1.0
 		 */
-		function job_post( $atts ) {
-			$default = apply_filters( 'jb_post_job_shortcode_default_atts', [] );
+		public function job_post( $atts ) {
+			$default = apply_filters( 'jb_post_job_shortcode_default_atts', array() );
 
 			$atts = shortcode_atts( $default, $atts );
 			$atts = apply_filters( 'jb_post_job_shortcode_atts', $atts );
 
-			if ( empty( $_GET['job-id'] ) ) {
+			// phpcs:disable WordPress.Security.NonceVerification -- getting value from GET line
 
+			if ( empty( $_GET['job-id'] ) ) {
 				// empty posting form
 				// handle draft notice after submission to draft
-
-				$posting_form = JB()->frontend()->forms( [ 'id' => 'jb-job-submission', ] );
+				$posting_form        = JB()->frontend()->forms( array( 'id' => 'jb-job-submission' ) );
 				$jobs_dashboard_link = JB()->common()->permalinks()->get_preset_page_link( 'jobs-dashboard' );
 
 				if ( ! empty( $_GET['msg'] ) ) {
 					switch ( sanitize_key( $_GET['msg'] ) ) {
 						case 'draft':
-						    // translators: %s: jobs dashboard page link
+							/** @noinspection HtmlUnknownTarget */
 							$posting_form->add_notice(
+								// translators: %s: jobs dashboard page link
 								sprintf( __( 'Job\'s draft was saved. You could resumed it from the <a href="%s" title="Job Dashboard">job dashboard</a>', 'jobboardwp' ), $jobs_dashboard_link ),
 								'draft'
 							);
@@ -77,11 +76,12 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 							break;
 						case 'published':
-
 							if ( ! empty( $_GET['published-id'] ) ) {
-							    // translators: %s: link to the published job
+								$job_permalink = get_permalink( absint( $_GET['published-id'] ) );
+								/** @noinspection HtmlUnknownTarget */
 								$posting_form->add_notice(
-									sprintf( __( 'Job is posted successfully. To view your job <a href="%s">click here</a>', 'jobboardwp' ), get_permalink( $_GET['published-id'] ) ),
+									// translators: %s: link to the published job
+									sprintf( __( 'Job is posted successfully. To view your job <a href="%s">click here</a>', 'jobboardwp' ), $job_permalink ),
 									'published'
 								);
 							} else {
@@ -94,6 +94,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 							break;
 					}
 				}
+
+				// phpcs:enable WordPress.Security.NonceVerification -- getting value from GET line
 
 				wp_enqueue_script( 'jb-post-job' );
 				wp_enqueue_style( 'jb-post-job' );
@@ -110,25 +112,29 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				// validate Job by ID
 
 				$job_id = absint( $_GET['job-id'] );
-				$job = get_post( $job_id );
+				$job    = get_post( $job_id );
 
 				if ( is_wp_error( $job ) || empty( $job ) ) {
 					return __( 'Wrong job', 'jobboardwp' );
 				}
 
-				if ( ! is_user_logged_in() && $job->post_author != 0 ) {
+				if ( ! is_user_logged_in() && 0 !== $job->post_author ) {
 
-					ob_start(); ?>
+					ob_start();
+					?>
 
 					<p>
 						<?php
+						/** @noinspection HtmlUnknownTarget */
 						// translators: %s: login link
-						printf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
+						printf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
+						?>
 					</p>
 
-					<?php return ob_get_clean();
+					<?php
+					return ob_get_clean();
 
-				} elseif ( is_user_logged_in() && get_current_user_id() != $job->post_author ) {
+				} elseif ( is_user_logged_in() && get_current_user_id() !== $job->post_author ) {
 
 					return __( 'Wrong job', 'jobboardwp' );
 
@@ -137,20 +143,20 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				if ( empty( $_GET['jb-preview'] ) ) {
 
 					// edit job form
-					if ( ! wp_verify_nonce( $_GET['nonce'], 'jb-job-draft' . $job_id ) ) {
+					if ( ! wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-job-draft' . $job_id ) ) {
 						return __( 'Security check wrong', 'jobboardwp' );
 					}
 
-					$statuses = [ 'draft', 'publish', 'jb-preview', 'jb-expired' ];
+					$statuses = array( 'draft', 'publish', 'jb-preview', 'jb-expired' );
 					if ( JB()->options()->get( 'pending-job-editing' ) ) {
 						$statuses[] = 'pending';
 					}
 
-					if ( ! in_array( $job->post_status, $statuses ) ) {
+					if ( ! in_array( $job->post_status, $statuses, true ) ) {
 						return __( 'Wrong job', 'jobboardwp' );
 					}
 
-					if ( ! empty( $job ) && in_array( $job->post_status, [ 'publish' ] ) && JB()->options()->get( 'published-job-editing' ) == '0' ) {
+					if ( ! empty( $job ) && in_array( $job->post_status, array( 'publish' ), true ) && JB()->options()->get( 'published-job-editing' ) === '0' ) {
 						return __( 'You haven\'t ability to edit this job.', 'jobboardwp' );
 					}
 
@@ -168,11 +174,11 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				} else {
 
 					// preview job
-					if ( ! wp_verify_nonce( $_GET['nonce'], 'jb-job-preview' . $job_id ) ) {
+					if ( ! wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-job-preview' . $job_id ) ) {
 						return __( 'Security check wrong', 'jobboardwp' );
 					}
 
-					if ( $job->post_status != 'jb-preview' ) {
+					if ( 'jb-preview' !== $job->post_status ) {
 						return __( 'Wrong job preview', 'jobboardwp' );
 					}
 
@@ -202,20 +208,20 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function render_section( $html, $section_data, $form_data ) {
-			if ( $section_data['key'] == 'my-details' ) {
+		public function render_section( $html, $section_data, $form_data ) {
+			if ( 'my-details' === $section_data['key'] ) {
 
 				if ( JB()->options()->get( 'account-creation' ) && ! is_user_logged_in() ) {
 
-					$id = isset( $form_data['id'] ) ? $form_data['id'] : 'jb-frontend-form-' . uniqid();
-					$name = isset( $form_data['name'] ) ? $form_data['name'] : $id;
+					$id     = isset( $form_data['id'] ) ? $form_data['id'] : 'jb-frontend-form-' . uniqid();
+					$name   = isset( $form_data['name'] ) ? $form_data['name'] : $id;
 					$action = isset( $form_data['action'] ) ? $form_data['action'] : '';
 					$method = isset( $form_data['method'] ) ? $form_data['method'] : 'post';
 
-					$data_attrs = isset( $form_data['data'] ) ? $form_data['data'] : [];
-					$data_attr = '';
+					$data_attrs = isset( $form_data['data'] ) ? $form_data['data'] : array();
+					$data_attr  = '';
 					foreach ( $data_attrs as $key => $val ) {
-						$data_attr .= " data-{$key}=\"{$val}\" ";
+						$data_attr .= " data-{$key}=\"" . esc_attr( $val ) . '" ';
 					}
 
 					add_filter( 'jb_forms_move_form_tag', '__return_true' );
@@ -225,10 +231,12 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 					$redirect = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-					ob_start(); ?>
+					ob_start();
+					?>
 
 					<p id="jb-sign-in-notice" class="jb-form-pre-section-notice">
-						<?php if ( JB()->options()->get( 'account-required' ) ) {
+						<?php // phpcs:disable WordPress.Security.EscapeOutput -- strict output
+						if ( JB()->options()->get( 'account-required' ) ) {
 							if ( ! JB()->options()->get( 'account-username-generate' ) ) {
 								_e( 'If you don\'t have an account you can create one below by entering your email address/username or <a href="javascript:void(0);" id="jb-show-login-form">sign in</a>.', 'jobboardwp' );
 							} else {
@@ -240,23 +248,33 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 							} else {
 								_e( 'If you don\'t have an account you can optionally create one below by entering your email address or <a href="javascript:void(0);" id="jb-show-login-form">sign in</a>.', 'jobboardwp' );
 							}
-						} ?>
-
+						}
+						// phpcs:enable WordPress.Security.EscapeOutput -- strict output
+						?>
 					</p>
 
 					<p id="jb-sign-up-notice" class="jb-form-pre-section-notice" style="display: none;">
-						<?php _e( 'You could login below or <a href="javascript:void(0);" id="jb-hide-login-form">create account</a>.', 'jobboardwp' ); ?>
+						<?php
+						// phpcs:ignore WordPress.Security.EscapeOutput -- strict output
+						_e( 'You could login below or <a href="javascript:void(0);" id="jb-hide-login-form">create account</a>.', 'jobboardwp' );
+						?>
 					</p>
 
 					<div id="jb-login-form-wrapper" style="display: none;">
 
-						<?php if ( isset( $_GET['login'] ) && 'failed' === $_GET['login'] ) { ?>
-							<span class="jb-frontend-form-error">
-								<?php _e( 'Invalid username, email address or incorrect password.', 'jobboardwp' ) ?>
-							</span>
-						<?php }
+						<?php
+						// phpcs:ignore WordPress.Security.NonceVerification -- getting value from GET line
+						if ( isset( $_GET['login'] ) && 'failed' === sanitize_key( $_GET['login'] ) ) {
+							?>
 
-						$login_args = [
+							<span class="jb-frontend-form-error">
+								<?php esc_html_e( 'Invalid username, email address or incorrect password.', 'jobboardwp' ); ?>
+							</span>
+
+							<?php
+						}
+
+						$login_args = array(
 							'echo'           => false,
 							'remember'       => true,
 							'redirect'       => $redirect,
@@ -271,29 +289,34 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 							'label_log_in'   => __( 'Log In', 'jobboardwp' ),
 							'value_username' => '',
 							'value_remember' => false,
-						];
+						);
 
-						echo wp_login_form( $login_args ); ?>
+						echo wp_login_form( $login_args );
+						?>
 
 						<div class="clear"></div>
-
 					</div>
 
-					<form action="<?php echo esc_attr( $action ) ?>" method="<?php echo esc_attr( $method ) ?>"
-						name="<?php echo esc_attr( $name ) ?>" id="<?php echo esc_attr( $id ) ?>" class="jb-form" <?php echo $data_attr ?>>
+					<form action="<?php echo esc_attr( $action ); ?>" method="<?php echo esc_attr( $method ); ?>"
+						name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ); ?>" class="jb-form" <?php echo $data_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output ?>>
 
-					<?php $html .= ob_get_clean();
+					<?php
+					$html .= ob_get_clean();
 
 				} elseif ( ! JB()->options()->get( 'account-creation' ) && ! is_user_logged_in() ) {
-					ob_start(); ?>
+					ob_start();
+					?>
 
 					<p>
 						<?php
+						/** @noinspection HtmlUnknownTarget */
 						// translators: %s: login link
-						printf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
+						printf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
+						?>
 					</p>
 
-					<?php $html .= ob_get_clean();
+					<?php
+					$html .= ob_get_clean();
 				}
 			}
 
@@ -311,10 +334,13 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function single_job( $atts ) {
-			$default = apply_filters( 'jb_job_shortcode_default_atts', [
-				'id'    => '',
-			] );
+		public function single_job( $atts ) {
+			$default = apply_filters(
+				'jb_job_shortcode_default_atts',
+				array(
+					'id' => '',
+				)
+			);
 
 			$atts = shortcode_atts( $default, $atts );
 			$atts = apply_filters( 'jb_job_shortcode_atts', $atts );
@@ -325,7 +351,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 			$atts['default_template_replaced'] = false;
 			if ( JB()->frontend()->templates()->template_replaced ) {
-			    $atts['default_template_replaced'] = true;
+				$atts['default_template_replaced'] = true;
 			}
 
 			wp_enqueue_script( 'jb-single-job' );
@@ -349,26 +375,29 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function jobs( $atts ) {
-			$default = apply_filters( 'jb_jobs_shortcode_default_atts', [
-				'employer-id'           => '',
-				'per-page'              => JB()->options()->get( 'jobs-list-pagination' ),
-				'no-logo'               => JB()->options()->get( 'jobs-list-no-logo' ),
-				'hide-filled'           => JB()->options()->get( 'jobs-list-hide-filled' ),
-				'hide-expired'          => JB()->options()->get( 'jobs-list-hide-expired' ),
-				'hide-search'           => JB()->options()->get( 'jobs-list-hide-search' ),
-				'hide-location-search'  => JB()->options()->get( 'jobs-list-hide-location-search' ),
-				'hide-filters'          => JB()->options()->get( 'jobs-list-hide-filters' ),
-				'hide-job-types'        => JB()->options()->get( 'jobs-list-hide-job-types' ),
-				'no-jobs-text'          => __( 'No Jobs', 'jobboardwp' ),
-				'no-jobs-search-text'   => __( 'No Jobs found', 'jobboardwp' ),
-				'load-more-text'        => __( 'Load more jobs','jobboardwp' ),
-				'category'              => '',
-				'type'                  => '',
-				'orderby'               => 'date',
-				'order'                 => 'DESC',
-				'filled-only'           => false, //shortcode attribute only if attribute set 0||1
-			] );
+		public function jobs( $atts ) {
+			$default = apply_filters(
+				'jb_jobs_shortcode_default_atts',
+				array(
+					'employer-id'          => '',
+					'per-page'             => JB()->options()->get( 'jobs-list-pagination' ),
+					'no-logo'              => JB()->options()->get( 'jobs-list-no-logo' ),
+					'hide-filled'          => JB()->options()->get( 'jobs-list-hide-filled' ),
+					'hide-expired'         => JB()->options()->get( 'jobs-list-hide-expired' ),
+					'hide-search'          => JB()->options()->get( 'jobs-list-hide-search' ),
+					'hide-location-search' => JB()->options()->get( 'jobs-list-hide-location-search' ),
+					'hide-filters'         => JB()->options()->get( 'jobs-list-hide-filters' ),
+					'hide-job-types'       => JB()->options()->get( 'jobs-list-hide-job-types' ),
+					'no-jobs-text'         => __( 'No Jobs', 'jobboardwp' ),
+					'no-jobs-search-text'  => __( 'No Jobs found', 'jobboardwp' ),
+					'load-more-text'       => __( 'Load more jobs', 'jobboardwp' ),
+					'category'             => '',
+					'type'                 => '',
+					'orderby'              => 'date',
+					'order'                => 'DESC',
+					'filled-only'          => false, //shortcode attribute only if attribute set 0||1
+				)
+			);
 
 			$atts = shortcode_atts( $default, $atts );
 			$atts = apply_filters( 'jb_jobs_shortcode_atts', $atts );
@@ -394,17 +423,21 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function jobs_dashboard( $atts ) {
-			$default = apply_filters( 'jb_jobs_dashboard_shortcode_default_atts', [] );
+		public function jobs_dashboard( $atts ) {
+			$default = apply_filters( 'jb_jobs_dashboard_shortcode_default_atts', array() );
 
 			$atts = shortcode_atts( $default, $atts );
 
-			$atts['columns'] = apply_filters( 'jb_jobs_dashboard_header_columns', [
-				'title'    => __( 'Title', 'jobboardwp' ),
-				'status'   => __( 'Status', 'jobboardwp' ),
-				'posted'   => __( 'Posted', 'jobboardwp' ),
-				'expired'  => __( 'Closing on', 'jobboardwp' ),
-			] );
+			$atts['columns'] = apply_filters(
+				'jb_jobs_dashboard_header_columns',
+				array(
+					'title'   => __( 'Title', 'jobboardwp' ),
+					'status'  => __( 'Status', 'jobboardwp' ),
+					'posted'  => __( 'Posted', 'jobboardwp' ),
+					'expired' => __( 'Closing on', 'jobboardwp' ),
+				)
+			);
+
 			$atts = apply_filters( 'jb_jobs_dashboard_shortcode_atts', $atts );
 
 			wp_enqueue_script( 'jb-jobs-dashboard' );
@@ -428,7 +461,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function job_categories_list( $atts = array() ) {
+		public function job_categories_list( $atts = array() ) {
 			$default = array();
 			$atts    = shortcode_atts( $default, $atts );
 

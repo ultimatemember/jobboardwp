@@ -1,18 +1,19 @@
 <?php namespace jb\admin;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-if ( ! defined( 'ABSPATH' ) ) exit;
 
-
-if ( ! class_exists( 'jb\admin\Common' ) ) {
+if ( ! class_exists( 'jb\admin\Init' ) ) {
 
 
 	/**
-	 * Class Common
+	 * Class Init
 	 *
 	 * @package jb\admin
 	 */
-	class Common {
+	class Init {
 
 
 		/**
@@ -20,14 +21,14 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		var $templates_path = '';
+		public $templates_path = '';
 
 
 		/**
-		 * Common constructor.
+		 * Init constructor.
 		 */
-		function __construct() {
-			add_action( 'plugins_loaded', [ $this, 'init_variables' ], 10 );
+		public function __construct() {
+			add_action( 'plugins_loaded', array( $this, 'init_variables' ), 10 );
 		}
 
 
@@ -36,8 +37,8 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function init_variables() {
-			$this->templates_path = jb_path . 'includes' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
+		public function init_variables() {
+			$this->templates_path = JB_PATH . 'includes' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
 		}
 
 
@@ -46,7 +47,7 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function includes() {
+		public function includes() {
 			$this->menu();
 			$this->enqueue();
 			$this->settings();
@@ -62,7 +63,7 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 		 *
 		 * @return Menu()
 		 */
-		function menu() {
+		public function menu() {
 			if ( empty( JB()->classes['jb\admin\menu'] ) ) {
 				JB()->classes['jb\admin\menu'] = new Menu();
 			}
@@ -75,7 +76,7 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 		 *
 		 * @return Enqueue()
 		 */
-		function enqueue() {
+		public function enqueue() {
 			if ( empty( JB()->classes['jb\admin\enqueue'] ) ) {
 				JB()->classes['jb\admin\enqueue'] = new Enqueue();
 			}
@@ -88,7 +89,7 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 		 *
 		 * @return Settings()
 		 */
-		function settings() {
+		public function settings() {
 			if ( empty( JB()->classes['jb\admin\settings'] ) ) {
 				JB()->classes['jb\admin\settings'] = new Settings();
 			}
@@ -101,7 +102,7 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 		 *
 		 * @return Notices()
 		 */
-		function notices() {
+		public function notices() {
 			if ( empty( JB()->classes['jb\admin\notices'] ) ) {
 				JB()->classes['jb\admin\notices'] = new Notices();
 			}
@@ -114,7 +115,7 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 		 *
 		 * @return Actions_Listener()
 		 */
-		function actions_listener() {
+		public function actions_listener() {
 			if ( empty( JB()->classes['jb\admin\actions_listener'] ) ) {
 				JB()->classes['jb\admin\actions_listener'] = new Actions_Listener();
 			}
@@ -127,7 +128,7 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 		 *
 		 * @return Actions_Listener()
 		 */
-		function columns() {
+		public function columns() {
 			if ( empty( JB()->classes['jb\admin\columns'] ) ) {
 				JB()->classes['jb\admin\columns'] = new Columns();
 			}
@@ -140,7 +141,7 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 		 *
 		 * @return Metabox()
 		 */
-		function metabox() {
+		public function metabox() {
 			if ( empty( JB()->classes['jb\admin\metabox'] ) ) {
 				JB()->classes['jb\admin\metabox'] = new Metabox();
 			}
@@ -155,12 +156,12 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 		 *
 		 * @return Forms
 		 */
-		function forms( $data = false ) {
+		public function forms( $data = false ) {
 			if ( empty( JB()->classes[ 'jb\admin\forms' . $data['class'] ] ) ) {
-				JB()->classes['jb\admin\forms' . $data['class'] ] = new Forms( $data );
+				JB()->classes[ 'jb\admin\forms' . $data['class'] ] = new Forms( $data );
 			}
 
-			return JB()->classes['jb\admin\forms' . $data['class'] ];
+			return JB()->classes[ 'jb\admin\forms' . $data['class'] ];
 		}
 
 
@@ -171,7 +172,7 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function is_own_screen() {
+		public function is_own_screen() {
 			global $current_screen;
 			$screen_id = $current_screen->id;
 
@@ -194,17 +195,17 @@ if ( ! class_exists( 'jb\admin\Common' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function is_own_post_type() {
+		public function is_own_post_type() {
 			$cpt = array_keys( JB()->common()->cpt()->get() );
 
-			if ( isset( $_REQUEST['post_type'] ) ) {
-				$post_type = $_REQUEST['post_type'];
-				if ( in_array( $post_type, $cpt ) ) {
+			if ( isset( $_REQUEST['post_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+				$post_type = sanitize_key( $_REQUEST['post_type'] ); // phpcs:ignore WordPress.Security.NonceVerification
+				if ( in_array( $post_type, $cpt, true ) ) {
 					return true;
 				}
-			} elseif ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'edit' ) {
+			} elseif ( isset( $_REQUEST['action'] ) && 'edit' === sanitize_key( $_REQUEST['action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 				$post_type = get_post_type();
-				if ( in_array( $post_type, $cpt ) ) {
+				if ( in_array( $post_type, $cpt, true ) ) {
 					return true;
 				}
 			}

@@ -1,7 +1,8 @@
 <?php namespace jb\common;
 
-
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 if ( ! class_exists( 'jb\common\User' ) ) {
@@ -18,7 +19,7 @@ if ( ! class_exists( 'jb\common\User' ) ) {
 		/**
 		 * User constructor.
 		 */
-		function __construct() {
+		public function __construct() {
 
 		}
 
@@ -33,8 +34,8 @@ if ( ! class_exists( 'jb\common\User' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function get_company_data( $user_id = null, $field = null ) {
-			$company_data = [
+		public function get_company_data( $user_id = null, $field = null ) {
+			$company_data = array(
 				'name'      => '',
 				'website'   => '',
 				'tagline'   => '',
@@ -42,7 +43,7 @@ if ( ! class_exists( 'jb\common\User' ) ) {
 				'facebook'  => '',
 				'instagram' => '',
 				'logo'      => '',
-			];
+			);
 
 			if ( ! $user_id ) {
 				$user_id = get_current_user_id();
@@ -52,19 +53,19 @@ if ( ! class_exists( 'jb\common\User' ) ) {
 				return $company_data;
 			}
 
-			if ( ! empty( $field ) && in_array( $field, array_keys( $company_data ) ) ) {
+			if ( ! empty( $field ) && in_array( $field, array_keys( $company_data ), true ) ) {
 				return get_user_meta( $user_id, "jb_company_{$field}", true );
 			}
 
-			$company_data['name'] = get_user_meta( $user_id, 'jb_company_name', true );
-			$company_data['website'] = get_user_meta( $user_id, 'jb_company_website', true );
-			$company_data['tagline'] = get_user_meta( $user_id, 'jb_company_tagline', true );
-			$company_data['twitter'] = get_user_meta( $user_id, 'jb_company_twitter', true );
-			$company_data['facebook'] = get_user_meta( $user_id, 'jb_company_facebook', true );
+			$company_data['name']      = get_user_meta( $user_id, 'jb_company_name', true );
+			$company_data['website']   = get_user_meta( $user_id, 'jb_company_website', true );
+			$company_data['tagline']   = get_user_meta( $user_id, 'jb_company_tagline', true );
+			$company_data['twitter']   = get_user_meta( $user_id, 'jb_company_twitter', true );
+			$company_data['facebook']  = get_user_meta( $user_id, 'jb_company_facebook', true );
 			$company_data['instagram'] = get_user_meta( $user_id, 'jb_company_instagram', true );
-			$company_data['logo'] = get_user_meta( $user_id, 'jb_company_logo', true );
+			$company_data['logo']      = get_user_meta( $user_id, 'jb_company_logo', true );
 
-			$company_data = apply_filters( 'jb-user-company-data', $company_data, $user_id );
+			$company_data = apply_filters( 'jb_user_company_data', $company_data, $user_id );
 			return $company_data;
 		}
 
@@ -77,13 +78,16 @@ if ( ! class_exists( 'jb\common\User' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function set_company_data( $data, $user_id = null ) {
-			$company_data = wp_parse_args( $data, [
-				'name'      => '',
-				'website'   => '',
-				'tagline'   => '',
-				'logo'      => '',
-			] );
+		public function set_company_data( $data, $user_id = null ) {
+			$company_data = wp_parse_args(
+				$data,
+				array(
+					'name'    => '',
+					'website' => '',
+					'tagline' => '',
+					'logo'    => '',
+				)
+			);
 
 			if ( ! $user_id ) {
 				$user_id = get_current_user_id();
@@ -97,7 +101,5 @@ if ( ! class_exists( 'jb\common\User' ) ) {
 				update_user_meta( $user_id, "jb_company_{$key}", $data_row );
 			}
 		}
-
-
 	}
 }

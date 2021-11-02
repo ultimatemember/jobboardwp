@@ -1,8 +1,8 @@
-<?php
-namespace jb\common;
+<?php namespace jb\common;
 
-
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 if ( ! class_exists( 'jb\common\Filesystem' ) ) {
@@ -21,7 +21,7 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		var $upload_dir = [];
+		public $upload_dir = array();
 
 
 		/**
@@ -29,7 +29,7 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		var $upload_url = [];
+		public $upload_url = array();
 
 
 		/**
@@ -37,7 +37,7 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		var $temp_upload_dir = '';
+		public $temp_upload_dir = '';
 
 
 		/**
@@ -45,16 +45,14 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		var $temp_upload_url = '';
+		public $temp_upload_url = '';
 
 
 		/**
 		 * Filesystem constructor.
 		 */
-		function __construct() {
-
+		public function __construct() {
 			$this->init_paths();
-
 		}
 
 
@@ -63,36 +61,9 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function init_paths() {
-			$this->temp_upload_dir = $this->get_upload_dir( 'jobboardwp/temp', 'allow' );
+		public function init_paths() {
+			$this->temp_upload_dir = $this->get_upload_dir( 'jobboardwp/temp' );
 			$this->temp_upload_url = $this->get_upload_url( 'jobboardwp/temp' );
-		}
-
-
-		/**
-		 * Function for recursively delete all files and folders in current folder
-		 *
-		 * @param string $dir
-		 *
-		 * @return bool
-		 *
-		 * @since 1.0
-		 */
-		function recursive_delete_files( $dir ) {
-			if ( is_dir( $dir ) ) {
-				$files = scandir( $dir );
-				foreach ( $files as $file ) {
-					if ( $file != '.' && $file != '..' ) {
-						$this->recursive_delete_files( $dir . DIRECTORY_SEPARATOR . $file );
-					}
-				}
-				rmdir( $dir );
-				return true;
-			} elseif( file_exists( $dir ) ) {
-				unlink( $dir );
-				return true;
-			}
-			return false;
 		}
 
 
@@ -101,27 +72,46 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function clear_temp_dir() {
-			$maxFileAge = 24 * 3600; // Temp file age in seconds
+		public function clear_temp_dir() {
+			/** @var $wp_filesystem \WP_Filesystem_Base */
+			global $wp_filesystem;
 
-			if ( ! is_dir( $this->temp_upload_dir ) || ! $dir = opendir( $this->temp_upload_dir ) ) {
+			if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
+				/** @noinspection PhpIncludeInspection */
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+
+				$credentials = request_filesystem_credentials( site_url() );
+				\WP_Filesystem( $credentials );
+			}
+
+			$file_age = apply_filters( 'jb_filesystem_max_file_age', 24 * 3600 ); // Temp file age in seconds
+
+			if ( ! $wp_filesystem->is_dir( $this->temp_upload_dir ) ) {
 				return;
 			}
 
-			while ( ( $file = readdir( $dir ) ) !== false ) {
+			// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged
+			$dir = @opendir( $this->temp_upload_dir );
+			if ( ! $dir ) {
+				return;
+			}
 
-				if ( $file == '.' || $file == '..' ) {
+			// phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition -- reading folder's content here
+			while ( false !== ( $file = readdir( $dir ) ) ) {
+				if ( '.' === $file || '..' === $file ) {
 					continue;
 				}
 
-				$tmpfilePath = $this->temp_upload_dir . DIRECTORY_SEPARATOR . $file;
+				$filepath = wp_normalize_path( $this->temp_upload_dir . DIRECTORY_SEPARATOR . $file );
 
 				// Remove temp file if it is older than the max age and is not the current file
-				if ( filemtime( $tmpfilePath ) < time() - $maxFileAge ) {
-					@unlink( $tmpfilePath );
+				if ( $wp_filesystem->mtime( $filepath ) < time() - $file_age ) {
+					$wp_filesystem->delete( $filepath );
 				}
 			}
-			closedir( $dir );
+
+			@closedir( $dir );
+			// phpcs:enable WordPress.PHP.NoSilencedErrors.Discouraged
 		}
 
 
@@ -129,14 +119,23 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 * Get upload dir of plugin
 		 *
 		 * @param string $dir
-		 * @param string $dir_access
 		 * @param int|null $blog_id
 		 *
 		 * @return string
 		 *
 		 * @since 1.0
 		 */
-		function get_upload_dir( $dir = '', $dir_access = '', $blog_id = null ) {
+		public function get_upload_dir( $dir = '', $blog_id = null ) {
+			/** @var $wp_filesystem \WP_Filesystem_Base */
+			global $wp_filesystem;
+
+			if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
+				/** @noinspection PhpIncludeInspection */
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+
+				$credentials = request_filesystem_credentials( site_url() );
+				\WP_Filesystem( $credentials );
+			}
 
 			if ( ! $blog_id ) {
 				$blog_id = get_current_blog_id();
@@ -147,33 +146,15 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 			}
 
 			if ( empty( $this->upload_dir[ $blog_id ] ) ) {
-				$uploads            = wp_upload_dir();
-				$this->upload_dir[ $blog_id ]   = str_replace( '/', DIRECTORY_SEPARATOR, $uploads['basedir'] . DIRECTORY_SEPARATOR );
+				$uploads                      = wp_upload_dir();
+				$this->upload_dir[ $blog_id ] = $uploads['basedir'];
 			}
 
-			$dir = str_replace( '/', DIRECTORY_SEPARATOR, $dir );
+			$upload_dir = wp_normalize_path( trailingslashit( $this->upload_dir[ $blog_id ] ) . untrailingslashit( $dir ) );
 
-			//check and create folder
-			if ( ! empty( $dir ) ) {
-				$folders = explode( DIRECTORY_SEPARATOR, $dir );
-				$cur_folder = '';
-				foreach ( $folders as $folder ) {
-					$prev_dir = $cur_folder;
-					$cur_folder .= $folder . DIRECTORY_SEPARATOR;
-					if ( ! is_dir( $this->upload_dir[ $blog_id ] . $cur_folder ) && wp_is_writable( $this->upload_dir[ $blog_id ] . $prev_dir ) ) {
-						mkdir( $this->upload_dir[ $blog_id ] . $cur_folder, 0777 );
-						if ( $dir_access == 'deny' ) {
-							$htp = fopen( $this->upload_dir[ $blog_id ] . $cur_folder . DIRECTORY_SEPARATOR . '.htaccess', 'w' );
-							fputs( $htp, 'deny from all' ); // $file being the .htpasswd file
-						} elseif ( $dir_access == 'allow' ) {
-							$htp = fopen( $this->upload_dir[ $blog_id ] . $cur_folder . DIRECTORY_SEPARATOR . '.htaccess', 'w' );
-							fputs( $htp, 'allow from all' ); // $file being the .htpasswd file
-						}
-					}
-				}
+			if ( ! $wp_filesystem->is_dir( $upload_dir ) ) {
+				wp_mkdir_p( $upload_dir );
 			}
-
-			$upload_dir = $this->upload_dir[ $blog_id ] . $dir;
 
 			if ( is_multisite() ) {
 				restore_current_blog();
@@ -194,7 +175,7 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function get_upload_url( $url = '', $blog_id = null ) {
+		public function get_upload_url( $url = '', $blog_id = null ) {
 			if ( ! $blog_id ) {
 				$blog_id = get_current_blog_id();
 			} else {
@@ -204,11 +185,11 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 			}
 
 			if ( empty( $this->upload_url[ $blog_id ] ) ) {
-				$uploads = wp_upload_dir();
-				$this->upload_url[ $blog_id ] = $uploads['baseurl'] . '/';
+				$uploads                      = wp_upload_dir();
+				$this->upload_url[ $blog_id ] = $uploads['baseurl'];
 			}
 
-			$upload_url = $this->upload_url[ $blog_id ] . $url;
+			$upload_url = trailingslashit( $this->upload_url[ $blog_id ] ) . untrailingslashit( $url );
 
 			if ( is_multisite() ) {
 				restore_current_blog();
@@ -229,18 +210,18 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function format_bytes( $size, $precision = 1 ) {
+		public function format_bytes( $size, $precision = 1 ) {
 			if ( is_numeric( $size ) ) {
-				$base = log( $size, 1024 );
-				$suffixes = [ '', 'kb', 'MB', 'GB', 'TB' ];
+				$base     = log( $size, 1024 );
+				$suffixes = array( '', 'kb', 'MB', 'GB', 'TB' );
+
 				$computed_size = round( pow( 1024, $base - floor( $base ) ), $precision );
-				$unit = $suffixes[ absint( floor( $base ) ) ];
+				$unit          = $suffixes[ absint( floor( $base ) ) ];
 
 				return $computed_size . ' ' . $unit;
 			}
 
 			return '';
 		}
-
 	}
 }

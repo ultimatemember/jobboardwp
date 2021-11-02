@@ -3,7 +3,7 @@
 Plugin Name: JobBoardWP
 Plugin URI: https://jobboardwp.com/
 Description: Add a modern job board to your website. Display job listings and allow employers to submit and manage jobs all from the front-end
-Version: 1.0.7
+Version: 1.1.0
 Author: JobBoardWP
 Text Domain: jobboardwp
 Domain Path: /languages
@@ -11,18 +11,18 @@ Domain Path: /languages
 
 defined( 'ABSPATH' ) || exit;
 
-require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+/** @noinspection PhpIncludeInspection */
+require_once ABSPATH . 'wp-admin/includes/plugin.php';
 $plugin_data = get_plugin_data( __FILE__ );
 
-define( 'jb_url', plugin_dir_url( __FILE__ ) );
-define( 'jb_path', plugin_dir_path( __FILE__ ) );
-define( 'jb_plugin', plugin_basename( __FILE__ ) );
-define( 'jb_author', $plugin_data['AuthorName'] );
-define( 'jb_version', $plugin_data['Version'] );
-define( 'jb_plugin_name', $plugin_data['Name'] );
+define( 'JB_URL', plugin_dir_url( __FILE__ ) );
+define( 'JB_PATH', plugin_dir_path( __FILE__ ) );
+define( 'JB_PLUGIN', plugin_basename( __FILE__ ) );
+define( 'JB_VERSION', $plugin_data['Version'] );
+define( 'JB_PLUGIN_NAME', $plugin_data['Name'] );
 
-require_once 'includes/class-functions.php';
-require_once 'includes/class-init.php';
+require_once 'includes/class-jb-functions.php';
+require_once 'includes/class-jb.php';
 
 //run
 JB();

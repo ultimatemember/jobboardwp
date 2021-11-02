@@ -1,26 +1,36 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit;
+<?php if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
+// phpcs:disable VariableAnalysis
+// There are "undefined" variables here because they're defined in the code that includes this file as a template.
 
-if ( ! is_user_logged_in() ) { ?>
+if ( ! is_user_logged_in() ) {
+	?>
 
 	<p>
 		<?php
+		/** @noinspection HtmlUnknownTarget */
 		// translators: %s: login link
-		printf( __( '<a href="%s">Sign in</a> to view your job listings.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); ?>
+		printf( __( '<a href="%s">Sign in</a> to view your job listings.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
+		?>
 	</p>
 
-<?php } else {
+	<?php
+} else {
 
-	JB()->get_template_part( 'js/jobs-dashboard', $jb_dashboard_jobs ); ?>
+	/** @noinspection PhpUndefinedVariableInspection */
+	JB()->get_template_part( 'js/jobs-dashboard', $jb_dashboard_jobs );
+	?>
 
 	<div id="jb-job-dashboard" class="jb">
 
-		<?php JB()->get_template_part( 'ajax-overlay', $jb_dashboard_jobs );  ?>
+		<?php JB()->get_template_part( 'ajax-overlay', $jb_dashboard_jobs ); ?>
 
 		<div class="jb-responsive jb-ui-m jb-ui-l jb-ui-xl">
 			<div class="jb-job-dashboard-heading">
-				<?php foreach ( $jb_dashboard_jobs['columns'] as $key => $title ) { ?>
-					<span class="jb-job-col-<?php echo esc_attr( $key ) ?>"><?php echo $title ?></span>
+				<?php foreach ( $jb_dashboard_jobs['columns'] as $key => $col_title ) { ?>
+					<span class="jb-job-col-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $col_title ); ?></span>
 				<?php } ?>
 			</div>
 		</div>
@@ -28,6 +38,6 @@ if ( ! is_user_logged_in() ) { ?>
 		<div id="jb-job-dashboard-rows"></div>
 	</div>
 
-	<?php JB()->frontend()->templates()->dropdown_menu( '.jb-job-actions-dropdown', 'click' );
-
+	<?php
+	JB()->frontend()->templates()->dropdown_menu( '.jb-job-actions-dropdown', 'click' );
 }

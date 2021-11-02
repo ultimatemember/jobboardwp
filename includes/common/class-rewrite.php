@@ -1,7 +1,8 @@
 <?php namespace jb\common;
 
-
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 if ( ! class_exists( 'jb\common\Rewrite' ) ) {
@@ -17,12 +18,12 @@ if ( ! class_exists( 'jb\common\Rewrite' ) ) {
 		/**
 		 * Rewrite constructor.
 		 */
-		function __construct() {
+		public function __construct() {
 			if ( ! defined( 'DOING_AJAX' ) ) {
-				add_filter( 'wp_loaded', [ $this, 'maybe_flush_rewrite_rules' ] );
+				add_filter( 'wp_loaded', array( $this, 'maybe_flush_rewrite_rules' ) );
 			}
 
-			add_action( 'plugins_loaded', [ $this, 'init_variables' ], 10 );
+			add_action( 'plugins_loaded', array( $this, 'init_variables' ), 10 );
 		}
 
 
@@ -31,7 +32,7 @@ if ( ! class_exists( 'jb\common\Rewrite' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function init_variables() {
+		public function init_variables() {
 			if ( get_option( 'permalink_structure' ) ) {
 				JB()->is_permalinks = true;
 			}
@@ -43,7 +44,7 @@ if ( ! class_exists( 'jb\common\Rewrite' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function reset_rules() {
+		public function reset_rules() {
 			JB()->options()->update( 'flush_rewrite_rules', true );
 		}
 
@@ -55,7 +56,7 @@ if ( ! class_exists( 'jb\common\Rewrite' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function maybe_flush_rewrite_rules() {
+		public function maybe_flush_rewrite_rules() {
 			$flush_exists = JB()->options()->get( 'flush_rewrite_rules' );
 
 			if ( $flush_exists ) {

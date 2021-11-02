@@ -1,20 +1,24 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit;
+<?php if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
+// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
 
 if ( ! empty( $jb_job_info['job_id'] ) ) {
 
-	$job_id = $jb_job_info['job_id']; ?>
+	$job_id = $jb_job_info['job_id'];
+	?>
 
 	<div class="jb-job-info">
 		<div class="jb-job-info-row jb-job-info-row-first">
 			<div class="jb-job-location">
 				<i class="fas fa-map-marker-alt"></i>
-				<?php echo JB()->common()->job()->get_location_link( JB()->common()->job()->get_location( $job_id ) ); ?>
+				<?php echo JB()->common()->job()->get_location_link( esc_html( JB()->common()->job()->get_location( $job_id ) ) ); ?>
 			</div>
 			<div class="jb-job-posted">
 				<i class="far fa-calendar-alt"></i>
-				<time datetime="<?php echo esc_attr( JB()->common()->job()->get_html_datetime( $job_id ) ) ?>">
-					<?php echo JB()->common()->job()->get_posted_date( $job_id ) ?>
+				<time datetime="<?php echo esc_attr( JB()->common()->job()->get_html_datetime( $job_id ) ); ?>">
+					<?php echo JB()->common()->job()->get_posted_date( $job_id ); ?>
 				</time>
 			</div>
 		</div>
@@ -25,4 +29,5 @@ if ( ! empty( $jb_job_info['job_id'] ) ) {
 		</div>
 	</div>
 
-<?php }
+	<?php
+}

@@ -1,42 +1,45 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit;
+<?php if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-$current_tab = empty( $_GET['tab'] ) ? '' : urldecode( $_GET['tab'] );
-$current_subtab = empty( $_GET['section'] ) ? '' : urldecode( $_GET['section'] ); ?>
+$current_tab    = empty( $_GET['tab'] ) ? '' : sanitize_key( urldecode( $_GET['tab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+$current_subtab = empty( $_GET['section'] ) ? '' : sanitize_key( urldecode( $_GET['section'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+?>
 
 <div id="jb-settings-wrap" class="wrap">
-	<h2>
-		<?php
-			// translators: %s: plugin name
-			printf( __( '%s - Settings', 'jobboardwp' ), jb_plugin_name );
-		?>
-	</h2>
+	<h2><?php esc_html_e( 'JobBoardWP - Settings', 'jobboardwp' ); ?></h2>
 
-	<?php echo JB()->admin()->settings()->tabs_menu() . JB()->admin()->settings()->subtabs_menu( $current_tab );
+	<?php
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
+	echo JB()->admin()->settings()->tabs_menu() . JB()->admin()->settings()->subtabs_menu( $current_tab );
 
 	do_action( "jb_before_settings_{$current_tab}_{$current_subtab}_content" );
 
 	if ( JB()->admin()->settings()->section_is_custom( $current_tab, $current_subtab ) ) {
-
 		do_action( "jb_settings_page_{$current_tab}_{$current_subtab}_before_section" );
 
 		$settings_section = JB()->admin()->settings()->display_section( $current_tab, $current_subtab );
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
 		echo apply_filters( "jb_settings_section_{$current_tab}_{$current_subtab}_content", $settings_section );
-
-	} else { ?>
+	} else {
+		?>
 
 		<form method="post" action="" name="jb-settings-form" id="jb-settings-form">
 			<input type="hidden" value="save" name="jb-settings-action" />
 
-			<?php do_action( "jb_settings_page_{$current_tab}_{$current_subtab}_before_section" );
+			<?php
+			do_action( "jb_settings_page_{$current_tab}_{$current_subtab}_before_section" );
 
 			$settings_section = JB()->admin()->settings()->display_section( $current_tab, $current_subtab );
 
-			echo apply_filters( "jb_settings_section_{$current_tab}_{$current_subtab}_content", $settings_section ); ?>
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
+			echo apply_filters( "jb_settings_section_{$current_tab}_{$current_subtab}_content", $settings_section );
+			?>
 
 			<p class="submit">
-				<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_attr_e( 'Save Changes', 'jobboardwp' ) ?>" />
-				<input type="hidden" name="__jbnonce" value="<?php echo wp_create_nonce( 'jb-settings-nonce' ); ?>" />
+				<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php esc_attr_e( 'Save Changes', 'jobboardwp' ); ?>" />
+				<?php wp_nonce_field( 'jb-settings-nonce' ); ?>
 			</p>
 		</form>
 

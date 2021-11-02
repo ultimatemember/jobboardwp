@@ -1,7 +1,8 @@
 <?php namespace jb\ajax;
 
-
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 if ( ! class_exists( 'jb\ajax\Employer' ) ) {
@@ -18,7 +19,7 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 		/**
 		 * Employer constructor.
 		 */
-		function __construct() {
+		public function __construct() {
 		}
 
 
@@ -33,9 +34,9 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function unique_filename( $dir, $name, $ext ) {
-			$hashed = hash('ripemd160', time() . mt_rand( 10, 1000 ) );
-			$name = "company_logo_{$hashed}{$ext}";
+		public function unique_filename( /** @noinspection PhpUnusedParameterInspection */$dir, $name, $ext ) {
+			$hashed = hash( 'ripemd160', time() . wp_rand( 10, 1000 ) );
+			$name   = "company_logo_{$hashed}{$ext}";
 
 			return $name;
 		}
@@ -46,86 +47,112 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function upload_logo() {
-			$nonce = isset( $_REQUEST['nonce'] ) ? $_REQUEST['nonce'] : '';
+		public function upload_logo() {
+			/** @var $wp_filesystem \WP_Filesystem_Base */
+			global $wp_filesystem;
+
+			$nonce = isset( $_REQUEST['nonce'] ) ? sanitize_key( $_REQUEST['nonce'] ) : '';
 			if ( ! wp_verify_nonce( $nonce, 'jb-frontend-nonce' ) ) {
-				wp_send_json( [
-					'OK'    => 0,
-					'info'  => __( 'Wrong nonce.', 'jobboardwp' ),
-				] );
+				wp_send_json(
+					array(
+						'OK'   => 0,
+						'info' => __( 'Wrong nonce.', 'jobboardwp' ),
+					)
+				);
 			}
 
-			$files = [];
+			if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
+				/** @noinspection PhpIncludeInspection */
+				require_once ABSPATH . 'wp-admin/includes/file.php';
 
-			$chunk = filter_input( 0, 'chunk' );
+				$credentials = request_filesystem_credentials( site_url() );
+				\WP_Filesystem( $credentials );
+			}
+
+			$files = array();
+
+			$chunk  = filter_input( 0, 'chunk' );
 			$chunks = filter_input( 0, 'chunks' );
 
 			// Get a file name
 			if ( isset( $_REQUEST['name'] ) ) {
-				$fileName = $_REQUEST['name'];
+				$filename = sanitize_file_name( $_REQUEST['name'] );
 			} elseif ( ! empty( $_FILES ) ) {
-				$fileName = $_FILES['file']['name'];
+				$filename = sanitize_file_name( $_FILES['file']['name'] );
 			} else {
-				$fileName = uniqid( 'file_' );
+				$filename = uniqid( 'file_' );
 			}
 
-			$mimes = apply_filters( 'jb_uploading_logo_mime_types', [
-				'jpg|jpeg|jpe'  => 'image/jpeg',
-				'gif'           => 'image/gif',
-				'png'           => 'image/png',
-				'bmp'           => 'image/bmp',
-				'tiff|tif'      => 'image/tiff',
-				'ico'           => 'image/x-icon',
-			] );
+			$mimes = apply_filters(
+				'jb_uploading_logo_mime_types',
+				array(
+					'jpg|jpeg|jpe' => 'image/jpeg',
+					'gif'          => 'image/gif',
+					'png'          => 'image/png',
+					'bmp'          => 'image/bmp',
+					'tiff|tif'     => 'image/tiff',
+					'ico'          => 'image/x-icon',
+				)
+			);
 
-			$image_type = wp_check_filetype( $fileName, $mimes );
+			$image_type = wp_check_filetype( $filename, $mimes );
 			if ( ! $image_type['ext'] ) {
-				wp_send_json( [
-					'OK'    => 0,
-					'info'  => __( 'Wrong filetype.', 'jobboardwp' ),
-				] );
+				wp_send_json(
+					array(
+						'OK'   => 0,
+						'info' => __( 'Wrong filetype.', 'jobboardwp' ),
+					)
+				);
 			}
 
 			JB()->common()->filesystem()->clear_temp_dir();
 
 			if ( empty( $_FILES ) || $_FILES['file']['error'] ) {
-				wp_send_json( [
-					'OK'    => 0,
-					'info'  => __( 'Failed to move uploaded file.', 'jobboardwp' ),
-				] );
+				wp_send_json(
+					array(
+						'OK'   => 0,
+						'info' => __( 'Failed to move uploaded file.', 'jobboardwp' ),
+					)
+				);
 			}
 
 			// Uploader for the chunks
 			if ( $chunks ) {
 
 				if ( isset( $_COOKIE['jb-logo-upload'] ) ) {
-					$unique_name = $_COOKIE['jb-logo-upload'];
-					$filePath = JB()->common()->filesystem()->temp_upload_dir . DIRECTORY_SEPARATOR . $unique_name;
+					$unique_name = sanitize_file_name( $_COOKIE['jb-logo-upload'] );
+					$filepath    = JB()->common()->filesystem()->temp_upload_dir . DIRECTORY_SEPARATOR . $unique_name;
 				} else {
-					$unique_name = wp_unique_filename( JB()->common()->filesystem()->temp_upload_dir, $fileName, [ &$this, 'unique_filename' ] );
-					$filePath = JB()->common()->filesystem()->temp_upload_dir . DIRECTORY_SEPARATOR . $unique_name;
+					$unique_name = wp_unique_filename( JB()->common()->filesystem()->temp_upload_dir, $filename, array( &$this, 'unique_filename' ) );
+					$filepath    = JB()->common()->filesystem()->temp_upload_dir . DIRECTORY_SEPARATOR . $unique_name;
 					if ( $chunks > 1 ) {
 						JB()->setcookie( 'jb-logo-upload', $unique_name );
 					}
 				}
 
+				// phpcs:disable WordPress.WP.AlternativeFunctions -- for directly fopen, fwrite, fread, fclose functions using
+				// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged -- for silenced fopen, fwrite, fread, fclose functions running
+
 				// Open temp file
-				$out = @fopen( "{$filePath}.part", $chunk == 0 ? 'wb' : 'ab' );
+				$out = @fopen( "{$filepath}.part", 0 === $chunk ? 'wb' : 'ab' );
 
 				if ( $out ) {
 
 					// Read binary input stream and append it to temp file
-					$in = @fopen( $_FILES['file']['tmp_name'], 'rb' );
+					$in = @fopen( sanitize_file_name( $_FILES['file']['tmp_name'] ), 'rb' );
 
 					if ( $in ) {
+						// phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition -- reading buffer here
 						while ( $buff = fread( $in, 4096 ) ) {
 							fwrite( $out, $buff );
 						}
 					} else {
-						wp_send_json( [
-							'OK'    => 0,
-							'info'  => __( 'Failed to open input stream.', 'jobboardwp' ),
-						] );
+						wp_send_json(
+							array(
+								'OK'   => 0,
+								'info' => __( 'Failed to open input stream.', 'jobboardwp' ),
+							)
+						);
 					}
 
 					fclose( $in );
@@ -134,45 +161,51 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 
 				} else {
 
-					wp_send_json( [
-						'OK'    => 0,
-						'info'  => __( 'Failed to open output stream.', 'jobboardwp' ),
-					] );
+					wp_send_json(
+						array(
+							'OK'   => 0,
+							'info' => __( 'Failed to open output stream.', 'jobboardwp' ),
+						)
+					);
 
 				}
 
-				// Check if file has been uploaded
-				if ( $chunk == $chunks - 1 ) {
-					// Strip the temp .part suffix off
-					rename( "{$filePath}.part", $filePath ); // Strip the temp .part suffix off
+				// phpcs:enable WordPress.WP.AlternativeFunctions
+				// phpcs:enable WordPress.PHP.NoSilencedErrors.Discouraged
 
-					$fileinfo = $_FILES['file'];
-					$fileinfo['file'] = $filePath;
-					$fileinfo['name_loaded'] = $fileName;
-					$fileinfo['name_saved'] = wp_basename( $fileinfo['file'] );
-					$fileinfo['hash'] = md5( $fileinfo['name_saved'] . '_jb_uploader_security_salt' );
-					$fileinfo['path'] = JB()->common()->filesystem()->temp_upload_dir . DIRECTORY_SEPARATOR . $fileinfo['name_saved'];
-					$fileinfo['url'] = JB()->common()->filesystem()->temp_upload_url . DIRECTORY_SEPARATOR . $fileinfo['name_saved'];
-					$fileinfo['size'] = filesize( $fileinfo['file'] );
+				// Check if file has been uploaded
+				if ( $chunk === $chunks - 1 ) {
+					// Strip the temp .part suffix off
+					rename( "{$filepath}.part", $filepath ); // Strip the temp .part suffix off
+
+					$fileinfo                = $_FILES['file'];
+					$fileinfo['file']        = $filepath;
+					$fileinfo['name_loaded'] = $filename;
+					$fileinfo['name_saved']  = wp_basename( $fileinfo['file'] );
+					$fileinfo['hash']        = md5( $fileinfo['name_saved'] . '_jb_uploader_security_salt' );
+					$fileinfo['path']        = JB()->common()->filesystem()->temp_upload_dir . DIRECTORY_SEPARATOR . $fileinfo['name_saved'];
+					$fileinfo['url']         = JB()->common()->filesystem()->temp_upload_url . '/' . $fileinfo['name_saved'];
+					$fileinfo['size']        = filesize( $fileinfo['file'] );
 					$fileinfo['size_format'] = size_format( $fileinfo['size'] );
-					$fileinfo['time'] = date( 'Y-m-d H:i:s', filemtime( $fileinfo['file'] ) );
+					$fileinfo['time']        = gmdate( 'Y-m-d H:i:s', filemtime( $fileinfo['file'] ) );
+
 					$files[] = $fileinfo;
 
 					JB()->setcookie( 'jb-logo-upload', false );
 
 				} else {
 
-					wp_send_json( [
-						'OK'    => 1,
-						'info'  => __( 'Upload successful.', 'jobboardwp' ),
-					] );
+					wp_send_json(
+						array(
+							'OK'   => 1,
+							'info' => __( 'Upload successful.', 'jobboardwp' ),
+						)
+					);
 
 				}
 			}
 
 			wp_send_json_success( $files );
 		}
-
-
 	}
 }

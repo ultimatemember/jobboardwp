@@ -1,7 +1,8 @@
 <?php namespace jb\common;
 
-
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 if ( ! class_exists( 'jb\common\Options' ) ) {
@@ -19,13 +20,13 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		var $options = [];
+		public $options = array();
 
 
 		/**
 		 * Options constructor.
 		 */
-		function __construct() {
+		public function __construct() {
 		}
 
 
@@ -38,7 +39,7 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function get_key( $option ) {
+		public function get_key( $option ) {
 			return apply_filters( 'jb_options_key', "jb_{$option}", $option );
 		}
 
@@ -53,7 +54,7 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function get( $option_id, $default = false ) {
+		public function get( $option_id, $default = false ) {
 			if ( isset( $this->options[ $option_id ] ) ) {
 				$value = $this->options[ $option_id ];
 			} else {
@@ -72,7 +73,7 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function add( $option_id, $value ) {
+		public function add( $option_id, $value ) {
 			if ( ! isset( $this->options[ $option_id ] ) ) {
 				$this->options[ $option_id ] = $value;
 			}
@@ -88,7 +89,7 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function update( $option_id, $value ) {
+		public function update( $option_id, $value ) {
 			$this->options[ $option_id ] = $value;
 			update_option( $this->get_key( $option_id ), $value );
 		}
@@ -101,7 +102,7 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function delete( $option_id ) {
+		public function delete( $option_id ) {
 			if ( isset( $this->options[ $option_id ] ) ) {
 				unset( $this->options[ $option_id ] );
 			}
@@ -118,7 +119,7 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function get_default( $option_id ) {
+		public function get_default( $option_id ) {
 			$settings_defaults = JB()->config()->get( 'defaults' );
 			if ( ! isset( $settings_defaults[ $option_id ] ) ) {
 				return false;

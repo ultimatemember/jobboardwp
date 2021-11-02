@@ -1,7 +1,8 @@
 <?php namespace jb\ajax;
 
-
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 if ( ! class_exists( 'jb\ajax\Notices' ) ) {
@@ -18,23 +19,23 @@ if ( ! class_exists( 'jb\ajax\Notices' ) ) {
 		/**
 		 * Notices constructor.
 		 */
-		function __construct() {
+		public function __construct() {
 		}
 
 
 		/**
 		 * AJAX dismiss notices
 		 */
-		function dismiss_notice() {
+		public function dismiss_notice() {
 			JB()->ajax()->check_nonce( 'jb-backend-nonce' );
-
+			// phpcs:disable WordPress.Security.NonceVerification -- already verified here
 			if ( empty( $_POST['key'] ) ) {
 				wp_send_json_error( __( 'Wrong Data', 'jobboardwp' ) );
 			}
 
-			JB()->admin()->notices()->dismiss( $_POST['key'] );
+			JB()->admin()->notices()->dismiss( sanitize_key( $_POST['key'] ) );
 			wp_send_json_success();
+			// phpcs:enable WordPress.Security.NonceVerification -- already verified here
 		}
-
 	}
 }

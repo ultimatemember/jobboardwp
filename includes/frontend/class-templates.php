@@ -1,7 +1,8 @@
 <?php namespace jb\frontend;
 
-
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 if ( ! class_exists( 'jb\frontend\Templates' ) ) {
@@ -18,27 +19,27 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		/**
 		 * @var
 		 */
-		var $preloader_styles;
+		public $preloader_styles;
 
 
 		/**
 		 * @var
 		 */
-		var $template_replaced = false;
+		public $template_replaced = false;
 
 
 		/**
 		 * Templates constructor.
 		 */
-		function __construct() {
-			// handle Wordpress native post template and add before and after post content
-			add_action( 'wp_loaded', [ &$this, 'change_wp_native_post_content' ] );
+		public function __construct() {
+			// handle WordPress native post template and add before and after post content
+			add_action( 'wp_loaded', array( &$this, 'change_wp_native_post_content' ) );
 
 			/**
 			 * Handlers for single job template
 			 */
-			add_filter( 'single_template', [ &$this, 'cpt_template' ] );
-			add_action( 'wp_footer', [ $this, 'output_structured_data' ] );
+			add_filter( 'single_template', array( &$this, 'cpt_template' ) );
+			add_action( 'wp_footer', array( $this, 'output_structured_data' ) );
 		}
 
 
@@ -47,14 +48,14 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function change_wp_native_post_content() {
+		public function change_wp_native_post_content() {
 			$template = JB()->options()->get( 'job-template' );
 			if ( empty( $template ) ) {
 				// add scripts and styles, but later because wp_loaded is earlier
-				add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_single_job' ], 9999 );
+				add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_single_job' ), 9999 );
 
-				add_filter( 'the_content', [ &$this, 'before_job_content' ] );
-				add_filter( 'the_content', [ &$this, 'after_job_content' ] );
+				add_filter( 'the_content', array( &$this, 'before_job_content' ) );
+				add_filter( 'the_content', array( &$this, 'after_job_content' ) );
 			}
 		}
 
@@ -64,7 +65,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function enqueue_single_job() {
+		public function enqueue_single_job() {
 			wp_enqueue_script( 'jb-single-job' );
 			wp_enqueue_style( 'jb-job' );
 		}
@@ -79,22 +80,25 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function before_job_content( $content ) {
+		public function before_job_content( $content ) {
 			global $post;
 
-			if ( $post && $post->post_type == 'jb-job' && is_singular( 'jb-job' ) && is_main_query() && ! post_password_required() ) {
-
-				ob_start(); ?>
+			if ( $post && 'jb-job' === $post->post_type && is_singular( 'jb-job' ) && is_main_query() && ! post_password_required() ) {
+				ob_start();
+				?>
 
 				<div class="jb">
-					<?php do_action( 'jb_before_job_content', $post->ID );
+					<?php
+					do_action( 'jb_before_job_content', $post->ID );
 
-					JB()->get_template_part( 'job/notices', [ 'job_id' => $post->ID ] );
-					JB()->get_template_part( 'job/info', [ 'job_id' => $post->ID ] );
-					JB()->get_template_part( 'job/company', [ 'job_id' => $post->ID ] ); ?>
+					JB()->get_template_part( 'job/notices', array( 'job_id' => $post->ID ) );
+					JB()->get_template_part( 'job/info', array( 'job_id' => $post->ID ) );
+					JB()->get_template_part( 'job/company', array( 'job_id' => $post->ID ) );
+					?>
 				</div>
 
-				<?php $content = ob_get_clean() . $content;
+				<?php
+				$content = ob_get_clean() . $content;
 			}
 
 			return $content;
@@ -110,20 +114,29 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function after_job_content( $content ) {
+		public function after_job_content( $content ) {
 			global $post;
 
-			if ( $post && $post->post_type == 'jb-job' && is_singular( 'jb-job' ) && is_main_query() && ! post_password_required() ) {
-
-				ob_start(); ?>
+			if ( $post && 'jb-job' === $post->post_type && is_singular( 'jb-job' ) && is_main_query() && ! post_password_required() ) {
+				ob_start();
+				?>
 
 				<div class="jb">
-					<?php JB()->get_template_part( 'job/footer', [ 'job_id' => $post->ID, 'title' => get_the_title( $post->ID ) ] );
+					<?php
+					JB()->get_template_part(
+						'job/footer',
+						array(
+							'job_id' => $post->ID,
+							'title'  => get_the_title( $post->ID ),
+						)
+					);
 
-					do_action( 'jb_after_job_content', $post->ID ); ?>
+					do_action( 'jb_after_job_content', $post->ID );
+					?>
 				</div>
 
-				<?php $content .= ob_get_clean();
+				<?php
+				$content .= ob_get_clean();
 			}
 
 			return $content;
@@ -139,7 +152,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function cpt_template( $single_template ) {
+		public function cpt_template( $single_template ) {
 			global $post;
 
 			$template = JB()->options()->get( 'job-template' );
@@ -147,10 +160,10 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 				return $single_template;
 			}
 
-			if ( $post->post_type == 'jb-job' ) {
-				add_filter( 'twentytwenty_disallowed_post_types_for_meta_output', [ &$this, 'add_cpt_meta' ], 10, 1 );
-				add_filter( 'template_include', [ &$this, 'cpt_template_include' ], 10, 1 );
-				add_filter( 'has_post_thumbnail', [ &$this, 'hide_post_thumbnail' ], 10, 3 );
+			if ( 'jb-job' === $post->post_type ) {
+				add_filter( 'twentytwenty_disallowed_post_types_for_meta_output', array( &$this, 'add_cpt_meta' ), 10, 1 );
+				add_filter( 'template_include', array( &$this, 'cpt_template_include' ), 10, 1 );
+				add_filter( 'has_post_thumbnail', array( &$this, 'hide_post_thumbnail' ), 10, 2 );
 			}
 
 			return $single_template;
@@ -166,7 +179,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function add_cpt_meta( $types ) {
+		public function add_cpt_meta( $types ) {
 			$types[] = 'jb-job';
 			return $types;
 		}
@@ -177,19 +190,17 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @param bool $has_thumbnail
 		 * @param int|\WP_Post $post
-		 * @param int $thumbnail_id
 		 *
 		 * @return bool
 		 *
 		 * @since 1.0
 		 */
-		function hide_post_thumbnail( $has_thumbnail, $post, $thumbnail_id ) {
-
+		public function hide_post_thumbnail( $has_thumbnail, $post ) {
 			if ( ! $post ) {
 				$post = get_post( get_the_ID() );
 			}
 
-			if ( isset( $post->post_type ) && $post->post_type == 'jb-job' ) {
+			if ( isset( $post->post_type ) && 'jb-job' === $post->post_type ) {
 				$has_thumbnail = false;
 			}
 
@@ -206,13 +217,12 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function cpt_template_include( $template ) {
-
+		public function cpt_template_include( $template ) {
 			if ( JB()->frontend()->is_job_page() ) {
 
 				$template_setting = JB()->options()->get( 'job-template' );
-				if ( $template_setting == 'default' ) {
-					$t = get_template_directory() . DIRECTORY_SEPARATOR . 'singular.php';
+				if ( 'default' === $template_setting ) {
+					$t              = get_template_directory() . DIRECTORY_SEPARATOR . 'singular.php';
 					$child_template = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'singular.php';
 					if ( file_exists( $child_template ) ) {
 						$t = $child_template;
@@ -220,7 +230,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 					// load page.php if singular isn't found
 					if ( ! file_exists( $t ) ) {
-						$t = get_template_directory() . DIRECTORY_SEPARATOR . 'page.php';
+						$t              = get_template_directory() . DIRECTORY_SEPARATOR . 'page.php';
 						$child_template = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'page.php';
 						if ( file_exists( $child_template ) ) {
 							$t = $child_template;
@@ -229,7 +239,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 					// load index.php if page isn't found
 					if ( ! file_exists( $t ) ) {
-						$t = get_template_directory() . DIRECTORY_SEPARATOR . 'index.php';
+						$t              = get_template_directory() . DIRECTORY_SEPARATOR . 'index.php';
 						$child_template = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'index.php';
 						if ( file_exists( $child_template ) ) {
 							$t = $child_template;
@@ -240,19 +250,19 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 						return $template;
 					}
 
-					add_action( 'wp_head', [ &$this, 'on_wp_head_finish' ], 99999999 );
-					add_filter( 'the_content', [ &$this, 'cpt_content' ], 10, 1 );
-					add_filter( 'post_class', [ &$this, 'hidden_title_class' ], 10, 3 );
+					add_action( 'wp_head', array( &$this, 'on_wp_head_finish' ), 99999999 );
+					add_filter( 'the_content', array( &$this, 'cpt_content' ), 10, 1 );
+					add_filter( 'post_class', array( &$this, 'hidden_title_class' ), 10, 1 );
 
 					return apply_filters( 'jb_template_include', $t );
 				} else {
-					$t = get_template_directory() . DIRECTORY_SEPARATOR . 'jobboardwp' . DIRECTORY_SEPARATOR . $template_setting . '.php';
+					$t              = get_template_directory() . DIRECTORY_SEPARATOR . 'jobboardwp' . DIRECTORY_SEPARATOR . $template_setting . '.php';
 					$child_template = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'jobboardwp' . DIRECTORY_SEPARATOR . $template_setting . '.php';
 					if ( file_exists( $child_template ) ) {
 						$t = $child_template;
 					}
 					return apply_filters( 'jb_template_include', $t );
-                }
+				}
 			}
 
 			return $template;
@@ -264,8 +274,8 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function on_wp_head_finish() {
-			add_filter( 'the_title', [ $this, 'clear_title' ], 10, 2 );
+		public function on_wp_head_finish() {
+			add_filter( 'the_title', array( $this, 'clear_title' ), 10, 2 );
 		}
 
 
@@ -279,10 +289,10 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function clear_title( $title, $post_id ) {
+		public function clear_title( $title, $post_id ) {
 			$post = get_post( $post_id );
 
-			if ( $post->post_type == 'jb-job' ) {
+			if ( 'jb-job' === $post->post_type ) {
 				$title = '';
 			}
 
@@ -299,15 +309,16 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function cpt_content( $content ) {
+		public function cpt_content( $content ) {
 			global $post;
 
-			remove_filter( 'the_title', [ $this, 'clear_title' ] );
-			remove_filter( 'has_post_thumbnail', [ &$this, 'hide_post_thumbnail' ] );
+			remove_filter( 'the_title', array( $this, 'clear_title' ) );
+			remove_filter( 'has_post_thumbnail', array( &$this, 'hide_post_thumbnail' ) );
 
 			if ( JB()->frontend()->is_job_page() ) {
 				$this->template_replaced = true;
-				$content = JB()->frontend()->shortcodes()->single_job( [ 'id' => $post->ID ] );
+
+				$content = JB()->frontend()->shortcodes()->single_job( array( 'id' => $post->ID ) );
 			}
 
 			return $content;
@@ -318,14 +329,12 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 * Add hidden class if users need to add some custom CSS on page template to hide a header when title is hidden
 		 *
 		 * @param array $classes
-		 * @param string $class
-		 * @param int $post_id
 		 *
 		 * @return array
 		 *
 		 * @since 1.0
 		 */
-		function hidden_title_class( $classes, $class, $post_id ) {
+		public function hidden_title_class( $classes ) {
 			$classes[] = 'jb-hidden-title';
 			return $classes;
 		}
@@ -337,16 +346,19 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function output_structured_data() {
+		public function output_structured_data() {
 			if ( ! is_singular( 'jb-job' ) ) {
 				return;
 			}
 
-			if ( empty( $structured_data = JB()->common()->job()->get_structured_data( get_post() ) ) ) {
+			$structured_data = JB()->common()->job()->get_structured_data( get_post() );
+
+			if ( empty( $structured_data ) ) {
 				return;
 			}
 
 			echo '<!-- Job Board Structured Data -->' . "\r\n";
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
 			echo '<script type="application/ld+json">' . _wp_specialchars( wp_json_encode( $structured_data ), ENT_NOQUOTES, 'UTF-8', true ) . '</script>';
 		}
 
@@ -360,13 +372,13 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function dropdown_menu( $element, $trigger, $items = [] ) {
+		public function dropdown_menu( $element, $trigger, $items = array() ) {
 			?>
 
-			<div class="jb-dropdown" data-element="<?php echo $element; ?>" data-trigger="<?php echo $trigger; ?>">
+			<div class="jb-dropdown" data-element="<?php echo esc_attr( $element ); ?>" data-trigger="<?php echo esc_attr( $trigger ); ?>">
 				<ul>
 					<?php foreach ( $items as $k => $v ) { ?>
-						<li><?php echo $v; ?></li>
+						<li><?php echo $v; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output ?></li>
 					<?php } ?>
 				</ul>
 			</div>
@@ -385,7 +397,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function check_preloader_css( $size, $display ) {
+		public function check_preloader_css( $size, $display ) {
 			if ( ! empty( $this->preloader_styles[ $size ][ $display ] ) ) {
 				return true;
 			} else {

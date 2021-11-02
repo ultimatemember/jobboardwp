@@ -1,7 +1,8 @@
 <?php namespace jb\common;
 
-
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 if ( ! class_exists( 'jb\common\Permalinks' ) ) {
@@ -18,9 +19,9 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		/**
 		 * Permalinks constructor.
 		 */
-		function __construct() {
-			add_action( 'wp_login_failed', [ &$this, 'login_failed' ] );
-			add_filter( 'authenticate', [ &$this, 'verify_username_password' ], 1, 3 );
+		public function __construct() {
+			add_action( 'wp_login_failed', array( &$this, 'login_failed' ) );
+			add_filter( 'authenticate', array( &$this, 'verify_username_password' ), 1, 3 );
 		}
 
 
@@ -44,8 +45,8 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 				$postid = url_to_postid( $_SERVER['HTTP_REFERER'] );
 
-				if ( ! empty( $postid ) && $postid == $this->get_preset_page_id( 'job-post' ) ) {
-					if ( $user === null && ( $username == "" || $password == "" ) ) {
+				if ( ! empty( $postid ) && $postid === $this->get_preset_page_id( 'job-post' ) ) {
+					if ( null === $user && ( '' === $username || '' === $password ) ) {
 						return new \WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: Invalid username, email address or incorrect password.' ) );
 					}
 				}
@@ -70,14 +71,15 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 				$postid = url_to_postid( $_SERVER['HTTP_REFERER'] );
 
-				if ( ! empty( $postid ) && $postid == $this->get_preset_page_id( 'job-post' ) ) {
-
-					if ( ! empty( $_GET['redirect_to'] ) && $_SERVER['HTTP_REFERER'] == $_GET['redirect_to'] ) {
+				if ( ! empty( $postid ) && $postid === $this->get_preset_page_id( 'job-post' ) ) {
+					// phpcs:ignore WordPress.Security.NonceVerification
+					if ( ! empty( $_GET['redirect_to'] ) && esc_url_raw( $_GET['redirect_to'] ) === $_SERVER['HTTP_REFERER'] ) {
 						return;
 					}
 
-					$logout_link = add_query_arg( [ 'login' => 'failed' ], $this->get_preset_page_link( 'job-post' ) );
-					exit( wp_redirect( $logout_link ) );
+					$logout_link = add_query_arg( array( 'login' => 'failed' ), $this->get_preset_page_link( 'job-post' ) );
+					wp_safe_redirect( $logout_link );
+					exit;
 				}
 			}
 		}
@@ -92,7 +94,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function get_slug( $key ) {
+		public function get_slug( $key ) {
 			$preset_page_id = $this->get_preset_page_id( $key );
 
 			$slug = '';
@@ -116,7 +118,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function get_preset_page_id( $key ) {
+		public function get_preset_page_id( $key ) {
 			$page_id = JB()->options()->get( $key . '_page' );
 			return (int) $page_id;
 		}
@@ -131,7 +133,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function get_preset_page_link( $key ) {
+		public function get_preset_page_link( $key ) {
 			$page_id = $this->get_preset_page_id( $key );
 			return get_permalink( $page_id );
 		}
@@ -144,10 +146,10 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function are_pages_installed() {
+		public function are_pages_installed() {
 			$installed = true;
 
-			$pages = [];
+			$pages      = array();
 			$core_pages = array_keys( JB()->config()->get( 'core_pages' ) );
 			if ( ! empty( $core_pages ) ) {
 				foreach ( $core_pages as $page_key ) {
@@ -173,6 +175,5 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 
 			return $installed;
 		}
-
 	}
 }

@@ -1,17 +1,17 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
-
+<?php if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} ?>
 
 <script type="text/template" id="tmpl-jb-jobs-dashboard-line">
 	<# if ( data.length > 0 ) { #>
 		<# _.each( data, function( job, key, list ) { #>
-			<div class="jb-job-dashboard-row<# if ( ! Object.keys( job.actions ).length ) { #> jb-job-dashboard-no-actions<# } #>"
-				 data-job-id="{{{job.id}}}">
+			<div class="jb-job-dashboard-row<# if ( ! Object.keys( job.actions ).length ) { #> jb-job-dashboard-no-actions<# } #>" data-job-id="{{{job.id}}}">
 
 				<div class="jb-row-data">
 
 					<div class="job_title">
 						<# if ( job.is_published ) { #>
-							<a href="{{{job.permalink}}}">{{{job.title}}}</a>
+							<a href="<?php /** @noinspection HtmlUnknownTarget */ ?>{{{job.permalink}}}">{{{job.title}}}</a>
 						<# } else { #>
 							{{{job.title}}}
 						<# } #>
@@ -37,7 +37,7 @@
 
 						<div class="status">
 							<span class="info-label">
-								<?php esc_attr_e( 'Status: ', 'jobboardwp' ) ?>
+								<?php esc_attr_e( 'Status: ', 'jobboardwp' ); ?>
 							</span>
 							<span class="status-tag jb-status-{{{job.status}}}">
 								{{{job.status_label}}}
@@ -48,7 +48,7 @@
 
 						<div class="date">
 							<span class="info-label">
-								<?php esc_attr_e( 'Posted: ', 'jobboardwp' ) ?>
+								<?php esc_attr_e( 'Posted: ', 'jobboardwp' ); ?>
 							</span>
 							{{{job.date}}}
 						</div>
@@ -57,7 +57,7 @@
 							<div class="separator"></div>
 							<div class="expires">
 								<span class="info-label">
-									<?php esc_attr_e( 'Expires: ', 'jobboardwp' ) ?>
+									<?php esc_attr_e( 'Expires: ', 'jobboardwp' ); ?>
 								</span>
 								{{{job.expires}}}
 							</div>
@@ -67,12 +67,12 @@
 				<div class="jb-row-actions">
 					<# if ( Object.keys( job.actions ).length > 0 ) { #>
 						<div class="jb-job-actions-dropdown">
-							<i class="fas fa-ellipsis-h" title="<?php esc_attr_e( 'More Actions', 'jobboardwp' ) ?>"></i>
+							<i class="fas fa-ellipsis-h" title="<?php esc_attr_e( 'More Actions', 'jobboardwp' ); ?>"></i>
 							<div class="jb-dropdown" data-element=".jb-job-actions-dropdown" data-trigger="click">
 								<ul>
 									<# _.each( job.actions, function( action, act_key, act_list ) { #>
 										<li>
-											<a href="<# if ( action.href ) { #>{{{action.href}}}<# } else { #>javascript:void(0);<# } #>" <# if ( ! action.href ) { #>data-job-id="{{{job.id}}}"<# } #> class="jb-jobs-action-{{{act_key}}}">
+											<a href="<?php /** @noinspection HtmlUnknownTarget */ ?><# if ( action.href ) { #>{{{action.href}}}<# } else { #>javascript:void(0);<# } #>" <# if ( ! action.href ) { #>data-job-id="{{{job.id}}}"<# } #> class="jb-jobs-action-{{{act_key}}}">
 												{{{action.title}}}
 											</a>
 										</li>
@@ -87,8 +87,10 @@
 	<# } else { #>
 		<div class="jb-job-dashboard-empty-row">
 			<?php
+			/** @noinspection HtmlUnknownTarget */
 			// translators: %s: Post a job URL
-			printf( __( 'No created jobs yet. <a href="%s">Create</a> new one.', 'jobboardwp' ), JB()->common()->permalinks()->get_preset_page_link( 'job-post' ) ); ?>
+			printf( __( 'No created jobs yet. <a href="%s">Create</a> new one.', 'jobboardwp' ), JB()->common()->permalinks()->get_preset_page_link( 'job-post' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
+			?>
 		</div>
 	<# } #>
 </script>

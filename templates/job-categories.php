@@ -2,10 +2,13 @@
 	exit;
 }
 
+// phpcs:disable VariableAnalysis
+// There are "undefined" variables here because they're defined in the code that includes this file as a template.
+
 JB()->get_template_part( 'js/job-categories-list' ); ?>
 
 <div class="jb jb-job-categories">
-	<?php JB()->get_template_part( 'ajax-overlay', $jb_job_categories ); ?>
+	<?php /** @noinspection PhpUndefinedVariableInspection */ JB()->get_template_part( 'ajax-overlay', $jb_job_categories ); ?>
 	<div class="jb-job-categories-header">
 		<div class="jb-job-categories-header-row">
 			<div class="jb-job-categories-title"><?php esc_html_e( 'Category', 'jobboardwp' ); ?></div>

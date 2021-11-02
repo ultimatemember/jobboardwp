@@ -1,24 +1,26 @@
 <?php namespace jb\common;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-if ( ! defined( 'ABSPATH' ) ) exit;
 
-
-if ( ! class_exists( 'jb\common\Common' ) ) {
+if ( ! class_exists( 'jb\common\Init' ) ) {
 
 
 	/**
-	 * Class Common
+	 * Class Init
+	 *
 	 * @package jb\common
 	 */
-	class Common {
+	class Init {
 
 
 		/**
-		 * Common constructor.
+		 * Init constructor.
 		 */
-		function __construct() {
-			add_action( 'plugins_loaded', [ $this, 'init_template_path' ], 10 );
+		public function __construct() {
+			add_action( 'plugins_loaded', array( $this, 'init_template_path' ), 10 );
 		}
 
 
@@ -27,8 +29,8 @@ if ( ! class_exists( 'jb\common\Common' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function init_template_path() {
-			JB()->templates_path = jb_path . 'templates' . DIRECTORY_SEPARATOR;
+		public function init_template_path() {
+			JB()->templates_path  = JB_PATH . 'templates' . DIRECTORY_SEPARATOR;
 			JB()->theme_templates = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'jobboardwp' . DIRECTORY_SEPARATOR;
 		}
 
@@ -38,7 +40,7 @@ if ( ! class_exists( 'jb\common\Common' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function includes() {
+		public function includes() {
 			$this->cpt();
 			$this->rewrite();
 			$this->mail();
@@ -51,7 +53,7 @@ if ( ! class_exists( 'jb\common\Common' ) ) {
 		 *
 		 * @return Cron()
 		 */
-		function cron() {
+		public function cron() {
 			if ( empty( JB()->classes['jb\common\cron'] ) ) {
 				JB()->classes['jb\common\cron'] = new Cron();
 			}
@@ -64,7 +66,7 @@ if ( ! class_exists( 'jb\common\Common' ) ) {
 		 *
 		 * @return Rewrite
 		 */
-		function rewrite() {
+		public function rewrite() {
 			if ( empty( JB()->classes['jb\common\rewrite'] ) ) {
 				JB()->classes['jb\common\rewrite'] = new Rewrite();
 			}
@@ -78,7 +80,7 @@ if ( ! class_exists( 'jb\common\Common' ) ) {
 		 *
 		 * @return CPT
 		 */
-		function cpt() {
+		public function cpt() {
 			if ( empty( JB()->classes['jb\common\cpt'] ) ) {
 				JB()->classes['jb\common\cpt'] = new CPT();
 			}
@@ -92,7 +94,7 @@ if ( ! class_exists( 'jb\common\Common' ) ) {
 		 *
 		 * @return Mail
 		 */
-		function mail() {
+		public function mail() {
 			if ( empty( JB()->classes['jb\common\mail'] ) ) {
 				JB()->classes['jb\common\mail'] = new Mail();
 			}
@@ -106,7 +108,7 @@ if ( ! class_exists( 'jb\common\Common' ) ) {
 		 *
 		 * @return Job
 		 */
-		function job() {
+		public function job() {
 			if ( empty( JB()->classes['jb\common\job'] ) ) {
 				JB()->classes['jb\common\job'] = new Job();
 			}
@@ -120,7 +122,7 @@ if ( ! class_exists( 'jb\common\Common' ) ) {
 		 *
 		 * @return User
 		 */
-		function user() {
+		public function user() {
 			if ( empty( JB()->classes['jb\common\user'] ) ) {
 				JB()->classes['jb\common\user'] = new User();
 			}
@@ -134,7 +136,7 @@ if ( ! class_exists( 'jb\common\Common' ) ) {
 		 *
 		 * @return Filesystem
 		 */
-		function filesystem() {
+		public function filesystem() {
 			if ( empty( JB()->classes['jb\common\filesystem'] ) ) {
 				JB()->classes['jb\common\filesystem'] = new Filesystem();
 			}
@@ -148,7 +150,7 @@ if ( ! class_exists( 'jb\common\Common' ) ) {
 		 *
 		 * @return Permalinks
 		 */
-		function permalinks() {
+		public function permalinks() {
 			if ( empty( JB()->classes['jb\common\permalinks'] ) ) {
 				JB()->classes['jb\common\permalinks'] = new Permalinks();
 			}

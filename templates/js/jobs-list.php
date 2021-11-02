@@ -1,9 +1,23 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+<?php if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:disable VariableAnalysis
+// There are "undefined" variables here because they're defined in the code that includes this file as a template.
+?>
 
 <script type="text/template" id="tmpl-jb-jobs-list-line">
 	<# if ( data.length > 0 ) { #>
 		<# _.each( data, function( job, key, list ) { #>
-			<div class="jb-job-list-row<?php if ( $jb_js_jobs_list['no-logo'] ) { ?> jb-job-list-no-logo<?php } else { ?><# if ( ! job.logo ) { #> jb-job-list-no-logo<# } #><?php } ?><# if ( job.actions.length > 0 ) { #> jb-job-list-with-actions<# } #>">
+			<?php
+			/** @noinspection PhpUndefinedVariableInspection */
+			if ( $jb_js_jobs_list['no-logo'] ) {
+				$list_row_class = ' jb-job-list-no-logo';
+			} else {
+				$list_row_class = '<# if ( ! job.logo ) { #> jb-job-list-no-logo<# } #>';
+			}
+			?>
+
+			<div class="jb-job-list-row<?php echo $list_row_class; ?><# if ( job.actions.length > 0 ) { #> jb-job-list-with-actions<# } #>"><?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output ?>
 				<?php if ( ! $jb_js_jobs_list['no-logo'] ) { ?>
 					<# if ( job.logo ) { #>
 						<div class="jb-job-logo">
@@ -13,7 +27,7 @@
 				<?php } ?>
 				<div class="jb-row-data">
 					<div class="jb-job-title">
-						<span class="jb-job-title-link-line"><a href="{{{job.permalink}}}" class="jb-job-title-link">{{{job.title}}}</a></span>
+						<span class="jb-job-title-link-line"><a href="<?php /** @noinspection HtmlUnknownTarget */ ?>{{{job.permalink}}}" class="jb-job-title-link">{{{job.title}}}</a></span>
 						<?php if ( ! $jb_js_jobs_list['hide-job-types'] ) { ?>
 							<# if ( job.types.length > 0 ) { #>
 								<div class="jb-job-types jb-responsive jb-ui-m jb-ui-l jb-ui-xl">
@@ -44,21 +58,20 @@
 								</div>
 							<# } #>
 
-							<div class="jb-responsive jb-ui-s jb-ui-xs date" title="<?php esc_attr_e( 'Posted', 'jobboardwp' ) ?>">
+							<div class="jb-responsive jb-ui-s jb-ui-xs date" title="<?php esc_attr_e( 'Posted', 'jobboardwp' ); ?>">
 								<i class="far fa-calendar-alt"></i>
-								<?php _e( 'Posted', 'jobboardwp' ) ?> {{{job.date}}}
+								<?php esc_html_e( 'Posted', 'jobboardwp' ); ?> {{{job.date}}}
 							</div>
 
 							<# if ( job.expires ) { #>
-								<div class="expires" title="<?php esc_attr_e( 'Expires', 'jobboardwp' ) ?>">
-<!--									<i class="far fa-calendar-alt"></i>-->
+								<div class="expires" title="<?php esc_attr_e( 'Expires', 'jobboardwp' ); ?>">
 									<i class="fa fa-calendar-times-o"></i>
-									<?php _e( 'Closing on', 'jobboardwp' ) ?> {{{job.expires}}}
+									<?php esc_html_e( 'Closing on', 'jobboardwp' ); ?> {{{job.expires}}}
 								</div>
 							<# } #>
 						</div>
 						<div class="jb-row-right-side">
-							<div class="date jb-responsive jb-ui-m jb-ui-l jb-ui-xl date" title="<?php esc_attr_e( 'Posted', 'jobboardwp' ) ?>">
+							<div class="date jb-responsive jb-ui-m jb-ui-l jb-ui-xl date" title="<?php esc_attr_e( 'Posted', 'jobboardwp' ); ?>">
 								{{{job.date}}}
 							</div>
 
@@ -82,7 +95,7 @@
 							<# if ( action.html ) { #>
 								{{{action.html}}}
 							<# } else { #>
-								<a href="{{{action.url}}}" class="{{{action.class}}}">
+								<a href="<?php /** @noinspection HtmlUnknownTarget */ ?>{{{action.url}}}" class="{{{action.class}}}">
 									<i class="{{{action.img}}}"></i>
 								</a>
 							<# } #>

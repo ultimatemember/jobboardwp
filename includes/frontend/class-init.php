@@ -1,23 +1,25 @@
 <?php namespace jb\frontend;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-if ( ! defined( 'ABSPATH' ) ) exit;
 
-
-if ( ! class_exists( 'jb\frontend\Common' ) ) {
+if ( ! class_exists( 'jb\frontend\Init' ) ) {
 
 
 	/**
-	 * Class Common
+	 * Class Init
+	 *
 	 * @package jb\frontend
 	 */
-	class Common {
+	class Init {
 
 
 		/**
-		 * Common constructor.
+		 * Init constructor.
 		 */
-		function __construct() {
+		public function __construct() {
 
 		}
 
@@ -27,15 +29,15 @@ if ( ! class_exists( 'jb\frontend\Common' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function is_job_page() {
-			return is_singular( [ 'jb-job' ] );
+		public function is_job_page() {
+			return is_singular( array( 'jb-job' ) );
 		}
 
 
 		/**
 		 * @since 1.0
 		 */
-		function includes() {
+		public function includes() {
 			$this->enqueue();
 			$this->templates();
 			$this->shortcodes();
@@ -48,7 +50,7 @@ if ( ! class_exists( 'jb\frontend\Common' ) ) {
 		 *
 		 * @return Templates
 		 */
-		function templates() {
+		public function templates() {
 			if ( empty( JB()->classes['jb\frontend\templates'] ) ) {
 				JB()->classes['jb\frontend\templates'] = new Templates();
 			}
@@ -62,7 +64,7 @@ if ( ! class_exists( 'jb\frontend\Common' ) ) {
 		 *
 		 * @return Shortcodes
 		 */
-		function shortcodes() {
+		public function shortcodes() {
 			if ( empty( JB()->classes['jb\frontend\shortcodes'] ) ) {
 				JB()->classes['jb\frontend\shortcodes'] = new Shortcodes();
 			}
@@ -76,7 +78,7 @@ if ( ! class_exists( 'jb\frontend\Common' ) ) {
 		 *
 		 * @return Enqueue
 		 */
-		function enqueue() {
+		public function enqueue() {
 			if ( empty( JB()->classes['jb\frontend\enqueue'] ) ) {
 				JB()->classes['jb\frontend\enqueue'] = new Enqueue();
 			}
@@ -92,12 +94,12 @@ if ( ! class_exists( 'jb\frontend\Common' ) ) {
 		 *
 		 * @return Forms
 		 */
-		function forms( $data = false ) {
-			if ( empty( JB()->classes['jb\frontend\forms' . $data['id'] ] ) ) {
-				JB()->classes['jb\frontend\forms' . $data['id'] ] = new Forms( $data );
+		public function forms( $data = false ) {
+			if ( empty( JB()->classes[ 'jb\frontend\forms' . $data['id'] ] ) ) {
+				JB()->classes[ 'jb\frontend\forms' . $data['id'] ] = new Forms( $data );
 			}
 
-			return JB()->classes['jb\frontend\forms' . $data['id'] ];
+			return JB()->classes[ 'jb\frontend\forms' . $data['id'] ];
 		}
 
 
@@ -106,7 +108,7 @@ if ( ! class_exists( 'jb\frontend\Common' ) ) {
 		 *
 		 * @return Jobs_Directory
 		 */
-		function jobs_directory() {
+		public function jobs_directory() {
 			if ( empty( JB()->classes['jb\frontend\jobs_directory'] ) ) {
 				JB()->classes['jb\frontend\jobs_directory'] = new Jobs_Directory();
 			}
@@ -120,7 +122,7 @@ if ( ! class_exists( 'jb\frontend\Common' ) ) {
 		 *
 		 * @return Actions_Listener()
 		 */
-		function actions_listener() {
+		public function actions_listener() {
 			if ( empty( JB()->classes['jb\frontend\actions_listener'] ) ) {
 				JB()->classes['jb\frontend\actions_listener'] = new Actions_Listener();
 			}

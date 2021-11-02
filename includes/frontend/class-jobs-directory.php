@@ -1,7 +1,8 @@
 <?php namespace jb\frontend;
 
-
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
@@ -20,7 +21,7 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		var $filters = [];
+		public $filters = array();
 
 
 		/**
@@ -28,14 +29,14 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		var $filter_types = [];
+		public $filter_types = array();
 
 
 		/**
 		 * Jobs_Directory constructor.
 		 */
-		function __construct() {
-			add_action( 'init', [ $this, 'init_variables' ] );
+		public function __construct() {
+			add_action( 'init', array( $this, 'init_variables' ) );
 			if ( empty( $this->filter_types ) || empty( $this->filters ) ) {
 				$this->init_variables();
 			}
@@ -47,16 +48,22 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function init_variables() {
-			$this->filters = apply_filters( 'jb_jobs_directory_filters', [
-				'job_type'  => __( 'Job Type', 'jobboardwp' ),
-				'company'   => __( 'Company', 'jobboardwp' ),
-			] );
+		public function init_variables() {
+			$this->filters = apply_filters(
+				'jb_jobs_directory_filters',
+				array(
+					'job_type' => __( 'Job Type', 'jobboardwp' ),
+					'company'  => __( 'Company', 'jobboardwp' ),
+				)
+			);
 
-			$this->filter_types = apply_filters( 'jb_jobs_directory_filter_types', [
-				'job_type'  => 'select',
-				'company'   => 'select',
-			] );
+			$this->filter_types = apply_filters(
+				'jb_jobs_directory_filter_types',
+				array(
+					'job_type' => 'select',
+					'company'  => 'select',
+				)
+			);
 		}
 
 
@@ -69,30 +76,24 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function get_filter_options( $filter ) {
+		public function get_filter_options( $filter ) {
 			global $wpdb;
 
-			$values = [];
+			$values = array();
 
 			switch ( $filter ) {
 				case 'job_type':
-
-					$values = get_terms( [
-						'taxonomy'      => 'jb-job-type',
-						'hide_empty'    => true,
-						'fields'        => 'id=>name',
-					] );
+					$values = get_terms(
+						array(
+							'taxonomy'   => 'jb-job-type',
+							'hide_empty' => true,
+							'fields'     => 'id=>name',
+						)
+					);
 
 					break;
 				case 'company':
-
-					$values = $wpdb->get_col(
-					"SELECT DISTINCT meta_value
-						FROM $wpdb->postmeta
-						WHERE meta_key = 'jb_company_name' AND 
-							  meta_value != ''"
-					);
-
+					$values = $wpdb->get_col( "SELECT DISTINCT meta_value FROM $wpdb->postmeta WHERE meta_key = 'jb_company_name' AND meta_value != ''" );
 					if ( ! empty( $values ) ) {
 						$values = array_combine( $values, $values );
 					}
@@ -115,29 +116,28 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function show_filter( $filter ) {
+		public function show_filter( $filter ) {
 			if ( empty( $this->filter_types[ $filter ] ) ) {
 				return '';
 			}
 
 			switch ( $this->filter_types[ $filter ] ) {
-				default: {
-
+				default:
 					do_action( "jb_jobs_filter_type_{$this->filter_types[ $filter ]}", $filter );
-
 					break;
-				}
-				case 'select': {
-					// getting value from GET line
-					$filter_from_url = ! empty( $_GET[ 'jb_' . $filter ] ) ? explode( '||', sanitize_text_field( $_GET[ 'jb_' . $filter ] ) ) : [];
+				case 'select':
+					// phpcs:ignore WordPress.Security.NonceVerification -- getting value from GET line
+					$filter_from_url = ! empty( $_GET[ 'jb_' . $filter ] ) ? explode( '||', sanitize_text_field( $_GET[ 'jb_' . $filter ] ) ) : array();
 
 					$options = $this->get_filter_options( $filter );
 					if ( empty( $options ) ) {
 						return '';
 					}
 
-					ob_start(); ?>
+					ob_start();
+					?>
 
+					<label class="screen-reader-text" for="jb_jobs_filter_<?php echo esc_attr( $filter ); ?>"><?php echo esc_html( $this->filters[ $filter ] ); ?></label>
 					<select class="jb-s1" id="jb_jobs_filter_<?php echo esc_attr( $filter ); ?>"
 							name="jb_jobs_filter_<?php echo esc_attr( $filter ); ?>"
 							data-placeholder="<?php echo esc_attr( $this->filters[ $filter ] ); ?>"
@@ -145,22 +145,23 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 
 						<option></option>
 
-						<?php foreach ( $options as $k => $v ) {
-
-							$opt = stripslashes( $v ); ?>
+						<?php
+						foreach ( $options as $k => $v ) {
+							$opt = stripslashes( $v );
+							?>
 
 							<option value="<?php echo esc_attr( $opt ); ?>" data-value_label="<?php echo esc_attr( $v ); ?>"
-								<?php disabled( ! empty( $filter_from_url ) && in_array( $opt, $filter_from_url ) ); ?>>
-								<?php echo $v; ?>
+								<?php disabled( ! empty( $filter_from_url ) && in_array( $opt, $filter_from_url, true ) ); ?>>
+								<?php echo esc_html( $v ); ?>
 							</option>
 
 						<?php } ?>
 
 					</select>
 
-					<?php $filter = ob_get_clean();
+					<?php
+					$filter = ob_get_clean();
 					break;
-				}
 			}
 
 			return $filter;

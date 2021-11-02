@@ -1,8 +1,8 @@
-<?php
-namespace jb\admin;
+<?php namespace jb\admin;
 
-
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 if ( ! class_exists( 'jb\admin\Metabox' ) ) {
@@ -21,21 +21,20 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		var $nonce = [];
+		public $nonce = array();
 
 
 		/**
 		 * Metabox constructor.
 		 */
-		function __construct() {
-			add_action( 'load-post.php', [ &$this, 'add_metabox' ], 9 );
-			add_action( 'load-post-new.php', [ &$this, 'add_metabox' ], 9 );
+		public function __construct() {
+			add_action( 'load-post.php', array( &$this, 'add_metabox' ), 9 );
+			add_action( 'load-post-new.php', array( &$this, 'add_metabox' ), 9 );
 
-
-			add_action( 'jb-job-type_add_form_fields', [ &$this, 'job_type_create' ] );
-			add_action( 'jb-job-type_edit_form_fields', [ &$this, 'job_type_edit' ] );
-			add_action( 'create_jb-job-type', [ &$this, 'save_job_type_meta' ], 10, 1 );
-			add_action( 'edited_jb-job-type', [ &$this, 'save_job_type_meta' ], 10, 1 );
+			add_action( 'jb-job-type_add_form_fields', array( &$this, 'job_type_create' ) );
+			add_action( 'jb-job-type_edit_form_fields', array( &$this, 'job_type_edit' ) );
+			add_action( 'create_jb-job-type', array( &$this, 'save_job_type_meta' ), 10, 1 );
+			add_action( 'edited_jb-job-type', array( &$this, 'save_job_type_meta' ), 10, 1 );
 		}
 
 
@@ -44,7 +43,8 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function job_type_create() {
+		public function job_type_create() {
+			/** @noinspection PhpIncludeInspection */
 			include_once JB()->admin()->templates_path . 'job-type' . DIRECTORY_SEPARATOR . 'styling-create.php';
 
 			wp_nonce_field( basename( __FILE__ ), 'jb_job_type_styling_nonce' );
@@ -58,13 +58,14 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function job_type_edit( $term ) {
-			$termID = $term->term_id;
+		public function job_type_edit( $term ) {
+			$term_id = $term->term_id;
 
-			$data = [];
-			$data['jb-color'] = get_term_meta( $termID, 'jb-color', true );
-			$data['jb-background'] = get_term_meta( $termID, 'jb-background', true );
+			$data                  = array();
+			$data['jb-color']      = get_term_meta( $term_id, 'jb-color', true );
+			$data['jb-background'] = get_term_meta( $term_id, 'jb-background', true );
 
+			/** @noinspection PhpIncludeInspection */
 			include_once JB()->admin()->templates_path . 'job-type' . DIRECTORY_SEPARATOR . 'styling-edit.php';
 
 			wp_nonce_field( basename( __FILE__ ), 'jb_job_type_styling_nonce' );
@@ -74,35 +75,34 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 		/**
 		 * Save custom data for Job Type
 		 *
-		 * @param int $termID
+		 * @param int $term_id
 		 *
 		 * @since 1.0
 		 */
-		function save_job_type_meta( $termID ) {
-
+		public function save_job_type_meta( $term_id ) {
 			// validate nonce
-			if ( ! isset( $_REQUEST['jb_job_type_styling_nonce'] ) || ! wp_verify_nonce( $_REQUEST['jb_job_type_styling_nonce'], basename( __FILE__ ) ) ) {
+			if ( ! isset( $_REQUEST['jb_job_type_styling_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_REQUEST['jb_job_type_styling_nonce'] ), basename( __FILE__ ) ) ) {
 				return;
 			}
 
 			// validate user
-			$term = get_term( $termID );
+			$term     = get_term( $term_id );
 			$taxonomy = get_taxonomy( $term->taxonomy );
 
-			if ( ! current_user_can( $taxonomy->cap->edit_terms, $termID ) ) {
+			if ( ! current_user_can( $taxonomy->cap->edit_terms, $term_id ) ) {
 				return;
 			}
 
 			if ( ! empty( $_REQUEST['jb-color'] ) ) {
-				update_term_meta( $termID, 'jb-color', $_REQUEST['jb-color'] );
+				update_term_meta( $term_id, 'jb-color', sanitize_text_field( $_REQUEST['jb-color'] ) );
 			} else {
-				delete_term_meta( $termID, 'jb-color' );
+				delete_term_meta( $term_id, 'jb-color' );
 			}
 
 			if ( ! empty( $_REQUEST['jb-background'] ) ) {
-				update_term_meta( $termID, 'jb-background', $_REQUEST['jb-background'] );
+				update_term_meta( $term_id, 'jb-background', sanitize_text_field( $_REQUEST['jb-background'] ) );
 			} else {
-				delete_term_meta( $termID, 'jb-background' );
+				delete_term_meta( $term_id, 'jb-background' );
 			}
 		}
 
@@ -112,14 +112,12 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function add_metabox() {
+		public function add_metabox() {
 			global $current_screen;
 
-			if ( $current_screen->id == 'jb-job' && current_user_can( 'edit_jb-jobs' ) ) {
-
-				add_action( 'add_meta_boxes', [ &$this, 'add_metabox_job' ] );
-				add_action( 'save_post', [ &$this, 'save_metabox_job' ], 10, 2 );
-
+			if ( 'jb-job' === $current_screen->id && current_user_can( 'edit_jb-jobs' ) ) {
+				add_action( 'add_meta_boxes', array( &$this, 'add_metabox_job' ) );
+				add_action( 'save_post', array( &$this, 'save_metabox_job' ), 10, 2 );
 			}
 		}
 
@@ -127,14 +125,15 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 		/**
 		 * Load a form metabox
 		 *
-		 * @param $object
+		 * @param object $object Not used.
 		 * @param array $box
 		 *
 		 * @since 1.0
 		 */
-		function load_metabox_job( $object, $box ) {
-			$metabox = str_replace( 'jb-job-','', $box['id'] );
+		public function load_metabox_job( /** @noinspection PhpUnusedParameterInspection */$object, $box ) {
+			$metabox = str_replace( 'jb-job-', '', $box['id'] );
 
+			/** @noinspection PhpIncludeInspection */
 			include_once JB()->admin()->templates_path . 'job' . DIRECTORY_SEPARATOR . $metabox . '.php';
 
 			if ( empty( $this->nonce['job'] ) ) {
@@ -149,8 +148,8 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function add_metabox_job() {
-			add_meta_box( 'jb-job-data', __( 'Job Data', 'jobboardwp' ), [ &$this, 'load_metabox_job' ], 'jb-job', 'normal', 'core' );
+		public function add_metabox_job() {
+			add_meta_box( 'jb-job-data', __( 'Job Data', 'jobboardwp' ), array( &$this, 'load_metabox_job' ), 'jb-job', 'normal', 'core' );
 		}
 
 
@@ -162,14 +161,14 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		function save_metabox_job( $post_id, $post ) {
+		public function save_metabox_job( $post_id, $post ) {
 			// validate nonce
-			if ( ! isset( $_POST['jb_job_save_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['jb_job_save_metabox_nonce'], basename( __FILE__ ) ) ) {
+			if ( ! isset( $_POST['jb_job_save_metabox_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['jb_job_save_metabox_nonce'] ), basename( __FILE__ ) ) ) {
 				return;
 			}
 
 			// validate post type
-			if ( $post->post_type != 'jb-job' ) {
+			if ( 'jb-job' !== $post->post_type ) {
 				return;
 			}
 
@@ -183,20 +182,53 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			if ( ! isset( $_POST['jb-job-meta']['jb-location-type'] ) ) {
 				return;
 			}
-			if ( $_POST['jb-job-meta']['jb-location-type'] === '0' && empty( $_POST['jb-job-meta']['jb-location'] ) ) {
+			if ( sanitize_text_field( $_POST['jb-job-meta']['jb-location-type'] ) === '0' && empty( $_POST['jb-job-meta']['jb-location'] ) ) {
 				return;
 			}
 
+			$sanitize_map = array(
+				'jb-author'              => 'absint',
+				'jb-application-contact' => 'text',
+				'jb-location-type'       => 'text',
+				'jb-location'            => 'text',
+				'jb-location-preferred'  => 'text',
+				'jb-company-name'        => 'text',
+				'jb-company-website'     => 'text',
+				'jb-company-tagline'     => 'text',
+				'jb-company-twitter'     => 'text',
+				'jb-company-facebook'    => 'text',
+				'jb-company-instagram'   => 'text',
+				'jb-is-filled'           => 'bool',
+				'jb-expiry-date'         => 'text',
+			);
+
+			$current_time = time();
+
 			//save metadata
 			foreach ( $_POST['jb-job-meta'] as $k => $v ) {
+				$k = sanitize_key( $k );
+				if ( isset( $sanitize_map[ $k ] ) ) {
+					switch ( $sanitize_map[ $k ] ) {
+						case 'bool':
+							$v = (bool) $v;
+							break;
+						case 'text':
+							$v = sanitize_text_field( $v );
+							break;
+						case 'absint':
+							$v = absint( $v );
+							break;
+					}
+				}
+
 				if ( strstr( $k, 'jb-' ) ) {
-					if ( 'jb-author' == $k ) {
+					if ( 'jb-author' === $k ) {
 						global $wpdb;
-						$wpdb->update( $wpdb->posts, [ 'post_author' => $v ], [ 'ID' => $post_id ], [ '%d' ], [ '%d' ] );
+						$wpdb->update( $wpdb->posts, array( 'post_author' => $v ), array( 'ID' => $post_id ), array( '%d' ), array( '%d' ) );
 						continue;
 					}
 
-					if ( 'jb-is-filled' == $k ) {
+					if ( 'jb-is-filled' === $k ) {
 						if ( ! empty( $v ) ) {
 							if ( ! JB()->common()->job()->is_filled( $post_id ) ) {
 								do_action( 'jb_fill_job', $post_id, $post );
@@ -208,21 +240,21 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 						}
 					}
 
-					if ( 'jb-expiry-date' == $k ) {
+					if ( 'jb-expiry-date' === $k ) {
 						if ( empty( $v ) ) {
 							$v = JB()->common()->job()->calculate_expiry();
 						} else {
-							$date = strtotime( $v, current_time( 'timestamp' ) );
-							$v = date( 'Y-m-d', $date );
-							if ( current_time( 'timestamp' ) >= $date ) {
+							$date = strtotime( $v, $current_time );
+							$v    = gmdate( 'Y-m-d', $date );
+							if ( $current_time >= $date ) {
 								global $wpdb;
-								$wpdb->update( $wpdb->posts, [ 'post_status' => 'jb-expired' ], [ 'ID' => $post_id ], [ '%s' ], [ '%d' ] );
+								$wpdb->update( $wpdb->posts, array( 'post_status' => 'jb-expired' ), array( 'ID' => $post_id ), array( '%s' ), array( '%d' ) );
 								do_action( 'jb_job_is_expired', $post_id );
 							}
 						}
 					}
 
-					if ( 'jb-location-data' == $k ) {
+					if ( 'jb-location-data' === $k ) {
 
 						$v = json_decode( stripslashes( $v ) );
 
@@ -257,7 +289,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 						continue;
 					}
 
-					if ( $_POST['jb-job-meta']['jb-location-type'] !== '0' && 'jb-location-preferred' == $k ) {
+					if ( sanitize_text_field( $_POST['jb-job-meta']['jb-location-type'] ) !== '0' && 'jb-location-preferred' === $k ) {
 						$k = 'jb-location';
 					}
 
@@ -265,7 +297,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				}
 			}
 
-			update_post_meta( $post_id, 'jb-last-edit-date', time() );
+			update_post_meta( $post_id, 'jb-last-edit-date', $current_time );
 		}
 	}
 }
