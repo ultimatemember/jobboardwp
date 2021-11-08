@@ -13,7 +13,7 @@ if ( ! empty( $jb_single_job['id'] ) ) {
 	<div class="jb jb-single-job-wrapper" id="jb-single-job-<?php echo esc_attr( $job_id ); ?>">
 		<div class="jb-job-title-info">
 			<div class="jb-job-title">
-				<?php if ( is_singular( 'jb-job' ) && get_the_ID() === $jb_single_job['id'] ) { ?>
+				<?php if ( is_singular( 'jb-job' ) && get_the_ID() === (int) $jb_single_job['id'] ) { ?>
 					<h1><?php echo esc_html( $job_title ); ?></h1>
 				<?php } else { ?>
 					<h2><?php echo esc_html( $job_title ); ?></h2>
