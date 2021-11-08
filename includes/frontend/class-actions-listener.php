@@ -140,9 +140,24 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 						} else {
 							$password         = sanitize_text_field( trim( $_POST['author_password'] ) );
 							$password_confirm = sanitize_text_field( trim( $_POST['author_password_confirm'] ) );
+							$min_length       = 8;
+							$max_length       = 30;
 
 							if ( $password !== $password_confirm ) {
 								$posting_form->add_error( 'author_password_confirm', __( 'Your passwords do not match', 'jobboardwp' ) );
+							}
+
+							if ( mb_strlen( $_POST['author_password'] ) < $min_length ) {
+								$posting_form->add_error( 'author_password', __( 'Your password must contain at least 8 characters', 'jobboardwp' ) );
+							}
+
+							if ( mb_strlen( $_POST['author_password'] ) > $max_length ) {
+								$posting_form->add_error( 'author_password', __( 'Your password must contain less than 30 characters', 'jobboardwp' ) );
+							}
+
+							$pattern = '/^(?=.*[0-9])(?=.*[A-Z]).{8,20}$/';
+							if ( ! preg_match( $pattern, $_POST['author_password'] ) ) {
+								$posting_form->add_error( 'author_password', __( 'Your password must contain at least one lowercase letter, one capital letter and one number', 'jobboardwp' ) );
 							}
 						}
 					} else {
