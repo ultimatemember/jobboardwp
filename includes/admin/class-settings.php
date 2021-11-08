@@ -263,6 +263,13 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 										'helptip' => __( 'Enable using GoogleMaps API for getting extended data about job location.', 'jobboardwp' ),
 										'size'    => 'medium',
 									),
+									array(
+										'id'      => 'disable-structured-data',
+										'type'    => 'checkbox',
+										'label'   => __( 'Disable Google structured data', 'jobboardwp' ),
+										'helptip' => __( 'Disable parsing an individual job page as "Google JobPosting" data by the robots.', 'jobboardwp' ),
+										'size'    => 'medium',
+									),
 								),
 							),
 							'job_submission' => array(

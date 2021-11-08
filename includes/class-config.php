@@ -98,6 +98,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 					'job-template'                   => '',
 					'job-dateformat'                 => 'default',
 					'googlemaps-api-key'             => '',
+					'disable-structured-data'        => false,
 					'jobs-list-pagination'           => 10,
 					'jobs-list-no-logo'              => false,
 					'jobs-list-hide-filled'          => false,
