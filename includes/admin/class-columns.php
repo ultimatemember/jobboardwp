@@ -524,7 +524,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				return;
 			}
 
-			if ( isset( $_GET['author'] ) && '0' === sanitize_text_field( $_GET['author'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification -- just get author ID
+			if ( isset( $_GET['author'] ) && 0 === absint( $_GET['author'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification -- just get author ID
 				$users = get_users(
 					array(
 						'fields' => 'ids',
@@ -540,7 +540,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 			}
 
 			// Filter on _filled meta.
-			if ( false !== $is_filled ) {
+			if ( $is_filled ) {
 				$meta_query[] = array(
 					'key'   => 'jb-is-filled',
 					'value' => $is_filled,

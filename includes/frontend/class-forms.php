@@ -327,7 +327,9 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$html = apply_filters( 'jb_forms_before_render_section', $html, $data, $this->form_data );
 
 			if ( ! empty( $data['wrap_fields'] ) ) {
-				$html .= '<div class="jb-form-section-fields-wrapper" data-key="' . esc_attr( $data['key'] ) . '">';
+				$strict = ! empty( $data['strict_wrap_attrs'] ) ? $data['strict_wrap_attrs'] : '';
+
+				$html .= '<div class="jb-form-section-fields-wrapper" data-key="' . esc_attr( $data['key'] ) . '"' . $strict . '>';
 			}
 
 			if ( ! empty( $data['fields'] ) ) {

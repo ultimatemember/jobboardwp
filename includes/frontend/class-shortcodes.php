@@ -232,9 +232,15 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					$redirect = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 					ob_start();
+
+					$visible_login = false;
+					// phpcs:ignore WordPress.Security.NonceVerification -- getting value from GET line
+					if ( isset( $_GET['login'] ) && 'failed' === sanitize_key( $_GET['login'] ) ) {
+						$visible_login = true;
+					}
 					?>
 
-					<p id="jb-sign-in-notice" class="jb-form-pre-section-notice">
+					<p id="jb-sign-in-notice" class="jb-form-pre-section-notice"<?php if ( $visible_login ) { ?> style="display: none;"<?php } ?>>
 						<?php // phpcs:disable WordPress.Security.EscapeOutput -- strict output
 						if ( JB()->options()->get( 'account-required' ) ) {
 							if ( ! JB()->options()->get( 'account-username-generate' ) ) {
@@ -253,14 +259,14 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						?>
 					</p>
 
-					<p id="jb-sign-up-notice" class="jb-form-pre-section-notice" style="display: none;">
+					<p id="jb-sign-up-notice" class="jb-form-pre-section-notice"<?php if ( ! $visible_login ) { ?> style="display: none;"<?php } ?>>
 						<?php
 						// phpcs:ignore WordPress.Security.EscapeOutput -- strict output
 						_e( 'You could login below or <a href="javascript:void(0);" id="jb-hide-login-form">create account</a>.', 'jobboardwp' );
 						?>
 					</p>
 
-					<div id="jb-login-form-wrapper" style="display: none;">
+					<div id="jb-login-form-wrapper"<?php if ( ! $visible_login ) { ?> style="display: none;"<?php } ?>>
 
 						<?php
 						// phpcs:ignore WordPress.Security.NonceVerification -- getting value from GET line

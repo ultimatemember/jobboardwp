@@ -237,10 +237,18 @@
 
 		$your_details_enabled = JB()->options()->get( 'your-details-section' );
 		if ( ! ( is_user_logged_in() && empty( $your_details_enabled ) ) ) {
+
+			$strict_wrap_attrs = '';
+			// phpcs:ignore WordPress.Security.NonceVerification -- getting value from GET line
+			if ( isset( $_GET['login'] ) && 'failed' === sanitize_key( $_GET['login'] ) ) {
+				$strict_wrap_attrs = ' style="display: none;"';
+			}
+
 			$sections['my-details'] = array(
-				'title'       => __( 'Your Details', 'jobboardwp' ),
-				'fields'      => $my_details_fields,
-				'wrap_fields' => true,
+				'title'             => __( 'Your Details', 'jobboardwp' ),
+				'fields'            => $my_details_fields,
+				'wrap_fields'       => true,
+				'strict_wrap_attrs' => $strict_wrap_attrs,
 			);
 		}
 

@@ -416,7 +416,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 
-			$remote_only = ( isset( $_POST['remote_only'] ) && '1' === $_POST['remote_only'] );
+			$remote_only = ( isset( $_POST['remote_only'] ) && (bool) $_POST['remote_only'] );
 			if ( $remote_only ) {
 
 				if ( ! isset( $query_args['meta_query'] ) ) {
@@ -557,7 +557,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			$structured_terms = array();
 
 			foreach ( $terms as $key => $term ) {
-				if ( $term->parent !== $parent ) {
+				if ( (int) $term->parent !== $parent ) {
 					continue;
 				}
 
