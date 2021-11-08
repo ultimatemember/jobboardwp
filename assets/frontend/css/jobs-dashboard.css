@@ -163,8 +163,9 @@
     justify-content: flex-start;
     align-items: stretch;
     flex-wrap: nowrap;
-    border-top: 1px solid #dddddd;
     padding: 0; }
+    #jb-job-dashboard #jb-job-dashboard-rows.isset-jobs {
+      border-top: 1px solid #dddddd; }
     #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row {
       display: flex;
       flex-direction: row;

@@ -628,7 +628,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			}
 
 			if ( in_array( $job->post_status, array( 'publish' ), true ) ) {
-				if ( '0' !== JB()->options()->get( 'published-job-editing' ) ) {
+				if ( 0 !== (int) JB()->options()->get( 'published-job-editing' ) ) {
 					$actions['edit'] = array(
 						'href'  => $this->get_edit_link( $job->ID ),
 						'title' => __( 'Edit', 'jobboardwp' ),

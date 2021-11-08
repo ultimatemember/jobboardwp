@@ -53,7 +53,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		public function add_display_post_states( $post_states, $post ) {
 			if ( 'page' === $post->post_type ) {
 				foreach ( JB()->config()->get( 'core_pages' ) as $page_key => $page_value ) {
-					if ( JB()->options()->get( $page_key . '_page' ) === $post->ID ) {
+					if ( JB()->common()->permalinks()->get_preset_page_id( $page_key )=== (int) $post->ID ) {
 						// translators: %s is a pre-defined page title.
 						$post_states[ 'jb_page_' . $page_key ] = sprintf( __( 'JB %s', 'jobboardwp' ), $page_value['title'] );
 					}
@@ -533,7 +533,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				$wp->set( 'author__not_in', $users );
 			}
 
-			$is_filled  = isset( $_GET['jb-is-filled'] ) && '' !== $_GET['jb-is-filled'] ? absint( $_GET['jb-is-filled'] ) : false; // phpcs:ignore WordPress.Security.NonceVerification -- just get filled status
+			$is_filled  = isset( $_GET['jb-is-filled'] ) && '' !== $_GET['jb-is-filled'] ? (bool) $_GET['jb-is-filled'] : false; // phpcs:ignore WordPress.Security.NonceVerification -- just get filled status
 			$meta_query = $wp->get( 'meta_query' );
 			if ( ! is_array( $meta_query ) ) {
 				$meta_query = array();

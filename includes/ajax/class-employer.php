@@ -48,9 +48,6 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 		 * @since 1.0
 		 */
 		public function upload_logo() {
-			/** @var $wp_filesystem \WP_Filesystem_Base */
-			global $wp_filesystem;
-
 			$nonce = isset( $_REQUEST['nonce'] ) ? sanitize_key( $_REQUEST['nonce'] ) : '';
 			if ( ! wp_verify_nonce( $nonce, 'jb-frontend-nonce' ) ) {
 				wp_send_json(
@@ -61,18 +58,10 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 				);
 			}
 
-			if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
-				/** @noinspection PhpIncludeInspection */
-				require_once ABSPATH . 'wp-admin/includes/file.php';
-
-				$credentials = request_filesystem_credentials( site_url() );
-				\WP_Filesystem( $credentials );
-			}
-
 			$files = array();
 
-			$chunk  = filter_input( 0, 'chunk' );
-			$chunks = filter_input( 0, 'chunks' );
+			$chunk  = ! empty( $_REQUEST['chunk'] ) ? absint( $_REQUEST['chunk'] ) : 0;
+			$chunks = ! empty( $_REQUEST['chunks'] ) ? absint( $_REQUEST['chunks'] ) : 0;
 
 			// Get a file name
 			if ( isset( $_REQUEST['name'] ) ) {
@@ -139,7 +128,7 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 				if ( $out ) {
 
 					// Read binary input stream and append it to temp file
-					$in = @fopen( sanitize_file_name( $_FILES['file']['tmp_name'] ), 'rb' );
+					$in = @fopen( $_FILES['file']['tmp_name'], 'rb' );
 
 					if ( $in ) {
 						// phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition -- reading buffer here

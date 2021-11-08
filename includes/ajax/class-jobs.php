@@ -651,7 +651,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				wp_send_json_error( __( 'Wrong job.', 'jobboardwp' ) );
 			}
 
-			if ( get_current_user_id() !== $job->post_author ) {
+			if ( get_current_user_id() !== (int) $job->post_author ) {
 				wp_send_json_error( __( 'You haven\'t ability to delete this job.', 'jobboardwp' ) );
 			}
 
@@ -686,7 +686,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				wp_send_json_error( __( 'Wrong job', 'jobboardwp' ) );
 			}
 
-			if ( get_current_user_id() !== $job->post_author ) {
+			if ( get_current_user_id() !== (int) $job->post_author ) {
 				wp_send_json_error( __( 'You haven\'t ability to fill this job.', 'jobboardwp' ) );
 			}
 
@@ -731,7 +731,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				wp_send_json_error( __( 'Wrong job', 'jobboardwp' ) );
 			}
 
-			if ( get_current_user_id() !== $job->post_author ) {
+			if ( get_current_user_id() !== (int) $job->post_author ) {
 				wp_send_json_error( __( 'You haven\'t ability to un-fill this job.', 'jobboardwp' ) );
 			}
 

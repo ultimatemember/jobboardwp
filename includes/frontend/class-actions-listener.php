@@ -196,9 +196,106 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 						//Notify admin or user + admin about new user registration
 						wp_new_user_notification( $user_id, null, $notify );
 					}
+				} else {
+
+					if ( ( ! empty( $_POST['author_email'] ) && JB()->options()->get( 'account-username-generate' ) ) || ( ! empty( $_POST['author_email'] ) && ! empty( $_POST['author_username'] ) && ! JB()->options()->get( 'account-username-generate' ) ) ) {
+						$author_email = sanitize_email( trim( $_POST['author_email'] ) );
+
+						if ( ! is_email( $author_email ) ) {
+							$posting_form->add_error( 'author_email', __( 'Wrong email address format', 'jobboardwp' ) );
+						}
+
+						if ( email_exists( $author_email ) ) {
+							$posting_form->add_error( 'author_email', __( 'Please use another email address', 'jobboardwp' ) );
+						}
+
+						$username     = '';
+						$password     = '';
+						$author_fname = ! empty( $_POST['author_first_name'] ) ? sanitize_text_field( $_POST['author_first_name'] ) : '';
+						$author_lname = ! empty( $_POST['author_last_name'] ) ? sanitize_text_field( $_POST['author_last_name'] ) : '';
+
+						if ( JB()->options()->get( 'full-name-required' ) ) {
+							if ( empty( $author_fname ) ) {
+								$posting_form->add_error( 'author_first_name', __( 'Please fill the first name field.', 'jobboardwp' ) );
+							}
+
+							if ( empty( $author_lname ) ) {
+								$posting_form->add_error( 'author_last_name', __( 'Please fill the last name field.', 'jobboardwp' ) );
+							}
+						}
+
+						$notify = 'admin';
+						if ( ! JB()->options()->get( 'account-password-email' ) ) {
+							if ( empty( $_POST['author_password'] ) || empty( $_POST['author_password_confirm'] ) ) {
+								if ( empty( $_POST['author_password'] ) ) {
+									$posting_form->add_error( 'author_password', __( 'Password is required', 'jobboardwp' ) );
+								}
+
+								if ( empty( $_POST['author_password_confirm'] ) ) {
+									$posting_form->add_error( 'author_password_confirm', __( 'Please confirm the password', 'jobboardwp' ) );
+								}
+							} else {
+								$password         = sanitize_text_field( trim( $_POST['author_password'] ) );
+								$password_confirm = sanitize_text_field( trim( $_POST['author_password_confirm'] ) );
+
+								if ( $password !== $password_confirm ) {
+									$posting_form->add_error( 'author_password_confirm', __( 'Your passwords do not match', 'jobboardwp' ) );
+								}
+							}
+						} else {
+							// User is forced to set up account with email sent to them. This password will remain a secret.
+							$password = wp_generate_password();
+							$notify   = 'both';
+						}
+
+						if ( ! JB()->options()->get( 'account-username-generate' ) ) {
+							if ( ! empty( $_POST['author_username'] ) ) {
+								$username = sanitize_user( trim( $_POST['author_username'] ) );
+								if ( username_exists( $username ) ) {
+									$posting_form->add_error( 'author_username', __( 'Please use another username', 'jobboardwp' ) );
+								}
+							}
+						} else {
+							$username = sanitize_user( current( explode( '@', $author_email ) ), true );
+
+							// Ensure username is unique.
+							$append     = 1;
+							$o_username = $username;
+
+							while ( username_exists( $username ) ) {
+								$username = $o_username . $append;
+								$append ++;
+							}
+						}
+
+						if ( ! $posting_form->has_errors() ) {
+							// Create account.
+							$userdata = array(
+								'user_login' => $username,
+								'user_pass'  => $password,
+								'user_email' => $author_email,
+								'role'       => JB()->options()->get( 'account-role' ),
+								'first_name' => $author_fname,
+								'last_name'  => $author_lname,
+							);
+							$userdata = apply_filters( 'jb_job_submission_create_account_data', $userdata );
+
+							$user_id = wp_insert_user( $userdata );
+
+							// Login here
+							add_action( 'set_logged_in_cookie', array( $this, 'update_global_login_cookie' ) );
+							wp_set_auth_cookie( $user_id, true, is_ssl() );
+							wp_set_current_user( $user_id );
+							remove_action( 'set_logged_in_cookie', array( $this, 'update_global_login_cookie' ) );
+
+							//Notify admin or user + admin about new user registration
+							wp_new_user_notification( $user_id, null, $notify );
+						}
+					}
 				}
 			} else {
-				if ( '1' === JB()->options()->get( 'your-details-section' ) ) {
+				$your_details_enabled = JB()->options()->get( 'your-details-section' );
+				if ( ! empty( $your_details_enabled ) ) {
 					$author_email = '';
 					$author_fname = ! empty( $_POST['author_first_name'] ) ? sanitize_text_field( $_POST['author_first_name'] ) : '';
 					$author_lname = ! empty( $_POST['author_last_name'] ) ? sanitize_text_field( $_POST['author_last_name'] ) : '';
@@ -677,18 +774,18 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							$is_edited   = get_post_meta( $job_id, 'jb-last-edit-date', true );
 							$was_pending = get_post_meta( $job_id, 'jb-had-pending', true );
 
-							if ( ! empty( $is_edited ) && '0' === JB()->options()->get( 'published-job-editing' ) ) {
+							if ( ! empty( $is_edited ) && 0 === (int) JB()->options()->get( 'published-job-editing' ) ) {
 								$preview_form->add_error( 'global', __( 'Security action, Please try again.', 'jobboardwp' ) );
 							}
 
 							$status = 'publish';
 							if ( ! empty( $is_edited ) ) {
-								if ( '2' === JB()->options()->get( 'published-job-editing' ) ) {
+								if ( 2 === (int) JB()->options()->get( 'published-job-editing' ) ) {
 									$status = 'publish';
 									if ( ! empty( $was_pending ) ) {
 										$status = 'pending';
 									}
-								} elseif ( '1' === JB()->options()->get( 'published-job-editing' ) ) {
+								} elseif ( 1 === (int) JB()->options()->get( 'published-job-editing' ) ) {
 									$status = 'pending';
 								}
 							} else {
@@ -770,9 +867,9 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								}
 
 								$job_post_page_url = JB()->common()->permalinks()->get_preset_page_link( 'job-post' );
-								if ( empty( $is_edited ) && JB()->options()->get( 'job-moderation' ) ) {
+								if ( empty( $is_edited ) && JB()->options()->get( 'job-moderation' ) && ! current_user_can( 'administrator' ) ) {
 									$url = add_query_arg( array( 'msg' => 'on-moderation' ), $job_post_page_url );
-								} elseif ( ! empty( $is_edited ) && '1' === JB()->options()->get( 'published-job-editing' ) ) {
+								} elseif ( ! empty( $is_edited ) && 1 === (int) JB()->options()->get( 'published-job-editing' ) && ! current_user_can( 'administrator' ) ) {
 									$url = add_query_arg( array( 'msg' => 'on-moderation' ), $job_post_page_url );
 								} else {
 									$url = add_query_arg(

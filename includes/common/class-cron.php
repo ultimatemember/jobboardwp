@@ -22,6 +22,7 @@ if ( ! class_exists( 'jb\common\Cron' ) ) {
 		public function __construct() {
 			add_action( 'jb_check_for_expired_jobs', array( JB()->common()->job(), 'check_for_expired_jobs' ) );
 			add_action( 'jb_delete_old_previews', array( JB()->common()->job(), 'delete_old_previews' ) );
+			add_action( 'jb_delete_temp_files', array( JB()->common()->filesystem(), 'clear_temp_dir' ) );
 		}
 
 
@@ -33,6 +34,7 @@ if ( ! class_exists( 'jb\common\Cron' ) ) {
 		public function unschedule_tasks() {
 			wp_clear_scheduled_hook( 'jb_check_for_expired_jobs' );
 			wp_clear_scheduled_hook( 'jb_delete_old_previews' );
+			wp_clear_scheduled_hook( 'jb_delete_temp_files' );
 		}
 
 
@@ -47,6 +49,9 @@ if ( ! class_exists( 'jb\common\Cron' ) ) {
 			}
 			if ( ! wp_next_scheduled( 'jb_delete_old_previews' ) ) {
 				wp_schedule_event( time(), 'daily', 'jb_delete_old_previews' );
+			}
+			if ( ! wp_next_scheduled( 'jb_delete_temp_files' ) ) {
+				wp_schedule_event( time(), 'daily', 'jb_delete_temp_files' );
 			}
 		}
 

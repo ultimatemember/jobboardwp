@@ -102,17 +102,9 @@ wp.JB.jobs_dashboard = {
 			});
 			return data;
 		},
-		// get_page: function() {
-		// 	var page = wp.JB.jobs_dashboard.objects.wrapper.data( 'page' );
-		// 	if ( ! page || typeof page == 'undefined' ) {
-		// 		page = 1;
-		// 	}
-		// 	return page;
-		// }
 	},
 	ajax: function( append ) {
 		var request = {
-			// page:  wp.JB.jobs_dashboard.url.get_page(),
 			nonce: jb_front_data.nonce
 		};
 
@@ -129,17 +121,11 @@ wp.JB.jobs_dashboard = {
 					wp.JB.jobs_dashboard.objects.wrapper.find('#jb-job-dashboard-rows').html( template( answer.jobs ) );
 				}
 
-				// wp.JB.jobs_dashboard.objects.wrapper.data( 'total_pages', answer.pagination.total_pages );
-				//
-				// if ( answer.pagination.total_pages > 0 ) {
-				// 	if ( answer.pagination.total_pages == answer.pagination.current_page ) {
-				// 		wp.JB.jobs_dashboard.objects.wrapper.find( '.jb-load-more-jobs' ).hide();
-				// 	} else {
-				// 		wp.JB.jobs_dashboard.objects.wrapper.find( '.jb-load-more-jobs' ).show();
-				// 	}
-				// } else {
-				// 	wp.JB.jobs_dashboard.objects.wrapper.find( '.jb-load-more-jobs' ).hide();
-				// }
+				if ( answer.jobs.length > 0 ) {
+					wp.JB.jobs_dashboard.objects.wrapper.find('#jb-job-dashboard-rows').addClass('isset-jobs');
+				} else {
+					wp.JB.jobs_dashboard.objects.wrapper.find('#jb-job-dashboard-rows').removeClass('isset-jobs');
+				}
 
 				wp.hooks.doAction( 'jb_jobs_dashboard_loaded', answer );
 

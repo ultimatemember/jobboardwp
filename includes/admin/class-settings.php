@@ -299,8 +299,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 										'type'    => 'select',
 										'label'   => __( '"Your Details" for logged in users', 'jobboardwp' ),
 										'options' => array(
-											'0' => __( 'Hidden', 'jobboardwp' ),
-											'1' => __( 'Visible with editable email, first/last name fields', 'jobboardwp' ),
+											0 => __( 'Hidden', 'jobboardwp' ),
+											1 => __( 'Visible with editable email, first/last name fields', 'jobboardwp' ),
 										),
 										'helptip' => __( 'Select if the "Your Details" section is shown for logged in users.', 'jobboardwp' ),
 										'size'    => 'medium',
@@ -339,9 +339,9 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 										'type'    => 'select',
 										'label'   => __( 'Published Job Edits', 'jobboardwp' ),
 										'options' => array(
-											'0' => __( 'Users cannot edit their published job listings', 'jobboardwp' ),
-											'1' => __( 'Users can edit their published job listings but edits require approval by admin', 'jobboardwp' ),
-											'2' => __( 'Users can edit their published job listing without approval by admin', 'jobboardwp' ),
+											0 => __( 'Users cannot edit their published job listings', 'jobboardwp' ),
+											1 => __( 'Users can edit their published job listings but edits require approval by admin', 'jobboardwp' ),
+											2 => __( 'Users can edit their published job listing without approval by admin', 'jobboardwp' ),
 										),
 										'helptip' => __( 'Select if users can edit their published jobs and if edits require admin approval.', 'jobboardwp' ),
 										'size'    => 'medium',

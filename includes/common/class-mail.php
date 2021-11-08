@@ -297,7 +297,7 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 				return;
 			}
 
-			if ( 1 !== JB()->options()->get( $template . '_on' ) ) {
+			if ( empty( JB()->options()->get( $template . '_on' ) ) ) {
 				return;
 			}
 

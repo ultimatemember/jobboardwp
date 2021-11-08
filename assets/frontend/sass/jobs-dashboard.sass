@@ -85,8 +85,9 @@
 
   ##{$job}dashboard-rows
     +flex( column, flex-start, stretch, nowrap )
-    border-top: 1px solid $border-color
     padding: 0
+    &.isset-jobs
+      border-top: 1px solid $border-color
     .#{$job}dashboard-row
       +flex( row, flex-start, center, nowrap )
       width: 100%

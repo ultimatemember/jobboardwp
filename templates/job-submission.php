@@ -158,13 +158,13 @@
 						'type'     => 'text',
 						'label'    => __( 'First name', 'jobboardwp' ),
 						'id'       => 'author_first_name',
-						'required' => JB()->options()->get( 'full-name-required' ),
+						'required' => JB()->options()->get( 'full-name-required' ) && JB()->options()->get( 'account-required' ),
 					),
 					array(
 						'type'     => 'text',
 						'label'    => __( 'Last name', 'jobboardwp' ),
 						'id'       => 'author_last_name',
-						'required' => JB()->options()->get( 'full-name-required' ),
+						'required' => JB()->options()->get( 'full-name-required' ) && JB()->options()->get( 'account-required' ),
 					),
 				)
 			);
@@ -235,7 +235,8 @@
 
 		$sections = array();
 
-		if ( ! ( is_user_logged_in() && '0' === JB()->options()->get( 'your-details-section' ) ) ) {
+		$your_details_enabled = JB()->options()->get( 'your-details-section' );
+		if ( ! ( is_user_logged_in() && empty( $your_details_enabled ) ) ) {
 			$sections['my-details'] = array(
 				'title'       => __( 'Your Details', 'jobboardwp' ),
 				'fields'      => $my_details_fields,

@@ -118,7 +118,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					return __( 'Wrong job', 'jobboardwp' );
 				}
 
-				if ( ! is_user_logged_in() && 0 !== $job->post_author ) {
+				if ( ! is_user_logged_in() && 0 !== (int) $job->post_author ) {
 
 					ob_start();
 					?>
@@ -134,7 +134,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					<?php
 					return ob_get_clean();
 
-				} elseif ( is_user_logged_in() && get_current_user_id() !== $job->post_author ) {
+				} elseif ( is_user_logged_in() && get_current_user_id() !== (int) $job->post_author ) {
 
 					return __( 'Wrong job', 'jobboardwp' );
 
@@ -156,7 +156,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						return __( 'Wrong job', 'jobboardwp' );
 					}
 
-					if ( ! empty( $job ) && in_array( $job->post_status, array( 'publish' ), true ) && JB()->options()->get( 'published-job-editing' ) === '0' ) {
+					if ( ! empty( $job ) && in_array( $job->post_status, array( 'publish' ), true ) && 0 === (int) JB()->options()->get( 'published-job-editing' ) ) {
 						return __( 'You haven\'t ability to edit this job.', 'jobboardwp' );
 					}
 
