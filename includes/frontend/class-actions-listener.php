@@ -404,6 +404,15 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 						// register user if it's needed
 						$user_id = $this->maybe_create_user();
 
+						$is_edited = false;
+						if ( ! empty( $_GET['job-id'] ) ) {
+							$job_id = absint( $_GET['job-id'] );
+							$job    = get_post( $job_id );
+							if ( ! empty( $job ) && ! is_wp_error( $job ) ) {
+								$is_edited = true;
+							}
+						}
+
 						// handle job details fields
 						$title        = '';
 						$content      = '';
@@ -563,12 +572,15 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							$status = 'jb-preview';
 						}
 
-						$company_logo = '';
+						$company_logo   = '';
+						$set_attachment = false;
 						if ( ! empty( $_POST['company_logo'] ) && ! empty( $_POST['company_logo_hash'] ) ) {
-							if ( md5( sanitize_text_field( $_POST['company_logo'] ) . '_jb_uploader_security_salt' ) !== sanitize_text_field( $_POST['company_logo_hash'] ) ) {
+							// new company logo has been uploaded so we need to update current user logo
+							if ( md5( sanitize_file_name( $_POST['company_logo'] ) . '_jb_uploader_security_salt' ) !== sanitize_key( $_POST['company_logo_hash'] ) ) {
+								// invalid salt for company logo, it's for the security enhancements
 								$posting_form->add_error( 'company_logo', __( 'Something wrong with image, please re-upload', 'jobboardwp' ) );
 							} else {
-								$company_logo_temp = sanitize_text_field( $_POST['company_logo'] );
+								$company_logo_temp = sanitize_file_name( $_POST['company_logo'] );
 
 								if ( is_multisite() ) {
 									$main_blog = get_network()->site_id;
@@ -589,19 +601,29 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									$logos_url = JB()->common()->filesystem()->get_upload_url( 'jobboardwp/logos' );
 								}
 
+								// replace the company logo inside user logos dir to the uploaded to the temp upload folder image
 								$type    = wp_check_filetype( $company_logo_temp );
 								$newname = wp_normalize_path( $logos_dir . DIRECTORY_SEPARATOR . $user_id . '.' . $type['ext'] );
 								$oldname = wp_normalize_path( JB()->common()->filesystem()->temp_upload_dir . DIRECTORY_SEPARATOR . $company_logo_temp );
-								if ( file_exists( $oldname ) && rename( $oldname, $newname ) ) {
-									$company_logo = trailingslashit( $logos_url ) . $user_id . '.' . $type['ext'];
+
+								if ( ! $is_edited ) {
+									// change Company data for the employer only in case if the posting new job, not while editing existed job
+									if ( file_exists( $oldname ) && rename( $oldname, $newname ) ) {
+										$company_logo   = trailingslashit( $logos_url ) . $user_id . '.' . $type['ext'];
+										$set_attachment = true;
+									}
+								} else {
+									$company_logo   = trailingslashit( JB()->common()->filesystem()->temp_upload_url ) . $company_logo_temp;
+									$set_attachment = true;
 								}
 							}
 						} elseif ( ! empty( $_POST['company_logo'] ) ) {
+							// post a job with regular company logo that hasn't been changed when posting a job
 							$company_logo_post = ! empty( $_POST['company_logo'] ) ? sanitize_text_field( $_POST['company_logo'] ) : '';
 
 							if ( ! filter_var( $company_logo_post, FILTER_VALIDATE_URL ) ) {
-
-								$posting_form->add_error( 'company_logo', __( 'Wrong image URL', 'jobboardwp' ) );
+								// company logo must be an URL
+								$posting_form->add_error( 'company_logo', __( 'Wrong image URL. Invalid URL', 'jobboardwp' ) );
 
 							} else {
 
@@ -622,32 +644,35 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									$logos_url = JB()->common()->filesystem()->get_upload_url( 'jobboardwp/logos' );
 								}
 
+								// check if the company logo gets from the job post attachment
 								if ( trailingslashit( $logos_url ) . $user_id . '.' . $type['ext'] !== $company_logo_post ) {
 
 									if ( empty( $_GET['job-id'] ) ) {
 
-										$posting_form->add_error( 'company_logo', __( 'Wrong image URL', 'jobboardwp' ) );
+										$posting_form->add_error( 'company_logo', __( 'Wrong image URL. Invalid job', 'jobboardwp' ) );
 
 									} else {
-
+										// case when job has own thumbnail
 										$attachment_id = get_post_thumbnail_id( absint( $_GET['job-id'] ) );
 										if ( ! $attachment_id ) {
 
-											$posting_form->add_error( 'company_logo', __( 'Wrong image URL', 'jobboardwp' ) );
+											$posting_form->add_error( 'company_logo', __( 'Wrong image URL. Invalid attachment ID', 'jobboardwp' ) );
 
 										} else {
 
 											$image = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
 
 											if ( ! isset( $image[0] ) || $company_logo_post !== $image[0] ) {
-												$posting_form->add_error( 'company_logo', __( 'Wrong image URL', 'jobboardwp' ) );
+												$posting_form->add_error( 'company_logo', __( 'Wrong image URL. Invalid attachment path', 'jobboardwp' ) );
 											} else {
 												$company_logo = $company_logo_post;
 											}
 										}
 									}
 								} else {
-									$company_logo = $company_logo_post;
+									// case when we get the company logo from the employer image
+									$company_logo   = $company_logo_post;
+									$set_attachment = true;
 								}
 							}
 						}
@@ -702,16 +727,28 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								$posting_form->add_error( 'global', __( 'Job submission issue, Please try again', 'jobboardwp' ) );
 							} else {
 
+								// $company_logo must be an image URL
 								if ( ! empty( $company_logo ) ) {
-									/** @noinspection PhpIncludeInspection */
-									require_once ABSPATH . 'wp-admin/includes/image.php';
-									/** @noinspection PhpIncludeInspection */
-									require_once ABSPATH . 'wp-admin/includes/file.php';
-									/** @noinspection PhpIncludeInspection */
-									require_once ABSPATH . 'wp-admin/includes/media.php';
+									if ( $set_attachment ) {
+										/** @noinspection PhpIncludeInspection */
+										require_once ABSPATH . 'wp-admin/includes/image.php';
+										/** @noinspection PhpIncludeInspection */
+										require_once ABSPATH . 'wp-admin/includes/file.php';
+										/** @noinspection PhpIncludeInspection */
+										require_once ABSPATH . 'wp-admin/includes/media.php';
 
-									$image_id = media_sideload_image( $company_logo, $job_id, null, 'id' );
-									set_post_thumbnail( $job_id, $image_id );
+										$image_id = media_sideload_image( $company_logo, $job_id, null, 'id' );
+										set_post_thumbnail( $job_id, $image_id );
+									}
+								} else {
+									if ( $is_edited ) {
+										if ( has_post_thumbnail( $job_id ) ) {
+											$thumbnail_id = get_post_thumbnail_id( $job_id );
+											if ( $thumbnail_id ) {
+												wp_delete_attachment( $thumbnail_id, true );
+											}
+										}
+									}
 								}
 
 								if ( ! empty( $_POST['job_type'] ) ) {
@@ -728,8 +765,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									wp_set_post_terms( $job_id, $categories, 'jb-job-category' );
 								}
 
-								if ( empty( $_GET['job-id'] ) ) {
-
+								if ( ! $is_edited ) {
+									// set company data meta for the current user only on the job creation
 									$company_data = apply_filters(
 										'jb-save-job-user-company-data', // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 										array(
@@ -795,16 +832,18 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 
 							$status = 'publish';
 							if ( ! empty( $is_edited ) ) {
-								if ( 2 === (int) JB()->options()->get( 'published-job-editing' ) ) {
-									$status = 'publish';
-									if ( ! empty( $was_pending ) ) {
+								if ( ! current_user_can( 'administrator' ) ) {
+									if ( 2 === (int) JB()->options()->get( 'published-job-editing' ) ) {
+										$status = 'publish';
+										if ( ! empty( $was_pending ) ) {
+											$status = 'pending';
+										}
+									} elseif ( 1 === (int) JB()->options()->get( 'published-job-editing' ) ) {
 										$status = 'pending';
 									}
-								} elseif ( 1 === (int) JB()->options()->get( 'published-job-editing' ) ) {
-									$status = 'pending';
 								}
 							} else {
-								$status = JB()->options()->get( 'job-moderation' ) ? 'pending' : 'publish';
+								$status = ( JB()->options()->get( 'job-moderation' ) && ! current_user_can( 'administrator' ) ) ? 'pending' : 'publish';
 							}
 
 							if ( ! $preview_form->has_errors() ) {
