@@ -189,6 +189,8 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			$sanitize_map = array(
 				'jb-author'              => 'absint',
 				'jb-application-contact' => 'text',
+				'jb-job-type'            => 'absint',
+				'jb-job-category'        => 'absint',
 				'jb-location-type'       => 'text',
 				'jb-location'            => 'text',
 				'jb-location-preferred'  => 'text',
@@ -222,6 +224,24 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				}
 
 				if ( strstr( $k, 'jb-' ) ) {
+					if ( 'jb-job-type' === $k ) {
+						if ( ! is_array( $v ) ) {
+							$v = ! empty( $v ) ? array( $v ) : '';
+						}
+						wp_set_post_terms( $post_id, $v, 'jb-job-type' );
+						continue;
+					}
+
+					if ( JB()->options()->get( 'job-categories' ) ) {
+						if ( 'jb-job-category' === $k ) {
+							if ( ! is_array( $v ) ) {
+								$v = ! empty( $v ) ? array( $v ) : '';
+							}
+							wp_set_post_terms( $post_id, $v, 'jb-job-category' );
+							continue;
+						}
+					}
+
 					if ( 'jb-author' === $k ) {
 						global $wpdb;
 						$wpdb->update( $wpdb->posts, array( 'post_author' => $v ), array( 'ID' => $post_id ), array( '%d' ), array( '%d' ) );
@@ -289,7 +309,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 						continue;
 					}
 
-					if ( sanitize_text_field( $_POST['jb-job-meta']['jb-location-type'] ) !== '0' && 'jb-location-preferred' === $k ) {
+					if ( '0' !== sanitize_text_field( $_POST['jb-job-meta']['jb-location-type'] ) && 'jb-location-preferred' === $k ) {
 						$k = 'jb-location';
 					}
 

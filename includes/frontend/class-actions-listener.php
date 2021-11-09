@@ -751,17 +751,21 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									}
 								}
 
+								$type_ids = '';
 								if ( ! empty( $_POST['job_type'] ) ) {
 									if ( is_array( $_POST['job_type'] ) ) {
 										$type_ids = array_map( 'absint', $_POST['job_type'] );
 									} else {
 										$type_ids = array( absint( $_POST['job_type'] ) );
 									}
-									wp_set_post_terms( $job_id, $type_ids, 'jb-job-type' );
 								}
+								wp_set_post_terms( $job_id, $type_ids, 'jb-job-type' );
 
-								if ( JB()->options()->get( 'job-categories' ) && ! empty( $_POST['job_category'] ) ) {
-									$categories = array( absint( $_POST['job_category'] ) );
+								if ( JB()->options()->get( 'job-categories' ) ) {
+									$categories = '';
+									if ( ! empty( $_POST['job_category'] ) ) {
+										$categories = array( absint( $_POST['job_category'] ) );
+									}
 									wp_set_post_terms( $job_id, $categories, 'jb-job-category' );
 								}
 
