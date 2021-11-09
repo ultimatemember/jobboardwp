@@ -72,6 +72,7 @@ $fields = apply_filters(
 			'label'       => __( 'Application contact', 'jobboardwp' ),
 			'description' => __( 'It\'s required email or URL for the "application" area.', 'jobboardwp' ),
 			'value'       => $app_contact,
+			'required'    => true,
 		),
 		array(
 			'id'      => 'jb-location-type',
@@ -97,17 +98,18 @@ $fields = apply_filters(
 		),
 		array(
 			'id'          => 'jb-location-preferred',
-			'type'        => 'text',
+			'type'        => empty( $gmap_key ) ? 'text' : 'location_autocomplete',
 			'label'       => __( 'Preferred Location', 'jobboardwp' ),
 			'description' => __( 'Leave this blank if location is not important.', 'jobboardwp' ),
 			'value'       => $location,
 			'conditional' => array( 'jb-location-type', '!=', '0' ),
 		),
 		array(
-			'id'    => 'jb-company-name',
-			'type'  => 'text',
-			'label' => __( 'Company name', 'jobboardwp' ),
-			'value' => $company_name,
+			'id'       => 'jb-company-name',
+			'type'     => 'text',
+			'label'    => __( 'Company name', 'jobboardwp' ),
+			'value'    => $company_name,
+			'required' => true,
 		),
 		array(
 			'id'    => 'jb-company-website',

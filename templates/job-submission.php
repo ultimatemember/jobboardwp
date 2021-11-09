@@ -88,9 +88,21 @@
 			// workaround on the submission form because Job Type isn't multiple dropdown
 			if ( 1 === count( $job_type ) ) {
 				$job_type = $job_type[0];
+			} elseif ( empty( $job_type ) ) {
+				$job_type = '';
 			}
 
-			$job_category    = $data['category'];
+			if ( JB()->options()->get( 'job-categories' ) ) {
+				$job_category = $data['category'];
+
+				// workaround on the submission form because Job Category isn't multiple dropdown
+				if ( 1 === count( $job_category ) ) {
+					$job_category = $job_category[0];
+				} elseif ( empty( $job_category ) ) {
+					$job_category = '';
+				}
+			}
+
 			$job_description = $data['description'];
 			$job_application = $data['app_contact'];
 
@@ -254,100 +266,115 @@
 
 		$gmap_key = JB()->options()->get( 'googlemaps-api-key' );
 
+		$job_details_fields = array(
+			array(
+				'type'     => 'text',
+				'label'    => __( 'Job Title', 'jobboardwp' ),
+				'id'       => 'job_title',
+				'required' => true,
+				'value'    => $job_title,
+			),
+			array(
+				'type'               => 'conditional_radio',
+				'label'              => __( 'Job Location', 'jobboardwp' ),
+				'id'                 => 'job_location_type',
+				'options'            => array(
+					'0' => __( 'Onsite', 'jobboardwp' ),
+					'1' => __( 'Remote', 'jobboardwp' ),
+					''  => __( 'Onsite or Remote', 'jobboardwp' ),
+				),
+				'condition_sections' => array(
+					'0' => array(
+						array(
+							'type'        => empty( $gmap_key ) ? 'text' : 'location_autocomplete',
+							'label'       => __( 'Location', 'jobboardwp' ),
+							'placeholder' => __( 'City, State, or Country', 'jobboardwp' ),
+							'name'        => 'job_location',
+							'id'          => 'job_location-0',
+							'value'       => $job_location,
+							'value_data'  => $job_location_data,
+							'required'    => true,
+						),
+					),
+					'1' => array(
+						array(
+							'type'        => empty( $gmap_key ) ? 'text' : 'location_autocomplete',
+							'label'       => __( 'Preferred Location', 'jobboardwp' ),
+							'placeholder' => __( 'City, State, or Country', 'jobboardwp' ),
+							'name'        => 'job_location',
+							'id'          => 'job_location-1',
+							'value'       => $job_location,
+							'value_data'  => $job_location_data,
+						),
+					),
+					''  => array(
+						array(
+							'type'        => empty( $gmap_key ) ? 'text' : 'location_autocomplete',
+							'label'       => __( 'Preferred Location', 'jobboardwp' ),
+							'placeholder' => __( 'City, State, or Country', 'jobboardwp' ),
+							'name'        => 'job_location',
+							'id'          => 'job_location-',
+							'value'       => $job_location,
+							'value_data'  => $job_location_data,
+						),
+					),
+				),
+				'value'              => $job_location_type,
+			),
+			array(
+				'type'     => 'select',
+				'label'    => __( 'Job Type', 'jobboardwp' ),
+				'id'       => 'job_type',
+				'class'    => 'jb-s2',
+				'options'  => $types_options,
+				'value'    => $job_type,
+				'required' => ! empty( JB()->options()->get( 'required-job-type' ) ) ? true : false,
+			),
+		);
+		if ( JB()->options()->get( 'job-categories' ) ) {
+			$job_details_fields = array_merge(
+				$job_details_fields,
+				array(
+					array(
+						'type'    => 'select',
+						'label'   => __( 'Job Category', 'jobboardwp' ),
+						'id'      => 'job_category',
+						'class'   => 'jb-s2',
+						'options' => $categories_options,
+						'value'   => $job_category,
+					),
+				)
+			);
+		}
+
+		$job_details_fields = array_merge(
+			$job_details_fields,
+			array(
+				array(
+					'type'     => 'wp_editor',
+					'label'    => __( 'Description', 'jobboardwp' ),
+					'id'       => 'job_description',
+					'value'    => $job_description,
+					'required' => true,
+				),
+				array(
+					'type'        => 'text',
+					'label'       => __( 'Application Contact', 'jobboardwp' ),
+					'id'          => 'job_application',
+					'required'    => true,
+					'value'       => $job_application,
+					'placeholder' => __( 'Enter an email address or website URL', 'jobboardwp' ),
+					'validation'  => $app_validation,
+				),
+			)
+		);
+
 		$sections = array_merge(
 			$sections,
 			array(
 				'job-details'     => array(
 					'title'  => __( 'Job Details', 'jobboardwp' ),
-					'fields' => array(
-						array(
-							'type'     => 'text',
-							'label'    => __( 'Job Title', 'jobboardwp' ),
-							'id'       => 'job_title',
-							'required' => true,
-							'value'    => $job_title,
-						),
-						array(
-							'type'               => 'conditional_radio',
-							'label'              => __( 'Job Location', 'jobboardwp' ),
-							'id'                 => 'job_location_type',
-							'options'            => array(
-								'0' => __( 'Onsite', 'jobboardwp' ),
-								'1' => __( 'Remote', 'jobboardwp' ),
-								''  => __( 'Onsite or Remote', 'jobboardwp' ),
-							),
-							'condition_sections' => array(
-								'0' => array(
-									array(
-										'type'        => empty( $gmap_key ) ? 'text' : 'location_autocomplete',
-										'label'       => __( 'Location', 'jobboardwp' ),
-										'placeholder' => __( 'City, State, or Country', 'jobboardwp' ),
-										'name'        => 'job_location',
-										'id'          => 'job_location-0',
-										'value'       => $job_location,
-										'value_data'  => $job_location_data,
-										'required'    => true,
-									),
-								),
-								'1' => array(
-									array(
-										'type'        => empty( $gmap_key ) ? 'text' : 'location_autocomplete',
-										'label'       => __( 'Preferred Location', 'jobboardwp' ),
-										'placeholder' => __( 'City, State, or Country', 'jobboardwp' ),
-										'name'        => 'job_location',
-										'id'          => 'job_location-1',
-										'value'       => $job_location,
-										'value_data'  => $job_location_data,
-									),
-								),
-								''  => array(
-									array(
-										'type'        => empty( $gmap_key ) ? 'text' : 'location_autocomplete',
-										'label'       => __( 'Preferred Location', 'jobboardwp' ),
-										'placeholder' => __( 'City, State, or Country', 'jobboardwp' ),
-										'name'        => 'job_location',
-										'id'          => 'job_location-',
-										'value'       => $job_location,
-										'value_data'  => $job_location_data,
-									),
-								),
-							),
-							'value'              => $job_location_type,
-						),
-						array(
-							'type'     => 'select',
-							'label'    => __( 'Job Type', 'jobboardwp' ),
-							'id'       => 'job_type',
-							'class'    => 'jb-s2',
-							'options'  => $types_options,
-							'value'    => $job_type,
-							'required' => ! empty( JB()->options()->get( 'required-job-type' ) ) ? true : false,
-						),
-						array(
-							'type'    => 'select',
-							'label'   => __( 'Job Category', 'jobboardwp' ),
-							'id'      => 'job_category',
-							'class'   => 'jb-s2',
-							'options' => $categories_options,
-							'value'   => $job_category,
-						),
-						array(
-							'type'     => 'wp_editor',
-							'label'    => __( 'Description', 'jobboardwp' ),
-							'id'       => 'job_description',
-							'value'    => $job_description,
-							'required' => true,
-						),
-						array(
-							'type'        => 'text',
-							'label'       => __( 'Application Contact', 'jobboardwp' ),
-							'id'          => 'job_application',
-							'required'    => true,
-							'value'       => $job_application,
-							'placeholder' => __( 'Enter an email address or website URL', 'jobboardwp' ),
-							'validation'  => $app_validation,
-						),
-					),
+					'fields' => $job_details_fields,
 				),
 				'company-details' => array(
 					'title'  => __( 'Company Details', 'jobboardwp' ),
