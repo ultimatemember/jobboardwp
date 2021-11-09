@@ -2,12 +2,18 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+if ( ! defined( 'JB_PATH' ) ) {
+	define( 'JB_PATH', plugin_dir_path( __FILE__ ) );
+}
+if ( ! defined( 'JB_URL' ) ) {
+	define( 'JB_URL', plugin_dir_url( __FILE__ ) );
+}
+if ( ! defined( 'JB_PLUGIN' ) ) {
+	define( 'JB_PLUGIN', plugin_basename( __FILE__ ) );
+}
 
-delete_option( 'jb_last_version_upgrade' );
-delete_option( 'jb_first_activation_date' );
-delete_option( 'jb_version' );
-delete_option( 'jb_flush_rewrite_rules' );
-delete_option( 'jb_hidden_admin_notices' );
+require_once 'includes/class-jb-functions.php';
+require_once 'includes/class-jb.php';
 
 if ( JB()->options()->get( 'uninstall-delete-settings' ) ) {
 
@@ -17,21 +23,11 @@ if ( JB()->options()->get( 'uninstall-delete-settings' ) ) {
 		JB()->options()->delete( $k );
 	}
 
-	//remove core pages
-	foreach ( JB()->config()->get( 'core_pages' ) as $slug => $array ) {
-		$page_id = JB()->options()->get( $slug . '_page' );
-		if ( ! empty( $page_id ) ) {
-			wp_delete_post( $page_id, true );
-		}
-	}
-
-	//delete UM Custom Post Types posts
+	//delete job posts
 	$jb_posts = get_posts(
 		array(
-			'post_type'   => array(
-				'jb-job',
-			),
-			'post_status' => array( 'publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash' ),
+			'post_type'   => 'jb-job',
+			'post_status' => array( 'any' ),
 			'numberposts' => -1,
 		)
 	);
@@ -43,13 +39,42 @@ if ( JB()->options()->get( 'uninstall-delete-settings' ) ) {
 	global $wpdb;
 	$wpdb->query(
 		"DELETE 
-        FROM {$wpdb->usermeta} 
-        WHERE meta_key LIKE 'jb_%'"
+        FROM {$wpdb->usermeta}
+        WHERE meta_key LIKE 'jb_company%'"
+	);
+
+	// remove options
+	$wpdb->query(
+		"DELETE 
+        FROM {$wpdb->options}
+        WHERE option_name LIKE 'jb_%'"
+	);
+
+	// remove termmeta
+	$wpdb->query(
+		"DELETE 
+        FROM {$wpdb->termmeta}
+        WHERE meta_key LIKE 'jb-%'"
+	);
+
+	// remove term_taxonomy
+	$wpdb->query(
+		"DELETE 
+        FROM {$wpdb->term_taxonomy}
+        WHERE taxonomy LIKE 'jb-job-%'"
 	);
 
 	// remove uploads
+	global $wp_filesystem;
+	if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
+		/** @noinspection PhpIncludeInspection */
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+
+		$credentials = request_filesystem_credentials( site_url() );
+		\WP_Filesystem( $credentials );
+	}
 	$jb_dir = JB()->common()->filesystem()->get_upload_dir( 'jobboardwp' );
-	if ( file_exists( $jb_dir ) ) {
-		rmdir( $jb_dir );
+	if ( ! $wp_filesystem->is_dir( $this->temp_upload_dir ) ) {
+		$wp_filesystem->delete( $jb_dir, true );
 	}
 }
