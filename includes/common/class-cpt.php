@@ -119,7 +119,7 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 				'jb-job-type' => array(
 					'post_types' => array( 'jb-job' ),
 					'tax_args'   => array(
-						'labels'       => array(
+						'labels'             => array(
 							'name'                       => __( 'Job Types', 'jobboardwp' ),
 							'singular_name'              => __( 'Job Type', 'jobboardwp' ),
 							'menu_name'                  => _x( 'Job Types', 'Admin menu name', 'jobboardwp' ),
@@ -137,22 +137,24 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 							'parent_item'                => __( 'Parent Type', 'jobboardwp' ),
 							'parent_item_colon'          => __( 'Parent Type:', 'jobboardwp' ),
 						),
-						'hierarchical' => true,
-						'label'        => __( 'Job Types', 'jobboardwp' ),
-						'show_ui'      => true,
-						'show_in_menu' => false,
-						'query_var'    => true,
-						'capabilities' => array(
+						'hierarchical'       => true,
+						'label'              => __( 'Job Types', 'jobboardwp' ),
+						'show_ui'            => true,
+						'show_in_quick_edit' => false,
+						'meta_box_cb'        => false,
+						'show_in_menu'       => false,
+						'query_var'          => true,
+						'capabilities'       => array(
 							'manage_terms' => 'manage_jb-job-types',
 							'edit_terms'   => 'edit_jb-job-types',
 							'delete_terms' => 'delete_jb-job-types',
 							'assign_terms' => 'edit_jb-job-types',
 						),
-						'rewrite'      => array(
+						'rewrite'            => array(
 							'slug'       => $type_slug,
 							'with_front' => true,
 						),
-						'show_in_rest' => true,
+						'show_in_rest'       => false,
 					),
 				),
 			);
@@ -163,7 +165,7 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 				$taxonomies['jb-job-category'] = array(
 					'post_types' => array( 'jb-job' ),
 					'tax_args'   => array(
-						'labels'       => array(
+						'labels'             => array(
 							'name'                       => __( 'Job Categories', 'jobboardwp' ),
 							'singular_name'              => __( 'Job Category', 'jobboardwp' ),
 							'menu_name'                  => _x( 'Job Categories', 'Admin menu name', 'jobboardwp' ),
@@ -181,22 +183,24 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 							'parent_item'                => __( 'Parent Category', 'jobboardwp' ),
 							'parent_item_colon'          => __( 'Parent Category:', 'jobboardwp' ),
 						),
-						'hierarchical' => true,
-						'label'        => __( 'Job Categories', 'jobboardwp' ),
-						'show_ui'      => true,
-						'show_in_menu' => false,
-						'query_var'    => true,
-						'capabilities' => array(
+						'hierarchical'       => true,
+						'label'              => __( 'Job Categories', 'jobboardwp' ),
+						'show_ui'            => true,
+						'show_in_quick_edit' => false,
+						'meta_box_cb'        => false,
+						'show_in_menu'       => false,
+						'query_var'          => true,
+						'capabilities'       => array(
 							'manage_terms' => 'manage_jb-job-categories',
 							'edit_terms'   => 'edit_jb-job-categories',
 							'delete_terms' => 'delete_jb-job-categories',
 							'assign_terms' => 'edit_jb-job-categories',
 						),
-						'rewrite'      => array(
+						'rewrite'            => array(
 							'slug'       => $category_slug,
 							'with_front' => false,
 						),
-						'show_in_rest' => true,
+						'show_in_rest'       => false,
 					),
 				);
 			}

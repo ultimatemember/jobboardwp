@@ -928,6 +928,10 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 								'value' => false,
 							),
 							array(
+								'key'   => 'jb-is-filled',
+								'value' => 0,
+							),
+							array(
 								'key'     => 'jb-is-filled',
 								'compare' => 'NOT EXISTS',
 							),

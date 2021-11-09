@@ -194,6 +194,11 @@
                 margin: 0 5px 5px 0; }
                 .jb .jb-form .jb-form-row .jb-form-field-content .select2-container .select2-selection ul li.select2-search input {
                   margin-top: 0; }
+            .jb .jb-form .jb-form-row .jb-form-field-content .select2-container .select2-selection .select2-selection__rendered {
+              width: 100%; }
+              .jb .jb-form .jb-form-row .jb-form-field-content .select2-container .select2-selection .select2-selection__rendered .select2-selection__clear {
+                font-size: 25px;
+                font-weight: 300 !important; }
       .jb .jb-form .jb-form-row.jb-form-error-row input, .jb .jb-form .jb-form-row.jb-form-error-row textarea, .jb .jb-form .jb-form-row.jb-form-error-row .wp-editor-wrap {
         border: 1px solid #c72f38; }
       .jb .jb-form .jb-form-row.jb-form-error-row .jb-form-field-error {

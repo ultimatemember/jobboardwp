@@ -19,6 +19,8 @@ $expiry_date       = '';
 $location_type     = '0';
 $author            = get_current_user_id();
 $job_location_data = '';
+$job_type          = '';
+$job_category      = '';
 
 $users = array(
 	'0' => __( 'Guest', 'jobboardwp' ),
@@ -34,6 +36,21 @@ foreach ( $users_query as $user ) {
 	$users[ $user->ID ] = $user->display_name;
 }
 
+$types = get_terms(
+	array(
+		'taxonomy'   => 'jb-job-type',
+		'hide_empty' => false,
+	)
+);
+
+$types_options = array();
+if ( empty( JB()->options()->get( 'required-job-type' ) ) ) {
+	$types_options[''] = __( '(None)', 'jobboardwp' );
+}
+foreach ( $types as $t ) {
+	$types_options[ $t->term_id ] = $t->name;
+}
+
 if ( $post_id ) {
 	$location_type = get_post_meta( $post_id, 'jb-location-type', true );
 	$location      = get_post_meta( $post_id, 'jb-location', true );
@@ -47,7 +64,57 @@ if ( $post_id ) {
 	$company_twitter   = get_post_meta( $post_id, 'jb-company-twitter', true );
 	$company_facebook  = get_post_meta( $post_id, 'jb-company-facebook', true );
 	$company_instagram = get_post_meta( $post_id, 'jb-company-instagram', true );
-	$is_filled         = get_post_meta( $post_id, 'jb-is-filled', true );
+	$is_filled         = JB()->common()->job()->is_filled( $post_id );
+	$job_type          = '';
+	$job_category      = '';
+
+	// workaround on the submission form because Job Type isn't multiple dropdown
+	$types = wp_get_post_terms(
+		$post_id,
+		'jb-job-type',
+		array(
+			'orderby' => 'name',
+			'order'   => 'ASC',
+			'fields'  => 'ids',
+		)
+	);
+
+	if ( empty( $types ) || is_wp_error( $types ) ) {
+		$job_type = array();
+	} else {
+		$job_type = $types;
+	}
+
+	if ( 1 === count( $job_type ) ) {
+		$job_type = $job_type[0];
+	} elseif ( empty( $job_type ) ) {
+		$job_type = '';
+	}
+
+	if ( JB()->options()->get( 'job-categories' ) ) {
+		$categories = wp_get_post_terms(
+			$post_id,
+			'jb-job-category',
+			array(
+				'orderby' => 'name',
+				'order'   => 'ASC',
+				'fields'  => 'ids',
+			)
+		);
+
+		if ( empty( $categories ) || is_wp_error( $categories ) ) {
+			$job_category = array();
+		} else {
+			$job_category = $categories;
+		}
+
+		// workaround on the submission form because Job Category isn't multiple dropdown
+		if ( 1 === count( $job_category ) ) {
+			$job_category = $job_category[0];
+		} elseif ( empty( $job_category ) ) {
+			$job_category = '';
+		}
+	}
 
 	$job = get_post( $post_id );
 
@@ -56,24 +123,65 @@ if ( $post_id ) {
 	$expiry_date = JB()->common()->job()->get_expiry_date_raw( $post_id );
 }
 
-$fields = apply_filters(
-	'jb_job_data',
+$job_details_fields = array(
 	array(
+		'id'      => 'jb-author',
+		'type'    => 'select',
+		'label'   => __( 'Posted by', 'jobboardwp' ),
+		'options' => $users,
+		'value'   => $author,
+	),
+	array(
+		'id'          => 'jb-application-contact',
+		'type'        => 'text',
+		'label'       => __( 'Application contact', 'jobboardwp' ),
+		'description' => __( 'It\'s required email or URL for the "application" area.', 'jobboardwp' ),
+		'value'       => $app_contact,
+		'required'    => true,
+	),
+	array(
+		'type'     => 'select',
+		'label'    => __( 'Job Type', 'jobboardwp' ),
+		'id'       => 'jb-job-type',
+		'options'  => $types_options,
+		'value'    => $job_type,
+		'required' => ! empty( JB()->options()->get( 'required-job-type' ) ) ? true : false,
+		'size'     => 'medium',
+	),
+);
+
+if ( JB()->options()->get( 'job-categories' ) ) {
+	$categories_options = array();
+	$categories         = get_terms(
 		array(
-			'id'      => 'jb-author',
-			'type'    => 'select',
-			'label'   => __( 'Posted by', 'jobboardwp' ),
-			'options' => $users,
-			'value'   => $author,
-		),
+			'taxonomy'   => 'jb-job-category',
+			'hide_empty' => false,
+		)
+	);
+
+	$categories_options[''] = __( '(None)', 'jobboardwp' );
+	foreach ( $categories as $category ) {
+		$categories_options[ $category->term_id ] = $category->name;
+	}
+
+	$job_details_fields = array_merge(
+		$job_details_fields,
 		array(
-			'id'          => 'jb-application-contact',
-			'type'        => 'text',
-			'label'       => __( 'Application contact', 'jobboardwp' ),
-			'description' => __( 'It\'s required email or URL for the "application" area.', 'jobboardwp' ),
-			'value'       => $app_contact,
-			'required'    => true,
-		),
+			array(
+				'type'    => 'select',
+				'label'   => __( 'Job Category', 'jobboardwp' ),
+				'id'      => 'jb-job-category',
+				'size'    => 'medium',
+				'options' => $categories_options,
+				'value'   => $job_category,
+			),
+		)
+	);
+}
+
+$job_details_fields = array_merge(
+	$job_details_fields,
+	array(
 		array(
 			'id'      => 'jb-location-type',
 			'type'    => 'select',
@@ -103,6 +211,7 @@ $fields = apply_filters(
 			'description' => __( 'Leave this blank if location is not important.', 'jobboardwp' ),
 			'value'       => $location,
 			'conditional' => array( 'jb-location-type', '!=', '0' ),
+			'value_data'  => $job_location_data,
 		),
 		array(
 			'id'       => 'jb-company-name',
@@ -157,6 +266,8 @@ $fields = apply_filters(
 		),
 	)
 );
+
+$fields = apply_filters( 'jb_job_details_metabox_fields', $job_details_fields );
 
 JB()->admin()->forms(
 	array(

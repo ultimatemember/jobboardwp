@@ -2,12 +2,13 @@ jQuery( document ).ready( function($) {
 
 	if ( typeof( $.fn.select2 ) === "function" ) {
 		$(".jb-s1").select2({
-			allowClear: true
+			allowClear: true,
+			placeholder: jQuery(this).data('placeholder')
 		});
 
 		$(".jb-s2").select2({
 			allowClear: false,
-			placeholder: wp.i18n.__( 'Please select...', 'jobboardwp' )
+			placeholder: jQuery(this).data('placeholder')
 		});
 	}
 

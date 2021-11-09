@@ -245,7 +245,6 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				);
 			} else {
 				// regular logic
-
 				if ( ! empty( $_POST['hide_filled'] ) ) {
 					if ( ! isset( $query_args['meta_query'] ) ) {
 						$query_args['meta_query'] = array();

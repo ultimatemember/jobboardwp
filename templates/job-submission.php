@@ -42,6 +42,7 @@
 				)
 			);
 
+			$categories_options[''] = __( '(None)', 'jobboardwp' );
 			foreach ( $categories as $category ) {
 				$categories_options[ $category->term_id ] = $category->name;
 			}
@@ -324,8 +325,11 @@
 			array(
 				'type'     => 'select',
 				'label'    => __( 'Job Type', 'jobboardwp' ),
+				'data'     => array(
+					'placeholder' => __( 'Please select job type', 'jobboardwp' ),
+				),
 				'id'       => 'job_type',
-				'class'    => 'jb-s2',
+				'class'    => ! empty( JB()->options()->get( 'required-job-type' ) ) ? 'jb-s2' : 'jb-s1',
 				'options'  => $types_options,
 				'value'    => $job_type,
 				'required' => ! empty( JB()->options()->get( 'required-job-type' ) ) ? true : false,
@@ -338,8 +342,11 @@
 					array(
 						'type'    => 'select',
 						'label'   => __( 'Job Category', 'jobboardwp' ),
+						'data'    => array(
+							'placeholder' => __( 'Please select job category', 'jobboardwp' ),
+						),
 						'id'      => 'job_category',
-						'class'   => 'jb-s2',
+						'class'   => 'jb-s1',
 						'options' => $categories_options,
 						'value'   => $job_category,
 					),

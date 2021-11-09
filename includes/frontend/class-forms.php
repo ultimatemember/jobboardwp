@@ -727,6 +727,9 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$class_attr = ' class="jb-forms-field' . esc_attr( $class ) . '" ';
 
 			$data = array( 'field_id' => $field_data['id'] );
+			$data = ! empty( $field_data['data'] ) ? array_merge( $data, $field_data['data'] ) : $data;
+
+			$data['placeholder'] = ! empty( $data['placeholder'] ) ? $data['placeholder'] : __( 'Please select...', 'jobboardwp' );
 
 			$data_attr = '';
 			foreach ( $data as $key => $value ) {
