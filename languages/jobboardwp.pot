@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-11-09T13:19:38+00:00\n"
+"POT-Creation-Date: 2021-11-09T13:41:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: jobboardwp\n"
@@ -841,8 +841,8 @@ msgstr ""
 #: includes/ajax/class-jobs.php:685
 #: includes/ajax/class-jobs.php:730
 #: includes/frontend/class-actions-listener.php:714
-#: includes/frontend/class-actions-listener.php:807
-#: includes/frontend/class-actions-listener.php:821
+#: includes/frontend/class-actions-listener.php:811
+#: includes/frontend/class-actions-listener.php:825
 #: includes/frontend/class-shortcodes.php:118
 #: includes/frontend/class-shortcodes.php:139
 #: includes/frontend/class-shortcodes.php:156
@@ -1578,7 +1578,7 @@ msgid "Please use another username"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:397
-#: includes/frontend/class-actions-listener.php:811
+#: includes/frontend/class-actions-listener.php:815
 msgid "Security issue, Please try again"
 msgstr ""
 
@@ -1669,11 +1669,11 @@ msgstr ""
 msgid "Job submission issue, Please try again"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:815
+#: includes/frontend/class-actions-listener.php:819
 msgid "Wrong action, Please try again"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:830
+#: includes/frontend/class-actions-listener.php:834
 msgid "Security action, Please try again."
 msgstr ""
 
