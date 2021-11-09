@@ -925,6 +925,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									$url = add_query_arg( array( 'msg' => 'on-moderation' ), $job_post_page_url );
 								} elseif ( ! empty( $is_edited ) && 1 === (int) JB()->options()->get( 'published-job-editing' ) && ! current_user_can( 'administrator' ) ) {
 									$url = add_query_arg( array( 'msg' => 'on-moderation' ), $job_post_page_url );
+								} elseif ( ! empty( $is_edited ) && 2 === (int) JB()->options()->get( 'published-job-editing' ) && ! empty( $was_pending ) && ! current_user_can( 'administrator' ) ) {
+									$url = add_query_arg( array( 'msg' => 'on-moderation' ), $job_post_page_url );
 								} else {
 									$url = add_query_arg(
 										array(
