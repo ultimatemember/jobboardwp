@@ -66,15 +66,6 @@ if ( JB()->options()->get( 'uninstall-delete-settings' ) ) {
 
 	// remove uploads
 	global $wp_filesystem;
-	if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
-		/** @noinspection PhpIncludeInspection */
-		require_once ABSPATH . 'wp-admin/includes/file.php';
-
-		$credentials = request_filesystem_credentials( site_url() );
-		\WP_Filesystem( $credentials );
-	}
 	$jb_dir = JB()->common()->filesystem()->get_upload_dir( 'jobboardwp' );
-	if ( ! $wp_filesystem->is_dir( $this->temp_upload_dir ) ) {
-		$wp_filesystem->delete( $jb_dir, true );
-	}
+	$wp_filesystem->delete( $jb_dir, true );
 }
