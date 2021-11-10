@@ -216,7 +216,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			$employer = ! empty( $_POST['employer'] ) ? absint( $_POST['employer'] ) : '';
 			if ( ! empty( $employer ) ) {
-				$query_args['post_author'] = $employer;
+				$query_args['author'] = $employer;
 			}
 
 			$statuses = array( 'publish' );
