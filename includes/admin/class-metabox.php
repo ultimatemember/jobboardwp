@@ -279,9 +279,19 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 						$v = json_decode( stripslashes( $v ) );
 
 						update_post_meta( $post_id, 'jb-location-raw-data', $v );
-						update_post_meta( $post_id, 'jb-location-lat', sanitize_text_field( $v->geometry->location->lat ) );
-						update_post_meta( $post_id, 'jb-location-long', sanitize_text_field( $v->geometry->location->lng ) );
-						update_post_meta( $post_id, 'jb-location-formatted-address', sanitize_text_field( $v->formatted_address ) );
+
+						if ( isset( $v->geometry ) && isset( $v->geometry->location ) ) {
+							if ( isset( $v->geometry->location->lat ) ) {
+								update_post_meta( $post_id, 'jb-location-lat', sanitize_text_field( $v->geometry->location->lat ) );
+							}
+							if ( isset( $v->geometry->location->lng ) ) {
+								update_post_meta( $post_id, 'jb-location-long', sanitize_text_field( $v->geometry->location->lng ) );
+							}
+						}
+
+						if ( isset( $v->formatted_address ) ) {
+							update_post_meta( $post_id, 'jb-location-formatted-address', sanitize_text_field( $v->formatted_address ) );
+						}
 
 						if ( ! empty( $v->address_components ) ) {
 							$address_data = $v->address_components;

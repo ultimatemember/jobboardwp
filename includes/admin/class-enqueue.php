@@ -28,6 +28,9 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 
 			add_action( 'admin_enqueue_scripts', array( &$this, 'admin_scripts' ), 11 );
 			add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_gmap' ), 10 );
+
+			add_action( 'load-post.php', array( &$this, 'maybe_job_page' ) );
+			add_action( 'load-post-new.php', array( &$this, 'maybe_job_page' ) );
 		}
 
 
@@ -107,11 +110,36 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 
 			wp_enqueue_script( 'jb-global' );
 
+			wp_register_script(
+				'jb-validation',
+				$this->js_url['admin'] . 'validation' . JB()->scrips_prefix . '.js',
+				array( 'jquery' ),
+				JB_VERSION,
+				true
+			);
+
 			if ( JB()->admin()->is_own_screen() ) {
 				wp_enqueue_script( 'jb-forms' );
 				wp_enqueue_style( 'jb-forms' );
 			}
 		}
 
+
+		/**
+		 *
+		 */
+		public function maybe_job_page() {
+			add_action( 'admin_enqueue_scripts', array( &$this, 'validation_scripts' ), 13 );
+		}
+
+
+		/**
+		 *
+		 */
+		public function validation_scripts() {
+			if ( JB()->admin()->is_own_post_type() ) {
+				wp_enqueue_script( 'jb-validation' );
+			}
+		}
 	}
 }
