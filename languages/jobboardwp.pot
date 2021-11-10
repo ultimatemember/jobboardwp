@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-11-09T13:41:05+00:00\n"
+"POT-Creation-Date: 2021-11-10T12:36:03+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: jobboardwp\n"
@@ -1480,35 +1480,35 @@ msgstr ""
 msgid "Mark as un-filled"
 msgstr ""
 
-#: includes/common/class-mail.php:332
+#: includes/common/class-mail.php:342
 msgid "Job Title:"
 msgstr ""
 
-#: includes/common/class-mail.php:333
+#: includes/common/class-mail.php:343
 msgid "Description:"
 msgstr ""
 
-#: includes/common/class-mail.php:334
+#: includes/common/class-mail.php:344
 msgid "Posted by:"
 msgstr ""
 
-#: includes/common/class-mail.php:335
+#: includes/common/class-mail.php:345
 msgid "Application Contact:"
 msgstr ""
 
-#: includes/common/class-mail.php:336
+#: includes/common/class-mail.php:346
 msgid "Location:"
 msgstr ""
 
-#: includes/common/class-mail.php:337
+#: includes/common/class-mail.php:347
 msgid "Company name:"
 msgstr ""
 
-#: includes/common/class-mail.php:338
+#: includes/common/class-mail.php:348
 msgid "Company website:"
 msgstr ""
 
-#: includes/common/class-mail.php:339
+#: includes/common/class-mail.php:349
 msgid "Company tagline:"
 msgstr ""
 
