@@ -354,6 +354,13 @@
 			);
 		}
 
+		$job_application_placeholder = __( 'Enter an email address or website URL', 'jobboardwp' );
+		if ( 'email' === JB()->options()->get( 'application-method' ) ) {
+			$job_application_placeholder = __( 'Enter an email address', 'jobboardwp' );
+		} elseif ( 'url' === JB()->options()->get( 'application-method' ) ) {
+			$job_application_placeholder = __( 'Enter a website URL', 'jobboardwp' );
+		}
+
 		$job_details_fields = array_merge(
 			$job_details_fields,
 			array(
@@ -370,7 +377,7 @@
 					'id'          => 'job_application',
 					'required'    => true,
 					'value'       => $job_application,
-					'placeholder' => __( 'Enter an email address or website URL', 'jobboardwp' ),
+					'placeholder' => $job_application_placeholder,
 					'validation'  => $app_validation,
 				),
 			)

@@ -457,7 +457,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									if ( ! strstr( $app_contact, 'http:' ) && ! strstr( $app_contact, 'https:' ) ) {
 										$app_contact = 'http://' . $app_contact;
 									}
-									if ( ! filter_var( $app_contact, FILTER_VALIDATE_URL ) ) {
+									if ( ! filter_var( $app_contact, FILTER_VALIDATE_URL ) || is_email( $app_contact ) ) {
 										$posting_form->add_error( 'job_application', __( 'Job application must be an URL', 'jobboardwp' ) );
 									}
 									break;
