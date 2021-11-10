@@ -136,6 +136,10 @@ if ( ! class_exists( 'jb\Config' ) ) {
 				$this->defaults[ $key . '_on' ]  = ! empty( $notification['default_active'] );
 				$this->defaults[ $key . '_sub' ] = $notification['subject'];
 			}
+
+			foreach ( $this->get( 'core_pages' ) as $slug => $array ) {
+				$this->defaults[ $slug . '_page' ] = '';
+			}
 		}
 
 
