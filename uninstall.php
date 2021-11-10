@@ -67,8 +67,8 @@ if ( JB()->options()->get( 'uninstall-delete-settings' ) ) {
 		)
 	);
 	if ( ! empty( $types ) && ! is_wp_error( $types ) ) {
-		foreach ( $types as $type ) {
-			wp_delete_term( $type->term_id, 'jb-job-type' );
+		foreach ( $types as $t ) {
+			wp_delete_term( $t->term_id, 'jb-job-type' );
 		}
 	}
 

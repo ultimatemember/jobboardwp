@@ -3,7 +3,7 @@ name: Generate POT file
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   WP_Generate_POT_File:
