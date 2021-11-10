@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-11-10T20:15:53+00:00\n"
+"POT-Creation-Date: 2021-11-10T21:47:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: jobboardwp\n"
@@ -204,7 +204,7 @@ msgid "Dashboard"
 msgstr ""
 
 #: includes/admin/class-menu.php:87
-#: includes/class-config.php:263
+#: includes/class-config.php:267
 #: includes/common/class-cpt.php:60
 #: templates/job-categories.php:15
 #: templates/js/job-categories-list.php:19
@@ -877,51 +877,51 @@ msgstr ""
 msgid "Thank you for submitting your job. It will be appear on the website once approved."
 msgstr ""
 
-#: includes/class-config.php:151
+#: includes/class-config.php:155
 msgid "Employer"
 msgstr ""
 
-#: includes/class-config.php:267
+#: includes/class-config.php:271
 msgid "Post Job"
 msgstr ""
 
-#: includes/class-config.php:271
+#: includes/class-config.php:275
 msgid "Jobs Dashboard"
 msgstr ""
 
-#: includes/class-config.php:290
+#: includes/class-config.php:294
 msgid "Job submitted"
 msgstr ""
 
-#: includes/class-config.php:291
+#: includes/class-config.php:295
 msgid "New Job Submission - {site_name}"
 msgstr ""
 
-#: includes/class-config.php:292
+#: includes/class-config.php:296
 msgid "Whether to send the admin an email when new job is posted on website."
 msgstr ""
 
-#: includes/class-config.php:298
+#: includes/class-config.php:302
 msgid "Job listing approved"
 msgstr ""
 
-#: includes/class-config.php:299
+#: includes/class-config.php:303
 msgid "Job listing is now live - {site_name}"
 msgstr ""
 
-#: includes/class-config.php:300
+#: includes/class-config.php:304
 msgid "Whether to send the job's author an email when job is approved."
 msgstr ""
 
-#: includes/class-config.php:306
+#: includes/class-config.php:310
 msgid "Job has been edited"
 msgstr ""
 
-#: includes/class-config.php:307
+#: includes/class-config.php:311
 msgid "A job listing has been edited - {site_name}"
 msgstr ""
 
-#: includes/class-config.php:308
+#: includes/class-config.php:312
 msgid "Whether to send the admin an email when new job is edited on website."
 msgstr ""
 
