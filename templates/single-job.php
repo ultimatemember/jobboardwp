@@ -20,7 +20,13 @@ if ( ! empty( $jb_single_job['id'] ) ) {
 				<?php } ?>
 			</div>
 
-			<?php JB()->get_template_part( 'job/info', array( 'job_id' => $job_id ) ); ?>
+			<?php
+			if ( JB()->options()->get( 'job-breadcrumbs' ) ) {
+				JB()->get_template_part( 'job/breadcrumbs', array( 'job_id' => $job_id ) );
+			}
+
+			JB()->get_template_part( 'job/info', array( 'job_id' => $job_id ) );
+			?>
 		</div>
 
 		<?php

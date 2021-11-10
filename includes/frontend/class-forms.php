@@ -727,6 +727,9 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$class_attr = ' class="jb-forms-field' . esc_attr( $class ) . '" ';
 
 			$data = array( 'field_id' => $field_data['id'] );
+			$data = ! empty( $field_data['data'] ) ? array_merge( $data, $field_data['data'] ) : $data;
+
+			$data['placeholder'] = ! empty( $data['placeholder'] ) ? $data['placeholder'] : __( 'Please select...', 'jobboardwp' );
 
 			$data_attr = '';
 			foreach ( $data as $key => $value ) {
@@ -750,9 +753,11 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 							$value = array();
 						}
 
-						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( in_array( $key, $value, true ), true, false ) . '>' . esc_html( $option ) . '</option>';
+						$value = array_map( 'strval', $value );
+
+						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( in_array( (string) $key, $value, true ), true, false ) . '>' . esc_html( $option ) . '</option>';
 					} else {
-						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( (string) $key === $value, true, false ) . '>' . esc_html( $option ) . '</option>';
+						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( $value, $key, false ) . '>' . esc_html( $option ) . '</option>';
 					}
 				}
 			}

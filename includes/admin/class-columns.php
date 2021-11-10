@@ -533,18 +533,43 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				$wp->set( 'author__not_in', $users );
 			}
 
-			$is_filled  = isset( $_GET['jb-is-filled'] ) && '' !== $_GET['jb-is-filled'] ? (bool) $_GET['jb-is-filled'] : false; // phpcs:ignore WordPress.Security.NonceVerification -- just get filled status
+			$is_filled  = isset( $_GET['jb-is-filled'] ) && '' !== $_GET['jb-is-filled'] ? (bool) $_GET['jb-is-filled'] : ''; // phpcs:ignore WordPress.Security.NonceVerification -- just get filled status
 			$meta_query = $wp->get( 'meta_query' );
 			if ( ! is_array( $meta_query ) ) {
 				$meta_query = array();
 			}
 
 			// Filter on _filled meta.
-			if ( $is_filled ) {
-				$meta_query[] = array(
-					'key'   => 'jb-is-filled',
-					'value' => $is_filled,
-				);
+			if ( '' !== $is_filled ) {
+				if ( $is_filled ) {
+					$meta_query[] = array(
+						'relation' => 'OR',
+						array(
+							'key'   => 'jb-is-filled',
+							'value' => true,
+						),
+						array(
+							'key'   => 'jb-is-filled',
+							'value' => 1,
+						),
+					);
+				} else {
+					$meta_query[] = array(
+						'relation' => 'OR',
+						array(
+							'key'   => 'jb-is-filled',
+							'value' => false,
+						),
+						array(
+							'key'   => 'jb-is-filled',
+							'value' => 0,
+						),
+						array(
+							'key'     => 'jb-is-filled',
+							'compare' => 'NOT EXISTS',
+						),
+					);
+				}
 			}
 
 			// Set new meta query.

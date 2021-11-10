@@ -327,10 +327,20 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 		 * @since 1.0
 		 */
 		public function get_job_details( $job ) {
+			global $post;
+
 			$company_data = JB()->common()->job()->get_company_data( $job->ID );
 
-			$details = __( 'Job Title:', 'jobboardwp' ) . ' ' . $job->post_title . "\n\r" .
-			__( 'Description:', 'jobboardwp' ) . ' ' . $job->post_content . "\n\r" .
+			$temp_post = $post;
+			$post      = $job; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- is needed for getting correct job content
+
+			ob_start();
+			the_content();
+			$post_content = ob_get_clean();
+			$post         = $temp_post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- back to the original $post
+
+			$details = __( 'Job Title:', 'jobboardwp' ) . ' ' . get_the_title( $job ) . "\n\r" .
+			__( 'Description:', 'jobboardwp' ) . ' ' . $post_content . "\n\r" .
 			__( 'Posted by:', 'jobboardwp' ) . ' ' . JB()->common()->job()->get_job_author( $job->ID ) . "\n\r" .
 			__( 'Application Contact:', 'jobboardwp' ) . ' ' . get_post_meta( $job->ID, 'jb-application-contact', true ) . "\n\r" .
 			__( 'Location:', 'jobboardwp' ) . ' ' . JB()->common()->job()->get_location( $job->ID ) . "\n\r" .

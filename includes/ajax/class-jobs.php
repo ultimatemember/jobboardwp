@@ -216,7 +216,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			$employer = ! empty( $_POST['employer'] ) ? absint( $_POST['employer'] ) : '';
 			if ( ! empty( $employer ) ) {
-				$query_args['post_author'] = $employer;
+				$query_args['author'] = $employer;
 			}
 
 			$statuses = array( 'publish' );
@@ -245,7 +245,6 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				);
 			} else {
 				// regular logic
-
 				if ( ! empty( $_POST['hide_filled'] ) ) {
 					if ( ! isset( $query_args['meta_query'] ) ) {
 						$query_args['meta_query'] = array();

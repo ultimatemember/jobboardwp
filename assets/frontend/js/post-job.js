@@ -3,6 +3,10 @@ jQuery( document ).ready( function($) {
 		$(this).parents('.jb-form').find('input[name="jb-job-submission-step"]').val( $(this).data('action') );
 	});
 
+	$( document.body ).on('submit', '.jb-form', function() {
+		$(this).find('.jb-form-button').attr('disabled', true).prop('disabled', true);
+	});
+
 	$( document.body ).on( 'click', '#jb-show-login-form', function(e) {
 		var form = $('#jb-job-submission');
 

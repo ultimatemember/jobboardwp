@@ -1,3 +1,7 @@
+.jb .jb-job-breadcrumbs {
+  font-size: 14px;
+  padding: 0 0 15px 0; }
+
 .jb .jb-job-info {
   display: flex;
   flex-direction: column;

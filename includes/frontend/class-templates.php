@@ -54,8 +54,8 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 				// add scripts and styles, but later because wp_loaded is earlier
 				add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_single_job' ), 9999 );
 
-				add_filter( 'the_content', array( &$this, 'before_job_content' ) );
-				add_filter( 'the_content', array( &$this, 'after_job_content' ) );
+				add_filter( 'the_content', array( &$this, 'before_job_content' ), 99999 );
+				add_filter( 'the_content', array( &$this, 'after_job_content' ), 99999 );
 			}
 		}
 
@@ -90,6 +90,10 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 				<div class="jb">
 					<?php
 					do_action( 'jb_before_job_content', $post->ID );
+
+					if ( JB()->options()->get( 'job-breadcrumbs' ) ) {
+						JB()->get_template_part( 'job/breadcrumbs', array( 'job_id' => $post->ID ) );
+					}
 
 					JB()->get_template_part( 'job/notices', array( 'job_id' => $post->ID ) );
 					JB()->get_template_part( 'job/info', array( 'job_id' => $post->ID ) );
