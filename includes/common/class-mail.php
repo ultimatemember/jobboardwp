@@ -332,12 +332,12 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 			$company_data = JB()->common()->job()->get_company_data( $job->ID );
 
 			$temp_post = $post;
-			$post = $job;
+			$post      = $job; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- is needed for getting correct job content
 
 			ob_start();
 			the_content();
 			$post_content = ob_get_clean();
-			$post = $temp_post;
+			$post         = $temp_post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- back to the original $post
 
 			$details = __( 'Job Title:', 'jobboardwp' ) . ' ' . get_the_title( $job ) . "\n\r" .
 			__( 'Description:', 'jobboardwp' ) . ' ' . $post_content . "\n\r" .

@@ -54,8 +54,8 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 				// add scripts and styles, but later because wp_loaded is earlier
 				add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_single_job' ), 9999 );
 
-				add_filter( 'the_content', array( &$this, 'before_job_content' ) );
-				add_filter( 'the_content', array( &$this, 'after_job_content' ) );
+				add_filter( 'the_content', array( &$this, 'before_job_content' ), 99999 );
+				add_filter( 'the_content', array( &$this, 'after_job_content' ), 99999 );
 			}
 		}
 

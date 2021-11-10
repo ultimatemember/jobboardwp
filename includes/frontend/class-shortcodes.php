@@ -356,6 +356,15 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				return '';
 			}
 
+			$job = get_post( $atts['id'] );
+			if ( empty( $job ) || is_wp_error( $job ) ) {
+				return '';
+			}
+
+			if ( 'publish' !== $job->post_status ) {
+				return '';
+			}
+
 			$atts['default_template_replaced'] = false;
 			if ( JB()->frontend()->templates()->template_replaced ) {
 				$atts['default_template_replaced'] = true;
