@@ -318,7 +318,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 					'job_expiration_reminder' => array(
 						'key'            => 'job_expiration_reminder',
 						'title'          => __( 'Job expiration reminder', 'jobboardwp' ),
-						'subject'        => __( 'Your job will expire - {site_name} in {job_expiration_days} days', 'jobboardwp' ),
+						'subject'        => __( 'Your job will expire in {job_expiration_days} days - {site_name}', 'jobboardwp' ),
 						'description'    => __( 'Whether to send the job\'s author an email before job is expired.', 'jobboardwp' ),
 						'recipient'      => 'user',
 						'default_active' => true,

@@ -1048,6 +1048,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				);
 
 				if ( ! empty( $job_ids ) && ! is_wp_error( $job_ids ) ) {
+					$wp_timezone = wp_timezone();
+
 					foreach ( $job_ids as $job_id ) {
 						update_post_meta( $job_id, 'jb-is-expiration-reminded', true );
 
@@ -1056,13 +1058,31 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 							continue;
 						}
 
+						$time = $this->get_expiry_date_raw( $job_id );
+						if ( empty( $time ) || '0000-00-00' === $time ) {
+							continue;
+						}
+
+						$datetime = date_create_immutable_from_format( 'Y-m-d', $time, $wp_timezone );
+						if ( false === $datetime ) {
+							continue;
+						}
+
+						$origin   = current_datetime();
+						$target   = $datetime->setTimezone( $wp_timezone );
+						$interval = $origin->diff( $target );
+
 						$user = get_userdata( $author_id );
-						JB()->common()->mail()->send( $user->user_email, 'job_expiration_reminder', array(
-							'job_id'              => $job_id,
-							'job_title'           => get_the_title( $job_id ),
-							'job_expiration_days' => $days,
-							'view_job_url'        => get_permalink( $job_id ),
-						) );
+						JB()->common()->mail()->send(
+							$user->user_email,
+							'job_expiration_reminder',
+							array(
+								'job_id'              => $job_id,
+								'job_title'           => get_the_title( $job_id ),
+								'job_expiration_days' => $interval->format('%a'),
+								'view_job_url'        => get_permalink( $job_id ),
+							)
+						);
 					}
 				}
 			}
