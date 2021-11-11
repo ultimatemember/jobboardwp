@@ -103,9 +103,19 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 == Changelog ==
 
-= 1.1.0: November 3, 2021 =
+= 1.1.0: November 11, 2021 =
 
-
+* Added: Breadcrumbs on the job page and option for disable them
+* Added: Option for disabling Google structured data
+* Added: Expiration reminder email notification to the job's author
+* Added: Reject the ability to use a simple password in Job Post form (Your Details section when register the user)
+* Fixed: Security vulnerabilities related to not sanitized/escaped data
+* Fixed: Delete settings on uninstall and Uninstall process
+* Fixed: Job Type and Job Category dropdowns on Job Post form
+* Fixed: Job Type and Job Category dropdowns on wp-admin Add New/Edit Job post screen (Job Data metabox)
+* Fixed: Application contact placeholders and validation handlers on the Job Post form
+* Fixed: [jb_jobs employer-id="{userID}"] shortcode attribute
+* Tweak: Implemented PHPCS + WPCS for getting better code experience
 
 = 1.0.7: October 4, 2021 =
 
