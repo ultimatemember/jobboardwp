@@ -36,6 +36,8 @@ if ( ! class_exists( 'jb\ajax\Init' ) ) {
 			add_action( 'wp_ajax_jb-delete-job', array( $this->jobs(), 'delete_job' ) );
 			add_action( 'wp_ajax_jb-fill-job', array( $this->jobs(), 'fill_job' ) );
 			add_action( 'wp_ajax_jb-unfill-job', array( $this->jobs(), 'unfill_job' ) );
+
+			add_action( 'wp_ajax_jb-validate-job-data', array( $this->jobs(), 'validate_job' ) );
 		}
 
 

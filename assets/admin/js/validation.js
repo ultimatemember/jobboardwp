@@ -40,9 +40,32 @@
 				return resolve( 'Validation ignored (draft).' );
 			}
 
+			var formdata = $('form.metabox-location-normal').serializeArray();
+			var data = {};
+			var description;
+			$(formdata ).each(function(index, obj){
+				var name = obj.name.substring(
+					obj.name.lastIndexOf("[") + 1,
+					obj.name.lastIndexOf("]")
+				);
+				data[name] = obj.value;
+			});
+
+			if ( $('.is-root-container').find('[data-empty="false"]').length ) {
+				description = 1;
+			}
+
 			wp.ajax.send( 'jb-validate-job-data', {
-				data:  "serialize form jQuery('#editor')",
+				data: {
+					description: description,
+					data: data,
+					nonce: jb_admin_data.nonce
+				},
 				success: function( answer ) {
+					$('.jb-forms-line .jb-forms-field').css('border', '#8c8f94 solid 1px');
+					$('.jb-forms-line .jb-forms-field').parent().find('p.description').css('color', '#2c3338');
+					$('.is-root-container').css('background-color', '#ffffff');
+
 					if ( answer.valid ) {
 						notices.removeNotice( 'jbwp-validation' );
 						// Resolve promise and allow savePost().
@@ -50,6 +73,22 @@
 						editor.unlockPostSaving( 'jbwp' );
 						notices.removeNotice( 'jbwp-validation' );
 					} else {
+						if ( answer.empty ) {
+							answer.empty.forEach(function (item, i, arr) {
+								console.log(i + " - " + item);
+								$('#jb-job-meta_' + item).css('border', '#d63638 solid 1px');
+								if ( item === 'description' ) {
+									$('.is-root-container').css('background-color', '#f4a2a2');
+								}
+							});
+						}
+						if ( answer.wrong ) {
+							answer.wrong.forEach(function (item, i, arr) {
+								$('#jb-job-meta_' + item).css('border', '#d63638 solid 1px');
+								$('#jb-job-meta_' + item).parent().find('p.description').css('color', '#d63638');
+							});
+						}
+
 						editor.lockPostSaving( 'jbwp' );
 						notices.createErrorNotice( answer.notice, {
 							id: 'jbwp-validation',
@@ -58,6 +97,7 @@
 					}
 				},
 				error: function( data ) {
+					console.log(data);
 					// Always unlock the form after AJAX error.
 					editor.unlockPostSaving( 'jbwp' );
 				}
@@ -104,5 +144,12 @@
 			// Nothing to do here, user is alerted of validation issues.
 		});
 	};
+
+	$('.jb-forms-line .jb-forms-field').on('keyup', function () {
+		$(this).css("border", "#8c8f94 solid 1px");
+		$(this).parent().find('p.description').css('color', '#2c3338');
+		$('.is-root-container').css('background-color', '#ffffff');
+		editor.unlockPostSaving( 'jbwp' );
+	});
 
 })(jQuery);
