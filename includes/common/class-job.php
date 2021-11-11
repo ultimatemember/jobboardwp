@@ -995,6 +995,81 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Maintenance task to send expiration reminders jobs.
+		 *
+		 * @since 1.0
+		 */
+		public function check_for_reminder_expired_jobs() {
+			$duration = JB()->options()->get( 'job-duration' );
+			$reminder = JB()->options()->get( 'job-expiration-reminder' );
+			$days     = absint( JB()->options()->get( 'job-expiration-reminder-time' ) );
+
+			if ( ! empty( $duration ) && ! empty( $reminder ) && ! empty( $days ) && $days < $duration ) {
+				$time    = gmdate( 'Y-m-d', strtotime( '+' . $days . ' days' ) );
+				$job_ids = get_posts(
+					array(
+						'post_type'      => 'jb-job',
+						'post_status'    => 'publish',
+						'meta_query'     => array(
+							'relation' => 'AND',
+							array(
+								'key'     => 'jb-is-expiration-reminded',
+								'compare' => 'NOT EXISTS',
+							),
+							array(
+								'key'     => 'jb-expiry-date',
+								'value'   => $time,
+								'compare' => '<=',
+							),
+							array(
+								'key'     => 'jb-expiry-date',
+								'value'   => '',
+								'compare' => '!=',
+							),
+							array(
+								'relation' => 'OR',
+								array(
+									'key'   => 'jb-is-filled',
+									'value' => false,
+								),
+								array(
+									'key'   => 'jb-is-filled',
+									'value' => 0,
+								),
+								array(
+									'key'     => 'jb-is-filled',
+									'compare' => 'NOT EXISTS',
+								),
+							),
+						),
+						'fields'         => 'ids',
+						'posts_per_page' => - 1,
+					)
+				);
+
+				if ( ! empty( $job_ids ) && ! is_wp_error( $job_ids ) ) {
+					foreach ( $job_ids as $job_id ) {
+						update_post_meta( $job_id, 'jb-is-expiration-reminded', true );
+
+						$author_id = get_post_field( 'post_author', $job_id );
+						if ( empty( $author_id ) ) {
+							continue;
+						}
+
+						$user = get_userdata( $author_id );
+						JB()->common()->mail()->send( $user->user_email, 'job_expiration_reminder', array(
+							'job_id'              => $job_id,
+							'job_title'           => get_the_title( $job_id ),
+							'job_expiration_days' => $days,
+							'view_job_url'        => get_permalink( $job_id ),
+						) );
+					}
+				}
+			}
+		}
+
+
+		/**
 		 * Deletes old previewed jobs to keep the DB clean.
 		 *
 		 * @since 1.0

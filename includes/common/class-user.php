@@ -65,7 +65,7 @@ if ( ! class_exists( 'jb\common\User' ) ) {
 			$company_data['instagram'] = get_user_meta( $user_id, 'jb_company_instagram', true );
 			$company_data['logo']      = get_user_meta( $user_id, 'jb_company_logo', true );
 
-			$company_data = apply_filters( 'jb_user_company_data', $company_data, $user_id );
+			$company_data = apply_filters( 'jb-user-company-data', $company_data, $user_id ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 			return $company_data;
 		}
 

@@ -93,7 +93,7 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 				$jobs_deps[]  = 'jb-location-field';
 			}
 
-			$jobs_deps = apply_filters( 'jb_jobs_scripts_enqueue', $jobs_deps );
+			$jobs_deps = apply_filters( 'jb-jobs-scripts-enqueue', $jobs_deps ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 			wp_register_script( 'jb-front-forms', $this->js_url['frontend'] . 'forms' . JB()->scrips_prefix . '.js', $forms_deps, JB_VERSION, true );
 

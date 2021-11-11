@@ -656,7 +656,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			$result = wp_delete_post( $job_id, true );
 			if ( ! empty( $result ) ) {
-				do_action( 'jb_after_job_delete', $job_id, $result );
+				do_action( 'jb-after-job-delete', $job_id, $result ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 				wp_send_json_success();
 			} else {

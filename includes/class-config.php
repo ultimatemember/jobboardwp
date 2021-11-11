@@ -120,6 +120,8 @@ if ( ! class_exists( 'jb\Config' ) ) {
 					'pending-job-editing'            => true,
 					'published-job-editing'          => 1,
 					'job-duration'                   => 30,
+					'job-expiration-reminder'        => false,
+					'job-expiration-reminder-time'   => '',
 					'required-job-type'              => true,
 					'application-method'             => '',
 					'job-submitted-notice'           => __( 'Thank you for submitting your job. It will be appear on the website once approved.', 'jobboardwp' ),
@@ -289,7 +291,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 			$this->email_notifications = apply_filters(
 				'jb_email_notifications',
 				array(
-					'job_submitted' => array(
+					'job_submitted'           => array(
 						'key'            => 'job_submitted',
 						'title'          => __( 'Job submitted', 'jobboardwp' ),
 						'subject'        => __( 'New Job Submission - {site_name}', 'jobboardwp' ),
@@ -297,7 +299,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 						'recipient'      => 'admin',
 						'default_active' => true,
 					),
-					'job_approved'  => array(
+					'job_approved'            => array(
 						'key'            => 'job_approved',
 						'title'          => __( 'Job listing approved', 'jobboardwp' ),
 						'subject'        => __( 'Job listing is now live - {site_name}', 'jobboardwp' ),
@@ -305,12 +307,20 @@ if ( ! class_exists( 'jb\Config' ) ) {
 						'recipient'      => 'user',
 						'default_active' => true,
 					),
-					'job_edited'    => array(
+					'job_edited'              => array(
 						'key'            => 'job_edited',
 						'title'          => __( 'Job has been edited', 'jobboardwp' ),
 						'subject'        => __( 'A job listing has been edited - {site_name}', 'jobboardwp' ),
 						'description'    => __( 'Whether to send the admin an email when new job is edited on website.', 'jobboardwp' ),
 						'recipient'      => 'admin',
+						'default_active' => true,
+					),
+					'job_expiration_reminder' => array(
+						'key'            => 'job_expiration_reminder',
+						'title'          => __( 'Job expiration reminder', 'jobboardwp' ),
+						'subject'        => __( 'Your job will expire - {site_name} in {job_expiration_days} days', 'jobboardwp' ),
+						'description'    => __( 'Whether to send the job\'s author an email before job is expired.', 'jobboardwp' ),
+						'recipient'      => 'user',
 						'default_active' => true,
 					),
 				)
