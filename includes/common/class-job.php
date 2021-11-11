@@ -1079,7 +1079,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 							array(
 								'job_id'              => $job_id,
 								'job_title'           => get_the_title( $job_id ),
-								'job_expiration_days' => $interval->format('%a'),
+								'job_expiration_days' => $interval->format( '%a' ),
 								'view_job_url'        => get_permalink( $job_id ),
 							)
 						);
