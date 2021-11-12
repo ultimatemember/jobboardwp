@@ -42,7 +42,6 @@
 
 			var formdata = $('form.metabox-location-normal').serializeArray();
 			var data = {};
-			var description;
 			$(formdata ).each(function(index, obj){
 				var name = obj.name.substring(
 					obj.name.lastIndexOf("[") + 1,
@@ -51,9 +50,7 @@
 				data[name] = obj.value;
 			});
 
-			if ( $('.is-root-container').find('[data-empty="false"]').length ) {
-				description = 1;
-			}
+			var description = wp.data.select( "core/editor" ).getEditedPostContent();
 
 			wp.ajax.send( 'jb-validate-job-data', {
 				data: {

@@ -457,7 +457,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									if ( ! strstr( $app_contact, 'http:' ) && ! strstr( $app_contact, 'https:' ) ) {
 										$app_contact = 'http://' . $app_contact;
 									}
-									if ( ! filter_var( $app_contact, FILTER_VALIDATE_URL ) ) {
+									if ( ! JB()->ajax()->jobs()->validate_url( $app_contact ) ) {
 										$posting_form->add_error( 'job_application', __( 'Job application must be an URL', 'jobboardwp' ) );
 									}
 									break;
@@ -467,7 +467,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 										if ( ! strstr( $app_contact, 'http:' ) && ! strstr( $app_contact, 'https:' ) ) {
 											$app_contact = 'http://' . $app_contact;
 										}
-										if ( ! filter_var( $app_contact, FILTER_VALIDATE_URL ) ) {
+										if ( ! JB()->ajax()->jobs()->validate_url( $app_contact ) ) {
 											$posting_form->add_error( 'job_application', __( 'Job application must be an email address or URL', 'jobboardwp' ) );
 										}
 									} else {
@@ -517,7 +517,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							if ( ! strstr( $company_website, 'http:' ) && ! strstr( $company_website, 'https:' ) ) {
 								$company_website = 'http://' . $company_website;
 							}
-							if ( ! filter_var( $company_website, FILTER_VALIDATE_URL ) ) {
+							if ( ! JB()->ajax()->jobs()->validate_url( $app_contact ) ) {
 								$posting_form->add_error( 'company_website', __( 'Company website is invalid', 'jobboardwp' ) );
 							}
 						}

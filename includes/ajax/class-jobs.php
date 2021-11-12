@@ -913,7 +913,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 					if ( ! strstr( $app_contact, 'http:' ) && ! strstr( $app_contact, 'https:' ) ) {
 						$app_contact = 'http://' . $app_contact;
 					}
-					if ( ! filter_var( $app_contact, FILTER_VALIDATE_URL ) || is_email( $app_contact ) ) {
+					if ( ! JB()->ajax()->jobs()->validate_url( $app_contact ) || is_email( $app_contact ) ) {
 						$errors['wrong'][] = 'jb-application-contact';
 					}
 				} else {
@@ -923,7 +923,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 							$app_contact = 'http://' . $app_contact;
 						}
 					}
-					if ( ! filter_var( $app_contact, FILTER_VALIDATE_URL ) && ! is_email( $app_contact ) ) {
+					if ( ! $this->validate_url( $app_contact ) && ! is_email( $app_contact ) ) {
 						$errors['wrong'][] = 'jb-application-contact';
 					}
 				}
@@ -944,6 +944,27 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				wp_send_json_success( array( 'valid' => 1 ) );
 			}
 			// phpcs:enable WordPress.Security.NonceVerification
+		}
+
+
+		/**
+		 * Validate URL string
+		 *
+		 * @return bool
+		 *
+		 * @since 1.1.0
+		 */
+		public function validate_url( $url ) {
+			$regex  = '((https?)\:\/\/)?';
+			$regex .= '([a-z0-9-.]*)\.([a-z]{2,3})';
+			$regex .= '(\/([a-z0-9+\$_-]\.?)+)*\/?';
+			$regex .= '(\?[a-z+&\$_.-][a-z0-9;:@&%=+\/\$_.-]*)?';
+
+			if ( preg_match( "/^$regex$/i", $url ) ) {
+				return true;
+			}
+
+			return false;
 		}
 	}
 }
