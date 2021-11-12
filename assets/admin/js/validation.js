@@ -4,6 +4,7 @@
 	var editor = wp.data.dispatch( 'core/editor' );
 	var editorSelect = wp.data.select( 'core/editor' );
 	var notices = wp.data.dispatch( 'core/notices' );
+	var locked = false;
 
 	// Backup original method.
 	var savePost = editor.savePost;
@@ -69,6 +70,7 @@
 						resolve( 'Validation bypassed.' );
 						editor.unlockPostSaving( 'jbwp' );
 						notices.removeNotice( 'jbwp-validation' );
+						locked = false;
 					} else {
 						if ( answer.empty ) {
 							answer.empty.forEach(function (item, i, arr) {
@@ -91,6 +93,7 @@
 							id: 'jbwp-validation',
 							isDismissible: true
 						});
+						locked = true;
 					}
 				},
 				error: function( data ) {
@@ -143,10 +146,12 @@
 	};
 
 	$('.jb-forms-line .jb-forms-field').on('keyup', function () {
-		$(this).css("border", "#8c8f94 solid 1px");
-		$(this).parent().find('p.description').css('color', '#2c3338');
-		$('.is-root-container').css('background-color', '#ffffff');
-		editor.unlockPostSaving( 'jbwp' );
+		if ( locked ) {
+			$(this).css("border", "#8c8f94 solid 1px");
+			$(this).parent().find('p.description').css('color', '#2c3338');
+			$('.is-root-container').css('background-color', '#ffffff');
+			editor.unlockPostSaving('jbwp');
+		}
 	});
 
 })(jQuery);
