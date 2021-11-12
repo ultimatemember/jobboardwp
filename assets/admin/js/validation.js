@@ -49,6 +49,7 @@
 				);
 				data[name] = obj.value;
 			});
+
 			var description = wp.data.select( "core/editor" ).getEditedPostContent();
 
 			wp.ajax.send( 'jb-validate-job-data', {
