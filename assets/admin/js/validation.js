@@ -100,6 +100,7 @@
 					console.log(data);
 					// Always unlock the form after AJAX error.
 					editor.unlockPostSaving( 'jbwp' );
+					locked = false;
 				}
 			});
 
