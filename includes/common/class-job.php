@@ -1141,7 +1141,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			$temp_value = array();
 			if ( is_array( $value ) ) {
 				foreach ( $value as $index => $item ) {
-					$index_sanitized = is_string( $index ) ? sanitize_key( $index ) : $index;
+					$index_sanitized                = is_string( $index ) ? sanitize_key( $index ) : $index;
 					$temp_value[ $index_sanitized ] = $this->map_deep( $item, $callback, $index_sanitized );
 				}
 				$value = $temp_value;
@@ -1149,7 +1149,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				$temp_value  = (object) $temp_value;
 				$object_vars = get_object_vars( $value );
 				foreach ( $object_vars as $property_name => $property_value ) {
-					$property_name_sanitized = is_string( $property_name ) ? sanitize_key( $property_name ) : $property_name;
+					$property_name_sanitized              = is_string( $property_name ) ? sanitize_key( $property_name ) : $property_name;
 					$temp_value->$property_name_sanitized = $this->map_deep( $property_value, $callback, $property_name_sanitized );
 				}
 				$value = $temp_value;

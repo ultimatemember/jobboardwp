@@ -80,7 +80,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			echo wp_kses( $hidden, JB()->get_allowed_html( 'wp-admin' ) );
 
 			if ( empty( $this->form_data['without_wrapper'] ) ) {
-				$class      = 'form-table jb-form-table ' . ( ! empty( $this->form_data['class'] ) ? $this->form_data['class'] : '' );
+				$class = 'form-table jb-form-table ' . ( ! empty( $this->form_data['class'] ) ? $this->form_data['class'] : '' );
 				?>
 
 				<table class="<?php echo esc_attr( $class ); ?>">
@@ -809,7 +809,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				<input type="hidden" class="jb-media-upload-data-height" name="<?php echo esc_attr( $name ); ?>[height]" id="<?php echo esc_attr( $id ); ?>_height" value="<?php echo esc_attr( $image_height ); ?>">
 				<input type="hidden" class="jb-media-upload-data-thumbnail" name="<?php echo esc_attr( $name ); ?>[thumbnail]" id="<?php echo esc_attr( $id ); ?>_thumbnail" value="<?php echo esc_attr( $image_thumbnail ); ?>">
 
-				<?php echo wp_kses( '<input type="hidden" class="jb-forms-field jb-media-upload-data-url ' . esc_attr( $class ) .'" name="' . esc_attr( $name ) . '[url]" id="' . esc_attr( $id ) . '_url" value="' . esc_attr( $image_url ) . '" ' . $data_attr . '>', JB()->get_allowed_html( 'templates' ) ); ?>
+				<?php echo wp_kses( '<input type="hidden" class="jb-forms-field jb-media-upload-data-url ' . esc_attr( $class ) . '" name="' . esc_attr( $name ) . '[url]" id="' . esc_attr( $id ) . '_url" value="' . esc_attr( $image_url ) . '" ' . $data_attr . '>', JB()->get_allowed_html( 'templates' ) ); ?>
 
 				<?php if ( ! isset( $field_data['preview'] ) || false !== $field_data['preview'] ) { ?>
 					<img src="<?php echo esc_attr( $image_url ); ?>" alt="" class="icon_preview"><div style="clear:both;"></div>
