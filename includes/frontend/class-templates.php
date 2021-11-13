@@ -322,7 +322,12 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			if ( JB()->frontend()->is_job_page() ) {
 				$this->template_replaced = true;
 
-				$content = JB()->frontend()->shortcodes()->single_job( array( 'id' => $post->ID, 'ignore_status' => true ) );
+				$content = JB()->frontend()->shortcodes()->single_job(
+					array(
+						'id'            => $post->ID,
+						'ignore_status' => true,
+					)
+				);
 			}
 
 			return $content;
