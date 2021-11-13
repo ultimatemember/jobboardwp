@@ -520,9 +520,9 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				<span class="jb-uploaded-content-wrapper jb-<?php echo esc_attr( $id ); ?>-image-wrapper" style="width: <?php echo esc_attr( $thumb_w ); ?>px;height: <?php echo esc_attr( $thumb_h ); ?>px;">
 					<?php echo wp_kses( '<img src="' . ( ! empty( $field_data['value'] ) ? esc_url( $field_data['value'] ) : '' ) . '" alt="' . esc_attr( $img_alt ) . '" ' . $img_style . ' />', JB()->get_allowed_html( 'templates' ) ); ?>
 				</span>
-				<a class="jb-cancel-change-media" href="javascript:void(0);"><?php echo esc_html( $cancel_label ); ?></a>
-				<a class="jb-change-media" href="javascript:void(0);"><?php echo esc_html( $change_label ); ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;
-				<a class="jb-clear-media" href="javascript:void(0);"><?php echo esc_html( $remove_label ); ?></a>
+				<a class="jb-cancel-change-media" href="#"><?php echo esc_html( $cancel_label ); ?></a>
+				<a class="jb-change-media" href="#"><?php echo esc_html( $change_label ); ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+				<a class="jb-clear-media" href="#"><?php echo esc_html( $remove_label ); ?></a>
 			</span>
 
 			<span class="<?php echo esc_attr( $uploader_classes ); ?>">

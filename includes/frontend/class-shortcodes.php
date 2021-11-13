@@ -32,6 +32,20 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 
 		/**
+		 * Added for WP_Kses valid CSS attributes
+		 *
+		 * @param array $attrs
+		 *
+		 * @return array
+		 */
+		public function add_display_css_attr( $attrs ) {
+			$attrs[] = 'display';
+			$attrs[] = 'object-fit';
+			return $attrs;
+		}
+
+
+		/**
 		 * Jobs shortcode
 		 * [jb_post_job /]
 		 *
@@ -45,6 +59,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 			$atts = shortcode_atts( $default, $atts );
 			$atts = apply_filters( 'jb_post_job_shortcode_atts', $atts );
+
+			add_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10, 1 );
 
 			// phpcs:disable WordPress.Security.NonceVerification -- getting value from GET line
 
@@ -104,6 +120,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 				JB()->get_template_part( 'job-submission', $atts );
 
+				remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 				return ob_get_clean();
 
 			} else {
@@ -115,6 +132,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				$job    = get_post( $job_id );
 
 				if ( is_wp_error( $job ) || empty( $job ) ) {
+					remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 					return __( 'Wrong job', 'jobboardwp' );
 				}
 
@@ -132,10 +150,12 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					</p>
 
 					<?php
+					remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 					return ob_get_clean();
 
 				} elseif ( is_user_logged_in() && get_current_user_id() !== (int) $job->post_author ) {
 
+					remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 					return __( 'Wrong job', 'jobboardwp' );
 
 				}
@@ -144,6 +164,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 					// edit job form
 					if ( ! wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-job-draft' . $job_id ) ) {
+						remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 						return __( 'Security check wrong', 'jobboardwp' );
 					}
 
@@ -153,10 +174,12 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					}
 
 					if ( ! in_array( $job->post_status, $statuses, true ) ) {
+						remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 						return __( 'Wrong job', 'jobboardwp' );
 					}
 
 					if ( ! empty( $job ) && in_array( $job->post_status, array( 'publish' ), true ) && 0 === (int) JB()->options()->get( 'published-job-editing' ) ) {
+						remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 						return __( 'You haven\'t ability to edit this job.', 'jobboardwp' );
 					}
 
@@ -168,17 +191,19 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					ob_start();
 
 					JB()->get_template_part( 'job-submission', $atts );
-
+					remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 					return ob_get_clean();
 
 				} else {
 
 					// preview job
 					if ( ! wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-job-preview' . $job_id ) ) {
+						remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 						return __( 'Security check wrong', 'jobboardwp' );
 					}
 
 					if ( 'jb-preview' !== $job->post_status ) {
+						remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 						return __( 'Wrong job preview', 'jobboardwp' );
 					}
 
@@ -190,6 +215,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					ob_start();
 
 					JB()->get_template_part( 'job-preview', $atts );
+
+					remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 
 					return ob_get_clean();
 				}
@@ -244,22 +271,22 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						<?php
 						if ( JB()->options()->get( 'account-required' ) ) {
 							if ( ! JB()->options()->get( 'account-username-generate' ) ) {
-								echo wp_kses( __( 'If you don\'t have an account you can create one below by entering your email address/username or <a href="javascript:void(0);" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
+								echo wp_kses( __( 'If you don\'t have an account you can create one below by entering your email address/username or <a href="#" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
 							} else {
-								echo wp_kses( __( 'If you don\'t have an account you can create one below by entering your email address or <a href="javascript:void(0);" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
+								echo wp_kses( __( 'If you don\'t have an account you can create one below by entering your email address or <a href="#" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
 							}
 						} else {
 							if ( ! JB()->options()->get( 'account-username-generate' ) ) {
-								echo wp_kses( __( 'If you don\'t have an account you can optionally create one below by entering your email address/username or <a href="javascript:void(0);" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
+								echo wp_kses( __( 'If you don\'t have an account you can optionally create one below by entering your email address/username or <a href="#" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
 							} else {
-								echo wp_kses( __( 'If you don\'t have an account you can optionally create one below by entering your email address or <a href="javascript:void(0);" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
+								echo wp_kses( __( 'If you don\'t have an account you can optionally create one below by entering your email address or <a href="#" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
 							}
 						}
 						?>
 					</p>
 
 					<p id="jb-sign-up-notice" class="jb-form-pre-section-notice"<?php if ( ! $visible_login ) { ?> style="display: none;"<?php } ?>>
-						<?php echo wp_kses( __( 'You could login below or <a href="javascript:void(0);" id="jb-hide-login-form">create account</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) ); ?>
+						<?php echo wp_kses( __( 'You could login below or <a href="#" id="jb-hide-login-form">create account</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) ); ?>
 					</p>
 
 					<div id="jb-login-form-wrapper"<?php if ( ! $visible_login ) { ?> style="display: none;"<?php } ?>>
@@ -339,7 +366,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			$default = apply_filters(
 				'jb_job_shortcode_default_atts',
 				array(
-					'id' => '',
+					'id'            => '',
+					'ignore_status' => false, // internal argument
 				)
 			);
 
@@ -355,7 +383,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				return '';
 			}
 
-			if ( 'publish' !== $job->post_status ) {
+			if ( ! $atts['ignore_status'] && 'publish' !== $job->post_status ) {
 				return '';
 			}
 

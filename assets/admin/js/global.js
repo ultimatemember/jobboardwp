@@ -15,4 +15,9 @@ jQuery( document ).ready( function() {
 			}
 		});
 	});
+
+	jQuery(document.body).on( 'click', '.jb-admin-notice.is-dismissible .jb_secondary_dismiss', function(e) {
+		e.preventDefault();
+		jQuery(this).parents('.jb-admin-notice').find('.notice-dismiss').trigger( 'click' );
+	});
 });

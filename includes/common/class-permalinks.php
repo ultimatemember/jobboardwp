@@ -160,7 +160,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 				}
 			}
 
-			if ( empty( $pages ) ) {
+			if ( empty( $pages ) || count( $pages ) !== count( $core_pages ) ) {
 				$installed = false;
 			} else {
 				foreach ( $pages as $page_id ) {

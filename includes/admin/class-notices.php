@@ -249,7 +249,7 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 					<?php esc_html_e( 'Create Pages', 'jobboardwp' ); ?>
 				</a>
 				&nbsp;
-				<a href="javascript:void(0);" class="button-secondary jb_secondary_dismiss">
+				<a href="#" class="button-secondary jb_secondary_dismiss">
 					<?php esc_html_e( 'No thanks', 'jobboardwp' ); ?>
 				</a>
 			</p>

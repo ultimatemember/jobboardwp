@@ -36,17 +36,20 @@ jQuery( document ).ready( function($) {
 
 	$( 'input.jb-forms-condition-option:checked' ).trigger('click');
 
-	$( document.body ).on( 'click', '.jb-change-media', function() {
+	$( document.body ).on( 'click', '.jb-change-media', function(e) {
+		e.preventDefault();
 		$(this).parents('.jb-uploaded-wrapper').removeClass('jb-uploaded').addClass('jb-waiting-change');
 		$(this).parents('.jb-uploaded-wrapper').siblings('.jb-uploader').removeClass('jb-uploaded');
 	});
 
-	$( document.body ).on( 'click', '.jb-cancel-change-media', function() {
+	$( document.body ).on( 'click', '.jb-cancel-change-media', function(e) {
+		e.preventDefault();
 		$(this).parents('.jb-uploaded-wrapper').addClass('jb-uploaded').removeClass('jb-waiting-change');
 		$(this).parents('.jb-uploaded-wrapper').siblings('.jb-uploader').addClass('jb-uploaded');
 	});
 
-	$( document.body ).on( 'click', '.jb-clear-media', function() {
+	$( document.body ).on( 'click', '.jb-clear-media', function(e) {
+		e.preventDefault();
 		$(this).parents('.jb-uploaded-wrapper').siblings('.jb-media-value').val('');
 		$(this).parents('.jb-uploaded-wrapper').siblings('.jb-media-value-hash').val('');
 		$(this).parents('.jb-uploaded-wrapper').removeClass('jb-uploaded').removeClass('jb-waiting-change');

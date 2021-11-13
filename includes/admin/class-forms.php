@@ -809,7 +809,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				<input type="hidden" class="jb-media-upload-data-height" name="<?php echo esc_attr( $name ); ?>[height]" id="<?php echo esc_attr( $id ); ?>_height" value="<?php echo esc_attr( $image_height ); ?>">
 				<input type="hidden" class="jb-media-upload-data-thumbnail" name="<?php echo esc_attr( $name ); ?>[thumbnail]" id="<?php echo esc_attr( $id ); ?>_thumbnail" value="<?php echo esc_attr( $image_thumbnail ); ?>">
 
-				<?php echo wp_kses( '<input type="hidden" class="jb-forms-field jb-media-upload-data-url ' . esc_attr( $class ) . '" name="' . esc_attr( $name ) . '[url]" id="' . esc_attr( $id ) . '_url" value="' . esc_attr( $image_url ) . '" ' . $data_attr . '>', JB()->get_allowed_html( 'templates' ) ); ?>
+				<?php echo wp_kses( '<input type="hidden" class="jb-forms-field jb-media-upload-data-url ' . esc_attr( $class ) . '" name="' . esc_attr( $name ) . '[url]" id="' . esc_attr( $id ) . '_url" value="' . esc_attr( $image_url ) . '" ' . $data_attr . '>', JB()->get_allowed_html( 'wp-admin' ) ); ?>
 
 				<?php if ( ! isset( $field_data['preview'] ) || false !== $field_data['preview'] ) { ?>
 					<img src="<?php echo esc_attr( $image_url ); ?>" alt="" class="icon_preview"><div style="clear:both;"></div>
@@ -822,65 +822,6 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 				<input type="button" class="jb-set-image button button-primary" value="<?php esc_attr_e( 'Select', 'jobboardwp' ); ?>" data-upload_frame="<?php echo esc_attr( $upload_frame_title ); ?>" />
 				<input type="button" class="jb-clear-image button" value="<?php esc_attr_e( 'Clear', 'jobboardwp' ); ?>" />
-			</div>
-
-			<?php
-			$html = ob_get_clean();
-			return $html;
-		}
-
-
-		/**
-		 * Render email template field
-		 *
-		 * @param array $field_data
-		 *
-		 * @return string
-		 *
-		 * @since 1.0
-		 */
-		public function render_email_template( $field_data ) {
-			if ( empty( $field_data['id'] ) ) {
-				return '';
-			}
-
-			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
-
-			$class  = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
-			$class .= ! empty( $field_data['size'] ) ? $field_data['size'] : 'jb-long-field';
-
-			$data = array(
-				'field_id' => $field_data['id'],
-			);
-
-			$data_attr = '';
-			foreach ( $data as $key => $value ) {
-				$data_attr .= " data-{$key}=\"" . esc_attr( $value ) . '" ';
-			}
-
-			$name = $field_data['id'];
-			$name = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
-
-			$value = $this->get_field_value( $field_data );
-
-			ob_start();
-			?>
-
-			<div class="email_template_wrapper <?php echo $field_data['in_theme'] ? 'in_theme' : ''; ?>" data-key="<?php echo esc_attr( $field_data['id'] ); ?>" style="position: relative;">
-				<?php
-				wp_editor(
-					$value,
-					$id,
-					array(
-						'textarea_name' => $name,
-						'textarea_rows' => 20,
-						'editor_height' => 425,
-						'wpautop'       => false,
-						'media_buttons' => false,
-						'editor_class'  => $class,
-					)
-				);
-				?>
 			</div>
 
 			<?php

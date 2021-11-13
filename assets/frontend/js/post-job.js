@@ -8,6 +8,7 @@ jQuery( document ).ready( function($) {
 	});
 
 	$( document.body ).on( 'click', '#jb-show-login-form', function(e) {
+		e.preventDefault();
 		var form = $('#jb-job-submission');
 
 		$('#jb-login-form-wrapper').show();
@@ -21,6 +22,7 @@ jQuery( document ).ready( function($) {
 	});
 
 	$( document.body ).on( 'click', '#jb-hide-login-form', function(e) {
+		e.preventDefault();
 		var form = $('#jb-job-submission');
 
 		$('#jb-login-form-wrapper').hide();
