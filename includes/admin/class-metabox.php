@@ -94,13 +94,13 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			}
 
 			if ( ! empty( $_REQUEST['jb-color'] ) ) {
-				update_term_meta( $term_id, 'jb-color', sanitize_text_field( $_REQUEST['jb-color'] ) );
+				update_term_meta( $term_id, 'jb-color', sanitize_hex_color( $_REQUEST['jb-color'] ) );
 			} else {
 				delete_term_meta( $term_id, 'jb-color' );
 			}
 
 			if ( ! empty( $_REQUEST['jb-background'] ) ) {
-				update_term_meta( $term_id, 'jb-background', sanitize_text_field( $_REQUEST['jb-background'] ) );
+				update_term_meta( $term_id, 'jb-background', sanitize_hex_color( $_REQUEST['jb-background'] ) );
 			} else {
 				delete_term_meta( $term_id, 'jb-background' );
 			}
@@ -206,25 +206,38 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 			$current_time = time();
 
+			// merge preferred location into location
+			if ( '0' !== sanitize_text_field( $_POST['jb-job-meta']['jb-location-type'] ) ) {
+				if ( ! empty( $_POST['jb-job-meta']['jb-location-preferred'] ) ) {
+					$_POST['jb-job-meta']['jb-location'] = $_POST['jb-job-meta']['jb-location-preferred'];
+					unset( $_POST['jb-job-meta']['jb-location-preferred'] );
+				}
+				if ( ! empty( $_POST['jb-job-meta']['jb-location-preferred-data'] ) ) {
+					$_POST['jb-job-meta']['jb-location-data'] = $_POST['jb-job-meta']['jb-location-preferred-data'];
+					unset( $_POST['jb-job-meta']['jb-location-preferred-data'] );
+				}
+			}
+
 			//save metadata
 			foreach ( $_POST['jb-job-meta'] as $k => $v ) {
-				$k = sanitize_key( $k );
-				if ( isset( $sanitize_map[ $k ] ) ) {
-					switch ( $sanitize_map[ $k ] ) {
-						case 'bool':
-							$v = (bool) $v;
-							break;
-						case 'text':
-							$v = sanitize_text_field( $v );
-							break;
-						case 'absint':
-							$v = absint( $v );
-							break;
-					}
-				}
-
 				if ( strstr( $k, 'jb-' ) ) {
-					if ( 'jb-job-type' === $k ) {
+					$meta_key = sanitize_key( $k );
+
+					if ( isset( $sanitize_map[ $meta_key ] ) ) {
+						switch ( $sanitize_map[ $meta_key ] ) {
+							case 'bool':
+								$v = (bool) $v;
+								break;
+							case 'text':
+								$v = sanitize_text_field( $v );
+								break;
+							case 'absint':
+								$v = absint( $v );
+								break;
+						}
+					}
+
+					if ( 'jb-job-type' === $meta_key ) {
 						if ( ! is_array( $v ) ) {
 							$v = ! empty( $v ) ? array( $v ) : '';
 						}
@@ -233,7 +246,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 					}
 
 					if ( JB()->options()->get( 'job-categories' ) ) {
-						if ( 'jb-job-category' === $k ) {
+						if ( 'jb-job-category' === $meta_key ) {
 							if ( ! is_array( $v ) ) {
 								$v = ! empty( $v ) ? array( $v ) : '';
 							}
@@ -242,13 +255,13 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 						}
 					}
 
-					if ( 'jb-author' === $k ) {
+					if ( 'jb-author' === $meta_key ) {
 						global $wpdb;
 						$wpdb->update( $wpdb->posts, array( 'post_author' => $v ), array( 'ID' => $post_id ), array( '%d' ), array( '%d' ) );
 						continue;
 					}
 
-					if ( 'jb-is-filled' === $k ) {
+					if ( 'jb-is-filled' === $meta_key ) {
 						if ( ! empty( $v ) ) {
 							if ( ! JB()->common()->job()->is_filled( $post_id ) ) {
 								do_action( 'jb_fill_job', $post_id, $post );
@@ -260,7 +273,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 						}
 					}
 
-					if ( 'jb-expiry-date' === $k ) {
+					if ( 'jb-expiry-date' === $meta_key ) {
 						if ( empty( $v ) ) {
 							$v = JB()->common()->job()->calculate_expiry();
 						} else {
@@ -275,13 +288,22 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 					}
 
 					if ( 'jb-location-data' === $k ) {
-
 						$v = json_decode( stripslashes( $v ) );
+						$v = JB()->common()->job()->sanitize_location_data( $v );
 
 						update_post_meta( $post_id, 'jb-location-raw-data', $v );
-						update_post_meta( $post_id, 'jb-location-lat', sanitize_text_field( $v->geometry->location->lat ) );
-						update_post_meta( $post_id, 'jb-location-long', sanitize_text_field( $v->geometry->location->lng ) );
-						update_post_meta( $post_id, 'jb-location-formatted-address', sanitize_text_field( $v->formatted_address ) );
+
+						if ( isset( $v->geometry ) && isset( $v->geometry->location ) ) {
+							if ( isset( $v->geometry->location->lat ) ) {
+								update_post_meta( $post_id, 'jb-location-lat', sanitize_text_field( $v->geometry->location->lat ) );
+							}
+							if ( isset( $v->geometry->location->lng ) ) {
+								update_post_meta( $post_id, 'jb-location-long', sanitize_text_field( $v->geometry->location->lng ) );
+							}
+						}
+						if ( isset( $v->formatted_address ) ) {
+							update_post_meta( $post_id, 'jb-location-formatted-address', sanitize_text_field( $v->formatted_address ) );
+						}
 
 						if ( ! empty( $v->address_components ) ) {
 							$address_data = $v->address_components;
@@ -307,10 +329,6 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 						}
 
 						continue;
-					}
-
-					if ( '0' !== sanitize_text_field( $_POST['jb-job-meta']['jb-location-type'] ) && 'jb-location-preferred' === $k ) {
-						$k = 'jb-location';
 					}
 
 					update_post_meta( $post_id, $k, $v );

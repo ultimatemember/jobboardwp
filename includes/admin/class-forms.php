@@ -77,23 +77,21 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 			ob_start();
 
-			echo $hidden; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped
+			echo wp_kses( $hidden, JB()->get_allowed_html( 'wp-admin' ) );
 
 			if ( empty( $this->form_data['without_wrapper'] ) ) {
 				$class      = 'form-table jb-form-table ' . ( ! empty( $this->form_data['class'] ) ? $this->form_data['class'] : '' );
-				$class_attr = ' class="' . esc_attr( $class ) . '" ';
+				?>
 
-				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output ?>
-
-				<table <?php echo $class_attr; ?>>
-					<tbody><?php echo $fields; ?></tbody>
+				<table class="<?php echo esc_attr( $class ); ?>">
+					<tbody>
+						<?php echo wp_kses( $fields, JB()->get_allowed_html( 'wp-admin' ) ); ?>
+					</tbody>
 				</table>
 
 				<?php
-				// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
-
 			} else {
-				echo $fields; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped
+				echo wp_kses( $fields, JB()->get_allowed_html( 'wp-admin' ) );
 			}
 
 			if ( $echo ) {
@@ -308,7 +306,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				$label = $label . ' <span class="jb-req" title="' . esc_attr__( 'Required', 'jobboardwp' ) . '">*</span>';
 			}
 
-			$helptip = ! empty( $data['helptip'] ) ? JB()->helptip( $data['helptip'], false, false ) : '';
+			$helptip = ! empty( $data['helptip'] ) ? JB()->helptip( $data['helptip'] ) : '';
 
 			return "<label $for_attr>$label $helptip</label>";
 		}
@@ -803,8 +801,6 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$image_url       = ! empty( $value['url'] ) ? $value['url'] : '';
 
 			ob_start();
-
-			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
 			?>
 
 			<div class="jb-media-upload">
@@ -812,7 +808,8 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				<input type="hidden" class="jb-media-upload-data-width" name="<?php echo esc_attr( $name ); ?>[width]" id="<?php echo esc_attr( $id ); ?>_width" value="<?php echo esc_attr( $image_width ); ?>">
 				<input type="hidden" class="jb-media-upload-data-height" name="<?php echo esc_attr( $name ); ?>[height]" id="<?php echo esc_attr( $id ); ?>_height" value="<?php echo esc_attr( $image_height ); ?>">
 				<input type="hidden" class="jb-media-upload-data-thumbnail" name="<?php echo esc_attr( $name ); ?>[thumbnail]" id="<?php echo esc_attr( $id ); ?>_thumbnail" value="<?php echo esc_attr( $image_thumbnail ); ?>">
-				<input type="hidden" <?php echo $class_attr; ?> name="<?php echo esc_attr( $name ); ?>[url]" id="<?php echo esc_attr( $id ); ?>_url" value="<?php echo esc_attr( $image_url ); ?>" <?php echo $data_attr; ?>>
+
+				<?php echo wp_kses( '<input type="hidden" class="jb-forms-field jb-media-upload-data-url ' . esc_attr( $class ) .'" name="' . esc_attr( $name ) . '[url]" id="' . esc_attr( $id ) . '_url" value="' . esc_attr( $image_url ) . '" ' . $data_attr . '>', JB()->get_allowed_html( 'templates' ) ); ?>
 
 				<?php if ( ! isset( $field_data['preview'] ) || false !== $field_data['preview'] ) { ?>
 					<img src="<?php echo esc_attr( $image_url ); ?>" alt="" class="icon_preview"><div style="clear:both;"></div>
@@ -828,8 +825,6 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			</div>
 
 			<?php
-			// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
-
 			$html = ob_get_clean();
 			return $html;
 		}

@@ -63,13 +63,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 					}
 					$attr .= '"';
 				}
-				?>
 
-				<div class="jb-job-type" <?php echo $attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output ?>>
-					<?php echo esc_html( $type->name ); ?>
-				</div>
-
-				<?php
+				echo wp_kses( '<div class="jb-job-type" ' . $attr . '>' . esc_html( $type->name ) . '</div>', JB()->get_allowed_html( 'templates' ) );
 			}
 
 			return ob_get_clean();
@@ -1116,6 +1111,80 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 					wp_delete_post( $job_id, true );
 				}
 			}
+		}
+
+
+		/**
+		 * Make location data secured after the response from GoogleMaps API
+		 *
+		 * @param $data
+		 *
+		 * @return array|mixed|object
+		 */
+		public function sanitize_location_data( $data ) {
+			$data = $this->map_deep( $data, array( $this, 'sanitize_location_data_cb' ) );
+			return $data;
+		}
+
+
+		/**
+		 * See the function's reference documented in wp-includes/formatting.php -> map_deep()
+		 * Passed $key for getting different sanitizing in the callback
+		 *
+		 * @param $value
+		 * @param $callback
+		 * @param null|string $key
+		 *
+		 * @return array|mixed|object
+		 */
+		public function map_deep( $value, $callback, $key = null ) {
+			$temp_value = array();
+			if ( is_array( $value ) ) {
+				foreach ( $value as $index => $item ) {
+					$index_sanitized = is_string( $index ) ? sanitize_key( $index ) : $index;
+					$temp_value[ $index_sanitized ] = $this->map_deep( $item, $callback, $index_sanitized );
+				}
+				$value = $temp_value;
+			} elseif ( is_object( $value ) ) {
+				$temp_value  = (object) $temp_value;
+				$object_vars = get_object_vars( $value );
+				foreach ( $object_vars as $property_name => $property_value ) {
+					$property_name_sanitized = is_string( $property_name ) ? sanitize_key( $property_name ) : $property_name;
+					$temp_value->$property_name_sanitized = $this->map_deep( $property_value, $callback, $property_name_sanitized );
+				}
+				$value = $temp_value;
+			} else {
+				$value = call_user_func( $callback, $value, $key );
+			}
+
+			return $value;
+		}
+
+
+		/**
+		 * Sanitize Location Data response
+		 *
+		 * @param mixed $value
+		 * @param null|string $key
+		 *
+		 * @return float|int|string
+		 */
+		public function sanitize_location_data_cb( $value, $key = null ) {
+			if ( is_numeric( $value ) ) {
+				if ( is_int( $value ) ) {
+					$value = (int) $value;
+				} elseif ( is_float( $value ) ) {
+					$value = (float) $value;
+				}
+			} elseif ( is_string( $value ) ) {
+				if ( isset( $key ) && 'adr_address' === $key ) {
+					$value = wp_kses_post( $value );
+				} else {
+					$value = sanitize_text_field( $value );
+				}
+			}
+
+			return $value;
 		}
 	}
 }

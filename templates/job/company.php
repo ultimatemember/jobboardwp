@@ -13,7 +13,7 @@ if ( ! empty( $jb_job_company['job_id'] ) ) {
 		<div class="jb-job-company-info<?php echo empty( $logo ) ? ' jb-job-no-logo' : ''; ?>">
 			<?php if ( ! empty( $logo ) ) { ?>
 				<div class="jb-job-logo">
-					<?php echo $logo; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output ?>
+					<?php echo wp_kses( $logo, JB()->get_allowed_html( 'templates' ) ); ?>
 				</div>
 			<?php } ?>
 			<div class="jb-job-company-title-tagline">

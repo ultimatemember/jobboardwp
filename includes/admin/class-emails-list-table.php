@@ -119,8 +119,7 @@ if ( ! class_exists( 'jb\admin\Emails_List_Table' ) ) {
 		 *
 		 */
 		public function no_items() {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
-			echo $this->no_items_message;
+			echo esc_html( $this->no_items_message );
 		}
 
 

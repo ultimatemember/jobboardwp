@@ -127,7 +127,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						<?php
 						/** @noinspection HtmlUnknownTarget */
 						// translators: %s: login link
-						printf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), wp_login_url( get_permalink() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
+						echo wp_kses( sprintf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), esc_attr( wp_login_url( get_permalink() ) ) ), JB()->get_allowed_html( 'templates' ) );
 						?>
 					</p>
 
@@ -211,7 +211,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		public function render_section( $html, $section_data, $form_data ) {
 			if ( 'my-details' === $section_data['key'] ) {
 				// phpcs:disable Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- needed for strict output style attribute
-				// phpcs:disable WordPress.Security.EscapeOutput -- strict output
 				if ( JB()->options()->get( 'account-creation' ) && ! is_user_logged_in() ) {
 
 					$id     = isset( $form_data['id'] ) ? $form_data['id'] : 'jb-frontend-form-' . uniqid();
@@ -245,24 +244,22 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						<?php
 						if ( JB()->options()->get( 'account-required' ) ) {
 							if ( ! JB()->options()->get( 'account-username-generate' ) ) {
-								_e( 'If you don\'t have an account you can create one below by entering your email address/username or <a href="javascript:void(0);" id="jb-show-login-form">sign in</a>.', 'jobboardwp' );
+								echo wp_kses( __( 'If you don\'t have an account you can create one below by entering your email address/username or <a href="javascript:void(0);" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
 							} else {
-								_e( 'If you don\'t have an account you can create one below by entering your email address or <a href="javascript:void(0);" id="jb-show-login-form">sign in</a>.', 'jobboardwp' );
+								echo wp_kses( __( 'If you don\'t have an account you can create one below by entering your email address or <a href="javascript:void(0);" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
 							}
 						} else {
 							if ( ! JB()->options()->get( 'account-username-generate' ) ) {
-								_e( 'If you don\'t have an account you can optionally create one below by entering your email address/username or <a href="javascript:void(0);" id="jb-show-login-form">sign in</a>.', 'jobboardwp' );
+								echo wp_kses( __( 'If you don\'t have an account you can optionally create one below by entering your email address/username or <a href="javascript:void(0);" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
 							} else {
-								_e( 'If you don\'t have an account you can optionally create one below by entering your email address or <a href="javascript:void(0);" id="jb-show-login-form">sign in</a>.', 'jobboardwp' );
+								echo wp_kses( __( 'If you don\'t have an account you can optionally create one below by entering your email address or <a href="javascript:void(0);" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
 							}
 						}
 						?>
 					</p>
 
 					<p id="jb-sign-up-notice" class="jb-form-pre-section-notice"<?php if ( ! $visible_login ) { ?> style="display: none;"<?php } ?>>
-						<?php
-						_e( 'You could login below or <a href="javascript:void(0);" id="jb-hide-login-form">create account</a>.', 'jobboardwp' );
-						?>
+						<?php echo wp_kses( __( 'You could login below or <a href="javascript:void(0);" id="jb-hide-login-form">create account</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) ); ?>
 					</p>
 
 					<div id="jb-login-form-wrapper"<?php if ( ! $visible_login ) { ?> style="display: none;"<?php } ?>>
@@ -302,10 +299,9 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						<div class="clear"></div>
 					</div>
 
-					<form action="<?php echo esc_attr( $action ); ?>" method="<?php echo esc_attr( $method ); ?>"
-						name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ); ?>" class="jb-form" <?php echo $data_attr; ?>>
-
 					<?php
+					echo wp_kses( '<form action="' . esc_attr( $action ) . '" method="' . esc_attr( $method ) . '" name="' . esc_attr( $name ) . '" id="' . esc_attr( $id ) . '" class="jb-form" ' . $data_attr . '>', JB()->get_allowed_html( 'templates' ) );
+
 					$html .= ob_get_clean();
 				} elseif ( ! JB()->options()->get( 'account-creation' ) && ! is_user_logged_in() ) {
 					ob_start();
@@ -315,15 +311,13 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						<?php
 						/** @noinspection HtmlUnknownTarget */
 						// translators: %s: login link
-						printf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), wp_login_url( get_permalink() ) );
+						echo wp_kses( sprintf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), esc_attr( wp_login_url( get_permalink() ) ) ), JB()->get_allowed_html( 'templates' ) );
 						?>
 					</p>
 
 					<?php
 					$html .= ob_get_clean();
 				}
-
-				// phpcs:enable WordPress.Security.EscapeOutput -- strict output
 				// phpcs:enable Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- needed for strict output style attribute
 			}
 

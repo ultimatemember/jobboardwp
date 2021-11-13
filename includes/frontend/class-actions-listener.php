@@ -42,11 +42,20 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 			}
 
 			$location_data = json_decode( stripslashes( $_POST['job_location_data'] ) );
+			$location_data = JB()->common()->job()->sanitize_location_data( $location_data );
 
-			$job_data['meta_input']['jb-location-raw-data']          = $location_data;
-			$job_data['meta_input']['jb-location-lat']               = sanitize_text_field( $location_data->geometry->location->lat );
-			$job_data['meta_input']['jb-location-long']              = sanitize_text_field( $location_data->geometry->location->lng );
-			$job_data['meta_input']['jb-location-formatted-address'] = sanitize_text_field( $location_data->formatted_address );
+			$job_data['meta_input']['jb-location-raw-data'] = $location_data;
+			if ( isset( $location_data->geometry ) && isset( $location_data->geometry->location ) ) {
+				if ( isset( $location_data->geometry->location->lat ) ) {
+					$job_data['meta_input']['jb-location-lat'] = sanitize_text_field( $location_data->geometry->location->lat );
+				}
+				if ( isset( $location_data->geometry->location->lng ) ) {
+					$job_data['meta_input']['jb-location-long'] = sanitize_text_field( $location_data->geometry->location->lng );
+				}
+			}
+			if ( isset( $location_data->formatted_address ) ) {
+				$job_data['meta_input']['jb-location-formatted-address'] = sanitize_text_field( $location_data->formatted_address );
+			}
 
 			if ( ! empty( $location_data->address_components ) ) {
 				$address_data = $location_data->address_components;
@@ -440,7 +449,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 						if ( empty( $_POST['job_application'] ) ) {
 							$posting_form->add_error( 'job_application', __( 'Application contact cannot be empty', 'jobboardwp' ) );
 						} else {
-							// sanitized below
+							// sanitized below because can be URL or email. See line::453, line::456, line::467, line::476
 							$app_contact = $_POST['job_application'];
 
 							switch ( JB()->options()->get( 'application-method' ) ) {
@@ -453,6 +462,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									$app_contact = sanitize_email( $app_contact );
 									break;
 								case 'url':
+									$app_contact = sanitize_text_field( $app_contact );
 									// Prefix http if needed.
 									if ( ! strstr( $app_contact, 'http:' ) && ! strstr( $app_contact, 'https:' ) ) {
 										$app_contact = 'http://' . $app_contact;
@@ -463,6 +473,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									break;
 								default:
 									if ( ! is_email( $app_contact ) ) {
+										$app_contact = sanitize_text_field( $app_contact );
 										// Prefix http if needed.
 										if ( ! strstr( $app_contact, 'http:' ) && ! strstr( $app_contact, 'https:' ) ) {
 											$app_contact = 'http://' . $app_contact;
@@ -473,7 +484,6 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									} else {
 										$app_contact = sanitize_email( $app_contact );
 									}
-
 									break;
 							}
 						}

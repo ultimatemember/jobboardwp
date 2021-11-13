@@ -36,15 +36,15 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 								<?php
 								/** @noinspection HtmlUnknownTarget */
 								// translators: %1$s: mailto URL, %2$s: contact email
-								printf( __( 'To apply for this job <strong>email your details to</strong> <a href="%1$s">%2$s</a>.', 'jobboardwp' ), $contact_mailto, $contact ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
+								echo wp_kses( sprintf( __( 'To apply for this job <strong>email your details to</strong> <a href="%1$s">%2$s</a>.', 'jobboardwp' ), esc_attr( $contact_mailto ), $contact ), JB()->get_allowed_html( 'templates' ) );
 								?>
 							</p>
 						<?php } else { ?>
 							<p>
 								<?php
 								/** @noinspection HtmlUnknownTarget */
-								// translators: %1$s: application's website URL
-								printf( __( 'To apply for this job please visit <a href="%1$s">%1$s</a>.', 'jobboardwp' ), esc_html( $contact ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
+								// translators: %1$s: application's website URL, %2$s: application's website URL text
+								echo wp_kses( sprintf( __( 'To apply for this job please visit <a href="%1$s">%2$s</a>.', 'jobboardwp' ), esc_attr( $contact ), $contact ), JB()->get_allowed_html( 'templates' ) );
 								?>
 							</p>
 						<?php } ?>

@@ -366,7 +366,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			}
 
 			echo '<!-- Job Board Structured Data -->' . "\r\n";
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- structured data output, early escaped
 			echo '<script type="application/ld+json">' . _wp_specialchars( wp_json_encode( $structured_data ), ENT_NOQUOTES, 'UTF-8', true ) . '</script>';
 		}
 
@@ -386,7 +386,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			<div class="jb-dropdown" data-element="<?php echo esc_attr( $element ); ?>" data-trigger="<?php echo esc_attr( $trigger ); ?>">
 				<ul>
 					<?php foreach ( $items as $k => $v ) { ?>
-						<li><?php echo $v; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output ?></li>
+						<li><?php echo wp_kses( $v, JB()->get_allowed_html() ); ?></li>
 					<?php } ?>
 				</ul>
 			</div>

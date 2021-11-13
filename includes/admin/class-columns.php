@@ -165,10 +165,12 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				<div class="jb-admin-notice notice updated fade">
 					<p>
 						<?php
-						printf(
-							// translators: %s is the count of approved jobs.
-							_n( '%s job is approved.', '%s jobs are approved.', $approved_count, 'jobboardwp' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-							$approved_count // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo esc_html(
+							sprintf(
+								// translators: %s is the count of approved jobs.
+								_n( '%s job is approved.', '%s jobs are approved.', $approved_count, 'jobboardwp' ),
+								$approved_count
+							)
 						);
 						?>
 					</p>
@@ -180,10 +182,12 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				<div class="jb-admin-notice notice updated fade">
 					<p>
 						<?php
-						printf(
-							// translators: %s is the count of deleted jobs.
-							_n( '%s job is deleted.', '%s jobs are deleted.', $deleted_count, 'jobboardwp' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-							$deleted_count // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo esc_html(
+							sprintf(
+								// translators: %s is the count of deleted jobs.
+								_n( '%s job is deleted.', '%s jobs are deleted.', $deleted_count, 'jobboardwp' ),
+								$deleted_count
+							)
 						);
 						?>
 					</p>
@@ -241,12 +245,12 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 
 					do_action( 'jb_job_is_approved', $post_id, $post );
 				}
-				$redirect_to = add_query_arg( 'jb-approved', count( $post_ids ), $redirect_to );
+				$redirect_to = add_query_arg( 'jb-approved', count( $post_ids ), remove_query_arg( 'jb-deleted', $redirect_to ) );
 			} elseif ( 'jb-delete' === $doaction ) {
 				foreach ( $post_ids as $post_id ) {
 					wp_delete_post( $post_id, true );
 				}
-				$redirect_to = add_query_arg( 'jb-deleted', count( $post_ids ), $redirect_to );
+				$redirect_to = add_query_arg( 'jb-deleted', count( $post_ids ), remove_query_arg( 'jb-approved', $redirect_to ) );
 			}
 
 			return $redirect_to;
@@ -389,15 +393,12 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 						case '0':
 							$location = JB()->common()->job()->get_location_link( JB()->common()->job()->get_location( $id ) );
 							// translators: %1$s is a location type; %2$s is a location.
-							printf( __( '%1$s (%2$s)', 'jobboardwp' ), $type, $location ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped
+							echo wp_kses( sprintf( __( '%1$s (%2$s)', 'jobboardwp' ), $type, $location ), JB()->get_allowed_html( 'templates' ) );
 							break;
 						case '1':
-							$location = JB()->common()->job()->get_location( $id );
-							echo $location; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped
-							break;
 						case '':
 							$location = JB()->common()->job()->get_location( $id );
-							echo $location; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped
+							echo wp_kses( $location, JB()->get_allowed_html( 'templates' ) );
 							break;
 					}
 
@@ -406,7 +407,9 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 					$job = get_post( $id );
 					if ( ! empty( $job->post_status ) ) {
 						$post_status = get_post_status_object( $job->post_status );
-						echo ! empty( $post_status->label ) ? $post_status->label : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped
+						if ( ! empty( $post_status->label ) ) {
+							echo esc_html( $post_status->label );
+						}
 					}
 					echo '';
 					break;
@@ -422,7 +425,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 					);
 
 					if ( ! empty( $terms ) ) {
-						echo implode( ', ', $terms ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped
+						echo esc_html( implode( ', ', $terms ) );
 					}
 					break;
 				case 'category':
@@ -437,22 +440,29 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 					);
 
 					if ( ! empty( $terms ) ) {
-						echo implode( ', ', $terms ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped
+						echo esc_html( implode( ', ', $terms ) );
 					}
 					break;
 				case 'posted':
 					$posted = JB()->common()->job()->get_posted_date( $id );
 					$author = JB()->common()->job()->get_job_author( $id );
 
-					$post = get_post( $id );
-					/** @noinspection HtmlUnknownTarget */
-					// translators: %1$s is a posted job date. %2$s is an author URL and %3$s is Author display name
-					printf( __( '%1$s <br />by <a href="%2$s" title="Filter by author">%3$s</a>', 'jobboardwp' ), $posted, esc_url( add_query_arg( 'author', $post->post_author ) ), esc_html( $author ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped
+					$post        = get_post( $id );
+					$filter_link = add_query_arg( 'author', $post->post_author );
+					ob_start();
+					?>
+					<?php echo esc_html( $posted ); ?>
+					<br /><?php esc_html_e( 'by ', 'jobboardwp' ); ?>
+					<a href="<?php echo esc_attr( $filter_link ); ?>" title="<?php esc_attr_e( 'Filter by author', 'jobboardwp' ); ?>">
+						<?php echo esc_html( $author ); ?>
+					</a>
+					<?php
+					ob_end_flush();
 					break;
 				case 'expires':
 					$expiry = JB()->common()->job()->get_expiry_date( $id );
 					if ( ! empty( $expiry ) ) {
-						echo $expiry; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped
+						echo esc_html( $expiry );
 					} else {
 						echo '&ndash;';
 					}

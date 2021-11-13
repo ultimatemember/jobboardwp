@@ -150,7 +150,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			if ( $this->has_notices() ) {
 				foreach ( $this->get_notices() as $notice ) {
 					?>
-					<span class="jb-frontend-form-notice"><?php echo $notice; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output ?></span>
+					<span class="jb-frontend-form-notice"><?php echo wp_kses( $notice, JB()->get_allowed_html( 'templates' ) ); ?></span>
 					<?php
 				}
 			}
@@ -158,7 +158,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			if ( $this->has_error( 'global' ) ) {
 				foreach ( $this->get_error( 'global' ) as $error ) {
 					?>
-					<span class="jb-frontend-form-error"><?php echo $error; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output ?></span>
+					<span class="jb-frontend-form-error"><?php echo wp_kses( $error, JB()->get_allowed_html( 'templates' ) ); ?></span>
 					<?php
 				}
 			}
@@ -166,14 +166,10 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$move_form_tag = apply_filters( 'jb_forms_move_form_tag', false );
 
 			if ( ! $move_form_tag ) {
-				?>
-
-				<form action="<?php echo esc_attr( $action ); ?>" method="<?php echo esc_attr( $method ); ?>" name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ); ?>" class="jb-form" <?php echo $data_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output ?>>
-
-				<?php
+				echo wp_kses( '<form action="' . esc_attr( $action ) . '" method="' . esc_attr( $method ) . '" name="' . esc_attr( $name ) . '" id="' . esc_attr( $id ) . '" class="jb-form" ' . $data_attr . '>', JB()->get_allowed_html( 'templates' ) );
 			}
 
-			echo $fields . $hidden . '<div class="jb-form-buttons-section">' . $buttons . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
+			echo wp_kses( $fields . $hidden . '<div class="jb-form-buttons-section">' . $buttons . '</div>', JB()->get_allowed_html( 'templates' ) );
 			?>
 
 			</form>
@@ -283,18 +279,17 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			}
 
 			ob_start();
-			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
 			?>
 
 			<div class="<?php echo esc_attr( implode( ' ', $row_classes ) ); ?>">
-				<?php echo $this->render_field_label( $data ); ?>
+				<?php echo wp_kses( $this->render_field_label( $data ), JB()->get_allowed_html( 'templates' ) ); ?>
 
 				<span class="jb-form-field-content">
-					<?php echo $field_html; ?>
+					<?php echo wp_kses( $field_html, JB()->get_allowed_html( 'templates' ) ); ?>
 
 					<?php if ( $this->has_error( $data['id'] ) ) { ?>
 						<span class="jb-form-field-error">
-							<?php echo $this->get_error( $data['id'] ); ?>
+							<?php echo wp_kses( $this->get_error( $data['id'] ), JB()->get_allowed_html( 'templates' ) ); ?>
 						</span>
 					<?php } ?>
 
@@ -302,7 +297,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			</div>
 
 			<?php
-			// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
 			$html = ob_get_clean();
 			return $html;
 		}
@@ -393,9 +387,9 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			?>
 
 			<label class="screen-reader-text" for="jb-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label>
-			<input id="jb-<?php echo esc_attr( $name ); ?>" type="<?php echo esc_attr( $type ); ?>" value="<?php echo esc_attr( $label ); ?>" class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" name="<?php echo esc_attr( $name ); ?>" <?php echo $data_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output ?> />
 
 			<?php
+			echo wp_kses( '<input id="jb-' . esc_attr( $name ) . '" type="' . esc_attr( $type ) . '" value="' . esc_attr( $label ) . '" class="' . esc_attr( implode( ' ', $classes ) ) . '" name="' . esc_attr( $name ) . '" ' . $data_attr . ' />', JB()->get_allowed_html( 'templates' ) );
 			return ob_get_clean();
 		}
 
@@ -464,7 +458,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				$label = $label . '<span class="jb-req" title="' . esc_attr__( 'Required', 'jobboardwp' ) . '">*</span>';
 			}
 
-			$helptip = ! empty( $data['helptip'] ) ? ' ' . JB()->helptip( $data['helptip'], false, false ) : '';
+			$helptip = ! empty( $data['helptip'] ) ? ' ' . JB()->helptip( $data['helptip'] ) : '';
 
 			return "<label $for_attr class=\"jb-form-row-label\">{$label}{$helptip}</label>";
 		}
@@ -492,14 +486,10 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$thumb_h    = get_option( 'thumbnail_size_h' );
 			$thumb_crop = get_option( 'thumbnail_crop', false );
 
-			$id           = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $field_data['id'];
-			$id_attr      = ' id="' . esc_attr( $id ) . '" ';
-			$id_hash_attr = ' id="' . esc_attr( $id ) . '_hash" ';
+			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $field_data['id'];
 
-			$name           = isset( $field_data['name'] ) ? $field_data['name'] : $field_data['id'];
-			$name           = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
-			$name_attr      = ' name="' . esc_attr( $name ) . '" ';
-			$name_hash_attr = ' name="' . esc_attr( $name ) . '_hash" ';
+			$name = isset( $field_data['name'] ) ? $field_data['name'] : $field_data['id'];
+			$name = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
 
 			$img_alt      = isset( $field_data['labels']['img_alt'] ) ? $field_data['labels']['img_alt'] : __( 'Selected image', 'jobboardwp' );
 			$select_label = isset( $field_data['labels']['select'] ) ? $field_data['labels']['select'] : __( 'Select file', 'jobboardwp' );
@@ -521,16 +511,14 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			}
 			$uploader_classes = implode( ' ', $uploader_classes );
 
-			$value      = ! empty( $field_data['value'] ) ? $field_data['value'] : '';
-			$value_attr = ' value="' . esc_attr( $value ) . '" ';
+			$value = ! empty( $field_data['value'] ) ? $field_data['value'] : '';
 
 			ob_start();
-			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
 			?>
 
 			<span class="<?php echo esc_attr( $wrapper_classes ); ?>">
 				<span class="jb-uploaded-content-wrapper jb-<?php echo esc_attr( $id ); ?>-image-wrapper" style="width: <?php echo esc_attr( $thumb_w ); ?>px;height: <?php echo esc_attr( $thumb_h ); ?>px;">
-					<img src="<?php echo ! empty( $field_data['value'] ) ? esc_url( $field_data['value'] ) : ''; ?>" alt="<?php echo esc_attr( $img_alt ); ?>" <?php echo $img_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output ?>/>
+					<?php echo wp_kses( '<img src="' . ( ! empty( $field_data['value'] ) ? esc_url( $field_data['value'] ) : '' ) . '" alt="' . esc_attr( $img_alt ) . '" ' . $img_style . ' />', JB()->get_allowed_html( 'templates' ) ); ?>
 				</span>
 				<a class="jb-cancel-change-media" href="javascript:void(0);"><?php echo esc_html( $cancel_label ); ?></a>
 				<a class="jb-change-media" href="javascript:void(0);"><?php echo esc_html( $change_label ); ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;
@@ -546,11 +534,10 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 				<span id="jb-<?php echo esc_attr( $id ); ?>-errorlist" class="jb-uploader-errorlist"></span>
 			</span>
-			<input type="hidden" class="jb-media-value" <?php echo $name_attr; ?> <?php echo $id_attr; ?> <?php echo $value_attr; ?> />
-			<input type="hidden" class="jb-media-value-hash" <?php echo $name_hash_attr; ?> <?php echo $id_hash_attr; ?> value="" />
+			<input type="hidden" class="jb-media-value" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $value ); ?>" />
+			<input type="hidden" class="jb-media-value-hash" id="<?php echo esc_attr( $id ); ?>_hash" name="<?php echo esc_attr( $name ); ?>_hash" value="" />
 
 			<?php
-			// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
 			$html = ob_get_clean();
 			return $html;
 		}
@@ -803,8 +790,8 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$data = array( 'field_id' => $field_data['id'] );
 
 			$data_attr = '';
-			foreach ( $data as $key => $value ) {
-				$data_attr .= " data-{$key}=\"" . esc_attr( $value ) . '" ';
+			foreach ( $data as $key => $val ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $val ) . '" ';
 			}
 
 			$name      = $field_data['id'];
@@ -1024,12 +1011,13 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		 *
 		 * @param string $field
 		 *
-		 * @return array
+		 * @return string|array
 		 *
 		 * @since 1.0
 		 */
 		public function get_error( $field ) {
-			return ! empty( $this->errors[ $field ] ) ? $this->errors[ $field ] : array();
+			$default = 'global' === $field ? array() : '';
+			return ! empty( $this->errors[ $field ] ) ? $this->errors[ $field ] : $default;
 		}
 
 

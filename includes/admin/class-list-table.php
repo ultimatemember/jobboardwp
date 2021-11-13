@@ -57,8 +57,8 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 							/** @noinspection HtmlUnknownTarget */
 							printf(
 								'(#%1$s)&nbsp;<a class="row-title" href="%2$s" aria-label="%3$s">%4$s</a>',
-								$post->ID, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-								get_edit_post_link( $post->ID ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped via `get_edit_post_link()`
+								esc_html( $post->ID ),
+								esc_attr( get_edit_post_link( $post->ID ) ),
 								// translators: %s: Post title.
 								esc_attr( sprintf( __( '&#8220;%s&#8221; (Edit)' ), $title ) ),
 								$title // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped  -- already escaped via `_draft_or_post_title()`
@@ -105,15 +105,15 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 					$lock_holder   = get_userdata( $lock_holder );
 					$locked_avatar = get_avatar( $lock_holder->ID, 18 );
 					// translators: %s: User's display name.
-					$locked_text = esc_html( sprintf( __( '%s is currently editing' ), $lock_holder->display_name ) );
+					$locked_text = sprintf( __( '%s is currently editing' ), $lock_holder->display_name );
 				} else {
 					$locked_avatar = '';
 					$locked_text   = '';
 				}
 				?>
 				<div class="locked-info">
-					<span class="locked-avatar"><?php echo $locked_avatar; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output. ?></span>&nbsp;
-					<span class="locked-text"><?php echo $locked_text; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped during generation. ?></span>
+					<span class="locked-avatar"><?php echo wp_kses( $locked_avatar, JB()->get_allowed_html( 'wp-admin' ) ); ?></span>&nbsp;
+					<span class="locked-text"><?php echo esc_html( $locked_text ); ?></span>
 				</div>
 				<?php
 				echo "\n";

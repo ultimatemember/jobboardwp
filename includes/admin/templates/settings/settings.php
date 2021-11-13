@@ -10,8 +10,7 @@ $current_subtab = empty( $_GET['section'] ) ? '' : sanitize_key( urldecode( $_GE
 	<h2><?php esc_html_e( 'JobBoardWP - Settings', 'jobboardwp' ); ?></h2>
 
 	<?php
-	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
-	echo JB()->admin()->settings()->tabs_menu() . JB()->admin()->settings()->subtabs_menu( $current_tab );
+	echo wp_kses( JB()->admin()->settings()->tabs_menu() . JB()->admin()->settings()->subtabs_menu( $current_tab ), JB()->get_allowed_html( 'wp-admin' ) );
 
 	do_action( "jb_before_settings_{$current_tab}_{$current_subtab}_content" );
 
@@ -20,8 +19,7 @@ $current_subtab = empty( $_GET['section'] ) ? '' : sanitize_key( urldecode( $_GE
 
 		$settings_section = JB()->admin()->settings()->display_section( $current_tab, $current_subtab );
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
-		echo apply_filters( "jb_settings_section_{$current_tab}_{$current_subtab}_content", $settings_section );
+		echo wp_kses( apply_filters( "jb_settings_section_{$current_tab}_{$current_subtab}_content", $settings_section ), JB()->get_allowed_html( 'wp-admin' ) );
 	} else {
 		?>
 
@@ -33,8 +31,7 @@ $current_subtab = empty( $_GET['section'] ) ? '' : sanitize_key( urldecode( $_GE
 
 			$settings_section = JB()->admin()->settings()->display_section( $current_tab, $current_subtab );
 
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
-			echo apply_filters( "jb_settings_section_{$current_tab}_{$current_subtab}_content", $settings_section );
+			echo wp_kses( apply_filters( "jb_settings_section_{$current_tab}_{$current_subtab}_content", $settings_section ), JB()->get_allowed_html( 'wp-admin' ) );
 			?>
 
 			<p class="submit">

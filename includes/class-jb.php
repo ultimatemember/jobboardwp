@@ -53,8 +53,7 @@ if ( ! class_exists( 'JB' ) ) {
 		 * @since 1.0
 		 */
 		public function __clone() {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
-			_doing_it_wrong( __FUNCTION__, __( 'Cloning is forbidden.', 'jobboardwp' ), '1.0' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'Cloning is forbidden.', 'jobboardwp' ), '1.0' );
 		}
 
 
@@ -64,8 +63,7 @@ if ( ! class_exists( 'JB' ) ) {
 		 * @since 1.0
 		 */
 		public function __wakeup() {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- strict output
-			_doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'jobboardwp' ), '1.0' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'Unserializing instances of this class is forbidden.', 'jobboardwp' ), '1.0' );
 		}
 
 

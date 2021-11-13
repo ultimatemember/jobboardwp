@@ -178,20 +178,18 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 			$message = ! empty( $notice_data['message'] ) ? $notice_data['message'] : '';
 
 			ob_start();
+			?>
 
-			printf(
-				'<div class="jb-admin-notice notice %1$s" data-key="%2$s">%3$s</div>',
-				esc_attr( $class ),
-				esc_attr( $key ),
-				$message // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped in $notice_data
-			);
+			<div class="jb-admin-notice notice <?php echo esc_attr( $class ); ?>" data-key="<?php echo esc_attr( $key ); ?>">
+				<?php echo wp_kses( $message, JB()->get_allowed_html( 'admin_notice' ) ); ?>
+			</div>
 
-			$notice = ob_get_clean();
-
+			<?php
 			if ( $echo ) {
-				echo $notice; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped
+				ob_end_flush();
 				return '';
 			} else {
+				$notice = ob_get_clean();
 				return $notice;
 			}
 		}
@@ -233,7 +231,8 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 				)
 			);
 
-			ob_start(); ?>
+			ob_start();
+			?>
 
 			<p>
 				<?php

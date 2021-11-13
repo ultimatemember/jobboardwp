@@ -196,10 +196,7 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 		 * @since 1.0
 		 */
 		public function common_libs() {
-			global $wp_scripts;
-
-			$jquery_version = isset( $wp_scripts->registered['jquery-ui-core']->ver ) ? $wp_scripts->registered['jquery-ui-core']->ver : '1.9.2';
-			wp_register_style( 'jquery-ui', '//code.jquery.com/ui/' . $jquery_version . '/themes/smoothness/jquery-ui' . JB()->scrips_prefix . '.css', array(), $jquery_version );
+			wp_register_style( 'jquery-ui', $this->url['common'] . 'libs/jquery-ui/jquery-ui' . JB()->scrips_prefix . '.css', array(), '1.12.1' );
 
 			if ( ! JB()->options()->get( 'disable-fa-styles' ) ) {
 				wp_register_style( 'jb-far', $this->url['common'] . 'libs/fontawesome/css/regular' . JB()->scrips_prefix . '.css', array(), $this->fa_version );
