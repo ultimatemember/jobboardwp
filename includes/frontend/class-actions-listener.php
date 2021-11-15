@@ -449,20 +449,15 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 						if ( empty( $_POST['job_application'] ) ) {
 							$posting_form->add_error( 'job_application', __( 'Application contact cannot be empty', 'jobboardwp' ) );
 						} else {
-							// sanitized below because can be URL or email. See line::453, line::456, line::467, line::476
-							$app_contact = $_POST['job_application'];
-
 							switch ( JB()->options()->get( 'application-method' ) ) {
-
 								case 'email':
+									$app_contact = sanitize_email( $_POST['job_application'] );
 									if ( ! is_email( $app_contact ) ) {
 										$posting_form->add_error( 'job_application', __( 'Job application must be an email address', 'jobboardwp' ) );
 									}
-
-									$app_contact = sanitize_email( $app_contact );
 									break;
 								case 'url':
-									$app_contact = sanitize_text_field( $app_contact );
+									$app_contact = sanitize_text_field( $_POST['job_application'] );
 									// Prefix http if needed.
 									if ( ! strstr( $app_contact, 'http:' ) && ! strstr( $app_contact, 'https:' ) ) {
 										$app_contact = 'http://' . $app_contact;
@@ -472,8 +467,9 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									}
 									break;
 								default:
+									$app_contact = sanitize_email( $_POST['job_application'] );
 									if ( ! is_email( $app_contact ) ) {
-										$app_contact = sanitize_text_field( $app_contact );
+										$app_contact = sanitize_text_field( $_POST['job_application'] );
 										// Prefix http if needed.
 										if ( ! strstr( $app_contact, 'http:' ) && ! strstr( $app_contact, 'https:' ) ) {
 											$app_contact = 'http://' . $app_contact;
@@ -481,8 +477,6 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 										if ( ! filter_var( $app_contact, FILTER_VALIDATE_URL ) ) {
 											$posting_form->add_error( 'job_application', __( 'Job application must be an email address or URL', 'jobboardwp' ) );
 										}
-									} else {
-										$app_contact = sanitize_email( $app_contact );
 									}
 									break;
 							}
