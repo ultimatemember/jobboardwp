@@ -17,7 +17,7 @@
 			}
 			?>
 
-			<div class="jb-job-list-row<?php echo $list_row_class; ?><# if ( job.actions.length > 0 ) { #> jb-job-list-with-actions<# } #>"><?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static output, line::14, line::16 ?>
+			<div class="jb-job-list-row<?php echo $list_row_class; ?><# if ( job.actions.length > 0 ) { #> jb-job-list-with-actions<# } #>"><?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static output, JS template line::14, line::16 ?>
 				<?php if ( ! $jb_js_jobs_list['no-logo'] ) { ?>
 					<# if ( job.logo ) { #>
 						<div class="jb-job-logo">

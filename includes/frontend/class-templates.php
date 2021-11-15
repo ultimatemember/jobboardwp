@@ -370,6 +370,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 				return;
 			}
 
+			// test via this page https://developers.google.com/search/docs/advanced/structured-data
 			echo '<!-- Job Board Structured Data -->' . "\r\n";
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- structured data output, early escaped
 			echo '<script type="application/ld+json">' . _wp_specialchars( wp_json_encode( $structured_data ), ENT_NOQUOTES, 'UTF-8', true ) . '</script>';

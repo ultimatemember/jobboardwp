@@ -289,6 +289,11 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 				case 'templates':
 					$allowed_html = array(
 						'style'    => array(),
+						'link'     => array(
+							'rel'   => true,
+							'href'  => true,
+							'media' => true,
+						),
 						'form'     => array(
 							'action'         => true,
 							'accept'         => true,

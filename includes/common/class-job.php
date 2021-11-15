@@ -733,7 +733,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				foreach ( $types as $type ) {
 					$employment_types[] = $type->name;
 				}
-				$data['employmentType'] = implode( ', ', $employment_types );
+				$data['employmentType'] = esc_html( implode( ', ', $employment_types ) );
 			}
 
 			$logo    = JB()->common()->job()->get_logo( $job->ID, true );
@@ -741,21 +741,21 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 			$data['hiringOrganization']          = array();
 			$data['hiringOrganization']['@type'] = 'Organization';
-			$data['hiringOrganization']['name']  = $company['name'];
+			$data['hiringOrganization']['name']  = esc_html( $company['name'] );
 
 			$company_website = $company['website'];
 			if ( $company_website ) {
-				$data['hiringOrganization']['sameAs'] = $company_website;
-				$data['hiringOrganization']['url']    = $company_website;
+				$data['hiringOrganization']['sameAs'] = esc_url_raw( $company_website );
+				$data['hiringOrganization']['url']    = esc_url_raw( $company_website );
 			}
 
 			if ( $logo ) {
-				$data['hiringOrganization']['logo'] = $logo;
+				$data['hiringOrganization']['logo'] = esc_url_raw( $logo );
 			}
 
 			$data['identifier']          = array();
 			$data['identifier']['@type'] = 'PropertyValue';
-			$data['identifier']['name']  = $company['name'];
+			$data['identifier']['name']  = esc_html( $company['name'] );
 			$data['identifier']['value'] = get_the_guid( $job );
 
 			$location = JB()->common()->job()->get_location( $job->ID, true );
@@ -764,7 +764,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				$data['jobLocation']['@type']   = 'Place';
 				$data['jobLocation']['address'] = $this->get_structured_location( $job );
 				if ( empty( $data['jobLocation']['address'] ) ) {
-					$data['jobLocation']['address'] = $location;
+					$data['jobLocation']['address'] = esc_html( $location );
 				}
 			}
 
@@ -797,7 +797,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				$value = get_post_meta( $job->ID, 'jb-location-' . $meta_key, true );
 
 				if ( ! empty( $value ) ) {
-					$address[ $schema_key ] = $value;
+					$address[ $schema_key ] = esc_html( $value );
 				}
 			}
 
