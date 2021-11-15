@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-11-15T14:40:31+00:00\n"
+"POT-Creation-Date: 2021-11-15T14:56:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: jobboardwp\n"
@@ -859,9 +859,9 @@ msgstr ""
 
 #: includes/ajax/class-jobs.php:685
 #: includes/ajax/class-jobs.php:730
-#: includes/frontend/class-actions-listener.php:724
-#: includes/frontend/class-actions-listener.php:821
-#: includes/frontend/class-actions-listener.php:835
+#: includes/frontend/class-actions-listener.php:718
+#: includes/frontend/class-actions-listener.php:815
+#: includes/frontend/class-actions-listener.php:829
 #: includes/frontend/class-shortcodes.php:136
 #: includes/frontend/class-shortcodes.php:159
 #: includes/frontend/class-shortcodes.php:178
@@ -1609,7 +1609,7 @@ msgid "Please use another username"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:406
-#: includes/frontend/class-actions-listener.php:825
+#: includes/frontend/class-actions-listener.php:819
 msgid "Security issue, Please try again"
 msgstr ""
 
@@ -1631,80 +1631,80 @@ msgstr ""
 msgid "Application contact cannot be empty"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:459
+#: includes/frontend/class-actions-listener.php:456
 msgid "Job application must be an email address"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:471
+#: includes/frontend/class-actions-listener.php:466
 msgid "Job application must be an URL"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:482
+#: includes/frontend/class-actions-listener.php:478
 msgid "Job application must be an email address or URL"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:494
+#: includes/frontend/class-actions-listener.php:488
 msgid "Job location type invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:499
+#: includes/frontend/class-actions-listener.php:493
 msgid "Location for onsite job is required"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:510
+#: includes/frontend/class-actions-listener.php:504
 msgid "Job type is required"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:516
-#: includes/frontend/class-actions-listener.php:520
+#: includes/frontend/class-actions-listener.php:510
+#: includes/frontend/class-actions-listener.php:514
 msgid "Company name cannot be empty"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:531
+#: includes/frontend/class-actions-listener.php:525
 msgid "Company website is invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:551
+#: includes/frontend/class-actions-listener.php:545
 msgid "Company Twitter is invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:564
+#: includes/frontend/class-actions-listener.php:558
 msgid "Company Facebook is invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:576
+#: includes/frontend/class-actions-listener.php:570
 msgid "Company Instagram is invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:591
+#: includes/frontend/class-actions-listener.php:585
 msgid "Something wrong with image, please re-upload"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:636
+#: includes/frontend/class-actions-listener.php:630
 msgid "Wrong image URL. Invalid URL"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:662
+#: includes/frontend/class-actions-listener.php:656
 msgid "Wrong image URL. Invalid job"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:669
+#: includes/frontend/class-actions-listener.php:663
 msgid "Wrong image URL. Invalid attachment ID"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:676
+#: includes/frontend/class-actions-listener.php:670
 msgid "Wrong image URL. Invalid attachment path"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:737
+#: includes/frontend/class-actions-listener.php:731
 msgid "Job submission issue, Please try again"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:829
+#: includes/frontend/class-actions-listener.php:823
 msgid "Wrong action, Please try again"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:844
+#: includes/frontend/class-actions-listener.php:838
 msgid "Security action, Please try again."
 msgstr ""
 
