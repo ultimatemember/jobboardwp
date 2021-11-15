@@ -938,7 +938,10 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			if ( ! empty( $errors ) ) {
 				// add notice text
-				$errors['notice'] = __( 'Wrong Job\'s data', 'jobboardwp' );
+				$errors['notice'][] = __( 'Wrong Job\'s data', 'jobboardwp' );
+				if ( empty( $_POST['description'] ) ) {
+					$errors['notice'][] = ' Description is required';
+				}
 				wp_send_json_success( $errors );
 			} else {
 				wp_send_json_success( array( 'valid' => 1 ) );

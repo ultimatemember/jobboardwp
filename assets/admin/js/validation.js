@@ -62,7 +62,6 @@
 				success: function( answer ) {
 					$('.jb-forms-line .jb-forms-field').css('border', '#8c8f94 solid 1px');
 					$('.jb-forms-line .jb-forms-field').parent().find('p.description').css('color', '#2c3338');
-					$('.is-root-container').css('background-color', '#ffffff');
 
 					if ( answer.valid ) {
 						notices.removeNotice( 'jbwp-validation' );
@@ -76,9 +75,6 @@
 							answer.empty.forEach(function (item, i, arr) {
 								console.log(i + " - " + item);
 								$('#jb-job-meta_' + item).css('border', '#d63638 solid 1px');
-								if ( item === 'description' ) {
-									$('.is-root-container').css('background-color', '#f4a2a2');
-								}
 							});
 						}
 						if ( answer.wrong ) {
@@ -150,7 +146,6 @@
 		if ( locked ) {
 			$(this).css("border", "#8c8f94 solid 1px");
 			$(this).parent().find('p.description').css('color', '#2c3338');
-			$('.is-root-container').css('background-color', '#ffffff');
 			editor.unlockPostSaving('jbwp');
 		}
 	});
