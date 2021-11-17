@@ -61,6 +61,9 @@ function jb_responsive() {
 	jQuery('.jb').each( function() {
 		var obj = jQuery(this);
 		var element_width = obj.outerWidth();
+		if ( jQuery('.um-account-tab-jobboardwp').length ) {
+			element_width = jQuery('.um-account-main').width();
+		}
 
 		jQuery.each( $resolutions, function( index ) {
 			var $class = jb_get_size( $resolutions[ index ] );
