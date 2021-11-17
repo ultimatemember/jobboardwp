@@ -104,24 +104,26 @@
 			}
 
 			if ( JB()->options()->get( 'job-categories' ) ) {
-				$job_category = ! empty( $_GET['jb-job-category'] ) ? sanitize_text_field( $_GET['jb-job-category'] ) : '';
-				$categories   = get_terms(
-					array(
-						'taxonomy'   => 'jb-job-category',
-						'hide_empty' => false,
-					)
-				);
-				if ( ! empty( $categories ) ) {
-					?>
-					<label>
-						<select class="jb-job-category-filter">
-							<option value="" <?php selected( $job_category, '' ); ?>><?php esc_attr_e( 'Select job category', 'jobboardwp' ); ?></option>
-							<?php foreach ( $categories as $category ) { ?>
-								<option value="<?php echo esc_attr( $category->term_id ); ?>" <?php selected( $job_category, $category->term_id ); ?>><?php echo esc_html( $category->name ); ?></option>
-							<?php } ?>
-						</select>
-					</label>
-					<?php
+				if ( empty( $jb_jobs_search_bar['category'] ) ) {
+					$job_category = ! empty( $_GET['jb-job-category'] ) ? sanitize_text_field( $_GET['jb-job-category'] ) : '';
+					$categories   = get_terms(
+						array(
+							'taxonomy'   => 'jb-job-category',
+							'hide_empty' => false,
+						)
+					);
+					if ( ! empty( $categories ) ) {
+						?>
+						<label>
+							<select class="jb-job-category-filter">
+								<option value="" <?php selected( $job_category, '' ); ?>><?php esc_attr_e( 'Select job category', 'jobboardwp' ); ?></option>
+								<?php foreach ( $categories as $category ) { ?>
+									<option value="<?php echo esc_attr( $category->term_id ); ?>" <?php selected( $job_category, $category->term_id ); ?>><?php echo esc_html( $category->name ); ?></option>
+								<?php } ?>
+							</select>
+						</label>
+						<?php
+					}
 				}
 			}
 			?>
