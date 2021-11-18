@@ -211,6 +211,10 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 
 						$user_id = wp_insert_user( $userdata );
 
+						if ( ! is_wp_error( $user_id ) ) {
+							do_action( 'jb_job_submission_after_create_account', $user_id );
+						}
+
 						// Login here
 						add_action( 'set_logged_in_cookie', array( $this, 'update_global_login_cookie' ) );
 						wp_set_auth_cookie( $user_id, true, is_ssl() );
@@ -305,6 +309,10 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							$userdata = apply_filters( 'jb_job_submission_create_account_data', $userdata );
 
 							$user_id = wp_insert_user( $userdata );
+
+							if ( ! is_wp_error( $user_id ) ) {
+								do_action( 'jb_job_submission_after_create_account', $user_id );
+							}
 
 							// Login here
 							add_action( 'set_logged_in_cookie', array( $this, 'update_global_login_cookie' ) );
