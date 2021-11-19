@@ -387,6 +387,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 * @since 1.0
 		 */
 		public function dropdown_menu( $element, $trigger, $items = array() ) {
+			// !!!!Important: all links in the dropdown items must have "class" attribute
 			?>
 
 			<div class="jb-dropdown" data-element="<?php echo esc_attr( $element ); ?>" data-trigger="<?php echo esc_attr( $trigger ); ?>">

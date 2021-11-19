@@ -129,6 +129,8 @@ wp.JB.jobs_dashboard = {
 
 				wp.hooks.doAction( 'jb_jobs_dashboard_loaded', answer );
 
+				jb_init_dropdown();
+
 				wp.JB.jobs_dashboard.preloader.hide();
 			},
 			error: function( data ) {

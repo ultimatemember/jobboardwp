@@ -39,5 +39,4 @@ if ( ! is_user_logged_in() ) {
 	</div>
 
 	<?php
-	JB()->frontend()->templates()->dropdown_menu( '.jb-job-actions-dropdown', 'click' );
 }
