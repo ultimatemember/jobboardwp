@@ -880,5 +880,112 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			);
 			// phpcs:enable WordPress.Security.NonceVerification -- already verified here
 		}
+
+
+		/**
+		 * AJAX handler for job delete
+		 *
+		 * @since 1.0
+		 */
+		public function validate_job() {
+			JB()->ajax()->check_nonce( 'jb-backend-nonce' );
+
+			// phpcs:disable WordPress.Security.NonceVerification -- already verified here
+			if ( empty( $_POST['data'] ) ) {
+				wp_send_json_error( __( 'Wrong Data', 'jobboardwp' ) );
+			}
+
+			$errors = array();
+
+			if ( empty( $_POST['description'] ) ) {
+				$errors['empty'][] = 'description';
+			} else {
+				$description = wp_kses_post( $_POST['description'] );
+				if ( empty( $description ) ) {
+					$errors['empty'][] = 'description';
+				}
+			}
+
+			if ( empty( $_POST['data']['jb-application-contact'] ) ) {
+				$errors['empty'][] = 'jb-application-contact';
+			} else {
+				$method = JB()->options()->get( 'application-method' );
+				if ( 'email' === $method ) {
+					$app_contact = sanitize_email( $_POST['data']['jb-application-contact'] );
+					if ( ! is_email( $app_contact ) ) {
+						$errors['wrong'][] = 'jb-application-contact';
+					}
+				} elseif ( 'url' === $method ) {
+					$app_contact = sanitize_text_field( $_POST['data']['jb-application-contact'] );
+					if ( ! strstr( $app_contact, 'http:' ) && ! strstr( $app_contact, 'https:' ) ) {
+						$app_contact = 'http://' . $app_contact;
+					}
+
+					if ( ! JB()->common()->job()->validate_url( $app_contact ) || is_email( $app_contact ) ) {
+						$errors['wrong'][] = 'jb-application-contact';
+					}
+				} else {
+					$app_contact = sanitize_email( $_POST['data']['jb-application-contact'] );
+					if ( ! is_email( $app_contact ) ) {
+						$app_contact = sanitize_text_field( $_POST['data']['jb-application-contact'] );
+						// Prefix http if needed.
+						if ( ! strstr( $app_contact, 'http:' ) && ! strstr( $app_contact, 'https:' ) ) {
+							$app_contact = 'http://' . $app_contact;
+						}
+					}
+					if ( ! JB()->common()->job()->validate_url( $app_contact ) && ! is_email( $app_contact ) ) {
+						$errors['wrong'][] = 'jb-application-contact';
+					}
+				}
+			}
+
+			if ( ! isset( $_POST['data']['jb-location-type'] ) ) {
+				$errors['wrong'][] = 'jb-location-type';
+			} else {
+				$location_type = sanitize_text_field( $_POST['data']['jb-location-type'] );
+				if ( '0' === $location_type ) {
+					if ( empty( $_POST['data']['jb-location'] ) ) {
+						$errors['empty'][] = 'jb-location';
+					} else {
+						$location = sanitize_text_field( $_POST['data']['jb-location'] );
+						if ( empty( $location ) ) {
+							$errors['empty'][] = 'jb-location';
+						}
+					}
+				}
+			}
+
+			if ( empty( $_POST['data']['jb-company-name'] ) ) {
+				$errors['empty'][] = 'jb-company-name';
+			} else {
+				$company_name = sanitize_text_field( $_POST['data']['jb-company-name'] );
+				if ( empty( $company_name ) ) {
+					$errors['empty'][] = 'jb-company-name';
+				}
+			}
+
+			if ( JB()->options()->get( 'required-job-type' ) ) {
+				if ( empty( $_POST['data']['jb-job-type'] ) ) {
+					$errors['empty'][] = 'jb-job-type';
+				} else {
+					$job_type = absint( $_POST['data']['jb-job-type'] );
+					if ( empty( $job_type ) ) {
+						$errors['empty'][] = 'jb-job-type';
+					}
+				}
+			}
+
+			if ( ! empty( $errors ) ) {
+				// add notice text
+				$errors['notice'][] = __( 'Wrong Job\'s data', 'jobboardwp' );
+				if ( empty( $description ) ) {
+					$errors['notice'][] =  __( ' Description is required', 'jobboardwp' );
+				}
+				wp_send_json_success( $errors );
+			} else {
+				wp_send_json_success( array( 'valid' => 1 ) );
+			}
+			// phpcs:enable WordPress.Security.NonceVerification
+		}
 	}
 }

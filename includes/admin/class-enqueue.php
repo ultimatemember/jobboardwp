@@ -28,6 +28,9 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 
 			add_action( 'admin_enqueue_scripts', array( &$this, 'admin_scripts' ), 11 );
 			add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_gmap' ), 10 );
+
+			add_action( 'load-post.php', array( &$this, 'maybe_job_page' ) );
+			add_action( 'load-post-new.php', array( &$this, 'maybe_job_page' ) );
 		}
 
 
@@ -97,6 +100,14 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			}
 			wp_register_script( 'jb-forms', $this->js_url['admin'] . 'forms' . JB()->scrips_prefix . '.js', $forms_deps, JB_VERSION, true );
 
+			wp_register_script(
+				'jb-validation',
+				$this->js_url['admin'] . 'validation' . JB()->scrips_prefix . '.js',
+				array( 'jquery' ),
+				JB_VERSION,
+				true
+			);
+
 			wp_register_style( 'jb-helptip', $this->css_url['common'] . 'helptip' . JB()->scrips_prefix . '.css', array( 'dashicons' ), JB_VERSION );
 			wp_register_style( 'jb-common', $this->css_url['admin'] . 'common' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
 			wp_register_style( 'jb-forms', $this->css_url['admin'] . 'forms' . JB()->scrips_prefix . '.css', array( 'jb-common', 'jb-helptip', 'wp-color-picker', 'jquery-ui' ), JB_VERSION );
@@ -110,6 +121,24 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			if ( JB()->admin()->is_own_screen() ) {
 				wp_enqueue_script( 'jb-forms' );
 				wp_enqueue_style( 'jb-forms' );
+			}
+		}
+
+
+		/**
+		 *
+		 */
+		public function maybe_job_page() {
+			add_action( 'admin_enqueue_scripts', array( &$this, 'validation_scripts' ), 13 );
+		}
+
+
+		/**
+		 *
+		 */
+		public function validation_scripts() {
+			if ( JB()->admin()->is_own_post_type() ) {
+				wp_enqueue_script( 'jb-validation' );
 			}
 		}
 

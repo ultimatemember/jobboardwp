@@ -1186,5 +1186,26 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 			return $value;
 		}
+
+
+		/**
+		 * Validate URL string
+		 *
+		 * @return bool
+		 *
+		 * @since 1.1.0
+		 */
+		public function validate_url( $url ) {
+			$regex  = '((https?)\:\/\/)?';
+			$regex .= '([a-z0-9-.]*)\.([a-z]{2,3})';
+			$regex .= '(\/([a-z0-9+\$_-]\.?)+)*\/?';
+			$regex .= '(\?[a-z+&\$_.-][a-z0-9;:@&%=+\/\$_.-]*)?';
+
+			if ( preg_match( "/^$regex$/i", $url ) ) {
+				return true;
+			}
+
+			return false;
+		}
 	}
 }
