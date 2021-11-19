@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-11-17T09:23:35+00:00\n"
+"POT-Creation-Date: 2021-11-19T12:37:13+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: jobboardwp\n"
@@ -825,7 +825,7 @@ msgstr ""
 msgid "Upload successful."
 msgstr ""
 
-#: includes/ajax/class-init.php:64
+#: includes/ajax/class-init.php:66
 msgid "Wrong AJAX Nonce"
 msgstr ""
 
@@ -888,8 +888,17 @@ msgstr ""
 msgid "Not-filled"
 msgstr ""
 
+#: includes/ajax/class-jobs.php:895
 #: includes/ajax/class-notices.php:33
 msgid "Wrong Data"
+msgstr ""
+
+#: includes/ajax/class-jobs.php:980
+msgid "Wrong Job's data"
+msgstr ""
+
+#: includes/ajax/class-jobs.php:982
+msgid " Description is required"
 msgstr ""
 
 #: includes/class-config.php:127
