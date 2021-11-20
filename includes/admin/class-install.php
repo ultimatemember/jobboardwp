@@ -266,5 +266,42 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 			}
 		}
 
+
+		/**
+		 * @param $slug
+		 */
+		public function core_page( $slug ) {
+			$predefined_pages = JB()->config()->get( 'core_pages' );
+			if ( empty( $predefined_pages ) || ! array_key_exists( $slug, $predefined_pages ) ) {
+				return;
+			}
+
+			$data = $predefined_pages[ $slug ];
+
+			if ( empty( $data['title'] ) ) {
+				return;
+			}
+
+			$content = ! empty( $data['content'] ) ? $data['content'] : '';
+			$content = apply_filters( 'jb_setup_predefined_page_content', $content, $slug );
+
+			$user_page = array(
+				'post_title'     => $data['title'],
+				'post_content'   => $content,
+				'post_name'      => $slug,
+				'post_type'      => 'page',
+				'post_status'    => 'publish',
+				'post_author'    => get_current_user_id(),
+				'comment_status' => 'closed',
+			);
+
+			$post_id = wp_insert_post( $user_page );
+			if ( empty( $post_id ) || is_wp_error( $post_id ) ) {
+				return;
+			}
+
+			JB()->options()->update( $slug . '_page', $post_id );
+		}
+
 	}
 }

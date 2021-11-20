@@ -46,6 +46,26 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 						}
 
 						break;
+					case 'install_core_page':
+						if ( wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb_install_core_page' ) ) {
+							$core_pages = array_keys( JB()->config()->get( 'core_pages' ) );
+
+							$page_slug = array_key_exists( 'jb_page_key', $_REQUEST ) ? sanitize_key( $_REQUEST['jb_page_key'] ) : '';
+
+							if ( empty( $page_slug ) || ! in_array( $page_slug, $core_pages, true ) ) {
+								// phpcs:ignore WordPress.Security.SafeRedirect
+								wp_redirect( add_query_arg( array( 'page' => 'jb-settings' ), admin_url( 'admin.php' ) ) );
+								exit;
+							}
+
+							JB()->install()->core_page( $page_slug );
+
+							// phpcs:ignore WordPress.Security.SafeRedirect
+							wp_redirect( add_query_arg( array( 'page' => 'jb-settings' ), admin_url( 'admin.php' ) ) );
+							exit;
+						}
+
+						break;
 					case 'approve_job':
 						if ( ! empty( $_GET['job-id'] ) && wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-approve-job' . absint( $_GET['job-id'] ) ) ) {
 

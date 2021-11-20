@@ -122,32 +122,38 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * @since 1.0
 		 */
 		public function init() {
-			$pages = get_posts(
-				array(
-					'post_type'      => 'page',
-					'post_status'    => 'publish',
-					'posts_per_page' => -1,
-					'fields'         => array( 'ID', 'post_title' ),
-				)
-			);
-
-			$page_options = array( '' => __( '(None)', 'jobboardwp' ) );
-			if ( ! empty( $pages ) ) {
-				foreach ( $pages as $page ) {
-					$page_options[ $page->ID ] = $page->post_title;
-				}
-			}
-
 			$general_pages_fields = array();
 			foreach ( JB()->config()->get( 'core_pages' ) as $page_id => $page ) {
+				$options = array();
+				$page_value = '';
+
+				$pre_result = apply_filters( 'jb_admin_settings_pages_list_value', false, $page_id . '_page' );
+				if ( false === $pre_result ) {
+					if ( ! empty( $opt_value = JB()->options()->get( $page_id . '_page' ) ) ) {
+						$title = get_the_title( $opt_value );
+						$title = ( mb_strlen( $title ) > 50 ) ? mb_substr( $title, 0, 49 ) . '...' : $title;
+						$title = sprintf( __( '%s (ID: %s)', 'jobboardwp' ), $title, $opt_value );
+
+						$options    = array( $opt_value => $title );
+						$page_value = $opt_value;
+					}
+				} else {
+					// `page_value` variable that we transfer from 3rd-party hook for getting filtered option value also
+					$page_value = $pre_result['page_value'];
+					unset( $pre_result['page_value'] );
+
+					$options = $pre_result;
+				}
+
 				$page_title = ! empty( $page['title'] ) ? $page['title'] : '';
 
 				$general_pages_fields[] = array(
 					'id'          => $page_id . '_page',
-					'type'        => 'select',
+					'type'        => 'page_select',
 					// translators: %s: page title
 					'label'       => sprintf( __( '%s page', 'jobboardwp' ), $page_title ),
-					'options'     => $page_options,
+					'options'     => $options,
+					'value'       => $page_value,
 					'placeholder' => __( 'Choose a page...', 'jobboardwp' ),
 					'size'        => 'small',
 				);

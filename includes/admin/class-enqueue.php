@@ -71,6 +71,8 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 		 * @since 1.0
 		 */
 		public function admin_scripts() {
+			wp_register_script( 'select2', $this->url['common'] . 'libs/select2/js/select2.full.min.js', array( 'jquery' ), JB_VERSION, true );
+
 			wp_register_script(
 				'jb-global',
 				$this->js_url['admin'] . 'global' . JB()->scrips_prefix . '.js',
@@ -92,7 +94,7 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 				true
 			);
 
-			$forms_deps = array( 'jquery', 'wp-util', 'jb-global', 'jb-helptip', 'wp-color-picker', 'jquery-ui-datepicker' );
+			$forms_deps = array( 'jquery', 'wp-util', 'jb-global', 'jb-helptip', 'wp-color-picker', 'jquery-ui-datepicker', 'select2' );
 
 			$key = JB()->options()->get( 'googlemaps-api-key' );
 			if ( ! empty( $key ) ) {
@@ -108,9 +110,11 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 				true
 			);
 
+			wp_register_style( 'select2', $this->url['common'] . 'libs/select2/css/select2' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
+
 			wp_register_style( 'jb-helptip', $this->css_url['common'] . 'helptip' . JB()->scrips_prefix . '.css', array( 'dashicons' ), JB_VERSION );
 			wp_register_style( 'jb-common', $this->css_url['admin'] . 'common' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
-			wp_register_style( 'jb-forms', $this->css_url['admin'] . 'forms' . JB()->scrips_prefix . '.css', array( 'jb-common', 'jb-helptip', 'wp-color-picker', 'jquery-ui' ), JB_VERSION );
+			wp_register_style( 'jb-forms', $this->css_url['admin'] . 'forms' . JB()->scrips_prefix . '.css', array( 'jb-common', 'jb-helptip', 'wp-color-picker', 'jquery-ui', 'select2' ), JB_VERSION );
 
 			// Enqueue scripts and styles
 			// Global at all wp-admin pages
