@@ -41,6 +41,13 @@ jQuery( document ).ready( function($) {
 		});
 	}
 
+	$( document.body ).on( 'change', '.jb-datepicker', function() {
+		var $this = $(this);
+		if ( '' === $this.val() ) {
+			$this.siblings('.jb-datepicker-default-format').val('');
+		}
+	});
+
 	$( document.body ).on( 'click', 'input.jb-forms-condition-option', function() {
 		var value = $(this).val();
 

@@ -275,7 +275,11 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 					if ( 'jb-expiry-date' === $meta_key ) {
 						if ( empty( $v ) ) {
-							$v = JB()->common()->job()->calculate_expiry();
+							if ( JB()->options()->get( 'individual-job-duration' ) ) {
+								$v = apply_filters( 'jb_default_individual_expiry', '' );
+							} else {
+								$v = JB()->common()->job()->calculate_expiry();
+							}
 						} else {
 							$date = strtotime( $v, $current_time );
 							$v    = gmdate( 'Y-m-d', $date );
