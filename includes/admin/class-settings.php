@@ -377,10 +377,10 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 										'conditional' => array( 'individual-job-duration', '=', '0' ),
 									),
 									array(
-										'id'          => 'job-expiration-reminder',
-										'type'        => 'checkbox',
-										'label'       => __( 'Send expiration reminder to the author?', 'jobboardwp' ),
-										'helptip'     => __( 'Enable notification to the job author about the job expiration.', 'jobboardwp' ),
+										'id'      => 'job-expiration-reminder',
+										'type'    => 'checkbox',
+										'label'   => __( 'Send expiration reminder to the author?', 'jobboardwp' ),
+										'helptip' => __( 'Enable notification to the job author about the job expiration.', 'jobboardwp' ),
 									),
 									array(
 										'id'          => 'job-expiration-reminder-time',

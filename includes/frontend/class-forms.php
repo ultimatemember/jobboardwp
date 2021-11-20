@@ -926,7 +926,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		 *
 		 * @since 1.1.1
 		 */
-		function render_datepicker( $field_data ) {
+		public function render_datepicker( $field_data ) {
 			if ( empty( $field_data['id'] ) ) {
 				return '';
 			}
