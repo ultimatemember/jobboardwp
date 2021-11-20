@@ -81,14 +81,16 @@
 			</label>
 
 			<?php
-			$types = get_terms(
+			$type_args = apply_filters(
+				'jb_jobs_list_type_filter_args',
 				array(
 					'taxonomy'   => 'jb-job-type',
-					'hide_empty' => false,
+					'hide_empty' => false, // set as TRUE to make visible only not-empty Job Types
 				)
 			);
+			$types     = get_terms( $type_args );
 
-			if ( ! empty( $types ) ) {
+			if ( ! empty( $types ) && empty( $jb_jobs_search_bar['type'] ) ) {
 				?>
 
 				<label>
@@ -106,19 +108,27 @@
 			if ( JB()->options()->get( 'job-categories' ) ) {
 				if ( empty( $jb_jobs_search_bar['category'] ) ) {
 					$job_category = ! empty( $_GET['jb-job-category'] ) ? sanitize_text_field( $_GET['jb-job-category'] ) : '';
-					$categories   = get_terms(
+
+					$cat_args   = apply_filters(
+						'jb_jobs_list_category_filter_args',
 						array(
 							'taxonomy'   => 'jb-job-category',
-							'hide_empty' => false,
+							'hide_empty' => false, // set as TRUE to make visible only not-empty Job Categories
 						)
 					);
+					$categories = get_terms( $cat_args );
+
+					$cat_children = _get_term_hierarchy( 'jb-job-category' );
+
+					$categories = JB()->common()->job()->prepare_categories_options( $categories, $cat_children );
+
 					if ( ! empty( $categories ) ) {
 						?>
 						<label>
 							<select class="jb-job-category-filter">
 								<option value="" <?php selected( $job_category, '' ); ?>><?php esc_attr_e( 'Select job category', 'jobboardwp' ); ?></option>
 								<?php foreach ( $categories as $category ) { ?>
-									<option value="<?php echo esc_attr( $category->term_id ); ?>" <?php selected( $job_category, $category->term_id ); ?>><?php echo esc_html( $category->name ); ?></option>
+									<option value="<?php echo esc_attr( $category->term_id ); ?>" <?php selected( $job_category, $category->term_id ); ?>><?php echo esc_html( str_repeat( '&#8211;', $category->level ) . ' ' . $category->name ); ?></option>
 								<?php } ?>
 							</select>
 						</label>

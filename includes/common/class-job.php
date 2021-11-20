@@ -531,6 +531,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				'location_type'     => $this->get_location_type( $job_id, true ),
 				'location_data'     => $this->get_location_data( $job_id ),
 				'app_contact'       => get_post_meta( $job_id, 'jb-application-contact', true ),
+				'expires'           => get_post_meta( $job_id, 'jb-expiry-date', true ),
 				'company_name'      => $company_name,
 				'company_website'   => $company_website,
 				'company_tagline'   => $company_tagline,
@@ -1206,6 +1207,39 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			}
 
 			return false;
+		}
+
+
+		/**
+		 * Recursive function for building categories tree
+		 *
+		 * @param array $terms
+		 * @param array $children Terms hierarchy
+		 * @param int $parent
+		 * @param int $level
+		 *
+		 * @return array
+		 */
+		public function prepare_categories_options( $terms, $children, $parent = 0, $level = 0 ) {
+			$structured_terms = array();
+
+			foreach ( $terms as $key => $term ) {
+				if ( (int) $term->parent !== $parent ) {
+					continue;
+				}
+
+				$term->level = $level;
+
+				$structured_terms[] = $term;
+
+				unset( $terms[ $key ] );
+
+				if ( isset( $children[ $term->term_id ] ) ) {
+					$structured_terms = array_merge( $structured_terms, $this->prepare_categories_options( array_values( $terms ), $children, $term->term_id, $level + 1 ) );
+				}
+			}
+
+			return array_values( $structured_terms );
 		}
 	}
 }

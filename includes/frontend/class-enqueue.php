@@ -84,7 +84,7 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 			);
 			wp_localize_script( 'jb-front-global', 'jb_front_data', $localize_data );
 
-			$forms_deps = array( 'jb-front-global' );
+			$forms_deps = array( 'jb-front-global', 'jquery-ui-datepicker' );
 			$jobs_deps  = array( 'jb-front-global' );
 
 			$key = JB()->options()->get( 'googlemaps-api-key' );
@@ -111,7 +111,7 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 			$common_frontend_deps = apply_filters( 'jb_frontend_common_styles_deps', array( 'select2', 'jb-helptip' ) );
 			wp_register_style( 'jb-common', $this->css_url['frontend'] . 'common' . JB()->scrips_prefix . '.css', $common_frontend_deps, JB_VERSION );
 
-			wp_register_style( 'jb-forms', $this->css_url['frontend'] . 'forms' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
+			wp_register_style( 'jb-forms', $this->css_url['frontend'] . 'forms' . JB()->scrips_prefix . '.css', array( 'jb-common', 'jquery-ui' ), JB_VERSION );
 
 			wp_register_style( 'jb-job', $this->css_url['frontend'] . 'job' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
 			wp_register_style( 'jb-jobs', $this->css_url['frontend'] . 'jobs' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
@@ -125,6 +125,11 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 
 			if ( $post && 'jb-job' === $post->post_type && is_singular( 'jb-job' ) && is_main_query() && ! post_password_required() ) {
 				wp_enqueue_style( 'jb-job' );
+			}
+
+			if ( $post && has_shortcode( $post->post_content, 'jb_post_job' ) ) {
+				wp_enqueue_script( 'jb-post-job' );
+				wp_enqueue_style( 'jb-post-job' );
 			}
 		}
 	}

@@ -160,8 +160,12 @@ if ( JB()->options()->get( 'job-categories' ) ) {
 	);
 
 	$categories_options[''] = __( '(None)', 'jobboardwp' );
+
+	$cat_children = _get_term_hierarchy( 'jb-job-category' );
+
+	$categories = JB()->common()->job()->prepare_categories_options( $categories, $cat_children );
 	foreach ( $categories as $category ) {
-		$categories_options[ $category->term_id ] = $category->name;
+		$categories_options[ $category->term_id ] = str_repeat( '&#8211;', $category->level ) . ' ' . $category->name;
 	}
 
 	$job_details_fields = array_merge(

@@ -693,7 +693,13 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 
 						if ( ! $posting_form->has_errors() ) {
 
-							$expiry     = JB()->common()->job()->calculate_expiry();
+							if ( JB()->options()->get( 'individual-job-duration' ) ) {
+								$expiry = apply_filters( 'jb_default_individual_expiry', '' );
+								$expiry = ! empty( $_POST['job_expire'] ) ? gmdate( 'Y-m-d', strtotime( sanitize_text_field( $_POST['job_expire'] ) ) ) : $expiry;
+							} else {
+								$expiry = JB()->common()->job()->calculate_expiry();
+							}
+
 							$meta_input = array(
 								'jb-location-type'       => $location_type,
 								'jb-location'            => $location,

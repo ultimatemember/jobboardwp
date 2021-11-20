@@ -562,16 +562,16 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 				$term->level = $level;
 
-				$structured_terms[ $key ] = $term;
+				$structured_terms[] = $term;
 
 				unset( $terms[ $key ] );
 
 				if ( isset( $children[ $term->term_id ] ) ) {
-					$structured_terms = array_merge( $structured_terms, $this->build_categories_structure( $terms, $children, $term->term_id, $level + 1 ) );
+					$structured_terms = array_merge( $structured_terms, $this->build_categories_structure( array_values( $terms ), $children, $term->term_id, $level + 1 ) );
 				}
 			}
 
-			return $structured_terms;
+			return array_values( $structured_terms );
 		}
 
 

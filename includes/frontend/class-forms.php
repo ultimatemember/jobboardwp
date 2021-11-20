@@ -58,6 +58,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			'conditional_radio',
 			'media',
 			'label',
+			'datepicker',
 		);
 
 
@@ -856,10 +857,12 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			add_action(
 				'after_wp_tiny_mce',
 				function( $settings ) {
-					if ( isset( $settings['jb_job_description']['plugins'] ) && false !== strpos( $settings['jb_job_description']['plugins'], 'wplink' ) ) {
-						echo '<style>
-							#link-selector > .howto, #link-selector > #search-panel { display:none; }
-						</style>';
+					if ( isset( $settings['_job_description']['plugins'] ) && false !== strpos( $settings['_job_description']['plugins'], 'wplink' ) ) {
+						?>
+						<script>
+							jQuery("#link-selector > .howto, #link-selector > #search-panel").remove();
+						</script>
+						<?php
 					}
 				}
 			);
@@ -911,6 +914,52 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$mce_buttons = apply_filters( 'jb_rich_text_editor_buttons', $mce_buttons, $editor_id, $this );
 
 			return $mce_buttons;
+		}
+
+
+		/**
+		 * Render datepicker field
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.1.1
+		 */
+		function render_datepicker( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			$id      = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
+			$id_attr = ' id="' . esc_attr( $id ) . '" ';
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class     .= ! empty( $field_data['size'] ) ? 'jb-' . $field_data['size'] . '-field' : 'jb-long-field';
+			$class_attr = ' class="jb-forms-field jb-datepicker ' . esc_attr( $class ) . '" ';
+
+			$data = array( 'field_id' => $field_data['id'] );
+
+			$data_attr = '';
+			foreach ( $data as $key => $val ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $val ) . '" ';
+			}
+
+			$placeholder_attr = ! empty( $field_data['placeholder'] ) ? ' placeholder="' . esc_attr( $field_data['placeholder'] ) . '"' : '';
+
+			$name      = $field_data['id'];
+			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$hidden_value      = $this->get_field_value( $field_data );
+			$hidden_value_attr = ' value="' . esc_attr( $hidden_value ) . '" ';
+
+			$value      = ! empty( $hidden_value ) ? date_i18n( get_option( 'date_format' ), strtotime( $hidden_value ) ) : '';
+			$value_attr = ' value="' . esc_attr( $value ) . '" ';
+
+			$html = "<input type=\"text\" $id_attr $class_attr $data_attr $value_attr $placeholder_attr /><input type=\"hidden\" class=\"jb-datepicker-default-format\" $name_attr $hidden_value_attr />";
+
+			return $html;
 		}
 
 

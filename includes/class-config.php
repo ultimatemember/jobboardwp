@@ -119,6 +119,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 					'job-moderation'                 => true,
 					'pending-job-editing'            => true,
 					'published-job-editing'          => 1,
+					'individual-job-duration'        => false,
 					'job-duration'                   => 30,
 					'job-expiration-reminder'        => false,
 					'job-expiration-reminder-time'   => '',

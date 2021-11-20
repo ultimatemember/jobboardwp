@@ -42,9 +42,13 @@
 				)
 			);
 
+			$cat_children = _get_term_hierarchy( 'jb-job-category' );
+
+			$categories = JB()->common()->job()->prepare_categories_options( $categories, $cat_children );
+
 			$categories_options[''] = __( '(None)', 'jobboardwp' );
 			foreach ( $categories as $category ) {
-				$categories_options[ $category->term_id ] = $category->name;
+				$categories_options[ $category->term_id ] = str_repeat( '&#8211;', $category->level ) . ' ' . $category->name;
 			}
 		}
 
@@ -56,6 +60,7 @@
 		$job_category      = '';
 		$job_description   = '';
 		$job_application   = '';
+		$job_expired       = '';
 
 		$company_name      = '';
 		$company_website   = '';
@@ -106,6 +111,7 @@
 
 			$job_description = $data['description'];
 			$job_application = $data['app_contact'];
+			$job_expired     = $data['expires'];
 
 			$company_name      = $data['company_name'];
 			$company_website   = $data['company_website'];
@@ -361,26 +367,31 @@
 			$job_application_placeholder = __( 'Enter a website URL', 'jobboardwp' );
 		}
 
-		$job_details_fields = array_merge(
-			$job_details_fields,
-			array(
-				array(
-					'type'     => 'wp_editor',
-					'label'    => __( 'Description', 'jobboardwp' ),
-					'id'       => 'job_description',
-					'value'    => $job_description,
-					'required' => true,
-				),
-				array(
-					'type'        => 'text',
-					'label'       => __( 'Application Contact', 'jobboardwp' ),
-					'id'          => 'job_application',
-					'required'    => true,
-					'value'       => $job_application,
-					'placeholder' => $job_application_placeholder,
-					'validation'  => $app_validation,
-				),
-			)
+		$job_details_fields[] = array(
+			'type'     => 'wp_editor',
+			'label'    => __( 'Description', 'jobboardwp' ),
+			'id'       => 'job_description',
+			'value'    => $job_description,
+			'required' => true,
+		);
+
+		if ( JB()->options()->get( 'individual-job-duration' ) ) {
+			$job_details_fields[] = array(
+				'type'  => 'datepicker',
+				'label' => __( 'Expired date', 'jobboardwp' ),
+				'id'    => 'job_expire',
+				'value' => $job_expired,
+			);
+		}
+
+		$job_details_fields[] = array(
+			'type'        => 'text',
+			'label'       => __( 'Application Contact', 'jobboardwp' ),
+			'id'          => 'job_application',
+			'required'    => true,
+			'value'       => $job_application,
+			'placeholder' => $job_application_placeholder,
+			'validation'  => $app_validation,
 		);
 
 		$sections = array_merge(
