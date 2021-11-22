@@ -152,8 +152,9 @@ if ( ! class_exists( 'JB' ) ) {
 		 * @return void
 		 */
 		public function includes() {
-			$this->common()->includes();
+			$this->integrations();
 
+			$this->common()->includes();
 			if ( $this->is_request( 'ajax' ) ) {
 				$this->ajax()->includes();
 			} elseif ( $this->is_request( 'admin' ) ) {
@@ -161,6 +162,16 @@ if ( ! class_exists( 'JB' ) ) {
 			} elseif ( $this->is_request( 'frontend' ) ) {
 				$this->frontend()->includes();
 			}
+		}
+
+
+		/**
+		 * @since 1.1.1
+		 *
+		 * @return jb\integrations\Init()
+		 */
+		function integrations() {
+			return $this->call_class( 'jb\integrations\Init' );
 		}
 
 

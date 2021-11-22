@@ -135,6 +135,11 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		}
 
 
+		/**
+		 * @param string $context
+		 *
+		 * @return array
+		 */
 		public function get_allowed_html( $context = '' ) {
 			switch ( $context ) {
 				case 'wp-admin':

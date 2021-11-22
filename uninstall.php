@@ -20,7 +20,7 @@ if ( JB()->options()->get( 'uninstall-delete-settings' ) ) {
 	JB()->common()->cpt()->create_post_types();
 	JB()->common()->cpt()->register_post_statuses();
 
-	//remove core settings
+	//remove JB settings
 	$settings_defaults = JB()->config()->get( 'defaults' );
 	foreach ( $settings_defaults as $k => $v ) {
 		JB()->options()->delete( $k );

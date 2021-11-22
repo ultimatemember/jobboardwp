@@ -80,10 +80,14 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 				JB_VERSION,
 				true
 			);
-			$localize_data = apply_filters(
-				'jb_admin_enqueue_localize',
-				array( 'nonce' => wp_create_nonce( 'jb-backend-nonce' ) )
+
+			$localize_data = array_merge(
+				$this->common_localize,
+				array(
+					'nonce' => wp_create_nonce( 'jb-backend-nonce' ),
+				)
 			);
+			$localize_data = apply_filters( 'jb_admin_enqueue_localize', $localize_data );
 			wp_localize_script( 'jb-global', 'jb_admin_data', $localize_data );
 
 			wp_register_script(

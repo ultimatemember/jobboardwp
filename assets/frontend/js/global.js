@@ -1,3 +1,24 @@
+jQuery.ajaxSetup({
+	beforeSend: function( jqXHR, settings ) {
+		if ( settings.processData ) {
+			if ( settings.data !== '' ) {
+				settings.data += '&jb_current_locale=' + jb_front_data.locale;
+			} else {
+				settings.data = 'jb_current_locale=' + jb_front_data.locale;
+			}
+		} else {
+			settings.data = jQuery.extend(
+				settings.data,
+				{
+					jb_current_locale: jb_front_data.locale
+				}
+			);
+		}
+
+		return true;
+	}
+});
+
 jQuery( document ).ready( function($) {
 
 	if ( typeof( $.fn.select2 ) === "function" ) {

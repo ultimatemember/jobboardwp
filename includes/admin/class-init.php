@@ -29,6 +29,18 @@ if ( ! class_exists( 'jb\admin\Init' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'plugins_loaded', array( $this, 'init_variables' ), 10 );
+			add_action( 'admin_init', array( $this, 'init_current_locale' ), 0 );
+		}
+
+
+		/**
+		 * Init current locale if exists
+		 */
+		public function init_current_locale() {
+			if ( ! empty( $_REQUEST['jb_current_locale'] ) ) {
+				$locale = sanitize_key( $_REQUEST['jb_current_locale'] );
+				do_action( 'jb_admin_init_locale', $locale );
+			}
 		}
 
 

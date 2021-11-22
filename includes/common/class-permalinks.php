@@ -45,7 +45,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 				$postid = url_to_postid( $_SERVER['HTTP_REFERER'] );
 
-				if ( ! empty( $postid ) && $postid === $this->get_preset_page_id( 'job-post' ) ) {
+				if ( ! empty( $postid ) && $postid === $this->get_predefined_page_id( 'job-post' ) ) {
 					if ( null === $user && ( '' === $username || '' === $password ) ) {
 						return new \WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: Invalid username, email address or incorrect password.' ) );
 					}
@@ -71,13 +71,13 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 				$postid = url_to_postid( $_SERVER['HTTP_REFERER'] );
 
-				if ( ! empty( $postid ) && $postid === $this->get_preset_page_id( 'job-post' ) ) {
+				if ( ! empty( $postid ) && $postid === $this->get_predefined_page_id( 'job-post' ) ) {
 					// phpcs:ignore WordPress.Security.NonceVerification
 					if ( ! empty( $_GET['redirect_to'] ) && esc_url_raw( $_GET['redirect_to'] ) === $_SERVER['HTTP_REFERER'] ) {
 						return;
 					}
 
-					$logout_link = add_query_arg( array( 'login' => 'failed' ), $this->get_preset_page_link( 'job-post' ) );
+					$logout_link = add_query_arg( array( 'login' => 'failed' ), $this->get_predefined_page_link( 'job-post' ) );
 					wp_safe_redirect( $logout_link );
 					exit;
 				}
@@ -95,7 +95,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		 * @since 1.0
 		 */
 		public function get_slug( $key ) {
-			$preset_page_id = $this->get_preset_page_id( $key );
+			$preset_page_id = $this->get_predefined_page_id( $key );
 
 			$slug = '';
 			if ( $preset_page_id ) {
@@ -110,32 +110,53 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 
 
 		/**
-		 * Get preset page ID
+		 * @param string $slug
 		 *
-		 * @param string $key
-		 *
-		 * @return int
-		 *
-		 * @since 1.0
+		 * @return bool
 		 */
-		public function get_preset_page_id( $key ) {
-			$page_id = JB()->options()->get( $key . '_page' );
-			return (int) $page_id;
+		public function predefined_page_slug_exists( $slug ) {
+			$predefined_pages = JB()->config()->get( 'predefined_pages' );
+			return array_key_exists( $slug, $predefined_pages );
 		}
 
 
 		/**
-		 * Get preset page link
+		 * Get predefined page ID
 		 *
-		 * @param string $key
+		 * @param string $slug
+		 *
+		 * @return false|int
+		 *
+		 * @since 1.1.1
+		 */
+		public function get_predefined_page_id( $slug ) {
+			if ( ! $this->predefined_page_slug_exists( $slug ) ) {
+				return false;
+			}
+
+			$option_key = JB()->options()->get_predefined_page_option_key( $slug );
+			return apply_filters( 'jb_get_predefined_page_id', JB()->options()->get( $option_key ), $slug );
+		}
+
+
+		/**
+		 * Get predefined page URL
+		 *
+		 * @param string $slug
 		 *
 		 * @return false|string
 		 *
-		 * @since 1.0
+		 * @since 1.1.1
 		 */
-		public function get_preset_page_link( $key ) {
-			$page_id = $this->get_preset_page_id( $key );
-			return get_permalink( $page_id );
+		public function get_predefined_page_link( $slug ) {
+			$url = false;
+			$page_id = $this->get_predefined_page_id( $slug );
+
+			if ( ! empty( $page_id ) ) {
+				$url = get_permalink( $page_id );
+			}
+
+			return $url;
 		}
 
 
@@ -149,18 +170,18 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		public function are_pages_installed() {
 			$installed = true;
 
-			$pages      = array();
-			$core_pages = array_keys( JB()->config()->get( 'core_pages' ) );
-			if ( ! empty( $core_pages ) ) {
-				foreach ( $core_pages as $page_key ) {
-					$option = JB()->options()->get( $page_key . '_page' );
+			$pages            = array();
+			$predefined_pages = array_keys( JB()->config()->get( 'predefined_pages' ) );
+			if ( ! empty( $predefined_pages ) ) {
+				foreach ( $predefined_pages as $slug ) {
+					$option = JB()->options()->get( JB()->options()->get_predefined_page_option_key( $slug ) );
 					if ( ! empty( $option ) ) {
-						$pages[ $page_key ] = $option;
+						$pages[ $slug ] = $option;
 					}
 				}
 			}
 
-			if ( empty( $pages ) || count( $pages ) !== count( $core_pages ) ) {
+			if ( empty( $pages ) || count( $pages ) !== count( $predefined_pages ) ) {
 				$installed = false;
 			} else {
 				foreach ( $pages as $page_id ) {
@@ -174,6 +195,40 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			}
 
 			return $installed;
+		}
+
+
+		/**
+		 * Get preset page ID
+		 *
+		 * @deprecated 1.1.1
+		 *
+		 * @param string $key
+		 *
+		 * @return int
+		 *
+		 * @since 1.0
+		 */
+		public function get_preset_page_id( $key ) {
+			_deprecated_function( __METHOD__, '1.1.1', 'JB()->common()->permalinks()->get_predefined_page_id( $slug )' );
+			return $this->get_predefined_page_id( $key );
+		}
+
+
+		/**
+		 * Get preset page link
+		 *
+		 * @deprecated 1.1.1
+		 *
+		 * @param string $key
+		 *
+		 * @return false|string
+		 *
+		 * @since 1.0
+		 */
+		public function get_preset_page_link( $key ) {
+			_deprecated_function( __METHOD__, '1.1.1', 'JB()->common()->permalinks()->get_predefined_page_link( $slug )' );
+			return $this->get_predefined_page_link( $key );
 		}
 	}
 }

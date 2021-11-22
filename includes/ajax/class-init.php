@@ -20,6 +20,8 @@ if ( ! class_exists( 'jb\ajax\Init' ) ) {
 		 * Init constructor.
 		 */
 		public function __construct() {
+			add_action( 'admin_init', array( $this, 'init_current_locale' ), 0 );
+
 			add_action( 'wp_ajax_jb_dismiss_notice', array( $this->notices(), 'dismiss_notice' ) );
 			add_action( 'wp_ajax_jb_get_pages_list', array( $this->settings(), 'get_pages_list' ) );
 
@@ -39,6 +41,17 @@ if ( ! class_exists( 'jb\ajax\Init' ) ) {
 			add_action( 'wp_ajax_jb-unfill-job', array( $this->jobs(), 'unfill_job' ) );
 
 			add_action( 'wp_ajax_jb-validate-job-data', array( $this->jobs(), 'validate_job' ) );
+		}
+
+
+		/**
+		 * Init current locale if exists
+		 */
+		public function init_current_locale() {
+			if ( ! empty( $_REQUEST['jb_current_locale'] ) ) {
+				$locale = sanitize_key( $_REQUEST['jb_current_locale'] );
+				do_action( 'jb_admin_init_locale', $locale );
+			}
 		}
 
 

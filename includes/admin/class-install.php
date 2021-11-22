@@ -230,50 +230,37 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 
 
 		/**
-		 * Install Core Pages
+		 * Install all predefined pages
 		 *
 		 * @since 1.0
 		 */
-		public function core_pages() {
-			foreach ( JB()->config()->get( 'core_pages' ) as $slug => $array ) {
-
-				$page_id = JB()->options()->get( $slug . '_page' );
-				if ( ! empty( $page_id ) ) {
-					$page = get_post( $page_id );
-
-					if ( isset( $page->ID ) ) {
-						continue;
-					}
-				}
-
-				//If page does not exist - create it
-				$user_page = array(
-					'post_title'     => $array['title'],
-					'post_content'   => ! empty( $array['content'] ) ? $array['content'] : '',
-					'post_name'      => $slug,
-					'post_type'      => 'page',
-					'post_status'    => 'publish',
-					'post_author'    => get_current_user_id(),
-					'comment_status' => 'closed',
-				);
-
-				$post_id = wp_insert_post( $user_page );
-				if ( empty( $post_id ) || is_wp_error( $post_id ) ) {
-					continue;
-				}
-
-				JB()->options()->update( $slug . '_page', $post_id );
+		public function predefined_pages() {
+			foreach ( JB()->config()->get( 'predefined_pages' ) as $slug => $array ) {
+				$this->predefined_page( $slug );
 			}
 		}
 
 
 		/**
+		 * Install predefined page via the page slug
+		 *
 		 * @param $slug
 		 */
-		public function core_page( $slug ) {
-			$predefined_pages = JB()->config()->get( 'core_pages' );
-			if ( empty( $predefined_pages ) || ! array_key_exists( $slug, $predefined_pages ) ) {
+		public function predefined_page( $slug ) {
+			$predefined_pages = JB()->config()->get( 'predefined_pages' );
+			if ( empty( $predefined_pages ) || ! JB()->common()->permalinks()->predefined_page_slug_exists( $slug ) ) {
 				return;
+			}
+
+			$option_key = JB()->options()->get_predefined_page_option_key( $slug );
+
+			$page_id = JB()->options()->get( $option_key );
+			if ( ! empty( $page_id ) ) {
+				$page = get_post( $page_id );
+
+				if ( isset( $page->ID ) ) {
+					return;
+				}
 			}
 
 			$data = $predefined_pages[ $slug ];
@@ -300,7 +287,7 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 				return;
 			}
 
-			JB()->options()->update( $slug . '_page', $post_id );
+			JB()->options()->update( $option_key, $post_id );
 		}
 
 	}

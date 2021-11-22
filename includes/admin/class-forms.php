@@ -771,8 +771,8 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 			$button = '';
 			$page_key = str_replace( '_page', '', $field_data['id'] );
-			if ( ! JB()->common()->permalinks()->get_preset_page_id( $page_key ) ) {
-				$button = '&nbsp;<a href="' . esc_url( add_query_arg( array( 'jb_adm_action' => 'install_core_page', 'jb_page_key' => $page_key, 'nonce' => wp_create_nonce( 'jb_install_core_page' ), ) ) ) . '" class="button button-primary">' . esc_html__( 'Create Default', 'jobboardwp' ) . '</a>';
+			if ( ! JB()->common()->permalinks()->get_predefined_page_id( $page_key ) ) {
+				$button = '&nbsp;<a href="' . esc_url( add_query_arg( array( 'jb_adm_action' => 'install_predefined_page', 'jb_page_key' => $page_key, 'nonce' => wp_create_nonce( 'jb_install_predefined_page' ), ) ) ) . '" class="button button-primary">' . esc_html__( 'Create Default', 'jobboardwp' ) . '</a>';
 			}
 
 			$html = "$hidden<select $multiple $id_attr $name_attr $class_attr $data_attr>$options</select>$button";

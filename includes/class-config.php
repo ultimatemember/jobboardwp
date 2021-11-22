@@ -49,7 +49,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 		/**
 		 * @var
 		 */
-		public $core_pages;
+		public $predefined_pages;
 
 
 		/**
@@ -140,8 +140,8 @@ if ( ! class_exists( 'jb\Config' ) ) {
 				$this->defaults[ $key . '_sub' ] = $notification['subject'];
 			}
 
-			foreach ( $this->get( 'core_pages' ) as $slug => $array ) {
-				$this->defaults[ $slug . '_page' ] = '';
+			foreach ( $this->get( 'predefined_pages' ) as $slug => $array ) {
+				$this->defaults[ JB()->options()->get_predefined_page_option_key( $slug ) ] = '';
 			}
 		}
 
@@ -258,13 +258,13 @@ if ( ! class_exists( 'jb\Config' ) ) {
 
 
 		/**
-		 * Initialize JB core pages
+		 * Initialize JB predefined pages
 		 *
 		 * @since 1.0
 		 */
-		public function init_core_pages() {
-			$this->core_pages = apply_filters(
-				'jb_core_pages',
+		public function init_predefined_pages() {
+			$this->predefined_pages = apply_filters(
+				'jb_predefined_pages',
 				array(
 					'jobs'           => array(
 						'title'   => __( 'Jobs', 'jobboardwp' ),

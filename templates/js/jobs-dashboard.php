@@ -89,7 +89,7 @@
 			<?php
 			/** @noinspection HtmlUnknownTarget */
 			// translators: %s: Post a job URL
-			echo wp_kses( sprintf( __( 'No created jobs yet. <a href="%s">Create</a> new one.', 'jobboardwp' ), JB()->common()->permalinks()->get_preset_page_link( 'job-post' ) ), JB()->get_allowed_html() );
+			echo wp_kses( sprintf( __( 'No created jobs yet. <a href="%s">Create</a> new one.', 'jobboardwp' ), JB()->common()->permalinks()->get_predefined_page_link( 'job-post' ) ), JB()->get_allowed_html() );
 			?>
 		</div>
 	<# } #>

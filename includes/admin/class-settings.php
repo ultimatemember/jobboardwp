@@ -123,13 +123,15 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 */
 		public function init() {
 			$general_pages_fields = array();
-			foreach ( JB()->config()->get( 'core_pages' ) as $page_id => $page ) {
+			foreach ( JB()->config()->get( 'predefined_pages' ) as $slug => $page ) {
+				$option_key = JB()->options()->get_predefined_page_option_key( $slug );
+
 				$options = array();
 				$page_value = '';
 
-				$pre_result = apply_filters( 'jb_admin_settings_pages_list_value', false, $page_id . '_page' );
+				$pre_result = apply_filters( 'jb_admin_settings_pages_list_value', false,$option_key );
 				if ( false === $pre_result ) {
-					if ( ! empty( $opt_value = JB()->options()->get( $page_id . '_page' ) ) ) {
+					if ( ! empty( $opt_value = JB()->options()->get( $option_key ) ) ) {
 						$title = get_the_title( $opt_value );
 						$title = ( mb_strlen( $title ) > 50 ) ? mb_substr( $title, 0, 49 ) . '...' : $title;
 						$title = sprintf( __( '%s (ID: %s)', 'jobboardwp' ), $title, $opt_value );
@@ -148,7 +150,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				$page_title = ! empty( $page['title'] ) ? $page['title'] : '';
 
 				$general_pages_fields[] = array(
-					'id'          => $page_id . '_page',
+					'id'          => $option_key,
 					'type'        => 'page_select',
 					// translators: %s: page title
 					'label'       => sprintf( __( '%s page', 'jobboardwp' ), $page_title ),
@@ -158,7 +160,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					'size'        => 'small',
 				);
 
-				$this->sanitize_map[ $page_id . '_page' ] = 'absint';
+				$this->sanitize_map[ $option_key ] = 'absint';
 			}
 
 			$job_templates = array(
