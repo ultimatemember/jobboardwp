@@ -43,7 +43,7 @@ function jb_admin_settings_get_pages_list_wpml() {
 	$code         = $sitepress->get_current_language();
 	$code_default = $sitepress->get_default_language();
 
-	$posts = array();
+	$posts              = array();
 	$current_lang_posts = $current_lang_query->get_posts();
 	if ( ! empty( $current_lang_posts ) ) {
 		$posts = array_merge( $posts, $current_lang_posts );

@@ -780,6 +780,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 						'nonce'         => wp_create_nonce( 'jb_install_predefined_page' ),
 					)
 				);
+
 				$button = '&nbsp;<a href="' . esc_url( $create_page_url ) . '" class="button button-primary">' . esc_html__( 'Create Default', 'jobboardwp' ) . '</a>';
 			}
 
