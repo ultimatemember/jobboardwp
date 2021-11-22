@@ -26,8 +26,9 @@ if ( ! class_exists( 'jb\ajax\Settings' ) ) {
 		/**
 		 * AJAX callback for getting the pages list
 		 */
-		function get_pages_list() {
+		public function get_pages_list() {
 			JB()->ajax()->check_nonce( 'jb-backend-nonce' );
+			// phpcs:disable WordPress.Security.NonceVerification -- is verified above
 
 			// we will pass post IDs and titles to this array
 			$return = array();
@@ -54,9 +55,11 @@ if ( ! class_exists( 'jb\ajax\Settings' ) ) {
 						$search_results->the_post();
 
 						// shorten the title a little
-						$title    = ( mb_strlen( $search_results->post->post_title ) > 50 ) ? mb_substr( $search_results->post->post_title, 0, 49 ) . '...' : $search_results->post->post_title;
-						$title    = sprintf( __( '%s (ID: %s)', 'jobboardwp' ), $title, $search_results->post->ID );
-						$return[] = array( $search_results->post->ID, $title ); // array( Post ID, Post Title )
+						$title = ( mb_strlen( $search_results->post->post_title ) > 50 ) ? mb_substr( $search_results->post->post_title, 0, 49 ) . '...' : $search_results->post->post_title;
+
+						// translators: %1$s is a post title; %2$s is a post ID.
+						$title    = sprintf( __( '%1$s (ID: %2$s)', 'jobboardwp' ), $title, $search_results->post->ID );
+						$return[] = array( $search_results->post->ID, esc_html( $title ) ); // array( Post ID, Post Title )
 					}
 				}
 
@@ -67,6 +70,8 @@ if ( ! class_exists( 'jb\ajax\Settings' ) ) {
 			}
 
 			wp_send_json( $return );
+
+			// phpcs:утфиду WordPress.Security.NonceVerification -- is verified above
 		}
 	}
 }

@@ -102,15 +102,14 @@ function jb_weglot_get_languages_codes() {
 
 /**
  * @param int $page_id
- * @param string $slug
  *
  * @return mixed
  */
-function jb_get_predefined_page_id_weglot( $page_id, $slug ) {
+function jb_get_predefined_page_id_weglot( $page_id ) {
 	// just empty method, but works properly
 	return $page_id;
 }
-add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_weglot', 10, 2 );
+add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_weglot', 10, 1 );
 
 
 /**
@@ -121,6 +120,7 @@ add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_weglot', 10,
  */
 function jb_common_js_variables_weglot( $variables ) {
 	$codes = jb_weglot_get_languages_codes();
+
 	$variables['locale'] = $codes['current'];
 	return $variables;
 }

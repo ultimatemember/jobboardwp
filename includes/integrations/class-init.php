@@ -19,7 +19,7 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 		/**
 		 * Init constructor.
 		 */
-		function __construct() {
+		public function __construct() {
 			// running before all plugins_loaded callbacks in JobBoardWP.
 			add_action( 'plugins_loaded', array( &$this, 'plugins_loaded' ), 9 );
 		}
@@ -28,7 +28,7 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 		/**
 		 *
 		 */
-		function plugins_loaded() {
+		public function plugins_loaded() {
 			if ( $this->is_wpml_active() ) {
 				require_once 'wpml/integration.php';
 			}
@@ -52,7 +52,7 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 		 *
 		 * @return bool
 		 */
-		function is_wpml_active() {
+		public function is_wpml_active() {
 			if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
 				global $sitepress;
 				return $sitepress->is_setup_complete();
@@ -67,7 +67,7 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 		 *
 		 * @return bool
 		 */
-		function is_polylang_active() {
+		public function is_polylang_active() {
 			if ( defined( 'POLYLANG_VERSION' ) ) {
 				global $polylang;
 				return is_object( $polylang );
@@ -82,7 +82,7 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 		 *
 		 * @return bool
 		 */
-		function is_translatepress_active() {
+		public function is_translatepress_active() {
 			return defined( 'TRP_PLUGIN_VERSION' ) && class_exists( '\TRP_Translate_Press' );
 		}
 
@@ -92,7 +92,7 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 		 *
 		 * @return bool
 		 */
-		function is_weglot_active() {
+		public function is_weglot_active() {
 			return defined( 'WEGLOT_VERSION' );
 		}
 	}

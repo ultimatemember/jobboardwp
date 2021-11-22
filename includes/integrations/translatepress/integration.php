@@ -5,15 +5,14 @@
 
 /**
  * @param int $page_id
- * @param string $slug
  *
  * @return mixed
  */
-function jb_get_predefined_page_id_translatepress( $page_id, $slug ) {
+function jb_get_predefined_page_id_translatepress( $page_id ) {
 	// just empty method, but works properly
 	return $page_id;
 }
-add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_translatepress', 10, 2 );
+add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_translatepress', 10, 1 );
 
 
 /**

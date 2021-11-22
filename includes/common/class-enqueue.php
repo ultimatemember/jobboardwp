@@ -191,10 +191,12 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 		public function init_variables() {
 			JB()->scrips_prefix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
-
-			$this->common_localize = apply_filters( 'jb_common_js_variables', array(
-				'locale' => get_locale(),
-			) );
+			$this->common_localize = apply_filters(
+				'jb_common_js_variables',
+				array(
+					'locale' => get_locale(),
+				)
+			);
 		}
 
 

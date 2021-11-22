@@ -5,52 +5,59 @@
 
 /**
  * @param int $page_id
- * @param string $slug
  *
  * @return mixed
  */
-function jb_get_predefined_page_id_polylang( $page_id, $slug ) {
-	if ( $post = pll_get_post( $page_id ) ) {
+function jb_get_predefined_page_id_polylang( $page_id ) {
+	$post = pll_get_post( $page_id );
+	if ( $post ) {
 		$page_id = $post;
 	}
 
 	return $page_id;
 }
-add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_polylang', 10, 2 );
+add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_polylang', 10, 1 );
 
 
 /**
  * @return array
  */
 function jb_admin_settings_get_pages_list_polylang() {
+	// phpcs:disable WordPress.Security.NonceVerification -- is verified in JB()->ajax()->settings()->get_pages_list()
 	$return = array();
 
-	$current_lang_query = new \WP_Query( array(
-		'post_type'           => 'page',
-		's'                   => sanitize_text_field( $_GET['search'] ), // the search query
-		'post_status'         => 'publish', // if you don't want drafts to be returned
-		'ignore_sticky_posts' => 1,
-		'fields'              => 'ids',
-		'posts_per_page'      => -1,
-	) );
-
-	$posts = array();
-	if ( ! empty( $current_lang_posts = $current_lang_query->get_posts() ) ) {
-		$posts = array_merge( $posts, $current_lang_posts );
-	}
-
-	if ( pll_current_language() !== pll_default_language() ) {
-		$default_lang_query = new \WP_Query( array(
+	$current_lang_query = new \WP_Query(
+		array(
 			'post_type'           => 'page',
 			's'                   => sanitize_text_field( $_GET['search'] ), // the search query
 			'post_status'         => 'publish', // if you don't want drafts to be returned
 			'ignore_sticky_posts' => 1,
 			'fields'              => 'ids',
-			'lang'                => pll_default_language(),
 			'posts_per_page'      => -1,
-		) );
+		)
+	);
 
-		if ( ! empty( $default_lang_posts = $default_lang_query->get_posts() ) ) {
+	$posts              = array();
+	$current_lang_posts = $current_lang_query->get_posts();
+	if ( ! empty( $current_lang_posts ) ) {
+		$posts = array_merge( $posts, $current_lang_posts );
+	}
+
+	if ( pll_current_language() !== pll_default_language() ) {
+		$default_lang_query = new \WP_Query(
+			array(
+				'post_type'           => 'page',
+				's'                   => sanitize_text_field( $_GET['search'] ), // the search query
+				'post_status'         => 'publish', // if you don't want drafts to be returned
+				'ignore_sticky_posts' => 1,
+				'fields'              => 'ids',
+				'lang'                => pll_default_language(),
+				'posts_per_page'      => -1,
+			)
+		);
+
+		$default_lang_posts = $default_lang_query->get_posts();
+		if ( ! empty( $default_lang_posts ) ) {
 			foreach ( $default_lang_posts as $k => $post_id ) {
 				$lang_post_id = pll_get_post( $post_id, pll_current_language() );
 				if ( in_array( $lang_post_id, $posts, true ) ) {
@@ -64,21 +71,24 @@ function jb_admin_settings_get_pages_list_polylang() {
 	$active_languages = pll_languages_list();
 
 	foreach ( $active_languages as $language_code ) {
-		if ( $language_code === pll_current_language() || $language_code === pll_default_language() ) {
+		if ( pll_current_language() === $language_code || pll_default_language() === $language_code ) {
 			continue;
 		}
 
-		$active_lang_query = new \WP_Query( array(
-			'post_type'           => 'page',
-			's'                   => sanitize_text_field( $_GET['search'] ), // the search query
-			'post_status'         => 'publish', // if you don't want drafts to be returned
-			'ignore_sticky_posts' => 1,
-			'fields'              => 'ids',
-			'lang'                => $language_code,
-			'posts_per_page'      => -1,
-		) );
+		$active_lang_query = new \WP_Query(
+			array(
+				'post_type'           => 'page',
+				's'                   => sanitize_text_field( $_GET['search'] ), // the search query
+				'post_status'         => 'publish', // if you don't want drafts to be returned
+				'ignore_sticky_posts' => 1,
+				'fields'              => 'ids',
+				'lang'                => $language_code,
+				'posts_per_page'      => -1,
+			)
+		);
 
-		if ( ! empty( $active_lang_posts = $active_lang_query->get_posts() ) ) {
+		$active_lang_posts = $active_lang_query->get_posts();
+		if ( ! empty( $active_lang_posts ) ) {
 			foreach ( $active_lang_posts as $k => $post_id ) {
 				$current_lang_post_id = pll_get_post( $post_id, pll_current_language() );
 				$default_lang_post_id = pll_get_post( $post_id, pll_default_language() );
@@ -91,31 +101,36 @@ function jb_admin_settings_get_pages_list_polylang() {
 	}
 
 	// you can use WP_Query, query_posts() or get_posts() here - it doesn't matter
-	$search_results = new \WP_Query( array(
-		'post_type'           => 'page',
-		's'                   => sanitize_text_field( $_GET['search'] ), // the search query
-		'post_status'         => 'publish', // if you don't want drafts to be returned
-		'ignore_sticky_posts' => 1,
-		'posts_per_page'      => 10, // how much to show at once
-		'paged'               => absint( $_GET['page'] ),
-		'orderby'             => 'title',
-		'order'               => 'asc',
-		'lang'                => '', // set empty language for getting posts of all languages
-		'post__in'            => $posts,
-	) );
-	$posts = $search_results->get_posts();
+	$search_results = new \WP_Query(
+		array(
+			'post_type'           => 'page',
+			's'                   => sanitize_text_field( $_GET['search'] ), // the search query
+			'post_status'         => 'publish', // if you don't want drafts to be returned
+			'ignore_sticky_posts' => 1,
+			'posts_per_page'      => 10, // how much to show at once
+			'paged'               => absint( $_GET['page'] ),
+			'orderby'             => 'title',
+			'order'               => 'asc',
+			'lang'                => '', // set empty language for getting posts of all languages
+			'post__in'            => $posts,
+		)
+	);
 
+	$posts = $search_results->get_posts();
 	if ( ! empty( $posts ) ) {
 		foreach ( $posts as $post ) {
 			// shorten the title a little
 			$title = ( mb_strlen( $post->post_title ) > 50 ) ? mb_substr( $post->post_title, 0, 49 ) . '...' : $post->post_title;
-			$title = sprintf( __( '%s (ID: %s)', 'jobboardwp' ), $title, $post->ID );
-			$return[] = array( $post->ID, $title ); // array( Post ID, Post Title )
+
+			// translators: %1$s is a post title; %2$s is a post ID.
+			$title    = sprintf( __( '%1$s (ID: %2$s)', 'jobboardwp' ), $title, $post->ID );
+			$return[] = array( $post->ID, esc_html( $title ) ); // array( Post ID, Post Title )
 		}
 	}
 
 	$return['total_count'] = $search_results->found_posts;
 	return $return;
+	// phpcs:enable WordPress.Security.NonceVerification -- is verified in JB()->ajax()->settings()->get_pages_list()
 }
 add_filter( 'jb_admin_settings_get_pages_list', 'jb_admin_settings_get_pages_list_polylang', 10 );
 
@@ -127,17 +142,20 @@ add_filter( 'jb_admin_settings_get_pages_list', 'jb_admin_settings_get_pages_lis
  * @return array
  */
 function jb_admin_settings_pages_list_value_polylang( $pre_result, $page_id ) {
-	if ( ! empty( $opt_value = JB()->options()->get( $page_id ) ) ) {
+	$opt_value = JB()->options()->get( $page_id );
 
-		if ( $post = pll_get_post( $opt_value ) ) {
+	if ( ! empty( $opt_value ) ) {
+		$post = pll_get_post( $opt_value );
+		if ( $post ) {
 			$opt_value = $post;
 		}
 
 		$title = get_the_title( $opt_value );
 		$title = ( mb_strlen( $title ) > 50 ) ? mb_substr( $title, 0, 49 ) . '...' : $title;
-		$title = sprintf( __( '%s (ID: %s)', 'jobboardwp' ), $title, $opt_value );
+		// translators: %1$s is a post title; %2$s is a post ID.
+		$title = sprintf( __( '%1$s (ID: %2$s)', 'jobboardwp' ), $title, $opt_value );
 
-		$pre_result = array( $opt_value => $title );
+		$pre_result               = array( $opt_value => $title );
 		$pre_result['page_value'] = $opt_value;
 	}
 

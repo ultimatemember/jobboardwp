@@ -48,10 +48,12 @@ if ( ! class_exists( 'jb\ajax\Init' ) ) {
 		 * Init current locale if exists
 		 */
 		public function init_current_locale() {
+			// phpcs:disable WordPress.Security.NonceVerification - don't need verifying there just the information about locale from JS to AJAX handlers
 			if ( ! empty( $_REQUEST['jb_current_locale'] ) ) {
 				$locale = sanitize_key( $_REQUEST['jb_current_locale'] );
 				do_action( 'jb_admin_init_locale', $locale );
 			}
+			// phpcs:enable WordPress.Security.NonceVerification
 		}
 
 

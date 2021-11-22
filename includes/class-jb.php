@@ -170,7 +170,7 @@ if ( ! class_exists( 'JB' ) ) {
 		 *
 		 * @return jb\integrations\Init()
 		 */
-		function integrations() {
+		public function integrations() {
 			return $this->call_class( 'jb\integrations\Init' );
 		}
 

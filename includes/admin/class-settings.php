@@ -126,15 +126,17 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			foreach ( JB()->config()->get( 'predefined_pages' ) as $slug => $page ) {
 				$option_key = JB()->options()->get_predefined_page_option_key( $slug );
 
-				$options = array();
+				$options    = array();
 				$page_value = '';
 
-				$pre_result = apply_filters( 'jb_admin_settings_pages_list_value', false,$option_key );
+				$pre_result = apply_filters( 'jb_admin_settings_pages_list_value', false, $option_key );
 				if ( false === $pre_result ) {
-					if ( ! empty( $opt_value = JB()->options()->get( $option_key ) ) ) {
+					$opt_value = JB()->options()->get( $option_key );
+					if ( ! empty( $opt_value ) ) {
 						$title = get_the_title( $opt_value );
 						$title = ( mb_strlen( $title ) > 50 ) ? mb_substr( $title, 0, 49 ) . '...' : $title;
-						$title = sprintf( __( '%s (ID: %s)', 'jobboardwp' ), $title, $opt_value );
+						// translators: %1$s is a post title; %2$s is a post ID.
+						$title = sprintf( __( '%1$s (ID: %2$s)', 'jobboardwp' ), $title, $opt_value );
 
 						$options    = array( $opt_value => $title );
 						$page_value = $opt_value;

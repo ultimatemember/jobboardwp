@@ -149,7 +149,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		 * @since 1.1.1
 		 */
 		public function get_predefined_page_link( $slug ) {
-			$url = false;
+			$url     = false;
 			$page_id = $this->get_predefined_page_id( $slug );
 
 			if ( ! empty( $page_id ) ) {
