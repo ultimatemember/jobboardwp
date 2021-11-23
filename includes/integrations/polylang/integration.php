@@ -4,6 +4,21 @@
 
 
 /**
+ * Get default and current locales.
+ *
+ * @since  3.0
+ *
+ * @return array
+ */
+function jb_polylang_get_languages_codes() {
+	return array(
+		'default' => pll_default_language( 'locale' ),
+		'current' => pll_current_language( 'locale' ),
+	);
+}
+
+
+/**
  * @param int $page_id
  *
  * @return mixed
@@ -184,3 +199,149 @@ function jb_admin_init_locale_polylang( $locale ) {
 	PLL()->curlang = $polylang->model->get_language( $locale );
 }
 add_action( 'jb_admin_init_locale', 'jb_admin_init_locale_polylang', 10, 1 );
+
+
+/**
+ * @param $columns
+ *
+ * @return array
+ */
+function jb_add_email_templates_column_polylang( $columns ) {
+	global $polylang;
+
+	if ( count( pll_languages_list() ) > 0 ) {
+		$flags_column = '';
+		foreach ( pll_languages_list() as $language_code ) {
+			if ( $language_code === pll_current_language() ) {
+				continue;
+			}
+			$language      = $polylang->model->get_language( $language_code );
+			$flags_column .= '<span class="um-flag" style="margin:2px">' . $language->flag . '</span>';
+		}
+
+		$columns = JB()->array_insert_after( $columns, 'email', array( 'translations' => $flags_column ) );
+	}
+
+	return $columns;
+}
+add_filter( 'jb_email_templates_columns', 'jb_add_email_templates_column_polylang', 10, 1 );
+
+
+function jb_emails_list_table_custom_column_content_polylang( $content, $item, $column_name ) {
+	if ( 'translations' === $column_name ) {
+		$html = '';
+
+		foreach ( pll_languages_list() as $language_code ) {
+			if ( $language_code === pll_current_language() ) {
+				continue;
+			}
+			$html .= jb_polylang_get_status_html( $item['key'], $language_code );
+		}
+
+		$content = $html;
+	}
+
+	return $content;
+}
+add_filter( 'jb_emails_list_table_custom_column_content', 'jb_emails_list_table_custom_column_content_polylang', 10, 3 );
+
+
+/**
+ * @param $template
+ * @param $code
+ *
+ * @return string
+ */
+function jb_polylang_get_status_html( $template, $code ) {
+	global $polylang;
+
+	$link = add_query_arg( array( 'email' => $template, 'lang' => $code ) );
+
+	$language = $polylang->model->get_language( $code );
+	$default_lang = pll_default_language();
+
+	if ( $default_lang === $code ) {
+		$hint = sprintf( __( 'Edit the translation in %s', 'polylang' ), $language->name );
+		$icon_html = sprintf( '<a href="%1$s" title="%2$s" class="pll_icon_edit"><span class="screen-reader-text">%3$s</span></a>', esc_url( $link ), esc_html( $hint ), esc_html( $hint )
+		);
+		return $icon_html;
+	}
+
+	$template_name = JB()->get_email_template( $template );
+
+	$current_language = pll_current_language();
+	$current_language = $polylang->model->get_language( $current_language );
+
+	PLL()->curlang = $language;
+
+	$template_path = JB()->template_path();
+
+	$template_locations = array(
+		trailingslashit( $template_path ) . $template_name,
+	);
+
+	$template_locations = apply_filters( 'jb_pre_template_locations', $template_locations, $template_name, $template_path );
+
+	// build multisite blog_ids priority paths
+	if ( is_multisite() ) {
+		$blog_id = get_current_blog_id();
+
+		$ms_template_locations = array_map( function( $item ) use ( $template_path, $blog_id ) {
+			return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $blog_id . '/', $item );
+		}, $template_locations );
+
+		$template_locations = array_merge( $ms_template_locations, $template_locations );
+	}
+
+	$template_locations = apply_filters( 'jb_template_locations', $template_locations, $template_name, $template_path );
+
+	$template_locations = array_map( 'wp_normalize_path', $template_locations );
+
+	foreach ( $template_locations as $k => $location ) {
+		if ( false === strstr( $location, $code ) ) {
+			unset( $template_locations[ $k ] );
+		}
+	}
+
+	PLL()->curlang = $current_language;
+
+	$custom_path = apply_filters( 'jb_template_structure_custom_path', false, $template_name );
+	if ( false === $custom_path || ! is_dir( $custom_path ) ) {
+		$template_exists = locate_template( $template_locations );
+	} else {
+		$template_exists = JB()->locate_template_custom_path( $template_locations, $custom_path );
+	}
+
+	// Get default template in cases:
+	// 1. Conflict test constant is defined and TRUE
+	// 2. There aren't any proper template in custom or theme directories
+	if ( ! empty( $template_exists ) ) {
+		$hint = sprintf( __( 'Edit the translation in %s', 'polylang' ), $language->name );
+		$icon_html = sprintf( '<a href="%1$s" title="%2$s" class="pll_icon_edit"><span class="screen-reader-text">%3$s</span></a>', esc_url( $link ), esc_html( $hint ), esc_html( $hint )
+		);
+	} else {
+		$hint = sprintf( __( 'Add a translation in %s', 'polylang' ), $language->name );
+		$icon_html = sprintf( '<a href="%1$s" title="%2$s" class="pll_icon_add"><span class="screen-reader-text">%3$s</span></a>', esc_url( $link ), esc_attr( $hint ), esc_html( $hint )
+		);
+	}
+
+	return $icon_html;
+}
+
+
+function jb_pre_template_locations_polylang( $template_locations, $template_name, $template_path ) {
+	$language_codes = jb_polylang_get_languages_codes();
+
+	if ( $language_codes['default'] !== $language_codes['current'] ) {
+		$lang = $language_codes['current'];
+
+		$ml_template_locations = array_map( function( $item ) use ( $template_path, $lang ) {
+			return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $lang . '/', $item );
+		}, $template_locations );
+
+		$template_locations = array_merge( $ml_template_locations, $template_locations );
+	}
+
+	return $template_locations;
+}
+add_filter( 'jb_pre_template_locations_common_locale_integration', 'jb_pre_template_locations_polylang', 10, 3 );

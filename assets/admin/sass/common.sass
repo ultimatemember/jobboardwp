@@ -6,58 +6,65 @@
   content: "\f464"
   top: 2px
 
-body.post-type-jb-job .wp-list-table
-  .column-title
-    width: 35%
-    .#{$job}data
-      +flex(row, flex-start, center, nowrap)
-      width: 100%
-      .#{$job}title-company
-        +flex(column, flex-start, stretch, nowrap)
-        width: calc( 100% - 54px )
-        margin: 0 10px 0 0
-      .#{$job}company-logo-wrapper
-        +flex(row, center, center, nowrap)
-        text-align: center
-        width: 40px
-        height: 40px
-        border-radius: 100%
-        border: 2px solid #fff
-        +box-shadow
-        overflow: hidden
-        .#{$job}company-logo
-          object-fit: cover
+body.post-type-jb-job
+  .wp-list-table
+    .column-title
+      width: 35%
+      .#{$job}data
+        +flex(row, flex-start, center, nowrap)
+        width: 100%
+        .#{$job}title-company
+          +flex(column, flex-start, stretch, nowrap)
+          width: calc( 100% - 54px )
+          margin: 0 10px 0 0
+        .#{$job}company-logo-wrapper
+          +flex(row, center, center, nowrap)
+          text-align: center
           width: 40px
           height: 40px
-        .dashicons
-          color: #a4a4a4
-  .column-type
-    width: 10%
-    .#{$job}type
-      font-size: 12px
+          border-radius: 100%
+          border: 2px solid #fff
+          +box-shadow
+          overflow: hidden
+          .#{$job}company-logo
+            object-fit: cover
+            width: 40px
+            height: 40px
+          .dashicons
+            color: #a4a4a4
+    .column-type
+      width: 10%
+      .#{$job}type
+        font-size: 12px
+        text-align: center
+        padding: 5px 9px
+        border: 0
+        border-radius: 3px
+        margin: 0
+        &:not(:first-child)
+          margin-left: 2px
+        &:not(:last-child)
+          margin-bottom: 2px
+    .column-filled
+      width: 5%
       text-align: center
-      padding: 5px 9px
-      border: 0
-      border-radius: 3px
-      margin: 0
-      &:not(:first-child)
-        margin-left: 2px
-      &:not(:last-child)
-        margin-bottom: 2px
-  .column-filled
-    width: 5%
-    text-align: center
-  .column-status
-    width: 7%
-    text-align: center
-  .column-location
-    width: 10%
-  .column-category
-    width: 13%
-  .column-posted
-    width: 10%
-  .column-expires
-    width: 10%
+    .column-status
+      width: 7%
+      text-align: center
+    .column-location
+      width: 10%
+    .column-category
+      width: 13%
+    .column-posted
+      width: 10%
+    .column-expires
+      width: 10%
+  &.jb_icl_active
+    .wp-list-table
+      .column-title
+        width: 25%
+      .column-icl_translations
+        width: 10%
 
 
 

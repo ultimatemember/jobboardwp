@@ -22,6 +22,8 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 		public function __construct() {
 			// running before all plugins_loaded callbacks in JobBoardWP.
 			add_action( 'plugins_loaded', array( &$this, 'plugins_loaded' ), 9 );
+
+			add_filter( 'jb_pre_template_locations', array( &$this, 'pre_template_locations_common_locale' ), 10, 3 );
 		}
 
 
@@ -44,6 +46,45 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 			if ( $this->is_weglot_active() ) {
 				require_once 'weglot/integration.php';
 			}
+		}
+
+
+		/**
+		 * Email notifications integration with `get_user_locale()`
+		 *
+		 * @param $template_locations
+		 * @param $template_name
+		 * @param $template_path
+		 *
+		 * @return array
+		 */
+		function pre_template_locations_common_locale( $template_locations, $template_name, $template_path ) {
+			// make pre templates locations array to avoid the conflicts between different locales when multilingual plugins are integrated
+			// e.g. "jobboardwp/ru_RU(user locale)/uk(WPML)/emails/job_approved.php"
+			// must be the next priority:
+			//
+			// jobboardwp/{user locale}/emails/job_approved.php
+			// jobboardwp/{site locale}/emails/job_approved.php
+			$template_locations_pre = $template_locations;
+
+			$template_locations = apply_filters( 'jb_pre_template_locations_common_locale_integration', $template_locations, $template_name, $template_path );
+
+			// use the user_locale only for email notifications templates
+			if ( 0 === strpos( $template_name, 'emails/' ) ) {
+				$current_locale      = determine_locale();
+				$current_user_locale = get_user_locale();
+
+				if ( $current_locale != $current_user_locale ) {
+					// todo skip duplications e.g. "jobboardwp/ru_RU/uk/emails/job_approved.php" when current language = uk, but user locale is ru_RU. Must be only "jobboardwp/ru_RU/emails/job_approved.php" in this case
+					$locale_template_locations = array_map( function( $item ) use ( $template_path, $current_user_locale ) {
+						return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $current_user_locale . '/', $item );
+					}, $template_locations_pre );
+
+					$template_locations = array_merge( $locale_template_locations, $template_locations );
+				}
+			}
+
+			return $template_locations;
 		}
 
 
@@ -93,7 +134,7 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 		 * @return bool
 		 */
 		public function is_weglot_active() {
-			return defined( 'WEGLOT_VERSION' );
+			return defined( 'WEGLOT_VERSION' ) && function_exists( 'weglot_get_current_language' );
 		}
 	}
 }

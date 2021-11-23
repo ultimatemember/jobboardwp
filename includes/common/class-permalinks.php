@@ -135,7 +135,8 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			}
 
 			$option_key = JB()->options()->get_predefined_page_option_key( $slug );
-			return apply_filters( 'jb_get_predefined_page_id', JB()->options()->get( $option_key ), $slug );
+			$page_id = apply_filters( 'jb_get_predefined_page_id', JB()->options()->get( $option_key ), $slug );
+			return (int) $page_id;
 		}
 
 

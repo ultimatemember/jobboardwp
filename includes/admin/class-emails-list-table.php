@@ -110,7 +110,7 @@ if ( ! class_exists( 'jb\admin\Emails_List_Table' ) ) {
 			if ( isset( $item[ $column_name ] ) ) {
 				return $item[ $column_name ];
 			} else {
-				return '';
+				return apply_filters( 'jb_emails_list_table_custom_column_content', '', $item, $column_name );
 			}
 		}
 

@@ -4,6 +4,37 @@
 
 
 /**
+ * @return array
+ */
+function jb_wpml_get_languages_codes() {
+	global $sitepress;
+
+	return array(
+		'default' => $sitepress->get_locale_from_language_code( $sitepress->get_default_language() ),
+		'current' => $sitepress->get_locale_from_language_code( $sitepress->get_current_language() ),
+	);
+}
+
+
+function jb_admin_jobs_listtable_columns_wpml( $columns, $base_columns ) {
+	if ( array_key_exists( 'icl_translations', $base_columns ) ) {
+		$columns = JB()->array_insert_after( $columns, 'title', array( 'icl_translations' => $base_columns['icl_translations'] ) );
+	}
+	return $columns;
+}
+add_filter( 'jb_admin_jobs_listtable_columns', 'jb_admin_jobs_listtable_columns_wpml', 10, 2 );
+
+function jb_admin_body_class_wpml( $classes ) {
+	global $pagenow;
+	// phpcs:ignore WordPress.Security.NonceVerification
+	if ( 'edit.php' === $pagenow && isset( $_GET['post_type'] ) && 'jb-job' === sanitize_key( $_GET['post_type'] ) ) {
+		$classes .= ' jb_icl_active ';
+	}
+	return $classes;
+}
+add_filter( 'admin_body_class', 'jb_admin_body_class_wpml', 10, 1 );
+
+/**
  * Get predefined page translation for current language
  *
  * @param int $page_id
@@ -200,3 +231,171 @@ function jb_admin_init_locale_wpml( $locale ) {
 	$sitepress->switch_lang( $locale );
 }
 add_action( 'jb_admin_init_locale', 'jb_admin_init_locale_wpml', 10, 1 );
+
+
+/**
+ * @param $columns
+ *
+ * @return array
+ */
+function jb_add_email_templates_column_wpml( $columns ) {
+	global $sitepress;
+
+	$active_languages = $sitepress->get_active_languages();
+	$current_language = $sitepress->get_current_language();
+	unset( $active_languages[ $current_language ] );
+
+	if ( count( $active_languages ) > 0 ) {
+		$flags_column = '';
+		foreach ( $active_languages as $language_data ) {
+			$flags_column .= '<img src="' . esc_attr( $sitepress->get_flag_url( $language_data['code'] ) ). '" width="18" height="12" alt="' . esc_attr( $language_data['display_name'] ) . '" title="' . esc_attr( $language_data['display_name'] ) . '" style="margin:2px" />';
+		}
+
+		$columns = JB()->array_insert_after( $columns, 'email', array( 'translations' => $flags_column ) );
+	}
+
+	return $columns;
+}
+add_filter( 'jb_email_templates_columns', 'jb_add_email_templates_column_wpml', 10, 1 );
+
+
+function jb_emails_list_table_custom_column_content_wpml( $content, $item, $column_name ) {
+	if ( 'translations' === $column_name ) {
+		global $sitepress;
+
+		$active_languages = $sitepress->get_active_languages();
+		$current_language = $sitepress->get_current_language();
+		unset( $active_languages[ $current_language ] );
+
+		$html = '';
+		foreach ( $active_languages as $language_data ) {
+			$html .= jb_wpml_get_status_html( $item['key'], $language_data['code'] );
+		}
+
+		$content = $html;
+	}
+
+	return $content;
+}
+add_filter( 'jb_emails_list_table_custom_column_content', 'jb_emails_list_table_custom_column_content_wpml', 10, 3 );
+
+
+/**
+ * @param $template
+ * @param $code
+ *
+ * @return string
+ */
+function jb_wpml_get_status_html( $template, $code ) {
+	global $sitepress;
+
+	$link = add_query_arg( array( 'email' => $template, 'lang' => $code ) );
+
+	$active_languages = $sitepress->get_active_languages();
+	$translation_map  = array(
+		'edit' => array(
+			'icon' => 'edit_translation.png',
+			'text' => sprintf( __( 'Edit the %s translation', 'sitepress' ), $active_languages[ $code ]['display_name'] ),
+		),
+		'add'  => array(
+			'icon' => 'add_translation.png',
+			'text' => sprintf( __( 'Add translation to %s', 'sitepress' ), $active_languages[ $code ]['display_name'] ),
+		),
+	);
+
+	$default_lang = $sitepress->get_default_language();
+
+	if ( $default_lang === $code ) {
+		return jb_wpml_render_status_icon( $link, $translation_map['edit']['text'], $translation_map['edit']['icon'] );
+	}
+
+	$template_name = JB()->get_email_template( $template );
+
+	$current_language = $sitepress->get_current_language();
+	$sitepress->switch_lang( $code );
+
+	$template_path = JB()->template_path();
+
+	$template_locations = array(
+		trailingslashit( $template_path ) . $template_name,
+	);
+
+	$template_locations = apply_filters( 'jb_pre_template_locations', $template_locations, $template_name, $template_path );
+
+	// build multisite blog_ids priority paths
+	if ( is_multisite() ) {
+		$blog_id = get_current_blog_id();
+
+		$ms_template_locations = array_map( function( $item ) use ( $template_path, $blog_id ) {
+			return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $blog_id . '/', $item );
+		}, $template_locations );
+
+		$template_locations = array_merge( $ms_template_locations, $template_locations );
+	}
+
+	$template_locations = apply_filters( 'jb_template_locations', $template_locations, $template_name, $template_path );
+
+	$template_locations = array_map( 'wp_normalize_path', $template_locations );
+
+	foreach ( $template_locations as $k => $location ) {
+		if ( false === strstr( $location, $code ) ) {
+			unset( $template_locations[ $k ] );
+		}
+	}
+
+	$sitepress->switch_lang( $current_language );
+
+	$custom_path = apply_filters( 'jb_template_structure_custom_path', false, $template_name );
+	if ( false === $custom_path || ! is_dir( $custom_path ) ) {
+		$template_exists = locate_template( $template_locations );
+	} else {
+		$template_exists = JB()->locate_template_custom_path( $template_locations, $custom_path );
+	}
+
+	// Get default template in cases:
+	// 1. Conflict test constant is defined and TRUE
+	// 2. There aren't any proper template in custom or theme directories
+	$status = 'add';
+	if ( ! empty( $template_exists ) ) {
+		$status = 'edit';
+	}
+
+	return jb_wpml_render_status_icon( $link, $translation_map[ $status ]['text'], $translation_map[ $status ]['icon'] );
+}
+
+
+/**
+ * @param $link
+ * @param $text
+ * @param $img
+ *
+ * @return string
+ */
+function jb_wpml_render_status_icon( $link, $text, $img ) {
+	$icon_html = '<a href="' . esc_url( $link ) . '" title="' . esc_attr( $text ) . '">';
+	$icon_html .= '<img style="padding:1px;margin:2px;" border="0" src="'
+	              . ICL_PLUGIN_URL . '/res/img/'
+	              . esc_attr( $img ) . '" alt="'
+	              . esc_attr( $text ) . '" width="16" height="16" />';
+	$icon_html .= '</a>';
+
+	return $icon_html;
+}
+
+
+function jb_pre_template_locations_wpml( $template_locations, $template_name, $template_path ) {
+	$language_codes = jb_wpml_get_languages_codes();
+
+	if ( $language_codes['default'] !== $language_codes['current'] ) {
+		$lang = $language_codes['current'];
+
+		$ml_template_locations = array_map( function( $item ) use ( $template_path, $lang ) {
+			return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $lang . '/', $item );
+		}, $template_locations );
+
+		$template_locations = array_merge( $ml_template_locations, $template_locations );
+	}
+
+	return $template_locations;
+}
+add_filter( 'jb_pre_template_locations_common_locale_integration', 'jb_pre_template_locations_wpml', 10, 3 );

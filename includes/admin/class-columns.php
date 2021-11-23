@@ -347,7 +347,6 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		 * @since 1.0
 		 */
 		public function job_columns( $columns ) {
-
 			$additional_columns = array();
 			if ( isset( $columns['cb'] ) ) {
 				$additional_columns['cb'] = $columns['cb'];
@@ -371,7 +370,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				unset( $additional_columns['category'] );
 			}
 
-			return $additional_columns;
+			return apply_filters( 'jb_admin_jobs_listtable_columns', $additional_columns, $columns );
 		}
 
 
