@@ -141,6 +141,42 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 
 
 		/**
+		 *
+		 * @param string $slug
+		 * @param null|int|\WP_Post $post
+		 *
+		 * @return bool
+		 */
+		public function is_predefined_page( $slug, $post = null ) {
+			// handle $post inside, just we need make $post as \WP_Post. Otherwise something is wrong and return false
+			if ( ! $post ) {
+				global $post;
+
+				if ( empty( $post ) ) {
+					return false;
+				}
+			} else {
+				if ( is_numeric( $post ) ) {
+					$post = get_post( $post );
+
+					if ( empty( $post ) ) {
+						return false;
+					}
+				}
+			}
+
+			if ( empty( $post->ID ) ) {
+				return false;
+			}
+
+			$predefined_page_id = $this->get_predefined_page_id( $slug );
+			$condition = $post->ID === $this->get_predefined_page_id( $slug );
+
+			return apply_filters( 'jb_is_predefined_page', $condition, $post, $predefined_page_id, $slug );
+		}
+
+
+		/**
 		 * Get predefined page URL
 		 *
 		 * @param string $slug

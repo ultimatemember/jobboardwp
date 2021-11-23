@@ -35,9 +35,58 @@ add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_polylang', 1
 
 
 /**
+ * @param bool $condition
+ * @param \WP_Post $post
+ * @param int $predefined_page_id
+ *
+ * @return bool
+ */
+function jb_is_predefined_page_polylang( $condition, $post, $predefined_page_id ) {
+	global $polylang;
+
+	if ( ( JB()->is_request( 'admin' ) || JB()->is_request( 'ajax' ) ) && false === pll_current_language( 'locale' ) ) {
+
+		if ( count( pll_languages_list() ) > 0 ) {
+			foreach ( pll_languages_list() as $language_code ) {
+				if ( $language_code === pll_current_language() ) {
+					continue;
+				}
+
+				$language = $polylang->model->get_language( $language_code );
+				if ( empty( $language ) ) {
+					continue;
+				}
+
+				$tr_post_id = $polylang->model->post->get( $post->ID, $language );
+				if ( empty( $tr_post_id ) ) {
+					continue;
+				}
+
+				if ( $tr_post_id === $predefined_page_id ) {
+					$condition = true;
+					break;
+				}
+			}
+		}
+	}
+
+	return $condition;
+}
+add_filter( 'jb_is_predefined_page', 'jb_is_predefined_page_polylang', 10, 3 );
+
+
+/**
  * @return array
  */
 function jb_admin_settings_get_pages_list_polylang() {
+	global $polylang;
+
+	// fix when "Show all languages" in wp-admin is set
+	if ( false === pll_current_language( 'locale' ) ) {
+		$locale = pll_default_language( 'locale' );
+		PLL()->curlang = $polylang->model->get_language( $locale );
+	}
+
 	// phpcs:disable WordPress.Security.NonceVerification -- is verified in JB()->ajax()->settings()->get_pages_list()
 	$return = array();
 

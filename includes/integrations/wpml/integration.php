@@ -24,6 +24,7 @@ function jb_admin_jobs_listtable_columns_wpml( $columns, $base_columns ) {
 }
 add_filter( 'jb_admin_jobs_listtable_columns', 'jb_admin_jobs_listtable_columns_wpml', 10, 2 );
 
+
 function jb_admin_body_class_wpml( $classes ) {
 	global $pagenow;
 	// phpcs:ignore WordPress.Security.NonceVerification
@@ -33,6 +34,7 @@ function jb_admin_body_class_wpml( $classes ) {
 	return $classes;
 }
 add_filter( 'admin_body_class', 'jb_admin_body_class_wpml', 10, 1 );
+
 
 /**
  * Get predefined page translation for current language
@@ -49,6 +51,41 @@ function jb_get_predefined_page_id_wpml( $page_id ) {
 	return $page_id;
 }
 add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_wpml', 10, 1 );
+
+
+/**
+ * @param bool $condition
+ * @param \WP_Post $post
+ * @param int $predefined_page_id
+ *
+ * @return bool
+ */
+function jb_is_predefined_page_wpml( $condition, $post, $predefined_page_id ) {
+	global $sitepress;
+
+	$current_language = $sitepress->get_current_language();
+
+	if ( ( JB()->is_request( 'admin' ) || JB()->is_request( 'ajax' ) ) && 'all' === $current_language ) {
+		$active_languages = $sitepress->get_active_languages();
+
+		if ( count( $active_languages ) > 0 ) {
+			foreach ( $active_languages as $language_data ) {
+				$tr_post_id = wpml_object_id_filter( $post->ID, 'page', true, $language_data['code'] );
+				if ( empty( $tr_post_id ) ) {
+					continue;
+				}
+
+				if ( $tr_post_id === $predefined_page_id ) {
+					$condition = true;
+					break;
+				}
+			}
+		}
+	}
+
+	return $condition;
+}
+add_filter( 'jb_is_predefined_page', 'jb_is_predefined_page_wpml', 10, 3 );
 
 
 /**
