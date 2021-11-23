@@ -48,7 +48,7 @@ function jb_is_predefined_page_polylang( $condition, $post, $predefined_page_id 
 
 		if ( count( pll_languages_list() ) > 0 ) {
 			foreach ( pll_languages_list() as $language_code ) {
-				if ( $language_code === pll_current_language() ) {
+				if ( pll_current_language() === $language_code ) {
 					continue;
 				}
 
@@ -83,7 +83,7 @@ function jb_admin_settings_get_pages_list_polylang() {
 
 	// fix when "Show all languages" in wp-admin is set
 	if ( false === pll_current_language( 'locale' ) ) {
-		$locale = pll_default_language( 'locale' );
+		$locale        = pll_default_language( 'locale' );
 		PLL()->curlang = $polylang->model->get_language( $locale );
 	}
 
@@ -261,7 +261,7 @@ function jb_add_email_templates_column_polylang( $columns ) {
 	if ( count( pll_languages_list() ) > 0 ) {
 		$flags_column = '';
 		foreach ( pll_languages_list() as $language_code ) {
-			if ( $language_code === pll_current_language() ) {
+			if ( pll_current_language() === $language_code ) {
 				continue;
 			}
 			$language      = $polylang->model->get_language( $language_code );
@@ -281,7 +281,7 @@ function jb_emails_list_table_custom_column_content_polylang( $content, $item, $
 		$html = '';
 
 		foreach ( pll_languages_list() as $language_code ) {
-			if ( $language_code === pll_current_language() ) {
+			if ( pll_current_language() === $language_code ) {
 				continue;
 			}
 			$html .= jb_polylang_get_status_html( $item['key'], $language_code );
@@ -304,14 +304,23 @@ add_filter( 'jb_emails_list_table_custom_column_content', 'jb_emails_list_table_
 function jb_polylang_get_status_html( $template, $code ) {
 	global $polylang;
 
-	$link = add_query_arg( array( 'email' => $template, 'lang' => $code ) );
+	$link = add_query_arg(
+		array(
+			'email' => $template,
+			'lang'  => $code
+		)
+	);
 
-	$language = $polylang->model->get_language( $code );
+	$language     = $polylang->model->get_language( $code );
 	$default_lang = pll_default_language();
 
 	if ( $default_lang === $code ) {
-		$hint = sprintf( __( 'Edit the translation in %s', 'polylang' ), $language->name );
-		$icon_html = sprintf( '<a href="%1$s" title="%2$s" class="pll_icon_edit"><span class="screen-reader-text">%3$s</span></a>', esc_url( $link ), esc_html( $hint ), esc_html( $hint )
+		$hint      = sprintf( __( 'Edit the translation in %s', 'polylang' ), $language->name );
+		$icon_html = sprintf(
+			'<a href="%1$s" title="%2$s" class="pll_icon_edit"><span class="screen-reader-text">%3$s</span></a>',
+			esc_url( $link ),
+			esc_html( $hint ),
+			esc_html( $hint )
 		);
 		return $icon_html;
 	}
@@ -335,15 +344,17 @@ function jb_polylang_get_status_html( $template, $code ) {
 	if ( is_multisite() ) {
 		$blog_id = get_current_blog_id();
 
-		$ms_template_locations = array_map( function( $item ) use ( $template_path, $blog_id ) {
-			return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $blog_id . '/', $item );
-		}, $template_locations );
+		$ms_template_locations = array_map(
+			function( $item ) use ( $template_path, $blog_id ) {
+				return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $blog_id . '/', $item );
+			},
+			$template_locations
+		);
 
 		$template_locations = array_merge( $ms_template_locations, $template_locations );
 	}
 
 	$template_locations = apply_filters( 'jb_template_locations', $template_locations, $template_name, $template_path );
-
 	$template_locations = array_map( 'wp_normalize_path', $template_locations );
 
 	foreach ( $template_locations as $k => $location ) {
@@ -365,12 +376,20 @@ function jb_polylang_get_status_html( $template, $code ) {
 	// 1. Conflict test constant is defined and TRUE
 	// 2. There aren't any proper template in custom or theme directories
 	if ( ! empty( $template_exists ) ) {
-		$hint = sprintf( __( 'Edit the translation in %s', 'polylang' ), $language->name );
-		$icon_html = sprintf( '<a href="%1$s" title="%2$s" class="pll_icon_edit"><span class="screen-reader-text">%3$s</span></a>', esc_url( $link ), esc_html( $hint ), esc_html( $hint )
+		$hint      = sprintf( __( 'Edit the translation in %s', 'polylang' ), $language->name );
+		$icon_html = sprintf(
+			'<a href="%1$s" title="%2$s" class="pll_icon_edit"><span class="screen-reader-text">%3$s</span></a>',
+			esc_url( $link ),
+			esc_html( $hint ),
+			esc_html( $hint )
 		);
 	} else {
-		$hint = sprintf( __( 'Add a translation in %s', 'polylang' ), $language->name );
-		$icon_html = sprintf( '<a href="%1$s" title="%2$s" class="pll_icon_add"><span class="screen-reader-text">%3$s</span></a>', esc_url( $link ), esc_attr( $hint ), esc_html( $hint )
+		$hint      = sprintf( __( 'Add a translation in %s', 'polylang' ), $language->name );
+		$icon_html = sprintf(
+			'<a href="%1$s" title="%2$s" class="pll_icon_add"><span class="screen-reader-text">%3$s</span></a>',
+			esc_url( $link ),
+			esc_attr( $hint ),
+			esc_html( $hint )
 		);
 	}
 
@@ -384,9 +403,12 @@ function jb_pre_template_locations_polylang( $template_locations, $template_name
 	if ( $language_codes['default'] !== $language_codes['current'] ) {
 		$lang = $language_codes['current'];
 
-		$ml_template_locations = array_map( function( $item ) use ( $template_path, $lang ) {
-			return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $lang . '/', $item );
-		}, $template_locations );
+		$ml_template_locations = array_map(
+			function( $item ) use ( $template_path, $lang ) {
+				return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $lang . '/', $item );
+			},
+			$template_locations
+		);
 
 		$template_locations = array_merge( $ml_template_locations, $template_locations );
 	}

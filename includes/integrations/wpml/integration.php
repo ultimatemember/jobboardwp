@@ -285,7 +285,7 @@ function jb_add_email_templates_column_wpml( $columns ) {
 	if ( count( $active_languages ) > 0 ) {
 		$flags_column = '';
 		foreach ( $active_languages as $language_data ) {
-			$flags_column .= '<img src="' . esc_attr( $sitepress->get_flag_url( $language_data['code'] ) ). '" width="18" height="12" alt="' . esc_attr( $language_data['display_name'] ) . '" title="' . esc_attr( $language_data['display_name'] ) . '" style="margin:2px" />';
+			$flags_column .= '<img src="' . esc_attr( $sitepress->get_flag_url( $language_data['code'] ) ) . '" width="18" height="12" alt="' . esc_attr( $language_data['display_name'] ) . '" title="' . esc_attr( $language_data['display_name'] ) . '" style="margin:2px" />';
 		}
 
 		$columns = JB()->array_insert_after( $columns, 'email', array( 'translations' => $flags_column ) );
@@ -326,7 +326,12 @@ add_filter( 'jb_emails_list_table_custom_column_content', 'jb_emails_list_table_
 function jb_wpml_get_status_html( $template, $code ) {
 	global $sitepress;
 
-	$link = add_query_arg( array( 'email' => $template, 'lang' => $code ) );
+	$link = add_query_arg(
+		array(
+			'email' => $template,
+			'lang'  => $code
+		)
+	);
 
 	$active_languages = $sitepress->get_active_languages();
 	$translation_map  = array(
@@ -363,15 +368,17 @@ function jb_wpml_get_status_html( $template, $code ) {
 	if ( is_multisite() ) {
 		$blog_id = get_current_blog_id();
 
-		$ms_template_locations = array_map( function( $item ) use ( $template_path, $blog_id ) {
-			return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $blog_id . '/', $item );
-		}, $template_locations );
+		$ms_template_locations = array_map(
+			function( $item ) use ( $template_path, $blog_id ) {
+				return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $blog_id . '/', $item );
+			},
+			$template_locations
+		);
 
 		$template_locations = array_merge( $ms_template_locations, $template_locations );
 	}
 
 	$template_locations = apply_filters( 'jb_template_locations', $template_locations, $template_name, $template_path );
-
 	$template_locations = array_map( 'wp_normalize_path', $template_locations );
 
 	foreach ( $template_locations as $k => $location ) {
@@ -409,11 +416,8 @@ function jb_wpml_get_status_html( $template, $code ) {
  * @return string
  */
 function jb_wpml_render_status_icon( $link, $text, $img ) {
-	$icon_html = '<a href="' . esc_url( $link ) . '" title="' . esc_attr( $text ) . '">';
-	$icon_html .= '<img style="padding:1px;margin:2px;" border="0" src="'
-	              . ICL_PLUGIN_URL . '/res/img/'
-	              . esc_attr( $img ) . '" alt="'
-	              . esc_attr( $text ) . '" width="16" height="16" />';
+	$icon_html  = '<a href="' . esc_url( $link ) . '" title="' . esc_attr( $text ) . '">';
+	$icon_html .= '<img style="padding:1px;margin:2px;" border="0" src="' . ICL_PLUGIN_URL . '/res/img/' . esc_attr( $img ) . '" alt="' . esc_attr( $text ) . '" width="16" height="16" />';
 	$icon_html .= '</a>';
 
 	return $icon_html;
@@ -426,9 +430,12 @@ function jb_pre_template_locations_wpml( $template_locations, $template_name, $t
 	if ( $language_codes['default'] !== $language_codes['current'] ) {
 		$lang = $language_codes['current'];
 
-		$ml_template_locations = array_map( function( $item ) use ( $template_path, $lang ) {
-			return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $lang . '/', $item );
-		}, $template_locations );
+		$ml_template_locations = array_map(
+			function( $item ) use ( $template_path, $lang ) {
+				return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $lang . '/', $item );
+			},
+			$template_locations
+		);
 
 		$template_locations = array_merge( $ml_template_locations, $template_locations );
 	}

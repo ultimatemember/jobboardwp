@@ -11,9 +11,9 @@
  * @return array
  */
 function jb_translatepress_get_languages_codes() {
-	$trp = TRP_Translate_Press::get_trp_instance();
+	$trp          = TRP_Translate_Press::get_trp_instance();
 	$trp_settings = $trp->get_component( 'settings' );
-	$settings = $trp_settings->get_settings();
+	$settings     = $trp_settings->get_settings();
 
 	$default_language = $settings['default-language'];
 
@@ -61,9 +61,12 @@ function jb_pre_template_locations_translatepress( $template_locations, $templat
 	if ( $language_codes['default'] !== $language_codes['current'] ) {
 		$lang = $language_codes['current'];
 
-		$ml_template_locations = array_map( function( $item ) use ( $template_path, $lang ) {
-			return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $lang . '/', $item );
-		}, $template_locations );
+		$ml_template_locations = array_map(
+			function( $item ) use ( $template_path, $lang ) {
+				return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $lang . '/', $item );
+			},
+			$template_locations
+		);
 
 		$template_locations = array_merge( $ml_template_locations, $template_locations );
 	}

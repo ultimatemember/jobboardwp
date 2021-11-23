@@ -385,6 +385,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 					'align' => true,
 					'lang'  => true,
 				),
+				'code'   => array(),
 			);
 
 			$allowed_html = array_merge( $global_allowed, $allowed_html );
@@ -436,8 +437,8 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * @return array
 		 */
 		public function array_insert_after( $array, $key, $insert_array ) {
-			$index = array_search( $key, array_keys( $array ) );
-			if ( $index === false ) {
+			$index = array_search( $key, array_keys( $array ), true );
+			if ( false === $index ) {
 				return $array;
 			}
 
@@ -494,7 +495,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			if ( $filter_template !== $template ) {
 				if ( ! file_exists( $filter_template ) ) {
 					/* translators: %s template */
-					_doing_it_wrong( __FUNCTION__, sprintf( __( '<code>%s</code> does not exist.', 'jobboardwp' ), $filter_template ), JB_VERSION );
+					_doing_it_wrong( __FUNCTION__, wp_kses( sprintf( __( '<code>%s</code> does not exist.', 'jobboardwp' ), $filter_template ), $this->get_allowed_html( 'templates' ) ), esc_html( JB_VERSION ) );
 					return;
 				}
 				$template = $filter_template;
@@ -507,12 +508,12 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 				'args'          => $args,
 			);
 
-			$query_title = str_replace( '-', '_', sanitize_title( $template_name ) );
+			$query_title                  = str_replace( '-', '_', sanitize_title( $template_name ) );
 			$args[ 'jb_' . $query_title ] = $action_args['args'];
 
 			if ( ! empty( $args ) && is_array( $args ) ) {
 				if ( isset( $args['action_args'] ) ) {
-					_doing_it_wrong( __FUNCTION__, __( '`action_args` should not be overwritten when calling `jb_get_template()`.', 'jobboardwp' ), JB_VERSION );
+					_doing_it_wrong( __FUNCTION__, esc_html__( '`action_args` should not be overwritten when calling `jb_get_template()`.', 'jobboardwp' ), esc_html( JB_VERSION ) );
 					unset( $args['action_args'] );
 				}
 
@@ -586,9 +587,12 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			if ( is_multisite() ) {
 				$blog_id = get_current_blog_id();
 
-				$ms_template_locations = array_map( function( $item ) use ( $template_path, $blog_id ) {
-					return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $blog_id . '/', $item );
-				}, $template_locations );
+				$ms_template_locations = array_map(
+					function( $item ) use ( $template_path, $blog_id ) {
+						return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $blog_id . '/', $item );
+					},
+					$template_locations
+				);
 
 				$template_locations = array_merge( $ms_template_locations, $template_locations );
 			}

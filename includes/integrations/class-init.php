@@ -58,7 +58,7 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 		 *
 		 * @return array
 		 */
-		function pre_template_locations_common_locale( $template_locations, $template_name, $template_path ) {
+		public function pre_template_locations_common_locale( $template_locations, $template_name, $template_path ) {
 			// make pre templates locations array to avoid the conflicts between different locales when multilingual plugins are integrated
 			// e.g. "jobboardwp/ru_RU(user locale)/uk(WPML)/emails/job_approved.php"
 			// must be the next priority:
@@ -74,11 +74,14 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 				$current_locale      = determine_locale();
 				$current_user_locale = get_user_locale();
 
-				if ( $current_locale != $current_user_locale ) {
+				if ( $current_locale !== $current_user_locale ) {
 					// todo skip duplications e.g. "jobboardwp/ru_RU/uk/emails/job_approved.php" when current language = uk, but user locale is ru_RU. Must be only "jobboardwp/ru_RU/emails/job_approved.php" in this case
-					$locale_template_locations = array_map( function( $item ) use ( $template_path, $current_user_locale ) {
-						return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $current_user_locale . '/', $item );
-					}, $template_locations_pre );
+					$locale_template_locations = array_map(
+						function( $item ) use ( $template_path, $current_user_locale ) {
+							return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $current_user_locale . '/', $item );
+						},
+						$template_locations_pre
+					);
 
 					$template_locations = array_merge( $locale_template_locations, $template_locations );
 				}

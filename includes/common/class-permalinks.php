@@ -135,7 +135,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			}
 
 			$option_key = JB()->options()->get_predefined_page_option_key( $slug );
-			$page_id = apply_filters( 'jb_get_predefined_page_id', JB()->options()->get( $option_key ), $slug );
+			$page_id    = apply_filters( 'jb_get_predefined_page_id', JB()->options()->get( $option_key ), $slug );
 			return (int) $page_id;
 		}
 
@@ -157,7 +157,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 				}
 			} else {
 				if ( is_numeric( $post ) ) {
-					$post = get_post( $post );
+					$post = get_post( $post ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- internal variable
 
 					if ( empty( $post ) ) {
 						return false;
