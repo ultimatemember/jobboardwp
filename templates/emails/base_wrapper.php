@@ -3,6 +3,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-global $wp_query;
-
-echo wp_kses( JB()->common()->mail()->get_email_template( $wp_query->query_vars['jb_email_content']['slug'] ), JB()->get_allowed_html() );
+JB()->get_template_part( JB()->get_email_template( $jb_emails_base_wrapper['slug'], false ) );

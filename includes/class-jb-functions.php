@@ -70,6 +70,22 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 
 
 		/**
+		 * Define constant if not already set.
+		 *
+		 * @since 1.1.1
+		 * @access protected
+		 *
+		 * @param string      $name  Constant name.
+		 * @param string|bool $value Constant value.
+		 */
+		protected function define( $name, $value ) {
+			if ( ! defined( $name ) ) {
+				define( $name, $value );
+			}
+		}
+
+
+		/**
 		 * Forms labels helptips
 		 *
 		 * @param string $tip
@@ -656,11 +672,12 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 
 		/**
 		 * @param string $email_key
+		 * @param bool $with_ext
 		 *
 		 * @return string
 		 */
-		public function get_email_template( $email_key ) {
-			$template_path = "emails/{$email_key}.php";
+		public function get_email_template( $email_key, $with_ext = true ) {
+			$template_path = $with_ext ? "emails/{$email_key}.php" : "emails/{$email_key}";
 			return apply_filters( 'jb_email_template_path', $template_path, $email_key );
 		}
 	}

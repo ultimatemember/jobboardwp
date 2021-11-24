@@ -73,6 +73,8 @@ if ( ! class_exists( 'JB' ) ) {
 		 * @since 1.0
 		 */
 		public function jb_construct() {
+			$this->define_constants();
+
 			//register autoloader for include JB classes
 			spl_autoload_register( array( $this, 'jb__autoloader' ) );
 
@@ -95,6 +97,16 @@ if ( ! class_exists( 'JB' ) ) {
 				// include JB classes
 				$this->includes();
 			}
+		}
+
+
+		/**
+		 * Define JobBoardWP Constants.
+		 *
+		 * @since 3.0
+		 */
+		private function define_constants() {
+			$this->define( 'JB_TEMPLATE_CONFLICT_TEST', false );
 		}
 
 

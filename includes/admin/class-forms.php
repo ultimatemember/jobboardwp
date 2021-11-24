@@ -772,6 +772,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 			$button   = '';
 			$page_key = str_replace( '_page', '', $field_data['id'] );
+
 			if ( ! JB()->common()->permalinks()->get_predefined_page_id( $page_key ) ) {
 				$create_page_url = add_query_arg(
 					array(

@@ -296,7 +296,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		public function clear_title( $title, $post_id ) {
 			$post = get_post( $post_id );
 
-			if ( 'jb-job' === $post->post_type ) {
+			if ( ! empty( $post ) && 'jb-job' === $post->post_type ) {
 				$title = '';
 			}
 
@@ -349,7 +349,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		}
 
 
-
 		/**
 		 * Add structured data to the footer of job listing pages.
 		 *
@@ -399,26 +398,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			</div>
 
 			<?php
-		}
-
-
-		/**
-		 * Check if preloader styles already loaded
-		 *
-		 * @param $size
-		 * @param $display
-		 *
-		 * @return bool
-		 *
-		 * @since 1.0
-		 */
-		public function check_preloader_css( $size, $display ) {
-			if ( ! empty( $this->preloader_styles[ $size ][ $display ] ) ) {
-				return true;
-			} else {
-				$this->preloader_styles[ $size ][ $display ] = true;
-				return false;
-			}
 		}
 	}
 }

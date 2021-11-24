@@ -16,6 +16,12 @@ function jb_wpml_get_languages_codes() {
 }
 
 
+/**
+ * @param $columns
+ * @param $base_columns
+ *
+ * @return array
+ */
 function jb_admin_jobs_listtable_columns_wpml( $columns, $base_columns ) {
 	if ( array_key_exists( 'icl_translations', $base_columns ) ) {
 		$columns = JB()->array_insert_after( $columns, 'title', array( 'icl_translations' => $base_columns['icl_translations'] ) );
@@ -25,6 +31,11 @@ function jb_admin_jobs_listtable_columns_wpml( $columns, $base_columns ) {
 add_filter( 'jb_admin_jobs_listtable_columns', 'jb_admin_jobs_listtable_columns_wpml', 10, 2 );
 
 
+/**
+ * @param $classes
+ *
+ * @return string
+ */
 function jb_admin_body_class_wpml( $classes ) {
 	global $pagenow;
 	// phpcs:ignore WordPress.Security.NonceVerification
@@ -95,10 +106,13 @@ function jb_admin_settings_get_pages_list_wpml() {
 	// phpcs:disable WordPress.Security.NonceVerification -- is verified in JB()->ajax()->settings()->get_pages_list()
 	$return = array();
 
+	$search_query = ! empty( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : '';
+	$paged        = ! empty( $_GET['page'] ) ? absint( $_GET['page'] ) : 1;
+
 	$current_lang_query = new \WP_Query(
 		array(
 			'post_type'           => 'page',
-			's'                   => sanitize_text_field( $_GET['search'] ), // the search query
+			's'                   => $search_query, // the search query
 			'post_status'         => 'publish', // if you don't want drafts to be returned
 			'ignore_sticky_posts' => 1,
 			'fields'              => 'ids',
@@ -123,7 +137,7 @@ function jb_admin_settings_get_pages_list_wpml() {
 		$default_lang_query = new \WP_Query(
 			array(
 				'post_type'           => 'page',
-				's'                   => sanitize_text_field( $_GET['search'] ), // the search query
+				's'                   => $search_query, // the search query
 				'post_status'         => 'publish', // if you don't want drafts to be returned
 				'ignore_sticky_posts' => 1,
 				'fields'              => 'ids',
@@ -155,7 +169,7 @@ function jb_admin_settings_get_pages_list_wpml() {
 		$active_lang_query = new \WP_Query(
 			array(
 				'post_type'           => 'page',
-				's'                   => sanitize_text_field( $_GET['search'] ), // the search query
+				's'                   => $search_query, // the search query
 				'post_status'         => 'publish', // if you don't want drafts to be returned
 				'ignore_sticky_posts' => 1,
 				'fields'              => 'ids',
@@ -183,11 +197,11 @@ function jb_admin_settings_get_pages_list_wpml() {
 	$search_results = new \WP_Query(
 		array(
 			'post_type'           => 'page',
-			's'                   => sanitize_text_field( $_GET['search'] ), // the search query
+			's'                   => $search_query, // the search query
 			'post_status'         => 'publish', // if you don't want drafts to be returned
 			'ignore_sticky_posts' => 1,
 			'posts_per_page'      => 10, // how much to show at once
-			'paged'               => absint( $_GET['page'] ),
+			'paged'               => $paged,
 			'suppress_filters'    => true, // ignore WPML default filters for languages
 			'orderby'             => 'title',
 			'order'               => 'asc',
@@ -296,6 +310,13 @@ function jb_add_email_templates_column_wpml( $columns ) {
 add_filter( 'jb_email_templates_columns', 'jb_add_email_templates_column_wpml', 10, 1 );
 
 
+/**
+ * @param $content
+ * @param $item
+ * @param $column_name
+ *
+ * @return string
+ */
 function jb_emails_list_table_custom_column_content_wpml( $content, $item, $column_name ) {
 	if ( 'translations' === $column_name ) {
 		global $sitepress;
@@ -329,7 +350,7 @@ function jb_wpml_get_status_html( $template, $code ) {
 	$link = add_query_arg(
 		array(
 			'email' => $template,
-			'lang'  => $code
+			'lang'  => $code,
 		)
 	);
 
@@ -337,10 +358,12 @@ function jb_wpml_get_status_html( $template, $code ) {
 	$translation_map  = array(
 		'edit' => array(
 			'icon' => 'edit_translation.png',
+			// translators: %s is a language display name
 			'text' => sprintf( __( 'Edit the %s translation', 'sitepress' ), $active_languages[ $code ]['display_name'] ),
 		),
 		'add'  => array(
 			'icon' => 'add_translation.png',
+			// translators: %s is a language display name
 			'text' => sprintf( __( 'Add translation to %s', 'sitepress' ), $active_languages[ $code ]['display_name'] ),
 		),
 	);
@@ -417,13 +440,20 @@ function jb_wpml_get_status_html( $template, $code ) {
  */
 function jb_wpml_render_status_icon( $link, $text, $img ) {
 	$icon_html  = '<a href="' . esc_url( $link ) . '" title="' . esc_attr( $text ) . '">';
-	$icon_html .= '<img style="padding:1px;margin:2px;" border="0" src="' . ICL_PLUGIN_URL . '/res/img/' . esc_attr( $img ) . '" alt="' . esc_attr( $text ) . '" width="16" height="16" />';
+	$icon_html .= '<img style="padding:1px;margin:2px;" border="0" src="' . esc_attr( ICL_PLUGIN_URL ) . '/res/img/' . esc_attr( $img ) . '" alt="' . esc_attr( $text ) . '" width="16" height="16" />';
 	$icon_html .= '</a>';
 
 	return $icon_html;
 }
 
 
+/**
+ * @param $template_locations
+ * @param $template_name
+ * @param $template_path
+ *
+ * @return array
+ */
 function jb_pre_template_locations_wpml( $template_locations, $template_name, $template_path ) {
 	$language_codes = jb_wpml_get_languages_codes();
 
@@ -443,3 +473,81 @@ function jb_pre_template_locations_wpml( $template_locations, $template_name, $t
 	return $template_locations;
 }
 add_filter( 'jb_pre_template_locations_common_locale_integration', 'jb_pre_template_locations_wpml', 10, 3 );
+
+
+/**
+ * Adding endings to the "Subject Line" field, depending on the language.
+ * @example job_approved_sub_de_DE
+ *
+ * @param array $section_fields
+ * @param string $email_key
+ *
+ * @return array
+ */
+function jb_settings_change_subject_field_wpml( $section_fields, $email_key ) {
+	$language_codes = jb_wpml_get_languages_codes();
+
+	if ( $language_codes['default'] === $language_codes['current'] ) {
+		return $section_fields;
+	}
+
+	$lang       = '_' . $language_codes['current'];
+	$option_key = $email_key . '_sub' . $lang;
+	$value      = JB()->options()->get( $option_key );
+
+	$section_fields[2]['id']    = $option_key;
+	$section_fields[2]['value'] = ! empty( $value ) ? $value : JB()->options()->get( $email_key . '_sub' );
+
+	return $section_fields;
+}
+add_filter( 'jb_settings_email_section_fields', 'jb_settings_change_subject_field_wpml', 10, 2 );
+
+
+/**
+ * @param string $subject
+ * @param $template
+ *
+ * @return string
+ */
+function jb_change_email_subject_wpml( $subject, $template ) {
+	$language_codes = jb_wpml_get_languages_codes();
+
+	if ( $language_codes['default'] === $language_codes['current'] ) {
+		return $subject;
+	}
+
+	$lang  = '_' . $language_codes['current'];
+	$value = JB()->options()->get( $template . '_sub' . $lang );
+
+	$subject = ! empty( $value ) ? $value : $subject;
+
+	return $subject;
+}
+add_filter( 'jb_email_send_subject', 'jb_change_email_subject_wpml', 10, 2 );
+
+
+/**
+ * @param array $template_locations
+ *
+ * @return array
+ */
+function jb_change_email_templates_locations_wpml( $template_locations ) {
+	global $sitepress;
+
+	$code         = $sitepress->get_current_language();
+	$code_default = $sitepress->get_default_language();
+
+	if ( $code === $code_default ) {
+		return $template_locations;
+	}
+
+	$locale = $sitepress->get_locale_from_language_code( $code );
+	foreach ( $template_locations as $k => $location ) {
+		if ( false === strstr( $location, $locale ) ) {
+			unset( $template_locations[ $k ] );
+		}
+	}
+
+	return $template_locations;
+}
+add_filter( 'jb_save_email_templates_locations', 'jb_change_email_templates_locations_wpml', 10, 1 );

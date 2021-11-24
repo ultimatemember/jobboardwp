@@ -136,6 +136,12 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 
 			$option_key = JB()->options()->get_predefined_page_option_key( $slug );
 			$page_id    = apply_filters( 'jb_get_predefined_page_id', JB()->options()->get( $option_key ), $slug );
+
+			$page_exists = get_post( $page_id );
+			if ( ! $page_exists ) {
+				return false;
+			}
+
 			return (int) $page_id;
 		}
 
@@ -170,7 +176,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			}
 
 			$predefined_page_id = $this->get_predefined_page_id( $slug );
-			$condition = $post->ID === $this->get_predefined_page_id( $slug );
+			$condition          = $post->ID === $this->get_predefined_page_id( $slug );
 
 			return apply_filters( 'jb_is_predefined_page', $condition, $post, $predefined_page_id, $slug );
 		}

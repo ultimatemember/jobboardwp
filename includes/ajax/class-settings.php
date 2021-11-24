@@ -33,6 +33,9 @@ if ( ! class_exists( 'jb\ajax\Settings' ) ) {
 			// we will pass post IDs and titles to this array
 			$return = array();
 
+			$search_query = ! empty( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : '';
+			$paged        = ! empty( $_GET['page'] ) ? absint( $_GET['page'] ) : 1;
+
 			$pre_result = apply_filters( 'jb_admin_settings_get_pages_list', false );
 
 			if ( false === $pre_result ) {
@@ -40,11 +43,11 @@ if ( ! class_exists( 'jb\ajax\Settings' ) ) {
 				$search_results = new \WP_Query(
 					array(
 						'post_type'           => 'page',
-						's'                   => sanitize_text_field( $_GET['search'] ), // the search query
+						's'                   => $search_query, // the search query
 						'post_status'         => 'publish', // if you don't want drafts to be returned
 						'ignore_sticky_posts' => 1,
 						'posts_per_page'      => 10, // how much to show at once
-						'paged'               => absint( $_GET['page'] ),
+						'paged'               => $paged,
 						'orderby'             => 'title',
 						'order'               => 'asc',
 					)

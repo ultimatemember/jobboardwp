@@ -90,10 +90,13 @@ function jb_admin_settings_get_pages_list_polylang() {
 	// phpcs:disable WordPress.Security.NonceVerification -- is verified in JB()->ajax()->settings()->get_pages_list()
 	$return = array();
 
+	$search_query = ! empty( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : '';
+	$paged        = ! empty( $_GET['page'] ) ? absint( $_GET['page'] ) : 1;
+
 	$current_lang_query = new \WP_Query(
 		array(
 			'post_type'           => 'page',
-			's'                   => sanitize_text_field( $_GET['search'] ), // the search query
+			's'                   => $search_query, // the search query
 			'post_status'         => 'publish', // if you don't want drafts to be returned
 			'ignore_sticky_posts' => 1,
 			'fields'              => 'ids',
@@ -111,7 +114,7 @@ function jb_admin_settings_get_pages_list_polylang() {
 		$default_lang_query = new \WP_Query(
 			array(
 				'post_type'           => 'page',
-				's'                   => sanitize_text_field( $_GET['search'] ), // the search query
+				's'                   => $search_query, // the search query
 				'post_status'         => 'publish', // if you don't want drafts to be returned
 				'ignore_sticky_posts' => 1,
 				'fields'              => 'ids',
@@ -142,7 +145,7 @@ function jb_admin_settings_get_pages_list_polylang() {
 		$active_lang_query = new \WP_Query(
 			array(
 				'post_type'           => 'page',
-				's'                   => sanitize_text_field( $_GET['search'] ), // the search query
+				's'                   => $search_query, // the search query
 				'post_status'         => 'publish', // if you don't want drafts to be returned
 				'ignore_sticky_posts' => 1,
 				'fields'              => 'ids',
@@ -168,11 +171,11 @@ function jb_admin_settings_get_pages_list_polylang() {
 	$search_results = new \WP_Query(
 		array(
 			'post_type'           => 'page',
-			's'                   => sanitize_text_field( $_GET['search'] ), // the search query
+			's'                   => $search_query, // the search query
 			'post_status'         => 'publish', // if you don't want drafts to be returned
 			'ignore_sticky_posts' => 1,
 			'posts_per_page'      => 10, // how much to show at once
-			'paged'               => absint( $_GET['page'] ),
+			'paged'               => $paged,
 			'orderby'             => 'title',
 			'order'               => 'asc',
 			'lang'                => '', // set empty language for getting posts of all languages
@@ -307,7 +310,7 @@ function jb_polylang_get_status_html( $template, $code ) {
 	$link = add_query_arg(
 		array(
 			'email' => $template,
-			'lang'  => $code
+			'lang'  => $code,
 		)
 	);
 
@@ -315,6 +318,7 @@ function jb_polylang_get_status_html( $template, $code ) {
 	$default_lang = pll_default_language();
 
 	if ( $default_lang === $code ) {
+		// translators: %s is a language display name
 		$hint      = sprintf( __( 'Edit the translation in %s', 'polylang' ), $language->name );
 		$icon_html = sprintf(
 			'<a href="%1$s" title="%2$s" class="pll_icon_edit"><span class="screen-reader-text">%3$s</span></a>',
@@ -376,6 +380,7 @@ function jb_polylang_get_status_html( $template, $code ) {
 	// 1. Conflict test constant is defined and TRUE
 	// 2. There aren't any proper template in custom or theme directories
 	if ( ! empty( $template_exists ) ) {
+		// translators: %s is a language display name
 		$hint      = sprintf( __( 'Edit the translation in %s', 'polylang' ), $language->name );
 		$icon_html = sprintf(
 			'<a href="%1$s" title="%2$s" class="pll_icon_edit"><span class="screen-reader-text">%3$s</span></a>',
@@ -384,6 +389,7 @@ function jb_polylang_get_status_html( $template, $code ) {
 			esc_html( $hint )
 		);
 	} else {
+		// translators: %s is a language display name
 		$hint      = sprintf( __( 'Add a translation in %s', 'polylang' ), $language->name );
 		$icon_html = sprintf(
 			'<a href="%1$s" title="%2$s" class="pll_icon_add"><span class="screen-reader-text">%3$s</span></a>',
@@ -416,3 +422,78 @@ function jb_pre_template_locations_polylang( $template_locations, $template_name
 	return $template_locations;
 }
 add_filter( 'jb_pre_template_locations_common_locale_integration', 'jb_pre_template_locations_polylang', 10, 3 );
+
+
+/**
+ * Adding endings to the "Subject Line" field, depending on the language.
+ * @exaple job_approved_sub_de_DE
+ *
+ * @param array $section_fields
+ * @param string $email_key
+ *
+ * @return array
+ */
+function jb_settings_change_subject_field_polylang( $section_fields, $email_key ) {
+	$language_codes = jb_polylang_get_languages_codes();
+
+	if ( $language_codes['default'] === $language_codes['current'] ) {
+		return $section_fields;
+	}
+
+	$lang       = '_' . $language_codes['current'];
+	$option_key = $email_key . '_sub' . $lang;
+	$value      = JB()->options()->get( $option_key );
+
+	$section_fields[2]['id']    = $option_key;
+	$section_fields[2]['value'] = ! empty( $value ) ? $value : JB()->options()->get( $email_key . '_sub' );
+
+	return $section_fields;
+}
+add_filter( 'jb_settings_email_section_fields', 'jb_settings_change_subject_field_polylang', 10, 2 );
+
+
+/**
+ * @param string $subject
+ * @param $template
+ *
+ * @return string
+ */
+function jb_change_email_subject_polylang( $subject, $template ) {
+	$language_codes = jb_polylang_get_languages_codes();
+
+	if ( $language_codes['default'] === $language_codes['current'] ) {
+		return $subject;
+	}
+
+	$lang  = '_' . $language_codes['current'];
+	$value = JB()->options()->get( $template . '_sub' . $lang );
+
+	$subject = ! empty( $value ) ? $value : $subject;
+
+	return $subject;
+}
+add_filter( 'jb_email_send_subject', 'jb_change_email_subject_polylang', 10, 2 );
+
+
+/**
+ * @param array $template_locations
+ *
+ * @return array
+ */
+function jb_change_email_templates_locations_polylang( $template_locations ) {
+	$code         = pll_current_language();
+	$code_default = pll_default_language();
+
+	if ( $code === $code_default ) {
+		return $template_locations;
+	}
+
+	foreach ( $template_locations as $k => $location ) {
+		if ( false === strstr( $location, $code ) ) {
+			unset( $template_locations[ $k ] );
+		}
+	}
+
+	return $template_locations;
+}
+add_filter( 'jb_save_email_templates_locations', 'jb_change_email_templates_locations_polylang', 10, 1 );
