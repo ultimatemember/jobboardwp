@@ -243,6 +243,15 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 						JB()->common()->mail()->send( $user->user_email, 'job_approved', $mail_args );
 					}
 
+					/**
+					 * Fires after Job has been approved.
+					 *
+					 * @since 1.1.0
+					 * @hook jb_job_is_approved
+					 *
+					 * @param {int}     $post_id Post ID.
+					 * @param {WP_Post} $post    The post object.
+					 */
 					do_action( 'jb_job_is_approved', $post_id, $post );
 				}
 				$redirect_to = add_query_arg( 'jb-approved', count( $post_ids ), remove_query_arg( 'jb-deleted', $redirect_to ) );

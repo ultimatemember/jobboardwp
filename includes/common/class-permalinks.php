@@ -135,7 +135,24 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			}
 
 			$option_key = JB()->options()->get_predefined_page_option_key( $slug );
-			$page_id    = apply_filters( 'jb_get_predefined_page_id', JB()->options()->get( $option_key ), $slug );
+
+			/**
+			 * Filters the predefined page ID.
+			 *
+			 * Note: See all predefined pages slugs in JB()->config()->get( 'predefined_pages' );
+			 * https://github.com/ultimatemember/jobboardwp/blob/master/includes/class-config.php#L248
+			 *
+			 * Note: JobBoardWP internally uses this hook for getting integrated with multilingual plugins that make duplicates of the pages for translations.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_get_predefined_page_id
+			 *
+			 * @param {string} $page_id The predefined page ID. The value obtained from options.
+			 * @param {string} $slug    The predefined page slug. E.g. 'job-dashboard'.
+			 *
+			 * @return {string} The predefined page ID.
+			 */
+			$page_id = apply_filters( 'jb_get_predefined_page_id', JB()->options()->get( $option_key ), $slug );
 
 			$page_exists = get_post( $page_id );
 			if ( ! $page_exists ) {

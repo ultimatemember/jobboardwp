@@ -64,6 +64,14 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					return;
 				}
 
+				/**
+				 * Fires before saving JobBoardWP settings and after security verification that there is possible to save settings.
+				 *
+				 * Note: Use this hook if you need to make some action before handle saving settings via wp-admin > JobBoardWP > Settings screen
+				 *
+				 * @since 1.1.0
+				 * @hook jb_settings_before_save
+				 */
 				do_action( 'jb_settings_before_save' );
 
 				$settings = apply_filters( 'jb_change_settings_before_save', $_POST['jb_options'] );
@@ -96,6 +104,14 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					JB()->options()->update( $key, $value );
 				}
 
+				/**
+				 * Fires after saving JobBoardWP settings and before redirect to the settings screen.
+				 *
+				 * Note: Use this hook if you need to make some action after handle saving settings via wp-admin > JobBoardWP > Settings screen
+				 *
+				 * @since 1.1.0
+				 * @hook jb_settings_save
+				 */
 				do_action( 'jb_settings_save' );
 
 				//redirect after save settings

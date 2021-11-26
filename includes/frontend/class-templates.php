@@ -89,6 +89,16 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 				<div class="jb">
 					<?php
+					/**
+					 * Fires before displaying job data on front.
+					 *
+					 * Note: When the "Job Template" setting = "Wordpress native post template"
+					 *
+					 * @since 1.1.0
+					 * @hook jb_before_job_content
+					 *
+					 * @param {int} $post_id Post ID.
+					 */
 					do_action( 'jb_before_job_content', $post->ID );
 
 					if ( JB()->options()->get( 'job-breadcrumbs' ) ) {
@@ -135,6 +145,16 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 						)
 					);
 
+					/**
+					 * Fires after displaying job data on front.
+					 *
+					 * Note: When the "Job Template" setting = "Wordpress native post template"
+					 *
+					 * @since 1.1.0
+					 * @hook jb_after_job_content
+					 *
+					 * @param {int} $post_id Post ID.
+					 */
 					do_action( 'jb_after_job_content', $post->ID );
 					?>
 				</div>
