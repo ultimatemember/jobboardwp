@@ -15,7 +15,17 @@
   .jb-form-table td input[type="text"],
   .jb-form-table td input[type="number"],
   .jb-form-table td .select2 {
-    margin: 3px 0 0 0; }
+    margin: 1px 0 0 0; }
+    .jb-form-table td select .select2-selection__rendered,
+    .jb-form-table td input[type="text"] .select2-selection__rendered,
+    .jb-form-table td input[type="number"] .select2-selection__rendered,
+    .jb-form-table td .select2 .select2-selection__rendered {
+      line-height: 26px; }
+    .jb-form-table td select .select2-selection__clear,
+    .jb-form-table td input[type="text"] .select2-selection__clear,
+    .jb-form-table td input[type="number"] .select2-selection__clear,
+    .jb-form-table td .select2 .select2-selection__clear {
+      top: -1px; }
 
 .jb-form-table .jb-req {
   color: #a00; }

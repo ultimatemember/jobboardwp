@@ -5,7 +5,7 @@
 if ( ! empty( $jb_job_breadcrumbs['job_id'] ) ) {
 
 	$job_id   = $jb_job_breadcrumbs['job_id'];
-	$all_jobs = JB()->common()->permalinks()->get_preset_page_link( 'jobs' );
+	$all_jobs = JB()->common()->permalinks()->get_predefined_page_link( 'jobs' );
 
 	if ( JB()->options()->get( 'job-categories' ) ) {
 		$terms = get_the_terms( $job_id, 'jb-job-category' );

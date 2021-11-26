@@ -660,7 +660,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
 			$class     .= ! empty( $field_data['size'] ) ? 'jb-' . $field_data['size'] . '-field' : 'jb-long-field';
-			$class_attr = ' class="jb-forms-field ' . $class . '" ';
+			$class_attr = ' class="jb-forms-field ' . esc_attr( $class ) . '" ';
 
 			$data = array(
 				'field_id' => $field_data['id'],
@@ -689,9 +689,9 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 							$value = array();
 						}
 
-						$options .= '<option value="' . $key . '" ' . selected( in_array( $key, $value, true ), true, false ) . '>' . esc_html( $option ) . '</option>';
+						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( in_array( $key, $value, true ), true, false ) . '>' . esc_html( $option ) . '</option>';
 					} else {
-						$options .= '<option value="' . $key . '" ' . selected( (string) $key === $value, true, false ) . '>' . esc_html( $option ) . '</option>';
+						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( (string) $key === $value, true, false ) . '>' . esc_html( $option ) . '</option>';
 					}
 				}
 			}
@@ -701,6 +701,91 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				$hidden = "<input type=\"hidden\" $hidden_name_attr value=\"\" />";
 			}
 			$html = "$hidden<select $multiple $id_attr $name_attr $class_attr $data_attr>$options</select>";
+
+			return $html;
+		}
+
+
+		/**
+		 * @param $field_data
+		 *
+		 * @since 3.0
+		 *
+		 * @return bool|string
+		 */
+		public function render_page_select( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return false;
+			}
+
+			$multiple = ! empty( $field_data['multi'] ) ? 'multiple' : '';
+
+			$id      = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
+			$id_attr = ' id="' . esc_attr( $id ) . '" ';
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] . ' ' : ' ';
+			$class     .= ! empty( $field_data['size'] ) ? 'jb-' . $field_data['size'] . '-field' : 'jb-long-field';
+			$class_attr = ' class="jb-forms-field jb-pages-select2 ' . esc_attr( $class ) . '" ';
+
+			$data = array(
+				'field_id' => $field_data['id'],
+			);
+
+			if ( ! empty( $field_data['placeholder'] ) ) {
+				$data['placeholder'] = $field_data['placeholder'];
+			}
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= ' data-' . $key . '="' . esc_attr( $value ) . '" ';
+			}
+
+			$name             = $field_data['id'];
+			$name             = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$hidden_name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$name      = $name . ( ! empty( $field_data['multi'] ) ? '[]' : '' );
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$value = $this->get_field_value( $field_data );
+
+			$options = '<option value="">' . esc_html( $data['placeholder'] ) . '</option>';
+			if ( ! empty( $field_data['options'] ) ) {
+				foreach ( $field_data['options'] as $key => $option ) {
+					if ( ! empty( $field_data['multi'] ) ) {
+
+						if ( ! is_array( $value ) || empty( $value ) ) {
+							$value = array();
+						}
+
+						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( in_array( $key, $value, true ), true, false ) . '>' . esc_html( $option ) . '</option>';
+					} else {
+						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( (string) $key === $value, true, false ) . '>' . esc_html( $option ) . '</option>';
+					}
+				}
+			}
+
+			$hidden = '';
+			if ( ! empty( $multiple ) ) {
+				$hidden = "<input type=\"hidden\" $hidden_name_attr value=\"\" />";
+			}
+
+			$button   = '';
+			$page_key = str_replace( '_page', '', $field_data['id'] );
+
+			if ( ! JB()->common()->permalinks()->get_predefined_page_id( $page_key ) ) {
+				$create_page_url = add_query_arg(
+					array(
+						'jb_adm_action' => 'install_predefined_page',
+						'jb_page_key'   => $page_key,
+						'nonce'         => wp_create_nonce( 'jb_install_predefined_page' ),
+					)
+				);
+
+				$button = '&nbsp;<a href="' . esc_url( $create_page_url ) . '" class="button button-primary">' . esc_html__( 'Create Default', 'jobboardwp' ) . '</a>';
+			}
+
+			$html = "$hidden<select $multiple $id_attr $name_attr $class_attr $data_attr>$options</select>$button";
 
 			return $html;
 		}

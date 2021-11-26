@@ -52,10 +52,10 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		 */
 		public function add_display_post_states( $post_states, $post ) {
 			if ( 'page' === $post->post_type ) {
-				foreach ( JB()->config()->get( 'core_pages' ) as $page_key => $page_value ) {
-					if ( JB()->common()->permalinks()->get_preset_page_id( $page_key ) === (int) $post->ID ) {
+				foreach ( JB()->config()->get( 'predefined_pages' ) as $slug => $page_value ) {
+					if ( JB()->common()->permalinks()->is_predefined_page( $slug, $post ) ) {
 						// translators: %s is a pre-defined page title.
-						$post_states[ 'jb_page_' . $page_key ] = sprintf( __( 'JB %s', 'jobboardwp' ), $page_value['title'] );
+						$post_states[ 'jb_page_' . $slug ] = sprintf( __( 'JB %s', 'jobboardwp' ), $page_value['title'] );
 					}
 				}
 			}
@@ -243,6 +243,15 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 						JB()->common()->mail()->send( $user->user_email, 'job_approved', $mail_args );
 					}
 
+					/**
+					 * Fires after Job has been approved.
+					 *
+					 * @since 1.1.0
+					 * @hook jb_job_is_approved
+					 *
+					 * @param {int}     $post_id Post ID.
+					 * @param {WP_Post} $post    The post object.
+					 */
 					do_action( 'jb_job_is_approved', $post_id, $post );
 				}
 				$redirect_to = add_query_arg( 'jb-approved', count( $post_ids ), remove_query_arg( 'jb-deleted', $redirect_to ) );
@@ -347,7 +356,6 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 		 * @since 1.0
 		 */
 		public function job_columns( $columns ) {
-
 			$additional_columns = array();
 			if ( isset( $columns['cb'] ) ) {
 				$additional_columns['cb'] = $columns['cb'];
@@ -371,7 +379,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				unset( $additional_columns['category'] );
 			}
 
-			return $additional_columns;
+			return apply_filters( 'jb_admin_jobs_listtable_columns', $additional_columns, $columns );
 		}
 
 

@@ -813,7 +813,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									$url = JB()->common()->job()->get_preview_link( $job_id );
 								} else {
 									// redirect to empty form and let the user know about draft job is created
-									$url = add_query_arg( array( 'msg' => 'draft' ), JB()->common()->permalinks()->get_preset_page_link( 'job-post' ) );
+									$url = add_query_arg( array( 'msg' => 'draft' ), JB()->common()->permalinks()->get_predefined_page_link( 'job-post' ) );
 								}
 								wp_safe_redirect( $url );
 								exit;
@@ -942,7 +942,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									do_action( 'jb_job_published', $job_id, $job );
 								}
 
-								$job_post_page_url = JB()->common()->permalinks()->get_preset_page_link( 'job-post' );
+								$job_post_page_url = JB()->common()->permalinks()->get_predefined_page_link( 'job-post' );
 								if ( empty( $is_edited ) && JB()->options()->get( 'job-moderation' ) && ! current_user_can( 'administrator' ) ) {
 									$url = add_query_arg( array( 'msg' => 'on-moderation' ), $job_post_page_url );
 								} elseif ( ! empty( $is_edited ) && 1 === (int) JB()->options()->get( 'published-job-editing' ) && ! current_user_can( 'administrator' ) ) {

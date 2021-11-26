@@ -36,9 +36,27 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 
 			if ( ! empty( $_REQUEST['jb_adm_action'] ) ) {
 				switch ( sanitize_key( $_REQUEST['jb_adm_action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification -- there is nonce verification below for each case
-					case 'install_core_pages':
-						if ( wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb_install_core_pages' ) ) {
-							JB()->install()->core_pages();
+					case 'install_predefined_pages':
+						if ( wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb_install_predefined_pages' ) ) {
+							JB()->install()->predefined_pages();
+
+							// phpcs:ignore WordPress.Security.SafeRedirect
+							wp_redirect( add_query_arg( array( 'page' => 'jb-settings' ), admin_url( 'admin.php' ) ) );
+							exit;
+						}
+
+						break;
+					case 'install_predefined_page':
+						if ( wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb_install_predefined_page' ) ) {
+							$page_slug = array_key_exists( 'jb_page_key', $_REQUEST ) ? sanitize_key( $_REQUEST['jb_page_key'] ) : '';
+
+							if ( empty( $page_slug ) || ! JB()->common()->permalinks()->predefined_page_slug_exists( $page_slug ) ) {
+								// phpcs:ignore WordPress.Security.SafeRedirect
+								wp_redirect( add_query_arg( array( 'page' => 'jb-settings' ), admin_url( 'admin.php' ) ) );
+								exit;
+							}
+
+							JB()->install()->predefined_page( $page_slug );
 
 							// phpcs:ignore WordPress.Security.SafeRedirect
 							wp_redirect( add_query_arg( array( 'page' => 'jb-settings' ), admin_url( 'admin.php' ) ) );

@@ -73,6 +73,8 @@ if ( ! class_exists( 'JB' ) ) {
 		 * @since 1.0
 		 */
 		public function jb_construct() {
+			$this->define_constants();
+
 			//register autoloader for include JB classes
 			spl_autoload_register( array( $this, 'jb__autoloader' ) );
 
@@ -95,6 +97,16 @@ if ( ! class_exists( 'JB' ) ) {
 				// include JB classes
 				$this->includes();
 			}
+		}
+
+
+		/**
+		 * Define JobBoardWP Constants.
+		 *
+		 * @since 3.0
+		 */
+		private function define_constants() {
+			$this->define( 'JB_TEMPLATE_CONFLICT_TEST', false );
 		}
 
 
@@ -152,8 +164,9 @@ if ( ! class_exists( 'JB' ) ) {
 		 * @return void
 		 */
 		public function includes() {
-			$this->common()->includes();
+			$this->integrations();
 
+			$this->common()->includes();
 			if ( $this->is_request( 'ajax' ) ) {
 				$this->ajax()->includes();
 			} elseif ( $this->is_request( 'admin' ) ) {
@@ -161,6 +174,16 @@ if ( ! class_exists( 'JB' ) ) {
 			} elseif ( $this->is_request( 'frontend' ) ) {
 				$this->frontend()->includes();
 			}
+		}
+
+
+		/**
+		 * @since 1.1.1
+		 *
+		 * @return jb\integrations\Init()
+		 */
+		public function integrations() {
+			return $this->call_class( 'jb\integrations\Init' );
 		}
 
 

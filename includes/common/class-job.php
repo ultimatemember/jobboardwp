@@ -660,7 +660,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * @since 1.0
 		 */
 		public function get_preview_link( $job_id ) {
-			$post_job_page = JB()->common()->permalinks()->get_preset_page_link( 'job-post' );
+			$post_job_page = JB()->common()->permalinks()->get_predefined_page_link( 'job-post' );
 			return add_query_arg(
 				array(
 					'jb-preview' => 1,
@@ -682,7 +682,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * @since 1.0
 		 */
 		public function get_edit_link( $job_id ) {
-			$post_job_page = JB()->common()->permalinks()->get_preset_page_link( 'job-post' );
+			$post_job_page = JB()->common()->permalinks()->get_predefined_page_link( 'job-post' );
 			return add_query_arg(
 				array(
 					'job-id' => $job_id,

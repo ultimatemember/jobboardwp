@@ -76,12 +76,13 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 
 			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', array( 'jquery', 'wp-util', 'wp-i18n', 'wp-hooks', 'select2', 'jb-dropdown', 'jb-helptip' ), JB_VERSION, true );
 
-			$localize_data = apply_filters(
-				'jb_enqueue_localize',
+			$localize_data = array_merge(
+				$this->common_localize,
 				array(
 					'nonce' => wp_create_nonce( 'jb-frontend-nonce' ),
 				)
 			);
+			$localize_data = apply_filters( 'jb_enqueue_localize', $localize_data );
 			wp_localize_script( 'jb-front-global', 'jb_front_data', $localize_data );
 
 			$forms_deps = array( 'jb-front-global', 'jquery-ui-datepicker' );

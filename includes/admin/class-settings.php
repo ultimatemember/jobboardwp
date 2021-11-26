@@ -64,6 +64,14 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					return;
 				}
 
+				/**
+				 * Fires before saving JobBoardWP settings and after security verification that there is possible to save settings.
+				 *
+				 * Note: Use this hook if you need to make some action before handle saving settings via wp-admin > JobBoardWP > Settings screen
+				 *
+				 * @since 1.1.0
+				 * @hook jb_settings_before_save
+				 */
 				do_action( 'jb_settings_before_save' );
 
 				$settings = apply_filters( 'jb_change_settings_before_save', $_POST['jb_options'] );
@@ -96,6 +104,14 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					JB()->options()->update( $key, $value );
 				}
 
+				/**
+				 * Fires after saving JobBoardWP settings and before redirect to the settings screen.
+				 *
+				 * Note: Use this hook if you need to make some action after handle saving settings via wp-admin > JobBoardWP > Settings screen
+				 *
+				 * @since 1.1.0
+				 * @hook jb_settings_save
+				 */
 				do_action( 'jb_settings_save' );
 
 				//redirect after save settings
@@ -122,37 +138,50 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * @since 1.0
 		 */
 		public function init() {
-			$pages = get_posts(
-				array(
-					'post_type'      => 'page',
-					'post_status'    => 'publish',
-					'posts_per_page' => -1,
-					'fields'         => array( 'ID', 'post_title' ),
-				)
-			);
-
-			$page_options = array( '' => __( '(None)', 'jobboardwp' ) );
-			if ( ! empty( $pages ) ) {
-				foreach ( $pages as $page ) {
-					$page_options[ $page->ID ] = $page->post_title;
-				}
-			}
-
 			$general_pages_fields = array();
-			foreach ( JB()->config()->get( 'core_pages' ) as $page_id => $page ) {
+			foreach ( JB()->config()->get( 'predefined_pages' ) as $slug => $page ) {
+				$option_key = JB()->options()->get_predefined_page_option_key( $slug );
+
+				$options    = array();
+				$page_value = '';
+
+				$pre_result = apply_filters( 'jb_admin_settings_pages_list_value', false, $option_key );
+				if ( false === $pre_result ) {
+					$opt_value = JB()->options()->get( $option_key );
+					if ( ! empty( $opt_value ) ) {
+						$page_exists = get_post( $opt_value );
+						if ( $page_exists ) {
+							$title = get_the_title( $opt_value );
+							$title = ( mb_strlen( $title ) > 50 ) ? mb_substr( $title, 0, 49 ) . '...' : $title;
+							// translators: %1$s is a post title; %2$s is a post ID.
+							$title = sprintf( __( '%1$s (ID: %2$s)', 'jobboardwp' ), $title, $opt_value );
+
+							$options    = array( $opt_value => $title );
+							$page_value = $opt_value;
+						}
+					}
+				} else {
+					// `page_value` variable that we transfer from 3rd-party hook for getting filtered option value also
+					$page_value = $pre_result['page_value'];
+					unset( $pre_result['page_value'] );
+
+					$options = $pre_result;
+				}
+
 				$page_title = ! empty( $page['title'] ) ? $page['title'] : '';
 
 				$general_pages_fields[] = array(
-					'id'          => $page_id . '_page',
-					'type'        => 'select',
+					'id'          => $option_key,
+					'type'        => 'page_select',
 					// translators: %s: page title
 					'label'       => sprintf( __( '%s page', 'jobboardwp' ), $page_title ),
-					'options'     => $page_options,
+					'options'     => $options,
+					'value'       => $page_value,
 					'placeholder' => __( 'Choose a page...', 'jobboardwp' ),
 					'size'        => 'small',
 				);
 
-				$this->sanitize_map[ $page_id . '_page' ] = 'absint';
+				$this->sanitize_map[ $option_key ] = 'absint';
 			}
 
 			$job_templates = array(
@@ -596,7 +625,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 						'type'        => 'textarea',
 						'label'       => __( 'Message Body', 'jobboardwp' ),
 						'helptip'     => __( 'This is the content of the e-mail', 'jobboardwp' ),
-						'value'       => JB()->common()->mail()->get_template( $email_key ),
+						'value'       => JB()->get_template_html( JB()->get_email_template( $email_key, false ) ),
 						'conditional' => array( $email_key . '_on', '=', '1' ),
 						'args'        => array(
 							'textarea_rows' => 7,
@@ -963,10 +992,39 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			$template = sanitize_key( $settings['jb_email_template'] );
 			$content  = stripslashes( sanitize_textarea_field( $settings[ $template ] ) );
 
-			$theme_template_path = JB()->common()->mail()->get_template_file( 'theme', $template );
+			$template_name = JB()->get_email_template( $template );
 
-			if ( ! file_exists( $theme_template_path ) ) {
-				JB()->common()->mail()->copy_email_template( $template );
+			$template_path = JB()->template_path();
+
+			$template_locations = array(
+				trailingslashit( $template_path ) . $template_name,
+			);
+
+			$template_locations = apply_filters( 'jb_pre_template_locations', $template_locations, $template_name, $template_path );
+
+			// build multisite blog_ids priority paths
+			if ( is_multisite() ) {
+				$blog_id = get_current_blog_id();
+
+				$ms_template_locations = array_map(
+					function( $item ) use ( $template_path, $blog_id ) {
+						return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $blog_id . '/', $item );
+					},
+					$template_locations
+				);
+
+				$template_locations = array_merge( $ms_template_locations, $template_locations );
+			}
+
+			$template_locations = apply_filters( 'jb_template_locations', $template_locations, $template_name, $template_path );
+			$template_locations = array_map( 'wp_normalize_path', $template_locations );
+			$template_locations = apply_filters( 'jb_save_email_templates_locations', $template_locations, $template_name, $template_path );
+
+			$custom_path = apply_filters( 'jb_template_structure_custom_path', false, $template_name );
+			if ( false === $custom_path || ! is_dir( $custom_path ) ) {
+				$template_exists = locate_template( $template_locations );
+			} else {
+				$template_exists = JB()->locate_template_custom_path( $template_locations, $custom_path );
 			}
 
 			if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
@@ -977,7 +1035,26 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				\WP_Filesystem( $credentials );
 			}
 
-			$result = $wp_filesystem->put_contents( $theme_template_path, $content );
+			if ( empty( $template_exists ) ) {
+				if ( false === $custom_path || ! is_dir( $custom_path ) ) {
+					$base_dir = trailingslashit( get_stylesheet_directory() );
+				} else {
+					$base_dir = trailingslashit( $custom_path );
+				}
+				$template_exists = wp_normalize_path( $base_dir . $template_locations[0] );
+
+				$default_template_path = wp_normalize_path( trailingslashit( JB()->default_templates_path() ) . $template_name );
+
+				if ( file_exists( $default_template_path ) ) {
+					$dirname = dirname( $template_exists );
+
+					if ( wp_mkdir_p( $dirname ) ) {
+						$wp_filesystem->copy( $default_template_path, $template_exists );
+					}
+				}
+			}
+
+			$result = $wp_filesystem->put_contents( $template_exists, $content );
 
 			if ( false !== $result ) {
 				unset( $settings['jb_email_template'] );

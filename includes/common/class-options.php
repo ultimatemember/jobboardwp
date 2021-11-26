@@ -127,5 +127,17 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 
 			return $settings_defaults[ $option_id ];
 		}
+
+
+		/**
+		 * Get predefined page option key
+		 *
+		 * @param string $slug
+		 *
+		 * @return string
+		 */
+		public function get_predefined_page_option_key( $slug ) {
+			return apply_filters( 'jb_predefined_page_option_key', "{$slug}_page" );
+		}
 	}
 }

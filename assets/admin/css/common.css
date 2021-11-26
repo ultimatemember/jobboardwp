@@ -74,6 +74,12 @@ body.post-type-jb-job .wp-list-table .column-posted {
 body.post-type-jb-job .wp-list-table .column-expires {
   width: 10%; }
 
+body.post-type-jb-job.jb_icl_active .wp-list-table .column-title {
+  width: 25%; }
+
+body.post-type-jb-job.jb_icl_active .wp-list-table .column-icl_translations {
+  width: 10%; }
+
 #jb-settings-emails table.emailnotifications th.column-email.column-primary {
   padding-left: 48px; }
 

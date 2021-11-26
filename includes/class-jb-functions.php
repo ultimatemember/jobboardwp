@@ -70,44 +70,17 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 
 
 		/**
-		 * Get template path
+		 * Define constant if not already set.
 		 *
-		 * @param string $slug
-		 * @return string
+		 * @since 1.1.1
+		 * @access protected
 		 *
-		 * @since 1.0
+		 * @param string      $name  Constant name.
+		 * @param string|bool $value Constant value.
 		 */
-		public function get_template( $slug ) {
-			$file_list = $this->templates_path . "{$slug}.php";
-
-			$theme_file = $this->theme_templates . "{$slug}.php";
-			if ( file_exists( $theme_file ) ) {
-				$file_list = $theme_file;
-			}
-
-			return $file_list;
-		}
-
-
-		/**
-		 * Load template
-		 *
-		 * @param string $slug
-		 * @param array $args
-		 *
-		 * @since 1.0
-		 */
-		public function get_template_part( $slug, $args = array() ) {
-			global $wp_query;
-
-			$query_title = str_replace( '-', '_', sanitize_title( $slug ) );
-
-			$wp_query->query_vars[ 'jb_' . $query_title ] = $args;
-
-			$template = $this->get_template( $slug );
-
-			if ( file_exists( $template ) ) {
-				load_template( $template, false );
+		protected function define( $name, $value ) {
+			if ( ! defined( $name ) ) {
+				define( $name, $value );
 			}
 		}
 
@@ -135,6 +108,11 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		}
 
 
+		/**
+		 * @param string $context
+		 *
+		 * @return array
+		 */
 		public function get_allowed_html( $context = '' ) {
 			switch ( $context ) {
 				case 'wp-admin':
@@ -423,6 +401,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 					'align' => true,
 					'lang'  => true,
 				),
+				'code'   => array(),
 			);
 
 			$allowed_html = array_merge( $global_allowed, $allowed_html );
@@ -459,6 +438,247 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 
 			nocache_headers();
 			setcookie( $name, $value, $expire, $path, COOKIE_DOMAIN, is_ssl(), true );
+		}
+
+
+		/**
+		 * Easy merge arrays based on parent array key. Insert after selected key
+		 *
+		 * @since 1.1.1
+		 *
+		 * @param array $array
+		 * @param string $key
+		 * @param array $insert_array
+		 *
+		 * @return array
+		 */
+		public function array_insert_after( $array, $key, $insert_array ) {
+			$index = array_search( $key, array_keys( $array ), true );
+			if ( false === $index ) {
+				return $array;
+			}
+
+			$array = array_slice( $array, 0, $index + 1, true ) + $insert_array + array_slice( $array, $index + 1, count( $array ) - 1, true );
+
+			return $array;
+		}
+
+
+		/**
+		 * Get the template path inside theme or custom path
+		 *
+		 * @since 1.1.1
+		 * @access public
+		 *
+		 * @return string
+		 */
+		public function template_path() {
+			$path = 'jobboardwp/';
+			return apply_filters( 'jb_template_path', $path );
+		}
+
+
+		/**
+		 * Get the default template path inside wp-content/plugins/
+		 *
+		 * @since 3.0
+		 * @access public
+		 *
+		 * @return string
+		 */
+		public function default_templates_path() {
+			$path = untrailingslashit( JB_PATH ) . '/templates/';
+			return apply_filters( 'jb_default_template_path', $path );
+		}
+
+
+		/**
+		 * Get JobBoardWP custom templates (e.g. jobs list) passing attributes and including the file.
+		 *
+		 * @since 3.0
+		 *
+		 * @param string $template_name Template name.
+		 * @param array  $args          Arguments. (default: array).
+		 * @param string $template_path Template path. (default: '').
+		 * @param string $default_path  Default path. (default: '').
+		 */
+		public function get_template_part( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
+			$template = $this->locate_template( $template_name, $template_path, $default_path );
+
+			// Allow 3rd party plugin filter template file from their plugin.
+			$filter_template = apply_filters( 'jb_get_template', $template, $template_name, $args, $template_path, $default_path );
+
+			if ( $filter_template !== $template ) {
+				if ( ! file_exists( $filter_template ) ) {
+					/* translators: %s template */
+					_doing_it_wrong( __FUNCTION__, wp_kses( sprintf( __( '<code>%s</code> does not exist.', 'jobboardwp' ), $filter_template ), $this->get_allowed_html( 'templates' ) ), esc_html( JB_VERSION ) );
+					return;
+				}
+				$template = $filter_template;
+			}
+
+			$action_args = array(
+				'template_name' => $template_name,
+				'template_path' => $template_path,
+				'located'       => $template,
+				'args'          => $args,
+			);
+
+			$query_title                  = str_replace( '-', '_', sanitize_title( $template_name ) );
+			$args[ 'jb_' . $query_title ] = $action_args['args'];
+
+			if ( ! empty( $args ) && is_array( $args ) ) {
+				if ( isset( $args['action_args'] ) ) {
+					_doing_it_wrong( __FUNCTION__, esc_html__( '`action_args` should not be overwritten when calling `jb_get_template()`.', 'jobboardwp' ), esc_html( JB_VERSION ) );
+					unset( $args['action_args'] );
+				}
+
+				extract( $args ); // @codingStandardsIgnoreLine
+			}
+
+			do_action( 'jb_before_template_part', $action_args['template_name'], $action_args['located'], $action_args['args'], $action_args['template_path'] );
+
+			include $action_args['located'];
+
+			do_action( 'jb_after_template_part', $action_args['template_name'], $action_args['located'], $action_args['args'], $action_args['template_path'] );
+		}
+
+
+		/**
+		 * Like get_template, but returns the HTML instead of outputting.
+		 *
+		 * @see get_template
+		 *
+		 * @since 3.0
+		 *
+		 * @param string $template_name Template name.
+		 * @param array  $args          Arguments. (default: array).
+		 * @param string $template_path Template path. (default: '').
+		 * @param string $default_path  Default path. (default: '').
+		 *
+		 * @return string
+		 */
+		public function get_template_html( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
+			ob_start();
+			$this->get_template_part( $template_name, $args, $template_path, $default_path );
+			return ob_get_clean();
+		}
+
+
+		/**
+		 * Locate a template and return the path for inclusion.
+		 *
+		 * This is the load order:
+		 *
+		 * yourtheme/$blog_id/$locale/$template_path/$template_name
+		 * yourtheme/$blog_id/$template_path/$template_name
+		 * yourtheme/$locale/$template_path/$template_name
+		 * yourtheme/$template_path/$template_name
+		 * $default_path/$template_name
+		 *
+		 * where $locale is site_locale for regular templates, but $user_locale for email templates
+		 *
+		 * @since 3.0
+		 *
+		 * @param string $template_name Template name.
+		 * @param string $template_path Template path. (default: '').
+		 * @param string $default_path  Default path. (default: '').
+		 * @return string
+		 */
+		public function locate_template( $template_name, $template_path = '', $default_path = '' ) {
+			$template_name .= '.php';
+
+			// path in theme
+			if ( ! $template_path ) {
+				$template_path = $this->template_path();
+			}
+
+			$template_locations = array(
+				trailingslashit( $template_path ) . $template_name,
+			);
+
+			$template_locations = apply_filters( 'jb_pre_template_locations', $template_locations, $template_name, $template_path );
+
+			// build multisite blog_ids priority paths
+			if ( is_multisite() ) {
+				$blog_id = get_current_blog_id();
+
+				$ms_template_locations = array_map(
+					function( $item ) use ( $template_path, $blog_id ) {
+						return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $blog_id . '/', $item );
+					},
+					$template_locations
+				);
+
+				$template_locations = array_merge( $ms_template_locations, $template_locations );
+			}
+
+			$template_locations = apply_filters( 'jb_template_locations', $template_locations, $template_name, $template_path );
+
+			$template_locations = array_map( 'wp_normalize_path', $template_locations );
+
+			$custom_path = apply_filters( 'jb_template_structure_custom_path', false, $template_name );
+			if ( false === $custom_path || ! is_dir( $custom_path ) ) {
+				$template = locate_template( $template_locations );
+			} else {
+				$template = $this->locate_template_custom_path( $template_locations, $custom_path );
+			}
+
+			// Get default template in cases:
+			// 1. Conflict test constant is defined and TRUE
+			// 2. There aren't any proper template in custom or theme directories
+			if ( ! $template || JB_TEMPLATE_CONFLICT_TEST ) {
+				// default path in plugin
+				if ( ! $default_path ) {
+					$default_path = $this->default_templates_path();
+				}
+
+				$template = wp_normalize_path( trailingslashit( $default_path ) . $template_name );
+			}
+
+			// Return what we found.
+			return apply_filters( 'jb_locate_template', $template, $template_name, $template_path );
+		}
+
+
+		/**
+		 * Retrieve the name of the highest priority template file that exists in custom path.
+		 *
+		 * @since 3.0
+		 *
+		 * @param string|array $template_locations Template file(s) to search for, in order.
+		 * @param string       $custom_path        Custom path to the JB templates.
+		 *
+		 * @return string The template filename if one is located.
+		 */
+		public function locate_template_custom_path( $template_locations, $custom_path ) {
+			$located = '';
+
+			foreach ( (array) $template_locations as $template_location ) {
+				if ( ! $template_location ) {
+					continue;
+				}
+
+				$path = wp_normalize_path( trailingslashit( $custom_path ) . $template_location );
+				if ( file_exists( $path ) ) {
+					$located = $path;
+					break;
+				}
+			}
+
+			return $located;
+		}
+
+
+		/**
+		 * @param string $email_key
+		 * @param bool $with_ext
+		 *
+		 * @return string
+		 */
+		public function get_email_template( $email_key, $with_ext = true ) {
+			$template_path = $with_ext ? "emails/{$email_key}.php" : "emails/{$email_key}";
+			return apply_filters( 'jb_email_template_path', $template_path, $email_key );
 		}
 	}
 }

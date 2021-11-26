@@ -68,7 +68,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				// empty posting form
 				// handle draft notice after submission to draft
 				$posting_form        = JB()->frontend()->forms( array( 'id' => 'jb-job-submission' ) );
-				$jobs_dashboard_link = JB()->common()->permalinks()->get_preset_page_link( 'jobs-dashboard' );
+				$jobs_dashboard_link = JB()->common()->permalinks()->get_predefined_page_link( 'jobs-dashboard' );
 
 				if ( ! empty( $_GET['msg'] ) ) {
 					switch ( sanitize_key( $_GET['msg'] ) ) {

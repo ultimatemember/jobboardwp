@@ -165,9 +165,6 @@ jQuery( document ).ready( function($) {
 					$( '#' + file.id ).find( 'b' ).html( '<span>' + file.percent + '%</span>' );
 				},
 				UploadComplete: function ( up, files ) {
-					// $button.prop( 'um-uploader-data', jQuery.extend( args, {
-					// 	files: files
-					// } ) ).trigger( 'um_fs_UploadComplete' );
 				}
 			}
 		});

@@ -89,6 +89,16 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 				<div class="jb">
 					<?php
+					/**
+					 * Fires before displaying job data on front.
+					 *
+					 * Note: When the "Job Template" setting = "WordPress native post template"
+					 *
+					 * @since 1.1.0
+					 * @hook jb_before_job_content
+					 *
+					 * @param {int} $post_id Post ID.
+					 */
 					do_action( 'jb_before_job_content', $post->ID );
 
 					if ( JB()->options()->get( 'job-breadcrumbs' ) ) {
@@ -135,6 +145,16 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 						)
 					);
 
+					/**
+					 * Fires after displaying job data on front.
+					 *
+					 * Note: When the "Job Template" setting = "WordPress native post template"
+					 *
+					 * @since 1.1.0
+					 * @hook jb_after_job_content
+					 *
+					 * @param {int} $post_id Post ID.
+					 */
 					do_action( 'jb_after_job_content', $post->ID );
 					?>
 				</div>
@@ -296,7 +316,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		public function clear_title( $title, $post_id ) {
 			$post = get_post( $post_id );
 
-			if ( 'jb-job' === $post->post_type ) {
+			if ( ! empty( $post ) && 'jb-job' === $post->post_type ) {
 				$title = '';
 			}
 
@@ -349,7 +369,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		}
 
 
-
 		/**
 		 * Add structured data to the footer of job listing pages.
 		 *
@@ -399,26 +418,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			</div>
 
 			<?php
-		}
-
-
-		/**
-		 * Check if preloader styles already loaded
-		 *
-		 * @param $size
-		 * @param $display
-		 *
-		 * @return bool
-		 *
-		 * @since 1.0
-		 */
-		public function check_preloader_css( $size, $display ) {
-			if ( ! empty( $this->preloader_styles[ $size ][ $display ] ) ) {
-				return true;
-			} else {
-				$this->preloader_styles[ $size ][ $display ] = true;
-				return false;
-			}
 		}
 	}
 }

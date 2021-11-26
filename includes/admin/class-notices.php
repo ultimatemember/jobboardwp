@@ -42,7 +42,7 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 		 * @since 1.0
 		 */
 		public function create_list() {
-			$this->install_core_page_notice();
+			$this->install_predefined_page_notice();
 			do_action( 'jb_admin_create_notices' );
 		}
 
@@ -214,20 +214,20 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		public function install_core_page_notice() {
+		public function install_predefined_page_notice() {
 			if ( JB()->common()->permalinks()->are_pages_installed() || ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
 
 			$page_titles = array();
-			foreach ( JB()->config()->get( 'core_pages' ) as $slug => $array ) {
+			foreach ( JB()->config()->get( 'predefined_pages' ) as $slug => $array ) {
 				$page_titles[] = $array['title'];
 			}
 
 			$create_pages_link = add_query_arg(
 				array(
-					'jb_adm_action' => 'install_core_pages',
-					'nonce'         => wp_create_nonce( 'jb_install_core_pages' ),
+					'jb_adm_action' => 'install_predefined_pages',
+					'nonce'         => wp_create_nonce( 'jb_install_predefined_pages' ),
 				)
 			);
 
