@@ -69,6 +69,13 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 				}
 			}
 
+			/**
+			 * Fires after render all admin notices
+			 *
+			 *
+			 * @since 1.1.0
+			 * @hook jb_admin_after_main_notices
+			 */
 			do_action( 'jb_admin_after_main_notices' );
 		}
 
