@@ -92,7 +92,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 					/**
 					 * Fires before displaying job data on front.
 					 *
-					 * Note: When the "Job Template" setting = "Wordpress native post template"
+					 * Note: When the "Job Template" setting = "WordPress native post template"
 					 *
 					 * @since 1.1.0
 					 * @hook jb_before_job_content
@@ -148,7 +148,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 					/**
 					 * Fires after displaying job data on front.
 					 *
-					 * Note: When the "Job Template" setting = "Wordpress native post template"
+					 * Note: When the "Job Template" setting = "WordPress native post template"
 					 *
 					 * @since 1.1.0
 					 * @hook jb_after_job_content
