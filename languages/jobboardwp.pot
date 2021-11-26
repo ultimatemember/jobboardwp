@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-11-20T23:48:48+00:00\n"
+"POT-Creation-Date: 2021-11-26T06:51:28+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: jobboardwp\n"
@@ -45,7 +45,7 @@ msgid "Select Filled"
 msgstr ""
 
 #: includes/admin/class-columns.php:140
-#: includes/admin/class-columns.php:362
+#: includes/admin/class-columns.php:370
 #: includes/ajax/class-jobs.php:773
 msgid "Filled"
 msgstr ""
@@ -73,45 +73,45 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s is a job title.
-#: includes/admin/class-columns.php:272
-#: includes/admin/class-columns.php:333
+#: includes/admin/class-columns.php:281
+#: includes/admin/class-columns.php:342
 msgid "Approve"
 msgstr ""
 
-#: includes/admin/class-columns.php:273
+#: includes/admin/class-columns.php:282
 msgid "Delete permanently"
 msgstr ""
 
 #. translators: %s is a job title.
-#: includes/admin/class-columns.php:333
+#: includes/admin/class-columns.php:342
 msgid "Approve %s"
 msgstr ""
 
-#: includes/admin/class-columns.php:359
+#: includes/admin/class-columns.php:367
 msgid "(#ID) Position"
 msgstr ""
 
-#: includes/admin/class-columns.php:360
+#: includes/admin/class-columns.php:368
 #: includes/frontend/class-shortcodes.php:473
 msgid "Status"
 msgstr ""
 
-#: includes/admin/class-columns.php:361
+#: includes/admin/class-columns.php:369
 #: includes/admin/templates/job/data.php:204
 #: templates/job-submission.php:297
 msgid "Location"
 msgstr ""
 
-#: includes/admin/class-columns.php:363
+#: includes/admin/class-columns.php:371
 msgid "Type"
 msgstr ""
 
-#: includes/admin/class-columns.php:364
+#: includes/admin/class-columns.php:372
 #: templates/job-categories.php:14
 msgid "Category"
 msgstr ""
 
-#: includes/admin/class-columns.php:365
+#: includes/admin/class-columns.php:373
 #: includes/frontend/class-shortcodes.php:474
 #: templates/js/jobs-list.php:61
 #: templates/js/jobs-list.php:63
@@ -119,21 +119,21 @@ msgstr ""
 msgid "Posted"
 msgstr ""
 
-#: includes/admin/class-columns.php:366
+#: includes/admin/class-columns.php:374
 #: templates/js/jobs-list.php:67
 msgid "Expires"
 msgstr ""
 
 #. translators: %1$s is a location type; %2$s is a location.
-#: includes/admin/class-columns.php:396
+#: includes/admin/class-columns.php:404
 msgid "%1$s (%2$s)"
 msgstr ""
 
-#: includes/admin/class-columns.php:455
+#: includes/admin/class-columns.php:463
 msgid "by "
 msgstr ""
 
-#: includes/admin/class-columns.php:456
+#: includes/admin/class-columns.php:464
 msgid "Filter by author"
 msgstr ""
 
@@ -158,15 +158,19 @@ msgstr ""
 msgid "Required"
 msgstr ""
 
-#: includes/admin/class-forms.php:795
+#: includes/admin/class-forms.php:785
+msgid "Create Default"
+msgstr ""
+
+#: includes/admin/class-forms.php:880
 msgid "Select media"
 msgstr ""
 
-#: includes/admin/class-forms.php:823
+#: includes/admin/class-forms.php:908
 msgid "Select"
 msgstr ""
 
-#: includes/admin/class-forms.php:824
+#: includes/admin/class-forms.php:909
 msgid "Clear"
 msgstr ""
 
@@ -225,7 +229,7 @@ msgid "Job Types"
 msgstr ""
 
 #: includes/admin/class-menu.php:92
-#: includes/admin/class-settings.php:241
+#: includes/admin/class-settings.php:270
 #: includes/common/class-cpt.php:169
 #: includes/common/class-cpt.php:187
 msgid "Job Categories"
@@ -252,417 +256,420 @@ msgstr ""
 msgid "No thanks"
 msgstr ""
 
-#: includes/admin/class-settings.php:134
-#: includes/admin/templates/job/data.php:48
-#: includes/admin/templates/job/data.php:162
-#: templates/job-submission.php:49
-msgid "(None)"
+#. translators: %1$s is a post title; %2$s is a post ID.
+#: includes/admin/class-settings.php:157
+#: includes/ajax/class-settings.php:64
+#: includes/integrations/polylang/integration.php:193
+#: includes/integrations/polylang/integration.php:233
+#: includes/integrations/wpml/integration.php:220
+#: includes/integrations/wpml/integration.php:262
+msgid "%1$s (ID: %2$s)"
 msgstr ""
 
 #. translators: %s: page title
-#: includes/admin/class-settings.php:149
+#: includes/admin/class-settings.php:177
 msgid "%s page"
 msgstr ""
 
-#: includes/admin/class-settings.php:151
+#: includes/admin/class-settings.php:180
 msgid "Choose a page..."
 msgstr ""
 
-#: includes/admin/class-settings.php:159
+#: includes/admin/class-settings.php:188
 msgid "Wordpress native post template"
 msgstr ""
 
-#: includes/admin/class-settings.php:160
+#: includes/admin/class-settings.php:189
 msgid "Default job template"
 msgstr ""
 
-#: includes/admin/class-settings.php:229
+#: includes/admin/class-settings.php:258
 msgid "General"
 msgstr ""
 
-#: includes/admin/class-settings.php:232
+#: includes/admin/class-settings.php:261
 msgid "Pages"
 msgstr ""
 
-#: includes/admin/class-settings.php:236
+#: includes/admin/class-settings.php:265
 #: includes/common/class-cpt.php:61
 #: includes/common/class-cpt.php:333
 msgid "Job"
 msgstr ""
 
-#: includes/admin/class-settings.php:242
+#: includes/admin/class-settings.php:271
 msgid "Enable categories for jobs."
 msgstr ""
 
-#: includes/admin/class-settings.php:248
+#: includes/admin/class-settings.php:277
 msgid "Job Template"
 msgstr ""
 
-#: includes/admin/class-settings.php:249
+#: includes/admin/class-settings.php:278
 msgid "Select which template you would like applied to the job CPT."
 msgstr ""
 
-#: includes/admin/class-settings.php:256
+#: includes/admin/class-settings.php:285
 msgid "Relative to the posting date (e.g., 1 hour, 1 day, 1 week ago)"
 msgstr ""
 
-#: includes/admin/class-settings.php:257
+#: includes/admin/class-settings.php:286
 msgid "Default date format set via WP > Settings > General"
 msgstr ""
 
-#: includes/admin/class-settings.php:259
+#: includes/admin/class-settings.php:288
 msgid "Date format"
 msgstr ""
 
-#: includes/admin/class-settings.php:260
+#: includes/admin/class-settings.php:289
 msgid "Select the date format used for jobs on the front-end."
 msgstr ""
 
-#: includes/admin/class-settings.php:265
+#: includes/admin/class-settings.php:294
 msgid "Show breadcrumbs on the job page"
 msgstr ""
 
-#: includes/admin/class-settings.php:271
+#: includes/admin/class-settings.php:300
 msgid "GoogleMaps API key"
 msgstr ""
 
-#: includes/admin/class-settings.php:272
+#: includes/admin/class-settings.php:301
 msgid "Enable using GoogleMaps API for getting extended data about job location."
 msgstr ""
 
-#: includes/admin/class-settings.php:278
+#: includes/admin/class-settings.php:307
 msgid "Disable Google structured data"
 msgstr ""
 
-#: includes/admin/class-settings.php:279
+#: includes/admin/class-settings.php:308
 msgid "Disable parsing an individual job page as \"Google JobPosting\" data by the robots."
 msgstr ""
 
-#: includes/admin/class-settings.php:285
+#: includes/admin/class-settings.php:314
 msgid "Job Submission"
 msgstr ""
 
-#: includes/admin/class-settings.php:290
+#: includes/admin/class-settings.php:319
 msgid "Account Needed"
 msgstr ""
 
-#: includes/admin/class-settings.php:291
+#: includes/admin/class-settings.php:320
 msgid "Require users to be logged-in before they can submit a job."
 msgstr ""
 
-#: includes/admin/class-settings.php:296
+#: includes/admin/class-settings.php:325
 msgid "User Registration"
 msgstr ""
 
-#: includes/admin/class-settings.php:297
+#: includes/admin/class-settings.php:326
 msgid "Allow users to create an account when submitting a job listing."
 msgstr ""
 
-#: includes/admin/class-settings.php:302
+#: includes/admin/class-settings.php:331
 msgid "Use email addresses as usernames"
 msgstr ""
 
-#: includes/admin/class-settings.php:303
+#: includes/admin/class-settings.php:332
 msgid "Hide the username field on the submission form and set the username as the user's email address."
 msgstr ""
 
-#: includes/admin/class-settings.php:309
+#: includes/admin/class-settings.php:338
 msgid "Email password link"
 msgstr ""
 
-#: includes/admin/class-settings.php:310
+#: includes/admin/class-settings.php:339
 msgid "Hide password field on submission form and send users an email with a link to set password."
 msgstr ""
 
-#: includes/admin/class-settings.php:316
+#: includes/admin/class-settings.php:345
 msgid "\"Your Details\" for logged in users"
 msgstr ""
 
-#: includes/admin/class-settings.php:318
+#: includes/admin/class-settings.php:347
 msgid "Hidden"
 msgstr ""
 
-#: includes/admin/class-settings.php:319
+#: includes/admin/class-settings.php:348
 msgid "Visible with editable email, first/last name fields"
 msgstr ""
 
-#: includes/admin/class-settings.php:321
+#: includes/admin/class-settings.php:350
 msgid "Select if the \"Your Details\" section is shown for logged in users."
 msgstr ""
 
-#: includes/admin/class-settings.php:327
+#: includes/admin/class-settings.php:356
 msgid "First and Last names required"
 msgstr ""
 
-#: includes/admin/class-settings.php:328
+#: includes/admin/class-settings.php:357
 msgid "Make the first and last name fields required."
 msgstr ""
 
-#: includes/admin/class-settings.php:334
+#: includes/admin/class-settings.php:363
 msgid "User Role"
 msgstr ""
 
-#: includes/admin/class-settings.php:336
+#: includes/admin/class-settings.php:365
 msgid "New registered users who are created during submission will be assigned this role."
 msgstr ""
 
-#: includes/admin/class-settings.php:343
+#: includes/admin/class-settings.php:372
 msgid "Set submissions as Pending"
 msgstr ""
 
-#: includes/admin/class-settings.php:344
+#: includes/admin/class-settings.php:373
 msgid "New job submissions will not appear on the jobs list until approved by admin."
 msgstr ""
 
-#: includes/admin/class-settings.php:349
+#: includes/admin/class-settings.php:378
 msgid "Pending Job Edits"
 msgstr ""
 
-#: includes/admin/class-settings.php:350
+#: includes/admin/class-settings.php:379
 msgid "Allow users to edit their pending jobs until they are approved by an admin."
 msgstr ""
 
-#: includes/admin/class-settings.php:356
+#: includes/admin/class-settings.php:385
 msgid "Published Job Edits"
 msgstr ""
 
-#: includes/admin/class-settings.php:358
+#: includes/admin/class-settings.php:387
 msgid "Users cannot edit their published job listings"
 msgstr ""
 
-#: includes/admin/class-settings.php:359
+#: includes/admin/class-settings.php:388
 msgid "Users can edit their published job listings but edits require approval by admin"
 msgstr ""
 
-#: includes/admin/class-settings.php:360
+#: includes/admin/class-settings.php:389
 msgid "Users can edit their published job listing without approval by admin"
 msgstr ""
 
-#: includes/admin/class-settings.php:362
+#: includes/admin/class-settings.php:391
 msgid "Select if users can edit their published jobs and if edits require admin approval."
 msgstr ""
 
-#: includes/admin/class-settings.php:368
+#: includes/admin/class-settings.php:397
 msgid "Show individual expiry date"
 msgstr ""
 
-#: includes/admin/class-settings.php:369
+#: includes/admin/class-settings.php:398
 msgid "Allow users to set the job expiry date on the job posting form."
 msgstr ""
 
-#: includes/admin/class-settings.php:374
+#: includes/admin/class-settings.php:403
 msgid "Job duration"
 msgstr ""
 
-#: includes/admin/class-settings.php:375
+#: includes/admin/class-settings.php:404
 msgid "Set how long you want jobs to appear on the jobs list. After the set duration jobs will set to expired. If you do not want jobs to have an expiration date, leave this field blank."
 msgstr ""
 
-#: includes/admin/class-settings.php:382
+#: includes/admin/class-settings.php:411
 msgid "Send expiration reminder to the author?"
 msgstr ""
 
-#: includes/admin/class-settings.php:383
+#: includes/admin/class-settings.php:412
 msgid "Enable notification to the job author about the job expiration."
 msgstr ""
 
-#: includes/admin/class-settings.php:388
+#: includes/admin/class-settings.php:417
 msgid "Reminder time for \"X\" days"
 msgstr ""
 
-#: includes/admin/class-settings.php:389
+#: includes/admin/class-settings.php:418
 msgid "Set the number of days before expiration when the job author receives an email."
 msgstr ""
 
-#: includes/admin/class-settings.php:396
+#: includes/admin/class-settings.php:425
 msgid "Required job type"
 msgstr ""
 
-#: includes/admin/class-settings.php:397
+#: includes/admin/class-settings.php:426
 msgid "Job type is required."
 msgstr ""
 
-#: includes/admin/class-settings.php:402
+#: includes/admin/class-settings.php:431
 msgid "How to apply"
 msgstr ""
 
-#: includes/admin/class-settings.php:404
+#: includes/admin/class-settings.php:433
 msgid "Email addresses"
 msgstr ""
 
-#: includes/admin/class-settings.php:405
+#: includes/admin/class-settings.php:434
 msgid "Website URL"
 msgstr ""
 
-#: includes/admin/class-settings.php:406
+#: includes/admin/class-settings.php:435
 msgid "Email address or website URL"
 msgstr ""
 
-#: includes/admin/class-settings.php:408
+#: includes/admin/class-settings.php:437
 msgid "Select whether employers have to provide an email address, website URL or either for their job listing, so job seekers can apply for the job."
 msgstr ""
 
-#: includes/admin/class-settings.php:414
+#: includes/admin/class-settings.php:443
 msgid "Job submitted notice"
 msgstr ""
 
-#: includes/admin/class-settings.php:415
+#: includes/admin/class-settings.php:444
 msgid "The text that appears after a job has been submitted."
 msgstr ""
 
-#: includes/admin/class-settings.php:422
+#: includes/admin/class-settings.php:451
 msgid "Jobs List"
 msgstr ""
 
-#: includes/admin/class-settings.php:427
+#: includes/admin/class-settings.php:456
 msgid "Jobs per page"
 msgstr ""
 
-#: includes/admin/class-settings.php:428
+#: includes/admin/class-settings.php:457
 msgid "How many jobs would you like to appear on initial load and after clicking load more button."
 msgstr ""
 
-#: includes/admin/class-settings.php:434
+#: includes/admin/class-settings.php:463
 msgid "Hide Logos"
 msgstr ""
 
-#: includes/admin/class-settings.php:435
+#: includes/admin/class-settings.php:464
 msgid "If selected company logos will not appear on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:440
+#: includes/admin/class-settings.php:469
 msgid "Hide filled jobs"
 msgstr ""
 
-#: includes/admin/class-settings.php:441
+#: includes/admin/class-settings.php:470
 msgid "If selected jobs that have been marked as filled will not appear on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:446
+#: includes/admin/class-settings.php:475
 msgid "Hide expired jobs"
 msgstr ""
 
-#: includes/admin/class-settings.php:447
+#: includes/admin/class-settings.php:476
 msgid "If selected jobs that have expired will not appear in jobs list or in archive/search."
 msgstr ""
 
-#: includes/admin/class-settings.php:452
+#: includes/admin/class-settings.php:481
 msgid "Hide search field"
 msgstr ""
 
-#: includes/admin/class-settings.php:453
+#: includes/admin/class-settings.php:482
 msgid "If selected the search field will not be displayed on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:458
+#: includes/admin/class-settings.php:487
 msgid "Hide location field"
 msgstr ""
 
-#: includes/admin/class-settings.php:459
+#: includes/admin/class-settings.php:488
 msgid "If selected the location search field will not be displayed on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:464
+#: includes/admin/class-settings.php:493
 msgid "Hide filters"
 msgstr ""
 
-#: includes/admin/class-settings.php:465
+#: includes/admin/class-settings.php:494
 msgid "If selected the filters section will not be displayed on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:470
+#: includes/admin/class-settings.php:499
 msgid "Hide job types"
 msgstr ""
 
-#: includes/admin/class-settings.php:471
+#: includes/admin/class-settings.php:500
 msgid "If selected the job types filter will not be displayed on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:478
+#: includes/admin/class-settings.php:507
 #: includes/admin/templates/settings/emails-list-table.php:16
 #: templates/job-submission.php:134
 #: templates/job-submission.php:158
 msgid "Email"
 msgstr ""
 
-#: includes/admin/class-settings.php:483
+#: includes/admin/class-settings.php:512
 msgid "Admin E-mail Address"
 msgstr ""
 
-#: includes/admin/class-settings.php:484
-#: includes/admin/class-settings.php:496
+#: includes/admin/class-settings.php:513
+#: includes/admin/class-settings.php:525
 msgid "e.g. admin@companyname.com"
 msgstr ""
 
-#: includes/admin/class-settings.php:489
+#: includes/admin/class-settings.php:518
 msgid "Mail appears from"
 msgstr ""
 
-#: includes/admin/class-settings.php:490
+#: includes/admin/class-settings.php:519
 msgid "e.g. Site Name"
 msgstr ""
 
-#: includes/admin/class-settings.php:495
+#: includes/admin/class-settings.php:524
 msgid "Mail appears from address"
 msgstr ""
 
-#: includes/admin/class-settings.php:501
+#: includes/admin/class-settings.php:530
 msgid "Styles"
 msgstr ""
 
-#: includes/admin/class-settings.php:506
+#: includes/admin/class-settings.php:535
 msgid "Disable styles"
 msgstr ""
 
-#: includes/admin/class-settings.php:507
+#: includes/admin/class-settings.php:536
 msgid "Check this to disable all included styling of buttons, and all other elements."
 msgstr ""
 
-#: includes/admin/class-settings.php:512
+#: includes/admin/class-settings.php:541
 msgid "Disable FontAwesome styles"
 msgstr ""
 
-#: includes/admin/class-settings.php:513
+#: includes/admin/class-settings.php:542
 msgid "To avoid duplicates if you have enqueued FontAwesome styles you could disable it."
 msgstr ""
 
-#: includes/admin/class-settings.php:518
+#: includes/admin/class-settings.php:547
 msgid "Misc"
 msgstr ""
 
-#: includes/admin/class-settings.php:523
+#: includes/admin/class-settings.php:552
 msgid "Delete settings on uninstall"
 msgstr ""
 
-#: includes/admin/class-settings.php:524
+#: includes/admin/class-settings.php:553
 msgid "Once removed, this data cannot be restored."
 msgstr ""
 
-#: includes/admin/class-settings.php:590
+#: includes/admin/class-settings.php:619
 msgid "Subject Line"
 msgstr ""
 
-#: includes/admin/class-settings.php:591
+#: includes/admin/class-settings.php:620
 msgid "This is the subject line of the e-mail"
 msgstr ""
 
-#: includes/admin/class-settings.php:597
+#: includes/admin/class-settings.php:626
 msgid "Message Body"
 msgstr ""
 
-#: includes/admin/class-settings.php:598
+#: includes/admin/class-settings.php:627
 msgid "This is the content of the e-mail"
 msgstr ""
 
-#: includes/admin/class-settings.php:628
+#: includes/admin/class-settings.php:657
 msgid "Job base"
 msgstr ""
 
-#: includes/admin/class-settings.php:635
+#: includes/admin/class-settings.php:664
 msgid "Job type base"
 msgstr ""
 
-#: includes/admin/class-settings.php:644
+#: includes/admin/class-settings.php:673
 msgid "Job category base"
 msgstr ""
 
@@ -689,6 +696,12 @@ msgstr ""
 #: includes/admin/templates/job/data.php:26
 #: includes/common/class-job.php:189
 msgid "Guest"
+msgstr ""
+
+#: includes/admin/templates/job/data.php:48
+#: includes/admin/templates/job/data.php:162
+#: templates/job-submission.php:49
+msgid "(None)"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:130
@@ -833,7 +846,7 @@ msgstr ""
 msgid "Upload successful."
 msgstr ""
 
-#: includes/ajax/class-init.php:66
+#: includes/ajax/class-init.php:82
 msgid "Wrong AJAX Nonce"
 msgstr ""
 
@@ -971,6 +984,15 @@ msgstr ""
 
 #: includes/class-config.php:323
 msgid "Whether to send the job's author an email before job is expired."
+msgstr ""
+
+#. translators: %s template
+#: includes/class-jb-functions.php:514
+msgid "<code>%s</code> does not exist."
+msgstr ""
+
+#: includes/class-jb-functions.php:532
+msgid "`action_args` should not be overwritten when calling `jb_get_template()`."
 msgstr ""
 
 #: includes/class-jb.php:56
@@ -1186,323 +1208,323 @@ msgid_plural "Preview <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/common/class-enqueue.php:69
+#: includes/common/class-enqueue.php:72
 msgid "Afrikaans"
 msgstr ""
 
-#: includes/common/class-enqueue.php:70
+#: includes/common/class-enqueue.php:73
 msgid "Albanian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:71
+#: includes/common/class-enqueue.php:74
 msgid "Amharic"
 msgstr ""
 
-#: includes/common/class-enqueue.php:72
+#: includes/common/class-enqueue.php:75
 msgid "Arabic"
 msgstr ""
 
-#: includes/common/class-enqueue.php:73
+#: includes/common/class-enqueue.php:76
 msgid "Armenian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:74
+#: includes/common/class-enqueue.php:77
 msgid "Azerbaijani"
 msgstr ""
 
-#: includes/common/class-enqueue.php:75
+#: includes/common/class-enqueue.php:78
 msgid "Basque"
 msgstr ""
 
-#: includes/common/class-enqueue.php:76
+#: includes/common/class-enqueue.php:79
 msgid "Belarusian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:77
+#: includes/common/class-enqueue.php:80
 msgid "Bengali"
 msgstr ""
 
-#: includes/common/class-enqueue.php:78
+#: includes/common/class-enqueue.php:81
 msgid "Bosnian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:79
+#: includes/common/class-enqueue.php:82
 msgid "Burmese"
 msgstr ""
 
-#: includes/common/class-enqueue.php:80
+#: includes/common/class-enqueue.php:83
 msgid "Catalan"
 msgstr ""
 
-#: includes/common/class-enqueue.php:81
+#: includes/common/class-enqueue.php:84
 msgid "Chinese"
 msgstr ""
 
-#: includes/common/class-enqueue.php:82
+#: includes/common/class-enqueue.php:85
 msgid "Chinese (Simplified)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:83
+#: includes/common/class-enqueue.php:86
 msgid "Chinese (Hong Kong)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:84
+#: includes/common/class-enqueue.php:87
 msgid "Chinese (Traditional)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:85
+#: includes/common/class-enqueue.php:88
 msgid "Croatian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:86
+#: includes/common/class-enqueue.php:89
 msgid "Czech"
 msgstr ""
 
-#: includes/common/class-enqueue.php:87
+#: includes/common/class-enqueue.php:90
 msgid "Danish"
 msgstr ""
 
-#: includes/common/class-enqueue.php:88
+#: includes/common/class-enqueue.php:91
 msgid "Dutch"
 msgstr ""
 
-#: includes/common/class-enqueue.php:89
+#: includes/common/class-enqueue.php:92
 msgid "English"
 msgstr ""
 
-#: includes/common/class-enqueue.php:90
+#: includes/common/class-enqueue.php:93
 msgid "English (Australian)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:91
+#: includes/common/class-enqueue.php:94
 msgid "English (Great Britain)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:92
+#: includes/common/class-enqueue.php:95
 msgid "Estonian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:93
+#: includes/common/class-enqueue.php:96
 msgid "Farsi"
 msgstr ""
 
-#: includes/common/class-enqueue.php:94
+#: includes/common/class-enqueue.php:97
 msgid "Finnish"
 msgstr ""
 
-#: includes/common/class-enqueue.php:95
+#: includes/common/class-enqueue.php:98
 msgid "Filipino"
 msgstr ""
 
-#: includes/common/class-enqueue.php:96
+#: includes/common/class-enqueue.php:99
 msgid "French"
 msgstr ""
 
-#: includes/common/class-enqueue.php:97
+#: includes/common/class-enqueue.php:100
 msgid "French (Canada)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:98
+#: includes/common/class-enqueue.php:101
 msgid "Galician"
 msgstr ""
 
-#: includes/common/class-enqueue.php:99
+#: includes/common/class-enqueue.php:102
 msgid "Georgian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:100
+#: includes/common/class-enqueue.php:103
 msgid "German"
 msgstr ""
 
-#: includes/common/class-enqueue.php:101
+#: includes/common/class-enqueue.php:104
 msgid "Greek"
 msgstr ""
 
-#: includes/common/class-enqueue.php:102
+#: includes/common/class-enqueue.php:105
 msgid "Gujarati"
 msgstr ""
 
-#: includes/common/class-enqueue.php:103
+#: includes/common/class-enqueue.php:106
 msgid "Hebrew"
 msgstr ""
 
-#: includes/common/class-enqueue.php:104
+#: includes/common/class-enqueue.php:107
 msgid "Hindi"
 msgstr ""
 
-#: includes/common/class-enqueue.php:105
+#: includes/common/class-enqueue.php:108
 msgid "Hungarian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:106
+#: includes/common/class-enqueue.php:109
 msgid "Icelandic"
 msgstr ""
 
-#: includes/common/class-enqueue.php:107
+#: includes/common/class-enqueue.php:110
 msgid "Indonesian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:108
+#: includes/common/class-enqueue.php:111
 msgid "Italian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:109
+#: includes/common/class-enqueue.php:112
 msgid "Japanese"
 msgstr ""
 
-#: includes/common/class-enqueue.php:110
+#: includes/common/class-enqueue.php:113
 msgid "Kannada"
 msgstr ""
 
-#: includes/common/class-enqueue.php:111
+#: includes/common/class-enqueue.php:114
 msgid "Kazakh"
 msgstr ""
 
-#: includes/common/class-enqueue.php:112
+#: includes/common/class-enqueue.php:115
 msgid "Khmer"
 msgstr ""
 
-#: includes/common/class-enqueue.php:113
+#: includes/common/class-enqueue.php:116
 msgid "Korean"
 msgstr ""
 
-#: includes/common/class-enqueue.php:114
+#: includes/common/class-enqueue.php:117
 msgid "Kyrgyz"
 msgstr ""
 
-#: includes/common/class-enqueue.php:115
+#: includes/common/class-enqueue.php:118
 msgid "Lao"
 msgstr ""
 
-#: includes/common/class-enqueue.php:116
+#: includes/common/class-enqueue.php:119
 msgid "Latvian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:117
+#: includes/common/class-enqueue.php:120
 msgid "Lithuanian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:118
+#: includes/common/class-enqueue.php:121
 msgid "Macedonian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:119
+#: includes/common/class-enqueue.php:122
 msgid "Malay"
 msgstr ""
 
-#: includes/common/class-enqueue.php:120
+#: includes/common/class-enqueue.php:123
 msgid "Malayalam"
 msgstr ""
 
-#: includes/common/class-enqueue.php:121
+#: includes/common/class-enqueue.php:124
 msgid "Marathi"
 msgstr ""
 
-#: includes/common/class-enqueue.php:122
+#: includes/common/class-enqueue.php:125
 msgid "Mongolian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:123
+#: includes/common/class-enqueue.php:126
 msgid "Nepali"
 msgstr ""
 
-#: includes/common/class-enqueue.php:124
+#: includes/common/class-enqueue.php:127
 msgid "Norwegian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:125
+#: includes/common/class-enqueue.php:128
 msgid "Polish"
 msgstr ""
 
-#: includes/common/class-enqueue.php:126
+#: includes/common/class-enqueue.php:129
 msgid "Portuguese"
 msgstr ""
 
-#: includes/common/class-enqueue.php:127
+#: includes/common/class-enqueue.php:130
 msgid "Portuguese (Brazil)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:128
+#: includes/common/class-enqueue.php:131
 msgid "Portuguese (Portugal)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:129
+#: includes/common/class-enqueue.php:132
 msgid "Punjabi"
 msgstr ""
 
-#: includes/common/class-enqueue.php:130
+#: includes/common/class-enqueue.php:133
 msgid "Romanian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:131
+#: includes/common/class-enqueue.php:134
 msgid "Russian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:132
+#: includes/common/class-enqueue.php:135
 msgid "Serbian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:133
+#: includes/common/class-enqueue.php:136
 msgid "Sinhalese"
 msgstr ""
 
-#: includes/common/class-enqueue.php:134
+#: includes/common/class-enqueue.php:137
 msgid "Slovak"
 msgstr ""
 
-#: includes/common/class-enqueue.php:135
+#: includes/common/class-enqueue.php:138
 msgid "Slovenian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:136
+#: includes/common/class-enqueue.php:139
 msgid "Spanish"
 msgstr ""
 
-#: includes/common/class-enqueue.php:137
+#: includes/common/class-enqueue.php:140
 msgid "Spanish (Latin America)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:138
+#: includes/common/class-enqueue.php:141
 msgid "Swahili"
 msgstr ""
 
-#: includes/common/class-enqueue.php:139
+#: includes/common/class-enqueue.php:142
 msgid "Swedish"
 msgstr ""
 
-#: includes/common/class-enqueue.php:140
+#: includes/common/class-enqueue.php:143
 msgid "Tamil"
 msgstr ""
 
-#: includes/common/class-enqueue.php:141
+#: includes/common/class-enqueue.php:144
 msgid "Telugu"
 msgstr ""
 
-#: includes/common/class-enqueue.php:142
+#: includes/common/class-enqueue.php:145
 msgid "Thai"
 msgstr ""
 
-#: includes/common/class-enqueue.php:143
+#: includes/common/class-enqueue.php:146
 msgid "Turkish"
 msgstr ""
 
-#: includes/common/class-enqueue.php:144
+#: includes/common/class-enqueue.php:147
 msgid "Ukrainian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:145
+#: includes/common/class-enqueue.php:148
 msgid "Urdu"
 msgstr ""
 
-#: includes/common/class-enqueue.php:146
+#: includes/common/class-enqueue.php:149
 msgid "Uzbek"
 msgstr ""
 
-#: includes/common/class-enqueue.php:147
+#: includes/common/class-enqueue.php:150
 msgid "Vietnamese"
 msgstr ""
 
-#: includes/common/class-enqueue.php:148
+#: includes/common/class-enqueue.php:151
 msgid "Zulu"
 msgstr ""
 
@@ -1528,35 +1550,35 @@ msgstr ""
 msgid "Mark as un-filled"
 msgstr ""
 
-#: includes/common/class-mail.php:342
+#: includes/common/class-mail.php:112
 msgid "Job Title:"
 msgstr ""
 
-#: includes/common/class-mail.php:343
+#: includes/common/class-mail.php:113
 msgid "Description:"
 msgstr ""
 
-#: includes/common/class-mail.php:344
+#: includes/common/class-mail.php:114
 msgid "Posted by:"
 msgstr ""
 
-#: includes/common/class-mail.php:345
+#: includes/common/class-mail.php:115
 msgid "Application Contact:"
 msgstr ""
 
-#: includes/common/class-mail.php:346
+#: includes/common/class-mail.php:116
 msgid "Location:"
 msgstr ""
 
-#: includes/common/class-mail.php:347
+#: includes/common/class-mail.php:117
 msgid "Company name:"
 msgstr ""
 
-#: includes/common/class-mail.php:348
+#: includes/common/class-mail.php:118
 msgid "Company website:"
 msgstr ""
 
-#: includes/common/class-mail.php:349
+#: includes/common/class-mail.php:119
 msgid "Company tagline:"
 msgstr ""
 
