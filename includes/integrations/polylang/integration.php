@@ -212,9 +212,19 @@ function jb_admin_settings_pages_list_value_polylang( $pre_result, $page_id ) {
 	$opt_value = JB()->options()->get( $page_id );
 
 	if ( ! empty( $opt_value ) ) {
-		$post = pll_get_post( $opt_value );
+		$lang = '';
+		if ( ( JB()->is_request( 'admin' ) || JB()->is_request( 'ajax' ) ) && false === pll_current_language( 'locale' ) ) {
+			$lang = pll_default_language();
+		}
+
+		$post = pll_get_post( $opt_value, $lang );
 		if ( $post ) {
 			$opt_value = $post;
+		} else {
+			$post = pll_get_post( $opt_value, pll_default_language() );
+			if ( $post ) {
+				$opt_value = $post;
+			}
 		}
 
 		$title = get_the_title( $opt_value );

@@ -241,9 +241,19 @@ function jb_admin_settings_pages_list_value_wpml( $pre_result, $page_id ) {
 	if ( ! empty( $opt_value ) ) {
 		global $sitepress;
 
-		$page_id = wpml_object_id_filter( $opt_value, 'page', true, $sitepress->get_current_language() );
+		$current_language = $sitepress->get_current_language();
+		if ( ( JB()->is_request( 'admin' ) || JB()->is_request( 'ajax' ) ) && 'all' === $current_language ) {
+			$current_language = $sitepress->get_default_language();
+		}
+
+		$page_id = wpml_object_id_filter( $opt_value, 'page', true, $current_language );
 		if ( $page_id ) {
 			$opt_value = $page_id;
+		} else {
+			$page_id = wpml_object_id_filter( $opt_value, 'page', true, $sitepress->get_default_language() );
+			if ( $page_id ) {
+				$opt_value = $page_id;
+			}
 		}
 
 		$title = get_the_title( $opt_value );
