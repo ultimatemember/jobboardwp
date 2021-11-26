@@ -11,6 +11,9 @@
       "includes",
       "templates"
     ],
+    "exclude": [
+      "node_modules"
+    ],
     "includePattern": ".+\\.(php)?$"
   },
   "plugins": [
