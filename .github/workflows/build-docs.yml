@@ -18,6 +18,10 @@ jobs:
         run: |
           npm install
           npm run build:docs
+      - name: PhpDocumentor
+        uses: gpupo/actions-phpDocumentor@1.0
+        with:
+          dir: './'
       - name: Deploy to GH Pages
         uses: maxheld83/ghpages@v0.2.1
         env:
