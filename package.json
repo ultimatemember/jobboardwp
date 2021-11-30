@@ -21,7 +21,6 @@
     "wp-hookdoc": "^0.2.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build:docs": "rm -rf hookdocs/ && jsdoc -c hookdoc-conf.json jobboardwp.php includes templates"
+    "build:docs": "rm -rf docs/hooks/ && jsdoc -c hookdoc-conf.json"
   }
 }
