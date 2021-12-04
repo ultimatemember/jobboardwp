@@ -399,7 +399,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 
 					switch ( $type_raw ) {
 						case '0':
-							$location = JB()->common()->job()->get_location_link( JB()->common()->job()->get_location( $id ) );
+							$location = JB()->common()->job()->get_location_link( $id );
 							// translators: %1$s is a location type; %2$s is a location.
 							echo wp_kses( sprintf( __( '%1$s (%2$s)', 'jobboardwp' ), $type, $location ), JB()->get_allowed_html( 'templates' ) );
 							break;

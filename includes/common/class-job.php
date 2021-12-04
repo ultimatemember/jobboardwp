@@ -273,18 +273,29 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		/**
 		 * Get location link
 		 *
-		 * @param $location
+		 * @param int $job_id
 		 *
 		 * @return string
 		 *
 		 * @since 1.0
 		 */
-		public function get_location_link( $location ) {
-			if ( empty( $location ) ) {
-				return '';
+		public function get_location_link( $job_id ) {
+			$location_raw  = JB()->common()->job()->get_location( $job_id, true );
+			$location_type = get_post_meta( $job_id, 'jb-location-type', true );
+
+			if ( '1' === $location_type && empty( $location_raw ) ) {
+				return esc_html__( 'Remote', 'jobboardwp' );
+			} elseif ( empty( $location_raw ) ) {
+				return esc_html__( 'Anywhere', 'jobboardwp' );
+			} else {
+				$location = JB()->common()->job()->get_location( $job_id );
+				if ( empty( $location ) ) {
+					return '';
+				}
+
+				$location = '<a href="https://maps.google.com/maps?q=' . rawurlencode( wp_strip_all_tags( $location ) ) . '&zoom=14&size=512x512&maptype=roadmap&sensor=false" target="_blank">' . $location . '</a>';
+				return $location;
 			}
-			$location = '<a href="https://maps.google.com/maps?q=' . rawurlencode( wp_strip_all_tags( $location ) ) . '&zoom=14&size=512x512&maptype=roadmap&sensor=false" target="_blank">' . $location . '</a>';
-			return $location;
 		}
 
 
