@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-12-04T10:57:55+00:00\n"
+"POT-Creation-Date: 2021-12-04T11:11:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: jobboardwp\n"
@@ -126,14 +126,15 @@ msgstr ""
 
 #. translators: %1$s is a location type; %2$s is a location.
 #: includes/admin/class-columns.php:404
+#: includes/common/class-job.php:297
 msgid "%1$s (%2$s)"
 msgstr ""
 
-#: includes/admin/class-columns.php:463
+#: includes/admin/class-columns.php:465
 msgid "by "
 msgstr ""
 
-#: includes/admin/class-columns.php:464
+#: includes/admin/class-columns.php:466
 msgid "Filter by author"
 msgstr ""
 
@@ -743,7 +744,7 @@ msgstr ""
 #: includes/ajax/class-jobs.php:484
 #: includes/common/class-job.php:220
 #: includes/common/class-job.php:264
-#: includes/common/class-job.php:287
+#: includes/common/class-job.php:289
 #: templates/job-submission.php:290
 msgid "Remote"
 msgstr ""
@@ -853,7 +854,7 @@ msgstr ""
 
 #: includes/ajax/class-jobs.php:486
 #: includes/common/class-job.php:266
-#: includes/common/class-job.php:289
+#: includes/common/class-job.php:300
 msgid "Anywhere"
 msgstr ""
 
@@ -1016,8 +1017,8 @@ msgid "Add New Job"
 msgstr ""
 
 #: includes/common/class-cpt.php:65
-#: includes/common/class-job.php:632
-#: includes/common/class-job.php:641
+#: includes/common/class-job.php:643
+#: includes/common/class-job.php:652
 msgid "Edit"
 msgstr ""
 
@@ -1530,25 +1531,25 @@ msgstr ""
 msgid "Zulu"
 msgstr ""
 
-#: includes/common/class-job.php:604
+#: includes/common/class-job.php:615
 msgid "Submit again"
 msgstr ""
 
-#: includes/common/class-job.php:607
-#: includes/common/class-job.php:622
-#: includes/common/class-job.php:656
+#: includes/common/class-job.php:618
+#: includes/common/class-job.php:633
+#: includes/common/class-job.php:667
 msgid "Delete"
 msgstr ""
 
-#: includes/common/class-job.php:619
+#: includes/common/class-job.php:630
 msgid "Continue submission"
 msgstr ""
 
-#: includes/common/class-job.php:647
+#: includes/common/class-job.php:658
 msgid "Mark as filled"
 msgstr ""
 
-#: includes/common/class-job.php:651
+#: includes/common/class-job.php:662
 msgid "Mark as un-filled"
 msgstr ""
 
