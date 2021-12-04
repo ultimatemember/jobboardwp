@@ -280,9 +280,9 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * @since 1.0
 		 */
 		public function get_location_link( $job_id ) {
-			$location_raw  = JB()->common()->job()->get_location( $job_id, true );
-			$type_raw      = $this->get_location_type( $job_id, true );
-			$type          = $this->get_location_type( $job_id );
+			$location_raw = JB()->common()->job()->get_location( $job_id, true );
+			$type_raw     = $this->get_location_type( $job_id, true );
+			$type         = $this->get_location_type( $job_id );
 
 			if ( '1' === $type_raw ) {
 				if ( empty( $location_raw ) ) {
