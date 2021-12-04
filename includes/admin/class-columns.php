@@ -401,12 +401,14 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 						case '0':
 							$location = JB()->common()->job()->get_location_link( $id );
 							// translators: %1$s is a location type; %2$s is a location.
-							echo wp_kses( sprintf( __( '%1$s (%2$s)', 'jobboardwp' ), $type, $location ), JB()->get_allowed_html( 'templates' ) );
+							echo wp_kses( sprintf( __( '%1$s (%2$s)', 'jobboardwp' ), $type, $location ), JB()->get_allowed_html( 'wp-admin' ) );
 							break;
 						case '1':
+							echo wp_kses( JB()->common()->job()->get_location_link( $id ), JB()->get_allowed_html( 'wp-admin' ) );
+							break;
 						case '':
 							$location = JB()->common()->job()->get_location( $id );
-							echo wp_kses( $location, JB()->get_allowed_html( 'templates' ) );
+							echo wp_kses( $location, JB()->get_allowed_html( 'wp-admin' ) );
 							break;
 					}
 
