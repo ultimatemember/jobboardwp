@@ -195,6 +195,23 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			$predefined_page_id = $this->get_predefined_page_id( $slug );
 			$condition          = $post->ID === $this->get_predefined_page_id( $slug );
 
+			/**
+			 * Filters the condition check if the post is predefined page.
+			 *
+			 * Note: See all predefined pages slugs in JB()->config()->get( 'predefined_pages' );
+			 *
+			 * Note: JobBoardWP internally uses this hook for getting integrated with multilingual plugins that make duplicates of the pages for translations.
+			 *
+			 * @since 1.0
+			 * @hook jb_is_predefined_page
+			 *
+			 * @param {bool}    $is_predefined      Condition if the $post is the predefined page.
+			 * @param {WP_Post} $post               The Post object current or passed to function.
+			 * @param {int}     $predefined_page_id The predefined page ID. The value obtained from options via the page slug.
+			 * @param {string}  $slug               The predefined page slug. E.g. 'job-dashboard'.
+			 *
+			 * @return {string} The predefined page ID.
+			 */
 			return apply_filters( 'jb_is_predefined_page', $condition, $post, $predefined_page_id, $slug );
 		}
 

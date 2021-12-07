@@ -43,6 +43,13 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 		 */
 		public function create_list() {
 			$this->install_predefined_page_notice();
+			/**
+			 * Fires when admin notices list is generated.
+			 * Note: It's internal hook that you could use for adding admin notices to JobBoardWP admin notices list.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_admin_create_notices
+			 */
 			do_action( 'jb_admin_create_notices' );
 		}
 
@@ -70,8 +77,7 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 			}
 
 			/**
-			 * Fires after render all admin notices
-			 *
+			 * Fires after render and display all admin notices.
 			 *
 			 * @since 1.1.0
 			 * @hook jb_admin_after_main_notices

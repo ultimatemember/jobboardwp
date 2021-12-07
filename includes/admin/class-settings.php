@@ -67,13 +67,25 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				/**
 				 * Fires before saving JobBoardWP settings and after security verification that there is possible to save settings.
 				 *
-				 * Note: Use this hook if you need to make some action before handle saving settings via wp-admin > JobBoardWP > Settings screen
+				 * Note: Use this hook if you need to make some action before handle saving settings via wp-admin > JobBoardWP > Settings screen.
 				 *
 				 * @since 1.1.0
 				 * @hook jb_settings_before_save
 				 */
 				do_action( 'jb_settings_before_save' );
 
+				/**
+				 * Filters settings array on save handler.
+				 *
+				 * Note: It's the first filter after verifying nonce on save settings handler.
+				 *
+				 * @since 1.1.0
+				 * @hook jb_change_settings_before_save
+				 *
+				 * @param {array} $options Options array passed from $_POST. Not sanitized yet!
+				 *
+				 * @return {array} Job expiration date.
+				 */
 				$settings = apply_filters( 'jb_change_settings_before_save', $_POST['jb_options'] );
 
 				foreach ( $settings as $key => $value ) {
@@ -107,7 +119,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				/**
 				 * Fires after saving JobBoardWP settings and before redirect to the settings screen.
 				 *
-				 * Note: Use this hook if you need to make some action after handle saving settings via wp-admin > JobBoardWP > Settings screen
+				 * Note: Use this hook if you need to make some action after handle saving settings via wp-admin > JobBoardWP > Settings screen.
 				 *
 				 * @since 1.1.0
 				 * @hook jb_settings_save
@@ -145,6 +157,19 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				$options    = array();
 				$page_value = '';
 
+				/**
+				 * Filters predefined value for predefined page ID.
+				 *
+				 * Note: It's an internal hook for integration with multilingual plugins.
+				 *
+				 * @since 1.1.0
+				 * @hook jb_admin_settings_pages_list_value
+				 *
+				 * @param {bool|int} $pre_result `false` or predefined page ID from multilingual plugins option value.
+				 * @param {string}   $option_key Setting key.
+				 *
+				 * @return {bool|int} Predefined page ID. Otherwise `false`.
+				 */
 				$pre_result = apply_filters( 'jb_admin_settings_pages_list_value', false, $option_key );
 				if ( false === $pre_result ) {
 					$opt_value = JB()->options()->get( $option_key );
@@ -251,6 +276,16 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				)
 			);
 
+			/**
+			 * Filters JobBoardWP Settings fields.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_settings
+			 *
+			 * @param {array} $fields JobBoardWP Settings.
+			 *
+			 * @return {array} JobBoardWP Settings.
+			 */
 			$this->config = apply_filters(
 				'jb_settings',
 				array(
@@ -599,6 +634,17 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				return $fields;
 			}
 
+			/**
+			 * Filters JobBoardWP Settings > Email section fields.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_settings_email_section_fields
+			 *
+			 * @param {array}  $fields    JobBoardWP Settings > Email section fields.
+			 * @param {string} $email_key Email notification key.
+			 *
+			 * @return {array} JobBoardWP Settings > Email section fields.
+			 */
 			$fields = apply_filters(
 				'jb_settings_email_section_fields',
 				array(
@@ -750,57 +796,48 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		/**
 		 * Generate pages tabs
 		 *
-		 * @param string $page
-		 *
 		 * @return string
 		 *
 		 * @since 1.0
 		 */
-		public function tabs_menu( $page = 'settings' ) {
-			switch ( $page ) {
-				case 'settings':
-					// phpcs:ignore WordPress.Security.NonceVerification
-					$current_tab = empty( $_GET['tab'] ) ? '' : sanitize_key( urldecode( $_GET['tab'] ) );
-					if ( empty( $current_tab ) ) {
-						$all_tabs    = array_keys( $this->config );
-						$current_tab = $all_tabs[0];
-					}
+		public function tabs_menu() {
+			// phpcs:ignore WordPress.Security.NonceVerification
+			$current_tab = empty( $_GET['tab'] ) ? '' : sanitize_key( urldecode( $_GET['tab'] ) );
+			if ( empty( $current_tab ) ) {
+				$all_tabs    = array_keys( $this->config );
+				$current_tab = $all_tabs[0];
+			}
 
-					$i    = 0;
-					$tabs = '';
-					foreach ( $this->config as $slug => $tab ) {
-						if ( empty( $tab['fields'] ) && empty( $tab['sections'] ) ) {
-							continue;
-						}
+			$i    = 0;
+			$tabs = '';
+			foreach ( $this->config as $slug => $tab ) {
+				if ( empty( $tab['fields'] ) && empty( $tab['sections'] ) ) {
+					continue;
+				}
 
-						$link_args = array(
-							'page' => 'jb-settings',
-						);
-						if ( ! empty( $i ) ) {
-							$link_args['tab'] = $slug;
-						}
+				$link_args = array(
+					'page' => 'jb-settings',
+				);
+				if ( ! empty( $i ) ) {
+					$link_args['tab'] = $slug;
+				}
 
-						$tab_link = add_query_arg(
-							$link_args,
-							admin_url( 'admin.php' )
-						);
+				$tab_link = add_query_arg(
+					$link_args,
+					admin_url( 'admin.php' )
+				);
 
-						$active = ( $current_tab === $slug ) ? 'nav-tab-active' : '';
+				$active = ( $current_tab === $slug ) ? 'nav-tab-active' : '';
 
-						/** @noinspection HtmlUnknownTarget */
-						$tabs .= sprintf(
-							'<a href="%s" class="nav-tab %s">%s</a>',
-							esc_attr( $tab_link ),
-							esc_attr( $active ),
-							esc_html( $tab['title'] )
-						);
+				/** @noinspection HtmlUnknownTarget */
+				$tabs .= sprintf(
+					'<a href="%s" class="nav-tab %s">%s</a>',
+					esc_attr( $tab_link ),
+					esc_attr( $active ),
+					esc_html( $tab['title'] )
+				);
 
-						$i++;
-					}
-					break;
-				default:
-					$tabs = apply_filters( 'jb_generate_tabs_menu_' . $page, '' );
-					break;
+				$i++;
 			}
 
 			return '<h2 class="nav-tab-wrapper jb-nav-tab-wrapper">' . $tabs . '</h2>';
@@ -941,6 +978,18 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				$fields = $this->config[ $tab ]['fields'];
 			}
 
+			/**
+			 * Filters JobBoardWP settings fields inside a section.
+			 *
+			 * @since 1.0
+			 * @hook jb_section_fields
+			 *
+			 * @param {array}  $fields  Settings fields of the current section.
+			 * @param {string} $tab     Settings tab.
+			 * @param {string} $section Settings section.
+			 *
+			 * @return {array} Setting's section fields.
+			 */
 			$fields = apply_filters( 'jb_section_fields', $fields, $tab, $section );
 
 			$assoc_fields = array();
@@ -969,7 +1018,32 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * @since 1.0
 		 */
 		public function section_is_custom( $current_tab, $current_subtab ) {
-			$custom_section = in_array( $current_tab, apply_filters( 'jb_settings_custom_tabs', array() ), true ) || in_array( $current_subtab, apply_filters( 'jb_settings_custom_subtabs', array(), $current_tab ), true );
+			/**
+			 * Filters JobBoardWP settings custom tabs.
+			 *
+			 * @since 1.0
+			 * @hook jb_settings_custom_tabs
+			 *
+			 * @param {array} $tabs Settings custom tabs. It's empty array by default.
+			 *
+			 * @return {array} Settings custom tabs.
+			 */
+			$custom_tabs = apply_filters( 'jb_settings_custom_tabs', array() );
+
+			/**
+			 * Filters JobBoardWP settings custom tabs.
+			 *
+			 * @since 1.0
+			 * @hook jb_settings_custom_subtabs
+			 *
+			 * @param {array}  $subtabs Settings custom subtabs. It's empty array by default.
+			 * @param {string} $tab     Settings tab.
+			 *
+			 * @return {array} Settings custom subtabs.
+			 */
+			$custom_subtabs = apply_filters( 'jb_settings_custom_subtabs', array(), $current_tab );
+
+			$custom_section = in_array( $current_tab, $custom_tabs, true ) || in_array( $current_subtab, $custom_subtabs, true );
 			return $custom_section;
 		}
 
@@ -1000,6 +1074,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				trailingslashit( $template_path ) . $template_name,
 			);
 
+			/** This filter is documented in includes/class-jb-functions.php */
 			$template_locations = apply_filters( 'jb_pre_template_locations', $template_locations, $template_name, $template_path );
 
 			// build multisite blog_ids priority paths
@@ -1016,10 +1091,24 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				$template_locations = array_merge( $ms_template_locations, $template_locations );
 			}
 
+			/** This filter is documented in includes/class-jb-functions.php */
 			$template_locations = apply_filters( 'jb_template_locations', $template_locations, $template_name, $template_path );
 			$template_locations = array_map( 'wp_normalize_path', $template_locations );
+			/**
+			 * Filters the email templates locations on save handler.
+			 *
+			 * @since 1.1.1
+			 * @hook jb_save_email_templates_locations
+			 *
+			 * @param {array}  $template_locations Template locations array for WP native `locate_template()` function.
+			 * @param {string} $template_name      Template name.
+			 * @param {string} $template_path      Template path. (default: '').
+			 *
+			 * @return {array} An array for WP native `locate_template()` function with paths where we need to search for the $template_name.
+			 */
 			$template_locations = apply_filters( 'jb_save_email_templates_locations', $template_locations, $template_name, $template_path );
 
+			/** This filter is documented in includes/class-jb-functions.php */
 			$custom_path = apply_filters( 'jb_template_structure_custom_path', false, $template_name );
 			if ( false === $custom_path || ! is_dir( $custom_path ) ) {
 				$template_exists = locate_template( $template_locations );

@@ -54,11 +54,9 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 * @return string
 		 * @since 1.0
 		 */
-		public function job_post( $atts ) {
-			$default = apply_filters( 'jb_post_job_shortcode_default_atts', array() );
-
-			$atts = shortcode_atts( $default, $atts );
-			$atts = apply_filters( 'jb_post_job_shortcode_atts', $atts );
+		public function job_post( $atts = array() ) {
+			// there is possible to use 'shortcode_atts_jb_post_job' filter for getting customized $atts
+			$atts = shortcode_atts( array(), $atts, 'jb_post_job' );
 
 			add_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10, 1 );
 
@@ -362,17 +360,16 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		public function single_job( $atts ) {
-			$default = apply_filters(
-				'jb_job_shortcode_default_atts',
+		public function single_job( $atts = array() ) {
+			// there is possible to use 'shortcode_atts_jb_job' filter for getting customized $atts
+			$atts = shortcode_atts(
 				array(
 					'id'            => '',
 					'ignore_status' => false, // internal argument
-				)
+				),
+				$atts,
+				'jb_job'
 			);
-
-			$atts = shortcode_atts( $default, $atts );
-			$atts = apply_filters( 'jb_job_shortcode_atts', $atts );
 
 			if ( empty( $atts['id'] ) ) {
 				return '';
@@ -413,9 +410,9 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		public function jobs( $atts ) {
-			$default = apply_filters(
-				'jb_jobs_shortcode_default_atts',
+		public function jobs( $atts = array() ) {
+			// there is possible to use 'shortcode_atts_jb_jobs' filter for getting customized $atts
+			$atts = shortcode_atts(
 				array(
 					'employer-id'          => '',
 					'per-page'             => JB()->options()->get( 'jobs-list-pagination' ),
@@ -434,11 +431,10 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					'orderby'              => 'date',
 					'order'                => 'DESC',
 					'filled-only'          => false, //shortcode attribute only if attribute set 0||1
-				)
+				),
+				$atts,
+				'jb_jobs'
 			);
-
-			$atts = shortcode_atts( $default, $atts );
-			$atts = apply_filters( 'jb_jobs_shortcode_atts', $atts );
 
 			wp_enqueue_script( 'jb-jobs' );
 			wp_enqueue_style( 'jb-jobs' );
@@ -461,22 +457,20 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		public function jobs_dashboard( $atts ) {
-			$default = apply_filters( 'jb_jobs_dashboard_shortcode_default_atts', array() );
-
-			$atts = shortcode_atts( $default, $atts );
-
-			$atts['columns'] = apply_filters(
-				'jb_jobs_dashboard_header_columns',
+		public function jobs_dashboard( $atts = array() ) {
+			// there is possible to use 'shortcode_atts_jb_jobs_dashboard' filter for getting customized $atts
+			$atts = shortcode_atts(
 				array(
-					'title'   => __( 'Title', 'jobboardwp' ),
-					'status'  => __( 'Status', 'jobboardwp' ),
-					'posted'  => __( 'Posted', 'jobboardwp' ),
-					'expired' => __( 'Closing on', 'jobboardwp' ),
-				)
+					'columns' => array(
+						'title'   => __( 'Title', 'jobboardwp' ),
+						'status'  => __( 'Status', 'jobboardwp' ),
+						'posted'  => __( 'Posted', 'jobboardwp' ),
+						'expired' => __( 'Closing on', 'jobboardwp' ),
+					),
+				),
+				$atts,
+				'jb_jobs_dashboard'
 			);
-
-			$atts = apply_filters( 'jb_jobs_dashboard_shortcode_atts', $atts );
 
 			wp_enqueue_script( 'jb-jobs-dashboard' );
 			wp_enqueue_style( 'jb-jobs-dashboard' );
@@ -500,8 +494,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 * @since 1.0
 		 */
 		public function job_categories_list( $atts = array() ) {
-			$default = array();
-			$atts    = shortcode_atts( $default, $atts );
+			// there is possible to use 'shortcode_atts_jb_job_categories_list' filter for getting customized $atts
+			$atts = shortcode_atts( array(), $atts, 'jb_job_categories_list' );
 
 			wp_enqueue_script( 'jb-job-categories' );
 			wp_enqueue_style( 'jb-job-categories' );

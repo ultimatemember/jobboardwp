@@ -461,6 +461,16 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			add_filter( 'posts_search_orderby', array( &$this, 'relevance_search' ), 10, 2 );
 
+			/**
+			 * Filters the WP_Query arguments for getting jobs in the Job List.
+			 *
+			 * @since 1.0
+			 * @hook jb_get_jobs_query_args
+			 *
+			 * @param {array} $query_args Arguments for WP_Query.
+			 *
+			 * @return {array} Arguments for WP_Query.
+			 */
 			$query_args = apply_filters( 'jb_get_jobs_query_args', $query_args );
 
 			$get_posts  = new \WP_Query();
@@ -476,17 +486,6 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				foreach ( $jobs_query as $job_post ) {
 
 					$job_company_data = JB()->common()->job()->get_company_data( $job_post->ID );
-
-					$location      = JB()->common()->job()->get_location( $job_post->ID, true );
-					$location_type = get_post_meta( $job_post->ID, 'jb-location-type', true );
-
-					if ( '1' === $location_type && empty( $location ) ) {
-						$formatted_location = __( 'Remote', 'jobboardwp' );
-					} elseif ( empty( $location ) ) {
-						$formatted_location = __( 'Anywhere', 'jobboardwp' );
-					} else {
-						$formatted_location = $location;
-					}
 
 					$data_types = array();
 					$types      = wp_get_post_terms(
@@ -505,10 +504,24 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						);
 					}
 
+					$title = esc_html( get_the_title( $job_post ) );
+					$title = ! empty( $title ) ? $title : esc_html__( '(no title)', 'jobboardwp' );
+
+					/**
+					 * Filters the job data after getting it from WP_Query and prepare it for AJAX response. The referrer is Jobs List shortcode AJAX request.
+					 *
+					 * @since 1.0
+					 * @hook jb_jobs_job_data_response
+					 *
+					 * @param {array}   $job_data Job data prepared for AJAX response.
+					 * @param {WP_Post} $job_post Job Post object.
+					 *
+					 * @return {array} Job data prepared for AJAX response.
+					 */
 					$jobs[] = apply_filters(
 						'jb_jobs_job_data_response',
 						array(
-							'title'     => esc_html( get_the_title( $job_post ) ),
+							'title'     => $title,
 							'permalink' => get_permalink( $job_post ),
 							'date'      => esc_html( JB()->common()->job()->get_posted_date( $job_post->ID ) ),
 							'expires'   => esc_html( JB()->common()->job()->get_expiry_date( $job_post->ID ) ),
@@ -521,7 +534,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 								'instagram' => esc_html( $job_company_data['instagram'] ),
 							),
 							'logo'      => JB()->common()->job()->get_logo( $job_post->ID ),
-							'location'  => esc_html( $formatted_location ),
+							'location'  => wp_kses( JB()->common()->job()->get_location_link( $job_post->ID ), JB()->get_allowed_html( 'templates' ) ),
 							'types'     => $data_types,
 							'actions'   => array(),
 						),
@@ -530,6 +543,16 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 
+			/**
+			 * Filters the AJAX response when getting jobs for the jobs list.
+			 *
+			 * @since 1.0
+			 * @hook jb_jobs_list_response
+			 *
+			 * @param {array} $response AJAX response.
+			 *
+			 * @return {array} AJAX response.
+			 */
 			$response = apply_filters(
 				'jb_jobs_list_response',
 				array(
@@ -581,6 +604,16 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		public function get_categories() {
 			JB()->ajax()->check_nonce( 'jb-frontend-nonce' );
 
+			/**
+			 * Filters the `get_terms()` arguments when handle AJAX request for getting Job Categories.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_get_job_categories_args
+			 *
+			 * @param {array} $args array of the arguments. See the list of all arguments https://developer.wordpress.org/reference/classes/wp_term_query/__construct/#parameters
+			 *
+			 * @return {array} `get_terms()` arguments.
+			 */
 			$args = apply_filters(
 				'jb_get_job_categories_args',
 				array(
@@ -601,23 +634,22 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 					$terms[ $key ]->permalink = get_term_link( $term );
 				}
 			} else {
-				$args = apply_filters(
-					'jb_get_job_categories_args',
-					array(
-						'taxonomy'   => 'jb-job-category',
-						'hide_empty' => 0,
-						'get'        => 'all',
-					)
-				);
-
-				$terms = get_terms( $args );
-
 				foreach ( $terms as $key => $term ) {
 					$terms[ $key ]->level     = 0;
 					$terms[ $key ]->permalink = get_term_link( $term );
 				}
 			}
 
+			/**
+			 * Filters the AJAX response when getting job categories list.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_get_job_categories_response
+			 *
+			 * @param {array} $response AJAX response.
+			 *
+			 * @return {array} AJAX response.
+			 */
 			$response = apply_filters(
 				'jb_get_job_categories_response',
 				array(
@@ -656,6 +688,15 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			$result = wp_delete_post( $job_id, true );
 			if ( ! empty( $result ) ) {
+				/**
+				 * Fires after Job has been deleted.
+				 *
+				 * @since 1.1.0
+				 * @hook jb-after-job-delete
+				 *
+				 * @param {int}     $job_id    Deleted job ID.
+				 * @param {WP_Post} $post_data The deleted job's post object.
+				 */
 				do_action( 'jb-after-job-delete', $job_id, $result ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 				wp_send_json_success();
@@ -701,6 +742,15 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				$jobs   = array();
 				$jobs[] = $this->get_job_data( $job );
 
+				/**
+				 * Fires after Job has been filled.
+				 *
+				 * @since 1.1.0
+				 * @hook jb_fill_job
+				 *
+				 * @param {int}     $job_id Job ID.
+				 * @param {WP_Post} $job    The Job's post object.
+				 */
 				do_action( 'jb_fill_job', $job_id, $job );
 
 				wp_send_json_success( array( 'jobs' => $jobs ) );
@@ -746,6 +796,15 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				$jobs   = array();
 				$jobs[] = $this->get_job_data( $job );
 
+				/**
+				 * Fires after Job has been unfilled.
+				 *
+				 * @since 1.1.0
+				 * @hook jb_unfill_job
+				 *
+				 * @param {int}     $job_id Job ID.
+				 * @param {WP_Post} $job    The Job's post object.
+				 */
 				do_action( 'jb_unfill_job', $job_id, $job );
 
 				wp_send_json_success( array( 'jobs' => $jobs ) );
@@ -774,11 +833,25 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				$status       = JB()->common()->job()->is_filled( $job_post->ID ) ? 'filled' : 'not-filled';
 			}
 
+			$title = esc_html( get_the_title( $job_post ) );
+			$title = ! empty( $title ) ? $title : esc_html__( '(no title)', 'jobboardwp' );
+
+			/**
+			 * Filters the job data after getting it from WP_Query and prepare it for AJAX response. The referrer is Jobs Dashboard shortcode AJAX request.
+			 *
+			 * @since 1.0
+			 * @hook jb_job_dashboard_job_data_response
+			 *
+			 * @param {array}   $job_data Job data prepared for AJAX response.
+			 * @param {WP_Post} $job_post Job Post object.
+			 *
+			 * @return {array} Job data prepared for AJAX response.
+			 */
 			return apply_filters(
 				'jb_job_dashboard_job_data_response',
 				array(
 					'id'           => $job_post->ID,
-					'title'        => esc_html( get_the_title( $job_post ) ),
+					'title'        => $title,
 					'permalink'    => get_permalink( $job_post ),
 					'is_published' => 'publish' === $job_post->post_status,
 					'status_label' => $status_label,
@@ -813,6 +886,16 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				'posts_per_page' => -1,
 			);
 
+			/**
+			 * Filters the WP_Query arguments for getting jobs in the Jobs Dashboard.
+			 *
+			 * @since 1.0
+			 * @hook jb_get_employer_jobs_args
+			 *
+			 * @param {array} $args Arguments for WP_Query.
+			 *
+			 * @return {array} Arguments for WP_Query.
+			 */
 			$args = apply_filters( 'jb_get_employer_jobs_args', $args );
 
 			$jobs_query = $get_posts->query( $args );
@@ -824,6 +907,16 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 
+			/**
+			 * Filters the AJAX response when getting jobs list in jobs dashboard.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_job_dashboard_response
+			 *
+			 * @param {array} $response AJAX response.
+			 *
+			 * @return {array} AJAX response.
+			 */
 			$response = apply_filters(
 				'jb_job_dashboard_response',
 				array(
@@ -869,8 +962,18 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				);
 			}
 
+			/**
+			 * Filters the pagination results for the jobs list.
+			 *
+			 * @since 1.1.1
+			 * @hook jb_jobs_list_calculate_pagination_result
+			 *
+			 * @param {array} $result Pagination results.
+			 *
+			 * @return {array} Pagination results.
+			 */
 			return apply_filters(
-				'jb_jobs_dashboard_calculate_pagination_result',
+				'jb_jobs_list_calculate_pagination_result',
 				array(
 					'pages_to_show' => ( ! empty( $pages_to_show ) && count( $pages_to_show ) > 1 ) ? array_values( $pages_to_show ) : array(),
 					'current_page'  => $current_page,

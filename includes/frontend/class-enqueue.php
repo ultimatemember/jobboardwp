@@ -82,6 +82,16 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 					'nonce' => wp_create_nonce( 'jb-frontend-nonce' ),
 				)
 			);
+			/**
+			 * Filters the data array that needs to be localized inside frontend global JS.
+			 *
+			 * @since 1.0
+			 * @hook jb_enqueue_localize
+			 *
+			 * @param {array} $localize_data Array with some data for JS.
+			 *
+			 * @return {array} Data for localize in JS.
+			 */
 			$localize_data = apply_filters( 'jb_enqueue_localize', $localize_data );
 			wp_localize_script( 'jb-front-global', 'jb_front_data', $localize_data );
 
@@ -94,7 +104,17 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 				$jobs_deps[]  = 'jb-location-field';
 			}
 
-			$jobs_deps = apply_filters( 'jb-jobs-scripts-enqueue', $jobs_deps ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+			/**
+			 * Filters the 'jb-jobs' script dependencies array.
+			 *
+			 * @since 1.0
+			 * @hook jb_jobs_scripts_enqueue
+			 *
+			 * @param {array} $scripts Scripts dependencies.
+			 *
+			 * @return {array} Scripts dependencies.
+			 */
+			$jobs_deps = apply_filters( 'jb_jobs_scripts_enqueue', $jobs_deps );
 
 			wp_register_script( 'jb-front-forms', $this->js_url['frontend'] . 'forms' . JB()->scrips_prefix . '.js', $forms_deps, JB_VERSION, true );
 
@@ -109,6 +129,16 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 
 			wp_register_style( 'jb-helptip', $this->css_url['common'] . 'helptip' . JB()->scrips_prefix . '.css', array( 'dashicons', 'jquery-ui' ), JB_VERSION );
 
+			/**
+			 * Filters the 'jb-common' style dependencies array.
+			 *
+			 * @since 1.0
+			 * @hook jb_frontend_common_styles_deps
+			 *
+			 * @param {array} $styles Style dependencies.
+			 *
+			 * @return {array} Style dependencies.
+			 */
 			$common_frontend_deps = apply_filters( 'jb_frontend_common_styles_deps', array( 'select2', 'jb-helptip' ) );
 			wp_register_style( 'jb-common', $this->css_url['frontend'] . 'common' . JB()->scrips_prefix . '.css', $common_frontend_deps, JB_VERSION );
 

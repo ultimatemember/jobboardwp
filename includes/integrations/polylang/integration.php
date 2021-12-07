@@ -6,7 +6,7 @@
 /**
  * Get default and current locales.
  *
- * @since  3.0
+ * @since 1.1.1
  *
  * @return array
  */
@@ -352,6 +352,7 @@ function jb_polylang_get_status_html( $template, $code ) {
 		trailingslashit( $template_path ) . $template_name,
 	);
 
+	/** This filter is documented in includes/class-jb-functions.php */
 	$template_locations = apply_filters( 'jb_pre_template_locations', $template_locations, $template_name, $template_path );
 
 	// build multisite blog_ids priority paths
@@ -368,6 +369,7 @@ function jb_polylang_get_status_html( $template, $code ) {
 		$template_locations = array_merge( $ms_template_locations, $template_locations );
 	}
 
+	/** This filter is documented in includes/class-jb-functions.php */
 	$template_locations = apply_filters( 'jb_template_locations', $template_locations, $template_name, $template_path );
 	$template_locations = array_map( 'wp_normalize_path', $template_locations );
 
@@ -379,6 +381,7 @@ function jb_polylang_get_status_html( $template, $code ) {
 
 	PLL()->curlang = $current_language;
 
+	/** This filter is documented in includes/class-jb-functions.php */
 	$custom_path = apply_filters( 'jb_template_structure_custom_path', false, $template_name );
 	if ( false === $custom_path || ! is_dir( $custom_path ) ) {
 		$template_exists = locate_template( $template_locations );

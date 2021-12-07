@@ -271,6 +271,16 @@ $job_details_fields = array_merge(
 	)
 );
 
+/**
+ * Filters the job meta fields in the metabox (Admin Dashboard > Add/Edit Job screen).
+ *
+ * @since 1.0
+ * @hook jb_job_details_metabox_fields
+ *
+ * @param {array} $fields Meta fields.
+ *
+ * @return {array} Meta fields.
+ */
 $fields = apply_filters( 'jb_job_details_metabox_fields', $job_details_fields );
 
 JB()->admin()->forms(

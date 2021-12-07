@@ -84,6 +84,16 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 				\WP_Filesystem( $credentials );
 			}
 
+			/**
+			 * Filters the maximum file age in the temp folder. By default it's 24 hours.
+			 *
+			 * @since 1.0
+			 * @hook jb_filesystem_max_file_age
+			 *
+			 * @param {int} $file_age Temp file age in seconds.
+			 *
+			 * @return {int} Temp file age in seconds.
+			 */
 			$file_age = apply_filters( 'jb_filesystem_max_file_age', 24 * 3600 ); // Temp file age in seconds
 
 			if ( ! $wp_filesystem->is_dir( $this->temp_upload_dir ) ) {

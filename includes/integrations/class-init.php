@@ -67,6 +67,20 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 			// jobboardwp/{site locale}/emails/job_approved.php
 			$template_locations_pre = $template_locations;
 
+			/**
+			 * Filters the template locations array for WP native `locate_template()` function.
+			 *
+			 * Note: Internal JobBoardWP hook for getting individual multilingual location in the common integration function.
+			 *
+			 * @since 1.1.1
+			 * @hook jb_pre_template_locations_common_locale_integration
+			 *
+			 * @param {array}  $template_locations Template locations array for WP native `locate_template()` function.
+			 * @param {string} $template_name      Template name.
+			 * @param {string} $template_path      Template path. (default: '').
+			 *
+			 * @return {array} An array for WP native `locate_template()` function with paths where we need to search for the $template_name.
+			 */
 			$template_locations = apply_filters( 'jb_pre_template_locations_common_locale_integration', $template_locations, $template_name, $template_path );
 
 			// use the user_locale only for email notifications templates

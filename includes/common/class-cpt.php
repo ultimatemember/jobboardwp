@@ -100,6 +100,16 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 				),
 			);
 
+			/**
+			 * Filters the custom post types (CPT) list that will be created when JobBoardWP is active.
+			 *
+			 * @since 1.0
+			 * @hook jb_cpt_list
+			 *
+			 * @param {array} $cpt CPT data.
+			 *
+			 * @return {array} CPT data.
+			 */
 			return apply_filters( 'jb_cpt_list', $cpt );
 		}
 
@@ -205,6 +215,16 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 				);
 			}
 
+			/**
+			 * Filters the custom taxonomies list that will be created when JobBoardWP is active.
+			 *
+			 * @since 1.0
+			 * @hook jb_taxonomies_list
+			 *
+			 * @param {array} $taxonomies Taxonomies data.
+			 *
+			 * @return {array} Taxonomies data.
+			 */
 			return apply_filters( 'jb_taxonomies_list', $taxonomies );
 		}
 
@@ -239,6 +259,16 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 				),
 			);
 
+			/**
+			 * Filters the custom post statuses list that will be initialized when JobBoardWP is active.
+			 *
+			 * @since 1.0
+			 * @hook jb_post_statuses
+			 *
+			 * @param {array} $statuses Statuses data.
+			 *
+			 * @return {array} Statuses data.
+			 */
 			return apply_filters( 'jb_post_statuses', $statuses );
 		}
 

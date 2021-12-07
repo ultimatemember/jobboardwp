@@ -87,6 +87,16 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 					'nonce' => wp_create_nonce( 'jb-backend-nonce' ),
 				)
 			);
+			/**
+			 * Filters the data array that needs to be localized inside wp-admin global JS.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_admin_enqueue_localize
+			 *
+			 * @param {array} $localize_data Array with some data for JS.
+			 *
+			 * @return {array} Data for localize in JS.
+			 */
 			$localize_data = apply_filters( 'jb_admin_enqueue_localize', $localize_data );
 			wp_localize_script( 'jb-global', 'jb_admin_data', $localize_data );
 

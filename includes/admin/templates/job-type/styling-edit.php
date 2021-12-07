@@ -2,6 +2,7 @@
 	exit;
 }
 
+/** This filter is documented in includes/admin/templates/job-type/styling-create.php */
 $fields = apply_filters(
 	'jb_job_type_styling',
 	array(

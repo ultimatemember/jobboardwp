@@ -92,7 +92,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 					/**
 					 * Fires before displaying job data on front.
 					 *
-					 * Note: When the "Job Template" setting = "WordPress native post template"
+					 * Note: When the "Job Template" setting = "WordPress native post template".
 					 *
 					 * @since 1.1.0
 					 * @hook jb_before_job_content
@@ -148,7 +148,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 					/**
 					 * Fires after displaying job data on front.
 					 *
-					 * Note: When the "Job Template" setting = "WordPress native post template"
+					 * Note: When the "Job Template" setting = "WordPress native post template".
 					 *
 					 * @since 1.1.0
 					 * @hook jb_after_job_content
@@ -277,16 +277,25 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 					add_action( 'wp_head', array( &$this, 'on_wp_head_finish' ), 99999999 );
 					add_filter( 'the_content', array( &$this, 'cpt_content' ), 10, 1 );
 					add_filter( 'post_class', array( &$this, 'hidden_title_class' ), 10, 1 );
-
-					return apply_filters( 'jb_template_include', $t );
 				} else {
 					$t              = get_template_directory() . DIRECTORY_SEPARATOR . 'jobboardwp' . DIRECTORY_SEPARATOR . $template_setting . '.php';
 					$child_template = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'jobboardwp' . DIRECTORY_SEPARATOR . $template_setting . '.php';
 					if ( file_exists( $child_template ) ) {
 						$t = $child_template;
 					}
-					return apply_filters( 'jb_template_include', $t );
 				}
+
+				/**
+				 * Filters the individual job page template.
+				 *
+				 * @since 1.0
+				 * @hook jb_template_include
+				 *
+				 * @param {string} $template Path to the individual job page template.
+				 *
+				 * @return {array} Path to the individual job page template.
+				 */
+				return apply_filters( 'jb_template_include', $t );
 			}
 
 			return $template;

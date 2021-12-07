@@ -264,10 +264,12 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 					if ( 'jb-is-filled' === $meta_key ) {
 						if ( ! empty( $v ) ) {
 							if ( ! JB()->common()->job()->is_filled( $post_id ) ) {
+								/** This action is documented in includes/ajax/class-jobs.php */
 								do_action( 'jb_fill_job', $post_id, $post );
 							}
 						} else {
 							if ( JB()->common()->job()->is_filled( $post_id ) ) {
+								/** This action is documented in includes/ajax/class-jobs.php */
 								do_action( 'jb_unfill_job', $post_id, $post );
 							}
 						}
@@ -276,6 +278,18 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 					if ( 'jb-expiry-date' === $meta_key ) {
 						if ( empty( $v ) ) {
 							if ( JB()->options()->get( 'individual-job-duration' ) ) {
+								/**
+								 * Filters the default individual job expiration date.
+								 *
+								 * Note: It works only in case if the expiration date has been empty in the posting form.
+								 *
+								 * @since 1.1.0
+								 * @hook jb_default_individual_expiry
+								 *
+								 * @param {string} $expiration_date Default Job expiration date. It's '' by default and job is unexpired.
+								 *
+								 * @return {string} Job expiration date.
+								 */
 								$v = apply_filters( 'jb_default_individual_expiry', '' );
 							} else {
 								$v = JB()->common()->job()->calculate_expiry();
@@ -286,6 +300,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 							if ( $current_time >= $date ) {
 								global $wpdb;
 								$wpdb->update( $wpdb->posts, array( 'post_status' => 'jb-expired' ), array( 'ID' => $post_id ), array( '%s' ), array( '%d' ) );
+								/** This action is documented in includes/common/class-job.php */
 								do_action( 'jb_job_is_expired', $post_id );
 							}
 						}

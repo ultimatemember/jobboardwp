@@ -10,6 +10,16 @@ $list_table = new jb\admin\Emails_List_Table(
 	)
 );
 
+/**
+ * Filters the columns of the ListTable on the JobBoardWP > Settings > Email screen.
+ *
+ * @since 1.1.0
+ * @hook jb_email_templates_columns
+ *
+ * @param {array} $columns Email ListTable columns.
+ *
+ * @return {array} Email ListTable columns.
+ */
 $columns = apply_filters(
 	'jb_email_templates_columns',
 	array(

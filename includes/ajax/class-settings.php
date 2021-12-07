@@ -36,8 +36,19 @@ if ( ! class_exists( 'jb\ajax\Settings' ) ) {
 			$search_query = ! empty( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : '';
 			$paged        = ! empty( $_GET['page'] ) ? absint( $_GET['page'] ) : 1;
 
+			/**
+			 * Filters the predefined pages list in dropdown results.
+			 *
+			 * Note: It's an internal hook for integration with multilingual plugins.
+			 *
+			 * @since 1.1.1
+			 * @hook jb_admin_settings_get_pages_list
+			 *
+			 * @param {bool|array} $pre_result `false` or WP_Query results with the list of the pages.
+			 *
+			 * @return {bool|array} WP_Query results with the list of the pages. Otherwise `false`.
+			 */
 			$pre_result = apply_filters( 'jb_admin_settings_get_pages_list', false );
-
 			if ( false === $pre_result ) {
 				// you can use WP_Query, query_posts() or get_posts() here - it doesn't matter
 				$search_results = new \WP_Query(

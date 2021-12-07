@@ -41,6 +41,20 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 
 			$message = ob_get_clean();
 
+			/**
+			 * Filters the email notification content before sending it.
+			 *
+			 * Note: placeholders like {site_name}, etc. will be replaced later.
+			 *
+			 * @since 1.0
+			 * @hook jb_email_template_content
+			 *
+			 * @param {string} $message Email notification content.
+			 * @param {string} $slug    Email notification key.
+			 * @param {array}  $args    Arguments passed to the function. There can be data to replace placeholders.
+			 *
+			 * @return {string} Email notification content.
+			 */
 			$message = apply_filters( 'jb_email_template_content', $message, $slug, $args );
 
 			// Convert tags in email template
@@ -67,14 +81,52 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 				return;
 			}
 
+			/**
+			 * Fires before sending email notification via JobBoardWP plugin.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_before_email_notification_sending
+			 *
+			 * @param {string} $email    Recipient email address.
+			 * @param {string} $template Email template key.
+			 * @param {array}  $args     Passed into the `send()` function arguments. There can be data to replace placeholders.
+			 */
 			do_action( 'jb_before_email_notification_sending', $email, $template, $args );
 
-			$attachments  = null;
+			$attachments = null;
+
+			/**
+			 * Filters the email notification content type that is used in email header.
+			 *
+			 * @since 1.0
+			 * @hook jb_email_template_content_type
+			 *
+			 * @param {string} $content_type Content type string. It's "text/plain" by default.
+			 * @param {string} $template     Email notification key.
+			 * @param {array}  $args         Arguments passed to the function. There can be data to replace placeholders.
+			 * @param {string} $email        Recipient's email address.
+			 *
+			 * @return {string} Content type string.
+			 */
 			$content_type = apply_filters( 'jb_email_template_content_type', 'text/plain', $template, $args, $email );
 
 			$headers  = 'From: ' . JB()->options()->get( 'mail_from' ) . ' <' . JB()->options()->get( 'mail_from_addr' ) . '>' . "\r\n";
 			$headers .= "Content-Type: {$content_type}\r\n";
 
+			/**
+			 * Filters the email notification subject before sending it.
+			 *
+			 * Note: This filter is internally used for getting translated subject before sending email notification.
+			 *
+			 * @since 1.0
+			 * @hook jb_email_send_subject
+			 *
+			 * @param {string} $subject  Email notification subject.
+			 * @param {string} $template Email notification key.
+			 * @param {string} $email    Recipient's email address.
+			 *
+			 * @return {string} Email notification subject.
+			 */
 			$subject = apply_filters( 'jb_email_send_subject', JB()->options()->get( $template . '_sub' ), $template, $email );
 			$subject = $this->replace_placeholders( $subject, $args );
 
@@ -83,6 +135,16 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 			// Send mail
 			wp_mail( $email, $subject, html_entity_decode( $message ), $headers, $attachments );
 
+			/**
+			 * Fires after sending email notification via JobBoardWP plugin.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_after_email_notification_sending
+			 *
+			 * @param {string} $email    Recipient email address.
+			 * @param {string} $template Email template key.
+			 * @param {array}  $args     Passed into the `send()` function arguments. There can be data to replace placeholders.
+			 */
 			do_action( 'jb_after_email_notification_sending', $email, $template, $args );
 		}
 
@@ -144,11 +206,35 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 
 			$tags[] = '{site_url}';
 			$tags[] = '{site_name}';
-			$tags   = apply_filters( 'jb-mail-placeholders', $tags, $args ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+
+			/**
+			 * Filters the email notification placeholders tags. You may add your custom placeholders tags here.
+			 *
+			 * @since 1.0
+			 * @hook jb_mail_placeholders
+			 *
+			 * @param {array} $tags Email notification placeholders list.
+			 * @param {array} $args Arguments passed to the function. There can be data to replace placeholders.
+			 *
+			 * @return {array} Email notification placeholders list.
+			 */
+			$tags = apply_filters( 'jb_mail_placeholders', $tags, $args );
 
 			$tags_replace[] = get_bloginfo( 'url' );
 			$tags_replace[] = get_bloginfo( 'blogname' );
-			$tags_replace   = apply_filters( 'jb-mail-replace-placeholders', $tags_replace, $args ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+
+			/**
+			 * Filters the email notification replace placeholders tags. You may add your custom placeholders tags here.
+			 *
+			 * @since 1.0
+			 * @hook jb_mail_replace_placeholders
+			 *
+			 * @param {array} $tags_replace Email notification replace placeholders list.
+			 * @param {array} $args         Arguments passed to the function. There can be data to replace placeholders.
+			 *
+			 * @return {array} Email notification replace placeholders list.
+			 */
+			$tags_replace = apply_filters( 'jb_mail_replace_placeholders', $tags_replace, $args );
 
 			$content = str_replace( $tags, $tags_replace, $content );
 			return $content;

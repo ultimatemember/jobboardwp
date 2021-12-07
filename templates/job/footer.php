@@ -53,7 +53,17 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 					</div>
 				</div>
 				<div class="jb-job-after-apply-wrapper">
-					<?php do_action( 'jb_after_job_apply_block', $job_id ); ?>
+					<?php
+					/**
+					 * Fires after displaying "Apply" wrapper on the individual Job page.
+					 *
+					 * @since 1.1.0
+					 * @hook jb_after_job_apply_block
+					 *
+					 * @param {int} $job_id Job ID.
+					 */
+					do_action( 'jb_after_job_apply_block', $job_id );
+					?>
 				</div>
 			<?php } ?>
 		</div>

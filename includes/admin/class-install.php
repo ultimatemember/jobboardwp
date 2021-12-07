@@ -269,12 +269,9 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 				return;
 			}
 
-			$content = ! empty( $data['content'] ) ? $data['content'] : '';
-			$content = apply_filters( 'jb_setup_predefined_page_content', $content, $slug );
-
 			$user_page = array(
 				'post_title'     => $data['title'],
-				'post_content'   => $content,
+				'post_content'   => ! empty( $data['content'] ) ? $data['content'] : '',
 				'post_name'      => $slug,
 				'post_type'      => 'page',
 				'post_status'    => 'publish',

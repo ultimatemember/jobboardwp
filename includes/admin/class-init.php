@@ -40,6 +40,15 @@ if ( ! class_exists( 'jb\admin\Init' ) ) {
 			// phpcs:disable WordPress.Security.NonceVerification -- don't need verifying there just the information about locale from JS to AJAX handlers
 			if ( ! empty( $_REQUEST['jb_current_locale'] ) ) {
 				$locale = sanitize_key( $_REQUEST['jb_current_locale'] );
+				/**
+				 * Fires for applying current locale via 3rd-party plugins.
+				 * Note: It's internal hook, but you could use it for you custom 3rd-party integrations where locale is used.
+				 *
+				 * @since 1.1.1
+				 * @hook jb_admin_init_locale
+				 *
+				 * @param {string} $locale Current locale from $_REQUEST.
+				 */
 				do_action( 'jb_admin_init_locale', $locale );
 			}
 			// phpcs:enable WordPress.Security.NonceVerification

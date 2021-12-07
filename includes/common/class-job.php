@@ -356,6 +356,17 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			$company_facebook  = get_post_meta( $job_id, 'jb-company-facebook', true );
 			$company_instagram = get_post_meta( $job_id, 'jb-company-instagram', true );
 
+			/**
+			 * Filters the company data.
+			 *
+			 * @since 1.1.0
+			 * @hook jb-job-company-data
+			 *
+			 * @param {array} $company_data Job's company data.
+			 * @param {int}   $job_id       Job ID passed into the function.
+			 *
+			 * @return {array} Maybe modified job's company data.
+			 */
 			$company_data = apply_filters(
 				'jb-job-company-data', // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 				array(
@@ -493,6 +504,17 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				$can_applied = true;
 			}
 
+			/**
+			 * Filters the ability of the job can be applied.
+			 *
+			 * @since 1.0
+			 * @hook jb_can_applied_job
+			 *
+			 * @param {bool} $can_applied Can a job be applied? Set it to the `true` if a job can be applied.
+			 * @param {int}  $job_id      Job ID passed into the function.
+			 *
+			 * @return {bool} Can a job be applied?
+			 */
 			$can_applied = apply_filters( 'jb_can_applied_job', $can_applied, $job_id );
 
 			return $can_applied;
@@ -583,8 +605,18 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				$response['category'] = $job_categories;
 			}
 
-			// phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
-			$response = apply_filters( 'jb-job-raw-data', $response, $job_id );
+			/**
+			 * Filters the job raw data.
+			 *
+			 * @since 1.0
+			 * @hook jb-job-raw-data
+			 *
+			 * @param {array} $response Job's raw data.
+			 * @param {int}   $job_id   Job ID passed into the function.
+			 *
+			 * @return {array} Job data in raw format.
+			 */
+			$response = apply_filters( 'jb-job-raw-data', $response, $job_id ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 			return $response;
 		}
@@ -791,8 +823,18 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				}
 			}
 
-			// phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
-			return apply_filters( 'jb-job-structured-data', $data, $job );
+			/**
+			 * Filters the job structured data.
+			 *
+			 * @since 1.1.0
+			 * @hook jb-job-structured-data
+			 *
+			 * @param {array}   $data Job's structured data.
+			 * @param {WP_Post} $job  Job post object.
+			 *
+			 * @return {array} Job data in raw format.
+			 */
+			return apply_filters( 'jb-job-structured-data', $data, $job ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		}
 
 
@@ -829,8 +871,18 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				$address = false;
 			}
 
-			// phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
-			return apply_filters( 'jb-job-location-structured-data', $address, $job );
+			/**
+			 * Filters the job location structured data.
+			 *
+			 * @since 1.0
+			 * @hook jb-job-location-structured-data
+			 *
+			 * @param {array}   $address Job location structured data.
+			 * @param {WP_Post} $job  Job post object.
+			 *
+			 * @return {array} Job data in raw format.
+			 */
+			return apply_filters( 'jb-job-location-structured-data', $address, $job ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		}
 
 
@@ -965,26 +1017,39 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 					$job_data['post_status'] = 'jb-expired';
 					wp_update_post( $job_data );
 
+					/**
+					 * Fires after Job has been expired.
+					 *
+					 * @since 1.1.0
+					 * @hook jb_job_is_expired
+					 *
+					 * @param {int} $job_id Job ID.
+					 */
 					do_action( 'jb_job_is_expired', $job_id );
 				}
 			}
 
 			// Delete old expired jobs.
-
 			/**
 			 * Set whether or not we should delete expired jobs after a certain amount of time.
 			 *
-			 * @since 1.0.0
+			 * @since 1.0
+			 * @hook jb_cron_delete_expired_jobs
 			 *
-			 * @param bool $delete_expired_jobs Whether we should delete expired jobs after a certain amount of time. Defaults to false.
+			 * @param {bool} $address Whether we should delete expired jobs after a certain amount of time. Defaults to false.
+			 *
+			 * @return {bool} Delete expired jobs if set to true.
 			 */
 			if ( apply_filters( 'jb_cron_delete_expired_jobs', false ) ) {
 				/**
-				 * Days to preserve expired job listings before deleting them.
+				 * Filters days to preserve expired job listings before deleting them.
 				 *
-				 * @since 1.0.0
+				 * @since 1.0
+				 * @hook jb_cron_delete_expired_jobs_days
 				 *
-				 * @param int $delete_expired_jobs_days Number of days to preserve expired job listings before deleting them.
+				 * @param {int} $delete_expired_jobs_days Number of days to preserve expired job posts before deleting them. Defaults to 30 days.
+				 *
+				 * @return {int} Number of days to preserve expired job.
 				 */
 				$delete_expired_jobs_days = apply_filters( 'jb_cron_delete_expired_jobs_days', 30 );
 
@@ -1262,6 +1327,58 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			}
 
 			return array_values( $structured_terms );
+		}
+
+
+		/**
+		 * @param \WP_Post $job
+		 *
+		 * @return bool
+		 */
+		public function approve_job( $job ) {
+			if ( 'pending' !== $job->post_status ) {
+				return false;
+			}
+
+			$job_id = $job->ID;
+
+			$args = array(
+				'ID'          => $job_id,
+				'post_status' => 'publish',
+			);
+
+			// a fix for restored from trash pending jobs
+			if ( '__trashed' === substr( $job->post_name, 0, 9 ) ) {
+				$args['post_name'] = sanitize_title( $job->post_title );
+			}
+
+			wp_update_post( $args );
+
+			delete_post_meta( $job_id, 'jb-had-pending' );
+
+			$job  = get_post( $job_id );
+			$user = get_userdata( $job->post_author );
+			if ( ! empty( $user ) && ! is_wp_error( $user ) ) {
+				$email_args = array(
+					'job_id'       => $job_id,
+					'job_title'    => $job->post_title,
+					'view_job_url' => get_permalink( $job ),
+				);
+				JB()->common()->mail()->send( $user->user_email, 'job_approved', $email_args );
+			}
+
+			/**
+			 * Fires after Job has been approved.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_job_is_approved
+			 *
+			 * @param {int}     $post_id Post ID.
+			 * @param {WP_Post} $post    The post object.
+			 */
+			do_action( 'jb_job_is_approved', $job_id, $job );
+
+			return true;
 		}
 	}
 }

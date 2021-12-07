@@ -16,5 +16,15 @@ JB()->get_template_part( 'js/job-categories-list' ); ?>
 		</div>
 	</div>
 	<div class="jb-job-categories-wrapper"></div>
-	<?php do_action( 'jb_job_categories_footer', $jb_job_categories ); ?>
+	<?php
+	/**
+	 * Fires in the job categories list footer.
+	 *
+	 * @since 1.1.0
+	 * @hook jb_job_categories_footer
+	 *
+	 * @param {array} $args Arguments passed into template.
+	 */
+	do_action( 'jb_job_categories_footer', $jb_job_categories );
+	?>
 </div>

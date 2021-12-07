@@ -164,6 +164,18 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				}
 			}
 
+			/**
+			 * Filters the state when JobBoardWP form opening tag <form> must be moved to the 3rd-party handler.
+			 *
+			 * Note: It's used internally for displaying "My Details" section on the Job Posting form.
+			 *
+			 * @since 1.0
+			 * @hook jb_forms_move_form_tag
+			 *
+			 * @param {bool} $move_form_tag Whether we should move the form opening tag <form>. Defaults to false.
+			 *
+			 * @return {bool} If true, the form opening tag <form> must be displayed in the 3rd-party callback.
+			 */
 			$move_form_tag = apply_filters( 'jb_forms_move_form_tag', false );
 
 			if ( ! $move_form_tag ) {
@@ -319,6 +331,18 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				$html .= '<h3 class="jb-form-section-title">' . $data['title'] . '</h3>';
 			}
 
+			/**
+			 * Filters the section content before its render.
+			 *
+			 * @since 1.0
+			 * @hook jb_forms_before_render_section
+			 *
+			 * @param {string}         $html         Default HTML before the section render start. It's <h3> title by default.
+			 * @param {array}          $section_data Section data.
+			 * @param {array}          $form_data    Frontend form data.
+			 *
+			 * @return {string} Custom HTML before the rendered section.
+			 */
 			$html = apply_filters( 'jb_forms_before_render_section', $html, $data, $this->form_data );
 
 			if ( ! empty( $data['wrap_fields'] ) ) {
@@ -453,7 +477,18 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$id       = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $data['id'];
 			$for_attr = ' for="' . $id . '" ';
 
-			$label        = $data['label'];
+			$label = $data['label'];
+
+			/**
+			 * Filters the condition for disabling the "required" star in the form field label.
+			 *
+			 * @since 1.0
+			 * @hook jb_frontend_forms_required_star_disabled
+			 *
+			 * @param {bool} $disable_star Whether we should disable the "required" star in the form field label. Defaults to false.
+			 *
+			 * @return {bool} If true, the "required" star will be hidden.
+			 */
 			$disable_star = apply_filters( 'jb_frontend_forms_required_star_disabled', false );
 			if ( ! empty( $data['required'] ) && ! $disable_star ) {
 				$label = $label . '<span class="jb-req" title="' . esc_attr__( 'Required', 'jobboardwp' ) . '">*</span>';
@@ -867,6 +902,17 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				}
 			);
 
+			/**
+			 * Filters the WP_Editor options.
+			 *
+			 * @since 1.0
+			 * @hook jb_content_editor_options
+			 *
+			 * @param {array} $editor_settings WP_Editor field's settings. See the all settings here https://developer.wordpress.org/reference/classes/_wp_editors/parse_settings/#parameters
+			 * @param {array} $field_data      Frontend form's field data.
+			 *
+			 * @return {array} WP_Editor field's settings.
+			 */
 			$editor_settings = apply_filters(
 				'jb_content_editor_options',
 				array(
@@ -884,7 +930,8 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 														textarea.val( content ).trigger( 'keyup' ).trigger( 'keypress' ).trigger( 'keydown' ).trigger( 'change' ).trigger( 'paste' ).trigger( 'mouseover' );
 													});}",
 					),
-				)
+				),
+				$field_data
 			);
 
 			ob_start();
@@ -911,6 +958,18 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		 */
 		public function filter_mce_buttons( $mce_buttons, $editor_id ) {
 			$mce_buttons = array_diff( $mce_buttons, array( 'alignright', 'alignleft', 'aligncenter', 'wp_adv', 'wp_more', 'fullscreen', 'formatselect', 'spellchecker' ) );
+			/**
+			 * Filters the WP_Editor MCE buttons list.
+			 *
+			 * @since 1.0
+			 * @hook jb_rich_text_editor_buttons
+			 *
+			 * @param {array}             $mce_buttons TinyMCE buttons. See the list of buttons here https://developer.wordpress.org/reference/hooks/mce_buttons/
+			 * @param {string}            $editor_id   WP_Editor ID.
+			 * @param {jb\frontend\forms} $form        Frontend form class instance.
+			 *
+			 * @return {array} TinyMCE buttons.
+			 */
 			$mce_buttons = apply_filters( 'jb_rich_text_editor_buttons', $mce_buttons, $editor_id, $this );
 
 			return $mce_buttons;
@@ -976,9 +1035,30 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				if ( ! isset( $this->errors['global'] ) ) {
 					$this->errors['global'] = array();
 				}
+				/**
+				 * Filters the frontend form global errors.
+				 *
+				 * @since 1.0
+				 * @hook jb_form_global_error
+				 *
+				 * @param {string} $text Global error text.
+				 *
+				 * @return {string} Custom singular global error.
+				 */
 				$this->errors['global'][] = apply_filters( 'jb_form_global_error', $text );
 			} else {
 				if ( ! isset( $this->errors[ $field ] ) ) {
+					/**
+					 * Filters the frontend form error related to the field.
+					 *
+					 * @since 1.0
+					 * @hook jb_form_error
+					 *
+					 * @param {string} $text  Error text.
+					 * @param {string} $field Field ID. E.g. 'company_name', etc.
+					 *
+					 * @return {string} Error text.
+					 */
 					$this->errors[ $field ] = apply_filters( 'jb_form_error', $text, $field );
 				}
 			}
@@ -994,6 +1074,17 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		 * @since 1.0
 		 */
 		public function add_notice( $text, $key ) {
+			/**
+			 * Filters the frontend form notices based on the notice key.
+			 *
+			 * @since 1.0
+			 * @hook jb_form_notice
+			 *
+			 * @param {string} $text Notice text.
+			 * @param {string} $key  Notice key. E.g. 'on-moderation', etc.
+			 *
+			 * @return {string} Notice text.
+			 */
 			$this->notices[ $key ] = apply_filters( 'jb_form_notice', $text, $key );
 		}
 

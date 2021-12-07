@@ -191,6 +191,16 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 		public function init_variables() {
 			JB()->scrips_prefix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
+			/**
+			 * Filters the data array that needs to be localized inside wp-admin or frontend global JS.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_common_js_variables
+			 *
+			 * @param {array} $localize_data Array with some data for JS.
+			 *
+			 * @return {array} Data for localize in JS.
+			 */
 			$this->common_localize = apply_filters(
 				'jb_common_js_variables',
 				array(

@@ -33,6 +33,14 @@ $current_page = ( ! empty( $_GET['jb-page'] ) && is_numeric( $_GET['jb-page'] ) 
 
 	JB()->get_template_part( 'jobs/list', $jb_jobs_wrapper );
 
+	/**
+	 * Fires in Jobs List footer below the list.
+	 *
+	 * @since 1.0
+	 * @hook jb_jobs_head_after
+	 *
+	 * @param {array} $args Arguments passed into template.
+	 */
 	do_action( 'jb_jobs_footer', $jb_jobs_wrapper );
 	?>
 </div>

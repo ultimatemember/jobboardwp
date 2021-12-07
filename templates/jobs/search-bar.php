@@ -10,7 +10,18 @@
 
 <div class="jb-jobs-header">
 
-	<?php /** @noinspection PhpUndefinedVariableInspection */ do_action( 'jb_jobs_head_before', $jb_jobs_search_bar ); ?>
+	<?php
+	/** @noinspection PhpUndefinedVariableInspection */
+	/**
+	 * Fires before displaying Jobs List header with search bar and filters.
+	 *
+	 * @since 1.1.0
+	 * @hook jb_jobs_head_before
+	 *
+	 * @param {array} $args Arguments passed into template.
+	 */
+	do_action( 'jb_jobs_head_before', $jb_jobs_search_bar );
+	?>
 
 	<?php if ( ! $jb_jobs_search_bar['hide-search'] || ! $jb_jobs_search_bar['hide-location-search'] ) { ?>
 
@@ -81,6 +92,16 @@
 			</label>
 
 			<?php
+			/**
+			 * Filters the `get_terms()` arguments when displaying Job Types dropdown on the Jobs List filters.
+			 *
+			 * @since 1.0
+			 * @hook jb_jobs_list_type_filter_args
+			 *
+			 * @param {array} $args array of the arguments. See the list of all arguments https://developer.wordpress.org/reference/classes/wp_term_query/__construct/#parameters
+			 *
+			 * @return {array} `get_terms()` arguments.
+			 */
 			$type_args = apply_filters(
 				'jb_jobs_list_type_filter_args',
 				array(
@@ -109,18 +130,27 @@
 				if ( empty( $jb_jobs_search_bar['category'] ) ) {
 					$job_category = ! empty( $_GET['jb-job-category'] ) ? sanitize_text_field( $_GET['jb-job-category'] ) : '';
 
-					$cat_args   = apply_filters(
+					/**
+					 * Filters the `get_terms()` arguments when displaying Job Categories dropdown on the Jobs List filters.
+					 *
+					 * @since 1.0
+					 * @hook jb_jobs_list_category_filter_args
+					 *
+					 * @param {array} $args array of the arguments. See the list of all arguments https://developer.wordpress.org/reference/classes/wp_term_query/__construct/#parameters
+					 *
+					 * @return {array} `get_terms()` arguments.
+					 */
+					$cat_args = apply_filters(
 						'jb_jobs_list_category_filter_args',
 						array(
 							'taxonomy'   => 'jb-job-category',
 							'hide_empty' => false, // set as TRUE to make visible only not-empty Job Categories
 						)
 					);
-					$categories = get_terms( $cat_args );
 
+					$categories   = get_terms( $cat_args );
 					$cat_children = _get_term_hierarchy( 'jb-job-category' );
-
-					$categories = JB()->common()->job()->prepare_categories_options( $categories, $cat_children );
+					$categories   = JB()->common()->job()->prepare_categories_options( $categories, $cat_children );
 
 					if ( ! empty( $categories ) ) {
 						?>
@@ -142,6 +172,14 @@
 		<?php
 	}
 
+	/**
+	 * Fires after displaying Jobs List header with search bar and filters.
+	 *
+	 * @since 1.1.0
+	 * @hook jb_jobs_head_after
+	 *
+	 * @param {array} $args Arguments passed into template.
+	 */
 	do_action( 'jb_jobs_head_after', $jb_jobs_search_bar );
 	?>
 </div>

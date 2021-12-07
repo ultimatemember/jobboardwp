@@ -77,34 +77,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 							}
 
 							if ( ! empty( $job ) && ! is_wp_error( $job ) ) {
-								if ( 'pending' === $job->post_status ) {
-									$args = array(
-										'ID'          => $job_id,
-										'post_status' => 'publish',
-									);
-
-									// a fix for restored from trash pending jobs
-									if ( '__trashed' === substr( $job->post_name, 0, 9 ) ) {
-										$args['post_name'] = sanitize_title( $job->post_title );
-									}
-
-									wp_update_post( $args );
-
-									delete_post_meta( $job_id, 'jb-had-pending' );
-
-									$job  = get_post( $job_id );
-									$user = get_userdata( $job->post_author );
-									if ( ! empty( $user ) && ! is_wp_error( $user ) ) {
-										$email_args = array(
-											'job_id'       => $job_id,
-											'job_title'    => $job->post_title,
-											'view_job_url' => get_permalink( $job ),
-										);
-										JB()->common()->mail()->send( $user->user_email, 'job_approved', $email_args );
-									}
-
-									do_action( 'jb_job_is_approved', $job_id, $job );
-
+								if ( JB()->common()->job()->approve_job( $job ) ) {
 									// phpcs:ignore WordPress.Security.SafeRedirect
 									wp_redirect( add_query_arg( array( 'jb-approved' => '1' ), $referrer ) );
 									exit;

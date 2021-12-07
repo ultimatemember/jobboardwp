@@ -103,7 +103,7 @@ if ( ! class_exists( 'JB' ) ) {
 		/**
 		 * Define JobBoardWP Constants.
 		 *
-		 * @since 3.0
+		 * @since 1.1.1
 		 */
 		private function define_constants() {
 			$this->define( 'JB_TEMPLATE_CONFLICT_TEST', false );
@@ -145,11 +145,41 @@ if ( ! class_exists( 'JB' ) ) {
 		 */
 		public function localize() {
 			$language_locale = ( '' !== get_locale() ) ? get_locale() : 'en_US';
+			/**
+			 * Filters the language locale before loading textdomain.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_language_locale
+			 *
+			 * @param {string} $language_locale Current language locale.
+			 *
+			 * @return {string} Maybe changed language locale.
+			 */
 			$language_locale = apply_filters( 'jb_language_locale', $language_locale );
 
+			/**
+			 * Filters the plugin's textdomain.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_language_textdomain
+			 *
+			 * @param {string} $textdomain Plugin's textdomain.
+			 *
+			 * @return {string} Maybe changed plugin's textdomain.
+			 */
 			$language_domain = apply_filters( 'jb_language_textdomain', 'jobboardwp' );
 
 			$language_file = WP_LANG_DIR . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $language_domain . '-' . $language_locale . '.mo';
+			/**
+			 * Filters the path to the language file (*.mo).
+			 *
+			 * @since 1.1.0
+			 * @hook jb_language_file
+			 *
+			 * @param {string} $language_file Default path to the language file.
+			 *
+			 * @return {string} Language file path.
+			 */
 			$language_file = apply_filters( 'jb_language_file', $language_file );
 
 			load_textdomain( $language_domain, $language_file );

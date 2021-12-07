@@ -213,48 +213,13 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				$app_ids = array();
 				foreach ( $post_ids as $post_id ) {
 					$post = get_post( $post_id );
-					if ( 'pending' !== $post->post_status ) {
+					if ( ! JB()->common()->job()->approve_job( $post ) ) {
 						continue;
 					}
+
 					$app_ids[] = $post_id;
-
-					$args = array(
-						'ID'          => $post_id,
-						'post_status' => 'publish',
-					);
-
-					// a fix for restored from trash pending jobs
-					if ( '__trashed' === substr( $post->post_name, 0, 9 ) ) {
-						$args['post_name'] = sanitize_title( $post->post_title );
-					}
-
-					wp_update_post( $args );
-
-					delete_post_meta( $post_id, 'jb-had-pending' );
-
-					$post = get_post( $post_id );
-					$user = get_userdata( $post->post_author );
-					if ( ! empty( $user ) && ! is_wp_error( $user ) ) {
-						$mail_args = array(
-							'job_id'       => $post_id,
-							'job_title'    => $post->post_title,
-							'view_job_url' => get_permalink( $post ),
-						);
-						JB()->common()->mail()->send( $user->user_email, 'job_approved', $mail_args );
-					}
-
-					/**
-					 * Fires after Job has been approved.
-					 *
-					 * @since 1.1.0
-					 * @hook jb_job_is_approved
-					 *
-					 * @param {int}     $post_id Post ID.
-					 * @param {WP_Post} $post    The post object.
-					 */
-					do_action( 'jb_job_is_approved', $post_id, $post );
 				}
-				$redirect_to = add_query_arg( 'jb-approved', count( $post_ids ), remove_query_arg( 'jb-deleted', $redirect_to ) );
+				$redirect_to = add_query_arg( 'jb-approved', count( $app_ids ), remove_query_arg( 'jb-deleted', $redirect_to ) );
 			} elseif ( 'jb-delete' === $doaction ) {
 				foreach ( $post_ids as $post_id ) {
 					wp_delete_post( $post_id, true );
@@ -379,6 +344,17 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				unset( $additional_columns['category'] );
 			}
 
+			/**
+			 * Filters the Jobs ListTable columns on wp-admin JobBoardWP > Jobs screen.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_admin_jobs_listtable_columns
+			 *
+			 * @param {array} $additional_columns Customized ListTable columns. There are all columns related to JobBoardWP.
+			 * @param {array} $columns            Default ListTable columns.
+			 *
+			 * @return {array} Jobs ListTable columns.
+			 */
 			return apply_filters( 'jb_admin_jobs_listtable_columns', $additional_columns, $columns );
 		}
 

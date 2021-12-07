@@ -6,7 +6,7 @@
 /**
  * Get default and current locales.
  *
- * @since  3.0
+ * @since 1.1.1
  *
  * @return array
  */

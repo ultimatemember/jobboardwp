@@ -207,11 +207,31 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							'first_name' => $author_fname,
 							'last_name'  => $author_lname,
 						);
+						/**
+						 * Filters the userdata after creating user account when posting a new job.
+						 *
+						 * Note: Validation already passed!
+						 *
+						 * @since 1.0
+						 * @hook jb_job_submission_create_account_data
+						 *
+						 * @param {array} $userdata Userdata based on the submitted form. See the list of all arguments https://developer.wordpress.org/reference/functions/wp_insert_user/#parameters
+						 *
+						 * @return {array} Userdata.
+						 */
 						$userdata = apply_filters( 'jb_job_submission_create_account_data', $userdata );
 
 						$user_id = wp_insert_user( $userdata );
 
 						if ( ! is_wp_error( $user_id ) ) {
+							/**
+							 * Fires after creating user account when posting a new job.
+							 *
+							 * @since 1.1.0
+							 * @hook jb_job_submission_after_create_account
+							 *
+							 * @param {int} $user_id Created User ID.
+							 */
 							do_action( 'jb_job_submission_after_create_account', $user_id );
 						}
 
@@ -306,11 +326,13 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								'first_name' => $author_fname,
 								'last_name'  => $author_lname,
 							);
+							/** This action is documented in includes/frontend/class-actions-listener.php */
 							$userdata = apply_filters( 'jb_job_submission_create_account_data', $userdata );
 
 							$user_id = wp_insert_user( $userdata );
 
 							if ( ! is_wp_error( $user_id ) ) {
+								/** This action is documented in includes/frontend/class-actions-listener.php */
 								do_action( 'jb_job_submission_after_create_account', $user_id );
 							}
 
@@ -362,13 +384,26 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 					}
 
 					if ( ! $posting_form->has_errors() ) {
-						// Create account.
+						// Update account.
 						$userdata = array(
 							'ID'         => $user_id,
 							'user_email' => $author_email,
 							'first_name' => $author_fname,
 							'last_name'  => $author_lname,
 						);
+
+						/**
+						 * Filters the userdata after updating user account when posting a new job.
+						 *
+						 * Note: Validation already passed!
+						 *
+						 * @since 1.0
+						 * @hook jb_job_submission_update_account_data
+						 *
+						 * @param {array} $userdata Userdata based on the submitted form. See the list of all arguments https://developer.wordpress.org/reference/functions/wp_insert_user/#parameters
+						 *
+						 * @return {array} Userdata.
+						 */
 						$userdata = apply_filters( 'jb_job_submission_update_account_data', $userdata );
 
 						wp_update_user( $userdata );
@@ -689,11 +724,23 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							}
 						}
 
+						/**
+						 * Fires after JobBoardWP native job submission validations are completed.
+						 *
+						 * Note: Use this hook for adding custom validations to your Job Post form.
+						 *
+						 * @since 1.1.0
+						 * @hook jb-job-submission-validation
+						 *
+						 * @param {jb\frontend\Forms} $posting_form Created User ID.
+						 * @param {int}               $user_id      Job author ID.
+						 */
 						do_action( 'jb-job-submission-validation', $posting_form, $user_id ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 						if ( ! $posting_form->has_errors() ) {
 
 							if ( JB()->options()->get( 'individual-job-duration' ) ) {
+								/** This filter is documented in includes/admin/class-metabox.php */
 								$expiry = apply_filters( 'jb_default_individual_expiry', '' );
 								$expiry = ! empty( $_POST['job_expire'] ) ? gmdate( 'Y-m-d', strtotime( sanitize_text_field( $_POST['job_expire'] ) ) ) : $expiry;
 							} else {
@@ -723,6 +770,19 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								'meta_input'   => $meta_input,
 							);
 
+							/**
+							 * Filters the job post data after when posting a new job or update existed.
+							 *
+							 * Note: Validation already passed!
+							 *
+							 * @since 1.0
+							 * @hook jb_job_submitted_data
+							 *
+							 * @param {array}             $job_data     Job post data. See the list of all arguments https://developer.wordpress.org/reference/functions/wp_insert_post/#parameters
+							 * @param {jb\frontend\forms} $posting_form Frontend form class instance.
+							 *
+							 * @return {array} Job post data.
+							 */
 							$job_data = apply_filters( 'jb_job_submitted_data', $job_data, $posting_form );
 
 							if ( ! empty( $_GET['job-id'] ) ) {
@@ -788,7 +848,19 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								}
 
 								if ( ! $is_edited ) {
-									// set company data meta for the current user only on the job creation
+									/**
+									 * Filters the company data meta for the current user only when posting a new job.
+									 *
+									 * Note: Job post is created on this moment. Validation already passed!
+									 *
+									 * @since 1.0
+									 * @hook jb-save-job-user-company-data
+									 *
+									 * @param {array} $company_data Company data for the user meta.
+									 * @param {int}   $job_id       Created Job postID.
+									 *
+									 * @return {array} Company data.
+									 */
 									$company_data = apply_filters(
 										'jb-save-job-user-company-data', // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 										array(
@@ -908,6 +980,15 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 										}
 									}
 
+									/**
+									 * Fires after Job has been edited.
+									 *
+									 * @since 1.1.0
+									 * @hook jb_job_edited
+									 *
+									 * @param {int}     $job_id Job post ID.
+									 * @param {WP_Post} $job    Job post object.
+									 */
 									do_action( 'jb_job_edited', $job_id, $job );
 
 								} else {
@@ -939,6 +1020,15 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 										}
 									}
 
+									/**
+									 * Fires after Job has been published.
+									 *
+									 * @since 1.1.0
+									 * @hook jb_job_published
+									 *
+									 * @param {int}     $job_id Job post ID.
+									 * @param {WP_Post} $job    Job post object.
+									 */
 									do_action( 'jb_job_published', $job_id, $job );
 								}
 

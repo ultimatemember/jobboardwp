@@ -110,6 +110,20 @@ if ( ! class_exists( 'jb\admin\Emails_List_Table' ) ) {
 			if ( isset( $item[ $column_name ] ) ) {
 				return $item[ $column_name ];
 			} else {
+				/**
+				 * Filters the Email Templates ListTable custom column content.
+				 *
+				 * Note: It's used internally for adding multilingual plugins support to Email Templates ListTable.
+				 *
+				 * @since 1.1.0
+				 * @hook jb_emails_list_table_custom_column_content
+				 *
+				 * @param {string} $column_content Email Templates ListTable custom column content. It's '' by default.
+				 * @param {array}  $item           ListTable row item.
+				 * @param {string} $column_name    Column name.
+				 *
+				 * @return {string} Email Templates ListTable custom column content.
+				 */
 				return apply_filters( 'jb_emails_list_table_custom_column_content', '', $item, $column_name );
 			}
 		}

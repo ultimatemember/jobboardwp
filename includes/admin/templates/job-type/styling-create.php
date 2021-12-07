@@ -4,6 +4,16 @@
 
 $data = array();
 
+/**
+ * Filters the job type meta fields in the metabox (Admin Dashboard > Add/Edit Job Type screen).
+ *
+ * @since 1.0
+ * @hook jb_job_type_styling
+ *
+ * @param {array} $fields Meta fields.
+ *
+ * @return {array} Meta fields.
+ */
 $fields = apply_filters(
 	'jb_job_type_styling',
 	array(

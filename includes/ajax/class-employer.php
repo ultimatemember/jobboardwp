@@ -72,6 +72,16 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 				$filename = uniqid( 'file_' );
 			}
 
+			/**
+			 * Filters the MIME-types of the images that can be uploaded as Company Logo.
+			 *
+			 * @since 1.0
+			 * @hook jb_uploading_logo_mime_types
+			 *
+			 * @param {array} $mime_types MIME types.
+			 *
+			 * @return {array} MIME types.
+			 */
 			$mimes = apply_filters(
 				'jb_uploading_logo_mime_types',
 				array(

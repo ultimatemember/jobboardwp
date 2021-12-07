@@ -49,6 +49,18 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 		 * @since 1.0
 		 */
 		public function init_variables() {
+			/**
+			 * Filters the jobs list filters.
+			 *
+			 * Note: The filters structure is 'filter_key' => 'filter_title'.
+			 *
+			 * @since 1.0
+			 * @hook jb_jobs_directory_filters
+			 *
+			 * @param {array} $filters Jobs list filters.
+			 *
+			 * @return {array} Jobs list filters.
+			 */
 			$this->filters = apply_filters(
 				'jb_jobs_directory_filters',
 				array(
@@ -57,6 +69,18 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 				)
 			);
 
+			/**
+			 * Filters the jobs list filters' types.
+			 *
+			 * Note: The filters structure is 'filter_key' => 'filter_type'.
+			 *
+			 * @since 1.0
+			 * @hook jb_jobs_directory_filter_types
+			 *
+			 * @param {array} $filter_types Jobs list filters' types.
+			 *
+			 * @return {array} Jobs list filters' types.
+			 */
 			$this->filter_types = apply_filters(
 				'jb_jobs_directory_filter_types',
 				array(
@@ -123,6 +147,16 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 
 			switch ( $this->filter_types[ $filter ] ) {
 				default:
+					/**
+					 * Fires when showing custom filter type on the jobs list.
+					 *
+					 * Note: $type can be 'slider', 'text', etc. 'select' is used by default and has own handler.
+					 *
+					 * @since 1.0
+					 * @hook jb_jobs_filter_type_{$type}
+					 *
+					 * @param {string} $filter Filter's field key.
+					 */
 					do_action( "jb_jobs_filter_type_{$this->filter_types[ $filter ]}", $filter );
 					break;
 				case 'select':
