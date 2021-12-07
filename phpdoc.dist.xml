@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<phpdoc>
+<phpdocumentor
+		configVersion="3"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns="https://www.phpdoc.org"
+		xsi:noNamespaceSchemaLocation="https://docs.phpdoc.org/latest/phpdoc.xsd">
 	<title>JobBoardWP - PHPDoc Documentation</title>
-	<parser>
-		<target>docs/phpdoc</target>
-	</parser>
-
-	<transformer>
-		<target>docs/phpdoc</target>
-	</transformer>
-	<files>
-		<directory>includes</directory>
-		<directory>templates</directory>
-	</files>
-</phpdoc>
+	<paths>
+		<output>docs/phpdoc</output>
+		<cache>docs/phpdoc/cache</cache>
+	</paths>
+	<version number="1.0.0">
+		<api>
+			<source dsn=".">
+				<path>includes</path>
+				<path>templates</path>
+			</source>
+		</api>
+	</version>
+</phpdocumentor>

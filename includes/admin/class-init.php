@@ -149,7 +149,7 @@ if ( ! class_exists( 'jb\admin\Init' ) ) {
 		/**
 		 * @since 1.0
 		 *
-		 * @return Actions_Listener()
+		 * @return Columns()
 		 */
 		public function columns() {
 			if ( empty( JB()->classes['jb\admin\columns'] ) ) {
