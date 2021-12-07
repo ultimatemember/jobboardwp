@@ -732,8 +732,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 						 * @since 1.1.0
 						 * @hook jb-job-submission-validation
 						 *
-						 * @param {jb\frontend\Forms} $posting_form Created User ID.
-						 * @param {int}               $user_id      Job author ID.
+						 * @param {\jb\frontend\Forms} $posting_form Created User ID.
+						 * @param {int}                $user_id      Job author ID.
 						 */
 						do_action( 'jb-job-submission-validation', $posting_form, $user_id ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
@@ -778,8 +778,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							 * @since 1.0
 							 * @hook jb_job_submitted_data
 							 *
-							 * @param {array}             $job_data     Job post data. See the list of all arguments https://developer.wordpress.org/reference/functions/wp_insert_post/#parameters
-							 * @param {jb\frontend\forms} $posting_form Frontend form class instance.
+							 * @param {array}              $job_data     Job post data. See the list of all arguments https://developer.wordpress.org/reference/functions/wp_insert_post/#parameters
+							 * @param {\jb\frontend\Forms} $posting_form Frontend form class instance.
 							 *
 							 * @return {array} Job post data.
 							 */

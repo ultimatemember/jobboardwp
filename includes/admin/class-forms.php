@@ -288,10 +288,10 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			 * @since 1.1.0
 			 * @hook jb_render_field_type_{$field_type}
 			 *
-			 * @param {string}         $content   Field content. It's '' by default.
-			 * @param {array}          $data      Field data.
-			 * @param {array}          $form_data Admin form data.
-			 * @param {jb\admin\forms} $form      Admin form class instance.
+			 * @param {string}          $content   Field content. It's '' by default.
+			 * @param {array}           $data      Field data.
+			 * @param {array}           $form_data Admin form data.
+			 * @param {\jb\admin\Forms} $form      Admin form class instance.
 			 *
 			 * @return {string} Rendered custom field content.
 			 */

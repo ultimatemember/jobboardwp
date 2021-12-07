@@ -964,9 +964,9 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			 * @since 1.0
 			 * @hook jb_rich_text_editor_buttons
 			 *
-			 * @param {array}             $mce_buttons TinyMCE buttons. See the list of buttons here https://developer.wordpress.org/reference/hooks/mce_buttons/
-			 * @param {string}            $editor_id   WP_Editor ID.
-			 * @param {jb\frontend\forms} $form        Frontend form class instance.
+			 * @param {array}              $mce_buttons TinyMCE buttons. See the list of buttons here https://developer.wordpress.org/reference/hooks/mce_buttons/
+			 * @param {string}             $editor_id   WP_Editor ID.
+			 * @param {\jb\frontend\Forms} $form        Frontend form class instance.
 			 *
 			 * @return {array} TinyMCE buttons.
 			 */
