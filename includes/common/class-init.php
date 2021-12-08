@@ -51,7 +51,7 @@ if ( ! class_exists( 'jb\common\Init' ) ) {
 		/**
 		 * @since 1.0
 		 *
-		 * @return Cron()
+		 * @return Cron
 		 */
 		public function cron() {
 			if ( empty( JB()->classes['jb\common\cron'] ) ) {

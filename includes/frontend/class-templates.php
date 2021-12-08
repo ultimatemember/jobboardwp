@@ -17,13 +17,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 
 		/**
-		 * @var
-		 */
-		public $preloader_styles;
-
-
-		/**
-		 * @var
+		 * @var bool
 		 */
 		public $template_replaced = false;
 

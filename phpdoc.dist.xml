@@ -4,7 +4,7 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xmlns="https://www.phpdoc.org"
 		xsi:noNamespaceSchemaLocation="https://docs.phpdoc.org/latest/phpdoc.xsd">
-	<title>JobBoardWP - PHPDoc Documentation</title>
+	<title>JobBoardWP - PHPDoc</title>
 	<paths>
 		<output>docs/phpdoc</output>
 		<cache>docs/phpdoc/cache</cache>

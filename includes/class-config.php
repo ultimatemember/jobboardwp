@@ -23,37 +23,37 @@ if ( ! class_exists( 'jb\Config' ) ) {
 
 
 		/**
-		 * @var
+		 * @var array
 		 */
 		public $custom_roles;
 
 
 		/**
-		 * @var
+		 * @var array
 		 */
 		public $all_caps;
 
 
 		/**
-		 * @var
+		 * @var array
 		 */
 		public $capabilities_map;
 
 
 		/**
-		 * @var
+		 * @var array
 		 */
 		public $permalink_options;
 
 
 		/**
-		 * @var
+		 * @var array
 		 */
 		public $predefined_pages;
 
 
 		/**
-		 * @var
+		 * @var array
 		 */
 		public $email_notifications;
 

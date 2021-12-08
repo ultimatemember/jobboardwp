@@ -86,7 +86,7 @@ if ( ! class_exists( 'jb\ajax\Init' ) ) {
 
 
 		/**
-		 * @return Notices()
+		 * @return Notices
 		 *
 		 * @since 1.0
 		 */
@@ -99,7 +99,7 @@ if ( ! class_exists( 'jb\ajax\Init' ) ) {
 
 
 		/**
-		 * @return Settings()
+		 * @return Settings
 		 *
 		 * @since 1.1.1
 		 */
@@ -112,7 +112,7 @@ if ( ! class_exists( 'jb\ajax\Init' ) ) {
 
 
 		/**
-		 * @return Jobs()
+		 * @return Jobs
 		 *
 		 * @since 1.0
 		 */
@@ -125,7 +125,7 @@ if ( ! class_exists( 'jb\ajax\Init' ) ) {
 
 
 		/**
-		 * @return Employer()
+		 * @return Employer
 		 *
 		 * @since 1.0
 		 */

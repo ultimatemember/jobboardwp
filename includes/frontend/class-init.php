@@ -120,7 +120,7 @@ if ( ! class_exists( 'jb\frontend\Init' ) ) {
 		/**
 		 * @since 1.0
 		 *
-		 * @return Actions_Listener()
+		 * @return Actions_Listener
 		 */
 		public function actions_listener() {
 			if ( empty( JB()->classes['jb\frontend\actions_listener'] ) ) {

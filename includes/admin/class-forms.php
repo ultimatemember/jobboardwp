@@ -40,7 +40,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 		 *
 		 * @param bool|array $data
 		 *
-		 * @return $this
+		 * @return self
 		 */
 		public function set_data( $data ) {
 			$this->form_data = $data;

@@ -140,7 +140,7 @@ if ( ! class_exists( 'jb\admin\Emails_List_Table' ) ) {
 		/**
 		 * @param array $args
 		 *
-		 * @return $this
+		 * @return self
 		 */
 		public function set_columns( $args = array() ) {
 			$this->columns = $args;

@@ -79,7 +79,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		 *
 		 * @param array $data
 		 *
-		 * @return $this
+		 * @return self
 		 *
 		 * @since 1.0
 		 */

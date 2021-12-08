@@ -84,7 +84,7 @@ if ( ! class_exists( 'jb\admin\Init' ) ) {
 		/**
 		 * @since 1.0
 		 *
-		 * @return Menu()
+		 * @return Menu
 		 */
 		public function menu() {
 			if ( empty( JB()->classes['jb\admin\menu'] ) ) {
@@ -97,7 +97,7 @@ if ( ! class_exists( 'jb\admin\Init' ) ) {
 		/**
 		 * @since 1.0
 		 *
-		 * @return Enqueue()
+		 * @return Enqueue
 		 */
 		public function enqueue() {
 			if ( empty( JB()->classes['jb\admin\enqueue'] ) ) {
@@ -110,7 +110,7 @@ if ( ! class_exists( 'jb\admin\Init' ) ) {
 		/**
 		 * @since 1.0
 		 *
-		 * @return Settings()
+		 * @return Settings
 		 */
 		public function settings() {
 			if ( empty( JB()->classes['jb\admin\settings'] ) ) {
@@ -123,7 +123,7 @@ if ( ! class_exists( 'jb\admin\Init' ) ) {
 		/**
 		 * @since 1.0
 		 *
-		 * @return Notices()
+		 * @return Notices
 		 */
 		public function notices() {
 			if ( empty( JB()->classes['jb\admin\notices'] ) ) {
@@ -136,7 +136,7 @@ if ( ! class_exists( 'jb\admin\Init' ) ) {
 		/**
 		 * @since 1.0
 		 *
-		 * @return Actions_Listener()
+		 * @return Actions_Listener
 		 */
 		public function actions_listener() {
 			if ( empty( JB()->classes['jb\admin\actions_listener'] ) ) {
@@ -149,7 +149,7 @@ if ( ! class_exists( 'jb\admin\Init' ) ) {
 		/**
 		 * @since 1.0
 		 *
-		 * @return Columns()
+		 * @return Columns
 		 */
 		public function columns() {
 			if ( empty( JB()->classes['jb\admin\columns'] ) ) {
@@ -162,7 +162,7 @@ if ( ! class_exists( 'jb\admin\Init' ) ) {
 		/**
 		 * @since 1.0
 		 *
-		 * @return Metabox()
+		 * @return Metabox
 		 */
 		public function metabox() {
 			if ( empty( JB()->classes['jb\admin\metabox'] ) ) {

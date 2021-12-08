@@ -18,6 +18,8 @@ jobs:
         run: |
           npm install
           npm run build:docs
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
       - name: PhpDocumentor
         uses: gpupo/actions-phpDocumentor@1.0
         with:

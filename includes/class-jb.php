@@ -35,7 +35,7 @@ if ( ! class_exists( 'JB' ) ) {
 		 * @since 1.0
 		 * @static
 		 * @see JB()
-		 * @return JB - Main instance
+		 * @return self
 		 */
 		public static function instance() {
 			if ( is_null( self::$instance ) ) {
