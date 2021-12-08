@@ -21,5 +21,5 @@
 			</extensions>
 		</api>
 	</version>
-	<template name="responsive-twig"/>
+	<template name="clean"/>
 </phpdocumentor>
