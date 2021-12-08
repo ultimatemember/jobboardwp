@@ -10,11 +10,16 @@
 		<cache>docs/phpdoc/cache</cache>
 	</paths>
 	<version number="1.0.0">
+		<folder>latest</folder>
 		<api>
 			<source dsn=".">
 				<path>includes</path>
 				<path>templates</path>
 			</source>
+			<extensions>
+				<extension>php</extension>
+			</extensions>
 		</api>
 	</version>
+	<template name="default"/>
 </phpdocumentor>

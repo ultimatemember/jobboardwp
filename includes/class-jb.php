@@ -16,7 +16,7 @@ if ( ! class_exists( 'JB' ) ) {
 
 
 		/**
-		 * @var JB the single instance of the class
+		 * @var self The single instance of the class
 		 */
 		private static $instance = null;
 
@@ -115,7 +115,7 @@ if ( ! class_exists( 'JB' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @param $class
+		 * @param string $class
 		 */
 		public function jb__autoloader( $class ) {
 			if ( strpos( $class, 'jb' ) === 0 ) {
@@ -210,7 +210,7 @@ if ( ! class_exists( 'JB' ) ) {
 		/**
 		 * @since 1.1.1
 		 *
-		 * @return jb\integrations\Init()
+		 * @return jb\integrations\Init
 		 */
 		public function integrations() {
 			return $this->call_class( 'jb\integrations\Init' );
@@ -234,7 +234,7 @@ if ( ! class_exists( 'JB' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @return jb\admin\Install()
+		 * @return jb\admin\Install
 		 */
 		public function install() {
 			return $this->call_class( 'jb\admin\Install' );
@@ -246,7 +246,7 @@ if ( ! class_exists( 'JB' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @return jb\common\Options()
+		 * @return jb\common\Options
 		 */
 		public function options() {
 			return $this->call_class( 'jb\common\Options' );
@@ -258,7 +258,7 @@ if ( ! class_exists( 'JB' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @return jb\common\Init()
+		 * @return jb\common\Init
 		 */
 		public function common() {
 			return $this->call_class( 'jb\common\Init' );
@@ -270,7 +270,7 @@ if ( ! class_exists( 'JB' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @return jb\admin\Init()
+		 * @return jb\admin\Init
 		 */
 		public function admin() {
 			return $this->call_class( 'jb\admin\Init' );
@@ -282,7 +282,7 @@ if ( ! class_exists( 'JB' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @return jb\frontend\Init()
+		 * @return jb\frontend\Init
 		 */
 		public function frontend() {
 			return $this->call_class( 'jb\frontend\Init' );
@@ -294,7 +294,7 @@ if ( ! class_exists( 'JB' ) ) {
 		 *
 		 * @since 1.0
 		 *
-		 * @return jb\ajax\Init()
+		 * @return jb\ajax\Init
 		 */
 		public function ajax() {
 			return $this->call_class( 'jb\ajax\Init' );
@@ -327,7 +327,7 @@ if ( ! class_exists( 'JB' ) ) {
  *
  * @since 1.0
  *
- * @return JB
+ * @return \JB
  */
 function JB() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	return JB::instance();
