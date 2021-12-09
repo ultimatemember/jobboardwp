@@ -494,15 +494,15 @@ add_filter( 'jb_email_send_subject', 'jb_change_email_subject_polylang', 10, 2 )
  * @return array
  */
 function jb_change_email_templates_locations_polylang( $template_locations ) {
-	$code         = pll_current_language();
-	$code_default = pll_default_language();
+	$code         = pll_current_language( 'locale' );
+	$code_default = pll_default_language( 'locale' );
 
 	if ( $code === $code_default ) {
 		return $template_locations;
 	}
 
 	foreach ( $template_locations as $k => $location ) {
-		if ( false === strstr( $location, $code ) ) {
+		if ( false === strstr( $location, DIRECTORY_SEPARATOR . $code . DIRECTORY_SEPARATOR ) ) {
 			unset( $template_locations[ $k ] );
 		}
 	}

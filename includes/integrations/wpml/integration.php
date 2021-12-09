@@ -556,7 +556,7 @@ function jb_change_email_templates_locations_wpml( $template_locations ) {
 
 	$locale = $sitepress->get_locale_from_language_code( $code );
 	foreach ( $template_locations as $k => $location ) {
-		if ( false === strstr( $location, $locale ) ) {
+		if ( false === strstr( $location, DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR ) ) {
 			unset( $template_locations[ $k ] );
 		}
 	}
