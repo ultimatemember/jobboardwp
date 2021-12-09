@@ -103,6 +103,12 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 == Changelog ==
 
+= 1.1.1: December xx, 2021 =
+
+* Templates required update:
+  - emails/job_edited.php
+  - emails/job_submitted.php
+
 = 1.1.0: November 11, 2021 =
 
 * Added: Breadcrumbs on the job page and option for disable them

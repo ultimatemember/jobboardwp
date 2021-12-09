@@ -968,7 +968,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									if ( ! empty( $emails ) ) {
 										foreach ( $emails as $email ) {
 											$user         = get_user_by( 'email', $email );
-											$current_user = $user; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- is needed for getting correct job content
+											$current_user = $user; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- is needed for getting correct job links in email content
 											JB()->common()->mail()->send(
 												$email,
 												'job_edited',
@@ -982,7 +982,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 												)
 											);
 										}
-										$current_user = $user_obj; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- is needed for getting correct job content
+										$current_user = $user_obj; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- is needed for getting correct job links in email content
 									}
 
 									/**

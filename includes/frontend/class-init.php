@@ -38,6 +38,7 @@ if ( ! class_exists( 'jb\frontend\Init' ) ) {
 		 * @since 1.0
 		 */
 		public function includes() {
+			$this->jobs_directory();
 			$this->enqueue();
 			$this->templates();
 			$this->shortcodes();
