@@ -9,4 +9,4 @@ The job listing {job_title} has been edited.
 
 View edited job: {view_job_url}
 Approve job edit: {approve_job_url}
-Trash job: {trash_job_url}
+Edit job: {edit_job_url}

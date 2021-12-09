@@ -9,4 +9,4 @@ A new job has been submitted:
 
 View job: {view_job_url}
 Approve job: {approve_job_url}
-Trash job: {trash_job_url}
+Edit job: {edit_job_url}
