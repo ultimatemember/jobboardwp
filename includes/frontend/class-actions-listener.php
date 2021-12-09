@@ -962,9 +962,13 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 										),
 										admin_url()
 									);
+									global $current_user;
+									$user_obj = $current_user;
 
 									if ( ! empty( $emails ) ) {
 										foreach ( $emails as $email ) {
+											$user         = get_user_by( 'email', $email );
+											$current_user = $user; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- is needed for getting correct job content
 											JB()->common()->mail()->send(
 												$email,
 												'job_edited',
@@ -974,10 +978,11 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 													'job_details'     => JB()->common()->mail()->get_job_details( $job ),
 													'view_job_url'    => get_permalink( $job ),
 													'approve_job_url' => $approve_job_url,
-													'trash_job_url'   => get_delete_post_link( $job_id ),
+													'edit_job_url'    => get_edit_post_link( $job_id ),
 												)
 											);
 										}
+										$current_user = $user_obj; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- is needed for getting correct job content
 									}
 
 									/**
@@ -1003,9 +1008,13 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 										),
 										admin_url()
 									);
+									global $current_user;
+									$user_obj = $current_user;
 
 									if ( ! empty( $emails ) ) {
 										foreach ( $emails as $email ) {
+											$user         = get_user_by( 'email', $email );
+											$current_user = $user; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- is needed for getting correct job content
 											JB()->common()->mail()->send(
 												$email,
 												'job_submitted',
@@ -1014,12 +1023,12 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 													'job_details'     => JB()->common()->mail()->get_job_details( $job ),
 													'view_job_url'    => get_permalink( $job ),
 													'approve_job_url' => $approve_job_url,
-													'trash_job_url'   => get_delete_post_link( $job_id ),
+													'edit_job_url'    => get_edit_post_link( $job_id ),
 												)
 											);
 										}
 									}
-
+									$current_user = $user_obj; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- is needed for getting correct job content
 									/**
 									 * Fires after Job has been published.
 									 *
