@@ -20,6 +20,57 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * Job constructor.
 		 */
 		public function __construct() {
+			add_action( 'pre_get_posts', array( &$this, 'jb_exclude_jobs' ), 99, 1 );
+		}
+
+
+		/**
+		 * Hide filled and expired jobs from archive pages
+		 *
+		 */
+		public function jb_exclude_jobs( $query ) {
+			if ( $query->is_main_query() ) {
+				$exclude_posts = array();
+				$hide_filled   = JB()->options()->get( 'jobs-list-hide-filled' );
+				if ( 1 === (int) $hide_filled ) {
+					$filled_ids    = get_posts(
+						array(
+							'post_type'      => 'jb-job',
+							'post_status'    => 'publish',
+							'fields'         => 'ids',
+							'posts_per_page' => - 1,
+							'meta_query'     => array(
+								'relation' => 'OR',
+								array(
+									'key'   => 'jb-is-filled',
+									'value' => true,
+								),
+								array(
+									'key'   => 'jb-is-filled',
+									'value' => 1,
+								),
+							),
+						)
+					);
+					$exclude_posts = array_merge( $exclude_posts, $filled_ids );
+				}
+
+				$hide_expired = JB()->options()->get( 'jobs-list-hide-expired' );
+				if ( 1 === (int) $hide_expired ) {
+					$expired_ids   = get_posts(
+						array(
+							'post_type'      => 'jb-job',
+							'post_status'    => 'jb-expired',
+							'fields'         => 'ids',
+							'posts_per_page' => - 1,
+						)
+					);
+					$exclude_posts = array_merge( $exclude_posts, $expired_ids );
+				}
+
+				$post__not_in = $query->get( 'post__not_in', array() );
+				$query->set( 'post__not_in', array_merge( wp_parse_id_list( $post__not_in ), $exclude_posts ) );
+			}
 		}
 
 
