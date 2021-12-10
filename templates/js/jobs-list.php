@@ -58,11 +58,13 @@
 								</div>
 							<# } #>
 
-							<# if ( job.category ) { #>
-								<div class="category">
-									{{{job.category}}}
-								</div>
-							<# } #>
+							<?php if ( JB()->options()->get( 'job-categories' ) ) { ?>
+								<# if ( job.category ) { #>
+									<div class="category">
+										{{{job.category}}}
+									</div>
+								<# } #>
+							<?php } ?>
 
 							<div class="jb-responsive jb-ui-s jb-ui-xs date" title="<?php esc_attr_e( 'Posted', 'jobboardwp' ); ?>">
 								<i class="far fa-calendar-alt"></i>

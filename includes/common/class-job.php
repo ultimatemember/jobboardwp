@@ -181,6 +181,10 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * @since 1.1.1
 		 */
 		public function get_job_category( $job_id ) {
+			if ( ! JB()->options()->get( 'job-categories' ) ) {
+				return '';
+			}
+
 			$terms = get_the_terms( $job_id, 'jb-job-category' );
 
 			if ( empty( $terms ) ) {

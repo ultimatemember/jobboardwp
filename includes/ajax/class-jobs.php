@@ -507,6 +507,29 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 					$title = esc_html( get_the_title( $job_post ) );
 					$title = ! empty( $title ) ? $title : esc_html__( '(no title)', 'jobboardwp' );
 
+					$job_data = array(
+						'title'     => $title,
+						'permalink' => get_permalink( $job_post ),
+						'date'      => esc_html( JB()->common()->job()->get_posted_date( $job_post->ID ) ),
+						'expires'   => esc_html( JB()->common()->job()->get_expiry_date( $job_post->ID ) ),
+						'company'   => array(
+							'name'      => esc_html( $job_company_data['name'] ),
+							'website'   => esc_url_raw( $job_company_data['website'] ),
+							'tagline'   => esc_html( $job_company_data['tagline'] ),
+							'twitter'   => esc_html( $job_company_data['twitter'] ),
+							'facebook'  => esc_html( $job_company_data['facebook'] ),
+							'instagram' => esc_html( $job_company_data['instagram'] ),
+						),
+						'logo'      => JB()->common()->job()->get_logo( $job_post->ID ),
+						'location'  => wp_kses( JB()->common()->job()->get_location_link( $job_post->ID ), JB()->get_allowed_html( 'templates' ) ),
+						'types'     => $data_types,
+						'actions'   => array(),
+					);
+
+					if ( JB()->options()->get( 'job-categories' ) ) {
+						$job_data['category'] = wp_kses( JB()->common()->job()->get_job_category( $job_post->ID ), JB()->get_allowed_html( 'templates' ) );
+					}
+
 					/**
 					 * Filters the job data after getting it from WP_Query and prepare it for AJAX response. The referrer is Jobs List shortcode AJAX request.
 					 *
@@ -518,29 +541,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 					 *
 					 * @return {array} Job data prepared for AJAX response.
 					 */
-					$jobs[] = apply_filters(
-						'jb_jobs_job_data_response',
-						array(
-							'title'     => $title,
-							'permalink' => get_permalink( $job_post ),
-							'date'      => esc_html( JB()->common()->job()->get_posted_date( $job_post->ID ) ),
-							'expires'   => esc_html( JB()->common()->job()->get_expiry_date( $job_post->ID ) ),
-							'company'   => array(
-								'name'      => esc_html( $job_company_data['name'] ),
-								'website'   => esc_url_raw( $job_company_data['website'] ),
-								'tagline'   => esc_html( $job_company_data['tagline'] ),
-								'twitter'   => esc_html( $job_company_data['twitter'] ),
-								'facebook'  => esc_html( $job_company_data['facebook'] ),
-								'instagram' => esc_html( $job_company_data['instagram'] ),
-							),
-							'logo'      => JB()->common()->job()->get_logo( $job_post->ID ),
-							'location'  => wp_kses( JB()->common()->job()->get_location_link( $job_post->ID ), JB()->get_allowed_html( 'templates' ) ),
-							'category'  => wp_kses( JB()->common()->job()->get_job_category( $job_post->ID ), JB()->get_allowed_html( 'templates' ) ),
-							'types'     => $data_types,
-							'actions'   => array(),
-						),
-						$job_post
-					);
+					$jobs[] = apply_filters( 'jb_jobs_job_data_response', $job_data, $job_post );
 				}
 			}
 
