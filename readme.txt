@@ -6,7 +6,7 @@ Tags: job, job board, job portal, job listing, job manager
 Requires PHP: 5.6
 Requires at least: 5.3
 Tested up to: 5.8
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -64,6 +64,8 @@ The plugin has been built to work with Google search by adding structured data t
 
 Got a problem or need help with JobBoardWP? Head over to our [documentation](http://docs.jobboardwp.com/) and perform a search of the knowledge base. If you can’t find a solution to your issue then you can create a topic on the [support forum](https://wordpress.org/support/plugin/jobboardwp/).
 
+Are you a developer and need help finding the right hooks or functions? You can visit the [developer documentation](https://ultimatemember.github.io/jobboardwp/) page.
+
 == Frequently Asked Questions ==
 
 = Where can I find JobBoardWP documentation and user guides? =
@@ -105,9 +107,34 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 = 1.1.1: December xx, 2021 =
 
+* Added: [Documentation](https://ultimatemember.github.io/jobboardwp/) for developers
+* Added: Integration with multilingual plugins (WPML, Polylang, TranslatePress, Weglot)
+  - Predefined pages integration
+  - Templates integration
+* Added: Displaying job category on the individual job page adn on the jobs list
+* Added: Ability to set individual job expired date when posting
+* Added: Validation for the Job Data metabox fields on the add/edit job screen in Admin Dashboard
+* Fixed: Hide filled and expired jobs on WordPress native archive pages. It's based on the Admin Dashboard > JobBoardWP > Settings > Jobs List settings
+* Fixed: Changed the placeholder {trash_job_url} to {edit_job_url}. There isn't possible to generate the proper trash link in the email
+* Fixed: Job location links based on Onsite/Remote/Onsite or Remote job meta
+* Fixed: Categories dropdown and displaying child categories in the dropdown
+* Fixed: Displaying posts/pages when link attached in the Job Description field on the posting form
+* Fixed: Issue with category attribute in the jobs list shortcode
+* Fixed: Dropdown.js library and
 * Templates required update:
+  - dashboard/jobs.php
+  - emails/base_wrapper.php
   - emails/job_edited.php
   - emails/job_submitted.php
+  - job/breadcrumbs.php
+  - job/footer.php
+  - job/info.php
+  - jobs/search-bar.php
+  - jobs/wrapper.php
+  - js/jobs-dashboard.php
+  - js/jobs-list.php
+  - job-categories.php
+  - job-submission.php
 
 = 1.1.0: November 11, 2021 =
 
