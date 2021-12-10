@@ -535,6 +535,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 							),
 							'logo'      => JB()->common()->job()->get_logo( $job_post->ID ),
 							'location'  => wp_kses( JB()->common()->job()->get_location_link( $job_post->ID ), JB()->get_allowed_html( 'templates' ) ),
+							'category'  => wp_kses( JB()->common()->job()->get_job_category( $job_post->ID ), JB()->get_allowed_html( 'templates' ) ),
 							'types'     => $data_types,
 							'actions'   => array(),
 						),

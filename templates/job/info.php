@@ -19,6 +19,9 @@ if ( ! empty( $jb_job_info['job_id'] ) ) {
 					<?php echo esc_html( JB()->common()->job()->get_posted_date( $job_id ) ); ?>
 				</time>
 			</div>
+			<div class="jb-job-cat">
+				<?php echo wp_kses( JB()->common()->job()->get_job_category( $job_id ), JB()->get_allowed_html( 'templates' ) ); ?>
+			</div>
 		</div>
 		<div class="jb-job-info-row jb-job-info-row-second">
 			<div class="jb-job-types">
