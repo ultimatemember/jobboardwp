@@ -172,6 +172,28 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Returns the job category.
+		 *
+		 * @param int $job_id Job post ID
+		 *
+		 * @return string
+		 *
+		 * @since 1.1.1
+		 */
+		public function get_job_category( $job_id ) {
+			$terms = get_the_terms( $job_id, 'jb-job-category' );
+
+			if ( empty( $terms ) ) {
+				return '';
+			}
+
+			$cat_html = '<i class="fas fa-list-alt"></i><a href="' . esc_url( get_term_link( $terms[0]->term_id, 'jb-job-category' ) ) . '">' . esc_html( $terms[0]->name ) . '</a>';
+
+			return $cat_html;
+		}
+
+
+		/**
 		 * Returns the job author.
 		 *
 		 * @param int $job_id Job post ID
