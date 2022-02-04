@@ -304,7 +304,7 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 			if ( ! empty( $messages ) ) {
 				foreach ( $messages as $message ) {
 					$this->add(
-						'wrong_pages',
+						'actions',
 						array(
 							'class'   => 'updated',
 							'message' => '<p>' . $message['content'] . '</p>',
