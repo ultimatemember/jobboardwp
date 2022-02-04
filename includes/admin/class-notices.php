@@ -289,7 +289,7 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 		 * @since 1.0
 		 */
 		public function show_update_messages() {
-			if ( ! isset( $_REQUEST['update'] ) ) {
+			if ( ! isset( $_REQUEST['update'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 				return;
 			}
 
@@ -299,7 +299,6 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 					$messages[0]['content'] = __( 'Settings updated successfully.', 'jobboardwp' );
 
 					break;
-				
 			}
 
 			if ( ! empty( $messages ) ) {
@@ -314,6 +313,6 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 					);
 				}
 			}
-        }
+		}
 	}
 }
