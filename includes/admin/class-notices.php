@@ -43,6 +43,7 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 		 */
 		public function create_list() {
 			$this->install_predefined_page_notice();
+			$this->show_update_messages();
 			/**
 			 * Fires when admin notices list is generated.
 			 * Note: It's internal hook that you could use for adding admin notices to JobBoardWP admin notices list.
@@ -279,6 +280,39 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 				),
 				20
 			);
+		}
+
+
+		/**
+		 * Notices
+		 *
+		 * @since 1.0
+		 */
+		public function show_update_messages() {
+			if ( ! isset( $_REQUEST['update'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+				return;
+			}
+
+			$update = sanitize_key( $_REQUEST['update'] ); // phpcs:ignore WordPress.Security.NonceVerification
+			switch ( $update ) {
+				case 'settings_updated':
+					$messages[0]['content'] = __( 'Settings updated successfully.', 'jobboardwp' );
+
+					break;
+			}
+
+			if ( ! empty( $messages ) ) {
+				foreach ( $messages as $message ) {
+					$this->add(
+						'actions',
+						array(
+							'class'   => 'updated',
+							'message' => '<p>' . $message['content'] . '</p>',
+						),
+						20
+					);
+				}
+			}
 		}
 	}
 }
