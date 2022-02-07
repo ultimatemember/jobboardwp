@@ -1,0 +1,1991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>JobBoardWP - PHPDoc</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="../js/html5.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src').replace( /\\/g, '/');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist, is empty or trying to view from localhost';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">JobBoardWP - PHPDoc</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/jb.html"><abbr title="\jb">normal</abbr></a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">2</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1054340188"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1054340188" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-101803910"></a>
+                                <a href="../namespaces/jb.html" style="margin-left: 30px; padding-left: 0">jb</a>
+            </div>
+            <div id="namespace-101803910" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1213030886"></a>
+                                <a href="../namespaces/jb-admin.html" style="margin-left: 30px; padding-left: 0">admin</a>
+            </div>
+            <div id="namespace-1213030886" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/jb-admin-Actions-Listener.html"><abbr title="\jb\admin\Actions_Listener">Actions_Listener</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-admin-Columns.html"><abbr title="\jb\admin\Columns">Columns</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-admin-Emails-List-Table.html"><abbr title="\jb\admin\Emails_List_Table">Emails_List_Table</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-admin-Enqueue.html"><abbr title="\jb\admin\Enqueue">Enqueue</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-admin-Forms.html"><abbr title="\jb\admin\Forms">Forms</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-admin-Init.html"><abbr title="\jb\admin\Init">Init</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-admin-Install.html"><abbr title="\jb\admin\Install">Install</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-admin-List-Table.html"><abbr title="\jb\admin\List_Table">List_Table</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-admin-Menu.html"><abbr title="\jb\admin\Menu">Menu</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-admin-Metabox.html"><abbr title="\jb\admin\Metabox">Metabox</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-admin-Notices.html"><abbr title="\jb\admin\Notices">Notices</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-admin-Settings.html"><abbr title="\jb\admin\Settings">Settings</abbr></a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1243655088"></a>
+                                <a href="../namespaces/jb-ajax.html" style="margin-left: 30px; padding-left: 0">ajax</a>
+            </div>
+            <div id="namespace-1243655088" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/jb-ajax-Employer.html"><abbr title="\jb\ajax\Employer">Employer</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-ajax-Init.html"><abbr title="\jb\ajax\Init">Init</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-ajax-Jobs.html"><abbr title="\jb\ajax\Jobs">Jobs</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-ajax-Notices.html"><abbr title="\jb\ajax\Notices">Notices</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-ajax-Settings.html"><abbr title="\jb\ajax\Settings">Settings</abbr></a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-8748636"></a>
+                                <a href="../namespaces/jb-common.html" style="margin-left: 30px; padding-left: 0">common</a>
+            </div>
+            <div id="namespace-8748636" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/jb-common-CPT.html"><abbr title="\jb\common\CPT">CPT</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-common-Cron.html"><abbr title="\jb\common\Cron">Cron</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-common-Enqueue.html"><abbr title="\jb\common\Enqueue">Enqueue</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-common-Filesystem.html"><abbr title="\jb\common\Filesystem">Filesystem</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-common-Init.html"><abbr title="\jb\common\Init">Init</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-common-Job.html"><abbr title="\jb\common\Job">Job</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-common-Mail.html"><abbr title="\jb\common\Mail">Mail</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-common-Options.html"><abbr title="\jb\common\Options">Options</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-common-Permalinks.html"><abbr title="\jb\common\Permalinks">Permalinks</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-common-Rewrite.html"><abbr title="\jb\common\Rewrite">Rewrite</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-common-User.html"><abbr title="\jb\common\User">User</abbr></a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-856019407"></a>
+                                <a href="../namespaces/jb-frontend.html" style="margin-left: 30px; padding-left: 0">frontend</a>
+            </div>
+            <div id="namespace-856019407" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/jb-frontend-Actions-Listener.html"><abbr title="\jb\frontend\Actions_Listener">Actions_Listener</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-frontend-Enqueue.html"><abbr title="\jb\frontend\Enqueue">Enqueue</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-frontend-Forms.html"><abbr title="\jb\frontend\Forms">Forms</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-frontend-Init.html"><abbr title="\jb\frontend\Init">Init</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-frontend-Jobs-Directory.html"><abbr title="\jb\frontend\Jobs_Directory">Jobs_Directory</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-frontend-Shortcodes.html"><abbr title="\jb\frontend\Shortcodes">Shortcodes</abbr></a></li>
+                                                    <li class="class"><a href="../classes/jb-frontend-Templates.html"><abbr title="\jb\frontend\Templates">Templates</abbr></a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2146267476"></a>
+                                <a href="../namespaces/jb-integrations.html" style="margin-left: 30px; padding-left: 0">integrations</a>
+            </div>
+            <div id="namespace-2146267476" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/jb-integrations-Init.html"><abbr title="\jb\integrations\Init">Init</abbr></a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/jb-Config.html"><abbr title="\jb\Config">Config</abbr></a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/JB.html"><abbr title="\JB">JB</abbr></a></li>
+                                                    <li class="class"><a href="../classes/JB-Functions.html"><abbr title="\JB_Functions">JB_Functions</abbr></a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/default.html"><abbr title="\">normal</abbr></a> <i class="icon-level-up"></i>
+                                            </nav>
+                    
+                    <h1><small>\</small>JB</h1>
+                    <p><em>Main JB Class</em></p>
+                    
+                    
+                                        
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/JB-Functions.html#method_is_request" class="">is_request()</a><br />
+                                                                    <a href="../classes/JB-Functions.html#method_helptip" class="">helptip()</a><br />
+                                                                    <a href="../classes/JB-Functions.html#method_get_allowed_html" class="">get_allowed_html()</a><br />
+                                                                    <a href="../classes/JB-Functions.html#method_setcookie" class="">setcookie()</a><br />
+                                                                    <a href="../classes/JB-Functions.html#method_array_insert_after" class="">array_insert_after()</a><br />
+                                                                    <a href="../classes/JB-Functions.html#method_template_path" class="">template_path()</a><br />
+                                                                    <a href="../classes/JB-Functions.html#method_default_templates_path" class="">default_templates_path()</a><br />
+                                                                    <a href="../classes/JB-Functions.html#method_get_template_part" class="">get_template_part()</a><br />
+                                                                    <a href="../classes/JB-Functions.html#method_get_template_html" class="">get_template_html()</a><br />
+                                                                    <a href="../classes/JB-Functions.html#method_locate_template" class="">locate_template()</a><br />
+                                                                    <a href="../classes/JB-Functions.html#method_locate_template_custom_path" class="">locate_template_custom_path()</a><br />
+                                                                    <a href="../classes/JB-Functions.html#method_get_email_template" class="">get_email_template()</a><br />
+                                                                    <a href="../classes/JB.html#method_instance" class="">instance()</a><br />
+                                                                    <a href="../classes/JB.html#method___clone" class="">__clone()</a><br />
+                                                                    <a href="../classes/JB.html#method___wakeup" class="">__wakeup()</a><br />
+                                                                    <a href="../classes/JB.html#method_jb_construct" class="">jb_construct()</a><br />
+                                                                    <a href="../classes/JB.html#method_jb__autoloader" class="">jb__autoloader()</a><br />
+                                                                    <a href="../classes/JB.html#method_localize" class="">localize()</a><br />
+                                                                    <a href="../classes/JB.html#method_includes" class="">includes()</a><br />
+                                                                    <a href="../classes/JB.html#method_integrations" class="">integrations()</a><br />
+                                                                    <a href="../classes/JB.html#method_config" class="">config()</a><br />
+                                                                    <a href="../classes/JB.html#method_install" class="">install()</a><br />
+                                                                    <a href="../classes/JB.html#method_options" class="">options()</a><br />
+                                                                    <a href="../classes/JB.html#method_common" class="">common()</a><br />
+                                                                    <a href="../classes/JB.html#method_admin" class="">admin()</a><br />
+                                                                    <a href="../classes/JB.html#method_frontend" class="">frontend()</a><br />
+                                                                    <a href="../classes/JB.html#method_ajax" class="">ajax()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/JB-Functions.html#property_templates_path" class="">$templates_path</a><br />
+                                                                    <a href="../classes/JB-Functions.html#property_theme_templates" class="">$theme_templates</a><br />
+                                                                    <a href="../classes/JB-Functions.html#property_is_permalinks" class="">$is_permalinks</a><br />
+                                                                    <a href="../classes/JB-Functions.html#property_scrips_prefix" class="">$scrips_prefix</a><br />
+                                                                    <a href="../classes/JB.html#property_classes" class="">$classes</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <a href="../classes/JB-Functions.html#method_define" class="">define()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No protected properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <a href="../classes/JB.html#method_define_constants" class="">define_constants()</a><br />
+                                                                    <a href="../classes/JB.html#method_call_class" class="">call_class()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/JB.html#property_instance" class="">$instance</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                                                <span class="label label-info">final</span>
+                    
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/includes-class-jb.html"><div class="path-wrapper">includes/class-jb.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">Default</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                                                                                                                                                
+                                        <div class="namespace-wrapper"><a href="../classes/JB-Functions.html"><abbr title="\JB_Functions">normal</abbr></a></div>
+                                                                                                    <div class="namespace-wrapper">\JB</div>
+                            </dd>
+
+                        
+                        
+                        
+                                                
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                class
+                            </th>
+                            <td>
+                                                                                                        <p>JB</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                version
+                            </th>
+                            <td>
+                                                                    1.0                                    
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_templates_path" name="property_templates_path" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$templates_path</h3>
+                <pre class="signature">$templates_path : string</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../string"><abbr title="string">normal</abbr></a>
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_theme_templates" name="property_theme_templates" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$theme_templates</h3>
+                <pre class="signature">$theme_templates : string</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../string"><abbr title="string">normal</abbr></a>
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_is_permalinks" name="property_is_permalinks" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$is_permalinks</h3>
+                <pre class="signature">$is_permalinks : bool</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../bool"><abbr title="bool">normal</abbr></a>
+                &mdash; CPU Links Structure                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_scrips_prefix" name="property_scrips_prefix" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$scrips_prefix</h3>
+                <pre class="signature">$scrips_prefix : string</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../string"><abbr title="string">normal</abbr></a>
+                &mdash; Standard or Minified versions                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_classes" name="property_classes" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$classes</h3>
+                <pre class="signature">$classes : array</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../array"><abbr title="array">normal</abbr></a>
+                &mdash; all plugin&#039;s classes                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_instance" name="property_instance" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$instance</h3>
+                <pre class="signature">$instance : self</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../self"><abbr title="self">normal</abbr></a>
+                &mdash; The single instance of the class                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_is_request" name="method_is_request" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">is_request()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">is_request(string  <span class="argument">$type</span>) : bool</pre>
+                <p><em>What type of request is this?</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$type </td>
+                                <td><p>String containing name of request type (ajax, frontend, cron or admin)</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    bool
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_helptip" name="method_helptip" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">helptip()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">helptip(string  <span class="argument">$tip</span>) : bool|string</pre>
+                <p><em>Forms labels helptips</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$tip </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    bool|string
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_allowed_html" name="method_get_allowed_html" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_allowed_html()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_allowed_html(string  <span class="argument">$context = &#039;&#039;</span>) : array</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$context </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setcookie" name="method_setcookie" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setcookie()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setcookie(string  <span class="argument">$name</span>, string  <span class="argument">$value = &#039;&#039;</span>, int  <span class="argument">$expire</span>, string  <span class="argument">$path = &#039;&#039;</span>) : mixed</pre>
+                <p><em>Disable page caching and set or clear cookie</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$name </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$value </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>int</td>
+                                <td>$expire </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$path </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_array_insert_after" name="method_array_insert_after" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">array_insert_after()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">array_insert_after(array  <span class="argument">$array</span>, string  <span class="argument">$key</span>, array  <span class="argument">$insert_array</span>) : array</pre>
+                <p><em>Easy merge arrays based on parent array key. Insert after selected key</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$array </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$key </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$insert_array </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.1.1                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_template_path" name="method_template_path" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">template_path()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">template_path() : string</pre>
+                <p><em>Get the template path inside theme or custom path</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.1.1                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_default_templates_path" name="method_default_templates_path" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">default_templates_path()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">default_templates_path() : string</pre>
+                <p><em>Get the default template path inside wp-content/plugins/</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_template_part" name="method_get_template_part" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_template_part()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_template_part(string  <span class="argument">$template_name</span>, array  <span class="argument">$args = array()</span>, string  <span class="argument">$template_path = &#039;&#039;</span>, string  <span class="argument">$default_path = &#039;&#039;</span>) : mixed</pre>
+                <p><em>Get JobBoardWP custom templates (e.g. jobs list) passing attributes and including the file.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$template_name </td>
+                                <td><p>Template name.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$args </td>
+                                <td><p>Arguments. (default: array).</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$template_path </td>
+                                <td><p>Template path. (default: '').</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$default_path </td>
+                                <td><p>Default path. (default: '').</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_template_html" name="method_get_template_html" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_template_html()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_template_html(string  <span class="argument">$template_name</span>, array  <span class="argument">$args = array()</span>, string  <span class="argument">$template_path = &#039;&#039;</span>, string  <span class="argument">$default_path = &#039;&#039;</span>) : string</pre>
+                <p><em>Like get_template, but returns the HTML instead of outputting.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$template_name </td>
+                                <td><p>Template name.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$args </td>
+                                <td><p>Arguments. (default: array).</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$template_path </td>
+                                <td><p>Template path. (default: '').</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$default_path </td>
+                                <td><p>Default path. (default: '').</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                                            <dt>See also</dt>
+                                                                <dd><a href="../\get_template"><span class="namespace-wrapper">\get_template</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.1.1                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_locate_template" name="method_locate_template" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">locate_template()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">locate_template(string  <span class="argument">$template_name</span>, string  <span class="argument">$template_path = &#039;&#039;</span>, string  <span class="argument">$default_path = &#039;&#039;</span>) : string</pre>
+                <p><em>Locate a template and return the path for inclusion.</em></p>
+                <p>This is the load order:</p>
+<p>yourtheme/$blog_id/$locale/$template_path/$template_name
+yourtheme/$blog_id/$template_path/$template_name
+yourtheme/$locale/$template_path/$template_name
+yourtheme/$template_path/$template_name
+$default_path/$template_name</p>
+<p>where $locale is site_locale for regular templates, but $user_locale for email templates</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$template_name </td>
+                                <td><p>Template name.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$template_path </td>
+                                <td><p>Template path. (default: '').</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$default_path </td>
+                                <td><p>Default path. (default: '').</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.1.1                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_locate_template_custom_path" name="method_locate_template_custom_path" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">locate_template_custom_path()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">locate_template_custom_path(string|array  <span class="argument">$template_locations</span>, string  <span class="argument">$custom_path</span>) : string</pre>
+                <p><em>Retrieve the name of the highest priority template file that exists in custom path.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string|array</td>
+                                <td>$template_locations </td>
+                                <td><p>Template file(s) to search for, in order.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$custom_path </td>
+                                <td><p>Custom path to the JB templates.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>The template filename if one is located.</p>
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.1.1                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_email_template" name="method_get_email_template" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_email_template()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_email_template(string  <span class="argument">$email_key</span>, bool  <span class="argument">$with_ext = true</span>) : string</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$email_key </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>bool</td>
+                                <td>$with_ext </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_instance" name="method_instance" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">instance()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">instance() : self</pre>
+                <p><em>Main JB Instance</em></p>
+                <p>Ensures only one instance of JB is loaded or can be loaded.</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    self
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                                            <dt>See also</dt>
+                                                                <dd><a href="../\JB()"><span class="namespace-wrapper">\JB()</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            static
+                        </th>
+                        <td>
+                                                                                            
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___clone" name="method___clone" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__clone()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__clone() : mixed</pre>
+                <p><em>Cloning is forbidden.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___wakeup" name="method___wakeup" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__wakeup()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__wakeup() : mixed</pre>
+                <p><em>Unserializing instances of this class is forbidden.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_jb_construct" name="method_jb_construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">jb_construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">jb_construct() : mixed</pre>
+                <p><em>JB pseudo-constructor.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_jb__autoloader" name="method_jb__autoloader" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">jb__autoloader()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">jb__autoloader(string  <span class="argument">$class</span>) : mixed</pre>
+                <p><em>Autoload JB classes handler</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$class </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_localize" name="method_localize" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">localize()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">localize() : mixed</pre>
+                <p><em>Loading JB textdomain</em></p>
+                <p>'jobboardwp' by default</p>
+
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_includes" name="method_includes" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">includes()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">includes() : void</pre>
+                <p><em>Include required core files used in admin and on the frontend.</em></p>
+                
+
+                
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_integrations" name="method_integrations" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">integrations()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">integrations() : \jb\integrations\Init</pre>
+                <p><em></em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    \jb\integrations\Init
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.1.1                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_config" name="method_config" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">config()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">config() : \jb\Config</pre>
+                <p><em>Getting the Config class instance</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    \jb\Config
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_install" name="method_install" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">install()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">install() : \jb\admin\Install</pre>
+                <p><em>Getting the Install class instance</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    \jb\admin\Install
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_options" name="method_options" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">options()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">options() : \jb\common\Options</pre>
+                <p><em>Getting the Options class instance</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    \jb\common\Options
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_common" name="method_common" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">common()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">common() : \jb\common\Init</pre>
+                <p><em>Getting the Common class instance</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    \jb\common\Init
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_admin" name="method_admin" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">admin()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">admin() : \jb\admin\Init</pre>
+                <p><em>Getting the Admin class instance</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    \jb\admin\Init
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_frontend" name="method_frontend" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">frontend()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">frontend() : \jb\frontend\Init</pre>
+                <p><em>Getting the Frontend class instance</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    \jb\frontend\Init
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_ajax" name="method_ajax" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">ajax()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">ajax() : \jb\ajax\Init</pre>
+                <p><em>Getting the AJAX class instance</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    \jb\ajax\Init
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_define" name="method_define" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">define()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">define(string  <span class="argument">$name</span>, string|bool  <span class="argument">$value</span>) : mixed</pre>
+                <p><em>Define constant if not already set.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$name </td>
+                                <td><p>Constant name.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string|bool</td>
+                                <td>$value </td>
+                                <td><p>Constant value.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB-Functions.html"><div class="path-wrapper">\JB_Functions</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.1.1                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_define_constants" name="method_define_constants" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">define_constants()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">define_constants() : mixed</pre>
+                <p><em>Define JobBoardWP Constants.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.1.1                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_call_class" name="method_call_class" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">call_class()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">call_class(string  <span class="argument">$class</span>) : mixed</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$class </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                    
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/JB.html"><div class="path-wrapper">\JB</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0                                
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">class-jb.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/includes/class-jb.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/jb.html"><abbr title="\jb">normal</abbr></a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on February 7th, 2022 at 09:24.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

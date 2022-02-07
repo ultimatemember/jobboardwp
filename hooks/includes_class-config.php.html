@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: includes/class-config.php - JobBoardWP Hook Docs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+
+	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:300,400|Playfair+Display:900&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="styles-um.css">
+</head>
+
+<body>
+
+<div id="main">
+
+	
+    <h1 class="page-title">Source: includes/class-config.php</h1>
+	
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;?php namespace jb;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+
+if ( ! class_exists( 'jb\Config' ) ) {
+
+
+	/**
+	 * Class Config
+	 *
+	 * @package jb
+	 */
+	class Config {
+
+
+		/**
+		 * @var array
+		 */
+		public $defaults;
+
+
+		/**
+		 * @var array
+		 */
+		public $custom_roles;
+
+
+		/**
+		 * @var array
+		 */
+		public $all_caps;
+
+
+		/**
+		 * @var array
+		 */
+		public $capabilities_map;
+
+
+		/**
+		 * @var array
+		 */
+		public $permalink_options;
+
+
+		/**
+		 * @var array
+		 */
+		public $predefined_pages;
+
+
+		/**
+		 * @var array
+		 */
+		public $email_notifications;
+
+
+		/**
+		 * Config constructor.
+		 */
+		public function __construct() {
+		}
+
+
+		/**
+		 * Get variable from config
+		 *
+		 * @param string $key
+		 *
+		 * @return mixed
+		 *
+		 * @since 1.0
+		 */
+		public function get( $key ) {
+			if ( empty( $this->$key ) ) {
+				call_user_func( array( &amp;$this, 'init_' . $key ) );
+			}
+			/**
+			 * Filters the variable before getting it from the config.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_config_get
+			 *
+			 * @param {mixed}  $data The predefined data in config.
+			 * @param {string} $key  The predefined data key. E.g. 'predefined_pages'.
+			 *
+			 * @return {mixed} Prepared config data.
+			 */
+			return apply_filters( 'jb_config_get', $this->$key, $key );
+		}
+
+
+		/**
+		 * Init plugin defaults
+		 *
+		 * @since 1.0
+		 */
+		public function init_defaults() {
+			$this->defaults = array(
+				'job-slug'                       => 'job',
+				'job-type-slug'                  => 'job-type',
+				'job-category-slug'              => 'job-category',
+				'job-categories'                 => true,
+				'job-template'                   => '',
+				'job-dateformat'                 => 'default',
+				'job-breadcrumbs'                => false,
+				'googlemaps-api-key'             => '',
+				'disable-structured-data'        => false,
+				'jobs-list-pagination'           => 10,
+				'jobs-list-no-logo'              => false,
+				'jobs-list-hide-filled'          => false,
+				'jobs-list-hide-expired'         => false,
+				'jobs-list-hide-search'          => false,
+				'jobs-list-hide-location-search' => false,
+				'jobs-list-hide-filters'         => false,
+				'jobs-list-hide-job-types'       => false,
+				'jobs-dashboard-pagination'      => 10,
+				'account-required'               => false,
+				'account-creation'               => true,
+				'account-username-generate'      => true,
+				'account-password-email'         => true,
+				'full-name-required'             => true,
+				'your-details-section'           => false,
+				'account-role'                   => 'jb_employer',
+				'job-moderation'                 => true,
+				'pending-job-editing'            => true,
+				'published-job-editing'          => 1,
+				'individual-job-duration'        => false,
+				'job-duration'                   => 30,
+				'job-expiration-reminder'        => false,
+				'job-expiration-reminder-time'   => '',
+				'required-job-type'              => true,
+				'application-method'             => '',
+				'job-submitted-notice'           => __( 'Thank you for submitting your job. It will be appear on the website once approved.', 'jobboardwp' ),
+				'disable-styles'                 => false,
+				'disable-fa-styles'              => false,
+				'admin_email'                    => get_bloginfo( 'admin_email' ),
+				'mail_from'                      => get_bloginfo( 'name' ),
+				'mail_from_addr'                 => get_bloginfo( 'admin_email' ),
+				'uninstall-delete-settings'      => false,
+			);
+
+			foreach ( $this->get( 'email_notifications' ) as $key => $notification ) {
+				$this->defaults[ $key . '_on' ]  = ! empty( $notification['default_active'] );
+				$this->defaults[ $key . '_sub' ] = $notification['subject'];
+			}
+
+			foreach ( $this->get( 'predefined_pages' ) as $slug => $array ) {
+				$this->defaults[ JB()->options()->get_predefined_page_option_key( $slug ) ] = '';
+			}
+		}
+
+
+		/**
+		 * Initialize JB custom roles list
+		 *
+		 * @since 1.0
+		 */
+		public function init_custom_roles() {
+			$this->custom_roles = array(
+				'jb_employer' => __( 'Employer', 'jobboardwp' ),
+			);
+		}
+
+
+		/**
+		 * Initialize JB roles capabilities list
+		 *
+		 * @since 1.0
+		 */
+		public function init_capabilities_map() {
+			$this->capabilities_map = array(
+				'administrator' => array(
+					'edit_jb-job',
+					'read_jb-job',
+					'delete_jb-job',
+					'edit_jb-jobs',
+					'edit_others_jb-jobs',
+					'publish_jb-jobs',
+					'read_private_jb-jobs',
+					'delete_jb-jobs',
+					'delete_private_jb-jobs',
+					'delete_published_jb-jobs',
+					'delete_others_jb-jobs',
+					'edit_private_jb-jobs',
+					'edit_published_jb-jobs',
+					'create_jb-jobs',
+					'manage_jb-job-types',
+					'edit_jb-job-types',
+					'delete_jb-job-types',
+					'edit_jb-job-types',
+					'manage_jb-job-categories',
+					'edit_jb-job-categories',
+					'delete_jb-job-categories',
+					'edit_jb-job-categories',
+				),
+				'jb_employer'   => array(
+					'edit_jb-job',
+					'read_jb-job',
+					'delete_jb-job',
+				),
+			);
+		}
+
+
+		/**
+		 * Initialize JB custom capabilities
+		 *
+		 * @since 1.0
+		 */
+		public function init_all_caps() {
+			$this->all_caps = array(
+				'edit_jb-job',
+				'read_jb-job',
+				'delete_jb-job',
+				'edit_jb-jobs',
+				'edit_others_jb-jobs',
+				'publish_jb-jobs',
+				'read_private_jb-jobs',
+				'delete_jb-jobs',
+				'delete_private_jb-jobs',
+				'delete_published_jb-jobs',
+				'delete_others_jb-jobs',
+				'edit_private_jb-jobs',
+				'edit_published_jb-jobs',
+				'create_jb-jobs',
+				'manage_jb-job-types',
+				'edit_jb-job-types',
+				'delete_jb-job-types',
+				'edit_jb-job-types',
+				'manage_jb-job-categories',
+				'edit_jb-job-categories',
+				'delete_jb-job-categories',
+				'edit_jb-job-categories',
+			);
+		}
+
+
+		/**
+		 * Initialize JB permalink options
+		 *
+		 * @since 1.0
+		 */
+		public function init_permalink_options() {
+			$this->permalink_options = array(
+				'job-slug',
+				'job-type-slug',
+				'job-category-slug',
+			);
+		}
+
+
+		/**
+		 * Initialize JB predefined pages
+		 *
+		 * @since 1.0
+		 */
+		public function init_predefined_pages() {
+			$this->predefined_pages = array(
+				'jobs'           => array(
+					'title'   => __( 'Jobs', 'jobboardwp' ),
+					'content' => '[jb_jobs /]',
+				),
+				'job-post'       => array(
+					'title'   => __( 'Post Job', 'jobboardwp' ),
+					'content' => '[jb_post_job /]',
+				),
+				'jobs-dashboard' => array(
+					'title'   => __( 'Jobs Dashboard', 'jobboardwp' ),
+					'content' => '[jb_jobs_dashboard /]',
+				),
+			);
+		}
+
+
+		/**
+		 * Initialize JB email notifications
+		 *
+		 * @since 1.0
+		 */
+		public function init_email_notifications() {
+			$this->email_notifications = array(
+				'job_submitted'           => array(
+					'key'            => 'job_submitted',
+					'title'          => __( 'Job submitted', 'jobboardwp' ),
+					'subject'        => __( 'New Job Submission - {site_name}', 'jobboardwp' ),
+					'description'    => __( 'Whether to send the admin an email when new job is posted on website.', 'jobboardwp' ),
+					'recipient'      => 'admin',
+					'default_active' => true,
+				),
+				'job_approved'            => array(
+					'key'            => 'job_approved',
+					'title'          => __( 'Job listing approved', 'jobboardwp' ),
+					'subject'        => __( 'Job listing is now live - {site_name}', 'jobboardwp' ),
+					'description'    => __( 'Whether to send the job\'s author an email when job is approved.', 'jobboardwp' ),
+					'recipient'      => 'user',
+					'default_active' => true,
+				),
+				'job_edited'              => array(
+					'key'            => 'job_edited',
+					'title'          => __( 'Job has been edited', 'jobboardwp' ),
+					'subject'        => __( 'A job listing has been edited - {site_name}', 'jobboardwp' ),
+					'description'    => __( 'Whether to send the admin an email when new job is edited on website.', 'jobboardwp' ),
+					'recipient'      => 'admin',
+					'default_active' => true,
+				),
+				'job_expiration_reminder' => array(
+					'key'            => 'job_expiration_reminder',
+					'title'          => __( 'Job expiration reminder', 'jobboardwp' ),
+					'subject'        => __( 'Your job will expire in {job_expiration_days} days - {site_name}', 'jobboardwp' ),
+					'description'    => __( 'Whether to send the job\'s author an email before job is expired.', 'jobboardwp' ),
+					'recipient'      => 'user',
+					'default_active' => true,
+				),
+			);
+		}
+	}
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+
+    <footer>
+		<a href="https://wordpress.org/plugins/jobboardwp/">JobBoardWP Plugin</a> &bull;
+		<a href="https://docs.jobboardwp.com/">Official Docs</a>
+	</footer>
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="jb-after-job-delete.html">jb-after-job-delete</a></li><li><a href="jb-job-submission-validation.html">jb-job-submission-validation</a></li><li><a href="jb_admin_after_main_notices.html">jb_admin_after_main_notices</a></li><li><a href="jb_admin_create_notices.html">jb_admin_create_notices</a></li><li><a href="jb_admin_init_locale.html">jb_admin_init_locale</a></li><li><a href="jb_after_email_notification_sending.html">jb_after_email_notification_sending</a></li><li><a href="jb_after_job_apply_block.html">jb_after_job_apply_block</a></li><li><a href="jb_after_job_content.html">jb_after_job_content</a></li><li><a href="jb_after_template_part.html">jb_after_template_part</a></li><li><a href="jb_before_email_notification_sending.html">jb_before_email_notification_sending</a></li><li><a href="jb_before_job_content.html">jb_before_job_content</a></li><li><a href="jb_before_settings_%257B$current_tab%257D_%257B$current_subtab%257D_content.html">jb_before_settings_{$current_tab}_{$current_subtab}_content</a></li><li><a href="jb_before_template_part.html">jb_before_template_part</a></li><li><a href="jb_fill_job.html">jb_fill_job</a></li><li><a href="jb_job_categories_footer.html">jb_job_categories_footer</a></li><li><a href="jb_job_edited.html">jb_job_edited</a></li><li><a href="jb_job_is_approved.html">jb_job_is_approved</a></li><li><a href="jb_job_is_expired.html">jb_job_is_expired</a></li><li><a href="jb_job_published.html">jb_job_published</a></li><li><a href="jb_job_submission_after_create_account.html">jb_job_submission_after_create_account</a></li><li><a href="jb_jobs_filter_type_%257B$type%257D.html">jb_jobs_filter_type_{$type}</a></li><li><a href="jb_jobs_head_after.html">jb_jobs_head_after</a></li><li><a href="jb_jobs_head_before.html">jb_jobs_head_before</a></li><li><a href="jb_settings_before_save.html">jb_settings_before_save</a></li><li><a href="jb_settings_save.html">jb_settings_save</a></li><li><a href="jb_unfill_job.html">jb_unfill_job</a></li></ul><h3>Filters</h3><ul><li><a href="jb-job-company-data.html">jb-job-company-data</a></li><li><a href="jb-job-location-structured-data.html">jb-job-location-structured-data</a></li><li><a href="jb-job-raw-data.html">jb-job-raw-data</a></li><li><a href="jb-job-structured-data.html">jb-job-structured-data</a></li><li><a href="jb-save-job-user-company-data.html">jb-save-job-user-company-data</a></li><li><a href="jb-user-company-data.html">jb-user-company-data</a></li><li><a href="jb_admin_enqueue_localize.html">jb_admin_enqueue_localize</a></li><li><a href="jb_admin_jobs_listtable_columns.html">jb_admin_jobs_listtable_columns</a></li><li><a href="jb_admin_settings_get_pages_list.html">jb_admin_settings_get_pages_list</a></li><li><a href="jb_admin_settings_pages_list_value.html">jb_admin_settings_pages_list_value</a></li><li><a href="jb_can_applied_job.html">jb_can_applied_job</a></li><li><a href="jb_change_settings_before_save.html">jb_change_settings_before_save</a></li><li><a href="jb_common_js_variables.html">jb_common_js_variables</a></li><li><a href="jb_config_get.html">jb_config_get</a></li><li><a href="jb_content_editor_options.html">jb_content_editor_options</a></li><li><a href="jb_cpt_list.html">jb_cpt_list</a></li><li><a href="jb_cron_delete_expired_jobs.html">jb_cron_delete_expired_jobs</a></li><li><a href="jb_cron_delete_expired_jobs_days.html">jb_cron_delete_expired_jobs_days</a></li><li><a href="jb_default_individual_expiry.html">jb_default_individual_expiry</a></li><li><a href="jb_default_template_path.html">jb_default_template_path</a></li><li><a href="jb_email_send_subject.html">jb_email_send_subject</a></li><li><a href="jb_email_template_content.html">jb_email_template_content</a></li><li><a href="jb_email_template_content_type.html">jb_email_template_content_type</a></li><li><a href="jb_email_template_path.html">jb_email_template_path</a></li><li><a href="jb_email_templates_columns.html">jb_email_templates_columns</a></li><li><a href="jb_emails_list_table_custom_column_content.html">jb_emails_list_table_custom_column_content</a></li><li><a href="jb_enqueue_localize.html">jb_enqueue_localize</a></li><li><a href="jb_filesystem_max_file_age.html">jb_filesystem_max_file_age</a></li><li><a href="jb_form_error.html">jb_form_error</a></li><li><a href="jb_form_global_error.html">jb_form_global_error</a></li><li><a href="jb_form_notice.html">jb_form_notice</a></li><li><a href="jb_forms_before_render_section.html">jb_forms_before_render_section</a></li><li><a href="jb_forms_move_form_tag.html">jb_forms_move_form_tag</a></li><li><a href="jb_frontend_common_styles_deps.html">jb_frontend_common_styles_deps</a></li><li><a href="jb_frontend_forms_required_star_disabled.html">jb_frontend_forms_required_star_disabled</a></li><li><a href="jb_get_employer_jobs_args.html">jb_get_employer_jobs_args</a></li><li><a href="jb_get_job_categories_args.html">jb_get_job_categories_args</a></li><li><a href="jb_get_job_categories_response.html">jb_get_job_categories_response</a></li><li><a href="jb_get_jobs_query_args.html">jb_get_jobs_query_args</a></li><li><a href="jb_get_predefined_page_id.html">jb_get_predefined_page_id</a></li><li><a href="jb_get_template.html">jb_get_template</a></li><li><a href="jb_is_predefined_page.html">jb_is_predefined_page</a></li><li><a href="jb_job_dashboard_job_data_response.html">jb_job_dashboard_job_data_response</a></li><li><a href="jb_job_dashboard_response.html">jb_job_dashboard_response</a></li><li><a href="jb_job_details_metabox_fields.html">jb_job_details_metabox_fields</a></li><li><a href="jb_job_submission_create_account_data.html">jb_job_submission_create_account_data</a></li><li><a href="jb_job_submission_update_account_data.html">jb_job_submission_update_account_data</a></li><li><a href="jb_job_submitted_data.html">jb_job_submitted_data</a></li><li><a href="jb_job_type_styling.html">jb_job_type_styling</a></li><li><a href="jb_jobs_directory_filter_types.html">jb_jobs_directory_filter_types</a></li><li><a href="jb_jobs_directory_filters.html">jb_jobs_directory_filters</a></li><li><a href="jb_jobs_job_data_response.html">jb_jobs_job_data_response</a></li><li><a href="jb_jobs_list_calculate_pagination_result.html">jb_jobs_list_calculate_pagination_result</a></li><li><a href="jb_jobs_list_category_filter_args.html">jb_jobs_list_category_filter_args</a></li><li><a href="jb_jobs_list_response.html">jb_jobs_list_response</a></li><li><a href="jb_jobs_list_type_filter_args.html">jb_jobs_list_type_filter_args</a></li><li><a href="jb_jobs_scripts_enqueue.html">jb_jobs_scripts_enqueue</a></li><li><a href="jb_language_file.html">jb_language_file</a></li><li><a href="jb_language_locale.html">jb_language_locale</a></li><li><a href="jb_language_textdomain.html">jb_language_textdomain</a></li><li><a href="jb_late_escaping_allowed_tags.html">jb_late_escaping_allowed_tags</a></li><li><a href="jb_locate_template.html">jb_locate_template</a></li><li><a href="jb_mail_placeholders.html">jb_mail_placeholders</a></li><li><a href="jb_mail_replace_placeholders.html">jb_mail_replace_placeholders</a></li><li><a href="jb_options_get_%257B$option_id%257D.html">jb_options_get_{$option_id}</a></li><li><a href="jb_options_key.html">jb_options_key</a></li><li><a href="jb_post_statuses.html">jb_post_statuses</a></li><li><a href="jb_pre_template_locations.html">jb_pre_template_locations</a></li><li><a href="jb_pre_template_locations_common_locale_integration.html">jb_pre_template_locations_common_locale_integration</a></li><li><a href="jb_predefined_page_option_key.html">jb_predefined_page_option_key</a></li><li><a href="jb_render_field_type_%257B$field_type%257D.html">jb_render_field_type_{$field_type}</a></li><li><a href="jb_rich_text_editor_buttons.html">jb_rich_text_editor_buttons</a></li><li><a href="jb_save_email_templates_locations.html">jb_save_email_templates_locations</a></li><li><a href="jb_section_fields.html">jb_section_fields</a></li><li><a href="jb_settings.html">jb_settings</a></li><li><a href="jb_settings_custom_subtabs.html">jb_settings_custom_subtabs</a></li><li><a href="jb_settings_custom_tabs.html">jb_settings_custom_tabs</a></li><li><a href="jb_settings_email_section_fields.html">jb_settings_email_section_fields</a></li><li><a href="jb_settings_section_%257B$current_tab%257D_%257B$current_subtab%257D_content.html">jb_settings_section_{$current_tab}_{$current_subtab}_content</a></li><li><a href="jb_taxonomies_list.html">jb_taxonomies_list</a></li><li><a href="jb_template_include.html">jb_template_include</a></li><li><a href="jb_template_locations.html">jb_template_locations</a></li><li><a href="jb_template_path.html">jb_template_path</a></li><li><a href="jb_template_structure_custom_path.html">jb_template_structure_custom_path</a></li><li><a href="jb_uploading_logo_mime_types.html">jb_uploading_logo_mime_types</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

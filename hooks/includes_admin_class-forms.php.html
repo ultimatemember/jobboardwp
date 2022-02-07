@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: includes/admin/class-forms.php - JobBoardWP Hook Docs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+
+	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:300,400|Playfair+Display:900&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="styles-um.css">
+</head>
+
+<body>
+
+<div id="main">
+
+	
+    <h1 class="page-title">Source: includes/admin/class-forms.php</h1>
+	
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;?php namespace jb\admin;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+
+if ( ! class_exists( 'jb\admin\Forms' ) ) {
+
+
+	/**
+	 * Class Forms
+	 *
+	 * @package jb\admin
+	 */
+	class Forms {
+
+
+		/**
+		 * @var bool|array Inited form data
+		 *
+		 * @since 1.0
+		 */
+		public $form_data;
+
+
+		/**
+		 * Forms constructor.
+		 * @param bool $form_data
+		 */
+		public function __construct( $form_data = false ) {
+			if ( $form_data ) {
+				$this->form_data = $form_data;
+			}
+		}
+
+
+		/**
+		 * Set Form Data
+		 *
+		 * @param bool|array $data
+		 *
+		 * @return self
+		 */
+		public function set_data( $data ) {
+			$this->form_data = $data;
+			return $this;
+		}
+
+
+		/**
+		 * Render form
+		 *
+		 * @param bool $echo
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function display( $echo = true ) {
+			if ( empty( $this->form_data['fields'] ) ) {
+				return '';
+			}
+
+			$hidden = '';
+			$fields = '';
+			foreach ( $this->form_data['fields'] as $field_data ) {
+				if ( empty( $field_data['type'] ) ) {
+					continue;
+				}
+
+				if ( 'hidden' === $field_data['type'] ) {
+					$hidden .= $this->render_hidden( $field_data );
+				} else {
+					$fields .= $this->render_form_row( $field_data );
+				}
+			}
+
+			ob_start();
+
+			echo wp_kses( $hidden, JB()->get_allowed_html( 'wp-admin' ) );
+
+			if ( empty( $this->form_data['without_wrapper'] ) ) {
+				$class = 'form-table jb-form-table ' . ( ! empty( $this->form_data['class'] ) ? $this->form_data['class'] : '' );
+				?>
+
+				&lt;table class="&lt;?php echo esc_attr( $class ); ?>">
+					&lt;tbody>
+						&lt;?php echo wp_kses( $fields, JB()->get_allowed_html( 'wp-admin' ) ); ?>
+					&lt;/tbody>
+				&lt;/table>
+
+				&lt;?php
+			} else {
+				echo wp_kses( $fields, JB()->get_allowed_html( 'wp-admin' ) );
+			}
+
+			if ( $echo ) {
+				ob_get_flush();
+				return '';
+			} else {
+				return ob_get_clean();
+			}
+		}
+
+
+		/**
+		 * Render form field's row
+		 *
+		 * @param array $data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_form_row( $data ) {
+			if ( ! empty( $data['value'] ) &amp;&amp; 'email_template' !== $data['type'] ) {
+				$data['value'] = wp_unslash( $data['value'] );
+
+				/*for multi_text*/
+				if ( ! is_array( $data['value'] ) &amp;&amp; 'wp_editor' !== $data['type'] ) {
+					$data['value'] = esc_attr( $data['value'] );
+				}
+			}
+
+			$conditional = ! empty( $data['conditional'] ) ? 'data-conditional="' . esc_attr( wp_json_encode( $data['conditional'] ) ) . '"' : '';
+			$prefix_attr = ! empty( $this->form_data['prefix_id'] ) ? ' data-prefix="' . esc_attr( $this->form_data['prefix_id'] ) . '" ' : '';
+
+			$type_attr = ' data-field_type="' . $data['type'] . '" ';
+
+			$html = '';
+
+			if ( ! empty( $this->form_data['div_line'] ) ) {
+
+				if ( strpos( $this->form_data['class'], 'jb-top-label' ) !== false ) {
+
+					$html .= '&lt;div class="form-field jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>' . $this->render_field_label( $data );
+
+					if ( method_exists( $this, 'render_' . $data['type'] ) ) {
+
+						$html .= call_user_func( array( &amp;$this, 'render_' . $data['type'] ), $data );
+
+					} else {
+
+						$html .= $this->render_field_by_hook( $data );
+
+					}
+
+					if ( ! empty( $data['description'] ) ) {
+						$html .= '&lt;p class="description">' . $data['description'] . '&lt;/p>';
+					}
+
+					$html .= '&lt;/div>';
+
+				} else {
+
+					if ( ! empty( $data['without_label'] ) ) {
+
+						$html .= '&lt;div class="form-field jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>';
+
+						if ( method_exists( $this, 'render_' . $data['type'] ) ) {
+
+							$html .= call_user_func( array( &amp;$this, 'render_' . $data['type'] ), $data );
+
+						} else {
+
+							$html .= $this->render_field_by_hook( $data );
+
+						}
+
+						if ( ! empty( $data['description'] ) ) {
+							$html .= '&lt;p class="description">' . $data['description'] . '&lt;/p>';
+						}
+
+						$html .= '&lt;/div>';
+
+					} else {
+
+						$html .= '&lt;div class="form-field jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>' . $this->render_field_label( $data );
+
+						if ( method_exists( $this, 'render_' . $data['type'] ) ) {
+
+							$html .= call_user_func( array( &amp;$this, 'render_' . $data['type'] ), $data );
+
+						} else {
+
+							$html .= $this->render_field_by_hook( $data );
+
+						}
+
+						if ( ! empty( $data['description'] ) ) {
+							$html .= '&lt;p class="description">' . $data['description'] . '&lt;/p>';
+						}
+
+						$html .= '&lt;/div>';
+
+					}
+				}
+			} else {
+				if ( strpos( $this->form_data['class'], 'jb-top-label' ) !== false ) {
+
+					$html .= '&lt;tr class="jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>
+					&lt;td>' . $this->render_field_label( $data );
+
+					if ( method_exists( $this, 'render_' . $data['type'] ) ) {
+
+						$html .= call_user_func( array( &amp;$this, 'render_' . $data['type'] ), $data );
+
+					} else {
+
+						$html .= $this->render_field_by_hook( $data );
+
+					}
+
+					if ( ! empty( $data['description'] ) ) {
+						$html .= '&lt;div class="clear">&lt;/div>&lt;p class="description">' . $data['description'] . '&lt;/p>';
+					}
+
+					$html .= '&lt;/td>&lt;/tr>';
+
+				} else {
+
+					if ( ! empty( $data['without_label'] ) ) {
+
+						$html .= '&lt;tr class="jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>
+						&lt;td colspan="2">';
+
+						if ( method_exists( $this, 'render_' . $data['type'] ) ) {
+
+							$html .= call_user_func( array( &amp;$this, 'render_' . $data['type'] ), $data );
+
+						} else {
+
+							$html .= $this->render_field_by_hook( $data );
+
+						}
+
+						if ( ! empty( $data['description'] ) ) {
+							$html .= '&lt;div class="clear">&lt;/div>&lt;p class="description">' . $data['description'] . '&lt;/p>';
+						}
+
+						$html .= '&lt;/td>&lt;/tr>';
+
+					} else {
+
+						$html .= '&lt;tr class="jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>
+						&lt;th>' . $this->render_field_label( $data ) . '&lt;/th>
+						&lt;td>';
+
+						if ( method_exists( $this, 'render_' . $data['type'] ) ) {
+
+							$html .= call_user_func( array( &amp;$this, 'render_' . $data['type'] ), $data );
+
+						} else {
+
+							$html .= $this->render_field_by_hook( $data );
+
+						}
+
+						if ( ! empty( $data['description'] ) ) {
+							$html .= '&lt;div class="clear">&lt;/div>&lt;p class="description">' . $data['description'] . '&lt;/p>';
+						}
+
+						$html .= '&lt;/td>&lt;/tr>';
+
+					}
+				}
+			}
+
+			return $html;
+		}
+
+
+		/**
+		 * Render field by a hook
+		 *
+		 * @param array $data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_field_by_hook( $data ) {
+			/**
+			 * Filters the custom field content.
+			 *
+			 * Note: You could use this hook for getting rendered your custom field in wp-admin Forms.
+			 *
+			 * @since 1.1.0
+			 * @hook jb_render_field_type_{$field_type}
+			 *
+			 * @param {string} $content   Field content. It's '' by default.
+			 * @param {array}  $data      Field data.
+			 * @param {array}  $form_data Admin form data.
+			 * @param {object} $form      Admin form class (\jb\admin\Forms) instance.
+			 *
+			 * @return {string} Rendered custom field content.
+			 */
+			return apply_filters( 'jb_render_field_type_' . $data['type'], '', $data, $this->form_data, $this );
+		}
+
+
+		/**
+		 * Render field label
+		 *
+		 * @param array $data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_field_label( $data ) {
+			if ( empty( $data['label'] ) ) {
+				return '';
+			}
+
+			$id       = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $data['id'];
+			$for_attr = ' for="' . esc_attr( $id ) . '" ';
+
+			$label = $data['label'];
+			if ( ! empty( $data['required'] ) ) {
+				$label = $label . ' &lt;span class="jb-req" title="' . esc_attr__( 'Required', 'jobboardwp' ) . '">*&lt;/span>';
+			}
+
+			$helptip = ! empty( $data['helptip'] ) ? JB()->helptip( $data['helptip'] ) : '';
+
+			return "&lt;label $for_attr>$label $helptip&lt;/label>";
+		}
+
+
+		/**
+		 * Render hidden field
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_hidden( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			$id      = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
+			$id_attr = ' id="' . esc_attr( $id ) . '" ';
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class_attr = ' class="jb-forms-field ' . esc_attr( $class ) . '" ';
+
+			$data = array(
+				'field_id' => $field_data['id'],
+			);
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $value ) . '" ';
+			}
+
+			$name      = $field_data['id'];
+			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$value      = $this->get_field_value( $field_data );
+			$value_attr = ' value="' . esc_attr( $value ) . '" ';
+
+			$html = "&lt;input type=\"hidden\" $id_attr $class_attr $name_attr $data_attr $value_attr />";
+
+			return $html;
+		}
+
+
+		/**
+		 * Render text field
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_text( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			$id      = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
+			$id_attr = ' id="' . esc_attr( $id ) . '" ';
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class     .= ! empty( $field_data['size'] ) ? 'jb-' . $field_data['size'] . '-field' : 'jb-long-field';
+			$class_attr = ' class="jb-forms-field ' . esc_attr( $class ) . '" ';
+
+			$data = array(
+				'field_id' => $field_data['id'],
+			);
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $value ) . '" ';
+			}
+
+			$placeholder_attr = ! empty( $field_data['placeholder'] ) ? ' placeholder="' . esc_attr( $field_data['placeholder'] ) . '"' : '';
+
+			$required = ! empty( $field_data['required'] ) ? ' required' : '';
+
+			$name      = $field_data['id'];
+			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$value      = $this->get_field_value( $field_data );
+			$value_attr = ' value="' . esc_attr( $value ) . '" ';
+
+			$html = "&lt;input type=\"text\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $required />";
+
+			return $html;
+		}
+
+
+		/**
+		 * Render location autocomplete text
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_location_autocomplete( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			$id      = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $field_data['id'];
+			$id_attr = ' id="' . esc_attr( $id ) . '" ';
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class     .= ! empty( $field_data['size'] ) ? 'jb-' . $field_data['size'] . '-field' : 'jb-long-field';
+			$class_attr = ' class="jb-forms-field jb-location-autocomplete ' . esc_attr( $class ) . '" ';
+
+			$data = array(
+				'field_id' => $field_data['id'],
+			);
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $value ) . '" ';
+			}
+
+			$placeholder_attr = ! empty( $field_data['placeholder'] ) ? ' placeholder="' . esc_attr( $field_data['placeholder'] ) . '"' : '';
+
+			$required = ! empty( $field_data['required'] ) ? ' required' : '';
+
+			$name      = isset( $field_data['name'] ) ? $field_data['name'] : $field_data['id'];
+			$name_loco = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . '-data]' : $name . '-data';
+			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+
+			$name_attr           = ' name="' . esc_attr( $name ) . '" ';
+			$name_loco_data_attr = ' name="' . esc_attr( $name_loco ) . '" ';
+
+			$value      = $this->get_field_value( $field_data );
+			$value_attr = ' value="' . esc_attr( $value ) . '" ';
+
+			$field_data_data           = $field_data;
+			$field_data_data['name']   = ( isset( $field_data['name'] ) ? $field_data['name'] : $field_data['id'] ) . '-data';
+			$field_data_data['value']  = $field_data['value_data'];
+			$field_data_data['encode'] = true;
+
+			$value_data = $this->get_field_value( $field_data_data );
+			$value_data = esc_attr( $value_data );
+
+			$html = "&lt;input type=\"text\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $required />
+					 &lt;input type=\"hidden\" $name_loco_data_attr class=\"jb-location-autocomplete-data\" value=\"$value_data\" />";
+
+			return $html;
+		}
+
+
+		/**
+		 * Render number field
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_number( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			$id      = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
+			$id_attr = ' id="' . esc_attr( $id ) . '" ';
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class     .= ! empty( $field_data['size'] ) ? 'jb-' . $field_data['size'] . '-field' : 'jb-long-field';
+			$class_attr = ' class="jb-forms-field ' . esc_attr( $class ) . '" ';
+
+			$data = array(
+				'field_id' => $field_data['id'],
+			);
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $value ) . '" ';
+			}
+
+			$placeholder_attr = ! empty( $field_data['placeholder'] ) ? ' placeholder="' . esc_attr( $field_data['placeholder'] ) . '"' : '';
+
+			$name      = $field_data['id'];
+			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$value      = $this->get_field_value( $field_data );
+			$value_attr = ' value="' . esc_attr( $value ) . '" ';
+
+			$html = "&lt;input type=\"number\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr />";
+
+			return $html;
+		}
+
+
+		/**
+		 * Render color-picker field
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_color( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			$id      = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
+			$id_attr = ' id="' . esc_attr( $id ) . '" ';
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class     .= ! empty( $field_data['size'] ) ? ' jb-' . $field_data['size'] . '-field ' : ' jb-long-field ';
+			$class     .= ' jb-admin-colorpicker ';
+			$class_attr = ' class="jb-forms-field ' . esc_attr( $class ) . '" ';
+
+			$data = array(
+				'field_id' => $field_data['id'],
+			);
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $value ) . '" ';
+			}
+
+			$placeholder_attr = ! empty( $field_data['placeholder'] ) ? ' placeholder="' . $field_data['placeholder'] . '"' : '';
+
+			$name      = $field_data['id'];
+			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$value      = $this->get_field_value( $field_data );
+			$value_attr = ' value="' . esc_attr( $value ) . '" ';
+
+			$html = "&lt;input type=\"text\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr />";
+
+			return $html;
+		}
+
+
+		/**
+		 * Render textarea field
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_textarea( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			$id      = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
+			$id_attr = ' id="' . esc_attr( $id ) . '" ';
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class     .= ! empty( $field_data['size'] ) ? $field_data['size'] : 'jb-long-field';
+			$class_attr = ' class="jb-forms-field ' . esc_attr( $class ) . '" ';
+
+			$data = array(
+				'field_id' => $field_data['id'],
+			);
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $value ) . '" ';
+			}
+
+			$rows = ! empty( $field_data['args']['textarea_rows'] ) ? ' rows="' . esc_attr( $field_data['args']['textarea_rows'] ) . '" ' : '';
+
+			$name      = $field_data['id'];
+			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$value = $this->get_field_value( $field_data );
+
+			$html = "&lt;textarea $id_attr $class_attr $name_attr $data_attr $rows>" . esc_textarea( $value ) . '&lt;/textarea>';
+
+			return $html;
+		}
+
+
+		/**
+		 * Render checkbox
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_checkbox( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			$id             = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
+			$id_attr        = ' id="' . esc_attr( $id ) . '" ';
+			$id_attr_hidden = ' id="' . esc_attr( $id ) . '_hidden" ';
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class     .= ! empty( $field_data['size'] ) ? $field_data['size'] : 'jb-long-field';
+			$class_attr = ' class="jb-forms-field ' . esc_attr( $class ) . '" ';
+
+			$data = array(
+				'field_id' => $field_data['id'],
+			);
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $value ) . '" ';
+			}
+
+			$name      = $field_data['id'];
+			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$value = $this->get_field_value( $field_data );
+
+			$html = "&lt;input type=\"hidden\" $id_attr_hidden $name_attr value=\"0\" />
+			&lt;input type=\"checkbox\" $id_attr $class_attr $name_attr $data_attr " . checked( $value, true, false ) . ' value="1" />';
+
+			return $html;
+		}
+
+
+		/**
+		 * Render select
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_select( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			$multiple = ! empty( $field_data['multi'] ) ? 'multiple' : '';
+
+			$id      = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
+			$id_attr = ' id="' . esc_attr( $id ) . '" ';
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class     .= ! empty( $field_data['size'] ) ? 'jb-' . $field_data['size'] . '-field' : 'jb-long-field';
+			$class_attr = ' class="jb-forms-field ' . esc_attr( $class ) . '" ';
+
+			$data = array(
+				'field_id' => $field_data['id'],
+			);
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $value ) . '" ';
+			}
+
+			$name             = $field_data['id'];
+			$name             = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$hidden_name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$name      = $name . ( ! empty( $field_data['multi'] ) ? '[]' : '' );
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$value = $this->get_field_value( $field_data );
+
+			$options = '';
+			if ( ! empty( $field_data['options'] ) ) {
+				foreach ( $field_data['options'] as $key => $option ) {
+					if ( ! empty( $field_data['multi'] ) ) {
+
+						if ( ! is_array( $value ) || empty( $value ) ) {
+							$value = array();
+						}
+
+						$options .= '&lt;option value="' . esc_attr( $key ) . '" ' . selected( in_array( $key, $value, true ), true, false ) . '>' . esc_html( $option ) . '&lt;/option>';
+					} else {
+						$options .= '&lt;option value="' . esc_attr( $key ) . '" ' . selected( (string) $key === $value, true, false ) . '>' . esc_html( $option ) . '&lt;/option>';
+					}
+				}
+			}
+
+			$hidden = '';
+			if ( ! empty( $multiple ) ) {
+				$hidden = "&lt;input type=\"hidden\" $hidden_name_attr value=\"\" />";
+			}
+			$html = "$hidden&lt;select $multiple $id_attr $name_attr $class_attr $data_attr>$options&lt;/select>";
+
+			return $html;
+		}
+
+
+		/**
+		 * @param $field_data
+		 *
+		 * @since 1.1.1
+		 *
+		 * @return bool|string
+		 */
+		public function render_page_select( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return false;
+			}
+
+			$multiple = ! empty( $field_data['multi'] ) ? 'multiple' : '';
+
+			$id      = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
+			$id_attr = ' id="' . esc_attr( $id ) . '" ';
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] . ' ' : ' ';
+			$class     .= ! empty( $field_data['size'] ) ? 'jb-' . $field_data['size'] . '-field' : 'jb-long-field';
+			$class_attr = ' class="jb-forms-field jb-pages-select2 ' . esc_attr( $class ) . '" ';
+
+			$data = array(
+				'field_id' => $field_data['id'],
+			);
+
+			if ( ! empty( $field_data['placeholder'] ) ) {
+				$data['placeholder'] = $field_data['placeholder'];
+			}
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= ' data-' . $key . '="' . esc_attr( $value ) . '" ';
+			}
+
+			$name             = $field_data['id'];
+			$name             = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$hidden_name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$name      = $name . ( ! empty( $field_data['multi'] ) ? '[]' : '' );
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$value = $this->get_field_value( $field_data );
+
+			$options = '&lt;option value="">' . esc_html( $data['placeholder'] ) . '&lt;/option>';
+			if ( ! empty( $field_data['options'] ) ) {
+				foreach ( $field_data['options'] as $key => $option ) {
+					if ( ! empty( $field_data['multi'] ) ) {
+
+						if ( ! is_array( $value ) || empty( $value ) ) {
+							$value = array();
+						}
+
+						$options .= '&lt;option value="' . esc_attr( $key ) . '" ' . selected( in_array( $key, $value, true ), true, false ) . '>' . esc_html( $option ) . '&lt;/option>';
+					} else {
+						$options .= '&lt;option value="' . esc_attr( $key ) . '" ' . selected( (string) $key === $value, true, false ) . '>' . esc_html( $option ) . '&lt;/option>';
+					}
+				}
+			}
+
+			$hidden = '';
+			if ( ! empty( $multiple ) ) {
+				$hidden = "&lt;input type=\"hidden\" $hidden_name_attr value=\"\" />";
+			}
+
+			$button   = '';
+			$page_key = str_replace( '_page', '', $field_data['id'] );
+
+			if ( ! JB()->common()->permalinks()->get_predefined_page_id( $page_key ) ) {
+				$create_page_url = add_query_arg(
+					array(
+						'jb_adm_action' => 'install_predefined_page',
+						'jb_page_key'   => $page_key,
+						'nonce'         => wp_create_nonce( 'jb_install_predefined_page' ),
+					)
+				);
+
+				$button = '&amp;nbsp;&lt;a href="' . esc_url( $create_page_url ) . '" class="button button-primary">' . esc_html__( 'Create Default', 'jobboardwp' ) . '&lt;/a>';
+			}
+
+			$html = "$hidden&lt;select $multiple $id_attr $name_attr $class_attr $data_attr>$options&lt;/select>$button";
+
+			return $html;
+		}
+
+
+		/**
+		 * Render datepicker field
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_datepicker( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			$id      = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
+			$id_attr = ' id="' . esc_attr( $id ) . '" ';
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class     .= ! empty( $field_data['size'] ) ? 'jb-' . $field_data['size'] . '-field' : 'jb-long-field';
+			$class_attr = ' class="jb-forms-field jb-datepicker ' . esc_attr( $class ) . '" ';
+
+			$data = array(
+				'field_id' => $field_data['id'],
+			);
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= ' data-' . $key . '="' . esc_attr( $value ) . '" ';
+			}
+
+			$placeholder_attr = ! empty( $field_data['placeholder'] ) ? ' placeholder="' . esc_attr( $field_data['placeholder'] ) . '"' : '';
+
+			$name      = $field_data['id'];
+			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$hidden_value      = $this->get_field_value( $field_data );
+			$hidden_value_attr = ' value="' . esc_attr( $hidden_value ) . '" ';
+
+			$value      = ! empty( $hidden_value ) ? date_i18n( get_option( 'date_format' ), strtotime( $hidden_value ) ) : '';
+			$value_attr = ' value="' . esc_attr( $value ) . '" ';
+
+			$html = "&lt;input type=\"text\" $id_attr $class_attr $data_attr $value_attr $placeholder_attr />&lt;input type=\"hidden\" class=\"jb-datepicker-default-format\" $name_attr $hidden_value_attr />";
+
+			return $html;
+		}
+
+
+		/**
+		 * Render media uploader
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_media( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class     .= ! empty( $field_data['size'] ) ? $field_data['size'] : 'jb-long-field';
+			$class_attr = ' class="jb-forms-field jb-media-upload-data-url ' . esc_attr( $class ) . '"';
+
+			$data = array(
+				'field_id' => $field_data['id'] . '_url',
+			);
+
+			if ( ! empty( $field_data['default']['url'] ) ) {
+				$data['default'] = esc_attr( $field_data['default']['url'] );
+			}
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $value ) . '" ';
+			}
+
+			$name = $field_data['id'];
+			$name = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+
+			$value = $this->get_field_value( $field_data );
+
+			$upload_frame_title = ! empty( $field_data['upload_frame_title'] ) ? $field_data['upload_frame_title'] : __( 'Select media', 'jobboardwp' );
+
+			$image_id        = ! empty( $value['id'] ) ? $value['id'] : '';
+			$image_width     = ! empty( $value['width'] ) ? $value['width'] : '';
+			$image_height    = ! empty( $value['height'] ) ? $value['height'] : '';
+			$image_thumbnail = ! empty( $value['thumbnail'] ) ? $value['thumbnail'] : '';
+			$image_url       = ! empty( $value['url'] ) ? $value['url'] : '';
+
+			ob_start();
+			?>
+
+			&lt;div class="jb-media-upload">
+				&lt;input type="hidden" class="jb-media-upload-data-id" name="&lt;?php echo esc_attr( $name ); ?>[id]" id="&lt;?php echo esc_attr( $id ); ?>_id" value="&lt;?php echo esc_attr( $image_id ); ?>">
+				&lt;input type="hidden" class="jb-media-upload-data-width" name="&lt;?php echo esc_attr( $name ); ?>[width]" id="&lt;?php echo esc_attr( $id ); ?>_width" value="&lt;?php echo esc_attr( $image_width ); ?>">
+				&lt;input type="hidden" class="jb-media-upload-data-height" name="&lt;?php echo esc_attr( $name ); ?>[height]" id="&lt;?php echo esc_attr( $id ); ?>_height" value="&lt;?php echo esc_attr( $image_height ); ?>">
+				&lt;input type="hidden" class="jb-media-upload-data-thumbnail" name="&lt;?php echo esc_attr( $name ); ?>[thumbnail]" id="&lt;?php echo esc_attr( $id ); ?>_thumbnail" value="&lt;?php echo esc_attr( $image_thumbnail ); ?>">
+
+				&lt;?php echo wp_kses( '&lt;input type="hidden" class="jb-forms-field jb-media-upload-data-url ' . esc_attr( $class ) . '" name="' . esc_attr( $name ) . '[url]" id="' . esc_attr( $id ) . '_url" value="' . esc_attr( $image_url ) . '" ' . $data_attr . '>', JB()->get_allowed_html( 'wp-admin' ) ); ?>
+
+				&lt;?php if ( ! isset( $field_data['preview'] ) || false !== $field_data['preview'] ) { ?>
+					&lt;img src="&lt;?php echo esc_attr( $image_url ); ?>" alt="" class="icon_preview">&lt;div style="clear:both;">&lt;/div>
+				&lt;?php } ?>
+
+				&lt;?php if ( ! empty( $field_data['url'] ) ) { ?>
+					&lt;label class="screen-reader-text" for="jb-media-upload-url">&lt;?php echo esc_attr( $this->render_field_label( $field_data ) ); ?>&lt;/label>
+					&lt;input type="text" id="jb-media-upload-url" class="jb-media-upload-url" readonly value="&lt;?php echo esc_attr( $image_url ); ?>" />&lt;div style="clear:both;">&lt;/div>
+				&lt;?php } ?>
+
+				&lt;input type="button" class="jb-set-image button button-primary" value="&lt;?php esc_attr_e( 'Select', 'jobboardwp' ); ?>" data-upload_frame="&lt;?php echo esc_attr( $upload_frame_title ); ?>" />
+				&lt;input type="button" class="jb-clear-image button" value="&lt;?php esc_attr_e( 'Clear', 'jobboardwp' ); ?>" />
+			&lt;/div>
+
+			&lt;?php
+			$html = ob_get_clean();
+			return $html;
+		}
+
+
+		/**
+		 * Get field value
+		 *
+		 * @param array $field_data
+		 * @param string $i
+		 * @return string|array
+		 *
+		 * @since 1.0
+		 */
+		public function get_field_value( $field_data, $i = '' ) {
+			$default = '';
+			$default = isset( $field_data[ 'default' . $i ] ) ? $field_data[ 'default' . $i ] : $default;
+
+			if ( 'checkbox' === $field_data['type'] ) {
+				$value = ( isset( $field_data[ 'value' . $i ] ) &amp;&amp; '' !== $field_data[ 'value' . $i ] ) ? $field_data[ 'value' . $i ] : $default;
+			} else {
+				$value = isset( $field_data[ 'value' . $i ] ) ? $field_data[ 'value' . $i ] : $default;
+			}
+
+			$value = is_string( $value ) ? stripslashes( $value ) : $value;
+
+			if ( ! empty( $value ) ) {
+				if ( isset( $field_data['encode'] ) ) {
+					$value = wp_json_encode( $value, JSON_UNESCAPED_UNICODE );
+				}
+			}
+
+			return $value;
+		}
+	}
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+
+    <footer>
+		<a href="https://wordpress.org/plugins/jobboardwp/">JobBoardWP Plugin</a> &bull;
+		<a href="https://docs.jobboardwp.com/">Official Docs</a>
+	</footer>
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="jb-after-job-delete.html">jb-after-job-delete</a></li><li><a href="jb-job-submission-validation.html">jb-job-submission-validation</a></li><li><a href="jb_admin_after_main_notices.html">jb_admin_after_main_notices</a></li><li><a href="jb_admin_create_notices.html">jb_admin_create_notices</a></li><li><a href="jb_admin_init_locale.html">jb_admin_init_locale</a></li><li><a href="jb_after_email_notification_sending.html">jb_after_email_notification_sending</a></li><li><a href="jb_after_job_apply_block.html">jb_after_job_apply_block</a></li><li><a href="jb_after_job_content.html">jb_after_job_content</a></li><li><a href="jb_after_template_part.html">jb_after_template_part</a></li><li><a href="jb_before_email_notification_sending.html">jb_before_email_notification_sending</a></li><li><a href="jb_before_job_content.html">jb_before_job_content</a></li><li><a href="jb_before_settings_%257B$current_tab%257D_%257B$current_subtab%257D_content.html">jb_before_settings_{$current_tab}_{$current_subtab}_content</a></li><li><a href="jb_before_template_part.html">jb_before_template_part</a></li><li><a href="jb_fill_job.html">jb_fill_job</a></li><li><a href="jb_job_categories_footer.html">jb_job_categories_footer</a></li><li><a href="jb_job_edited.html">jb_job_edited</a></li><li><a href="jb_job_is_approved.html">jb_job_is_approved</a></li><li><a href="jb_job_is_expired.html">jb_job_is_expired</a></li><li><a href="jb_job_published.html">jb_job_published</a></li><li><a href="jb_job_submission_after_create_account.html">jb_job_submission_after_create_account</a></li><li><a href="jb_jobs_filter_type_%257B$type%257D.html">jb_jobs_filter_type_{$type}</a></li><li><a href="jb_jobs_head_after.html">jb_jobs_head_after</a></li><li><a href="jb_jobs_head_before.html">jb_jobs_head_before</a></li><li><a href="jb_settings_before_save.html">jb_settings_before_save</a></li><li><a href="jb_settings_save.html">jb_settings_save</a></li><li><a href="jb_unfill_job.html">jb_unfill_job</a></li></ul><h3>Filters</h3><ul><li><a href="jb-job-company-data.html">jb-job-company-data</a></li><li><a href="jb-job-location-structured-data.html">jb-job-location-structured-data</a></li><li><a href="jb-job-raw-data.html">jb-job-raw-data</a></li><li><a href="jb-job-structured-data.html">jb-job-structured-data</a></li><li><a href="jb-save-job-user-company-data.html">jb-save-job-user-company-data</a></li><li><a href="jb-user-company-data.html">jb-user-company-data</a></li><li><a href="jb_admin_enqueue_localize.html">jb_admin_enqueue_localize</a></li><li><a href="jb_admin_jobs_listtable_columns.html">jb_admin_jobs_listtable_columns</a></li><li><a href="jb_admin_settings_get_pages_list.html">jb_admin_settings_get_pages_list</a></li><li><a href="jb_admin_settings_pages_list_value.html">jb_admin_settings_pages_list_value</a></li><li><a href="jb_can_applied_job.html">jb_can_applied_job</a></li><li><a href="jb_change_settings_before_save.html">jb_change_settings_before_save</a></li><li><a href="jb_common_js_variables.html">jb_common_js_variables</a></li><li><a href="jb_config_get.html">jb_config_get</a></li><li><a href="jb_content_editor_options.html">jb_content_editor_options</a></li><li><a href="jb_cpt_list.html">jb_cpt_list</a></li><li><a href="jb_cron_delete_expired_jobs.html">jb_cron_delete_expired_jobs</a></li><li><a href="jb_cron_delete_expired_jobs_days.html">jb_cron_delete_expired_jobs_days</a></li><li><a href="jb_default_individual_expiry.html">jb_default_individual_expiry</a></li><li><a href="jb_default_template_path.html">jb_default_template_path</a></li><li><a href="jb_email_send_subject.html">jb_email_send_subject</a></li><li><a href="jb_email_template_content.html">jb_email_template_content</a></li><li><a href="jb_email_template_content_type.html">jb_email_template_content_type</a></li><li><a href="jb_email_template_path.html">jb_email_template_path</a></li><li><a href="jb_email_templates_columns.html">jb_email_templates_columns</a></li><li><a href="jb_emails_list_table_custom_column_content.html">jb_emails_list_table_custom_column_content</a></li><li><a href="jb_enqueue_localize.html">jb_enqueue_localize</a></li><li><a href="jb_filesystem_max_file_age.html">jb_filesystem_max_file_age</a></li><li><a href="jb_form_error.html">jb_form_error</a></li><li><a href="jb_form_global_error.html">jb_form_global_error</a></li><li><a href="jb_form_notice.html">jb_form_notice</a></li><li><a href="jb_forms_before_render_section.html">jb_forms_before_render_section</a></li><li><a href="jb_forms_move_form_tag.html">jb_forms_move_form_tag</a></li><li><a href="jb_frontend_common_styles_deps.html">jb_frontend_common_styles_deps</a></li><li><a href="jb_frontend_forms_required_star_disabled.html">jb_frontend_forms_required_star_disabled</a></li><li><a href="jb_get_employer_jobs_args.html">jb_get_employer_jobs_args</a></li><li><a href="jb_get_job_categories_args.html">jb_get_job_categories_args</a></li><li><a href="jb_get_job_categories_response.html">jb_get_job_categories_response</a></li><li><a href="jb_get_jobs_query_args.html">jb_get_jobs_query_args</a></li><li><a href="jb_get_predefined_page_id.html">jb_get_predefined_page_id</a></li><li><a href="jb_get_template.html">jb_get_template</a></li><li><a href="jb_is_predefined_page.html">jb_is_predefined_page</a></li><li><a href="jb_job_dashboard_job_data_response.html">jb_job_dashboard_job_data_response</a></li><li><a href="jb_job_dashboard_response.html">jb_job_dashboard_response</a></li><li><a href="jb_job_details_metabox_fields.html">jb_job_details_metabox_fields</a></li><li><a href="jb_job_submission_create_account_data.html">jb_job_submission_create_account_data</a></li><li><a href="jb_job_submission_update_account_data.html">jb_job_submission_update_account_data</a></li><li><a href="jb_job_submitted_data.html">jb_job_submitted_data</a></li><li><a href="jb_job_type_styling.html">jb_job_type_styling</a></li><li><a href="jb_jobs_directory_filter_types.html">jb_jobs_directory_filter_types</a></li><li><a href="jb_jobs_directory_filters.html">jb_jobs_directory_filters</a></li><li><a href="jb_jobs_job_data_response.html">jb_jobs_job_data_response</a></li><li><a href="jb_jobs_list_calculate_pagination_result.html">jb_jobs_list_calculate_pagination_result</a></li><li><a href="jb_jobs_list_category_filter_args.html">jb_jobs_list_category_filter_args</a></li><li><a href="jb_jobs_list_response.html">jb_jobs_list_response</a></li><li><a href="jb_jobs_list_type_filter_args.html">jb_jobs_list_type_filter_args</a></li><li><a href="jb_jobs_scripts_enqueue.html">jb_jobs_scripts_enqueue</a></li><li><a href="jb_language_file.html">jb_language_file</a></li><li><a href="jb_language_locale.html">jb_language_locale</a></li><li><a href="jb_language_textdomain.html">jb_language_textdomain</a></li><li><a href="jb_late_escaping_allowed_tags.html">jb_late_escaping_allowed_tags</a></li><li><a href="jb_locate_template.html">jb_locate_template</a></li><li><a href="jb_mail_placeholders.html">jb_mail_placeholders</a></li><li><a href="jb_mail_replace_placeholders.html">jb_mail_replace_placeholders</a></li><li><a href="jb_options_get_%257B$option_id%257D.html">jb_options_get_{$option_id}</a></li><li><a href="jb_options_key.html">jb_options_key</a></li><li><a href="jb_post_statuses.html">jb_post_statuses</a></li><li><a href="jb_pre_template_locations.html">jb_pre_template_locations</a></li><li><a href="jb_pre_template_locations_common_locale_integration.html">jb_pre_template_locations_common_locale_integration</a></li><li><a href="jb_predefined_page_option_key.html">jb_predefined_page_option_key</a></li><li><a href="jb_render_field_type_%257B$field_type%257D.html">jb_render_field_type_{$field_type}</a></li><li><a href="jb_rich_text_editor_buttons.html">jb_rich_text_editor_buttons</a></li><li><a href="jb_save_email_templates_locations.html">jb_save_email_templates_locations</a></li><li><a href="jb_section_fields.html">jb_section_fields</a></li><li><a href="jb_settings.html">jb_settings</a></li><li><a href="jb_settings_custom_subtabs.html">jb_settings_custom_subtabs</a></li><li><a href="jb_settings_custom_tabs.html">jb_settings_custom_tabs</a></li><li><a href="jb_settings_email_section_fields.html">jb_settings_email_section_fields</a></li><li><a href="jb_settings_section_%257B$current_tab%257D_%257B$current_subtab%257D_content.html">jb_settings_section_{$current_tab}_{$current_subtab}_content</a></li><li><a href="jb_taxonomies_list.html">jb_taxonomies_list</a></li><li><a href="jb_template_include.html">jb_template_include</a></li><li><a href="jb_template_locations.html">jb_template_locations</a></li><li><a href="jb_template_path.html">jb_template_path</a></li><li><a href="jb_template_structure_custom_path.html">jb_template_structure_custom_path</a></li><li><a href="jb_uploading_logo_mime_types.html">jb_uploading_logo_mime_types</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
