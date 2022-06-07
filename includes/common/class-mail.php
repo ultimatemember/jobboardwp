@@ -81,6 +81,18 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 				return;
 			}
 
+			add_filter(
+				'jb_template_locations_base_user_id_for_locale',
+				function( $user_id ) use ( $email ) {
+					$user = get_user_by( 'email', $email );
+					if ( false !== $user && isset( $user->ID ) ) {
+						$user_id = $user->ID;
+					}
+
+					return $user_id;
+				}
+			);
+
 			/**
 			 * Fires before sending email notification via JobBoardWP plugin.
 			 *

@@ -374,7 +374,7 @@ function jb_polylang_get_status_html( $template, $code ) {
 	$template_locations = array_map( 'wp_normalize_path', $template_locations );
 
 	foreach ( $template_locations as $k => $location ) {
-		if ( false === strstr( $location, $code ) ) {
+		if ( false === strstr( $location, wp_normalize_path( DIRECTORY_SEPARATOR . $code . DIRECTORY_SEPARATOR ) ) ) {
 			unset( $template_locations[ $k ] );
 		}
 	}
@@ -417,6 +417,10 @@ function jb_polylang_get_status_html( $template, $code ) {
 
 
 function jb_pre_template_locations_polylang( $template_locations, $template_name, $template_path ) {
+	if ( 0 === strpos( $template_name, 'emails/' ) ) {
+		return $template_locations;
+	}
+
 	$language_codes = jb_polylang_get_languages_codes();
 
 	if ( $language_codes['default'] !== $language_codes['current'] ) {
@@ -502,7 +506,7 @@ function jb_change_email_templates_locations_polylang( $template_locations ) {
 	}
 
 	foreach ( $template_locations as $k => $location ) {
-		if ( false === strstr( $location, DIRECTORY_SEPARATOR . $code . DIRECTORY_SEPARATOR ) ) {
+		if ( false === strstr( $location, wp_normalize_path( DIRECTORY_SEPARATOR . $code . DIRECTORY_SEPARATOR ) ) ) {
 			unset( $template_locations[ $k ] );
 		}
 	}

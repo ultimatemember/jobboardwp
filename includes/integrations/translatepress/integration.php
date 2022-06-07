@@ -56,6 +56,10 @@ add_filter( 'jb_common_js_variables', 'jb_common_js_variables_translatepress', 1
  * @return array
  */
 function jb_pre_template_locations_translatepress( $template_locations, $template_name, $template_path ) {
+	if ( 0 === strpos( $template_name, 'emails/' ) ) {
+		return $template_locations;
+	}
+
 	$language_codes = jb_translatepress_get_languages_codes();
 
 	if ( $language_codes['default'] !== $language_codes['current'] ) {

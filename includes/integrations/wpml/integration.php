@@ -417,7 +417,7 @@ function jb_wpml_get_status_html( $template, $code ) {
 	$template_locations = array_map( 'wp_normalize_path', $template_locations );
 
 	foreach ( $template_locations as $k => $location ) {
-		if ( false === strstr( $location, $code ) ) {
+		if ( false === strstr( $location, wp_normalize_path( DIRECTORY_SEPARATOR . $code . DIRECTORY_SEPARATOR ) ) ) {
 			unset( $template_locations[ $k ] );
 		}
 	}
@@ -468,6 +468,10 @@ function jb_wpml_render_status_icon( $link, $text, $img ) {
  * @return array
  */
 function jb_pre_template_locations_wpml( $template_locations, $template_name, $template_path ) {
+	if ( 0 === strpos( $template_name, 'emails/' ) ) {
+		return $template_locations;
+	}
+
 	$language_codes = jb_wpml_get_languages_codes();
 
 	if ( $language_codes['default'] !== $language_codes['current'] ) {
@@ -556,7 +560,7 @@ function jb_change_email_templates_locations_wpml( $template_locations ) {
 
 	$locale = $sitepress->get_locale_from_language_code( $code );
 	foreach ( $template_locations as $k => $location ) {
-		if ( false === strstr( $location, DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR ) ) {
+		if ( false === strstr( $location, wp_normalize_path( DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR ) ) ) {
 			unset( $template_locations[ $k ] );
 		}
 	}

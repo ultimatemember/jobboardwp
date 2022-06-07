@@ -85,8 +85,23 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 
 			// use the user_locale only for email notifications templates
 			if ( 0 === strpos( $template_name, 'emails/' ) ) {
-				$current_locale      = determine_locale();
-				$current_user_locale = get_user_locale();
+				$current_locale = determine_locale();
+
+				/**
+				 * Filters the user ID for getting it locale when getting individual multilingual template's location in the common integration function.
+				 *
+				 * Note: Internal JobBoardWP hook for getting individual multilingual location related to email templates in the common integration function.
+				 *
+				 * @since 1.2.0
+				 * @hook jb_template_locations_base_user_id_for_locale
+				 *
+				 * @param {int}    $user_id       Current User ID.
+				 * @param {string} $template_name Template name.
+				 *
+				 * @return {int} User ID for getting current recipient locale.
+				 */
+				$base_user_id        = apply_filters( 'jb_template_locations_base_user_id_for_locale', get_current_user_id(), $template_name );
+				$current_user_locale = get_user_locale( $base_user_id );
 
 				if ( $current_locale !== $current_user_locale ) {
 					// todo skip duplications e.g. "jobboardwp/ru_RU/uk/emails/job_approved.php" when current language = uk, but user locale is ru_RU. Must be only "jobboardwp/ru_RU/emails/job_approved.php" in this case

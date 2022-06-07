@@ -945,12 +945,18 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				$handle = @opendir( $dir );
 				// phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition -- reading folder's content here
 				while ( false !== ( $filename = readdir( $handle ) ) ) {
-					if ( '.' === $filename || '..' === $filename || 'emails' === $filename ) {
+					if ( '.' === $filename || '..' === $filename ) {
 						continue;
 					}
+
+					// show only root *.php files inside templates dir for getting Job templates
+					if ( is_dir( wp_normalize_path( $dir . DIRECTORY_SEPARATOR . $filename ) ) ) {
+						continue;
+					}
+
 					$clean_filename = $this->get_template_name( $filename );
 
-					$source  = $wp_filesystem->get_contents( $dir . DIRECTORY_SEPARATOR . $filename );
+					$source  = $wp_filesystem->get_contents( wp_normalize_path( $dir . DIRECTORY_SEPARATOR . $filename ) );
 					$tokens  = @\token_get_all( $source );
 					$comment = array(
 						T_COMMENT, // All comments since PHP5

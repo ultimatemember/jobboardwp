@@ -232,7 +232,11 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 								$v = sanitize_text_field( $v );
 								break;
 							case 'absint':
-								$v = absint( $v );
+								if ( is_array( $v ) ) {
+									$v = array_map( 'absint', $v );
+								} else {
+									$v = absint( $v );
+								}
 								break;
 						}
 					}
