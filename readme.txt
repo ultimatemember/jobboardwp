@@ -111,7 +111,7 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Added: Integration with multilingual plugins (WPML, Polylang, TranslatePress, Weglot)
   - Predefined pages integration
   - Templates integration
-* Added: Displaying job category on the individual job page adn on the jobs list
+* Added: Displaying job category on the individual job page and on the jobs list
 * Added: Ability to set individual job expired date when posting
 * Added: Validation for the Job Data metabox fields on the add/edit job screen in Admin Dashboard
 * Fixed: Hide filled and expired jobs on WordPress native archive pages. It's based on the Admin Dashboard > JobBoardWP > Settings > Jobs List settings
