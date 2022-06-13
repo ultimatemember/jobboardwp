@@ -84,7 +84,7 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 			$template_locations = apply_filters( 'jb_pre_template_locations_common_locale_integration', $template_locations, $template_name, $template_path );
 
 			// use the user_locale only for email notifications templates
-			if ( 0 === strpos( $template_name, 'emails/' ) ) {
+			if ( JB()->common()->mail()->is_sending() && 0 === strpos( $template_name, 'emails/' ) ) {
 				$current_locale = determine_locale();
 
 				/**

@@ -17,9 +17,23 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 
 
 		/**
+		 * @var bool
+		 */
+		private $sending = false;
+
+
+		/**
 		 * Mail constructor.
 		 */
 		public function __construct() {
+		}
+
+
+		/**
+		 * @return bool
+		 */
+		public function is_sending() {
+			return $this->sending;
 		}
 
 
@@ -80,6 +94,8 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 			if ( empty( JB()->options()->get( $template . '_on' ) ) ) {
 				return;
 			}
+
+			$this->sending = true;
 
 			add_filter(
 				'jb_template_locations_base_user_id_for_locale',
@@ -158,6 +174,8 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 			 * @param {array}  $args     Passed into the `send()` function arguments. There can be data to replace placeholders.
 			 */
 			do_action( 'jb_after_email_notification_sending', $email, $template, $args );
+
+			$this->sending = false;
 		}
 
 

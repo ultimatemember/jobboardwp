@@ -468,7 +468,7 @@ function jb_wpml_render_status_icon( $link, $text, $img ) {
  * @return array
  */
 function jb_pre_template_locations_wpml( $template_locations, $template_name, $template_path ) {
-	if ( 0 === strpos( $template_name, 'emails/' ) ) {
+	if ( JB()->common()->mail()->is_sending() && 0 === strpos( $template_name, 'emails/' ) ) {
 		return $template_locations;
 	}
 

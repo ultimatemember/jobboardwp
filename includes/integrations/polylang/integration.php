@@ -417,7 +417,7 @@ function jb_polylang_get_status_html( $template, $code ) {
 
 
 function jb_pre_template_locations_polylang( $template_locations, $template_name, $template_path ) {
-	if ( 0 === strpos( $template_name, 'emails/' ) ) {
+	if ( JB()->common()->mail()->is_sending() && 0 === strpos( $template_name, 'emails/' ) ) {
 		return $template_locations;
 	}
 

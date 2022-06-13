@@ -135,7 +135,7 @@ add_filter( 'jb_common_js_variables', 'jb_common_js_variables_weglot', 10, 1 );
  * @throws Exception
  */
 function jb_pre_template_locations_weglot( $template_locations, $template_name, $template_path ) {
-	if ( 0 === strpos( $template_name, 'emails/' ) ) {
+	if ( JB()->common()->mail()->is_sending() && 0 === strpos( $template_name, 'emails/' ) ) {
 		return $template_locations;
 	}
 
