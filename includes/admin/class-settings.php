@@ -129,7 +129,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				//redirect after save settings
 				$arg = array(
 					'page'   => 'jb-settings',
-					'update' => 'settings_updated',
+					'update' => 'jb_settings_updated',
 				);
 				if ( ! empty( $_GET['tab'] ) ) {
 					$arg['tab'] = sanitize_key( $_GET['tab'] );

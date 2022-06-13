@@ -295,7 +295,7 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 
 			$update = sanitize_key( $_REQUEST['update'] ); // phpcs:ignore WordPress.Security.NonceVerification
 			switch ( $update ) {
-				case 'settings_updated':
+				case 'jb_settings_updated':
 					$messages[0]['content'] = __( 'Settings updated successfully.', 'jobboardwp' );
 
 					break;
