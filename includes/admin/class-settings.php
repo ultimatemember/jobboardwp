@@ -153,14 +153,14 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		}
 
 
-		function multi_email_sanitize( $value ) {
+		public function multi_email_sanitize( $value ) {
 			$emails_array = explode( ',', $value );
 			if ( ! empty( $emails_array ) ) {
 				$emails_array = array_map( 'sanitize_email', array_map( 'trim', $emails_array ) );
 			}
 
 			$emails_array = array_filter( array_unique( $emails_array ) );
-			$value = implode( ',', $emails_array );
+			$value        = implode( ',', $emails_array );
 
 			return $value;
 		}

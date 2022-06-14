@@ -471,25 +471,32 @@ add_filter( 'jb_settings_email_section_fields', 'jb_settings_change_subject_fiel
 
 /**
  * @param string $subject
- * @param $template
+ * @param string $template
+ * @param string $email
  *
  * @return string
  */
-function jb_change_email_subject_polylang( $subject, $template ) {
+function jb_change_email_subject_polylang( $subject, $template, $email ) {
 	$language_codes = jb_polylang_get_languages_codes();
 
-	if ( $language_codes['default'] === $language_codes['current'] ) {
+	$current_locale = $language_codes['current'];
+	$user_obj       = get_user_by( 'email', $email );
+	if ( false !== $user_obj ) {
+		$current_locale = get_user_locale( $user_obj->ID );
+	}
+
+	if ( $language_codes['default'] === $current_locale ) {
 		return $subject;
 	}
 
-	$lang  = '_' . $language_codes['current'];
+	$lang  = '_' . $current_locale;
 	$value = JB()->options()->get( $template . '_sub' . $lang );
 
 	$subject = ! empty( $value ) ? $value : $subject;
 
 	return $subject;
 }
-add_filter( 'jb_email_send_subject', 'jb_change_email_subject_polylang', 10, 2 );
+add_filter( 'jb_email_send_subject', 'jb_change_email_subject_polylang', 10, 3 );
 
 
 /**
