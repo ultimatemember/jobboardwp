@@ -91,6 +91,11 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				foreach ( $settings as $key => $value ) {
 					$key = sanitize_key( $key );
 					if ( isset( $this->sanitize_map[ $key ] ) ) {
+
+						if ( is_callable( $this->sanitize_map[ $key ], true, $callable_name ) ) {
+							add_filter( 'jb_settings_sanitize_' . $key, $this->sanitize_map[ $key ], 10, 1 );
+						}
+
 						switch ( $this->sanitize_map[ $key ] ) {
 							case 'bool':
 								$value = (bool) $value;
@@ -109,6 +114,9 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 								break;
 							case 'textarea':
 								$value = sanitize_textarea_field( $value );
+								break;
+							default:
+								$value = apply_filters( 'jb_settings_sanitize_' . $key, $value );
 								break;
 						}
 					}
@@ -142,6 +150,19 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				wp_redirect( add_query_arg( $arg, admin_url( 'admin.php' ) ) );
 				exit;
 			}
+		}
+
+
+		function multi_email_sanitize( $value ) {
+			$emails_array = explode( ',', $value );
+			if ( ! empty( $emails_array ) ) {
+				$emails_array = array_map( 'sanitize_email', array_map( 'trim', $emails_array ) );
+			}
+
+			$emails_array = array_filter( array_unique( $emails_array ) );
+			$value = implode( ',', $emails_array );
+
+			return $value;
 		}
 
 
@@ -259,7 +280,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					'jobs-list-hide-location-search' => 'bool',
 					'jobs-list-hide-filters'         => 'bool',
 					'jobs-list-hide-job-types'       => 'bool',
-					'admin_email'                    => 'email',
+					'admin_email'                    => array( &$this, 'multi_email_sanitize' ),
 					'mail_from'                      => 'text',
 					'mail_from_addr'                 => 'email',
 					'disable-styles'                 => 'bool',
