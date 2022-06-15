@@ -105,7 +105,7 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 == Changelog ==
 
-= 1.2.0: June 15, 2022 =
+= 1.2.0: June 16, 2022 =
 
 * Added: [Documentation](https://ultimatemember.github.io/jobboardwp/) for developers
 * Added: Integration with multilingual plugins (WPML, Polylang, TranslatePress, Weglot)

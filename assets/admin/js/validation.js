@@ -6,10 +6,6 @@
 	var notices = wp.data.dispatch( 'core/notices' );
 	var locked = false;
 
-
-	console.log( editor );
-	console.log( wp.data.select( "core/editor" ) );
-
 	// Backup original method.
 	var savePost = editor.savePost;
 
