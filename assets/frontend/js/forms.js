@@ -89,7 +89,8 @@ jQuery( document ).ready( function($) {
 
 		var uploader = new plupload.Uploader({
 			browse_button: $button.get( 0 ), // you can pass in id...
-			drop_element: $button_wrapper.get( 0 ), // ... or DOM Element itself
+			drop_element: $filelist.get( 0 ), // ... or DOM Element itself
+			container: $button_wrapper.get( 0 ), // ... or DOM Element itself
 			url: wp.ajax.settings.url + '?action=' + $action + '&nonce=' + jb_front_data.nonce,
 			chunk_size: '1024kb',
 			max_retries: 1,
