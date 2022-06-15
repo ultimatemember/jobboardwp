@@ -84,11 +84,13 @@ jQuery( document ).ready( function($) {
 		var $button = $(this);
 		var $action = $button.data('action');
 		var $filelist = $button.parents('.jb-uploader-dropzone');
+		var $button_wrapper = $button.parents('.jb-select-media-button-wrapper');
 		var $errorlist = $filelist.siblings( '.jb-uploader-errorlist' );
 
 		var uploader = new plupload.Uploader({
 			browse_button: $button.get( 0 ), // you can pass in id...
 			drop_element: $filelist.get( 0 ), // ... or DOM Element itself
+			container: $button_wrapper.get( 0 ), // ... or DOM Element itself
 			url: wp.ajax.settings.url + '?action=' + $action + '&nonce=' + jb_front_data.nonce,
 			chunk_size: '1024kb',
 			max_retries: 1,
