@@ -121,6 +121,7 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Fixed: Displaying posts/pages when link attached in the Job Description field on the posting form
 * Fixed: Issue with category attribute in the jobs list shortcode
 * Fixed: Dropdown.js library and
+* Fixed: Logo uploader button for iPhones
 * Templates required update:
   - dashboard/jobs.php
   - emails/base_wrapper.php

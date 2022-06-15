@@ -589,8 +589,8 @@ function jb_before_email_notification_sending_wpml( $email, $template, $args ) {
 		$function = function() {
 			global $sitepress;
 			$locale_lang_code = $sitepress->get_current_language();
-			$locale = $sitepress->get_locale( $locale_lang_code );
-			return $locale;
+
+			return $sitepress->get_locale( $locale_lang_code );
 		};
 
 		add_filter( 'locale', $function );
