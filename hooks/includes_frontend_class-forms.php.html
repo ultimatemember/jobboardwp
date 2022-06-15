@@ -598,7 +598,9 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				&lt;span id="jb_&lt;?php echo esc_attr( $id ); ?>_filelist" class="jb-uploader-dropzone">
 					&lt;span>&lt;?php esc_html_e( 'Drop file to upload', 'jobboardwp' ); ?>&lt;/span>
 					&lt;span>&lt;?php esc_html_e( 'or', 'jobboardwp' ); ?>&lt;/span>
-					&lt;input type="button" class="jb-select-media" data-action="&lt;?php echo esc_attr( $field_data['action'] ); ?>" id="jb_&lt;?php echo esc_attr( $id ); ?>_plupload" value="&lt;?php echo esc_attr( $select_label ); ?>" />
+					&lt;div class="jb-select-media-button-wrapper">
+						&lt;input type="button" class="jb-select-media" data-action="&lt;?php echo esc_attr( $field_data['action'] ); ?>" id="jb_&lt;?php echo esc_attr( $id ); ?>_plupload" value="&lt;?php echo esc_attr( $select_label ); ?>" />
+					&lt;/div>
 				&lt;/span>
 
 				&lt;span id="jb-&lt;?php echo esc_attr( $id ); ?>-errorlist" class="jb-uploader-errorlist">&lt;/span>
