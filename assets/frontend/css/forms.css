@@ -301,7 +301,8 @@
     cursor: copy;
     padding: 1em; }
     .jb-uploader .jb-uploader-dropzone .moxie-shim.moxie-shim-html5 {
-      left: auto !important; }
+      width: 100% !important;
+     height: 100% !important; }
     .jb-uploader .jb-uploader-dropzone:hover {
       box-shadow: 0 0 4px 1px lightgray inset; }
     .jb-uploader .jb-uploader-dropzone span {
