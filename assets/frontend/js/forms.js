@@ -158,7 +158,6 @@ jQuery( document ).ready( function($) {
 					}
 				},
 				PostInit: function ( up ) {
-					$button.prop( 'jb-uploader', up ).next( 'div' ).hide();
 					$filelist.find( '.jb-uploader-file' ).remove();
 				},
 				UploadProgress: function ( up, file ) {
