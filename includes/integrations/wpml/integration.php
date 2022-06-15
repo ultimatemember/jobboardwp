@@ -575,3 +575,38 @@ function jb_change_email_templates_locations_wpml( $template_locations ) {
 	return $template_locations;
 }
 add_filter( 'jb_save_email_templates_locations', 'jb_change_email_templates_locations_wpml', 10, 1 );
+
+
+function jb_before_email_notification_sending_wpml( $email, $template, $args ) {
+	if ( 'job_approved' === $template || 'job_expiration_reminder' === $template ) {
+		global $sitepress;
+
+		$current_language = $sitepress->get_current_language();
+
+		$post_lang = $sitepress->get_language_for_element( $args['job_id'], 'post_jb-job' );
+		$sitepress->switch_lang( $post_lang );
+
+		$function = function() {
+			global $sitepress;
+			$locale_lang_code = $sitepress->get_current_language();
+			$locale = $sitepress->get_locale( $locale_lang_code );
+			return $locale;
+		};
+
+		add_filter( 'locale', $function );
+
+		add_action(
+			'jb_after_email_notification_sending',
+			function( $email, $template, $args ) use ( $current_language, $function ) {
+				if ( 'job_approved' === $template || 'job_expiration_reminder' === $template ) {
+					global $sitepress;
+					$sitepress->switch_lang( $current_language );
+					remove_filter( 'locale', $function );
+				}
+			},
+			10,
+			3
+		);
+	}
+}
+add_action( 'jb_before_email_notification_sending', 'jb_before_email_notification_sending_wpml', 10, 3 );

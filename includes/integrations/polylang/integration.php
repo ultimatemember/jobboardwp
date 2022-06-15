@@ -521,3 +521,35 @@ function jb_change_email_templates_locations_polylang( $template_locations ) {
 	return $template_locations;
 }
 add_filter( 'jb_save_email_templates_locations', 'jb_change_email_templates_locations_polylang', 10, 1 );
+
+
+function jb_before_email_notification_sending_polylang( $email, $template, $args ) {
+	if ( 'job_approved' === $template || 'job_expiration_reminder' === $template ) {
+		global $polylang;
+
+		$current_language = pll_current_language();
+		$current_language = $polylang->model->get_language( $current_language );
+
+		$post_lang     = $polylang->model->get_language( pll_get_post_language( $args['job_id'] ) );
+		PLL()->curlang = $post_lang;
+
+		$function = function() {
+			return PLL()->curlang->locale;
+		};
+
+		add_filter( 'locale', $function );
+
+		add_action(
+			'jb_after_email_notification_sending',
+			function( $email, $template, $args ) use ( $current_language, $function ) {
+				if ( 'job_approved' === $template || 'job_expiration_reminder' === $template ) {
+					PLL()->curlang = $current_language;
+					remove_filter( 'locale', $function );
+				}
+			},
+			10,
+			3
+		);
+	}
+}
+add_action( 'jb_before_email_notification_sending', 'jb_before_email_notification_sending_polylang', 10, 3 );
