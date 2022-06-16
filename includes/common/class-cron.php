@@ -26,7 +26,7 @@ if ( ! class_exists( 'jb\common\Cron' ) ) {
 			add_action( 'jb_delete_temp_files', array( JB()->common()->filesystem(), 'clear_temp_dir' ) );
 
 			if ( defined( 'JB_CRON_DEBUG' ) && JB_CRON_DEBUG ) {
-				add_filter( 'cron_schedules', array( &$this, 'add_minute' ) );
+				add_filter( 'cron_schedules', array( &$this, 'add_minute' ) ); // phpcs:ignore WordPress.WP.CronInterval.CronSchedulesInterval -- enabled and added only for debug case. Isn't declared by default
 			}
 		}
 
@@ -36,7 +36,7 @@ if ( ! class_exists( 'jb\common\Cron' ) ) {
 		 *
 		 * @return array
 		 */
-		function add_minute( $schedules ) {
+		public function add_minute( $schedules ) {
 			// add a 'jb_minutely' schedule to the existing set
 			$schedules['jb_minutely'] = array(
 				'interval' => MINUTE_IN_SECONDS,
