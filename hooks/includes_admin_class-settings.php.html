@@ -506,6 +506,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 										'type'        => 'text',
 										'label'       => __( 'Reminder time for "X" days', 'jobboardwp' ),
 										'helptip'     => __( 'Set the number of days before expiration when the job author receives an email.', 'jobboardwp' ),
+										'description' => __( 'Job duration must be longer than "X" days.', 'jobboardwp' ),
 										'conditional' => array( 'job-expiration-reminder', '=', '1' ),
 										'size'        => 'small',
 									),
