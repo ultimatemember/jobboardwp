@@ -553,3 +553,23 @@ function jb_before_email_notification_sending_polylang( $email, $template, $args
 	}
 }
 add_action( 'jb_before_email_notification_sending', 'jb_before_email_notification_sending_polylang', 10, 3 );
+
+
+function jb_check_for_reminder_expired_jobs_job_ids_polylang( $job_ids, $args ) {
+	$active_languages = pll_languages_list();
+
+	foreach ( $active_languages as $language_code ) {
+		if ( pll_current_language() === $language_code ) {
+			continue;
+		}
+		$args['lang'] = $language_code;
+
+		$lang_job_ids = get_posts( $args );
+		if ( ! empty( $lang_job_ids ) ) {
+			$job_ids = array_merge( $job_ids, $lang_job_ids );
+		}
+	}
+
+	return $job_ids;
+}
+add_filter( 'jb_check_for_reminder_expired_jobs_job_ids', 'jb_check_for_reminder_expired_jobs_job_ids_polylang', 10, 2 );

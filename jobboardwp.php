@@ -21,6 +21,10 @@ define( 'JB_PLUGIN', plugin_basename( __FILE__ ) );
 define( 'JB_VERSION', $plugin_data['Version'] );
 define( 'JB_PLUGIN_NAME', $plugin_data['Name'] );
 
+if ( ! defined( 'JB_CRON_DEBUG' ) ) {
+	define( 'JB_CRON_DEBUG', false );
+}
+
 require_once 'includes/class-jb-functions.php';
 require_once 'includes/class-jb.php';
 

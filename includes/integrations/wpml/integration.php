@@ -610,3 +610,29 @@ function jb_before_email_notification_sending_wpml( $email, $template, $args ) {
 	}
 }
 add_action( 'jb_before_email_notification_sending', 'jb_before_email_notification_sending_wpml', 10, 3 );
+
+
+function jb_check_for_reminder_expired_jobs_job_ids_wpml( $job_ids, $args ) {
+	global $sitepress;
+
+	$code = $sitepress->get_current_language();
+
+	$active_languages = $sitepress->get_active_languages();
+	foreach ( $active_languages as $language_code ) {
+		if ( $language_code['code'] === $code ) {
+			continue;
+		}
+
+		$sitepress->switch_lang( $language_code['code'] );
+
+		$lang_job_ids = get_posts( $args );
+		if ( ! empty( $lang_job_ids ) ) {
+			$job_ids = array_merge( $job_ids, $lang_job_ids );
+		}
+	}
+
+	$sitepress->switch_lang( $code );
+
+	return $job_ids;
+}
+add_filter( 'jb_check_for_reminder_expired_jobs_job_ids', 'jb_check_for_reminder_expired_jobs_job_ids_wpml', 10, 2 );
