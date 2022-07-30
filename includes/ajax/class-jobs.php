@@ -278,16 +278,19 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 
-			if ( isset( $_POST['orderby'] ) && 'title' === sanitize_key( $_POST['orderby'] ) ) {
-				$orderby = 'title';
-			} else {
-				$orderby = 'date';
+			// orderby.
+			$orderby = 'date';
+			if ( isset( $_POST['orderby'] ) ) {
+				$orderby = sanitize_key( wp_unslash( $_POST['orderby'] ) );
+				if ( 'expiry_date' === $orderby ) {
+					$query_args['meta_key'] = 'jb-expiry-date';
+					$query_args['orderby']  = 'meta_value';
+					$orderby                = 'meta_value';
+				}
 			}
-			if ( isset( $_POST['order'] ) && 'ASC' === sanitize_text_field( $_POST['order'] ) ) {
-				$order = 'ASC';
-			} else {
-				$order = 'DESC';
-			}
+
+			// order.
+			$order = isset( $_POST['order'] ) && 'ASC' === strtoupper( sanitize_text_field( $_POST['order'] ) ) ? 'ASC' : 'DESC';
 
 			$query_args = array_merge(
 				$query_args,
@@ -487,23 +490,6 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 					$job_company_data = JB()->common()->job()->get_company_data( $job_post->ID );
 
-					$data_types = array();
-					$types      = wp_get_post_terms(
-						$job_post->ID,
-						'jb-job-type',
-						array(
-							'orderby' => 'name',
-							'order'   => 'ASC',
-						)
-					);
-					foreach ( $types as $type ) {
-						$data_types[] = array(
-							'name'     => $type->name,
-							'color'    => get_term_meta( $type->term_id, 'jb-color', true ),
-							'bg_color' => get_term_meta( $type->term_id, 'jb-background', true ),
-						);
-					}
-
 					$title = esc_html( get_the_title( $job_post ) );
 					$title = ! empty( $title ) ? $title : esc_html__( '(no title)', 'jobboardwp' );
 
@@ -520,12 +506,39 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 							'facebook'  => esc_html( $job_company_data['facebook'] ),
 							'instagram' => esc_html( $job_company_data['instagram'] ),
 						),
-						'logo'      => JB()->common()->job()->get_logo( $job_post->ID ),
+						'logo'      => '',
 						'location'  => wp_kses( JB()->common()->job()->get_location_link( $job_post->ID ), JB()->get_allowed_html( 'templates' ) ),
-						'types'     => $data_types,
+						'types'     => array(),
 						'actions'   => array(),
 					);
 
+					// logo.
+					if ( empty( $_POST['no_logo'] ) ) {
+						$job_data['logo'] = JB()->common()->job()->get_logo( $job_post->ID );
+					}
+
+					// job types.
+					if ( empty( $_POST['no_job_types'] ) ) {
+						$data_types = array();
+						$types      = wp_get_post_terms(
+							$job_post->ID,
+							'jb-job-type',
+							array(
+								'orderby' => 'name',
+								'order'   => 'ASC',
+							)
+						);
+						foreach ( $types as $type ) {
+							$data_types[] = array(
+								'name'     => $type->name,
+								'color'    => get_term_meta( $type->term_id, 'jb-color', true ),
+								'bg_color' => get_term_meta( $type->term_id, 'jb-background', true ),
+							);
+						}
+						$job_data['types'] = $data_types;
+					}
+
+					// categories.
 					if ( JB()->options()->get( 'job-categories' ) ) {
 						$job_data['category'] = wp_kses( JB()->common()->job()->get_job_category( $job_post->ID ), JB()->get_allowed_html( 'templates' ) );
 					}

@@ -1,8 +1,30 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Template for the Jobs List page
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/js/jobs-list.php
+ *
+ * Call:      JB()->get_template_part( 'js/jobs-list', $args )
+ * Page:      Jobs
+ * Parent:    wrapper.php
+ * Shortcode: [jb_jobs /]
+ * Shortcode: [jb_recent_jobs /]
+ *
+ * @package jb\templates
+ *
+ * @var array $jb_js_jobs_list
+ */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable VariableAnalysis
-// There are "undefined" variables here because they're defined in the code that includes this file as a template.
+
+// Templates are unique. Template must be included once.
+if ( defined( 'JB_TEMPLATE_JOBS_LIST_LINE' ) ) {
+	return;
+}
+define( 'JB_TEMPLATE_JOBS_LIST_LINE', true );
 ?>
 
 <script type="text/template" id="tmpl-jb-jobs-list-line">

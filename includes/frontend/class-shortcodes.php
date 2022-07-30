@@ -28,6 +28,9 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			add_shortcode( 'jb_jobs', array( &$this, 'jobs' ) );
 			add_shortcode( 'jb_jobs_dashboard', array( &$this, 'jobs_dashboard' ) );
 			add_shortcode( 'jb_job_categories_list', array( &$this, 'job_categories_list' ) );
+
+			// The "Recent Jobs" shortcode.
+			add_shortcode( 'jb_recent_jobs', array( &$this, 'recent_jobs' ) );
 		}
 
 
@@ -504,6 +507,68 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 			JB()->get_template_part( 'job-categories', $atts );
 
+			return ob_get_clean();
+		}
+
+
+		/**
+		 * The "Recent Jobs" shortcode
+		 * [jb_recent_jobs /]
+		 *
+		 * @since  1.2.1
+		 *
+		 * @usedby Widget "JobBoardWP - Recent Jobs".
+		 *
+		 * @param  array $atts An array of attributes.
+		 * @return string
+		 */
+		public function recent_jobs( $atts = array() ) {
+
+			$default = array(
+				'number'        => JB()->options()->get( 'jobs-list-pagination' ),
+				'category'      => '',
+				'job_type'      => '',
+				'location_type' => '',
+				'orderby'       => 'date',
+				'order'         => 'DESC',
+				'no_logo'       => JB()->options()->get( 'jobs-list-no-logo' ),
+				'no_job_types'  => JB()->options()->get( 'jobs-list-hide-job-types' ),
+			);
+
+			$args = shortcode_atts( $default, $atts, 'jb_recent_jobs' );
+
+			if ( JB()->options()->get( 'jobs-list-no-logo' ) ) {
+				$args['no_logo'] = 1;
+			}
+			if ( JB()->options()->get( 'jobs-list-hide-job-types' ) ) {
+				$args['no_job_types'] = 1;
+			}
+
+			wp_enqueue_script( 'jb-jobs' );
+			wp_enqueue_style( 'jb-jobs' );
+
+			ob_start();
+			?>
+
+			<div class="jb jb-jobs jb-jobs-widget"
+				data-no-jobs="<?php esc_attr_e( 'No Jobs', 'jobboardwp' ); ?>"
+				data-per-page="<?php echo esc_attr( $args['number'] ); ?>"
+				data-category="<?php echo esc_attr( $args['category'] ); ?>"
+				data-type="<?php echo esc_attr( $args['job_type'] ); ?>"
+				data-remote_only="<?php echo esc_attr( $args['location_type'] ); ?>"
+				data-orderby="<?php echo esc_attr( $args['orderby'] ); ?>"
+				data-order="<?php echo esc_attr( $args['order'] ); ?>"
+				data-no_logo="<?php echo esc_attr( $args['no_logo'] ); ?>"
+				data-no_job_types="<?php echo esc_attr( $args['no_job_types'] ); ?>"
+				>
+				<?php
+				JB()->get_template_part( 'ajax-overlay', $args );
+				JB()->get_template_part( 'js/jobs-list', $args );
+				?>
+				<div class="jb-jobs-wrapper"></div>
+			</div>
+
+			<?php
 			return ob_get_clean();
 		}
 	}
