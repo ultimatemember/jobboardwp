@@ -166,7 +166,7 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 		/**
 		 *
 		 */
-		function block_editor() {
+		public function block_editor() {
 			wp_register_script( 'jb_admin_blocks_shortcodes', $this->js_url['admin'] . 'blocks' . JB()->scrips_prefix . '.js', array( 'wp-i18n', 'wp-blocks', 'wp-components' ), JB_VERSION, true );
 			wp_set_script_translations( 'jb_admin_blocks_shortcodes', 'jobboardwp' );
 
@@ -176,19 +176,19 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			 * Create Gutenberg blocks
 			 */
 			$blocks = array(
-				'jb-block/jb-job-post' => array(
+				'jb-block/jb-job-post'             => array(
 					'editor_script' => 'jb_admin_blocks_shortcodes',
 				),
-				'jb-block/jb-job' => array(
+				'jb-block/jb-job'                  => array(
 					'editor_script' => 'jb_admin_blocks_shortcodes',
 				),
-				'jb-block/jb-jobs-dashboard' => array(
+				'jb-block/jb-jobs-dashboard'       => array(
 					'editor_script' => 'jb_admin_blocks_shortcodes',
 				),
 				'jb-block/jb-jobs-categories-list' => array(
 					'editor_script' => 'jb_admin_blocks_shortcodes',
 				),
-				'jb-block/jb-jobs-list' => array(
+				'jb-block/jb-jobs-list'            => array(
 					'editor_script' => 'jb_admin_blocks_shortcodes',
 				),
 			);
