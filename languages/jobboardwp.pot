@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the JobBoardWP plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: JobBoardWP 1.2.0\n"
+"Project-Id-Version: JobBoardWP 1.2.1-alpha\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jobboardwp\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-01T12:53:28+00:00\n"
+"POT-Creation-Date: 2022-08-01T13:14:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: jobboardwp\n"
@@ -155,23 +155,28 @@ msgid "Member"
 msgstr ""
 
 #: includes/admin/class-forms.php:321
-#: includes/frontend/class-forms.php:494
+#: includes/frontend/class-forms.php:508
 msgid "Required"
 msgstr ""
 
-#: includes/admin/class-forms.php:800
+#: includes/admin/class-forms.php:686
+#: includes/frontend/class-forms.php:771
+msgid "Please select..."
+msgstr ""
+
+#: includes/admin/class-forms.php:804
 msgid "Create Default"
 msgstr ""
 
-#: includes/admin/class-forms.php:895
+#: includes/admin/class-forms.php:898
 msgid "Select media"
 msgstr ""
 
-#: includes/admin/class-forms.php:923
+#: includes/admin/class-forms.php:926
 msgid "Select"
 msgstr ""
 
-#: includes/admin/class-forms.php:924
+#: includes/admin/class-forms.php:927
 msgid "Clear"
 msgstr ""
 
@@ -1770,41 +1775,37 @@ msgstr ""
 msgid "Security action, Please try again."
 msgstr ""
 
-#: includes/frontend/class-forms.php:399
+#: includes/frontend/class-forms.php:411
 msgid "Submit"
 msgstr ""
 
-#: includes/frontend/class-forms.php:530
+#: includes/frontend/class-forms.php:544
 msgid "Selected image"
 msgstr ""
 
-#: includes/frontend/class-forms.php:531
+#: includes/frontend/class-forms.php:545
 msgid "Select file"
 msgstr ""
 
-#: includes/frontend/class-forms.php:532
+#: includes/frontend/class-forms.php:546
 msgid "Change"
 msgstr ""
 
-#: includes/frontend/class-forms.php:533
+#: includes/frontend/class-forms.php:547
 msgid "Remove"
 msgstr ""
 
-#: includes/frontend/class-forms.php:534
+#: includes/frontend/class-forms.php:548
 #: templates/job/footer.php:52
 msgid "Cancel"
 msgstr ""
 
-#: includes/frontend/class-forms.php:566
+#: includes/frontend/class-forms.php:580
 msgid "Drop file to upload"
 msgstr ""
 
-#: includes/frontend/class-forms.php:567
+#: includes/frontend/class-forms.php:581
 msgid "or"
-msgstr ""
-
-#: includes/frontend/class-forms.php:757
-msgid "Please select..."
 msgstr ""
 
 #: includes/frontend/class-jobs-directory.php:70
