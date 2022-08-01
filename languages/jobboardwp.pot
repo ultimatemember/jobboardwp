@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-06-16T17:28:30+00:00\n"
+"POT-Creation-Date: 2022-08-01T12:53:28+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: jobboardwp\n"
@@ -299,6 +299,9 @@ msgstr ""
 #: includes/admin/class-settings.php:322
 #: includes/common/class-cpt.php:61
 #: includes/common/class-cpt.php:363
+#: assets/admin/js/blocks.js:157
+#: assets/admin/js/blocks.js:165
+#: assets/admin/js/blocks.js:170
 msgid "Job"
 msgstr ""
 
@@ -940,6 +943,8 @@ msgid "Employer"
 msgstr ""
 
 #: includes/class-config.php:268
+#: assets/admin/js/blocks.js:6
+#: assets/admin/js/blocks.js:30
 msgid "Post Job"
 msgstr ""
 
@@ -1893,6 +1898,7 @@ msgid "Load more jobs"
 msgstr ""
 
 #: includes/frontend/class-shortcodes.php:465
+#: assets/admin/js/blocks.js:414
 msgid "Title"
 msgstr ""
 
@@ -2147,6 +2153,142 @@ msgstr ""
 #. translators: %s: Post a job URL
 #: templates/js/jobs-dashboard.php:92
 msgid "No created jobs yet. <a href=\"%s\">Create</a> new one."
+msgstr ""
+
+#: assets/admin/js/blocks.js:7
+msgid "Displaying jobs posting form"
+msgstr ""
+
+#: assets/admin/js/blocks.js:55
+msgid "Single job"
+msgstr ""
+
+#: assets/admin/js/blocks.js:56
+msgid "Displaying a single job"
+msgstr ""
+
+#: assets/admin/js/blocks.js:127
+msgid "Loading jobs"
+msgstr ""
+
+#: assets/admin/js/blocks.js:135
+msgid "No jobs"
+msgstr ""
+
+#: assets/admin/js/blocks.js:211
+#: assets/admin/js/blocks.js:235
+msgid "Jobs dashboard"
+msgstr ""
+
+#: assets/admin/js/blocks.js:212
+msgid "Displaying jobs dashboard"
+msgstr ""
+
+#: assets/admin/js/blocks.js:260
+#: assets/admin/js/blocks.js:284
+msgid "Jobs categories list"
+msgstr ""
+
+#: assets/admin/js/blocks.js:261
+msgid "Displaying jobs categories list"
+msgstr ""
+
+#: assets/admin/js/blocks.js:309
+#: assets/admin/js/blocks.js:605
+#: assets/admin/js/blocks.js:613
+msgid "Jobs list"
+msgstr ""
+
+#: assets/admin/js/blocks.js:310
+msgid "Displaying jobs list"
+msgstr ""
+
+#: assets/admin/js/blocks.js:413
+msgid "Date"
+msgstr ""
+
+#: assets/admin/js/blocks.js:417
+msgid "Ascending"
+msgstr ""
+
+#: assets/admin/js/blocks.js:418
+msgid "Descending"
+msgstr ""
+
+#: assets/admin/js/blocks.js:579
+msgid "Loading data"
+msgstr ""
+
+#: assets/admin/js/blocks.js:587
+msgid "No data"
+msgstr ""
+
+#: assets/admin/js/blocks.js:618
+msgid "Select employer"
+msgstr ""
+
+#: assets/admin/js/blocks.js:631
+msgid "Per page"
+msgstr ""
+
+#: assets/admin/js/blocks.js:644
+msgid "No logo?"
+msgstr ""
+
+#: assets/admin/js/blocks.js:656
+msgid "Hide filled?"
+msgstr ""
+
+#: assets/admin/js/blocks.js:668
+msgid "Hide expired?"
+msgstr ""
+
+#: assets/admin/js/blocks.js:680
+msgid "Hide search?"
+msgstr ""
+
+#: assets/admin/js/blocks.js:692
+msgid "Hide location search?"
+msgstr ""
+
+#: assets/admin/js/blocks.js:704
+msgid "Hide filters?"
+msgstr ""
+
+#: assets/admin/js/blocks.js:716
+msgid "Hide job types?"
+msgstr ""
+
+#: assets/admin/js/blocks.js:728
+msgid "No jobs text"
+msgstr ""
+
+#: assets/admin/js/blocks.js:741
+msgid "No job search text"
+msgstr ""
+
+#: assets/admin/js/blocks.js:754
+msgid "Loadmore text"
+msgstr ""
+
+#: assets/admin/js/blocks.js:767
+msgid "Select category"
+msgstr ""
+
+#: assets/admin/js/blocks.js:780
+msgid "Select type"
+msgstr ""
+
+#: assets/admin/js/blocks.js:793
+msgid "Select order by"
+msgstr ""
+
+#: assets/admin/js/blocks.js:806
+msgid "Select order"
+msgstr ""
+
+#: assets/admin/js/blocks.js:819
+msgid "Filled only?"
 msgstr ""
 
 #: assets/frontend/js/forms.js:102
