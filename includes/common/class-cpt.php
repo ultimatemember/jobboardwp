@@ -164,7 +164,7 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 							'slug'       => $type_slug,
 							'with_front' => true,
 						),
-						'show_in_rest'       => false,
+						'show_in_rest'       => true,
 					),
 				),
 			);
@@ -210,7 +210,7 @@ if ( ! class_exists( 'jb\common\CPT' ) ) {
 							'slug'       => $category_slug,
 							'with_front' => false,
 						),
-						'show_in_rest'       => false,
+						'show_in_rest'       => true,
 					),
 				);
 			}

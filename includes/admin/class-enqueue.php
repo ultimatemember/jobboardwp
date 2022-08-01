@@ -31,6 +31,8 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 
 			add_action( 'load-post.php', array( &$this, 'maybe_job_page' ) );
 			add_action( 'load-post-new.php', array( &$this, 'maybe_job_page' ) );
+
+			add_action( 'enqueue_block_editor_assets', array( &$this, 'block_editor' ), 11 );
 		}
 
 
@@ -158,6 +160,36 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			if ( JB()->admin()->is_own_post_type() ) {
 				wp_enqueue_script( 'jb-validation' );
 			}
+		}
+
+
+		/**
+		 *
+		 */
+		function block_editor() {
+			wp_register_script( 'um_admin_blocks_jobboard_shortcode', $this->js_url['admin'] . 'blocks' . JB()->scrips_prefix . '.js', array( 'wp-i18n', 'wp-blocks', 'wp-components' ), JB_VERSION, true );
+			wp_set_script_translations( 'um_admin_blocks_jobboard_shortcode', 'ultimate-member' );
+
+			wp_enqueue_script( 'um_admin_blocks_jobboard_shortcode' );
+
+			/**
+			 * Create gutenberg blocks
+			 */
+			register_block_type( 'jb-block/jb-job-post', array(
+				'editor_script' => 'um_admin_blocks_jobboard_shortcode',
+			) );
+			register_block_type( 'jb-block/jb-job', array(
+				'editor_script' => 'um_admin_blocks_jobboard_shortcode',
+			) );
+			register_block_type( 'jb-block/jb-jobs-dashboard', array(
+				'editor_script' => 'um_admin_blocks_jobboard_shortcode',
+			) );
+			register_block_type( 'jb-block/jb-jobs-categories-list', array(
+				'editor_script' => 'um_admin_blocks_jobboard_shortcode',
+			) );
+			register_block_type( 'jb-block/jb-jobs-list', array(
+				'editor_script' => 'um_admin_blocks_jobboard_shortcode',
+			) );
 		}
 
 	}
