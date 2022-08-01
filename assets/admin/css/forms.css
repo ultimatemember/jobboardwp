@@ -75,3 +75,15 @@ textarea.jb-forms-field.jb-small-field {
 
 .description .jb-invalid-license {
   color: #aa0000; }
+
+.jb-forms-line .jb-small-field ~ .select2 {
+  width: 25% !important; }
+
+.jb-forms-line .jb-medium-field ~ .select2 {
+  width: 50% !important; }
+
+.jb-forms-line .jb-long-field ~ .select2 {
+  width: 100% !important; }
+
+.jb-forms-line .select2 .select2-search__field {
+  width: 100% !important; }

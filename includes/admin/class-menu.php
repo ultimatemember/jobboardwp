@@ -187,8 +187,11 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 
 			if ( 'edit-tags.php' === $pagenow || 'term.php' === $pagenow || 'post-new.php' === $pagenow ) {
 				if ( $parent_file === $this->slug ) {
+					$all_taxonomies = JB()->common()->cpt()->get_taxonomies();
+					$all_taxonomies = array_keys( $all_taxonomies );
+
 					// phpcs:disable WordPress.Security.NonceVerification
-					if ( isset( $_GET['post_type'] ) && 'jb-job' === sanitize_key( $_GET['post_type'] ) && isset( $_GET['taxonomy'] ) && ( 'jb-job-type' === sanitize_key( $_GET['taxonomy'] ) || 'jb-job-category' === sanitize_key( $_GET['taxonomy'] ) ) ) {
+					if ( isset( $_GET['post_type'] ) && 'jb-job' === sanitize_key( $_GET['post_type'] ) && isset( $_GET['taxonomy'] ) && in_array( sanitize_key( $_GET['taxonomy'] ), $all_taxonomies, true ) ) {
 						$submenu_file = 'edit-tags.php?taxonomy=' . sanitize_key( $_GET['taxonomy'] ) . '&post_type=' . sanitize_key( $_GET['post_type'] );
 					} elseif ( 'post-new.php' === $pagenow && isset( $_GET['post_type'] ) && 'jb-job' === sanitize_key( $_GET['post_type'] ) ) {
 						$submenu_file = 'edit.php?post_type=' . sanitize_key( $_GET['post_type'] );

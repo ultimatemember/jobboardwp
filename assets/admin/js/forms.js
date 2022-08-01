@@ -1,49 +1,66 @@
 jQuery( document ).ready( function($) {
 
-	// multiple select with AJAX search
-	jQuery('.jb-pages-select2').select2({
-		ajax: {
-			url: wp.ajax.settings.url,
-			dataType: 'json',
-			delay: 250, // delay in ms while typing when to perform a AJAX search
-			data: function( params ) {
-				return {
-					search: params.term, // search query
-					action: 'jb_get_pages_list', // AJAX action for admin-ajax.php
-					page: params.page || 1, // infinite scroll pagination
-					nonce: jb_admin_data.nonce
-				};
-			},
-			processResults: function( data, params ) {
-				params.page = params.page || 1;
-				var options = [];
+	if ( typeof( $.fn.select2 ) === "function" ) {
+		// multiple select with AJAX search
+		jQuery('.jb-pages-select2').select2({
+			ajax: {
+				url: wp.ajax.settings.url,
+				dataType: 'json',
+				delay: 250, // delay in ms while typing when to perform a AJAX search
+				data: function( params ) {
+					return {
+						search: params.term, // search query
+						action: 'jb_get_pages_list', // AJAX action for admin-ajax.php
+						page: params.page || 1, // infinite scroll pagination
+						nonce: jb_admin_data.nonce
+					};
+				},
+				processResults: function( data, params ) {
+					params.page = params.page || 1;
+					var options = [];
 
-				if ( data ) {
+					if ( data ) {
 
-					// data is the array of arrays, and each of them contains ID and the Label of the option
-					jQuery.each( data, function( index, text ) { // do not forget that "index" is just auto incremented value
-						if ( index === 'total_count' ) {
-							return;
-						}
-						options.push( { id: text[0], text: text[1]  } );
-					});
+						// data is the array of arrays, and each of them contains ID and the Label of the option
+						jQuery.each( data, function( index, text ) { // do not forget that "index" is just auto incremented value
+							if ( index === 'total_count' ) {
+								return;
+							}
+							options.push( { id: text[0], text: text[1]  } );
+						});
 
-				}
-
-				return {
-					results: options,
-					pagination: {
-						more: ( params.page * 10 ) < data.total_count
 					}
-				};
-			},
-			cache: true
-		},
-		placeholder: jQuery(this).data('placeholder'),
-		minimumInputLength: 0, // the minimum of symbols to input before perform a search
-		allowClear: true,
-	});
 
+					return {
+						results: options,
+						pagination: {
+							more: ( params.page * 10 ) < data.total_count
+						}
+					};
+				},
+				cache: true
+			},
+			placeholder: jQuery(this).data('placeholder'),
+			minimumInputLength: 0, // the minimum of symbols to input before perform a search
+			allowClear: true,
+		});
+
+		$(".jb-s1").select2({
+			allowClear: true,
+			placeholder: jQuery(this).data('placeholder')
+		});
+
+		$(".jb-s2").select2({
+			allowClear: false,
+			placeholder: jQuery(this).data('placeholder')
+		});
+
+		$(".jb-s3").select2({
+			tags: true,
+			allowClear: true,
+			placeholder: jQuery(this).data('placeholder')
+		});
+	}
 
 	/**
 	 * WP Color Picker
@@ -264,10 +281,18 @@ jQuery( document ).ready( function($) {
 						if ( input_type === 'checkbox' ) {
 							own_condition = ( value == '1' ) ? condition_field.is(':checked') : ! condition_field.is(':checked');
 						} else {
-							own_condition = ( condition_field.val() == value );
+							if ( Array.isArray( value ) ) {
+								own_condition = ( value.indexOf( condition_field.val() ) !== -1 );
+							} else {
+								own_condition = ( condition_field.val() === value );
+							}
 						}
 					} else if ( tagName === 'select' ) {
-						own_condition = ( condition_field.val() == value );
+						if ( Array.isArray( value ) ) {
+							own_condition = ( value.indexOf( condition_field.val() ) !== -1 );
+						} else {
+							own_condition = ( condition_field.val() === value );
+						}
 					}
 
 					if ( own_condition && parent_condition ) {
@@ -286,10 +311,18 @@ jQuery( document ).ready( function($) {
 					if ( input_type === 'checkbox' ) {
 						own_condition = ( value === '1' ) ? condition_field.is(':checked') : ! condition_field.is(':checked');
 					} else {
-						own_condition = ( condition_field.val() === value );
+						if ( Array.isArray( value ) ) {
+							own_condition = ( value.indexOf( condition_field.val() ) !== -1 );
+						} else {
+							own_condition = ( condition_field.val() === value );
+						}
 					}
 				} else if ( tagName === 'select' ) {
-					own_condition = ( condition_field.val() === value );
+					if ( Array.isArray( value ) ) {
+						own_condition = ( value.indexOf( condition_field.val() ) !== -1 );
+					} else {
+						own_condition = ( condition_field.val() === value );
+					}
 				}
 
 			}

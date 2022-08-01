@@ -1316,6 +1316,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		/**
 		 * Validate URL string
 		 *
+		 * @param string $url
+		 *
 		 * @return bool
 		 *
 		 * @since 1.1.0

@@ -235,9 +235,21 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			$name = isset( $field_data['name'] ) ? $field_data['name'] : $field_data['id'];
 			if ( ! empty( $this->form_data['prefix_id'] ) ) {
-				$value = isset( $_POST[ $this->form_data['prefix_id'] ][ $name ] ) ? sanitize_text_field( $_POST[ $this->form_data['prefix_id'] ][ $name ] ) : $value;
+				if ( isset( $_POST[ $this->form_data['prefix_id'] ][ $name ] ) ) {
+					if ( is_array( $_POST[ $this->form_data['prefix_id'] ][ $name ] ) ) {
+						$value = array_map( 'sanitize_text_field', $_POST[ $this->form_data['prefix_id'] ][ $name ] );
+					} else {
+						$value = sanitize_text_field( $_POST[ $this->form_data['prefix_id'] ][ $name ] );
+					}
+				}
 			} else {
-				$value = isset( $_POST[ $name ] ) ? sanitize_text_field( $_POST[ $name ] ) : $value;
+				if ( isset( $_POST[ $name ] ) ) {
+					if ( is_array( $_POST[ $name ] ) ) {
+						$value = array_map( 'sanitize_text_field', $_POST[ $name ] );
+					} else {
+						$value = sanitize_text_field( $_POST[ $name ] );
+					}
+				}
 			}
 
 			$value = is_string( $value ) ? stripslashes( $value ) : $value;
@@ -397,8 +409,10 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$type  = isset( $data['type'] ) ? $data['type'] : 'submit';
 			$name  = isset( $data['name'] ) ? $data['name'] : $id;
 			$label = isset( $data['label'] ) ? $data['label'] : __( 'Submit', 'jobboardwp' );
+			$class = isset( $data['class'] ) ? $data['class'] : array();
+			$class = is_array( $class ) ? $class : array( $class );
 
-			$classes   = array( 'jb-form-button' );
+			$classes   = array_merge( array( 'jb-form-button' ), $class );
 			$classes[] = 'jb-form-button-' . $type;
 
 			$data = isset( $data['data'] ) ? $data['data'] : array();
@@ -738,7 +752,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				return '';
 			}
 
-			if ( empty( $field_data['options'] ) ) {
+			if ( empty( $field_data['ignore_predefined_options'] ) && empty( $field_data['options'] ) ) {
 				return '';
 			}
 
@@ -768,22 +782,35 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$name_attr        = ' name="' . esc_attr( $name ) . '" ';
 
 			$value = $this->get_field_value( $field_data );
+			if ( ! empty( $field_data['multi'] ) ) {
+				if ( ! is_array( $value ) || empty( $value ) ) {
+					$value = array();
+				}
+
+				$value = array_map( 'strval', $value );
+			}
+
+			if ( ! empty( $field_data['ignore_predefined_options'] ) ) {
+				$added_values = $value;
+			}
 
 			$options = '';
 			if ( ! empty( $field_data['options'] ) ) {
 				foreach ( $field_data['options'] as $key => $option ) {
 					if ( ! empty( $field_data['multi'] ) ) {
-
-						if ( ! is_array( $value ) || empty( $value ) ) {
-							$value = array();
+						if ( in_array( (string) $key, $value, true ) ) {
+							unset( $added_values[ array_search( (string) $key, $added_values, true ) ] );
 						}
-
-						$value = array_map( 'strval', $value );
-
 						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( in_array( (string) $key, $value, true ), true, false ) . '>' . esc_html( $option ) . '</option>';
 					} else {
 						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( $value, $key, false ) . '>' . esc_html( $option ) . '</option>';
 					}
+				}
+			}
+
+			if ( ! empty( $added_values ) ) {
+				foreach ( $added_values as $option ) {
+					$options .= '<option value="' . esc_attr( $option ) . '" selected>' . esc_html( $option ) . '</option>';
 				}
 			}
 

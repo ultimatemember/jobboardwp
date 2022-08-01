@@ -31,6 +31,12 @@ jQuery( document ).ready( function($) {
 			allowClear: false,
 			placeholder: jQuery(this).data('placeholder')
 		});
+
+		$(".jb-s3").select2({
+			tags: true,
+			allowClear: true,
+			placeholder: jQuery(this).data('placeholder')
+		});
 	}
 
 

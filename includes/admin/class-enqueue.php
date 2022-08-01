@@ -167,30 +167,35 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 		 *
 		 */
 		function block_editor() {
-			wp_register_script( 'um_admin_blocks_jobboard_shortcode', $this->js_url['admin'] . 'blocks' . JB()->scrips_prefix . '.js', array( 'wp-i18n', 'wp-blocks', 'wp-components' ), JB_VERSION, true );
-			wp_set_script_translations( 'um_admin_blocks_jobboard_shortcode', 'ultimate-member' );
+			wp_register_script( 'jb_admin_blocks_shortcodes', $this->js_url['admin'] . 'blocks' . JB()->scrips_prefix . '.js', array( 'wp-i18n', 'wp-blocks', 'wp-components' ), JB_VERSION, true );
+			wp_set_script_translations( 'jb_admin_blocks_shortcodes', 'jobboardwp' );
 
-			wp_enqueue_script( 'um_admin_blocks_jobboard_shortcode' );
+			wp_enqueue_script( 'jb_admin_blocks_shortcodes' );
 
 			/**
-			 * Create gutenberg blocks
+			 * Create Gutenberg blocks
 			 */
-			register_block_type( 'jb-block/jb-job-post', array(
-				'editor_script' => 'um_admin_blocks_jobboard_shortcode',
-			) );
-			register_block_type( 'jb-block/jb-job', array(
-				'editor_script' => 'um_admin_blocks_jobboard_shortcode',
-			) );
-			register_block_type( 'jb-block/jb-jobs-dashboard', array(
-				'editor_script' => 'um_admin_blocks_jobboard_shortcode',
-			) );
-			register_block_type( 'jb-block/jb-jobs-categories-list', array(
-				'editor_script' => 'um_admin_blocks_jobboard_shortcode',
-			) );
-			register_block_type( 'jb-block/jb-jobs-list', array(
-				'editor_script' => 'um_admin_blocks_jobboard_shortcode',
-			) );
-		}
+			$blocks = array(
+				'jb-block/jb-job-post' => array(
+					'editor_script' => 'jb_admin_blocks_shortcodes',
+				),
+				'jb-block/jb-job' => array(
+					'editor_script' => 'jb_admin_blocks_shortcodes',
+				),
+				'jb-block/jb-jobs-dashboard' => array(
+					'editor_script' => 'jb_admin_blocks_shortcodes',
+				),
+				'jb-block/jb-jobs-categories-list' => array(
+					'editor_script' => 'jb_admin_blocks_shortcodes',
+				),
+				'jb-block/jb-jobs-list' => array(
+					'editor_script' => 'jb_admin_blocks_shortcodes',
+				),
+			);
 
+			foreach ( $blocks as $block_type => $block_data ) {
+				register_block_type( $block_type, $block_data );
+			}
+		}
 	}
 }

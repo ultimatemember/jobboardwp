@@ -841,5 +841,4 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 			}
 		);
 	}
-
 });
