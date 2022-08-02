@@ -319,31 +319,31 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 		},
 		no_logo: {
 			type: 'boolean',
-			default: false
+			default: jb_blocks_options['jobs-list-no-logo']
 		},
 		hide_filled: {
 			type: 'boolean',
-			default: false
+			default: jb_blocks_options['jobs-list-hide-filled']
 		},
 		hide_expired: {
 			type: 'boolean',
-			default: false
+			default: jb_blocks_options['jobs-list-hide-expired']
 		},
 		hide_search: {
 			type: 'boolean',
-			default: false
+			default: jb_blocks_options['jobs-list-hide-search']
 		},
 		hide_location_search: {
 			type: 'boolean',
-			default: false
+			default: jb_blocks_options['jobs-list-hide-location-search']
 		},
 		hide_filters: {
 			type: 'boolean',
-			default: false
+			default: jb_blocks_options['jobs-list-hide-filters']
 		},
 		hide_job_types: {
 			type: 'boolean',
-			default: false
+			default: jb_blocks_options['jobs-list-hide-job-types']
 		},
 		no_jobs_text: {
 			type: 'string'
@@ -424,7 +424,9 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 				category             = props.attributes.category,
 				categories_data      = [ { id: '', name: '' } ],
 				filled_only          = props.attributes.filled_only,
-				content              = props.attributes.content;
+				content              = props.attributes.content,
+				category_hide        = '-hide',
+				type_hide            = '-hide';
 
 			if ( users !== null ) {
 				users_data = users_data.concat(users);
@@ -432,10 +434,16 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 
 			if ( types !== null ) {
 				types_data = types_data.concat(types);
+				if ( types.length !== 0 ) {
+					type_hide = '';
+				}
 			}
 
 			if ( categories !== null ) {
 				categories_data = categories_data.concat(categories);
+				if ( categories.length !== 0 ) {
+					type_hide = '';
+				}
 			}
 
 			function get_option( data, type ) {
@@ -641,7 +649,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 						wp.element.createElement(
 							wp.components.ToggleControl,
 							{
-								label: wp.i18n.__( 'No logo?', 'jobboardwp' ),
+								label: wp.i18n.__( 'Hide logo', 'jobboardwp' ),
 								className: 'jb_no_logo',
 								checked: props.attributes.no_logo,
 								onChange: function onChange( value ) {
@@ -653,7 +661,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 						wp.element.createElement(
 							wp.components.ToggleControl,
 							{
-								label: wp.i18n.__( 'Hide filled?', 'jobboardwp' ),
+								label: wp.i18n.__( 'Hide filled', 'jobboardwp' ),
 								className: 'jb_hide_filled',
 								checked: props.attributes.hide_filled,
 								onChange: function onChange( value ) {
@@ -665,7 +673,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 						wp.element.createElement(
 							wp.components.ToggleControl,
 							{
-								label: wp.i18n.__( 'Hide expired?', 'jobboardwp' ),
+								label: wp.i18n.__( 'Hide expired', 'jobboardwp' ),
 								className: 'jb_hide_expired',
 								checked: props.attributes.hide_expired,
 								onChange: function onChange( value ) {
@@ -677,7 +685,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 						wp.element.createElement(
 							wp.components.ToggleControl,
 							{
-								label: wp.i18n.__( 'Hide search?', 'jobboardwp' ),
+								label: wp.i18n.__( 'Hide search', 'jobboardwp' ),
 								className: 'jb_hide_search',
 								checked: props.attributes.hide_search,
 								onChange: function onChange( value ) {
@@ -689,7 +697,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 						wp.element.createElement(
 							wp.components.ToggleControl,
 							{
-								label: wp.i18n.__( 'Hide location search?', 'jobboardwp' ),
+								label: wp.i18n.__( 'Hide location search', 'jobboardwp' ),
 								className: 'jb_hide_location_search',
 								checked: props.attributes.hide_location_search,
 								onChange: function onChange( value ) {
@@ -701,7 +709,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 						wp.element.createElement(
 							wp.components.ToggleControl,
 							{
-								label: wp.i18n.__( 'Hide filters?', 'jobboardwp' ),
+								label: wp.i18n.__( 'Hide filters', 'jobboardwp' ),
 								className: 'jb_hide_filters',
 								checked: props.attributes.hide_filters,
 								onChange: function onChange( value ) {
@@ -713,7 +721,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 						wp.element.createElement(
 							wp.components.ToggleControl,
 							{
-								label: wp.i18n.__( 'Hide job types?', 'jobboardwp' ),
+								label: wp.i18n.__( 'Hide job types', 'jobboardwp' ),
 								className: 'jb_hide_job_types',
 								checked: props.attributes.hide_job_types,
 								onChange: function onChange( value ) {
@@ -765,7 +773,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 							wp.components.SelectControl,
 							{
 								label: wp.i18n.__( 'Select category', 'jobboardwp' ),
-								className: 'jb_select_category',
+								className: 'jb_select_category' + category_hide,
 								value: props.attributes.category,
 								options: get_category,
 								onChange: function onChange( value ) {
@@ -778,7 +786,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 							wp.components.SelectControl,
 							{
 								label: wp.i18n.__( 'Select type', 'jobboardwp' ),
-								className: 'jb_select_type',
+								className: 'jb_select_type' + type_hide,
 								value: props.attributes.type,
 								options: get_types,
 								onChange: function onChange( value ) {
@@ -816,7 +824,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 						wp.element.createElement(
 							wp.components.ToggleControl,
 							{
-								label: wp.i18n.__( 'Filled only?', 'jobboardwp' ),
+								label: wp.i18n.__( 'Filled only', 'jobboardwp' ),
 								className: 'jb_filled_only',
 								checked: props.attributes.filled_only,
 								onChange: function onChange( value ) {
@@ -855,19 +863,20 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 	category: 'jb-blocks',
 	attributes: {
 		number: {
-			type: 'string'
+			type: 'string',
+			default: 5
 		},
 		no_logo: {
 			type: 'boolean',
-			default: false
+			default: jb_blocks_options['jobs-list-no-logo']
 		},
 		hide_filled: {
 			type: 'boolean',
-			default: false
+			default: jb_blocks_options['jobs-list-hide-filled']
 		},
 		no_job_types: {
 			type: 'boolean',
-			default: false
+			default: jb_blocks_options['jobs-list-hide-job-types']
 		},
 		category: {
 			type: 'select'
@@ -899,31 +908,39 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 			})
 		};
 	} )( function( props ) {
-			var className            = props.className,
-				number               = props.attributes.number,
-				no_logo              = props.attributes.no_logo,
-				no_job_types         = props.attributes.no_job_types,
-				hide_filled          = props.attributes.hide_filled,
-				orderby              = props.attributes.orderby,
-				orderby_opt          = [
-					{label: wp.i18n.__( 'Date', 'jobboardwp' ), value: 'date'},
-					{label: wp.i18n.__( 'Title', 'jobboardwp' ), value: 'title'}
+			var className       = props.className,
+				number          = props.attributes.number,
+				no_logo         = props.attributes.no_logo,
+				no_job_types    = props.attributes.no_job_types,
+				hide_filled     = props.attributes.hide_filled,
+				orderby         = props.attributes.orderby,
+				orderby_opt     = [
+					{label: wp.i18n.__( 'Posting date', 'jobboardwp' ), value: 'date'},
+					{label: wp.i18n.__( 'Exoired date', 'jobboardwp' ), value: 'expiry_date'}
 				],
-				types                = props.types,
-				type                 = props.attributes.type,
-				types_data           = [ { id: '', name: '' } ],
-				categories           = props.categories,
-				category             = props.attributes.category,
-				categories_data      = [ { id: '', name: '' } ],
-				remote_only          = props.attributes.remote_only,
-				content              = props.attributes.content;
+				types           = props.types,
+				type            = props.attributes.type,
+				types_data      = [ { id: '', name: '' } ],
+				categories      = props.categories,
+				category        = props.attributes.category,
+				categories_data = [ { id: '', name: '' } ],
+				remote_only     = props.attributes.remote_only,
+				content         = props.attributes.content,
+				category_hide   = '-hide',
+				type_hide       = '-hide';
 
 			if ( types !== null ) {
 				types_data = types_data.concat(types);
+				if ( types.length !== 0 ) {
+					type_hide = '';
+				}
 			}
 
 			if ( categories !== null ) {
 				categories_data = categories_data.concat(categories);
+				if ( categories.length !== 0 ) {
+					category_hide = '';
+				}
 			}
 
 			function get_option( data, type ) {
@@ -958,6 +975,8 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 
 				if ( number !== undefined && number !== '' ) {
 					shortcode = shortcode + ' number="' + number + '"';
+				} else  {
+					shortcode = shortcode + ' number="' + 5 + '"';
 				}
 
 				if ( no_logo !== false ) {
@@ -1062,7 +1081,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 						wp.element.createElement(
 							wp.components.ToggleControl,
 							{
-								label: wp.i18n.__( 'No logo?', 'jobboardwp' ),
+								label: wp.i18n.__( 'Hide logo', 'jobboardwp' ),
 
 								className: 'jb_no_logo',
 								checked: props.attributes.no_logo,
@@ -1075,7 +1094,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 						wp.element.createElement(
 							wp.components.ToggleControl,
 							{
-								label: wp.i18n.__( 'Hide filled?', 'jobboardwp' ),
+								label: wp.i18n.__( 'Hide filled', 'jobboardwp' ),
 								className: 'jb_hide_filled',
 								checked: props.attributes.hide_filled,
 								onChange: function onChange( value ) {
@@ -1087,7 +1106,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 						wp.element.createElement(
 							wp.components.ToggleControl,
 							{
-								label: wp.i18n.__( 'Hide job types?', 'jobboardwp' ),
+								label: wp.i18n.__( 'Hide job types', 'jobboardwp' ),
 								className: 'jb_no_job_types',
 								checked: props.attributes.no_job_types,
 								onChange: function onChange( value ) {
@@ -1100,7 +1119,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 							wp.components.SelectControl,
 							{
 								label: wp.i18n.__( 'Select category', 'jobboardwp' ),
-								className: 'jb_select_category',
+								className: 'jb_select_category' + category_hide,
 								value: props.attributes.category,
 								options: get_category,
 								onChange: function onChange( value ) {
@@ -1113,7 +1132,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 							wp.components.SelectControl,
 							{
 								label: wp.i18n.__( 'Select type', 'jobboardwp' ),
-								className: 'jb_select_type',
+								className: 'jb_select_type' + type_hide,
 								value: props.attributes.type,
 								options: get_types,
 								onChange: function onChange( value ) {
@@ -1138,7 +1157,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 						wp.element.createElement(
 							wp.components.ToggleControl,
 							{
-								label: wp.i18n.__( 'Remote only?', 'jobboardwp' ),
+								label: wp.i18n.__( 'Remote only', 'jobboardwp' ),
 								className: 'jb_remote_only',
 								checked: props.attributes.remote_only,
 								onChange: function onChange( value ) {
