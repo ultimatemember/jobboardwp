@@ -916,7 +916,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 				orderby         = props.attributes.orderby,
 				orderby_opt     = [
 					{label: wp.i18n.__( 'Posting date', 'jobboardwp' ), value: 'date'},
-					{label: wp.i18n.__( 'Exoired date', 'jobboardwp' ), value: 'expiry_date'}
+					{label: wp.i18n.__( 'Expiry date', 'jobboardwp' ), value: 'expiry_date'}
 				],
 				types           = props.types,
 				type            = props.attributes.type,
