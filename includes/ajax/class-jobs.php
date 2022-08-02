@@ -627,6 +627,10 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			$terms = get_terms( $args );
 
+			if ( empty( $terms ) || is_wp_error( $terms ) ) {
+				wp_send_json_error( __( 'Invalid taxonomy registration', 'jobboardwp' ) );
+			}
+
 			if ( is_taxonomy_hierarchical( 'jb-job-category' ) ) {
 				$children = _get_term_hierarchy( 'jb-job-category' );
 

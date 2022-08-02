@@ -496,6 +496,10 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 * @since 1.0
 		 */
 		public function job_categories_list( $atts = array() ) {
+			if ( ! JB()->options()->get( 'job-categories' ) ) {
+				return '';
+			}
+
 			// there is possible to use 'shortcode_atts_jb_job_categories_list' filter for getting customized $atts
 			$atts = shortcode_atts( array(), $atts, 'jb_job_categories_list' );
 

@@ -759,7 +759,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 						wp.element.createElement(
 							wp.components.TextControl,
 							{
-								label: wp.i18n.__( 'Loadmore text', 'jobboardwp' ),
+								label: wp.i18n.__( 'Load more text', 'jobboardwp' ),
 								className: 'jb_load_more_text',
 								type: 'text',
 								value: props.attributes.load_more_text,
