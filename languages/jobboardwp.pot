@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-02T00:18:04+00:00\n"
+"POT-Creation-Date: 2022-08-02T00:27:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: jobboardwp\n"
@@ -117,15 +117,15 @@ msgstr ""
 #: templates/js/jobs-list.php:69
 #: templates/js/jobs-list.php:71
 #: templates/js/jobs-list.php:82
-#: templates/widgets/recent-jobs.php:64
-#: templates/widgets/recent-jobs.php:66
-#: templates/widgets/recent-jobs.php:77
+#: templates/widgets/recent-jobs.php:65
+#: templates/widgets/recent-jobs.php:67
+#: templates/widgets/recent-jobs.php:78
 msgid "Posted"
 msgstr ""
 
 #: includes/admin/class-columns.php:339
 #: templates/js/jobs-list.php:75
-#: templates/widgets/recent-jobs.php:70
+#: templates/widgets/recent-jobs.php:71
 msgid "Expires"
 msgstr ""
 
@@ -600,7 +600,7 @@ msgid "If selected the filters section will not be displayed on the jobs list."
 msgstr ""
 
 #: includes/admin/class-settings.php:557
-#: includes/widgets/class-recent-jobs.php:192
+#: includes/widgets/class-recent-jobs.php:191
 msgid "Hide job types"
 msgstr ""
 
@@ -875,7 +875,7 @@ msgstr ""
 
 #: includes/ajax/class-jobs.php:508
 #: includes/ajax/class-jobs.php:839
-#: includes/frontend/class-shortcodes.php:659
+#: includes/frontend/class-shortcodes.php:664
 msgid "(no title)"
 msgstr ""
 
@@ -1912,56 +1912,56 @@ msgstr ""
 
 #: includes/frontend/class-shortcodes.php:470
 #: templates/js/jobs-list.php:77
-#: templates/widgets/recent-jobs.php:72
+#: templates/widgets/recent-jobs.php:73
 msgid "Closing on"
 msgstr ""
 
-#: includes/widgets/class-recent-jobs.php:26
-#: includes/widgets/class-recent-jobs.php:29
+#: includes/widgets/class-recent-jobs.php:25
+#: includes/widgets/class-recent-jobs.php:28
 msgid "JobBoardWP - Recent Jobs"
 msgstr ""
 
-#: includes/widgets/class-recent-jobs.php:102
+#: includes/widgets/class-recent-jobs.php:101
 msgid "Recent Jobs"
 msgstr ""
 
-#: includes/widgets/class-recent-jobs.php:136
+#: includes/widgets/class-recent-jobs.php:135
 msgid "Title:"
 msgstr ""
 
-#: includes/widgets/class-recent-jobs.php:141
+#: includes/widgets/class-recent-jobs.php:140
 msgid "Number of jobs to show:"
 msgstr ""
 
-#: includes/widgets/class-recent-jobs.php:147
+#: includes/widgets/class-recent-jobs.php:146
 msgid "Job Category:"
 msgstr ""
 
-#: includes/widgets/class-recent-jobs.php:158
+#: includes/widgets/class-recent-jobs.php:157
 msgid "Job Type:"
 msgstr ""
 
-#: includes/widgets/class-recent-jobs.php:169
+#: includes/widgets/class-recent-jobs.php:168
 msgid "Remote only"
 msgstr ""
 
-#: includes/widgets/class-recent-jobs.php:174
+#: includes/widgets/class-recent-jobs.php:173
 msgid "Hide filled"
 msgstr ""
 
-#: includes/widgets/class-recent-jobs.php:178
+#: includes/widgets/class-recent-jobs.php:177
 msgid "Order by:"
 msgstr ""
 
-#: includes/widgets/class-recent-jobs.php:180
+#: includes/widgets/class-recent-jobs.php:179
 msgid "Expiry date"
 msgstr ""
 
-#: includes/widgets/class-recent-jobs.php:181
+#: includes/widgets/class-recent-jobs.php:180
 msgid "Posting date"
 msgstr ""
 
-#: includes/widgets/class-recent-jobs.php:187
+#: includes/widgets/class-recent-jobs.php:186
 msgid "Hide logos"
 msgstr ""
 
