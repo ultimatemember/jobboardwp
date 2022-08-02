@@ -538,10 +538,10 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			$numberposts = absint( $args['number'] );
 
 			$query_args = array(
-				'post_type'   => 'jb-job',
-				'post_status' => array( 'publish' ),
-				'numberposts' => ( $numberposts <= 99 ) ? $numberposts : 99,
-				'order'       => 'DESC',
+				'post_type'      => 'jb-job',
+				'post_status'    => array( 'publish' ),
+				'posts_per_page' => ( $numberposts <= 99 ) ? $numberposts : 99,
+				'order'          => 'DESC',
 			);
 
 			$types = array();

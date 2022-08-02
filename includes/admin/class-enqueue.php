@@ -217,7 +217,7 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 				'jb-block/jb-jobs-list'            => array(
 					'editor_script' => 'jb_admin_blocks_shortcodes',
 				),
-				'jb-block/jb-recent-jobs'            => array(
+				'jb-block/jb-recent-jobs'          => array(
 					'editor_script' => 'jb_admin_blocks_shortcodes',
 				),
 			);
