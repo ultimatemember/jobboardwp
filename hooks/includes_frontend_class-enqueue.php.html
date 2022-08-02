@@ -180,6 +180,8 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 			wp_register_style( 'jb-job', $this->css_url['frontend'] . 'job' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
 			wp_register_style( 'jb-jobs', $this->css_url['frontend'] . 'jobs' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
 
+			wp_register_style( 'jb-jobs-widget', $this->css_url['frontend'] . 'jobs-widget' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
+
 			wp_register_style( 'jb-post-job', $this->css_url['frontend'] . 'post-job' . JB()->scrips_prefix . '.css', array( 'jb-forms' ), JB_VERSION );
 			wp_register_style( 'jb-preview-job', $this->css_url['frontend'] . 'preview-job' . JB()->scrips_prefix . '.css', array( 'jb-forms' ), JB_VERSION );
 			wp_register_style( 'jb-jobs-dashboard', $this->css_url['frontend'] . 'jobs-dashboard' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
