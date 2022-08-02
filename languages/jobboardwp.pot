@@ -9,13 +9,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-01T13:20:56+00:00\n"
+"POT-Creation-Date: 2022-08-02T00:18:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: jobboardwp\n"
 
 #. Plugin Name of the plugin
 #. Author of the plugin
+#: includes/admin/class-enqueue.php:185
 msgid "JobBoardWP"
 msgstr ""
 
@@ -92,7 +93,7 @@ msgid "(#ID) Position"
 msgstr ""
 
 #: includes/admin/class-columns.php:333
-#: includes/frontend/class-shortcodes.php:466
+#: includes/frontend/class-shortcodes.php:468
 msgid "Status"
 msgstr ""
 
@@ -112,15 +113,19 @@ msgid "Category"
 msgstr ""
 
 #: includes/admin/class-columns.php:338
-#: includes/frontend/class-shortcodes.php:467
+#: includes/frontend/class-shortcodes.php:469
 #: templates/js/jobs-list.php:69
 #: templates/js/jobs-list.php:71
 #: templates/js/jobs-list.php:82
+#: templates/widgets/recent-jobs.php:64
+#: templates/widgets/recent-jobs.php:66
+#: templates/widgets/recent-jobs.php:77
 msgid "Posted"
 msgstr ""
 
 #: includes/admin/class-columns.php:339
 #: templates/js/jobs-list.php:75
+#: templates/widgets/recent-jobs.php:70
 msgid "Expires"
 msgstr ""
 
@@ -595,6 +600,7 @@ msgid "If selected the filters section will not be displayed on the jobs list."
 msgstr ""
 
 #: includes/admin/class-settings.php:557
+#: includes/widgets/class-recent-jobs.php:192
 msgid "Hide job types"
 msgstr ""
 
@@ -869,6 +875,7 @@ msgstr ""
 
 #: includes/ajax/class-jobs.php:508
 #: includes/ajax/class-jobs.php:839
+#: includes/frontend/class-shortcodes.php:659
 msgid "(no title)"
 msgstr ""
 
@@ -900,9 +907,9 @@ msgstr ""
 #: includes/frontend/class-actions-listener.php:792
 #: includes/frontend/class-actions-listener.php:901
 #: includes/frontend/class-actions-listener.php:915
-#: includes/frontend/class-shortcodes.php:134
-#: includes/frontend/class-shortcodes.php:157
-#: includes/frontend/class-shortcodes.php:176
+#: includes/frontend/class-shortcodes.php:136
+#: includes/frontend/class-shortcodes.php:159
+#: includes/frontend/class-shortcodes.php:178
 msgid "Wrong job"
 msgstr ""
 
@@ -1057,7 +1064,7 @@ msgid "Search Jobs"
 msgstr ""
 
 #: includes/common/class-cpt.php:71
-#: includes/frontend/class-shortcodes.php:427
+#: includes/frontend/class-shortcodes.php:429
 msgid "No Jobs found"
 msgstr ""
 
@@ -1813,99 +1820,149 @@ msgid "Company"
 msgstr ""
 
 #. translators: %s: jobs dashboard page link
-#: includes/frontend/class-shortcodes.php:77
+#: includes/frontend/class-shortcodes.php:79
 msgid "Job's draft was saved. You could resumed it from the <a href=\"%s\" title=\"Job Dashboard\">job dashboard</a>"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:84
+#: includes/frontend/class-shortcodes.php:86
 msgid "Job is submitted successfully. It will be visible once approved."
 msgstr ""
 
 #. translators: %s: link to the published job
-#: includes/frontend/class-shortcodes.php:98
+#: includes/frontend/class-shortcodes.php:100
 msgid "Job is posted successfully. To view your job <a href=\"%s\">click here</a>"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:103
+#: includes/frontend/class-shortcodes.php:105
 msgid "Job is posted successfully."
 msgstr ""
 
 #. translators: %s: login link
-#: includes/frontend/class-shortcodes.php:146
-#: includes/frontend/class-shortcodes.php:339
+#: includes/frontend/class-shortcodes.php:148
+#: includes/frontend/class-shortcodes.php:341
 msgid "<a href=\"%s\">Sign in</a> to post a job."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:166
-#: includes/frontend/class-shortcodes.php:200
+#: includes/frontend/class-shortcodes.php:168
+#: includes/frontend/class-shortcodes.php:202
 msgid "Security check wrong"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:181
+#: includes/frontend/class-shortcodes.php:183
 msgid "You haven't ability to edit this job."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:205
+#: includes/frontend/class-shortcodes.php:207
 msgid "Wrong job preview"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:272
+#: includes/frontend/class-shortcodes.php:274
 msgid "If you don't have an account you can create one below by entering your email address/username or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:274
+#: includes/frontend/class-shortcodes.php:276
 msgid "If you don't have an account you can create one below by entering your email address or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:278
+#: includes/frontend/class-shortcodes.php:280
 msgid "If you don't have an account you can optionally create one below by entering your email address/username or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:280
+#: includes/frontend/class-shortcodes.php:282
 msgid "If you don't have an account you can optionally create one below by entering your email address or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:287
+#: includes/frontend/class-shortcodes.php:289
 msgid "You could login below or <a href=\"#\" id=\"jb-hide-login-form\">create account</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:298
+#: includes/frontend/class-shortcodes.php:300
 msgid "Invalid username, email address or incorrect password."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:313
+#: includes/frontend/class-shortcodes.php:315
 msgid "Username or Email Address"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:314
+#: includes/frontend/class-shortcodes.php:316
 #: templates/job-submission.php:197
 msgid "Password"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:315
+#: includes/frontend/class-shortcodes.php:317
 msgid "Remember Me"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:316
+#: includes/frontend/class-shortcodes.php:318
 msgid "Log In"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:426
+#: includes/frontend/class-shortcodes.php:428
 msgid "No Jobs"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:428
+#: includes/frontend/class-shortcodes.php:430
 msgid "Load more jobs"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:465
+#: includes/frontend/class-shortcodes.php:467
 #: assets/admin/js/blocks.js:414
 msgid "Title"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:468
+#: includes/frontend/class-shortcodes.php:470
 #: templates/js/jobs-list.php:77
+#: templates/widgets/recent-jobs.php:72
 msgid "Closing on"
+msgstr ""
+
+#: includes/widgets/class-recent-jobs.php:26
+#: includes/widgets/class-recent-jobs.php:29
+msgid "JobBoardWP - Recent Jobs"
+msgstr ""
+
+#: includes/widgets/class-recent-jobs.php:102
+msgid "Recent Jobs"
+msgstr ""
+
+#: includes/widgets/class-recent-jobs.php:136
+msgid "Title:"
+msgstr ""
+
+#: includes/widgets/class-recent-jobs.php:141
+msgid "Number of jobs to show:"
+msgstr ""
+
+#: includes/widgets/class-recent-jobs.php:147
+msgid "Job Category:"
+msgstr ""
+
+#: includes/widgets/class-recent-jobs.php:158
+msgid "Job Type:"
+msgstr ""
+
+#: includes/widgets/class-recent-jobs.php:169
+msgid "Remote only"
+msgstr ""
+
+#: includes/widgets/class-recent-jobs.php:174
+msgid "Hide filled"
+msgstr ""
+
+#: includes/widgets/class-recent-jobs.php:178
+msgid "Order by:"
+msgstr ""
+
+#: includes/widgets/class-recent-jobs.php:180
+msgid "Expiry date"
+msgstr ""
+
+#: includes/widgets/class-recent-jobs.php:181
+msgid "Posting date"
+msgstr ""
+
+#: includes/widgets/class-recent-jobs.php:187
+msgid "Hide logos"
 msgstr ""
 
 #. translators: %s: login link
