@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-02T00:27:46+00:00\n"
+"POT-Creation-Date: 2022-08-02T10:16:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: jobboardwp\n"
@@ -1907,6 +1907,7 @@ msgstr ""
 
 #: includes/frontend/class-shortcodes.php:467
 #: assets/admin/js/blocks.js:414
+#: assets/admin/js/blocks.js:910
 msgid "Title"
 msgstr ""
 
@@ -1922,6 +1923,7 @@ msgid "JobBoardWP - Recent Jobs"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:101
+#: assets/admin/js/blocks.js:852
 msgid "Recent Jobs"
 msgstr ""
 
@@ -2262,6 +2264,7 @@ msgid "Displaying jobs list"
 msgstr ""
 
 #: assets/admin/js/blocks.js:413
+#: assets/admin/js/blocks.js:909
 msgid "Date"
 msgstr ""
 
@@ -2274,10 +2277,12 @@ msgid "Descending"
 msgstr ""
 
 #: assets/admin/js/blocks.js:579
+#: assets/admin/js/blocks.js:1014
 msgid "Loading data"
 msgstr ""
 
 #: assets/admin/js/blocks.js:587
+#: assets/admin/js/blocks.js:1022
 msgid "No data"
 msgstr ""
 
@@ -2290,10 +2295,12 @@ msgid "Per page"
 msgstr ""
 
 #: assets/admin/js/blocks.js:644
+#: assets/admin/js/blocks.js:1065
 msgid "No logo?"
 msgstr ""
 
 #: assets/admin/js/blocks.js:656
+#: assets/admin/js/blocks.js:1078
 msgid "Hide filled?"
 msgstr ""
 
@@ -2314,6 +2321,7 @@ msgid "Hide filters?"
 msgstr ""
 
 #: assets/admin/js/blocks.js:716
+#: assets/admin/js/blocks.js:1090
 msgid "Hide job types?"
 msgstr ""
 
@@ -2330,14 +2338,17 @@ msgid "Loadmore text"
 msgstr ""
 
 #: assets/admin/js/blocks.js:767
+#: assets/admin/js/blocks.js:1102
 msgid "Select category"
 msgstr ""
 
 #: assets/admin/js/blocks.js:780
+#: assets/admin/js/blocks.js:1115
 msgid "Select type"
 msgstr ""
 
 #: assets/admin/js/blocks.js:793
+#: assets/admin/js/blocks.js:1128
 msgid "Select order by"
 msgstr ""
 
@@ -2347,6 +2358,23 @@ msgstr ""
 
 #: assets/admin/js/blocks.js:819
 msgid "Filled only?"
+msgstr ""
+
+#: assets/admin/js/blocks.js:853
+msgid "Displaying recent jobs"
+msgstr ""
+
+#: assets/admin/js/blocks.js:1039
+#: assets/admin/js/blocks.js:1047
+msgid "Recent jobs"
+msgstr ""
+
+#: assets/admin/js/blocks.js:1052
+msgid "Number"
+msgstr ""
+
+#: assets/admin/js/blocks.js:1141
+msgid "Remote only?"
 msgstr ""
 
 #: assets/frontend/js/forms.js:102
