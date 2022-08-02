@@ -49,7 +49,7 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 				array(
 					'post_type'   => 'jb-job',
 					'post_status' => 'pending',
-					'numberposts' => '-1',
+					'numberposts' => -1,
 					'fields'      => 'ids',
 				)
 			);

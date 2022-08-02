@@ -96,6 +96,9 @@ if ( ! class_exists( 'JB' ) ) {
 
 				// include JB classes
 				$this->includes();
+
+				// init widgets.
+				add_action( 'widgets_init', array( $this, 'widgets_init' ) );
 			}
 		}
 
@@ -318,6 +321,13 @@ if ( ! class_exists( 'JB' ) ) {
 			return $this->classes[ $key ];
 		}
 
+
+		/**
+		 * Init widgets.
+		 */
+		public function widgets_init() {
+			register_widget( 'jb\widgets\Recent_Jobs' );
+		}
 	}
 }
 

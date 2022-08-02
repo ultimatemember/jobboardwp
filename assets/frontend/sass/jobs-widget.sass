@@ -1,0 +1,123 @@
+@import "color"
+@import "selectors"
+@import "mixins"
+
+.#{$prefix}jobs-widget
+  +flex( column, flex-start, stretch, nowrap )
+  position: relative
+  font-size: 14px
+
+  .#{$job}list-row
+    +flex( row, flex-start, flex-start, nowrap )
+    width: 100%
+    padding: 15px 0
+    margin: 0
+    border-bottom: 1px solid $border-color
+    &:first-child
+      border-top: 1px solid $border-color
+    .#{$job}logo
+      +flex( row, flex-start, center, nowrap )
+      width: 60px
+      margin: 0 20px 0 0
+      .#{$job}company-logo-wrapper
+        +flex(row, center, center, nowrap)
+        text-align: center
+        width: 60px
+        height: 60px
+        border-radius: 5px
+        border: 0
+        overflow: hidden
+        .#{$job}company-logo
+          object-fit: fill
+          width: 60px !important
+          height: auto !important
+    .#{$prefix}row-data
+      width: calc( 100% - 80px )
+      margin: 0
+      +flex( column, flex-start, stretch, nowrap )
+      .#{$job}title
+        +flex( row, space-between, center, wrap )
+        width: 100%
+        margin: 0
+        .#{$job}title-link-line
+          margin: 0 15px 10px 0
+          .#{$job}title-link
+            font-weight: bold
+            font-size: 16px
+            overflow: auto
+        .#{$job}types
+          +flex( row, flex-start, baseline, wrap )
+          margin: 0 0 10px 0
+          .#{$job}type
+            font-size: 12px
+            font-weight: bold
+            padding: 5px 9px
+            border: 0
+            border-radius: 3px
+            &:not(:first-child)
+              margin: 0 0 0 5px
+      .#{$prefix}row-info
+        +flex( row, space-between, baseline, nowrap )
+        width: 100%
+        .#{$prefix}row-left-side
+          +flex( row, flex-start, baseline, wrap )
+          max-width: calc( 85% - 10px )
+          margin: 0 10px 0 0
+          & > div
+            +flex( row, flex-start, baseline, nowrap )
+            margin: 0 20px 5px 0
+            i
+              color: $icon-color
+              margin: 0 5px 0 0
+        .#{$prefix}row-right-side
+          +flex( row, flex-end, baseline, nowrap )
+          max-width: 15%
+          .date
+            font-size: 12px
+            color: #888888
+          .#{$job}types
+            +flex( row, flex-start, baseline, wrap )
+            margin: 0 0 10px 0
+            .#{$job}type
+              font-size: 12px
+              font-weight: bold
+              padding: 5px 9px
+              border: 0
+              border-radius: 3px
+              &:not(:first-child)
+                margin: 0 0 0 5px
+
+    .#{$prefix}row-actions
+      margin: 0 0 0 10px
+    &.#{$job}list-no-logo
+      .#{$prefix}row-data
+        width: 100%
+      &.#{$job}list-with-actions
+        .#{$prefix}row-data
+          width: calc( 100% - 60px )
+    &.#{$job}list-with-actions
+      align-items: center
+      &:not(.#{$job}list-no-logo)
+        .#{$prefix}row-data
+          width: calc( 100% - 140px )
+
+
+  &.#{$prefix}ui-xs, &.#{$prefix}ui-s
+    .#{$job}list-row
+      .#{$prefix}row-data
+        .#{$job}title
+          .#{$job}title-link-line
+            width: 100%
+            margin: 0 0 10px 0
+      .#{$prefix}row-info
+        +flex( column, flex-start, stretch, nowrap )
+        .#{$prefix}row-left-side
+          +flex( row, flex-start, baseline, wrap )
+          width: 100%
+          margin: 0 0 5px 0
+          max-width: none
+        .#{$prefix}row-right-side
+          +flex( column, flex-start, stretch, nowrap )
+          width: 100%
+          margin: 0 0 10px 0
+          max-width: none

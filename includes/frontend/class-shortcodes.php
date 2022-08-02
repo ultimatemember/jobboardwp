@@ -28,6 +28,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			add_shortcode( 'jb_jobs', array( &$this, 'jobs' ) );
 			add_shortcode( 'jb_jobs_dashboard', array( &$this, 'jobs_dashboard' ) );
 			add_shortcode( 'jb_job_categories_list', array( &$this, 'job_categories_list' ) );
+
+			add_shortcode( 'jb_recent_jobs', array( &$this, 'recent_jobs' ) );
 		}
 
 
@@ -505,6 +507,207 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			JB()->get_template_part( 'job-categories', $atts );
 
 			return ob_get_clean();
+		}
+
+
+		/**
+		 * The "Recent Jobs" shortcode
+		 * [jb_recent_jobs /]
+		 *
+		 * @since  1.2.1
+		 *
+		 * @usedby Widget "JobBoardWP - Recent Jobs".
+		 *
+		 * @param  array $atts An array of attributes.
+		 * @return string
+		 */
+		public function recent_jobs( $atts = array() ) {
+			$default = array(
+				'number'       => 5,
+				'category'     => '',
+				'type'         => '',
+				'remote_only'  => false,
+				'orderby'      => 'date',
+				'hide_filled'  => JB()->options()->get( 'jobs-list-hide-filled' ),
+				'no_logo'      => JB()->options()->get( 'jobs-list-no-logo' ),
+				'no_job_types' => JB()->options()->get( 'jobs-list-hide-job-types' ),
+			);
+
+			$args = shortcode_atts( $default, $atts, 'jb_recent_jobs' );
+
+			$query_args = array(
+				'post_type'   => 'jb-job',
+				'post_status' => array( 'publish' ),
+				'numberposts' => absint( $args['number'] ),
+				'order'       => 'DESC',
+			);
+
+			$types = array();
+			if ( ! empty( $args['type'] ) ) {
+				$types = array_map( 'absint', array_map( 'trim', explode( ',', $args['type'] ) ) );
+			}
+			if ( ! empty( $types ) ) {
+				$query_args['tax_query'][] = array(
+					'taxonomy' => 'jb-job-type',
+					'field'    => 'id',
+					'terms'    => $types,
+				);
+			}
+
+			if ( JB()->options()->get( 'job-categories' ) ) {
+				$categories = array();
+				if ( ! empty( $args['category'] ) ) {
+					$categories = array_map( 'absint', array_map( 'trim', explode( ',', $args['category'] ) ) );
+				}
+				if ( ! empty( $categories ) ) {
+					$query_args['tax_query'][] = array(
+						'taxonomy' => 'jb-job-category',
+						'field'    => 'id',
+						'terms'    => $categories,
+					);
+				}
+			}
+
+			$remote_only = (bool) $args['remote_only'];
+			if ( $remote_only ) {
+				if ( ! isset( $query_args['meta_query'] ) ) {
+					$query_args['meta_query'] = array();
+				}
+
+				$query_args['meta_query'] = array_merge(
+					$query_args['meta_query'],
+					array(
+						'relation' => 'AND',
+						array(
+							'key'     => 'jb-location-type',
+							'value'   => '1',
+							'compare' => '=',
+						),
+					)
+				);
+			}
+
+			if ( ! empty( $args['hide_filled'] ) ) {
+				if ( ! isset( $query_args['meta_query'] ) ) {
+					$query_args['meta_query'] = array();
+				}
+
+				$query_args['meta_query'] = array_merge(
+					$query_args['meta_query'],
+					array(
+						'relation' => 'AND',
+						array(
+							'relation' => 'OR',
+							array(
+								'key'   => 'jb-is-filled',
+								'value' => false,
+							),
+							array(
+								'key'   => 'jb-is-filled',
+								'value' => 0,
+							),
+							array(
+								'key'     => 'jb-is-filled',
+								'compare' => 'NOT EXISTS',
+							),
+						),
+					)
+				);
+			}
+
+			if ( 'expiry_date' === sanitize_key( $args['orderby'] ) ) {
+				if ( ! isset( $query_args['meta_query'] ) ) {
+					$query_args['meta_query'] = array();
+				}
+
+				$query_args['meta_query'][] = array(
+					'relation'      => 'OR',
+					'expiry_date' => array(
+						'key'     => 'jb-expiry-date',
+						'compare' => 'EXISTS',
+						'type'    => 'DATE',
+					),
+					array(
+						'key'     => 'jb-expiry-date',
+						'compare' => 'NOT EXISTS',
+					)
+				);
+
+				$query_args['orderby'] = array( 'expiry_date' => 'DESC', 'date' => 'DESC' );
+				unset( $query_args['order'] );
+			} else {
+				$query_args['orderby'] = 'date';
+			}
+
+			$r = new \WP_Query( $query_args );
+
+			if ( ! $r->have_posts() ) {
+				return '';
+			}
+
+			wp_enqueue_script( 'jb-front-global' );
+			wp_enqueue_style( 'jb-jobs-widget' );
+
+			$attrs = array(
+				'posts' => array(),
+				'args'  => $args,
+			);
+			foreach ( $r->posts as $recent_job ) {
+				$job_company_data = JB()->common()->job()->get_company_data( $recent_job->ID );
+
+				$title = esc_html( get_the_title( $recent_job ) );
+				$title = ! empty( $title ) ? $title : __( '(no title)', 'jobboardwp' );
+
+				$job_data = array(
+					'title'     => $title,
+					'permalink' => get_permalink( $recent_job ),
+					'date'      => JB()->common()->job()->get_posted_date( $recent_job->ID ),
+					'expires'   => JB()->common()->job()->get_expiry_date( $recent_job->ID ),
+					'company'   => array(
+						'name'    => $job_company_data['name'],
+						'tagline' => $job_company_data['tagline'],
+					),
+					'location'  => JB()->common()->job()->get_location_link( $recent_job->ID ),
+				);
+
+				if ( JB()->options()->get( 'job-categories' ) ) {
+					$job_data['category'] = JB()->common()->job()->get_job_category( $recent_job->ID );
+				}
+
+				if ( ! $args['no_logo'] ) {
+					$job_data['logo'] = JB()->common()->job()->get_logo( $recent_job->ID );
+				}
+
+				if ( ! $args['no_job_types'] ) {
+					$data_types = array();
+					$types      = wp_get_post_terms(
+						$recent_job->ID,
+						'jb-job-type',
+						array(
+							'orderby' => 'name',
+							'order'   => 'ASC',
+						)
+					);
+					foreach ( $types as $type ) {
+						$data_types[] = array(
+							'name'     => $type->name,
+							'color'    => get_term_meta( $type->term_id, 'jb-color', true ),
+							'bg_color' => get_term_meta( $type->term_id, 'jb-background', true ),
+						);
+					}
+
+					$job_data['types'] = $data_types;
+				}
+
+				$attrs['posts'][] = $job_data;
+			}
+
+			add_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10, 1 );
+
+			$content = JB()->get_template_html( 'widgets/recent-jobs', $attrs );
+
+			remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
+			return $content;
 		}
 	}
 }

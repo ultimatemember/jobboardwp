@@ -95,4 +95,6 @@ if ( JB()->options()->get( 'uninstall-delete-settings' ) ) {
 	// created via WP automatically
 	delete_option( 'jb-job-category_children' );
 	delete_option( 'jb-job-type_children' );
+	// option for widget
+	delete_option( 'widget_jb_recent_jobs' );
 }
