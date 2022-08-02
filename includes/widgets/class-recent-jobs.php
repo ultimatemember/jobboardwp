@@ -1,7 +1,6 @@
 <?php
 namespace jb\widgets;
 
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -56,7 +55,7 @@ class Recent_Jobs extends \WP_Widget {
 		}
 
 		$shortcode_args_line = '';
-		$shortcode_args = wp_parse_args( $instance, $default );
+		$shortcode_args      = wp_parse_args( $instance, $default );
 		foreach ( $shortcode_args as $key => $arg ) {
 			if ( 'title' === $key ) {
 				continue;
@@ -86,7 +85,7 @@ class Recent_Jobs extends \WP_Widget {
 			echo wp_kses_post( $args['before_title'] . $title . $args['after_title'] );
 		}
 
-		echo $content;
+		echo wp_kses( $content, JB()->get_allowed_html( 'templates' ) );
 
 		echo wp_kses_post( $args['after_widget'] );
 	}
@@ -214,7 +213,7 @@ class Recent_Jobs extends \WP_Widget {
 			$instance['category'] = empty( $new_instance['category'] ) ? array() : array_map( 'absint', $new_instance['category'] );
 		}
 
-		$instance['type']     = empty( $new_instance['type'] ) ? array() : array_map( 'absint', $new_instance['type'] );
+		$instance['type']         = empty( $new_instance['type'] ) ? array() : array_map( 'absint', $new_instance['type'] );
 		$instance['remote_only']  = empty( $new_instance['remote_only'] ) ? false : true;
 		$instance['orderby']      = empty( $new_instance['orderby'] ) ? 'date' : sanitize_key( $new_instance['orderby'] );
 		$instance['hide_filled']  = empty( $new_instance['hide_filled'] ) ? false : true;

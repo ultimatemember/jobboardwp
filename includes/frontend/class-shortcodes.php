@@ -535,10 +535,12 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 			$args = shortcode_atts( $default, $atts, 'jb_recent_jobs' );
 
+			$numberposts = absint( $args['number'] );
+
 			$query_args = array(
 				'post_type'   => 'jb-job',
 				'post_status' => array( 'publish' ),
-				'numberposts' => absint( $args['number'] ),
+				'numberposts' => ( $numberposts <= 99 ) ? $numberposts : 99,
 				'order'       => 'DESC',
 			);
 
@@ -621,7 +623,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				}
 
 				$query_args['meta_query'][] = array(
-					'relation'      => 'OR',
+					'relation'    => 'OR',
 					'expiry_date' => array(
 						'key'     => 'jb-expiry-date',
 						'compare' => 'EXISTS',
@@ -630,10 +632,13 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					array(
 						'key'     => 'jb-expiry-date',
 						'compare' => 'NOT EXISTS',
-					)
+					),
 				);
 
-				$query_args['orderby'] = array( 'expiry_date' => 'DESC', 'date' => 'DESC' );
+				$query_args['orderby'] = array(
+					'expiry_date' => 'DESC',
+					'date'        => 'DESC',
+				);
 				unset( $query_args['order'] );
 			} else {
 				$query_args['orderby'] = 'date';

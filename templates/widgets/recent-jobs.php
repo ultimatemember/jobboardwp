@@ -5,7 +5,8 @@
 if ( ! empty( $jb_widgets_recent_jobs['posts'] ) ) {
 	?>
 	<div class="jb jb-jobs-widget">
-		<?php foreach ( $jb_widgets_recent_jobs['posts'] as $job_data ) {
+		<?php
+		foreach ( $jb_widgets_recent_jobs['posts'] as $job_data ) {
 			$list_row_class = '';
 			if ( $jb_widgets_recent_jobs['args']['no_logo'] || empty( $job_data['logo'] ) ) {
 				$list_row_class = ' jb-job-list-no-logo';
@@ -26,9 +27,9 @@ if ( ! empty( $jb_widgets_recent_jobs['posts'] ) ) {
 						<?php if ( ! $jb_widgets_recent_jobs['args']['no_job_types'] ) { ?>
 							<?php if ( ! empty( $job_data['types'] ) ) { ?>
 								<div class="jb-job-types jb-responsive jb-ui-m jb-ui-l jb-ui-xl">
-									<?php foreach ( $job_data['types'] as $type ) { ?>
-										<div class="jb-job-type" style="color:<?php echo esc_attr( $type['color'] ); ?>;background:<?php echo esc_attr( $type['bg_color'] ); ?>;">
-											<?php echo esc_html( $type['name'] ); ?>
+									<?php foreach ( $job_data['types'] as $job_type ) { ?>
+										<div class="jb-job-type" style="color:<?php echo esc_attr( $job_type['color'] ); ?>;background:<?php echo esc_attr( $job_type['bg_color'] ); ?>;">
+											<?php echo esc_html( $job_type['name'] ); ?>
 										</div>
 									<?php } ?>
 								</div>
@@ -81,9 +82,9 @@ if ( ! empty( $jb_widgets_recent_jobs['posts'] ) ) {
 							<?php if ( ! $jb_widgets_recent_jobs['args']['no_job_types'] ) { ?>
 								<?php if ( ! empty( $job_data['types'] ) ) { ?>
 									<div class="jb-job-types jb-responsive jb-ui-s jb-ui-xs">
-										<?php foreach ( $job_data['types'] as $type ) { ?>
-											<div class="jb-job-type" style="color:<?php echo esc_attr( $type['color'] ); ?>;background:<?php echo esc_attr( $type['bg_color'] ); ?>;">
-												<?php echo esc_html( $type['name'] ); ?>
+										<?php foreach ( $job_data['types'] as $job_type ) { ?>
+											<div class="jb-job-type" style="color:<?php echo esc_attr( $job_type['color'] ); ?>;background:<?php echo esc_attr( $job_type['bg_color'] ); ?>;">
+												<?php echo esc_html( $job_type['name'] ); ?>
 											</div>
 										<?php } ?>
 									</div>
