@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-02T19:32:04+00:00\n"
+"POT-Creation-Date: 2022-08-09T11:22:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: jobboardwp\n"
@@ -98,7 +98,7 @@ msgid "Status"
 msgstr ""
 
 #: includes/admin/class-columns.php:334
-#: includes/admin/templates/job/data.php:204
+#: includes/admin/templates/job/data.php:212
 #: templates/job-submission.php:297
 msgid "Location"
 msgstr ""
@@ -755,17 +755,26 @@ msgstr ""
 msgid "Job Category"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:192
+#: includes/admin/templates/job/data.php:187
+msgid "Leave empty to make this job un-expired."
+msgstr ""
+
+#. translators: %s: link to the settings section
+#: includes/admin/templates/job/data.php:191
+msgid "If empty, then job will have an expiration date based on the <a href=\"%s#jb_options_job-duration\">Job Duration</a> setting."
+msgstr ""
+
+#: includes/admin/templates/job/data.php:200
 msgid "Location Type"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:194
+#: includes/admin/templates/job/data.php:202
 #: includes/common/class-job.php:243
 #: templates/job-submission.php:289
 msgid "Onsite"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:195
+#: includes/admin/templates/job/data.php:203
 #: includes/common/class-job.php:246
 #: includes/common/class-job.php:290
 #: includes/common/class-job.php:315
@@ -773,58 +782,58 @@ msgstr ""
 msgid "Remote"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:196
+#: includes/admin/templates/job/data.php:204
 #: includes/common/class-job.php:240
 msgid "Onsite or remote"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:205
+#: includes/admin/templates/job/data.php:213
 msgid "Required for onsite jobs."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:214
+#: includes/admin/templates/job/data.php:222
 #: templates/job-submission.php:309
 #: templates/job-submission.php:320
 msgid "Preferred Location"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:215
+#: includes/admin/templates/job/data.php:223
 msgid "Leave this blank if location is not important."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:223
+#: includes/admin/templates/job/data.php:231
 msgid "Company name"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:230
+#: includes/admin/templates/job/data.php:238
 msgid "Company website"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:236
+#: includes/admin/templates/job/data.php:244
 msgid "Company tagline"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:242
+#: includes/admin/templates/job/data.php:250
 msgid "Company twitter"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:248
+#: includes/admin/templates/job/data.php:256
 msgid "Company facebook"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:254
+#: includes/admin/templates/job/data.php:262
 msgid "Company instagram"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:260
+#: includes/admin/templates/job/data.php:268
 msgid "Position Filled"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:261
+#: includes/admin/templates/job/data.php:269
 msgid "Filled listings will no longer accept applications."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:267
+#: includes/admin/templates/job/data.php:275
 msgid "Expiry Date"
 msgstr ""
 
