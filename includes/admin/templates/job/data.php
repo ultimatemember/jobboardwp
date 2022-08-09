@@ -183,6 +183,14 @@ if ( JB()->options()->get( 'job-categories' ) ) {
 	);
 }
 
+if ( JB()->options()->get( 'individual-job-duration' ) ) {
+	$expiry_description = __( 'Leave empty to make this job un-expired.', 'jobboardwp' );
+} else {
+	/** @noinspection HtmlUnknownTarget */
+	// translators: %s: link to the settings section
+	$expiry_description = sprintf( __( 'If empty, then job will have an expiration date based on the <a href="%s#jb_options_job-duration">Job Duration</a> setting.', 'jobboardwp' ), add_query_arg( array( 'page' => 'jb-settings', 'section' => 'job_submission' ), admin_url( 'admin.php' ) ) );
+}
+
 $job_details_fields = array_merge(
 	$job_details_fields,
 	array(
@@ -262,11 +270,12 @@ $job_details_fields = array_merge(
 			'value'       => $is_filled,
 		),
 		array(
-			'id'    => 'jb-expiry-date',
-			'type'  => 'datepicker',
-			'label' => __( 'Expiry Date', 'jobboardwp' ),
-			'value' => $expiry_date,
-			'size'  => 'small',
+			'id'          => 'jb-expiry-date',
+			'type'        => 'datepicker',
+			'label'       => __( 'Expiry Date', 'jobboardwp' ),
+			'value'       => $expiry_date,
+			'size'        => 'small',
+			'description' => $expiry_description,
 		),
 	)
 );
