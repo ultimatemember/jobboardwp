@@ -53,8 +53,13 @@ wp.JB.job_categories_list = {
 };
 
 
-jQuery( document ).ready( function($) {
+jQuery(window).load(function ($) {
+	if ( wp.data.select( 'core/block-editor' ).getBlockOrder().length ) {
+
+	}
+
 	if ( wp.JB.job_categories_list.objects.wrapper.length ) {
 		wp.JB.job_categories_list.ajax();
 	}
+
 });

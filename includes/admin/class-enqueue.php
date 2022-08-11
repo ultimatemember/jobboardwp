@@ -25,6 +25,8 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			$this->url['admin']     = JB_URL . 'assets/admin/';
 			$this->js_url['admin']  = JB_URL . 'assets/admin/js/';
 			$this->css_url['admin'] = JB_URL . 'assets/admin/css/';
+			$this->js_url['frontend']  = JB_URL . 'assets/frontend/js/';
+			$this->css_url['frontend'] = JB_URL . 'assets/frontend/css/';
 
 			add_action( 'admin_enqueue_scripts', array( &$this, 'admin_scripts' ), 11 );
 			add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_gmap' ), 10 );
@@ -148,6 +150,17 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 				wp_enqueue_script( 'jb-forms' );
 				wp_enqueue_style( 'jb-forms' );
 			}
+
+			wp_register_style( 'jb-jobs-widget', $this->css_url['frontend'] . 'jobs-widget' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
+
+			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', array( 'jquery', 'wp-util', 'wp-i18n', 'wp-hooks', 'jb-helptip' ), JB_VERSION, true );
+			wp_localize_script( 'jb-front-global', 'jb_front_data', array(
+				'nonce' => wp_create_nonce( 'jb-frontend-nonce' ),
+			) );
+			wp_register_script( 'jb-job-categories', $this->js_url['frontend'] . 'job-categories' . JB()->scrips_prefix . '.js', array( 'jb-front-global', 'jb_admin_blocks_shortcodes' ), JB_VERSION, true );
+
+			wp_register_style( 'jb-job-categories', $this->css_url['frontend'] . 'job-categories' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
+
 		}
 
 
@@ -195,7 +208,7 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 		public function block_editor() {
 			wp_register_style( 'jb_admin_blocks_shortcodes', $this->css_url['admin'] . 'blocks' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
 			wp_enqueue_style( 'jb_admin_blocks_shortcodes' );
-			wp_register_script( 'jb_admin_blocks_shortcodes', $this->js_url['admin'] . 'blocks' . JB()->scrips_prefix . '.js', array( 'wp-i18n', 'wp-blocks', 'wp-components' ), JB_VERSION, true );
+			wp_register_script( 'jb_admin_blocks_shortcodes', $this->js_url['admin'] . 'blocks' . JB()->scrips_prefix . '.js', array( 'wp-i18n', 'wp-blocks', 'wp-components', 'wp-element' ), JB_VERSION, true );
 			wp_set_script_translations( 'jb_admin_blocks_shortcodes', 'jobboardwp' );
 
 			$jb_options = array(
@@ -210,34 +223,14 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			wp_localize_script( 'jb_admin_blocks_shortcodes', 'jb_blocks_options', $jb_options );
 
 			wp_enqueue_script( 'jb_admin_blocks_shortcodes' );
+			wp_enqueue_style( 'jb-common' );
+			wp_enqueue_style( 'jb-jobs-widget' );
+			wp_enqueue_style( 'jb-font-awesome' );
 
-			/**
-			 * Create Gutenberg blocks
-			 */
-			$blocks = array(
-				'jb-block/jb-job-post'             => array(
-					'editor_script' => 'jb_admin_blocks_shortcodes',
-				),
-				'jb-block/jb-job'                  => array(
-					'editor_script' => 'jb_admin_blocks_shortcodes',
-				),
-				'jb-block/jb-jobs-dashboard'       => array(
-					'editor_script' => 'jb_admin_blocks_shortcodes',
-				),
-				'jb-block/jb-jobs-categories-list' => array(
-					'editor_script' => 'jb_admin_blocks_shortcodes',
-				),
-				'jb-block/jb-jobs-list'            => array(
-					'editor_script' => 'jb_admin_blocks_shortcodes',
-				),
-				'jb-block/jb-recent-jobs'          => array(
-					'editor_script' => 'jb_admin_blocks_shortcodes',
-				),
-			);
+			wp_enqueue_script( 'jb-front-global' );
 
-			foreach ( $blocks as $block_type => $block_data ) {
-				register_block_type( $block_type, $block_data );
-			}
+			wp_enqueue_style( 'jb-job-categories' );
+			wp_enqueue_script( 'jb-job-categories' );
 		}
 	}
 }

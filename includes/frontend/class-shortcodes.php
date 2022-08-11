@@ -30,6 +30,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			add_shortcode( 'jb_job_categories_list', array( &$this, 'job_categories_list' ) );
 
 			add_shortcode( 'jb_recent_jobs', array( &$this, 'recent_jobs' ) );
+
+			add_action( 'init', array( &$this, 'block_editor_render' ), 11 );
 		}
 
 
@@ -717,6 +719,112 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 			remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 			return $content;
+		}
+
+
+		/**
+		 * Enqueue Gutenberg Block Editor assets
+		 */
+		public function block_editor_render() {
+			$blocks = array(
+				'jb-block/jb-job-post'             => array(
+					'editor_script' => 'jb_admin_blocks_shortcodes',
+				),
+				'jb-block/jb-job'                  => array(
+					'editor_script' => 'jb_admin_blocks_shortcodes',
+				),
+				'jb-block/jb-jobs-dashboard'       => array(
+					'editor_script' => 'jb_admin_blocks_shortcodes',
+				),
+				'jb-block/jb-jobs-categories-list' => array(
+					'editor_script'   => 'jb_admin_blocks_shortcodes',
+					'render_callback' => array( $this, 'jb_categories_list_render' ),
+				),
+				'jb-block/jb-jobs-list'            => array(
+					'editor_script' => 'jb_admin_blocks_shortcodes',
+				),
+				'jb-block/jb-recent-jobs'          => array(
+					'editor_script'   => 'jb_admin_blocks_shortcodes',
+					'render_callback' => array( $this, 'jb_recent_jobs_render' ),
+					'attributes' => array(
+						'number'       => array(
+							'type'    => 'number',
+							'default' => 5
+						),
+						'no_logo'      => array(
+							'type'    => 'boolean',
+							'default' => JB()->options()->get( 'jobs-list-no-logo' )
+						),
+						'hide_filled'  => array(
+							'type'    => 'boolean',
+							'default' => JB()->options()->get( 'jobs-list-hide-filled' )
+						),
+						'no_job_types' => array(
+							'type'    => 'boolean',
+							'default' => JB()->options()->get( 'jobs-list-hide-job-types' )
+						),
+						'remote_only'  => array(
+							'type'    => 'boolean',
+							'default' => 0
+						),
+						'orderby'      => array(
+							'default' => 'date'
+						),
+						'type'         => array(
+							'type'    => 'string',
+							'default' => ''
+						),
+						'category'     => array(
+							'type'    => 'string',
+							'default' => ''
+						),
+					),
+				),
+			);
+
+			foreach ( $blocks as $block_type => $block_data ) {
+				register_block_type( $block_type, $block_data );
+			}
+		}
+
+
+		public function jb_categories_list_render( $atts ) {
+			$shortcode = '[jb_job_categories_list /]';
+
+			return apply_shortcodes( $shortcode );
+		}
+
+
+		public function jb_recent_jobs_render( $atts ) {
+			$shortcode = '[jb_recent_jobs';
+
+			if ( $atts['number'] ) {
+				$shortcode .= ' number="' . $atts['number'] . '"';
+			}
+
+			$shortcode .= ' no_logo="' . $atts['no_logo'] . '"';
+
+			if ( $atts['type'] ) {
+				$shortcode .= ' type="' . $atts['type'] . '"';
+			}
+
+			if ( $atts['category'] ) {
+				$shortcode .= ' category="' . $atts['category'] . '"';
+			}
+
+			$shortcode .= ' remote_only="' . $atts['remote_only'] . '"';
+
+			if ( $atts['orderby'] ) {
+				$shortcode .= ' orderby="' . $atts['orderby'] . '"';
+			}
+
+			$shortcode .= ' hide_filled="' . $atts['hide_filled'] . '"';
+
+			$shortcode .= ' no_job_types="' . $atts['no_job_types'] . '"';
+
+			$shortcode .= ']';
+
+			return apply_shortcodes( $shortcode );
 		}
 	}
 }
