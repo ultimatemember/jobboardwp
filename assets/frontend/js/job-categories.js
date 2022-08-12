@@ -53,13 +53,42 @@ wp.JB.job_categories_list = {
 };
 
 
-jQuery(window).load(function ($) {
-	if ( wp.data.select( 'core/block-editor' ).getBlockOrder().length ) {
-
-	}
-
+jQuery(document).ready(function ($) {
 	if ( wp.JB.job_categories_list.objects.wrapper.length ) {
 		wp.JB.job_categories_list.ajax();
 	}
-
 });
+
+
+jQuery(window).load(function ($) {
+
+	if ( jQuery('.wp-admin').length && wp.data.select('core/block-editor').getBlockOrder().length ) {
+
+		var blocks = wp.data.select( 'core/block-editor' ).getBlockOrder();
+		blocks.forEach( count_blocks );
+
+		function count_blocks( id ) {
+			if ( jQuery( '#block-' + id ).attr('data-type') === 'jb-block/jb-jobs-categories-list' ) {
+				jb_run_render_category_list(id);
+			}
+		}
+	}
+});
+
+
+function jb_run_render_category_list( id ) {
+	if ( jQuery('.jb-job-categories.jb-busy').length ) {
+		setTimeout(function () {
+			jb_run_render_category_list( id );
+		}, 500);
+	} else {
+		wp.JB.job_categories_list.objects.wrapper = jQuery( '#block-' + id ).find('.jb-job-categories');
+		if ( wp.JB.job_categories_list.objects.wrapper.length ) {
+			wp.JB.job_categories_list.ajax();
+		} else {
+			setTimeout(function () {
+				jb_run_render_category_list( id );
+			}, 500);
+		}
+	}
+}
