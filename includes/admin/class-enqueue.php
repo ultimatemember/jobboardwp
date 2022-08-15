@@ -154,6 +154,7 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			wp_register_style( 'jb-jobs-widget', $this->css_url['frontend'] . 'jobs-widget' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
 			wp_register_style( 'jb-jobs', $this->css_url['frontend'] . 'jobs' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
 			wp_register_style( 'jb-job-categories', $this->css_url['frontend'] . 'job-categories' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
+			wp_register_style( 'jb-forms', $this->css_url['frontend'] . 'forms' . JB()->scrips_prefix . '.css', array( 'jb-common', 'jquery-ui' ), JB_VERSION );
 
 			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', array( 'jquery', 'wp-util', 'wp-i18n', 'wp-hooks', 'jb-helptip' ), JB_VERSION, true );
 			wp_localize_script( 'jb-front-global', 'jb_front_data', array(
@@ -235,6 +236,7 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			wp_enqueue_style( 'jb-common' );
 			wp_enqueue_style( 'jb-jobs-widget' );
 			wp_enqueue_style( 'jb-font-awesome' );
+			wp_enqueue_style( 'jb-forms' );
 
 			wp_enqueue_script( 'jb-front-global' );
 

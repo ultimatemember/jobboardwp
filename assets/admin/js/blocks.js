@@ -52,41 +52,20 @@ wp.blocks.registerBlockType( 'jb-block/jb-job-post', {
 	description: wp.i18n.__( 'Displaying jobs posting form', 'jobboardwp' ),
 	icon: 'forms',
 	category: 'jb-blocks',
-	attributes: {
-		content: {
-			source: 'html',
-			selector: 'p'
-		}
-	},
 
 	edit: function(props) {
-		var content = props.attributes.content;
+		jQuery('#jb-job-preview, #jb-job-draft, #jb_company_logo_plupload').attr('disabled', 'disabled');
 
-		if ( content === undefined ) {
-			props.setAttributes({content: '[jb_post_job]'});
-		}
-
-		return [
-			wp.element.createElement(
-				"div",
-				{
-					className: 'jb-post-job-wrapper'
-				},
-				wp.i18n.__( 'Post Job', 'jobboardwp' )
-			)
-		]
+		return wp.element.createElement('div', {}, [
+			wp.element.createElement( wp.components.ServerSideRender, {
+				block: 'jb-block/jb-job-post'
+			} )
+		] );
 
 	},
 
 	save: function(props) {
-		return wp.element.createElement(
-			wp.editor.RichText.Content,
-			{
-				tagName: 'p',
-				className: props.className,
-				value: props.attributes.content
-			}
-		);
+		return null;
 	}
 
 });

@@ -728,7 +728,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		public function block_editor_render() {
 			$blocks = array(
 				'jb-block/jb-job-post'       => array(
-					'editor_script' => 'jb_admin_blocks_shortcodes',
+					'editor_script'   => 'jb_admin_blocks_shortcodes',
+					'render_callback' => array( $this, 'jb_job_post_render' ),
 				),
 				'jb-block/jb-job'            => array(
 					'editor_script'   => 'jb_admin_blocks_shortcodes',
@@ -859,6 +860,13 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			foreach ( $blocks as $block_type => $block_data ) {
 				register_block_type( $block_type, $block_data );
 			}
+		}
+
+
+		public function jb_job_post_render( $atts ) {
+			$shortcode = '[jb_post_job]';
+
+			return apply_shortcodes( $shortcode );
 		}
 
 
