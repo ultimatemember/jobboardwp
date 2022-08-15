@@ -155,6 +155,8 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			wp_register_style( 'jb-jobs', $this->css_url['frontend'] . 'jobs' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
 			wp_register_style( 'jb-job-categories', $this->css_url['frontend'] . 'job-categories' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
 			wp_register_style( 'jb-forms', $this->css_url['frontend'] . 'forms' . JB()->scrips_prefix . '.css', array( 'jb-common', 'jquery-ui' ), JB_VERSION );
+			wp_register_style( 'jb-jobs-dashboard', $this->css_url['frontend'] . 'jobs-dashboard' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
+			wp_register_style( 'jb-frontend-common', $this->css_url['frontend'] . 'common' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
 
 			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', array( 'jquery', 'wp-util', 'wp-i18n', 'wp-hooks', 'jb-helptip' ), JB_VERSION, true );
 			wp_localize_script( 'jb-front-global', 'jb_front_data', array(
@@ -170,6 +172,8 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			}
 
 			wp_register_script( 'jb-jobs', $this->js_url['frontend'] . 'jobs' . JB()->scrips_prefix . '.js', $jobs_deps, JB_VERSION, true );
+			wp_register_script( 'jb-dropdown', $this->js_url['frontend'] . 'dropdown' . JB()->scrips_prefix . '.js', array( 'jquery' ), JB_VERSION, true );
+			wp_register_script( 'jb-jobs-dashboard', $this->js_url['frontend'] . 'jobs-dashboard' . JB()->scrips_prefix . '.js', array( 'jb-front-global' ), JB_VERSION, true );
 
 		}
 
@@ -237,13 +241,17 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			wp_enqueue_style( 'jb-jobs-widget' );
 			wp_enqueue_style( 'jb-font-awesome' );
 			wp_enqueue_style( 'jb-forms' );
+			wp_enqueue_style( 'jb-jobs-dashboard' );
 
 			wp_enqueue_script( 'jb-front-global' );
 
+			wp_enqueue_style( 'jb-frontend-common' );
 			wp_enqueue_style( 'jb-job-categories' );
 			wp_enqueue_style( 'jb-jobs' );
 			wp_enqueue_script( 'jb-job-categories' );
 			wp_enqueue_script( 'jb-jobs' );
+			wp_enqueue_script( 'jb-dropdown' );
+			wp_enqueue_script( 'jb-jobs-dashboard' );
 		}
 	}
 }

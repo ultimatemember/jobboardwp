@@ -741,7 +741,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					),
 				),
 				'jb-block/jb-jobs-dashboard' => array(
-					'editor_script' => 'jb_admin_blocks_shortcodes',
+					'editor_script'   => 'jb_admin_blocks_shortcodes',
+					'render_callback' => array( $this, 'jb_job_dashboard_render' ),
 				),
 				'jb-block/jb-jobs-categories-list' => array(
 					'editor_script'   => 'jb_admin_blocks_shortcodes',
@@ -865,6 +866,13 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 		public function jb_job_post_render( $atts ) {
 			$shortcode = '[jb_post_job]';
+
+			return apply_shortcodes( $shortcode );
+		}
+
+
+		public function jb_job_dashboard_render( $atts ) {
+			$shortcode = '[jb_jobs_dashboard]';
 
 			return apply_shortcodes( $shortcode );
 		}
