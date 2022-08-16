@@ -1019,6 +1019,8 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 				shortcode = shortcode + ']';
 
 				props.setAttributes({ content: shortcode });
+
+				jQuery('.jb-jobs-widget').addClass('jb-ui-s');
 			}
 
 			if ( ! types_data || ! categories_data ) {

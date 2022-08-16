@@ -43,7 +43,6 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			add_action( 'enqueue_block_editor_assets', array( &$this, 'block_editor' ), 11 );
 		}
 
-
 		/**
 		 * Enqueue Gutenberg Block Editor assets
 		 */
@@ -490,6 +489,7 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 
 			// render blocks
 			wp_enqueue_style( 'jb-jobs-widget' );
+			wp_enqueue_style( 'jb-font-awesome' );
 			wp_enqueue_style( 'jb-job' );
 			wp_enqueue_style( 'jb-forms' );
 		}
