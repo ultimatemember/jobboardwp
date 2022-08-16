@@ -431,36 +431,3 @@ jQuery( document ).ready( function($) {
 		}
 	});
 });
-
-
-jQuery( window ).load( function($) {
-	if ( jQuery('.wp-admin').length && wp.data.select('core/block-editor').getBlockOrder().length ) {
-
-		var blocks = wp.data.select( 'core/block-editor' ).getBlockOrder();
-		blocks.forEach( count_blocks );
-
-		function count_blocks( id ) {
-			if ( jQuery( '#block-' + id ).attr('data-type') === 'jb-block/jb-jobs-list' ) {
-				jb_run_render_jobs_list(id);
-			}
-		}
-	}
-});
-
-
-function jb_run_render_jobs_list( id ) {
-	if ( jQuery('.jb-jobs.jb-busy').length ) {
-		setTimeout(function () {
-			jb_run_render_jobs_list( id );
-		}, 500);
-	} else {
-		wp.JB.jobs_list.objects.wrapper = jQuery( '#block-' + id ).find('.jb-jobs');
-		if ( wp.JB.jobs_list.objects.wrapper.length ) {
-			wp.JB.jobs_list.ajax();
-		} else {
-			setTimeout(function () {
-				jb_run_render_jobs_list( id );
-			}, 500);
-		}
-	}
-}

@@ -238,37 +238,3 @@ jQuery( document ).ready( function($) {
 		} );
 	});
 });
-
-
-jQuery( window ).load( function($) {
-	if ( jQuery('.wp-admin').length && wp.data.select('core/block-editor').getBlockOrder().length ) {
-
-		var blocks = wp.data.select( 'core/block-editor' ).getBlockOrder();
-		blocks.forEach( count_blocks );
-
-		function count_blocks( id ) {
-			if ( jQuery( '#block-' + id ).attr('data-type') === 'jb-block/jb-jobs-dashboard' ) {
-				jb_run_render_job_dashboard(id);
-			}
-		}
-	}
-});
-
-
-function jb_run_render_job_dashboard( id ) {
-	if ( jQuery('#jb-job-dashboard.jb-busy').length ) {
-		setTimeout(function () {
-			jb_run_render_job_dashboard( id );
-		}, 500);
-	} else {
-		wp.JB.jobs_dashboard.objects.wrapper = jQuery( '#block-' + id ).find('#jb-job-dashboard');
-		if ( wp.JB.jobs_dashboard.objects.wrapper.length ) {
-			wp.JB.jobs_dashboard.ajax();
-			jQuery( '#block-' + id ).find('#jb-job-dashboard').addClass('jb-ui-s');
-		} else {
-			setTimeout(function () {
-				jb_run_render_job_dashboard( id );
-			}, 500);
-		}
-	}
-}
