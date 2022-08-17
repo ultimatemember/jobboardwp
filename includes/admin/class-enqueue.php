@@ -422,7 +422,7 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			wp_register_style( 'jb-common-preview', $this->css_url['frontend'] . 'common' . JB()->scrips_prefix . '.css',  array(), JB_VERSION );
 			wp_register_style( 'jb-jobs-widget', $this->css_url['frontend'] . 'jobs-widget' . JB()->scrips_prefix . '.css', array( 'jb-common-preview' ), JB_VERSION );
 			wp_register_style( 'jb-job', $this->css_url['frontend'] . 'job' . JB()->scrips_prefix . '.css', array( 'jb-common-preview' ), JB_VERSION );
-			wp_register_style( 'jb-forms', $this->css_url['frontend'] . 'forms' . JB()->scrips_prefix . '.css', array( 'jb-common-preview', 'jquery-ui' ), JB_VERSION );
+			wp_register_style( 'jb-forms-preview', $this->css_url['frontend'] . 'forms' . JB()->scrips_prefix . '.css', array( 'jb-common-preview', 'jquery-ui' ), JB_VERSION );
 
 		}
 
@@ -488,10 +488,11 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			wp_enqueue_script( 'jb_admin_blocks_shortcodes' );
 
 			// render blocks
+			wp_enqueue_style( 'jb-common' );
 			wp_enqueue_style( 'jb-jobs-widget' );
 			wp_enqueue_style( 'jb-font-awesome' );
 			wp_enqueue_style( 'jb-job' );
-			wp_enqueue_style( 'jb-forms' );
+			wp_enqueue_style( 'jb-forms-preview' );
 		}
 	}
 }

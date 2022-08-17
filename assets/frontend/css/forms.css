@@ -1,3 +1,5 @@
+.wp-block {
+	position: relative; }
 .jb-notice-message {
   position: fixed;
   padding: 0;
