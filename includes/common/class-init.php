@@ -25,8 +25,8 @@ if ( ! class_exists( 'jb\common\Init' ) ) {
 		}
 
 
-		function jb_load_textdomain() {
-			load_plugin_textdomain( 'jobboardwp', false, JB_PATH. '/languages/' );
+		public function jb_load_textdomain() {
+			load_plugin_textdomain( 'jobboardwp', false, JB_PATH . '/languages/' );
 		}
 
 
