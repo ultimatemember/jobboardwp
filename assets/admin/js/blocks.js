@@ -243,14 +243,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-dashboard', {
 	},
 
 	save: function(props) {
-		return wp.element.createElement(
-			wp.editor.RichText.Content,
-			{
-				tagName: 'p',
-				className: props.className,
-				value: props.attributes.content
-			}
-		);
+		return null;
 	}
 
 });
@@ -292,14 +285,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-categories-list', {
 	},
 
 	save: function(props) {
-		return wp.element.createElement(
-			wp.editor.RichText.Content,
-			{
-				tagName: 'p',
-				className: props.className,
-				value: props.attributes.content
-			}
-		);
+		return null;
 	}
 
 });
@@ -843,14 +829,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 	), // end edit
 
 	save: function save( props ) {
-		return wp.element.createElement(
-			wp.editor.RichText.Content,
-			{
-				tagName: 'p',
-				className: props.className,
-				value: props.attributes.content
-			}
-		);
+		return null;
 	}
 });
 
