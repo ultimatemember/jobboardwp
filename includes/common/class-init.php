@@ -21,6 +21,12 @@ if ( ! class_exists( 'jb\common\Init' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'plugins_loaded', array( $this, 'init_template_path' ), 10 );
+			add_action( 'plugins_loaded', array( $this, 'jb_load_textdomain' ), 10 );
+		}
+
+
+		function jb_load_textdomain() {
+			load_plugin_textdomain( 'jobboardwp', false, JB_PATH. '/languages/' );
 		}
 
 
