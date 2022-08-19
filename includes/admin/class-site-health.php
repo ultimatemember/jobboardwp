@@ -204,6 +204,14 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 
 			$jobs_data = (array) wp_count_posts( 'jb-job' );
 
+			$pages_array      = array();
+			$predefined_pages = JB()->config()->get( 'predefined_pages' );
+			foreach ( $predefined_pages as $slug => $data ) {
+				$option_key = JB()->options()->get_predefined_page_option_key( $slug );
+				$wp_page_id = JB()->options()->get( $option_key );
+				$pages_array[ $data['title'] ] = null !== $wp_page_id ? get_the_title( $wp_page_id ) . ' (ID#' . $wp_page_id . ') | ' . get_permalink( $wp_page_id ) : $labels['nopages'];
+			}
+
 			/**
 			 * Filters Page settings array on Site Health screen.
 			 *
@@ -214,14 +222,7 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 			 *
 			 * @return {array} JobBoardWP Pages list.
 			 */
-			$pages = apply_filters(
-				'jb_debug_information_pages',
-				array(
-					esc_html__( 'Jobs', 'jobboardwp' )           => null !== JB()->options()->get( 'jobs_page' ) ? get_the_title( JB()->options()->get( 'jobs_page' ) ) . ' (ID#' . JB()->options()->get( 'jobs_page' ) . ') | ' . get_permalink( JB()->options()->get( 'jobs_page' ) ) : $labels['nopages'],
-					esc_html__( 'Post Job', 'jobboardwp' )       => null !== JB()->options()->get( 'job-post_page' ) ? get_the_title( JB()->options()->get( 'job-post_page' ) ) . ' (ID#' . JB()->options()->get( 'job-post_page' ) . ') | ' . get_permalink( JB()->options()->get( 'job-post_page' ) ) : $labels['nopages'],
-					esc_html__( 'Jobs Dashboard', 'jobboardwp' ) => null !== JB()->options()->get( 'jobs-dashboard_page' ) ? get_the_title( JB()->options()->get( 'jobs-dashboard_page' ) ) . ' (ID#' . JB()->options()->get( 'jobs-dashboard_page' ) . ') | ' . get_permalink( JB()->options()->get( 'jobs-dashboard_page' ) ) : $labels['nopages'],
-				)
-			);
+			$pages = apply_filters( 'jb_debug_information_pages', $pages_array );
 
 			$info['jobboardwp'] = array(
 				'label'       => __( 'JobBoardWP', 'jobboardwp' ),
