@@ -209,6 +209,7 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 			foreach ( $predefined_pages as $slug => $data ) {
 				$option_key = JB()->options()->get_predefined_page_option_key( $slug );
 				$wp_page_id = JB()->options()->get( $option_key );
+
 				$pages_array[ $data['title'] ] = null !== $wp_page_id ? get_the_title( $wp_page_id ) . ' (ID#' . $wp_page_id . ') | ' . get_permalink( $wp_page_id ) : $labels['nopages'];
 			}
 
