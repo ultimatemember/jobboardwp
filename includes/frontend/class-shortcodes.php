@@ -773,7 +773,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 							'default' => JB()->options()->get( 'jobs-list-hide-search' ),
 						),
 						'hide_location_search' => array(
-							'type' => 'boolean',
+							'type'    => 'boolean',
 							'default' => JB()->options()->get( 'jobs-list-hide-location-search' ),
 						),
 						'hide_filters'         => array(
