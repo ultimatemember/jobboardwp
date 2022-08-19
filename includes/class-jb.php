@@ -185,7 +185,11 @@ if ( ! class_exists( 'JB' ) ) {
 			 */
 			$language_file = apply_filters( 'jb_language_file', $language_file );
 
-			load_textdomain( $language_domain, $language_file );
+			if ( file_exists( $language_file ) ) {
+				load_textdomain( $language_domain, $language_file );
+			} else {
+				load_plugin_textdomain( $language_domain, false, JB_PATH . '/languages/' );
+			}
 		}
 
 
