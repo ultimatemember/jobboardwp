@@ -9,14 +9,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-19T12:34:02+00:00\n"
+"POT-Creation-Date: 2022-08-19T13:15:26+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: jobboardwp\n"
 
 #. Plugin Name of the plugin
 #. Author of the plugin
-#: includes/admin/class-enqueue.php:185
+#: includes/admin/class-enqueue.php:194
 #: includes/admin/class-site-health.php:229
 msgid "JobBoardWP"
 msgstr ""
@@ -94,7 +94,7 @@ msgid "(#ID) Position"
 msgstr ""
 
 #: includes/admin/class-columns.php:333
-#: includes/frontend/class-shortcodes.php:468
+#: includes/frontend/class-shortcodes.php:470
 msgid "Status"
 msgstr ""
 
@@ -114,7 +114,7 @@ msgid "Category"
 msgstr ""
 
 #: includes/admin/class-columns.php:338
-#: includes/frontend/class-shortcodes.php:469
+#: includes/frontend/class-shortcodes.php:471
 #: templates/js/jobs-list.php:69
 #: templates/js/jobs-list.php:71
 #: templates/js/jobs-list.php:82
@@ -314,9 +314,8 @@ msgstr ""
 #: includes/admin/class-settings.php:322
 #: includes/common/class-cpt.php:61
 #: includes/common/class-cpt.php:363
-#: assets/admin/js/blocks.js:157
-#: assets/admin/js/blocks.js:165
-#: assets/admin/js/blocks.js:170
+#: assets/admin/js/blocks.js:176
+#: assets/admin/js/blocks.js:181
 msgid "Job"
 msgstr ""
 
@@ -635,7 +634,7 @@ msgstr ""
 
 #: includes/admin/class-settings.php:551
 #: includes/admin/class-site-health.php:409
-#: assets/admin/js/blocks.js:712
+#: assets/admin/js/blocks.js:701
 msgid "Hide filters"
 msgstr ""
 
@@ -646,8 +645,8 @@ msgstr ""
 #: includes/admin/class-settings.php:557
 #: includes/admin/class-site-health.php:413
 #: includes/widgets/class-recent-jobs.php:191
-#: assets/admin/js/blocks.js:724
-#: assets/admin/js/blocks.js:1109
+#: assets/admin/js/blocks.js:713
+#: assets/admin/js/blocks.js:1087
 msgid "Hide job types"
 msgstr ""
 
@@ -1024,7 +1023,7 @@ msgstr ""
 
 #: includes/ajax/class-jobs.php:508
 #: includes/ajax/class-jobs.php:843
-#: includes/frontend/class-shortcodes.php:668
+#: includes/frontend/class-shortcodes.php:670
 msgid "(no title)"
 msgstr ""
 
@@ -1060,9 +1059,9 @@ msgstr ""
 #: includes/frontend/class-actions-listener.php:792
 #: includes/frontend/class-actions-listener.php:901
 #: includes/frontend/class-actions-listener.php:915
-#: includes/frontend/class-shortcodes.php:136
-#: includes/frontend/class-shortcodes.php:159
-#: includes/frontend/class-shortcodes.php:178
+#: includes/frontend/class-shortcodes.php:138
+#: includes/frontend/class-shortcodes.php:161
+#: includes/frontend/class-shortcodes.php:180
 msgid "Wrong job"
 msgstr ""
 
@@ -1108,8 +1107,7 @@ msgid "Employer"
 msgstr ""
 
 #: includes/class-config.php:268
-#: assets/admin/js/blocks.js:6
-#: assets/admin/js/blocks.js:30
+#: assets/admin/js/blocks.js:50
 msgid "Post Job"
 msgstr ""
 
@@ -1217,7 +1215,7 @@ msgid "Search Jobs"
 msgstr ""
 
 #: includes/common/class-cpt.php:71
-#: includes/frontend/class-shortcodes.php:429
+#: includes/frontend/class-shortcodes.php:431
 msgid "No Jobs found"
 msgstr ""
 
@@ -1973,97 +1971,97 @@ msgid "Company"
 msgstr ""
 
 #. translators: %s: jobs dashboard page link
-#: includes/frontend/class-shortcodes.php:79
+#: includes/frontend/class-shortcodes.php:81
 msgid "Job's draft was saved. You could resumed it from the <a href=\"%s\" title=\"Job Dashboard\">job dashboard</a>"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:86
+#: includes/frontend/class-shortcodes.php:88
 msgid "Job is submitted successfully. It will be visible once approved."
 msgstr ""
 
 #. translators: %s: link to the published job
-#: includes/frontend/class-shortcodes.php:100
+#: includes/frontend/class-shortcodes.php:102
 msgid "Job is posted successfully. To view your job <a href=\"%s\">click here</a>"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:105
+#: includes/frontend/class-shortcodes.php:107
 msgid "Job is posted successfully."
 msgstr ""
 
 #. translators: %s: login link
-#: includes/frontend/class-shortcodes.php:148
-#: includes/frontend/class-shortcodes.php:341
+#: includes/frontend/class-shortcodes.php:150
+#: includes/frontend/class-shortcodes.php:343
 msgid "<a href=\"%s\">Sign in</a> to post a job."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:168
-#: includes/frontend/class-shortcodes.php:202
+#: includes/frontend/class-shortcodes.php:170
+#: includes/frontend/class-shortcodes.php:204
 msgid "Security check wrong"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:183
+#: includes/frontend/class-shortcodes.php:185
 msgid "You haven't ability to edit this job."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:207
+#: includes/frontend/class-shortcodes.php:209
 msgid "Wrong job preview"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:274
+#: includes/frontend/class-shortcodes.php:276
 msgid "If you don't have an account you can create one below by entering your email address/username or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:276
+#: includes/frontend/class-shortcodes.php:278
 msgid "If you don't have an account you can create one below by entering your email address or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:280
+#: includes/frontend/class-shortcodes.php:282
 msgid "If you don't have an account you can optionally create one below by entering your email address/username or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:282
+#: includes/frontend/class-shortcodes.php:284
 msgid "If you don't have an account you can optionally create one below by entering your email address or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:289
+#: includes/frontend/class-shortcodes.php:291
 msgid "You could login below or <a href=\"#\" id=\"jb-hide-login-form\">create account</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:300
+#: includes/frontend/class-shortcodes.php:302
 msgid "Invalid username, email address or incorrect password."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:315
+#: includes/frontend/class-shortcodes.php:317
 msgid "Username or Email Address"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:316
+#: includes/frontend/class-shortcodes.php:318
 #: templates/job-submission.php:197
 msgid "Password"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:317
+#: includes/frontend/class-shortcodes.php:319
 msgid "Remember Me"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:318
+#: includes/frontend/class-shortcodes.php:320
 msgid "Log In"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:428
+#: includes/frontend/class-shortcodes.php:430
 msgid "No Jobs"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:430
+#: includes/frontend/class-shortcodes.php:432
 msgid "Load more jobs"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:467
-#: assets/admin/js/blocks.js:414
+#: includes/frontend/class-shortcodes.php:469
+#: assets/admin/js/blocks.js:404
 msgid "Title"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:470
+#: includes/frontend/class-shortcodes.php:472
 #: templates/js/jobs-list.php:77
 #: templates/widgets/recent-jobs.php:73
 msgid "Closing on"
@@ -2075,7 +2073,7 @@ msgid "JobBoardWP - Recent Jobs"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:101
-#: assets/admin/js/blocks.js:860
+#: assets/admin/js/blocks.js:842
 msgid "Recent Jobs"
 msgstr ""
 
@@ -2096,13 +2094,13 @@ msgid "Job Type:"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:168
-#: assets/admin/js/blocks.js:1160
+#: assets/admin/js/blocks.js:1138
 msgid "Remote only"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:173
-#: assets/admin/js/blocks.js:664
-#: assets/admin/js/blocks.js:1097
+#: assets/admin/js/blocks.js:653
+#: assets/admin/js/blocks.js:1075
 msgid "Hide filled"
 msgstr ""
 
@@ -2111,12 +2109,12 @@ msgid "Order by:"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:179
-#: assets/admin/js/blocks.js:919
+#: assets/admin/js/blocks.js:897
 msgid "Expiry date"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:180
-#: assets/admin/js/blocks.js:918
+#: assets/admin/js/blocks.js:896
 msgid "Posting date"
 msgstr ""
 
@@ -2372,146 +2370,141 @@ msgstr ""
 msgid "No created jobs yet. <a href=\"%s\">Create</a> new one."
 msgstr ""
 
-#: assets/admin/js/blocks.js:7
+#: assets/admin/js/blocks.js:51
 msgid "Displaying jobs posting form"
 msgstr ""
 
-#: assets/admin/js/blocks.js:55
+#: assets/admin/js/blocks.js:78
 msgid "Single job"
 msgstr ""
 
-#: assets/admin/js/blocks.js:56
+#: assets/admin/js/blocks.js:79
 msgid "Displaying a single job"
 msgstr ""
 
-#: assets/admin/js/blocks.js:127
-msgid "Loading jobs"
-msgstr ""
-
-#: assets/admin/js/blocks.js:135
+#: assets/admin/js/blocks.js:151
 msgid "No jobs"
 msgstr ""
 
-#: assets/admin/js/blocks.js:211
-#: assets/admin/js/blocks.js:235
+#: assets/admin/js/blocks.js:215
+#: assets/admin/js/blocks.js:239
 msgid "Jobs dashboard"
 msgstr ""
 
-#: assets/admin/js/blocks.js:212
+#: assets/admin/js/blocks.js:216
 msgid "Displaying jobs dashboard"
 msgstr ""
 
-#: assets/admin/js/blocks.js:260
-#: assets/admin/js/blocks.js:284
+#: assets/admin/js/blocks.js:257
+#: assets/admin/js/blocks.js:281
 msgid "Jobs categories list"
 msgstr ""
 
-#: assets/admin/js/blocks.js:261
+#: assets/admin/js/blocks.js:258
 msgid "Displaying jobs categories list"
 msgstr ""
 
-#: assets/admin/js/blocks.js:309
-#: assets/admin/js/blocks.js:613
-#: assets/admin/js/blocks.js:621
+#: assets/admin/js/blocks.js:299
+#: assets/admin/js/blocks.js:602
+#: assets/admin/js/blocks.js:610
 msgid "Jobs list"
 msgstr ""
 
-#: assets/admin/js/blocks.js:310
+#: assets/admin/js/blocks.js:300
 msgid "Displaying jobs list"
 msgstr ""
 
-#: assets/admin/js/blocks.js:413
+#: assets/admin/js/blocks.js:403
 msgid "Date"
 msgstr ""
 
-#: assets/admin/js/blocks.js:417
+#: assets/admin/js/blocks.js:407
 msgid "Ascending"
 msgstr ""
 
-#: assets/admin/js/blocks.js:418
+#: assets/admin/js/blocks.js:408
 msgid "Descending"
 msgstr ""
 
-#: assets/admin/js/blocks.js:587
-#: assets/admin/js/blocks.js:1033
+#: assets/admin/js/blocks.js:576
+#: assets/admin/js/blocks.js:1015
 msgid "Loading data"
 msgstr ""
 
-#: assets/admin/js/blocks.js:595
-#: assets/admin/js/blocks.js:1041
+#: assets/admin/js/blocks.js:584
+#: assets/admin/js/blocks.js:1023
 msgid "No data"
 msgstr ""
 
-#: assets/admin/js/blocks.js:626
+#: assets/admin/js/blocks.js:615
 msgid "Select employer"
 msgstr ""
 
-#: assets/admin/js/blocks.js:639
+#: assets/admin/js/blocks.js:628
 msgid "Per page"
 msgstr ""
 
-#: assets/admin/js/blocks.js:652
-#: assets/admin/js/blocks.js:1084
+#: assets/admin/js/blocks.js:641
+#: assets/admin/js/blocks.js:1063
 msgid "Hide logo"
 msgstr ""
 
-#: assets/admin/js/blocks.js:676
+#: assets/admin/js/blocks.js:665
 msgid "Hide expired"
 msgstr ""
 
-#: assets/admin/js/blocks.js:688
+#: assets/admin/js/blocks.js:677
 msgid "Hide search"
 msgstr ""
 
-#: assets/admin/js/blocks.js:700
+#: assets/admin/js/blocks.js:689
 msgid "Hide location search"
 msgstr ""
 
-#: assets/admin/js/blocks.js:736
+#: assets/admin/js/blocks.js:725
 msgid "No jobs text"
 msgstr ""
 
-#: assets/admin/js/blocks.js:749
+#: assets/admin/js/blocks.js:738
 msgid "No job search text"
 msgstr ""
 
-#: assets/admin/js/blocks.js:762
+#: assets/admin/js/blocks.js:751
 msgid "Load more text"
 msgstr ""
 
-#: assets/admin/js/blocks.js:775
-#: assets/admin/js/blocks.js:1121
+#: assets/admin/js/blocks.js:764
+#: assets/admin/js/blocks.js:1099
 msgid "Select category"
 msgstr ""
 
-#: assets/admin/js/blocks.js:788
-#: assets/admin/js/blocks.js:1134
+#: assets/admin/js/blocks.js:777
+#: assets/admin/js/blocks.js:1112
 msgid "Select type"
 msgstr ""
 
-#: assets/admin/js/blocks.js:801
-#: assets/admin/js/blocks.js:1147
+#: assets/admin/js/blocks.js:790
+#: assets/admin/js/blocks.js:1125
 msgid "Select order by"
 msgstr ""
 
-#: assets/admin/js/blocks.js:814
+#: assets/admin/js/blocks.js:803
 msgid "Select order"
 msgstr ""
 
-#: assets/admin/js/blocks.js:827
+#: assets/admin/js/blocks.js:816
 msgid "Filled only"
 msgstr ""
 
-#: assets/admin/js/blocks.js:861
+#: assets/admin/js/blocks.js:843
 msgid "Displaying recent jobs"
 msgstr ""
 
-#: assets/admin/js/blocks.js:1058
-#: assets/admin/js/blocks.js:1066
+#: assets/admin/js/blocks.js:1045
 msgid "Recent jobs"
 msgstr ""
 
-#: assets/admin/js/blocks.js:1071
+#: assets/admin/js/blocks.js:1050
 msgid "Number"
 msgstr ""
 
