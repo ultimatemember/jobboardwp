@@ -34,7 +34,7 @@ if ( ! class_exists( 'jb\admin\Init' ) ) {
 
 
 		/**
-		 * Init current locale if exists
+		 * Init current locale if exists.
 		 */
 		public function init_current_locale() {
 			// phpcs:disable WordPress.Security.NonceVerification -- don't need verifying there just the information about locale from JS to AJAX handlers

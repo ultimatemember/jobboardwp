@@ -64,13 +64,24 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 		}
 
 
+		/**
+		 * Getting Job Categories list in the text format
+		 *
+		 * @return string
+		 */
 		private function get_categories() {
+			$categories_text = __( 'None', 'jobboardwp' );
+
 			$categories = get_terms(
 				'jb-job-category',
 				array(
 					'hide_empty' => false,
 				)
 			);
+
+			if ( empty( $categories ) || is_wp_error( $categories ) ) {
+				return $categories_text;
+			}
 
 			$categories_list = array();
 			$count           = count( $categories );
@@ -91,57 +102,68 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 		}
 
 
+		/**
+		 * Getting Job Types list in the text format
+		 *
+		 * @return string
+		 */
 		private function get_types() {
-			$categories = get_terms(
+			$types_text = __( 'None', 'jobboardwp' );
+
+			$types = get_terms(
 				'jb-job-type',
 				array(
 					'hide_empty' => false,
 				)
 			);
 
-			$categories_list = array();
-			$count           = count( $categories );
+			if ( empty( $types ) || is_wp_error( $types ) ) {
+				return $types_text;
+			}
+
+			$types_list = array();
+			$count      = count( $types );
 
 			if ( $count > 20 ) {
 				for ( $i = 0; $i < 19; $i++ ) {
-					if ( get_term_meta( $categories[ $i ]->term_id, 'jb-background', true ) ) {
-						$color = get_term_meta( $categories[ $i ]->term_id, 'jb-color', true );
+					if ( get_term_meta( $types[ $i ]->term_id, 'jb-background', true ) ) {
+						$color = get_term_meta( $types[ $i ]->term_id, 'jb-color', true );
 					} else {
 						$color = __( 'no', 'jobboardwp' );
 					}
-					if ( get_term_meta( $categories[ $i ]->term_id, 'jb-background', true ) ) {
-						$background = get_term_meta( $categories[ $i ]->term_id, 'jb-background', true );
+					if ( get_term_meta( $types[ $i ]->term_id, 'jb-background', true ) ) {
+						$background = get_term_meta( $types[ $i ]->term_id, 'jb-background', true );
 					} else {
 						$background = __( 'no', 'jobboardwp' );
 					}
-					$categories_list[] = $categories[ $i ]->name . ' (ID#' . $categories[ $i ]->term_id . ' | ' . __( 'color: ', 'jobboardwp' ) . $color . ' | ' . __( 'background: ', 'jobboardwp' ) . $background . ')';
+					$types_list[] = $types[ $i ]->name . ' (ID#' . $types[ $i ]->term_id . ' | ' . __( 'color: ', 'jobboardwp' ) . $color . ' | ' . __( 'background: ', 'jobboardwp' ) . $background . ')';
 				}
-				$categories_text = implode( ', ', $categories_list ) . __( ' and more', 'jobboardwp' );
+				$types_text = implode( ', ', $types_list ) . __( ' and more', 'jobboardwp' );
 			} else {
-				foreach ( $categories as $category ) {
-					if ( get_term_meta( $category->term_id, 'jb-background', true ) ) {
-						$color = get_term_meta( $category->term_id, 'jb-color', true );
+				foreach ( $types as $type ) {
+					if ( get_term_meta( $type->term_id, 'jb-background', true ) ) {
+						$color = get_term_meta( $type->term_id, 'jb-color', true );
 					} else {
 						$color = __( 'no', 'jobboardwp' );
 					}
-					if ( get_term_meta( $category->term_id, 'jb-background', true ) ) {
-						$background = get_term_meta( $category->term_id, 'jb-background', true );
+					if ( get_term_meta( $type->term_id, 'jb-background', true ) ) {
+						$background = get_term_meta( $type->term_id, 'jb-background', true );
 					} else {
 						$background = __( 'no', 'jobboardwp' );
 					}
-					$categories_list[] = $category->name . ' (ID#' . $category->term_id . ' | ' . __( 'color: ', 'jobboardwp' ) . $color . ' | ' . __( 'background: ', 'jobboardwp' ) . $background . ')';
+					$types_list[] = $type->name . ' (ID#' . $type->term_id . ' | ' . __( 'color: ', 'jobboardwp' ) . $color . ' | ' . __( 'background: ', 'jobboardwp' ) . $background . ')';
 				}
-				$categories_text = implode( ', ', $categories_list );
+				$types_text = implode( ', ', $types_list );
 			}
 
-			return $categories_text;
+			return $types_text;
 		}
 
 
 		/**
 		 * Add our data to Site Health information.
 		 *
-		 * @since 3.0
+		 * @since 1.2.1
 		 *
 		 * @param array $info The Site Health information.
 		 *
@@ -182,53 +204,62 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 
 			$jobs_data = (array) wp_count_posts( 'jb-job' );
 
-			// Pages settings
+			/**
+			 * Filters Page settings array on Site Health screen.
+			 *
+			 * @since 1.2.1
+			 * @hook jb_debug_information_pages
+			 *
+			 * @param {array} $pages JobBoardWP Pages list in the format: {Predefined page title} => "{Assigned WordPress Page title} (ID# {Page ID}) | {Page permalink}"
+			 *
+			 * @return {array} JobBoardWP Pages list.
+			 */
 			$pages = apply_filters(
 				'jb_debug_information_pages',
 				array(
-					'Jobs'           => null !== JB()->options()->get( 'jobs_page' ) ? get_the_title( JB()->options()->get( 'jobs_page' ) ) . ' (ID#' . JB()->options()->get( 'jobs_page' ) . ') | ' . get_permalink( JB()->options()->get( 'jobs_page' ) ) : $labels['nopages'],
-					'Post Job'       => null !== JB()->options()->get( 'job-post_page' ) ? get_the_title( JB()->options()->get( 'job-post_page' ) ) . ' (ID#' . JB()->options()->get( 'job-post_page' ) . ') | ' . get_permalink( JB()->options()->get( 'job-post_page' ) ) : $labels['nopages'],
-					'Jobs Dashboard' => null !== JB()->options()->get( 'jobs-dashboard_page' ) ? get_the_title( JB()->options()->get( 'jobs-dashboard_page' ) ) . ' (ID#' . JB()->options()->get( 'jobs-dashboard_page' ) . ') | ' . get_permalink( JB()->options()->get( 'jobs-dashboard_page' ) ) : $labels['nopages'],
+					esc_html__( 'Jobs', 'jobboardwp' )           => null !== JB()->options()->get( 'jobs_page' ) ? get_the_title( JB()->options()->get( 'jobs_page' ) ) . ' (ID#' . JB()->options()->get( 'jobs_page' ) . ') | ' . get_permalink( JB()->options()->get( 'jobs_page' ) ) : $labels['nopages'],
+					esc_html__( 'Post Job', 'jobboardwp' )       => null !== JB()->options()->get( 'job-post_page' ) ? get_the_title( JB()->options()->get( 'job-post_page' ) ) . ' (ID#' . JB()->options()->get( 'job-post_page' ) . ') | ' . get_permalink( JB()->options()->get( 'job-post_page' ) ) : $labels['nopages'],
+					esc_html__( 'Jobs Dashboard', 'jobboardwp' ) => null !== JB()->options()->get( 'jobs-dashboard_page' ) ? get_the_title( JB()->options()->get( 'jobs-dashboard_page' ) ) . ' (ID#' . JB()->options()->get( 'jobs-dashboard_page' ) . ') | ' . get_permalink( JB()->options()->get( 'jobs-dashboard_page' ) ) : $labels['nopages'],
 				)
 			);
 
-			$info['jobboard'] = array(
-				'label'       => __( 'JobBoard', 'jobboardwp' ),
-				'description' => __( 'This debug information about JobBoard plugin.', 'jobboardwp' ),
+			$info['jobboardwp'] = array(
+				'label'       => __( 'JobBoardWP', 'jobboardwp' ),
+				'description' => __( 'This debug information about JobBoardWP plugin.', 'jobboardwp' ),
 				'fields'      => array(
-					'jb-jobboardwp-pages'              => array(
+					'predefined-pages'        => array(
 						'label' => __( 'Pages', 'jobboardwp' ),
 						'value' => $pages,
 					),
-					'jb-jobboardwp-job-categories'     => array(
+					'job-categories'          => array(
 						'label' => __( 'Job Categories', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'job-categories' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-job-template'       => array(
+					'job-template'            => array(
 						'label' => __( 'Job Template', 'jobboardwp' ),
 						'value' => $options_categories[ JB()->options()->get( 'job-template' ) ],
 					),
-					'jb-jobboardwp-job-dateformat'     => array(
+					'job-dateformat'          => array(
 						'label' => __( 'Date format', 'jobboardwp' ),
 						'value' => $options_template[ JB()->options()->get( 'job-dateformat' ) ],
 					),
-					'jb-jobboardwp-job-breadcrumbs'    => array(
+					'job-breadcrumbs'         => array(
 						'label' => __( 'Show breadcrumbs on the job page', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'job-breadcrumbs' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-googlemaps-api-key' => array(
+					'googlemaps-api-key'      => array(
 						'label' => __( 'GoogleMaps API key', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'googlemaps-api-key' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-disable-structured-data' => array(
+					'disable-structured-data' => array(
 						'label' => __( 'Disable Google structured data', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'disable-structured-data' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-account-required'   => array(
+					'account-required'        => array(
 						'label' => __( 'Account Needed', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'account-required' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-account-creation'   => array(
+					'account-creation'        => array(
 						'label' => __( 'User Registration', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'account-creation' ) ? $labels['yes'] : $labels['no'],
 					),
@@ -236,14 +267,14 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 			);
 
 			if ( 1 === (int) JB()->options()->get( 'account-creation' ) ) {
-				$info['jobboard']['fields'] = array_merge(
-					$info['jobboard']['fields'],
+				$info['jobboardwp']['fields'] = array_merge(
+					$info['jobboardwp']['fields'],
 					array(
-						'jb-jobboardwp-account-username-generate' => array(
+						'account-username-generate' => array(
 							'label' => __( 'Use email addresses as usernames', 'jobboardwp' ),
 							'value' => JB()->options()->get( 'account-username-generate' ) ? $labels['yes'] : $labels['no'],
 						),
-						'jb-jobboardwp-account-password-email'    => array(
+						'account-password-email'    => array(
 							'label' => __( 'Email password link', 'jobboardwp' ),
 							'value' => JB()->options()->get( 'account-password-email' ) ? $labels['yes'] : $labels['no'],
 						),
@@ -251,22 +282,22 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 				);
 			}
 
-			$info['jobboard']['fields'] = array_merge(
-				$info['jobboard']['fields'],
+			$info['jobboardwp']['fields'] = array_merge(
+				$info['jobboardwp']['fields'],
 				array(
-					'jb-jobboardwp-your-details-section' => array(
+					'your-details-section' => array(
 						'label' => __( '"Your Details" for logged in users', 'jobboardwp' ),
 						'value' => ! empty( JB()->options()->get( 'your-details-section' ) ) ? __( 'Visible with editable email, first/last name fields', 'jobboardwp' ) : __( 'Hidden', 'jobboardwp' ),
 					),
-					'jb-jobboardwp-full-name-required'   => array(
+					'full-name-required'   => array(
 						'label' => __( 'First and Last names required', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'full-name-required' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-account-role'         => array(
+					'account-role'         => array(
 						'label' => __( 'User Role', 'jobboardwp' ),
 						'value' => $roles[ JB()->options()->get( 'account-role' ) ],
 					),
-					'jb-jobboardwp-job-moderation'       => array(
+					'job-moderation'       => array(
 						'label' => __( 'Set submissions as Pending', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'job-moderation' ) ? $labels['yes'] : $labels['no'],
 					),
@@ -274,10 +305,10 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 			);
 
 			if ( 1 === (int) JB()->options()->get( 'job-moderation' ) ) {
-				$info['jobboard']['fields'] = array_merge(
-					$info['jobboard']['fields'],
+				$info['jobboardwp']['fields'] = array_merge(
+					$info['jobboardwp']['fields'],
 					array(
-						'jb-jobboardwp-pending-job-editing' => array(
+						'pending-job-editing' => array(
 							'label' => __( 'Pending Job Edits', 'jobboardwp' ),
 							'value' => JB()->options()->get( 'pending-job-editing' ) ? $labels['yes'] : $labels['no'],
 						),
@@ -285,14 +316,14 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 				);
 			}
 
-			$info['jobboard']['fields'] = array_merge(
-				$info['jobboard']['fields'],
+			$info['jobboardwp']['fields'] = array_merge(
+				$info['jobboardwp']['fields'],
 				array(
-					'jb-jobboardwp-published-job-editing' => array(
+					'published-job-editing'   => array(
 						'label' => __( 'Published Job Edits', 'jobboardwp' ),
 						'value' => $options_editing[ JB()->options()->get( 'published-job-editing' ) ],
 					),
-					'jb-jobboardwp-individual-job-duration' => array(
+					'individual-job-duration' => array(
 						'label' => __( 'Show individual expiry date', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'individual-job-duration' ) ? $labels['yes'] : $labels['no'],
 					),
@@ -300,10 +331,10 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 			);
 
 			if ( 1 !== (int) JB()->options()->get( 'individual-job-duration' ) ) {
-				$info['jobboard']['fields'] = array_merge(
-					$info['jobboard']['fields'],
+				$info['jobboardwp']['fields'] = array_merge(
+					$info['jobboardwp']['fields'],
 					array(
-						'jb-jobboardwp-job-duration' => array(
+						'job-duration' => array(
 							'label' => __( 'Job duration', 'jobboardwp' ),
 							'value' => JB()->options()->get( 'job-duration' ),
 						),
@@ -311,10 +342,10 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 				);
 			}
 
-			$info['jobboard']['fields'] = array_merge(
-				$info['jobboard']['fields'],
+			$info['jobboardwp']['fields'] = array_merge(
+				$info['jobboardwp']['fields'],
 				array(
-					'jb-jobboardwp-job-expiration-reminder' => array(
+					'job-expiration-reminder' => array(
 						'label' => __( 'Send expiration reminder to the author? ', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'job-expiration-reminder' ) ? $labels['yes'] : $labels['no'],
 					),
@@ -322,10 +353,10 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 			);
 
 			if ( 1 === (int) JB()->options()->get( 'job-expiration-reminder' ) ) {
-				$info['jobboard']['fields'] = array_merge(
-					$info['jobboard']['fields'],
+				$info['jobboardwp']['fields'] = array_merge(
+					$info['jobboardwp']['fields'],
 					array(
-						'jb-jobboardwp-job-expiration-reminder-time' => array(
+						'job-expiration-reminder-time' => array(
 							'label' => __( 'Reminder time for "X" days', 'jobboardwp' ),
 							'value' => JB()->options()->get( 'job-expiration-reminder-time' ),
 						),
@@ -333,94 +364,94 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 				);
 			}
 
-			$info['jobboard']['fields'] = array_merge(
-				$info['jobboard']['fields'],
+			$info['jobboardwp']['fields'] = array_merge(
+				$info['jobboardwp']['fields'],
 				array(
-					'jb-jobboardwp-required-job-type'      => array(
+					'required-job-type'              => array(
 						'label' => __( 'Required job type', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'required-job-type' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-application-method'     => array(
+					'application-method'             => array(
 						'label' => __( 'How to apply', 'jobboardwp' ),
 						'value' => $options_application[ JB()->options()->get( 'application-method' ) ],
 					),
-					'jb-jobboardwp-job-submitted-notice'   => array(
+					'job-submitted-notice'           => array(
 						'label' => __( 'Job submitted notice', 'jobboardwp' ),
 						'value' => stripslashes( JB()->options()->get( 'job-submitted-notice' ) ),
 					),
-					'jb-jobboardwp-jobs-list-pagination'   => array(
+					'jobs-list-pagination'           => array(
 						'label' => __( 'Jobs per page', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'jobs-list-pagination' ),
 					),
-					'jb-jobboardwp-jobs-list-no-logo'      => array(
+					'jobs-list-no-logo'              => array(
 						'label' => __( 'Hide Logos', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'jobs-list-no-logo' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-jobs-list-hide-filled'  => array(
+					'jobs-list-hide-filled'          => array(
 						'label' => __( 'Hide filled jobs', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'jobs-list-hide-filled' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-jobs-list-hide-expired' => array(
+					'jobs-list-hide-expired'         => array(
 						'label' => __( 'Hide expired jobs', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'jobs-list-hide-expired' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-jobs-list-hide-search'  => array(
+					'jobs-list-hide-search'          => array(
 						'label' => __( 'Hide search field', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'jobs-list-hide-search' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-jobs-list-hide-location-search' => array(
+					'jobs-list-hide-location-search' => array(
 						'label' => __( 'Hide location field', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'jobs-list-hide-location-search' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-jobs-list-hide-filters' => array(
+					'jobs-list-hide-filters'         => array(
 						'label' => __( 'Hide filters', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'jobs-list-hide-filters' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-jobs-list-hide-job-types' => array(
+					'jobs-list-hide-job-types'       => array(
 						'label' => __( 'Hide job types', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'jobs-list-hide-job-types' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-disable-styles'         => array(
+					'disable-styles'                 => array(
 						'label' => __( 'Disable styles', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'disable-styles' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-disable-fa-styles'      => array(
+					'disable-fa-styles'              => array(
 						'label' => __( 'Disable FontAwesome styles', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'disable-fa-styles' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-uninstall-delete-settings' => array(
+					'uninstall-delete-settings'      => array(
 						'label' => __( 'Delete settings on uninstall', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'uninstall-delete-settings' ) ? $labels['yes'] : $labels['no'],
 					),
-					'jb-jobboardwp-all-jobs'               => array(
+					'all-jobs'                       => array(
 						'label' => __( 'All publish jobs count', 'jobboardwp' ),
 						'value' => $jobs_data['publish'],
 					),
-					'jb-jobboardwp-expired-jobs'           => array(
+					'expired-jobs'                   => array(
 						'label' => __( 'Expired jobs count', 'jobboardwp' ),
 						'value' => $jobs_data['jb-expired'],
 					),
-					'jb-jobboardwp-filled-jobs'            => array(
+					'filled-jobs'                    => array(
 						'label' => __( 'Filled jobs count', 'jobboardwp' ),
 						'value' => $this->get_filled_jobs_count(),
 					),
-					'jb-jobboardwp-categories-list'        => array(
+					'categories-list'                => array(
 						'label' => __( 'Jobs categories', 'jobboardwp' ),
 						'value' => $this->get_categories(),
 					),
-					'jb-jobboardwp-types-list'             => array(
+					'types-list'                     => array(
 						'label' => __( 'Jobs types', 'jobboardwp' ),
 						'value' => $this->get_types(),
 					),
-					'jb-jobboardwp-admin_email'            => array(
+					'admin_email'                    => array(
 						'label' => __( 'Admin E-mail Address', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'admin_email' ),
 					),
-					'jb-jobboardwp-mail_from'              => array(
+					'mail_from'                      => array(
 						'label' => __( 'Mail appears from', 'jobboardwp' ),
 						'value' => stripslashes( JB()->options()->get( 'mail_from' ) ),
 					),
-					'jb-jobboardwp-mail_from_addr'         => array(
+					'mail_from_addr'                 => array(
 						'label' => __( 'Mail appears from address', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'mail_from_addr' ),
 					),
@@ -429,14 +460,14 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 
 			foreach ( JB()->config()->get( 'email_notifications' ) as $key => $email ) {
 				if ( 1 === (int) JB()->options()->get( $key . '_on' ) ) {
-					$info['jobboard']['fields'] = array_merge(
-						$info['jobboard']['fields'],
+					$info['jobboardwp']['fields'] = array_merge(
+						$info['jobboardwp']['fields'],
 						array(
-							'jb-jobboardwp-email_' . $key => array(
+							'email_' . $key       => array(
 								'label' => $email['title'] . __( ' Subject', 'jobboardwp' ),
 								'value' => JB()->options()->get( $key . '_sub' ),
 							),
-							'jb-jobboardwp-email_theme_' . $key => array(
+							'email_theme_' . $key => array(
 								'label' => __( 'Template ', 'jobboardwp' ) . $email['title'] . __( ' in theme?', 'jobboardwp' ),
 								'value' => '' !== locate_template( array( 'jobboardwp/emails/' . $key . '.php' ) ) ? $labels['yes'] : $labels['no'],
 							),
