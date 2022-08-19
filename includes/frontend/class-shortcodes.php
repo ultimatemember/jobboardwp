@@ -724,11 +724,11 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 		public function block_editor_render() {
 			$blocks = array(
-				'jb-block/jb-job-post'       => array(
+				'jb-block/jb-job-post'             => array(
 					'editor_script'   => 'jb_admin_blocks_shortcodes',
 					'render_callback' => array( $this, 'jb_job_post_render' ),
 				),
-				'jb-block/jb-job'            => array(
+				'jb-block/jb-job'                  => array(
 					'editor_script'   => 'jb_admin_blocks_shortcodes',
 					'render_callback' => array( $this, 'jb_single_job_render' ),
 					'attributes'      => array(
@@ -737,7 +737,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						),
 					),
 				),
-				'jb-block/jb-jobs-dashboard' => array(
+				'jb-block/jb-jobs-dashboard'       => array(
 					'editor_script'   => 'jb_admin_blocks_shortcodes',
 					'render_callback' => array( $this, 'jb_jobs_dashboard_render' ),
 				),
@@ -745,12 +745,12 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					'editor_script'   => 'jb_admin_blocks_shortcodes',
 					'render_callback' => array( $this, 'jb_jobs_categories_list_render' ),
 				),
-				'jb-block/jb-jobs-list'      => array(
+				'jb-block/jb-jobs-list'            => array(
 					'editor_script'   => 'jb_admin_blocks_shortcodes',
 					'render_callback' => array( $this, 'jb_jobs_list_render' ),
 					'attributes'      => array(
 						'user_id'              => array(
-							'type' => 'string'
+							'type' => 'string',
 						),
 						'per_page'             => array(
 							'type'    => 'string',
@@ -758,31 +758,31 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						),
 						'no_logo'              => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-no-logo' )
+							'default' => JB()->options()->get( 'jobs-list-no-logo' ),
 						),
 						'hide_filled'          => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-filled' )
+							'default' => JB()->options()->get( 'jobs-list-hide-filled' ),
 						),
 						'hide_expired'         => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-expired' )
+							'default' => JB()->options()->get( 'jobs-list-hide-expired' ),
 						),
 						'hide_search'          => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-search' )
+							'default' => JB()->options()->get( 'jobs-list-hide-search' ),
 						),
 						'hide_location_search' => array(
 							'type' => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-location-search' )
+							'default' => JB()->options()->get( 'jobs-list-hide-location-search' ),
 						),
 						'hide_filters'         => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-filters' )
+							'default' => JB()->options()->get( 'jobs-list-hide-filters' ),
 						),
 						'hide_job_types'       => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-job-types' )
+							'default' => JB()->options()->get( 'jobs-list-hide-job-types' ),
 						),
 						'no_jobs_text'         => array(
 							'type' => 'string',
@@ -808,48 +808,48 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						),
 						'filled_only'          => array(
 							'type'    => 'boolean',
-							'default' => false
+							'default' => false,
 						),
 						'isLoading'            => array(
 							'type'    => 'boolean',
-							'default' => false
+							'default' => false,
 						),
 					),
 				),
-				'jb-block/jb-recent-jobs'    => array(
+				'jb-block/jb-recent-jobs'          => array(
 					'editor_script'   => 'jb_admin_blocks_shortcodes',
 					'render_callback' => array( $this, 'jb_recent_jobs_render' ),
 					'attributes'      => array(
 						'number'       => array(
 							'type'    => 'number',
-							'default' => 5
+							'default' => 5,
 						),
 						'no_logo'      => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-no-logo' )
+							'default' => JB()->options()->get( 'jobs-list-no-logo' ),
 						),
 						'hide_filled'  => array(
 							'type'    => 'string',
-							'default' => JB()->options()->get( 'jobs-list-hide-filled' )
+							'default' => JB()->options()->get( 'jobs-list-hide-filled' ),
 						),
 						'no_job_types' => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-job-types' )
+							'default' => JB()->options()->get( 'jobs-list-hide-job-types' ),
 						),
 						'remote_only'  => array(
 							'type'    => 'boolean',
-							'default' => 0
+							'default' => 0,
 						),
 						'orderby'      => array(
-							'default' => 'date'
+							'default' => 'date',
 						),
 						'type'         => array(
 							'type'    => 'string',
-							'default' => ''
+							'default' => '',
 						),
 						'category'     => array(
 							'type'    => 'string',
-							'default' => ''
+							'default' => '',
 						),
 					),
 				),
@@ -885,7 +885,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		public function jb_jobs_list_render( $atts ) {
 			$shortcode = '[jb_jobs ';
 
-			if ( isset( $atts['user_id'] ) && '' != $atts['user_id'] ) {
+			if ( isset( $atts['user_id'] ) && '' !== $atts['user_id'] ) {
 				$shortcode .= ' employer-id="' . $atts['user_id'] . '"';
 			}
 
@@ -907,23 +907,23 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 			$shortcode .= ' hide-job-types="' . $atts['hide_job_types'] . '"';
 
-			if ( isset( $atts['no_jobs_text'] ) && '' != $atts['no_jobs_text'] ) {
+			if ( isset( $atts['no_jobs_text'] ) && '' !== $atts['no_jobs_text'] ) {
 				$shortcode .= ' no-jobs-text="' . $atts['no_jobs_text'] . '"';
 			}
 
-			if ( isset( $atts['no_job_search_text'] ) && '' != $atts['no_job_search_text'] ) {
+			if ( isset( $atts['no_job_search_text'] ) && '' !== $atts['no_job_search_text'] ) {
 				$shortcode .= ' no-jobs-search-text="' . $atts['no_job_search_text'] . '"';
 			}
 
-			if ( isset( $atts['load_more_text'] ) && '' != $atts['load_more_text'] ) {
+			if ( isset( $atts['load_more_text'] ) && '' !== $atts['load_more_text'] ) {
 				$shortcode .= ' load-more-text="' . $atts['load_more_text'] . '"';
 			}
 
-			if ( isset( $atts['category'] ) && '' != $atts['category'] ) {
+			if ( isset( $atts['category'] ) && '' !== $atts['category'] ) {
 				$shortcode .= ' category="' . $atts['category'] . '"';
 			}
 
-			if (isset( $atts['type'] ) && '' != $atts['type'] ) {
+			if ( isset( $atts['type'] ) && '' !== $atts['type'] ) {
 				$shortcode .= ' type="' . $atts['type'] . '"';
 			}
 

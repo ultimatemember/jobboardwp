@@ -22,9 +22,9 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 		public function __construct() {
 			parent::__construct();
 
-			$this->url['admin']     = JB_URL . 'assets/admin/';
-			$this->js_url['admin']  = JB_URL . 'assets/admin/js/';
-			$this->css_url['admin'] = JB_URL . 'assets/admin/css/';
+			$this->url['admin']        = JB_URL . 'assets/admin/';
+			$this->js_url['admin']     = JB_URL . 'assets/admin/js/';
+			$this->css_url['admin']    = JB_URL . 'assets/admin/css/';
 			$this->js_url['frontend']  = JB_URL . 'assets/frontend/js/';
 			$this->css_url['frontend'] = JB_URL . 'assets/frontend/css/';
 
@@ -152,7 +152,7 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			}
 
 			// render blocks
-			wp_register_style( 'jb-common-preview', $this->css_url['frontend'] . 'common' . JB()->scrips_prefix . '.css',  array(), JB_VERSION );
+			wp_register_style( 'jb-common-preview', $this->css_url['frontend'] . 'common' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
 			wp_register_style( 'jb-jobs-widget', $this->css_url['frontend'] . 'jobs-widget' . JB()->scrips_prefix . '.css', array( 'jb-common-preview' ), JB_VERSION );
 			wp_register_style( 'jb-job', $this->css_url['frontend'] . 'job' . JB()->scrips_prefix . '.css', array( 'jb-common-preview' ), JB_VERSION );
 			wp_register_style( 'jb-forms-preview', $this->css_url['frontend'] . 'forms' . JB()->scrips_prefix . '.css', array( 'jb-common-preview', 'jquery-ui' ), JB_VERSION );
