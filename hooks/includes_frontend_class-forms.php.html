@@ -600,7 +600,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			?>
 
 			&lt;span class="&lt;?php echo esc_attr( $wrapper_classes ); ?>">
-				&lt;span class="jb-uploaded-content-wrapper jb-&lt;?php echo esc_attr( $id ); ?>-image-wrapper" style="width: &lt;?php echo esc_attr( $thumb_w ); ?>px;height: &lt;?php echo esc_attr( $thumb_h ); ?>px;">
+				&lt;span class="jb-uploaded-content-wrapper jb-&lt;?php echo esc_attr( $id ); ?>-image-wrapper" style="width: &lt;?php echo esc_attr( $thumb_w ); ?>px;height: &lt;?php echo esc_attr( $thumb_h ); ?>px; display: block;">
 					&lt;?php echo wp_kses( '&lt;img src="' . ( ! empty( $field_data['value'] ) ? esc_url( $field_data['value'] ) : '' ) . '" alt="' . esc_attr( $img_alt ) . '" ' . $img_style . ' />', JB()->get_allowed_html( 'templates' ) ); ?>
 				&lt;/span>
 				&lt;a class="jb-cancel-change-media" href="#">&lt;?php echo esc_html( $cancel_label ); ?>&lt;/a>
