@@ -34,7 +34,7 @@ if ( ! class_exists( 'jb\admin\Init' ) ) {
 
 
 		/**
-		 * Init current locale if exists
+		 * Init current locale if exists.
 		 */
 		public function init_current_locale() {
 			// phpcs:disable WordPress.Security.NonceVerification -- don't need verifying there just the information about locale from JS to AJAX handlers
@@ -78,6 +78,7 @@ if ( ! class_exists( 'jb\admin\Init' ) ) {
 			$this->actions_listener();
 			$this->columns();
 			$this->metabox();
+			$this->site_health();
 		}
 
 
@@ -169,6 +170,19 @@ if ( ! class_exists( 'jb\admin\Init' ) ) {
 				JB()->classes['jb\admin\metabox'] = new Metabox();
 			}
 			return JB()->classes['jb\admin\metabox'];
+		}
+
+
+		/**
+		 * @since 1.2.1
+		 *
+		 * @return Site_Health
+		 */
+		public function site_health() {
+			if ( empty( JB()->classes['jb\admin\site_health'] ) ) {
+				JB()->classes['jb\admin\site_health'] = new Site_Health();
+			}
+			return JB()->classes['jb\admin\site_health'];
 		}
 
 
