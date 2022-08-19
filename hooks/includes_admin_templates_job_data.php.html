@@ -219,7 +219,7 @@ if ( JB()->options()->get( 'job-categories' ) ) {
 if ( JB()->options()->get( 'individual-job-duration' ) ) {
 	$expiry_description = __( 'Leave empty to make this job un-expired.', 'jobboardwp' );
 } else {
-	$link = add_query_arg(
+	$settings_link = add_query_arg(
 		array(
 			'page'    => 'jb-settings',
 			'section' => 'job_submission',
@@ -229,7 +229,7 @@ if ( JB()->options()->get( 'individual-job-duration' ) ) {
 
 	/** @noinspection HtmlUnknownTarget */
 	// translators: %s: link to the settings section
-	$expiry_description = sprintf( __( 'If empty, then job will have an expiration date based on the &lt;a href="%s#jb_options_job-duration">Job Duration&lt;/a> setting.', 'jobboardwp' ), $link );
+	$expiry_description = sprintf( __( 'If empty, then job will have an expiration date based on the &lt;a href="%s#jb_options_job-duration">Job Duration&lt;/a> setting.', 'jobboardwp' ), $settings_link );
 }
 
 $job_details_fields = array_merge(
