@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-19T12:18:56+00:00\n"
+"POT-Creation-Date: 2022-08-19T12:22:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: jobboardwp\n"
@@ -99,7 +99,7 @@ msgid "Status"
 msgstr ""
 
 #: includes/admin/class-columns.php:334
-#: includes/admin/templates/job/data.php:212
+#: includes/admin/templates/job/data.php:220
 #: templates/job-submission.php:297
 msgid "Location"
 msgstr ""
@@ -897,21 +897,21 @@ msgid "Leave empty to make this job un-expired."
 msgstr ""
 
 #. translators: %s: link to the settings section
-#: includes/admin/templates/job/data.php:191
+#: includes/admin/templates/job/data.php:199
 msgid "If empty, then job will have an expiration date based on the <a href=\"%s#jb_options_job-duration\">Job Duration</a> setting."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:200
+#: includes/admin/templates/job/data.php:208
 msgid "Location Type"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:202
+#: includes/admin/templates/job/data.php:210
 #: includes/common/class-job.php:243
 #: templates/job-submission.php:289
 msgid "Onsite"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:203
+#: includes/admin/templates/job/data.php:211
 #: includes/common/class-job.php:246
 #: includes/common/class-job.php:290
 #: includes/common/class-job.php:315
@@ -919,58 +919,58 @@ msgstr ""
 msgid "Remote"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:204
+#: includes/admin/templates/job/data.php:212
 #: includes/common/class-job.php:240
 msgid "Onsite or remote"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:213
+#: includes/admin/templates/job/data.php:221
 msgid "Required for onsite jobs."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:222
+#: includes/admin/templates/job/data.php:230
 #: templates/job-submission.php:309
 #: templates/job-submission.php:320
 msgid "Preferred Location"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:223
+#: includes/admin/templates/job/data.php:231
 msgid "Leave this blank if location is not important."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:231
+#: includes/admin/templates/job/data.php:239
 msgid "Company name"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:238
+#: includes/admin/templates/job/data.php:246
 msgid "Company website"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:244
+#: includes/admin/templates/job/data.php:252
 msgid "Company tagline"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:250
+#: includes/admin/templates/job/data.php:258
 msgid "Company twitter"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:256
+#: includes/admin/templates/job/data.php:264
 msgid "Company facebook"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:262
+#: includes/admin/templates/job/data.php:270
 msgid "Company instagram"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:268
+#: includes/admin/templates/job/data.php:276
 msgid "Position Filled"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:269
+#: includes/admin/templates/job/data.php:277
 msgid "Filled listings will no longer accept applications."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:275
+#: includes/admin/templates/job/data.php:283
 msgid "Expiry Date"
 msgstr ""
 
