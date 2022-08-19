@@ -1,47 +1,70 @@
-//------------------------------------\\
-//-------- Jobboard shortcode --------\\
-//------------------------------------\\
+// default settings
+var default_hide_filled, default_hide_logo, default_hide_job_types, default_hide_expired, default_hide_search, default_hide_search_location, default_hide_filters;
+if ( ! jb_blocks_options['jobs-list-hide-filled'] ) {
+	default_hide_filled = 0;
+} else {
+	default_hide_filled = 1;
+}
+if ( ! jb_blocks_options['jobs-list-no-logo'] ) {
+	default_hide_logo = 0;
+} else {
+	default_hide_logo = 1;
+}
+if ( ! jb_blocks_options['jobs-list-hide-job-types'] ) {
+	default_hide_job_types = 0;
+} else {
+	default_hide_job_types = 1;
+}
+if ( ! jb_blocks_options['jobs-list-hide-expired'] ) {
+	default_hide_expired = 0;
+} else {
+	default_hide_expired = 1;
+}
+if ( ! jb_blocks_options['jobs-list-hide-expired'] ) {
+	default_hide_expired = 0;
+} else {
+	default_hide_expired = 1;
+}
+if ( ! jb_blocks_options['jobs-list-hide-search'] ) {
+	default_hide_search = 0;
+} else {
+	default_hide_search = 1;
+}
+if ( ! jb_blocks_options['jobs-list-hide-location-search'] ) {
+	default_hide_search_location = 0;
+} else {
+	default_hide_search_location = 1;
+}
+if ( ! jb_blocks_options['jobs-list-hide-filters'] ) {
+	default_hide_filters = 0;
+} else {
+	default_hide_filters = 1;
+}
+
+
+//-------------------------------------\\
+//---- Jobboard post job shortcode ----\\
+//-------------------------------------\\
 
 wp.blocks.registerBlockType( 'jb-block/jb-job-post', {
 	title: wp.i18n.__( 'Post Job', 'jobboardwp' ),
 	description: wp.i18n.__( 'Displaying jobs posting form', 'jobboardwp' ),
 	icon: 'forms',
 	category: 'jb-blocks',
-	attributes: {
-		content: {
-			source: 'html',
-			selector: 'p'
-		}
-	},
 
 	edit: function(props) {
-		var content = props.attributes.content;
+		jQuery('#jb-job-preview, #jb-job-draft, #jb_company_logo_plupload').attr('disabled', 'disabled');
 
-		if ( content === undefined ) {
-			props.setAttributes({content: '[jb_post_job]'});
-		}
-
-		return [
-			wp.element.createElement(
-				"div",
-				{
-					className: 'jb-post-job-wrapper'
-				},
-				wp.i18n.__( 'Post Job', 'jobboardwp' )
-			)
-		]
+		return wp.element.createElement('div', {}, [
+			wp.element.createElement( wp.components.ServerSideRender, {
+				block: 'jb-block/jb-job-post'
+			} )
+		] );
 
 	},
 
 	save: function(props) {
-		return wp.element.createElement(
-			wp.editor.RichText.Content,
-			{
-				tagName: 'p',
-				className: props.className,
-				value: props.attributes.content
-			}
-		);
+		return null;
 	}
 
 });
@@ -57,10 +80,6 @@ wp.blocks.registerBlockType( 'jb-block/jb-job', {
 	icon: 'text',
 	category: 'jb-blocks',
 	attributes: {
-		content: {
-			source: 'html',
-			selector: 'p'
-		},
 		job_id: {
 			type: 'select'
 		}
@@ -76,10 +95,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-job', {
 	} )( function( props ) {
 			var posts         = props.posts,
 				className     = props.className,
-				attributes    = props.attributes,
-				setAttributes = props.setAttributes,
 				job_id        = props.attributes.job_id,
-				content       = props.attributes.content,
 				posts_data;
 
 			posts_data = [ { id: '', title: '' } ].concat(posts);
@@ -124,7 +140,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-job', {
 						wp.components.Spinner,
 						null
 					),
-					wp.i18n.__( 'Loading jobs', 'jobboardwp' )
+					wp.i18n.__( '', 'jobboardwp' )
 				);
 			}
 
@@ -142,20 +158,15 @@ wp.blocks.registerBlockType( 'jb-block/jb-job', {
 				props.setAttributes( { content: shortcode } );
 			}
 
-			if ( content === undefined ) {
-				props.setAttributes({ content: '[jb_job]' });
-			}
-
 			var get_post = get_option( posts_data );
 
-			return [
-				wp.element.createElement(
-					"div",
-					{
-						className: 'jb-job-wrapper'
-					},
-					wp.i18n.__( 'Job', 'jobboardwp' )
-				),
+			jQuery('.jb-button.jb-job-apply').attr('disabled', 'disabled');
+
+			return wp.element.createElement('div', {}, [
+				wp.element.createElement( wp.components.ServerSideRender, {
+					block: 'jb-block/jb-job',
+					attributes: props.attributes
+				} ),
 				wp.element.createElement(
 					wp.blockEditor.InspectorControls,
 					{},
@@ -185,19 +196,12 @@ wp.blocks.registerBlockType( 'jb-block/jb-job', {
 						)
 					)
 				)
-			]
+			] );
 		} // end withSelect
 	), // end edit
 
 	save: function save( props ) {
-		return wp.element.createElement(
-			wp.editor.RichText.Content,
-			{
-				tagName: 'p',
-				className: props.className,
-				value: props.attributes.content
-			}
-		);
+		return null;
 	}
 
 });
@@ -239,14 +243,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-dashboard', {
 	},
 
 	save: function(props) {
-		return wp.element.createElement(
-			wp.editor.RichText.Content,
-			{
-				tagName: 'p',
-				className: props.className,
-				value: props.attributes.content
-			}
-		);
+		return null;
 	}
 
 });
@@ -288,14 +285,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-categories-list', {
 	},
 
 	save: function(props) {
-		return wp.element.createElement(
-			wp.editor.RichText.Content,
-			{
-				tagName: 'p',
-				className: props.className,
-				value: props.attributes.content
-			}
-		);
+		return null;
 	}
 
 });
@@ -319,31 +309,31 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 		},
 		no_logo: {
 			type: 'boolean',
-			default: jb_blocks_options['jobs-list-no-logo']
+			default: default_hide_logo
 		},
 		hide_filled: {
 			type: 'boolean',
-			default: jb_blocks_options['jobs-list-hide-filled']
+			default: default_hide_filled
 		},
 		hide_expired: {
 			type: 'boolean',
-			default: jb_blocks_options['jobs-list-hide-expired']
+			default: default_hide_expired
 		},
 		hide_search: {
 			type: 'boolean',
-			default: jb_blocks_options['jobs-list-hide-search']
+			default: default_hide_search
 		},
 		hide_location_search: {
 			type: 'boolean',
-			default: jb_blocks_options['jobs-list-hide-location-search']
+			default: default_hide_search_location
 		},
 		hide_filters: {
 			type: 'boolean',
-			default: jb_blocks_options['jobs-list-hide-filters']
+			default: default_hide_filters
 		},
 		hide_job_types: {
 			type: 'boolean',
-			default: jb_blocks_options['jobs-list-hide-job-types']
+			default: default_hide_job_types
 		},
 		no_jobs_text: {
 			type: 'string'
@@ -518,7 +508,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 				}
 
 				if ( hide_location_search !== false ) {
-					shortcode = shortcode + ' hide-locatio-search="' + 1 + '"';
+					shortcode = shortcode + ' hide-location-search="' + 1 + '"';
 				} else {
 					shortcode = shortcode + ' hide-location-search="' + 0 + '"';
 				}
@@ -540,7 +530,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 				}
 
 				if ( no_job_search_text !== undefined && no_job_search_text !== '' ) {
-					shortcode = shortcode + ' no-job-search-text="' + no_job_search_text + '"';
+					shortcode = shortcode + ' no-jobs-search-text="' + no_job_search_text + '"';
 				}
 
 				if ( load_more_text !== undefined && load_more_text !== '' ) {
@@ -570,7 +560,6 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 				}
 
 				shortcode = shortcode + ']';
-
 				props.setAttributes({ content: shortcode });
 			}
 
@@ -840,14 +829,7 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 	), // end edit
 
 	save: function save( props ) {
-		return wp.element.createElement(
-			wp.editor.RichText.Content,
-			{
-				tagName: 'p',
-				className: props.className,
-				value: props.attributes.content
-			}
-		);
+		return null;
 	}
 });
 
@@ -868,15 +850,15 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 		},
 		no_logo: {
 			type: 'boolean',
-			default: jb_blocks_options['jobs-list-no-logo']
+			default: default_hide_logo
 		},
 		hide_filled: {
 			type: 'boolean',
-			default: jb_blocks_options['jobs-list-hide-filled']
+			default: default_hide_filled
 		},
 		no_job_types: {
 			type: 'boolean',
-			default: jb_blocks_options['jobs-list-hide-job-types']
+			default: default_hide_job_types
 		},
 		category: {
 			type: 'select'
@@ -891,10 +873,6 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 		remote_only: {
 			type: 'boolean',
 			default: false
-		},
-		content: {
-			source: 'html',
-			selector: 'p'
 		}
 	},
 
@@ -942,6 +920,8 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 					category_hide = '';
 				}
 			}
+
+			jQuery('.jb-jobs-widget').addClass('jb-ui-s');
 
 			function get_option( data, type ) {
 
@@ -1018,6 +998,8 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 				shortcode = shortcode + ']';
 
 				props.setAttributes({ content: shortcode });
+
+				jQuery('.jb-jobs-widget').addClass('jb-ui-s');
 			}
 
 			if ( ! types_data || ! categories_data ) {
@@ -1049,14 +1031,11 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 			var get_category = get_option( categories_data, 'category' );
 			var get_types    = get_option( types_data, 'type' );
 
-			return [
-				wp.element.createElement(
-					"div",
-					{
-						className: 'jb-recent-jobs-wrapper'
-					},
-					wp.i18n.__( 'Recent jobs', 'jobboardwp' )
-				),
+			return wp.element.createElement('div', {}, [
+				wp.element.createElement( wp.components.ServerSideRender, {
+					block: 'jb-block/jb-recent-jobs',
+					attributes: props.attributes
+				} ),
 				wp.element.createElement(
 					wp.blockEditor.InspectorControls,
 					{},
@@ -1082,7 +1061,6 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 							wp.components.ToggleControl,
 							{
 								label: wp.i18n.__( 'Hide logo', 'jobboardwp' ),
-
 								className: 'jb_no_logo',
 								checked: props.attributes.no_logo,
 								onChange: function onChange( value ) {
@@ -1168,18 +1146,10 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 						)
 					)
 				)
-			]
+			] );
 		} // end withSelect
 	), // end edit
-
 	save: function save( props ) {
-		return wp.element.createElement(
-			wp.editor.RichText.Content,
-			{
-				tagName: 'p',
-				className: props.className,
-				value: props.attributes.content
-			}
-		);
+		return null;
 	}
 });

@@ -1,3 +1,5 @@
+.wp-block {
+	position: relative; }
 .jb.jb-ui-xs .jb-responsive:not(.jb-ui-xs) {
   display: none !important; }
 
