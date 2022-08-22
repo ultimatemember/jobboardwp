@@ -156,7 +156,9 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			wp_register_style( 'jb-jobs-widget', $this->css_url['frontend'] . 'jobs-widget' . JB()->scrips_prefix . '.css', array( 'jb-common-preview' ), JB_VERSION );
 			wp_register_style( 'jb-job', $this->css_url['frontend'] . 'job' . JB()->scrips_prefix . '.css', array( 'jb-common-preview' ), JB_VERSION );
 			wp_register_style( 'jb-forms-preview', $this->css_url['frontend'] . 'forms' . JB()->scrips_prefix . '.css', array( 'jb-common-preview', 'jquery-ui' ), JB_VERSION );
+			wp_register_style( 'jb-job-categories', $this->css_url['frontend'] . 'job-categories' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
 
+			wp_register_script( 'jb-job-categories', $this->js_url['frontend'] . 'job-categories' . JB()->scrips_prefix . '.js', array( 'jb-front-global' ), JB_VERSION, true );
 		}
 
 
@@ -228,6 +230,17 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			wp_enqueue_style( 'jb-font-awesome' );
 			wp_enqueue_style( 'jb-job' );
 			wp_enqueue_style( 'jb-forms-preview' );
+			wp_enqueue_style( 'jb-job-categories' );
+//			wp_enqueue_style( 'jb-helptip' );
+
+			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', array( 'jb-helptip' ), JB_VERSION, true );
+			wp_enqueue_script( 'jb-helptip' );
+//			wp_enqueue_script( 'jb-dropdown' );
+			wp_localize_script( 'jb-front-global', 'jb_front_data', array(
+				'nonce' => wp_create_nonce( 'jb-frontend-nonce' ),
+			) );
+			wp_enqueue_script( 'jb-front-global' );
+			wp_enqueue_script( 'jb-job-categories' );
 		}
 	}
 }

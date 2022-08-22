@@ -41,6 +41,24 @@ if ( ! jb_blocks_options['jobs-list-hide-filters'] ) {
 	default_hide_filters = 1;
 }
 
+// render in admin area
+jQuery(window).load(function($) {
+
+	// Category list
+	var observer = new MutationObserver(function(mutations) {
+		mutations.forEach(function(mutation) {
+			jQuery(mutation.addedNodes).find('.jb.jb-job-categories').each(function() {
+				wp.JB.job_categories_list.objects.wrapper = jQuery('.jb-job-categories');
+				if ( wp.JB.job_categories_list.objects.wrapper.length ) {
+					wp.JB.job_categories_list.ajax();
+				}
+			});
+		});
+	});
+
+	observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
+});
+
 
 //-------------------------------------\\
 //---- Jobboard post job shortcode ----\\
@@ -216,20 +234,15 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-dashboard', {
 	description: wp.i18n.__( 'Displaying jobs dashboard', 'jobboardwp' ),
 	icon: 'dashboard',
 	category: 'jb-blocks',
-	attributes: {
-		content: {
-			source: 'html',
-			selector: 'p'
-		}
-	},
 
 	edit: function(props) {
-		var content = props.attributes.content;
 
-		if ( content === undefined ) {
-			props.setAttributes({content: '[jb_jobs_dashboard]'});
-		}
-
+		return wp.element.createElement('div', {}, [
+			wp.element.createElement( wp.components.ServerSideRender, {
+				block: 'jb-block/jb-jobs-dashboard',
+				attributes: props.attributes
+			} ),
+		] );
 		return [
 			wp.element.createElement(
 				"div",
@@ -258,29 +271,15 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-categories-list', {
 	description: wp.i18n.__( 'Displaying jobs categories list', 'jobboardwp' ),
 	icon: 'editor-ul',
 	category: 'jb-blocks',
-	attributes: {
-		content: {
-			source: 'html',
-			selector: 'p'
-		}
-	},
 
 	edit: function(props) {
-		var content = props.attributes.content;
 
-		if ( content === undefined ) {
-			props.setAttributes({content: '[jb_job_categories_list]'});
-		}
-
-		return [
-			wp.element.createElement(
-				"div",
-				{
-					className: 'jb-job-categories-list-wrapper'
-				},
-				wp.i18n.__( 'Jobs categories list', 'jobboardwp' )
-			)
-		]
+		return wp.element.createElement('div', {}, [
+			wp.element.createElement( wp.components.ServerSideRender, {
+				block: 'jb-block/jb-jobs-categories-list',
+				attributes: props.attributes
+			} )
+		] );
 
 	},
 
