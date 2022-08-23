@@ -8,7 +8,7 @@ if ( typeof ( wp.JB.jobs_dashboard ) !== 'object' ) {
 
 wp.JB.jobs_dashboard = {
 	objects: {
-		wrapper: jQuery( '#jb-job-dashboard' ),
+		wrapper: jQuery( '.jb-job-dashboard' ),
 	},
 	is_busy: function() {
 		return wp.JB.jobs_dashboard.objects.wrapper.hasClass('jb-busy');
@@ -116,15 +116,15 @@ wp.JB.jobs_dashboard = {
 				var template = wp.template( 'jb-jobs-dashboard-line' );
 
 				if ( append ) {
-					wp.JB.jobs_dashboard.objects.wrapper.find('#jb-job-dashboard-rows').append( template( answer.jobs ) );
+					wp.JB.jobs_dashboard.objects.wrapper.find('.jb-job-dashboard-rows').append( template( answer.jobs ) );
 				} else {
-					wp.JB.jobs_dashboard.objects.wrapper.find('#jb-job-dashboard-rows').html( template( answer.jobs ) );
+					wp.JB.jobs_dashboard.objects.wrapper.find('.jb-job-dashboard-rows').html( template( answer.jobs ) );
 				}
 
 				if ( answer.jobs.length > 0 ) {
-					wp.JB.jobs_dashboard.objects.wrapper.find('#jb-job-dashboard-rows').addClass('isset-jobs');
+					wp.JB.jobs_dashboard.objects.wrapper.find('.jb-job-dashboard-rows').addClass('isset-jobs');
 				} else {
-					wp.JB.jobs_dashboard.objects.wrapper.find('#jb-job-dashboard-rows').removeClass('isset-jobs');
+					wp.JB.jobs_dashboard.objects.wrapper.find('.jb-job-dashboard-rows').removeClass('isset-jobs');
 				}
 
 				wp.hooks.doAction( 'jb_jobs_dashboard_loaded', answer );

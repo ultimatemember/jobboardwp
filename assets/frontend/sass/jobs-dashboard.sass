@@ -12,7 +12,7 @@
     transform: rotate(360deg)
 
 
-##{$job}dashboard
+.#{$job}dashboard
   position: relative
   border: 1px solid $border-color
   border-radius: 5px
@@ -83,7 +83,7 @@
       padding-right: 5px
       box-sizing: border-box
 
-  ##{$job}dashboard-rows
+  .#{$job}dashboard-rows
     +flex( column, flex-start, stretch, nowrap )
     padding: 0
     &.isset-jobs
@@ -185,7 +185,7 @@
   &.#{$prefix}ui-xs
     border: none
     border-radius: 0
-    ##{$job}dashboard-rows
+    .#{$job}dashboard-rows
       .#{$job}dashboard-row
         .#{$prefix}row-data
           flex-direction: column
@@ -213,7 +213,7 @@
   &.#{$prefix}ui-s
     border: none
     border-radius: 0
-    ##{$job}dashboard-rows
+    .#{$job}dashboard-rows
       .#{$job}dashboard-row
         .#{$prefix}row-data
           flex-direction: column
@@ -252,7 +252,7 @@
       .#{$job}col-status
         width: 18%
 
-    ##{$job}dashboard-rows
+    .#{$job}dashboard-rows
       .#{$job}dashboard-row
         .#{$prefix}row-data
           .job_title
@@ -266,12 +266,12 @@
         &:last-child
           border-bottom: none
   &.#{$prefix}ui-l
-    ##{$job}dashboard-rows
+    .#{$job}dashboard-rows
       .#{$job}dashboard-row
         &:last-child
           border-bottom: none
   &.#{$prefix}ui-xl
-    ##{$job}dashboard-rows
+    .#{$job}dashboard-rows
       .#{$job}dashboard-row
         &:last-child
           border-bottom: none

@@ -23,7 +23,7 @@ if ( ! is_user_logged_in() ) {
 	JB()->get_template_part( 'js/jobs-dashboard', $jb_dashboard_jobs );
 	?>
 
-	<div id="jb-job-dashboard" class="jb">
+	<div class="jb jb-job-dashboard">
 
 		<?php JB()->get_template_part( 'ajax-overlay', $jb_dashboard_jobs ); ?>
 
@@ -35,7 +35,7 @@ if ( ! is_user_logged_in() ) {
 			</div>
 		</div>
 
-		<div id="jb-job-dashboard-rows"></div>
+		<div class="jb-job-dashboard-rows"></div>
 	</div>
 
 	<?php
