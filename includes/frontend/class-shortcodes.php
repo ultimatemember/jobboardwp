@@ -814,6 +814,9 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 							'type'    => 'boolean',
 							'default' => false,
 						),
+						'content'              => array(
+							'type'    => 'string',
+						),
 					),
 				),
 				'jb-block/jb-recent-jobs'          => array(

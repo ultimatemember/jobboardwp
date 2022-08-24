@@ -163,7 +163,8 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			wp_register_script( 'jb-job-categories', $this->js_url['frontend'] . 'job-categories' . JB()->scrips_prefix . '.js', array( 'jb-front-global' ), JB_VERSION, true );
 			wp_register_script( 'jb-dropdown', $this->js_url['frontend'] . 'dropdown' . JB()->scrips_prefix . '.js', array( 'jquery' ), JB_VERSION, true );
 			wp_register_script( 'jb-jobs-dashboard', $this->js_url['frontend'] . 'jobs-dashboard' . JB()->scrips_prefix . '.js', array( 'jb-front-global' ), JB_VERSION, true );
-			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', array( 'jquery', 'wp-util', 'wp-i18n', 'wp-hooks', 'select2', 'jb-dropdown', 'jb-helptip' ), JB_VERSION, true );
+			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', array( 'jquery', 'wp-util', 'wp-i18n', 'wp-hooks', 'select2', 'jb-dropdown' ), JB_VERSION, true );
+			wp_register_script( 'jb-preview', $this->js_url['admin'] . 'preview' . JB()->scrips_prefix . '.js', array( ), JB_VERSION, true );
 
 			$jobs_deps  = array( 'jb-front-global' );
 			$key = JB()->options()->get( 'googlemaps-api-key' );
@@ -257,7 +258,6 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			wp_enqueue_script( 'jb-dropdown' );
 			wp_enqueue_script( 'jb-jobs-dashboard' );
 			wp_enqueue_script( 'jb-jobs' );
-			wp_enqueue_script( 'jb-front-global' );
 		}
 	}
 }
