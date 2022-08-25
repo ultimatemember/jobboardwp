@@ -21,7 +21,7 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'init', array( &$this, 'block_editor_render' ), 11 );
-			add_filter( 'allowed_block_types_all', array( &$this, 'jb_allowed_block_types' ), 10, 2);
+			add_filter( 'allowed_block_types_all', array( &$this, 'jb_allowed_block_types' ), 10, 2 );
 		}
 
 
@@ -118,7 +118,7 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 							'default' => false,
 						),
 						'content'              => array(
-							'type'    => 'string',
+							'type' => 'string',
 						),
 					),
 				),
@@ -302,7 +302,7 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 				$registered_block_types = $block_registry->get_all_registered();
 				unset( $registered_block_types['jb-block/jb-job-post'] );
 				unset( $registered_block_types['jb-block/jb-job'] );
-				return array_keys($registered_block_types);
+				return array_keys( $registered_block_types );
 			}
 
 			return $allowed_block_types;

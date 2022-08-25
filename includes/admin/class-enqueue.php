@@ -164,10 +164,9 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			wp_register_script( 'jb-dropdown', $this->js_url['frontend'] . 'dropdown' . JB()->scrips_prefix . '.js', array( 'jquery' ), JB_VERSION, true );
 			wp_register_script( 'jb-jobs-dashboard', $this->js_url['frontend'] . 'jobs-dashboard' . JB()->scrips_prefix . '.js', array( 'jb-front-global' ), JB_VERSION, true );
 			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', array( 'jquery', 'wp-util', 'wp-i18n', 'wp-hooks', 'select2', 'jb-dropdown' ), JB_VERSION, true );
-			wp_register_script( 'jb-preview', $this->js_url['admin'] . 'preview' . JB()->scrips_prefix . '.js', array( ), JB_VERSION, true );
 
-			$jobs_deps  = array( 'jb-front-global' );
-			$key = JB()->options()->get( 'googlemaps-api-key' );
+			$jobs_deps = array( 'jb-front-global' );
+			$key       = JB()->options()->get( 'googlemaps-api-key' );
 			if ( ! empty( $key ) ) {
 				$forms_deps[] = 'jb-location-field';
 				$jobs_deps[]  = 'jb-location-field';
@@ -250,9 +249,13 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 
 			wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', array( 'jb-helptip' ), JB_VERSION, true );
 			wp_enqueue_script( 'jb-helptip' );
-			wp_localize_script( 'jb-front-global', 'jb_front_data', array(
-				'nonce' => wp_create_nonce( 'jb-frontend-nonce' ),
-			) );
+			wp_localize_script(
+				'jb-front-global',
+				'jb_front_data',
+				array(
+					'nonce' => wp_create_nonce( 'jb-frontend-nonce' ),
+				)
+			);
 			wp_enqueue_script( 'jb-front-global' );
 			wp_enqueue_script( 'jb-job-categories' );
 			wp_enqueue_script( 'jb-dropdown' );
