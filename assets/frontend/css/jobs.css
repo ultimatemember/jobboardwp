@@ -1,3 +1,6 @@
+.wp-block {
+  position: relative; }
+
 @-webkit-keyframes jb-ajax-spinning {
   0% {
     -webkit-transform: rotate(0deg);
@@ -30,8 +33,6 @@
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
 
-.wp-block {
-	position: relative; }
 .jb-jobs {
   display: flex;
   flex-direction: column;

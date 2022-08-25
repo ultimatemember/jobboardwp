@@ -1,5 +1,3 @@
-.wp-block {
-	position: relative; }
 .jb.jb-ui-xs .jb-responsive:not(.jb-ui-xs) {
   display: none !important; }
 
@@ -14,6 +12,9 @@
 
 .jb.jb-ui-xl .jb-responsive:not(.jb-ui-xl) {
   display: none !important; }
+
+.wp-block {
+  position: relative; }
 
 #wp-admin-bar-jb_edit_job > .ab-item .ab-icon:before {
   content: "\f464";

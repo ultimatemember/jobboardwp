@@ -1,5 +1,3 @@
-.wp-block {
-	position: relative; }
 .jb-notice-message {
   position: fixed;
   padding: 0;
@@ -115,6 +113,9 @@
         margin-right: 10px; }
       .jb-user-card-wrapper .jb-user-card-content .jb-user-card-stats > :last-child {
         margin: 0; }
+
+.wp-block {
+  position: relative; }
 
 .jb {
   width: 100%; }

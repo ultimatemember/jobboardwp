@@ -1,5 +1,6 @@
 .wp-block {
-	position: relative; }
+  position: relative; }
+
 .jb-jobs-widget {
   display: flex;
   flex-direction: column;
