@@ -842,6 +842,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						),
 						'orderby'      => array(
 							'default' => 'date',
+							'type'    => 'string',
 						),
 						'type'         => array(
 							'type'    => 'string',
