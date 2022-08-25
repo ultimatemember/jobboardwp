@@ -1,3 +1,5 @@
+.wp-block {
+	position: relative; }
 .jb-dropdown {
   font-size: 16px;
   margin: 0;
@@ -84,13 +86,13 @@
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
 
-#jb-job-dashboard {
+.jb-job-dashboard {
   position: relative;
   border: 1px solid #dddddd;
   border-radius: 5px; }
-  #jb-job-dashboard.jb-busy {
+  .jb-job-dashboard.jb-busy {
     min-height: 300px; }
-  #jb-job-dashboard .jb-overlay {
+  .jb-job-dashboard .jb-overlay {
     display: none;
     position: absolute;
     width: 100%;
@@ -98,7 +100,7 @@
     bottom: 0;
     background: none;
     z-index: 2; }
-    #jb-job-dashboard .jb-overlay .jb-ajax-loading {
+    .jb-job-dashboard .jb-overlay .jb-ajax-loading {
       -webkit-transition: 0.1s opacity;
       -moz-transition: 0.1s opacity;
       -ms-transition: 0.1s opacity;
@@ -126,7 +128,7 @@
       outline: 0;
       padding: 0;
       vertical-align: baseline; }
-  #jb-job-dashboard .jb-job-dashboard-heading {
+  .jb-job-dashboard .jb-job-dashboard-heading {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -137,36 +139,36 @@
     font-weight: bold;
     box-sizing: border-box;
     background: #fafafa; }
-    #jb-job-dashboard .jb-job-dashboard-heading .jb-job-col-title {
+    .jb-job-dashboard .jb-job-dashboard-heading .jb-job-col-title {
       width: 55%;
       text-align: left;
       padding-right: 5px;
       box-sizing: border-box; }
-    #jb-job-dashboard .jb-job-dashboard-heading .jb-job-col-posted {
+    .jb-job-dashboard .jb-job-dashboard-heading .jb-job-col-posted {
       width: 15%;
       text-align: left;
       padding-right: 5px;
       box-sizing: border-box; }
-    #jb-job-dashboard .jb-job-dashboard-heading .jb-job-col-expired {
+    .jb-job-dashboard .jb-job-dashboard-heading .jb-job-col-expired {
       width: 15%;
       text-align: left;
       padding-right: 5px;
       box-sizing: border-box; }
-    #jb-job-dashboard .jb-job-dashboard-heading .jb-job-col-status {
+    .jb-job-dashboard .jb-job-dashboard-heading .jb-job-col-status {
       width: 15%;
       text-align: left;
       padding-right: 5px;
       box-sizing: border-box; }
-  #jb-job-dashboard #jb-job-dashboard-rows {
+  .jb-job-dashboard .jb-job-dashboard-rows {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
     flex-wrap: nowrap;
     padding: 0; }
-    #jb-job-dashboard #jb-job-dashboard-rows.isset-jobs {
+    .jb-job-dashboard .jb-job-dashboard-rows.isset-jobs {
       border-top: 1px solid #dddddd; }
-    #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row {
+    .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
@@ -176,107 +178,107 @@
       margin: 0;
       padding: 12px 10px;
       border-bottom: 1px solid #dddddd; }
-      #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data {
+      .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         align-items: baseline;
         flex-wrap: nowrap;
         width: calc( 100% - 50px); }
-        #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .job_title {
+        .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .job_title {
           font-size: 14px;
           width: 55%;
           margin: 0;
           padding: 0 5px 0 0;
           font-weight: bold; }
-        #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status {
+        .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status {
           font-size: 14px;
           width: 15%;
           text-align: left;
           padding: 0 5px 0 0; }
-          #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag {
+          .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag {
             border-radius: 5px;
             padding: 3px 10px;
             font-weight: bold;
             font-size: 12px; }
-            #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag.jb-status-draft {
+            .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag.jb-status-draft {
               background: #e3e8ee;
               color: #4f566b; }
-            #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag.jb-status-filled {
+            .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag.jb-status-filled {
               background: #cbf4c9;
               color: #0e6245; }
-            #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag.jb-status-jb-expired {
+            .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag.jb-status-jb-expired {
               background: #fedce4;
               color: #a3052a; }
-            #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag.jb-status-pending {
+            .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag.jb-status-pending {
               background: #f8e5b9;
               color: #983705; }
-            #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag.jb-status-not-filled {
+            .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status .status-tag.jb-status-not-filled {
               background: #d6ecff;
               color: #3d4eac; }
-        #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .date {
+        .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .date {
           font-size: 13px;
           width: 15%;
           text-align: left;
           padding: 0 5px 0 0; }
-        #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .expires {
+        .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .expires {
           font-size: 13px;
           width: 15%;
           text-align: left;
           padding: 0 5px 0 0; }
-        #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag {
+        .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag {
           border-radius: 5px;
           padding: 3px 10px;
           font-weight: bold;
           font-size: 12px; }
-          #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag.jb-status-draft {
+          .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag.jb-status-draft {
             background: #e3e8ee;
             color: #4f566b; }
-          #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag.jb-status-filled {
+          .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag.jb-status-filled {
             background: #cbf4c9;
             color: #0e6245; }
-          #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag.jb-status-not-filled {
+          .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag.jb-status-not-filled {
             background: #fedce4;
             color: #a3052a; }
-          #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag.jb-status-jb-expired {
+          .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag.jb-status-jb-expired {
             background: #fedce4;
             color: #a3052a; }
-          #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag.jb-status-pending {
+          .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status .status-tag.jb-status-pending {
             background: #f8e5b9;
             color: #983705; }
-      #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-actions {
+      .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-actions {
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
         align-items: center;
         flex-wrap: nowrap;
         width: 50px; }
-        #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-actions .jb-job-actions-dropdown {
+        .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-actions .jb-job-actions-dropdown {
           position: relative;
           width: 100%;
           margin: 0;
           text-align: center; }
-          #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-actions .jb-job-actions-dropdown > i {
+          .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-actions .jb-job-actions-dropdown > i {
             cursor: pointer;
             font-size: 16px; }
-          #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-actions .jb-job-actions-dropdown .jb-dropdown {
+          .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-actions .jb-job-actions-dropdown .jb-dropdown {
             text-align: left;
             width: 100%; }
-    #jb-job-dashboard #jb-job-dashboard-rows .jb-job-dashboard-empty-row {
+    .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-empty-row {
       text-align: center;
       width: 100%;
       padding: 0;
       margin: 10px 0; }
-  #jb-job-dashboard.jb-ui-xs {
+  .jb-job-dashboard.jb-ui-xs {
     border: none;
     border-radius: 0; }
-    #jb-job-dashboard.jb-ui-xs #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data {
+    .jb-job-dashboard.jb-ui-xs .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data {
       flex-direction: column;
       align-items: baseline; }
-      #jb-job-dashboard.jb-ui-xs #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .job_title {
+      .jb-job-dashboard.jb-ui-xs .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .job_title {
         width: 100%;
         margin: 0 0 2px 0; }
-      #jb-job-dashboard.jb-ui-xs #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small {
+      .jb-job-dashboard.jb-ui-xs .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -284,28 +286,28 @@
         flex-wrap: wrap;
         font-size: 14px;
         width: 100%; }
-        #jb-job-dashboard.jb-ui-xs #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status {
+        .jb-job-dashboard.jb-ui-xs .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status {
           width: auto;
           padding: 0; }
-        #jb-job-dashboard.jb-ui-xs #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .date {
+        .jb-job-dashboard.jb-ui-xs .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .date {
           width: auto;
           padding: 0; }
-        #jb-job-dashboard.jb-ui-xs #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .expires {
+        .jb-job-dashboard.jb-ui-xs .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .expires {
           width: auto;
           padding: 0; }
-        #jb-job-dashboard.jb-ui-xs #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .separator:before {
+        .jb-job-dashboard.jb-ui-xs .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .separator:before {
           content: '\00a0\00a0|\00a0\00a0';
           color: rgba(0, 0, 0, 0.8); }
-  #jb-job-dashboard.jb-ui-s {
+  .jb-job-dashboard.jb-ui-s {
     border: none;
     border-radius: 0; }
-    #jb-job-dashboard.jb-ui-s #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data {
+    .jb-job-dashboard.jb-ui-s .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data {
       flex-direction: column;
       align-items: baseline; }
-      #jb-job-dashboard.jb-ui-s #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .job_title {
+      .jb-job-dashboard.jb-ui-s .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .job_title {
         width: 100%;
         margin: 0 0 2px 0; }
-      #jb-job-dashboard.jb-ui-s #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small {
+      .jb-job-dashboard.jb-ui-s .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -313,40 +315,40 @@
         flex-wrap: wrap;
         font-size: 14px;
         width: 100%; }
-        #jb-job-dashboard.jb-ui-s #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status {
+        .jb-job-dashboard.jb-ui-s .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .status {
           width: auto;
           padding: 0; }
-        #jb-job-dashboard.jb-ui-s #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .date {
+        .jb-job-dashboard.jb-ui-s .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .date {
           width: auto;
           padding: 0; }
-        #jb-job-dashboard.jb-ui-s #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .expires {
+        .jb-job-dashboard.jb-ui-s .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .expires {
           width: auto;
           padding: 0; }
-        #jb-job-dashboard.jb-ui-s #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .separator:before {
+        .jb-job-dashboard.jb-ui-s .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .jb-row-info-small .separator:before {
           content: '\00a0\00a0|\00a0\00a0';
           color: rgba(0, 0, 0, 0.8); }
-  #jb-job-dashboard.jb-ui-m .jb-job-dashboard-heading .jb-job-col-title {
+  .jb-job-dashboard.jb-ui-m .jb-job-dashboard-heading .jb-job-col-title {
     width: 46%;
     text-align: left;
     padding-right: 5px;
     box-sizing: border-box; }
-  #jb-job-dashboard.jb-ui-m .jb-job-dashboard-heading .jb-job-col-posted {
+  .jb-job-dashboard.jb-ui-m .jb-job-dashboard-heading .jb-job-col-posted {
     width: 18%; }
-  #jb-job-dashboard.jb-ui-m .jb-job-dashboard-heading .jb-job-col-expired {
+  .jb-job-dashboard.jb-ui-m .jb-job-dashboard-heading .jb-job-col-expired {
     width: 18%; }
-  #jb-job-dashboard.jb-ui-m .jb-job-dashboard-heading .jb-job-col-status {
+  .jb-job-dashboard.jb-ui-m .jb-job-dashboard-heading .jb-job-col-status {
     width: 18%; }
-  #jb-job-dashboard.jb-ui-m #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .job_title {
+  .jb-job-dashboard.jb-ui-m .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .job_title {
     width: 46%; }
-  #jb-job-dashboard.jb-ui-m #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status {
+  .jb-job-dashboard.jb-ui-m .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .status {
     width: 18%; }
-  #jb-job-dashboard.jb-ui-m #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .date {
+  .jb-job-dashboard.jb-ui-m .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .date {
     width: 18%; }
-  #jb-job-dashboard.jb-ui-m #jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .expires {
+  .jb-job-dashboard.jb-ui-m .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data .expires {
     width: 18%; }
-  #jb-job-dashboard.jb-ui-m #jb-job-dashboard-rows .jb-job-dashboard-row:last-child {
+  .jb-job-dashboard.jb-ui-m .jb-job-dashboard-rows .jb-job-dashboard-row:last-child {
     border-bottom: none; }
-  #jb-job-dashboard.jb-ui-l #jb-job-dashboard-rows .jb-job-dashboard-row:last-child {
+  .jb-job-dashboard.jb-ui-l .jb-job-dashboard-rows .jb-job-dashboard-row:last-child {
     border-bottom: none; }
-  #jb-job-dashboard.jb-ui-xl #jb-job-dashboard-rows .jb-job-dashboard-row:last-child {
+  .jb-job-dashboard.jb-ui-xl .jb-job-dashboard-rows .jb-job-dashboard-row:last-child {
     border-bottom: none; }

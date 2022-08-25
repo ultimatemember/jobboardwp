@@ -45,6 +45,7 @@ if ( ! class_exists( 'jb\common\Init' ) ) {
 			$this->rewrite();
 			$this->mail();
 			$this->cron();
+			$this->blocks();
 		}
 
 
@@ -156,6 +157,19 @@ if ( ! class_exists( 'jb\common\Init' ) ) {
 			}
 
 			return JB()->classes['jb\common\permalinks'];
+		}
+
+
+		/**
+		 * @since 1.2.1
+		 *
+		 * @return Blocks
+		 */
+		public function blocks() {
+			if ( empty( JB()->classes['jb\common\blocks'] ) ) {
+				JB()->classes['jb\common\blocks'] = new Blocks();
+			}
+			return JB()->classes['jb\common\blocks'];
 		}
 	}
 }
