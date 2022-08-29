@@ -73,8 +73,8 @@ class JB_Modules_List_Table extends WP_List_Table {
 		);
 
 		$modules = JB()->modules()->get_list();
-		// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
-		@uasort(
+
+		@uasort( // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
 			$modules,
 			function ( $a, $b ) {
 				if ( strtolower( $a['title'] ) === strtolower( $b['title'] ) ) {
