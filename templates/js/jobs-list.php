@@ -6,8 +6,9 @@
 ?>
 
 <script type="text/template" id="tmpl-jb-jobs-list-line">
-	<# if ( data.length > 0 ) { #>
-		<# _.each( data, function( job, key, list ) { #>
+	<# if ( data.jobs.length > 0 ) { #>
+
+		<# _.each( data.jobs, function( job, key, list ) { #>
 			<?php
 			/** @noinspection PhpUndefinedVariableInspection */
 			if ( $jb_js_jobs_list['no-logo'] ) {
@@ -18,17 +19,17 @@
 			?>
 
 			<div class="jb-job-list-row<?php echo $list_row_class; ?><# if ( job.actions.length > 0 ) { #> jb-job-list-with-actions<# } #>"><?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static output, JS template line::14, line::16 ?>
-				<?php if ( ! $jb_js_jobs_list['no-logo'] ) { ?>
+				<# if ( ! data.hide_logo ) { #>
 					<# if ( job.logo ) { #>
 						<div class="jb-job-logo">
 							{{{job.logo}}}
 						</div>
 					<# } #>
-				<?php } ?>
+				<# } #>
 				<div class="jb-row-data">
 					<div class="jb-job-title">
 						<span class="jb-job-title-link-line"><a href="<?php /** @noinspection HtmlUnknownTarget */ ?>{{{job.permalink}}}" class="jb-job-title-link">{{{job.title}}}</a></span>
-						<?php if ( ! $jb_js_jobs_list['hide-job-types'] ) { ?>
+						<# if ( ! data.hide_job_types ) { #>
 							<# if ( job.types.length > 0 ) { #>
 								<div class="jb-job-types jb-responsive jb-ui-m jb-ui-l jb-ui-xl">
 									<# _.each( job.types, function( type, t_key, t_list ) { #>
@@ -38,7 +39,7 @@
 									<# }); #>
 								</div>
 							<# } #>
-						<?php } ?>
+						<# } #>
 					</div>
 					<div class="jb-row-info">
 						<div class="jb-row-left-side">
@@ -83,7 +84,7 @@
 								{{{job.date}}}
 							</div>
 
-							<?php if ( ! $jb_js_jobs_list['hide-job-types'] ) { ?>
+							<# if ( ! data.hide_job_types ) { #>
 								<# if ( job.types.length > 0 ) { #>
 									<div class="jb-job-types jb-responsive jb-ui-s jb-ui-xs">
 										<# _.each( job.types, function( type, t_key, t_list ) { #>
@@ -93,7 +94,7 @@
 										<# }); #>
 									</div>
 								<# } #>
-							<?php } ?>
+							<# } #>
 						</div>
 					</div>
 				</div>

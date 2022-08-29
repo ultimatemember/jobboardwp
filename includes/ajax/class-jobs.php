@@ -545,6 +545,9 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 
+			$hide_logo      = $_POST['no_logo'];
+			$hide_job_types = $_POST['hide_job_types'];
+
 			/**
 			 * Filters the AJAX response when getting jobs for the jobs list.
 			 *
@@ -558,8 +561,10 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			$response = apply_filters(
 				'jb_jobs_list_response',
 				array(
-					'pagination' => $this->calculate_pagination( $get_posts->found_posts ),
-					'jobs'       => $jobs,
+					'pagination'     => $this->calculate_pagination( $get_posts->found_posts ),
+					'jobs'           => $jobs,
+					'hide_logo'      => $hide_logo,
+					'hide_job_types' => $hide_job_types,
 				)
 			);
 
