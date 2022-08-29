@@ -69,7 +69,7 @@ class JB_Modules_List_Table extends WP_List_Table {
 		$this->_column_headers = array(
 			$columns,
 			array(),
-			$sortable
+			$sortable,
 		);
 
 		$modules = JB()->modules()->get_list();
@@ -142,20 +142,26 @@ class JB_Modules_List_Table extends WP_List_Table {
 				echo wp_kses( $this->column_cb( $item ), JB()->get_allowed_html( 'templates' ) );
 				echo '</th>';
 			} elseif ( method_exists( $this, '_column_' . $column_name ) ) {
-				echo wp_kses( call_user_func(
-					array( $this, '_column_' . $column_name ),
-					$item,
-					$classes,
-					$data,
-					$primary
-				), JB()->get_allowed_html( 'templates' ) );
+				echo wp_kses(
+					call_user_func(
+						array(
+							$this,
+							'_column_' . $column_name,
+						),
+						$item,
+						$classes,
+						$data,
+						$primary
+					),
+					JB()->get_allowed_html( 'templates' )
+				);
 			} elseif ( method_exists( $this, 'column_' . $column_name ) ) {
-				echo '<td' . wp_kses( $attributes , JB()->get_allowed_html( 'templates' ) ) . '>';
+				echo '<td ' . wp_kses( $attributes, JB()->get_allowed_html( 'templates' ) ) . '>';
 				echo wp_kses( call_user_func( array( $this, 'column_' . $column_name ), $item ), JB()->get_allowed_html( 'templates' ) );
-				echo wp_kses( $attributes , $this->handle_row_actions( $item, $column_name, $primary ) , JB()->get_allowed_html( 'templates' ) );
+				echo wp_kses( $this->handle_row_actions( $item, $column_name, $primary ), JB()->get_allowed_html( 'templates' ) );
 				echo '</td>';
 			} else {
-				echo '<td' . wp_kses( $attributes , JB()->get_allowed_html( 'templates' ) ) .'>';
+				echo '<td ' . wp_kses( $attributes, JB()->get_allowed_html( 'templates' ) ) . '>';
 				echo wp_kses( $this->column_default( $item, $column_name ), JB()->get_allowed_html( 'templates' ) );
 				echo wp_kses( $this->handle_row_actions( $item, $column_name, $primary ), JB()->get_allowed_html( 'templates' ) );
 				echo '</td>';
@@ -272,13 +278,13 @@ class JB_Modules_List_Table extends WP_List_Table {
 		switch ( $item['type'] ) {
 			case 'free':
 				$type = __( 'Free', 'jobboardwp' );
-			break;
+				break;
 			case 'pro':
 				$type = __( 'Pro', 'jobboardwp' );
-			break;
+				break;
 			case 'premium':
 				$type = __( 'Premium', 'jobboardwp' );
-			break;
+				break;
 		}
 
 		return $type;
@@ -325,7 +331,7 @@ class JB_Modules_List_Table extends WP_List_Table {
 
 
 $list_table = new JB_Modules_List_Table(
-	 array(
+	array(
 		'singular' => __( 'Module', 'jobboardwp' ),
 		'plural'   => __( 'Modules', 'jobboardwp' ),
 		'ajax'     => false,
@@ -356,14 +362,14 @@ $list_table->prepare_items();
 if ( ! empty( $_GET['msg'] ) ) {
 	switch ( sanitize_key( $_GET['msg'] ) ) {
 		case 'a':
-			echo '<div class="clear"></div><div id="message" class="updated fade"><p>' . __( 'Module <strong>activated</strong> successfully.', 'jobboardwp' ) . '</p></div>';
-		break;
+			echo '<div class="clear"></div><div id="message" class="updated fade"><p>' . wp_kses( __( 'Module <strong>activated</strong> successfully.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) ) . '</p></div>';
+			break;
 		case 'd':
-			echo '<div class="clear"></div><div id="message" class="updated fade"><p>' . __( 'Module <strong>deactivated</strong> successfully.', 'jobboardwp' ) . '</p></div>';
-		break;
+			echo '<div class="clear"></div><div id="message" class="updated fade"><p>' . wp_kses( __( 'Module <strong>deactivated</strong> successfully.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) ) . '</p></div>';
+			break;
 		case 'f':
-			echo '<div class="clear"></div><div id="message" class="updated fade"><p>' . __( 'Module\'s data is <strong>flushed</strong> successfully.', 'jobboardwp' ) . '</p></div>';
-		break;
+			echo '<div class="clear"></div><div id="message" class="updated fade"><p>' . wp_kses( __( 'Module\'s data is <strong>flushed</strong> successfully.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) ) . '</p></div>';
+			break;
 	}
 } ?>
 
@@ -379,7 +385,7 @@ if ( ! empty( $_GET['msg'] ) ) {
 				'target' => true,
 			),
 		);
-	?>
+		?>
 	<p><?php esc_html_e( 'You are using the free version of JobBoardWP. With this you have access to the modules below. Upgrade to JobBoardWP Pro to get access to the pro modules.', 'jobboardwp' ); ?></p>
 	<?php /* translators: %s: plans link */ ?>
 	<p><?php echo wp_kses( sprintf( __( 'Click <a href="%s" target="_blank">here</a> to view our different plans for JobBoardWP Pro.', 'jobboardwp' ), esc_url( 'https://jobboardwp.com/pricing/' ) ), $link_array ); ?></p>

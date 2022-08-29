@@ -68,7 +68,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * @param string $section_fields
 		 */
 		public function settings_modules_section( $settings_section ) {
-			include_once JB_PATH . 'includes/admin/core/list-tables/class-modules-list-table.php';
+			include_once JB_PATH . 'includes/admin/core/list-tables/class-jb-modules-list-table.php';
 		}
 
 
