@@ -97,6 +97,9 @@ if ( ! class_exists( 'JB' ) ) {
 				// include JB classes
 				$this->includes();
 
+				//run hook for extensions init
+				add_action( 'plugins_loaded', array( &$this, 'core_loaded_trigger' ), -19 );
+
 				// init widgets.
 				add_action( 'widgets_init', array( $this, 'widgets_init' ) );
 			}
@@ -125,7 +128,20 @@ if ( ! class_exists( 'JB' ) ) {
 				$array                        = explode( '\\', strtolower( $class ) );
 				$array[ count( $array ) - 1 ] = 'class-' . end( $array );
 
-				if ( strpos( $class, 'jb\\' ) === 0 ) {
+				if ( strpos( $class, 'jbm' ) === 0 ) {
+					// module namespace
+					$module_slug = str_replace( '_', '-', $array[1] );
+					$module_data = $this->modules()->get_data( $module_slug );
+
+					if ( ! empty( $module_data['path'] ) ) {
+						$full_path = $module_data['path'] . DIRECTORY_SEPARATOR;
+
+						unset( $array[0], $array[1] );
+						$path = implode( DIRECTORY_SEPARATOR, $array );
+						$path = str_replace( '_', '-', $path );
+						$full_path .= $path . '.php';
+					}
+				} if ( strpos( $class, 'jb\\' ) === 0 ) {
 					$class     = implode( '\\', $array );
 					$path      = str_replace( array( 'jb\\', '_', '\\' ), array( DIRECTORY_SEPARATOR, '-', DIRECTORY_SEPARATOR ), $class );
 					$full_path = JB_PATH . 'includes' . $path . '.php';
@@ -135,6 +151,47 @@ if ( ! class_exists( 'JB' ) ) {
 					/** @noinspection PhpIncludeInspection */
 					include_once $full_path;
 				}
+			}
+		}
+
+
+		/**
+		 * @since 1.2.1
+		 *
+		 * @return jb\Modules
+		 */
+		function modules() {
+			if ( empty( $this->classes['jb\modules'] ) ) {
+				$this->classes['jb\modules'] = new jb\Modules();
+			}
+
+			return $this->classes['jb\modules'];
+		}
+
+
+		/**
+		 * Get single module API
+		 *
+		 * @since 1.2.1
+		 *
+		 * @param $slug
+		 *
+		 * @return bool|mixed
+		 */
+		public function module( $slug ) {
+			$data = $this->modules()->get_data( $slug );
+			if ( ! empty( $data['path'] ) ) {
+				$slug = $this->undash( $slug );
+
+				$class = "jbm\\{$slug}\\Init";
+
+				if ( empty( $this->classes[ strtolower( $class ) ] ) ) {
+					$this->classes[ strtolower( $class ) ] = $class::instance();
+				}
+
+				return $this->classes[ strtolower( $class ) ];
+			} else {
+				return false;
 			}
 		}
 
@@ -190,6 +247,14 @@ if ( ! class_exists( 'JB' ) ) {
 			} else {
 				load_plugin_textdomain( $language_domain, false, JB_PATH . '/languages/' );
 			}
+		}
+
+
+		/**
+		 *
+		 */
+		function core_loaded_trigger() {
+			do_action( 'jb_core_loaded' );
 		}
 
 
@@ -315,7 +380,7 @@ if ( ! class_exists( 'JB' ) ) {
 		 *
 		 * @since 1.0
 		 */
-		private function call_class( $class ) {
+		public function call_class( $class ) {
 			$key = strtolower( $class );
 
 			if ( empty( $this->classes[ $key ] ) ) {

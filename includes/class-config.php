@@ -59,6 +59,14 @@ if ( ! class_exists( 'jb\Config' ) ) {
 
 
 		/**
+		 * @since 1.2.1
+		 *
+		 * @var array
+		 */
+		var $modules = array();
+
+
+		/**
 		 * Config constructor.
 		 */
 		public function __construct() {
@@ -90,6 +98,21 @@ if ( ! class_exists( 'jb\Config' ) ) {
 			 * @return {mixed} Prepared config data.
 			 */
 			return apply_filters( 'jb_config_get', $this->$key, $key );
+		}
+
+
+		/**
+		 *
+		 */
+		public function init_modules() {
+			$this->modules = array();
+
+			foreach ( $this->modules as $slug => &$data ) {
+				$data['key'] = $slug;
+
+				$data['path'] = JB_PATH . 'modules' . DIRECTORY_SEPARATOR . $slug;
+				$data['url']  = JB_URL . "modules/{$slug}/";
+			}
 		}
 
 

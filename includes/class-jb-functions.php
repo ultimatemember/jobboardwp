@@ -817,5 +817,19 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 */
 			return apply_filters( 'jb_email_template_path', $template_path, $email_key );
 		}
+
+
+		/**
+		 * Undash string. Easy operate
+		 *
+		 * @since 3.0
+		 * @param string $slug
+		 *
+		 * @return string
+		 */
+		function undash( $slug ) {
+			$slug = str_replace( '-', '_', $slug );
+			return $slug;
+		}
 	}
 }

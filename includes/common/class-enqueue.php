@@ -60,6 +60,14 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 
 
 		/**
+		 * @var string
+		 *
+		 *@since 3.0
+		 */
+		public $modules_hash = '';
+
+
+		/**
 		 * Enqueue constructor.
 		 */
 		public function __construct() {
@@ -151,11 +159,45 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 				'zu'     => __( 'Zulu', 'jobboardwp' ),
 			);
 
+			add_action( 'jb_core_loaded', array( $this, 'init_variables_modules' ) );
+
 			add_action( 'plugins_loaded', array( $this, 'init_variables' ), 10 );
 			add_action( 'admin_enqueue_scripts', array( &$this, 'common_libs' ), 9 );
 			add_action( 'wp_enqueue_scripts', array( &$this, 'common_libs' ), 9 );
 
 			add_filter( 'jb_frontend_common_styles_deps', array( &$this, 'extends_styles' ), 10, 1 );
+		}
+
+
+		/**
+		 * Init variables for enqueue scripts
+		 *
+		 * @since 1.2.1
+		 */
+		function init_variables_modules() {
+			$this->url['js']      = JB_URL . 'assets/js/';
+			$this->url['css']     = JB_URL . 'assets/css/';
+			$this->url['libs']    = JB_URL . 'assets/libs/';
+			$this->url['modules'] = JB_URL . 'assets/modules/';
+
+			$modules        = JB()->config()->get( 'modules' );
+			$modules_inited = JB()->modules()->get_list();
+			$modules        = array_keys( array_intersect_key( $modules, $modules_inited ) );
+
+			$hash_array = array();
+			if ( ! empty( $modules ) ) {
+				foreach ( $modules as $slug ) {
+					if ( ! JB()->modules()->is_active( $slug ) ) {
+						continue;
+					}
+
+					$hash_array[] = $slug;
+				}
+			}
+
+			if ( ! empty( $hash_array ) ) {
+				$this->modules_hash = md5( implode( '', $hash_array ) );
+			}
 		}
 
 

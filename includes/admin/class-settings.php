@@ -42,6 +42,33 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			add_action( 'admin_init', array( $this, 'save_settings' ), 10 );
 
 			add_filter( 'jb_change_settings_before_save', array( $this, 'save_email_templates' ) );
+
+			add_filter( 'jb_settings_custom_subtabs', array( $this, 'settings_custom_subtabs' ), 20, 2 );
+			add_filter( 'jb_settings_section_modules__content', array( $this, 'settings_modules_section' ), 20, 2 );
+		}
+
+
+		/**
+		 * Filter: Set 'uexport' and 'uimport' tabs as pages with custom content
+		 * @hook jb_settings_custom_subtabs
+		 * @param array $tabs
+		 * @return array
+		 */
+		public function settings_custom_subtabs( $subtabs, $tab ) {
+			if ( 'modules' === $tab ) {
+				$subtabs = array_merge( $subtabs, array( '' ) );
+			}
+			return $subtabs;
+		}
+
+
+		/**
+		 * Filter: Print Export page content
+		 * @param string $settings_section
+		 * @param string $section_fields
+		 */
+		public function settings_modules_section( $settings_section ) {
+			include_once JB_PATH . 'includes/admin/core/list-tables/modules-list-table.php';
 		}
 
 
@@ -612,6 +639,12 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 							),
 						),
 					),
+					'modules'      => array(
+						'title'  => __( 'Modules', 'jobboardwp' ),
+						'fields' => array(
+							array(),
+                        ),
+					),
 				)
 			);
 		}
@@ -1017,7 +1050,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 			$assoc_fields = array();
 			foreach ( $fields as &$data ) {
-				if ( ! isset( $data['value'] ) ) {
+				if ( ! isset( $data['value'] ) && isset( $data['id'] ) ) {
 					$data['value'] = JB()->options()->get( $data['id'] );
 				}
 
