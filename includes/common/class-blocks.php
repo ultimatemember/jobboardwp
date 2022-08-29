@@ -135,7 +135,7 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 							'default' => JB()->options()->get( 'jobs-list-no-logo' ),
 						),
 						'hide_filled'  => array(
-							'type'    => 'string',
+							'type'    => 'boolean',
 							'default' => JB()->options()->get( 'jobs-list-hide-filled' ),
 						),
 						'no_job_types' => array(
