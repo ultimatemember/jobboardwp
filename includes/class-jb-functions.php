@@ -827,7 +827,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 *
 		 * @return string
 		 */
-		function undash( $slug ) {
+		public function undash( $slug ) {
 			$slug = str_replace( '-', '_', $slug );
 			return $slug;
 		}

@@ -137,8 +137,8 @@ if ( ! class_exists( 'JB' ) ) {
 						$full_path = $module_data['path'] . DIRECTORY_SEPARATOR;
 
 						unset( $array[0], $array[1] );
-						$path = implode( DIRECTORY_SEPARATOR, $array );
-						$path = str_replace( '_', '-', $path );
+						$path       = implode( DIRECTORY_SEPARATOR, $array );
+						$path       = str_replace( '_', '-', $path );
 						$full_path .= $path . '.php';
 					}
 				} if ( strpos( $class, 'jb\\' ) === 0 ) {
@@ -160,7 +160,7 @@ if ( ! class_exists( 'JB' ) ) {
 		 *
 		 * @return jb\Modules
 		 */
-		function modules() {
+		public function modules() {
 			if ( empty( $this->classes['jb\modules'] ) ) {
 				$this->classes['jb\modules'] = new jb\Modules();
 			}
@@ -253,7 +253,7 @@ if ( ! class_exists( 'JB' ) ) {
 		/**
 		 *
 		 */
-		function core_loaded_trigger() {
+		public function core_loaded_trigger() {
 			do_action( 'jb_core_loaded' );
 		}
 

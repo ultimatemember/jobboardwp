@@ -63,7 +63,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 		 *
 		 * @var array
 		 */
-		var $modules = array();
+		public $modules = array();
 
 
 		/**

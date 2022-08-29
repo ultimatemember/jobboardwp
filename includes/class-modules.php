@@ -1,7 +1,6 @@
 <?php
 namespace jb;
 
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -28,7 +27,7 @@ class Modules {
 	/**
 	 * Modules constructor.
 	 */
-	function __construct() {
+	public function __construct() {
 		add_action( 'jb_core_loaded', array( &$this, 'predefined_modules' ), 0 );
 		add_filter( 'jb_module_can_activate', array( &$this, 'maybe_disable_module_activation' ), 9, 2 );
 	}
@@ -40,7 +39,7 @@ class Modules {
 	 *
 	 * @return bool
 	 */
-	function maybe_disable_module_activation( $can_activate, $slug ) {
+	public function maybe_disable_module_activation( $can_activate, $slug ) {
 		$free_modules = JB()->config()->get( 'modules' );
 		if ( ! array_key_exists( $slug, $free_modules ) ) {
 			$can_activate = false;
@@ -57,7 +56,7 @@ class Modules {
 	 * @uses get_plugins() for getting installed plugins list
 	 * @uses DIRECTORY_SEPARATOR for getting proper path to modules' directories
 	 */
-	function predefined_modules() {
+	public function predefined_modules() {
 		$modules = JB()->config()->get( 'modules' );
 		$modules = apply_filters( 'jb_predefined_modules', $modules );
 
@@ -76,7 +75,7 @@ class Modules {
 			// check the module's dir
 			if ( ! is_dir( $data['path'] ) ) {
 
-				$data['disabled'] = true;
+				$data['disabled']    = true;
 				$data['description'] = '<strong>' . __( 'Module has not been installed properly. Please check the module\'s directory and re-install it.', 'jobboardwp' ) . '</strong><br />' . $data['description'];
 
 			} else {
@@ -86,13 +85,14 @@ class Modules {
 					$data['disabled'] = array_key_exists( $data['plugin_slug'], $all_plugins );
 
 					if ( $data['disabled'] ) {
+						/* translators: %s: activate notice */
 						$data['description'] = '<strong>' . sprintf( __( 'Module cannot be activated until "%s" plugin isn\'t installed.', 'jobboardwp' ), $all_plugins[ $data['plugin_slug'] ]['Name'] ) . '</strong><br />' . $data['description'];
 					}
 				}
 
 				if ( array_key_exists( 'plugins_required', $data ) ) {
 					$maybe_installed = array_intersect( array_keys( $data['plugins_required'] ), array_keys( $all_plugins ) );
-					$not_installed = array_diff( array_keys( $data['plugins_required'] ), $maybe_installed );
+					$not_installed   = array_diff( array_keys( $data['plugins_required'] ), $maybe_installed );
 
 					$data['disabled'] = count( $not_installed ) > 0;
 
@@ -101,12 +101,12 @@ class Modules {
 						foreach ( $not_installed as $plugin_slug ) {
 							$plugins_titles[] = '<a href="' . esc_url( $data['plugins_required'][ $plugin_slug ]['url'] ) . '" target="_blank">' . esc_html( $data['plugins_required'][ $plugin_slug ]['name'] ) . '</a>';
 						}
-						$plugins_titles = '"' .  implode( '", "', $plugins_titles ) . '"';
-
+						$plugins_titles = '"' . implode( '", "', $plugins_titles ) . '"';
+						/* translators: %s: activate notice */
 						$data['description'] = '<strong>' . sprintf( _n( 'Module cannot be activated until %s plugin is installed and activated.', 'Module cannot be activated until %s plugins are installed and activated.', count( $not_installed ), 'jobboardwp' ), $plugins_titles ) . '</strong><br />' . $data['description'];
 					} else {
 						$maybe_activated = array_intersect( array_keys( $data['plugins_required'] ), $active_plugins );
-						$not_active = array_diff( array_keys( $data['plugins_required'] ), $maybe_activated );
+						$not_active      = array_diff( array_keys( $data['plugins_required'] ), $maybe_activated );
 
 						$data['disabled'] = count( $not_active ) > 0;
 						if ( $data['disabled'] ) {
@@ -114,13 +114,12 @@ class Modules {
 							foreach ( $not_active as $plugin_slug ) {
 								$plugins_titles[] = '<a href="' . esc_url( $data['plugins_required'][ $plugin_slug ]['url'] ) . '" target="_blank">' . esc_html( $data['plugins_required'][ $plugin_slug ]['name'] ) . '</a>';
 							}
-							$plugins_titles = '"' .  implode( '", "', $plugins_titles ) . '"';
-
+							$plugins_titles = '"' . implode( '", "', $plugins_titles ) . '"';
+							/* translators: %s: activate notice */
 							$data['description'] = '<strong>' . sprintf( _n( 'Module cannot be activated until %s plugin is activated.', 'Module cannot be activated until %s plugins are activated.', count( $not_active ), 'jobboardwp' ), $plugins_titles ) . '</strong><br />' . $data['description'];
 						}
 					}
 				}
-
 			}
 
 			// set `disabled = false` by default
@@ -140,7 +139,7 @@ class Modules {
 	 *
 	 * @return array
 	 */
-	function get_list() {
+	public function get_list() {
 		$list = apply_filters( 'jb_formatting_modules_list', $this->list );
 		return $list;
 	}
@@ -155,7 +154,7 @@ class Modules {
 	 *
 	 * @uses exists
 	 */
-	function get_data( $slug ) {
+	public function get_data( $slug ) {
 		if ( ! $this->exists( $slug ) ) {
 			return false;
 		}
@@ -171,7 +170,7 @@ class Modules {
 	 *
 	 * @return bool Returns `false` if module doesn't exists, otherwise `true`
 	 */
-	function exists( $slug ) {
+	public function exists( $slug ) {
 		return array_key_exists( $slug, $this->list );
 	}
 
@@ -189,7 +188,7 @@ class Modules {
 	 *
 	 * @return bool
 	 */
-	function is_active( $slug ) {
+	public function is_active( $slug ) {
 		if ( ! $this->exists( $slug ) ) {
 			return false;
 		}
@@ -198,7 +197,7 @@ class Modules {
 			return false;
 		}
 
-		$slug = JB()->undash( $slug );
+		$slug      = JB()->undash( $slug );
 		$is_active = JB()->options()->get( "module_{$slug}_on" );
 
 		return ! empty( $is_active );
@@ -215,7 +214,7 @@ class Modules {
 	 *
 	 * @return bool
 	 */
-	function is_disabled( $slug ) {
+	public function is_disabled( $slug ) {
 		if ( ! $this->exists( $slug ) ) {
 			return false;
 		}
@@ -236,7 +235,7 @@ class Modules {
 	 *
 	 * @return bool
 	 */
-	function can_activate( $slug ) {
+	public function can_activate( $slug ) {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return false;
 		}
@@ -268,7 +267,7 @@ class Modules {
 	 *
 	 * @return bool
 	 */
-	function can_deactivate( $slug ) {
+	public function can_deactivate( $slug ) {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return false;
 		}
@@ -302,7 +301,7 @@ class Modules {
 	 *
 	 * @return bool
 	 */
-	function can_flush( $slug ) {
+	public function can_flush( $slug ) {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return false;
 		}
@@ -335,7 +334,7 @@ class Modules {
 	 *
 	 * @return bool
 	 */
-	function is_first_installed( $slug ) {
+	public function is_first_installed( $slug ) {
 		$slug             = JB()->undash( $slug );
 		$first_activation = JB()->options()->get( "module_{$slug}_first_activation" );
 
@@ -350,7 +349,7 @@ class Modules {
 	 *
 	 * @return bool
 	 */
-	function has_settings_section( $slug ) {
+	public function has_settings_section( $slug ) {
 		return ! empty( JB()->admin()->settings()->settings_structure['modules']['sections'][ $slug ] );
 	}
 
@@ -367,7 +366,7 @@ class Modules {
 	 *
 	 * @return bool
 	 */
-	function activate( $slug ) {
+	public function activate( $slug ) {
 		if ( ! $this->can_activate( $slug ) ) {
 			return false;
 		}
@@ -398,7 +397,7 @@ class Modules {
 	 *
 	 * @return bool
 	 */
-	function deactivate( $slug ) {
+	public function deactivate( $slug ) {
 		if ( ! $this->can_deactivate( $slug ) ) {
 			return false;
 		}
@@ -423,7 +422,7 @@ class Modules {
 	 *
 	 * @return bool
 	 */
-	function flush_data( $slug ) {
+	public function flush_data( $slug ) {
 		if ( ! $this->can_flush( $slug ) ) {
 			return false;
 		}
@@ -450,7 +449,7 @@ class Modules {
 	 * @uses is_active
 	 * @uses run
 	 */
-	function load_modules() {
+	public function load_modules() {
 		$modules = $this->get_list();
 		if ( empty( $modules ) ) {
 			return;

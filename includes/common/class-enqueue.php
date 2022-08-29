@@ -174,7 +174,7 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 		 *
 		 * @since 1.2.1
 		 */
-		function init_variables_modules() {
+		public function init_variables_modules() {
 			$this->url['js']      = JB_URL . 'assets/js/';
 			$this->url['css']     = JB_URL . 'assets/css/';
 			$this->url['libs']    = JB_URL . 'assets/libs/';
