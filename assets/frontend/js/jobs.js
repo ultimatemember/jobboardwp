@@ -129,6 +129,20 @@ wp.JB.jobs_list = {
 			}
 			return employer_id;
 		},
+		get_logo: function() {
+			var hide_logo = wp.JB.jobs_list.objects.wrapper.data( 'no-logo' );
+			if ( typeof hide_logo == 'undefined' ) {
+				hide_logo = null;
+			}
+			return hide_logo;
+		},
+		get_hide_job_types: function() {
+			var hide_job_types = wp.JB.jobs_list.objects.wrapper.data( 'hide-job-types' );
+			if ( typeof hide_job_types == 'undefined' ) {
+				hide_job_types = null;
+			}
+			return hide_job_types;
+		},
 		get_search: function() {
 			if ( wp.JB.jobs_list.objects.wrapper.find('.jb-search-line').length ) {
 				return wp.JB.jobs_list.objects.wrapper.find( '.jb-search-line' ).val();
@@ -210,6 +224,8 @@ wp.JB.jobs_list = {
 			type: wp.JB.jobs_list.url.get_type_tag(),
 			category: wp.JB.jobs_list.url.get_category(),
 			employer: wp.JB.jobs_list.url.get_employer(),
+			no_logo: wp.JB.jobs_list.url.get_logo(),
+			hide_job_types: wp.JB.jobs_list.url.get_hide_job_types(),
 			hide_expired: wp.JB.jobs_list.url.get_hide_expired(),
 			hide_filled: wp.JB.jobs_list.url.get_hide_filled(),
 			filled_only: wp.JB.jobs_list.url.get_filled_only(),
@@ -237,9 +253,9 @@ wp.JB.jobs_list = {
 				var template = wp.template( 'jb-jobs-list-line' );
 
 				if ( append ) {
-					wp.JB.jobs_list.objects.wrapper.find('.jb-jobs-wrapper').append( template( answer.jobs ) );
+					wp.JB.jobs_list.objects.wrapper.find('.jb-jobs-wrapper').append( template( answer ) );
 				} else {
-					wp.JB.jobs_list.objects.wrapper.find('.jb-jobs-wrapper').html( template( answer.jobs ) );
+					wp.JB.jobs_list.objects.wrapper.find('.jb-jobs-wrapper').html( template( answer ) );
 				}
 
 				wp.JB.jobs_list.objects.wrapper.data( 'total_pages', answer.pagination.total_pages );

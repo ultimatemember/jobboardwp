@@ -104,6 +104,7 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 						),
 						'orderby'              => array(
 							'default' => 'date',
+							'type'    => 'string',
 						),
 						'order'                => array(
 							'type'    => 'string',
