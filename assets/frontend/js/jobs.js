@@ -249,7 +249,7 @@ wp.JB.jobs_list = {
 
 		wp.ajax.send( 'jb-get-jobs', {
 			data:  request,
-			success: function( answer ) {jb-job-title
+			success: function( answer ) {
 				var template = wp.template( 'jb-jobs-list-line' );
 
 				if ( append ) {

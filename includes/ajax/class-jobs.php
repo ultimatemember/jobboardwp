@@ -545,8 +545,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 
-			$hide_logo      = $_POST['no_logo'];
-			$hide_job_types = $_POST['hide_job_types'];
+			$hide_logo      = (bool) $_POST['no_logo'];
+			$hide_job_types = (bool) $_POST['hide_job_types'];
 
 			/**
 			 * Filters the AJAX response when getting jobs for the jobs list.
