@@ -105,13 +105,14 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 == Changelog ==
 
-= 1.2.1: August 22, 2022 =
+= 1.2.1: August 31, 2022 =
 
 * Added: Recent Jobs Widget
 * Added: Gutenberg Blocks for easy adding shortcodes and JobBoardWP functionality to WordPress posts, pages, etc.
 * Added: JobBoardWP data to the Site Health screen
 * Added: Enhancements for the 3rd-party integrations, hooks, attributes
 * Fixed: Integrations with translations plugins
+* Fixed: Job Category jobs counter when the "Hide filled jobs" option is enabled
 
 * Cached and optimized/minified assets(JS/CSS) must be flushed/re-generated after upgrade
 
