@@ -605,6 +605,48 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		}
 
 
+		public function count_hide_filled_categories_query( $term_id ) {
+			$hide_filled = JB()->options()->get( 'jobs-list-hide-filled' );
+			$query_args  = array(
+				'post_type'      => 'jb-job',
+				'post_status'    => array( 'publish' ),
+				'posts_per_page' => -1,
+				'meta_query'     => array(),
+			);
+
+			if ( $hide_filled ) {
+				$query_args['tax_query'][] = array(
+					'taxonomy' => 'jb-job-category',
+					'field'    => 'id',
+					'terms'    => $term_id,
+				);
+				$query_args['meta_query']  = array_merge(
+					$query_args['meta_query'],
+					array(
+						'relation' => 'AND',
+						array(
+							'relation' => 'OR',
+							array(
+								'key'   => 'jb-is-filled',
+								'value' => true,
+							),
+							array(
+								'key'   => 'jb-is-filled',
+								'value' => 1,
+							),
+						),
+					)
+				);
+
+				$query = new \WP_Query( $query_args );
+
+				return $query->found_posts;
+			}
+
+			return 0;
+		}
+
+
 		/**
 		 * Getting Job Categories Tree
 		 */
@@ -642,10 +684,14 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				$terms = $this->build_categories_structure( $terms, $children );
 
 				foreach ( $terms as $key => $term ) {
+					$count_filled             = $this->count_hide_filled_categories_query( $term->term_id );
+					$terms[ $key ]->count     = (int) $terms[ $key ]->count - (int) $count_filled;
 					$terms[ $key ]->permalink = get_term_link( $term );
 				}
 			} else {
 				foreach ( $terms as $key => $term ) {
+					$count_filled             = $this->count_hide_filled_categories_query( $term->term_id );
+					$terms[ $key ]->count     = (int) $terms[ $key ]->count - (int) $count_filled;
 					$terms[ $key ]->level     = 0;
 					$terms[ $key ]->permalink = get_term_link( $term );
 				}
