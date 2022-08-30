@@ -398,9 +398,11 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 				_fields: ['id', 'name']
 			}),
 			types: select( 'core' ).getEntityRecords( 'taxonomy', 'jb-job-type', {
+				per_page: -1,
 				_fields: ['id', 'name']
 			}),
 			categories: select( 'core' ).getEntityRecords( 'taxonomy', 'jb-job-category', {
+				per_page: -1,
 				_fields: ['id', 'name']
 			})
 		};
@@ -899,9 +901,11 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 	edit: wp.data.withSelect( function( select ) {
 		return {
 			types: select( 'core' ).getEntityRecords( 'taxonomy', 'jb-job-type', {
+				per_page: -1,
 				_fields: ['id', 'name']
 			}),
 			categories: select( 'core' ).getEntityRecords( 'taxonomy', 'jb-job-category', {
+				per_page: -1,
 				_fields: ['id', 'name']
 			})
 		};
