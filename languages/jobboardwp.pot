@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-30T13:56:18+00:00\n"
+"POT-Creation-Date: 2022-08-30T16:45:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: jobboardwp\n"
@@ -634,7 +634,7 @@ msgstr ""
 
 #: includes/admin/class-settings.php:551
 #: includes/admin/class-site-health.php:409
-#: assets/admin/js/blocks.js:723
+#: assets/admin/js/blocks.js:727
 msgid "Hide filters"
 msgstr ""
 
@@ -645,8 +645,8 @@ msgstr ""
 #: includes/admin/class-settings.php:557
 #: includes/admin/class-site-health.php:413
 #: includes/widgets/class-recent-jobs.php:191
-#: assets/admin/js/blocks.js:735
-#: assets/admin/js/blocks.js:1107
+#: assets/admin/js/blocks.js:739
+#: assets/admin/js/blocks.js:1115
 msgid "Hide job types"
 msgstr ""
 
@@ -2073,7 +2073,7 @@ msgid "JobBoardWP - Recent Jobs"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:101
-#: assets/admin/js/blocks.js:864
+#: assets/admin/js/blocks.js:868
 msgid "Recent Jobs"
 msgstr ""
 
@@ -2094,13 +2094,13 @@ msgid "Job Type:"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:168
-#: assets/admin/js/blocks.js:1158
+#: assets/admin/js/blocks.js:1166
 msgid "Remote only"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:173
-#: assets/admin/js/blocks.js:675
-#: assets/admin/js/blocks.js:1095
+#: assets/admin/js/blocks.js:679
+#: assets/admin/js/blocks.js:1103
 msgid "Hide filled"
 msgstr ""
 
@@ -2109,12 +2109,12 @@ msgid "Order by:"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:179
-#: assets/admin/js/blocks.js:921
+#: assets/admin/js/blocks.js:925
 msgid "Expiry date"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:180
-#: assets/admin/js/blocks.js:920
+#: assets/admin/js/blocks.js:924
 msgid "Posting date"
 msgstr ""
 
@@ -2424,12 +2424,12 @@ msgid "Descending"
 msgstr ""
 
 #: assets/admin/js/blocks.js:601
-#: assets/admin/js/blocks.js:1035
+#: assets/admin/js/blocks.js:1039
 msgid "Loading data"
 msgstr ""
 
 #: assets/admin/js/blocks.js:609
-#: assets/admin/js/blocks.js:1043
+#: assets/admin/js/blocks.js:1047
 msgid "No data"
 msgstr ""
 
@@ -2441,67 +2441,67 @@ msgstr ""
 msgid "Per page"
 msgstr ""
 
-#: assets/admin/js/blocks.js:663
-#: assets/admin/js/blocks.js:1083
+#: assets/admin/js/blocks.js:667
+#: assets/admin/js/blocks.js:1091
 msgid "Hide logo"
 msgstr ""
 
-#: assets/admin/js/blocks.js:687
+#: assets/admin/js/blocks.js:691
 msgid "Hide expired"
 msgstr ""
 
-#: assets/admin/js/blocks.js:699
+#: assets/admin/js/blocks.js:703
 msgid "Hide search"
 msgstr ""
 
-#: assets/admin/js/blocks.js:711
+#: assets/admin/js/blocks.js:715
 msgid "Hide location search"
 msgstr ""
 
-#: assets/admin/js/blocks.js:747
+#: assets/admin/js/blocks.js:751
 msgid "No jobs text"
 msgstr ""
 
-#: assets/admin/js/blocks.js:760
+#: assets/admin/js/blocks.js:764
 msgid "No job search text"
 msgstr ""
 
-#: assets/admin/js/blocks.js:773
+#: assets/admin/js/blocks.js:777
 msgid "Load more text"
 msgstr ""
 
-#: assets/admin/js/blocks.js:786
-#: assets/admin/js/blocks.js:1119
+#: assets/admin/js/blocks.js:790
+#: assets/admin/js/blocks.js:1127
 msgid "Select category"
 msgstr ""
 
-#: assets/admin/js/blocks.js:799
-#: assets/admin/js/blocks.js:1132
+#: assets/admin/js/blocks.js:803
+#: assets/admin/js/blocks.js:1140
 msgid "Select type"
 msgstr ""
 
-#: assets/admin/js/blocks.js:812
-#: assets/admin/js/blocks.js:1145
+#: assets/admin/js/blocks.js:816
+#: assets/admin/js/blocks.js:1153
 msgid "Select order by"
 msgstr ""
 
-#: assets/admin/js/blocks.js:825
+#: assets/admin/js/blocks.js:829
 msgid "Select order"
 msgstr ""
 
-#: assets/admin/js/blocks.js:838
+#: assets/admin/js/blocks.js:842
 msgid "Filled only"
 msgstr ""
 
-#: assets/admin/js/blocks.js:865
+#: assets/admin/js/blocks.js:869
 msgid "Displaying recent jobs"
 msgstr ""
 
-#: assets/admin/js/blocks.js:1065
+#: assets/admin/js/blocks.js:1069
 msgid "Recent jobs"
 msgstr ""
 
-#: assets/admin/js/blocks.js:1070
+#: assets/admin/js/blocks.js:1074
 msgid "Number"
 msgstr ""
 
