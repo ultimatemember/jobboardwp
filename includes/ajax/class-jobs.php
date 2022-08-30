@@ -620,7 +620,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 					'field'    => 'id',
 					'terms'    => $term_id,
 				);
-				$query_args['meta_query'] = array_merge(
+				$query_args['meta_query']  = array_merge(
 					$query_args['meta_query'],
 					array(
 						'relation' => 'AND',
