@@ -650,8 +650,12 @@ wp.blocks.registerBlockType( 'jb-block/jb-jobs-list', {
 								label: wp.i18n.__( 'Per page', 'jobboardwp' ),
 								className: 'jb_per_page',
 								type: 'number',
+								min: 1,
 								value: props.attributes.per_page,
 								onChange: function onChange( value ) {
+									if ( value === '' ) {
+										value = 1;
+									}
 									props.setAttributes( { per_page: value } );
 									jbShortcode( user_id, value, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, type, orderby, order, filled_only );
 								}
@@ -1070,8 +1074,12 @@ wp.blocks.registerBlockType( 'jb-block/jb-recent-jobs', {
 								label: wp.i18n.__( 'Number', 'jobboardwp' ),
 								className: 'jb_number',
 								type: 'number',
+								min: 1,
 								value: props.attributes.number,
 								onChange: function onChange( value ) {
+									if ( value === '' ) {
+										value = 1;
+									}
 									props.setAttributes( { number: value } );
 									jbShortcode( value, category, type, remote_only, orderby, hide_filled, no_logo, no_job_types );
 								}
