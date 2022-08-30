@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-30T09:51:49+00:00\n"
+"POT-Creation-Date: 2022-08-30T09:52:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: jobboardwp\n"
@@ -634,7 +634,7 @@ msgstr ""
 
 #: includes/admin/class-settings.php:551
 #: includes/admin/class-site-health.php:409
-#: assets/admin/js/blocks.js:721
+#: assets/admin/js/blocks.js:723
 msgid "Hide filters"
 msgstr ""
 
@@ -645,8 +645,8 @@ msgstr ""
 #: includes/admin/class-settings.php:557
 #: includes/admin/class-site-health.php:413
 #: includes/widgets/class-recent-jobs.php:191
-#: assets/admin/js/blocks.js:733
-#: assets/admin/js/blocks.js:1103
+#: assets/admin/js/blocks.js:735
+#: assets/admin/js/blocks.js:1107
 msgid "Hide job types"
 msgstr ""
 
@@ -2057,7 +2057,7 @@ msgid "Load more jobs"
 msgstr ""
 
 #: includes/frontend/class-shortcodes.php:467
-#: assets/admin/js/blocks.js:427
+#: assets/admin/js/blocks.js:429
 msgid "Title"
 msgstr ""
 
@@ -2073,7 +2073,7 @@ msgid "JobBoardWP - Recent Jobs"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:101
-#: assets/admin/js/blocks.js:862
+#: assets/admin/js/blocks.js:864
 msgid "Recent Jobs"
 msgstr ""
 
@@ -2094,13 +2094,13 @@ msgid "Job Type:"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:168
-#: assets/admin/js/blocks.js:1154
+#: assets/admin/js/blocks.js:1158
 msgid "Remote only"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:173
-#: assets/admin/js/blocks.js:673
-#: assets/admin/js/blocks.js:1091
+#: assets/admin/js/blocks.js:675
+#: assets/admin/js/blocks.js:1095
 msgid "Hide filled"
 msgstr ""
 
@@ -2109,12 +2109,12 @@ msgid "Order by:"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:179
-#: assets/admin/js/blocks.js:917
+#: assets/admin/js/blocks.js:921
 msgid "Expiry date"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:180
-#: assets/admin/js/blocks.js:916
+#: assets/admin/js/blocks.js:920
 msgid "Posting date"
 msgstr ""
 
@@ -2403,7 +2403,7 @@ msgid "Displaying jobs categories list"
 msgstr ""
 
 #: assets/admin/js/blocks.js:322
-#: assets/admin/js/blocks.js:630
+#: assets/admin/js/blocks.js:632
 msgid "Jobs list"
 msgstr ""
 
@@ -2411,97 +2411,97 @@ msgstr ""
 msgid "Displaying jobs list"
 msgstr ""
 
-#: assets/admin/js/blocks.js:426
+#: assets/admin/js/blocks.js:428
 msgid "Date"
 msgstr ""
 
-#: assets/admin/js/blocks.js:430
+#: assets/admin/js/blocks.js:432
 msgid "Ascending"
 msgstr ""
 
-#: assets/admin/js/blocks.js:431
+#: assets/admin/js/blocks.js:433
 msgid "Descending"
 msgstr ""
 
-#: assets/admin/js/blocks.js:599
-#: assets/admin/js/blocks.js:1031
+#: assets/admin/js/blocks.js:601
+#: assets/admin/js/blocks.js:1035
 msgid "Loading data"
 msgstr ""
 
-#: assets/admin/js/blocks.js:607
-#: assets/admin/js/blocks.js:1039
+#: assets/admin/js/blocks.js:609
+#: assets/admin/js/blocks.js:1043
 msgid "No data"
 msgstr ""
 
-#: assets/admin/js/blocks.js:635
+#: assets/admin/js/blocks.js:637
 msgid "Select employer"
 msgstr ""
 
-#: assets/admin/js/blocks.js:648
+#: assets/admin/js/blocks.js:650
 msgid "Per page"
 msgstr ""
 
-#: assets/admin/js/blocks.js:661
-#: assets/admin/js/blocks.js:1079
+#: assets/admin/js/blocks.js:663
+#: assets/admin/js/blocks.js:1083
 msgid "Hide logo"
 msgstr ""
 
-#: assets/admin/js/blocks.js:685
+#: assets/admin/js/blocks.js:687
 msgid "Hide expired"
 msgstr ""
 
-#: assets/admin/js/blocks.js:697
+#: assets/admin/js/blocks.js:699
 msgid "Hide search"
 msgstr ""
 
-#: assets/admin/js/blocks.js:709
+#: assets/admin/js/blocks.js:711
 msgid "Hide location search"
 msgstr ""
 
-#: assets/admin/js/blocks.js:745
+#: assets/admin/js/blocks.js:747
 msgid "No jobs text"
 msgstr ""
 
-#: assets/admin/js/blocks.js:758
+#: assets/admin/js/blocks.js:760
 msgid "No job search text"
 msgstr ""
 
-#: assets/admin/js/blocks.js:771
+#: assets/admin/js/blocks.js:773
 msgid "Load more text"
 msgstr ""
 
-#: assets/admin/js/blocks.js:784
-#: assets/admin/js/blocks.js:1115
+#: assets/admin/js/blocks.js:786
+#: assets/admin/js/blocks.js:1119
 msgid "Select category"
 msgstr ""
 
-#: assets/admin/js/blocks.js:797
-#: assets/admin/js/blocks.js:1128
+#: assets/admin/js/blocks.js:799
+#: assets/admin/js/blocks.js:1132
 msgid "Select type"
 msgstr ""
 
-#: assets/admin/js/blocks.js:810
-#: assets/admin/js/blocks.js:1141
+#: assets/admin/js/blocks.js:812
+#: assets/admin/js/blocks.js:1145
 msgid "Select order by"
 msgstr ""
 
-#: assets/admin/js/blocks.js:823
+#: assets/admin/js/blocks.js:825
 msgid "Select order"
 msgstr ""
 
-#: assets/admin/js/blocks.js:836
+#: assets/admin/js/blocks.js:838
 msgid "Filled only"
 msgstr ""
 
-#: assets/admin/js/blocks.js:863
+#: assets/admin/js/blocks.js:865
 msgid "Displaying recent jobs"
 msgstr ""
 
-#: assets/admin/js/blocks.js:1061
+#: assets/admin/js/blocks.js:1065
 msgid "Recent jobs"
 msgstr ""
 
-#: assets/admin/js/blocks.js:1066
+#: assets/admin/js/blocks.js:1070
 msgid "Number"
 msgstr ""
 
