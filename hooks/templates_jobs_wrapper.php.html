@@ -45,7 +45,7 @@ global $post;
 $current_page = ( ! empty( $_GET['jb-page'] ) &amp;&amp; is_numeric( $_GET['jb-page'] ) ) ? absint( $_GET['jb-page'] ) : 1;
 ?>
 
-&lt;div class="jb jb-jobs" data-base-post="&lt;?php echo esc_attr( $post->ID ); ?>"
+&lt;div class="jb jb-jobs" data-base-post="&lt;?php echo isset( $post->ID ) ? esc_attr( $post->ID ) : ''; ?>"
 	data-hide-expired="&lt;?php /** @noinspection PhpUndefinedVariableInspection */echo esc_attr( $jb_jobs_wrapper['hide-expired'] ); ?>"
 	data-hide-filled="&lt;?php echo esc_attr( $jb_jobs_wrapper['hide-filled'] ); ?>"
 	data-filled-only="&lt;?php echo esc_attr( $jb_jobs_wrapper['filled-only'] ); ?>"
