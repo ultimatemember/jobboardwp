@@ -605,20 +605,51 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		}
 
 
-		public function count_hide_filled_categories_query( $term_id ) {
-			$hide_filled = JB()->options()->get( 'jobs-list-hide-filled' );
+		public function count_jobs( $term_id ) {
+			$hide_filled  = JB()->options()->get( 'jobs-list-hide-filled' );
+			$hide_expired = JB()->options()->get( 'jobs-list-hide-expired' );
+
 			$query_args  = array(
 				'post_type'      => 'jb-job',
-				'post_status'    => array( 'publish' ),
 				'posts_per_page' => -1,
 				'meta_query'     => array(),
+				'tax_query'      => array(
+					array(
+						'taxonomy'         => 'jb-job-category',
+						'field'            => 'id',
+						'terms'            => $term_id,
+						'include_children' => false,
+					)
+				),
 			);
 
-			if ( $hide_filled ) {
-				$query_args['tax_query'][] = array(
-					'taxonomy' => 'jb-job-category',
-					'field'    => 'id',
-					'terms'    => $term_id,
+			if ( $hide_filled && $hide_expired ) {
+				$query_args['post_status'] = array( 'publish' );
+				$query_args['meta_query']  = array_merge(
+					$query_args['meta_query'],
+					array(
+						'relation' => 'AND',
+						array(
+							'relation' => 'OR',
+							array(
+								'key'   => 'jb-is-filled',
+								'value' => false,
+							),
+							array(
+								'key'   => 'jb-is-filled',
+								'value' => 0,
+							),
+							array(
+								'key'     => 'jb-is-filled',
+								'compare' => 'NOT EXISTS',
+							),
+						),
+					)
+				);
+			} elseif ( $hide_filled && ! $hide_expired ) {
+				$query_args['post_status'] = array(
+					'publish',
+					'jb-expired',
 				);
 				$query_args['meta_query']  = array_merge(
 					$query_args['meta_query'],
@@ -628,22 +659,31 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 							'relation' => 'OR',
 							array(
 								'key'   => 'jb-is-filled',
-								'value' => true,
+								'value' => false,
 							),
 							array(
 								'key'   => 'jb-is-filled',
-								'value' => 1,
+								'value' => 0,
+							),
+							array(
+								'key'     => 'jb-is-filled',
+								'compare' => 'NOT EXISTS',
 							),
 						),
 					)
 				);
-
-				$query = new \WP_Query( $query_args );
-
-				return $query->found_posts;
+			} elseif ( ! $hide_filled && $hide_expired ) {
+				$query_args['post_status'] = array( 'publish' );
+			} else {
+				$query_args['post_status'] = array(
+					'publish',
+					'jb-expired',
+				);
 			}
 
-			return 0;
+			$query = new \WP_Query( $query_args );
+
+			return $query->found_posts;
 		}
 
 
@@ -684,14 +724,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				$terms = $this->build_categories_structure( $terms, $children );
 
 				foreach ( $terms as $key => $term ) {
-					$count_filled             = $this->count_hide_filled_categories_query( $term->term_id );
-					$terms[ $key ]->count     = (int) $terms[ $key ]->count - (int) $count_filled;
+					$terms[ $key ]->count     = $this->count_jobs( $term->term_id );
 					$terms[ $key ]->permalink = get_term_link( $term );
 				}
 			} else {
 				foreach ( $terms as $key => $term ) {
-					$count_filled             = $this->count_hide_filled_categories_query( $term->term_id );
-					$terms[ $key ]->count     = (int) $terms[ $key ]->count - (int) $count_filled;
+					$terms[ $key ]->count     = $this->count_jobs( $term->term_id );
 					$terms[ $key ]->level     = 0;
 					$terms[ $key ]->permalink = get_term_link( $term );
 				}
