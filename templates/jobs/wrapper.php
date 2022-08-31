@@ -12,7 +12,7 @@ global $post;
 $current_page = ( ! empty( $_GET['jb-page'] ) && is_numeric( $_GET['jb-page'] ) ) ? absint( $_GET['jb-page'] ) : 1;
 ?>
 
-<div class="jb jb-jobs" data-base-post="<?php echo esc_attr( $post->ID ); ?>"
+<div class="jb jb-jobs" data-base-post="<?php echo isset( $post->ID ) ? esc_attr( $post->ID ) : ''; ?>"
 	data-hide-expired="<?php /** @noinspection PhpUndefinedVariableInspection */echo esc_attr( $jb_jobs_wrapper['hide-expired'] ); ?>"
 	data-hide-filled="<?php echo esc_attr( $jb_jobs_wrapper['hide-filled'] ); ?>"
 	data-filled-only="<?php echo esc_attr( $jb_jobs_wrapper['filled-only'] ); ?>"
