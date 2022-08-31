@@ -609,7 +609,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			$hide_filled  = JB()->options()->get( 'jobs-list-hide-filled' );
 			$hide_expired = JB()->options()->get( 'jobs-list-hide-expired' );
 
-			$query_args  = array(
+			$query_args = array(
 				'post_type'      => 'jb-job',
 				'posts_per_page' => -1,
 				'meta_query'     => array(),
@@ -619,7 +619,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						'field'            => 'id',
 						'terms'            => $term_id,
 						'include_children' => false,
-					)
+					),
 				),
 			);
 
