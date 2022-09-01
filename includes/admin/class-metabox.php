@@ -208,11 +208,11 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 			// merge preferred location into location
 			if ( '0' !== sanitize_text_field( $_POST['jb-job-meta']['jb-location-type'] ) ) {
-				if ( ! empty( $_POST['jb-job-meta']['jb-location-preferred'] ) ) {
+				if ( isset( $_POST['jb-job-meta']['jb-location-preferred'] ) ) {
 					$_POST['jb-job-meta']['jb-location'] = $_POST['jb-job-meta']['jb-location-preferred'];
 					unset( $_POST['jb-job-meta']['jb-location-preferred'] );
 				}
-				if ( ! empty( $_POST['jb-job-meta']['jb-location-preferred-data'] ) ) {
+				if ( isset( $_POST['jb-job-meta']['jb-location-preferred-data'] ) ) {
 					$_POST['jb-job-meta']['jb-location-data'] = $_POST['jb-job-meta']['jb-location-preferred-data'];
 					unset( $_POST['jb-job-meta']['jb-location-preferred-data'] );
 				}
