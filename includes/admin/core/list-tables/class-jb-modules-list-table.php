@@ -74,7 +74,7 @@ class JB_Modules_List_Table extends WP_List_Table {
 
 		$modules = JB()->modules()->get_list();
 
-		@uasort( // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+		@uasort(
 			$modules,
 			function ( $a, $b ) {
 				if ( strtolower( $a['title'] ) === strtolower( $b['title'] ) ) {
@@ -82,7 +82,7 @@ class JB_Modules_List_Table extends WP_List_Table {
 				}
 				return ( strtolower( $a['title'] ) < strtolower( $b['title'] ) ) ? -1 : 1;
 			}
-		);
+		); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
 
 		$per_page = $this->get_items_per_page( str_replace( '-', '_', $screen->id . '_per_page' ), 999 );
 		$paged    = $this->get_pagenJB();

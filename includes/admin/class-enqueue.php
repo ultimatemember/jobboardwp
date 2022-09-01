@@ -50,7 +50,7 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 		/**
 		 * @since 3.0
 		 */
-		function modules_page() {
+		public function modules_page() {
 			add_action( 'admin_enqueue_scripts', array( &$this, 'modules_page_scripts' ) );
 		}
 
@@ -58,7 +58,7 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 		/**
 		 * @since 3.0
 		 */
-		function modules_page_scripts() {
+		public function modules_page_scripts() {
 			wp_register_style( 'um_admin_modules', $this->css_url['admin'] . 'admin-modules' . JB()->scrips_prefix . '.css', array(), UM_VERSION );
 			wp_enqueue_style( 'um_admin_modules' );
 		}

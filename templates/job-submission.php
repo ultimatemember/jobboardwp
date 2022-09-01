@@ -458,6 +458,8 @@
 			)
 		);
 
+		$sections = apply_filters( 'jb_change_submission_fields', $sections );
+
 		$posting->set_data(
 			array(
 				'id'        => 'jb-job-submission',
