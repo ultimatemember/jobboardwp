@@ -41,6 +41,26 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 				add_filter( 'block_categories', array( &$this, 'blocks_category' ), 10, 1 );
 			}
 			add_action( 'enqueue_block_editor_assets', array( &$this, 'block_editor' ), 11 );
+
+			add_action( 'load-ultimate-member_page_um-modules', array( &$this, 'modules_page' ) );
+			add_action( 'load-job-board_page_jb-settings', array( &$this, 'modules_page' ) );
+		}
+
+
+		/**
+		 * @since 3.0
+		 */
+		function modules_page() {
+			add_action( 'admin_enqueue_scripts', array( &$this, 'modules_page_scripts' ) );
+		}
+
+
+		/**
+		 * @since 3.0
+		 */
+		function modules_page_scripts() {
+			wp_register_style( 'um_admin_modules', $this->css_url['admin'] . 'admin-modules' . JB()->scrips_prefix . '.css', array(), UM_VERSION );
+			wp_enqueue_style( 'um_admin_modules' );
 		}
 
 

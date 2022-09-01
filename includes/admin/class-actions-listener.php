@@ -21,6 +21,8 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'admin_init', array( $this, 'actions_listener' ), 10 );
+
+			add_action( 'load-job-board_page_jb-settings', array( &$this, 'handle_modules_actions_options' ) );
 		}
 
 
@@ -91,6 +93,149 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 
 						break;
 				}
+			}
+		}
+
+
+		/**
+		 * Handles Modules list table
+		 *
+		 * @since 1.2.1
+		 *
+		 * @uses Modules::activate() JB()->modules()->activate( $slug )
+		 * @uses Modules::deactivate() JB()->modules()->deactivate( $slug )
+		 * @uses Modules::flush_data() JB()->modules()->flush_data( $slug )
+		 */
+		public function handle_modules_actions_options() {
+			if ( ! ( isset( $_GET['page'] ) && 'jb-settings' === $_GET['page'] && isset( $_GET['tab'] ) && 'modules' === $_GET['tab'] && ! isset( $_GET['section'] ) ) ) {
+				return;
+			}
+			if ( isset( $_REQUEST['_wp_http_referer'] ) ) {
+				$redirect = remove_query_arg( [ '_wp_http_referer' ], wp_unslash( $_REQUEST['_wp_http_referer'] ) );
+			} else {
+				$redirect = get_admin_url( null, 'admin.php?page=jb-settings&tab=modules' );
+			}
+
+			if ( isset( $_GET['action'] ) ) {
+				switch ( sanitize_key( $_GET['action'] ) ) {
+					case 'activate': {
+						// Activate module
+						$slugs = [];
+						if ( isset( $_GET['slug'] ) ) {
+							// single activate
+							$slug = sanitize_key( $_GET['slug'] );
+
+							if ( empty( $slug ) ) {
+								exit( wp_redirect( $redirect ) );
+							}
+
+							check_admin_referer( 'jb_module_activate' . $slug . get_current_user_id() );
+							$slugs = [ $slug ];
+						} elseif( isset( $_REQUEST['item'] ) ) {
+							// bulk activate
+							check_admin_referer( 'bulk-' . sanitize_key( __( 'Modules', 'jobboardwp' ) ) );
+							$slugs = array_map( 'sanitize_key', $_REQUEST['item'] );
+						}
+
+						if ( ! count( $slugs ) ) {
+							exit( wp_redirect( $redirect ) );
+						}
+
+						$results = 0;
+						foreach ( $slugs as $slug ) {
+							if ( JB()->modules()->activate( $slug ) ) {
+								$results++;
+							}
+						}
+
+						if ( ! $results ) {
+							exit( wp_redirect( $redirect ) );
+						}
+
+
+						exit( wp_redirect( add_query_arg( 'msg', 'a', $redirect ) ) );
+						break;
+					}
+					case 'deactivate': {
+						// Deactivate module
+						$slugs = [];
+						if ( isset( $_GET['slug'] ) ) {
+							// single deactivate
+							$slug = sanitize_key( $_GET['slug'] );
+
+							if ( empty( $slug ) ) {
+								exit( wp_redirect( $redirect ) );
+							}
+
+							check_admin_referer( 'jb_module_deactivate' . $slug . get_current_user_id() );
+							$slugs = [ $slug ];
+						} elseif( isset( $_REQUEST['item'] ) )  {
+							// bulk deactivate
+							check_admin_referer( 'bulk-' . sanitize_key( __( 'Modules', 'jobboardwp' ) ) );
+							$slugs = array_map( 'sanitize_key', $_REQUEST['item'] );
+						}
+
+						if ( ! count( $slugs ) ) {
+							exit( wp_redirect( $redirect ) );
+						}
+
+						$results = 0;
+						foreach ( $slugs as $slug ) {
+							if ( JB()->modules()->deactivate( $slug ) ) {
+								$results++;
+							}
+						}
+
+						if ( ! $results ) {
+							exit( wp_redirect( $redirect ) );
+						}
+
+						exit( wp_redirect( add_query_arg( 'msg', 'd', $redirect ) ) );
+						break;
+					}
+					case 'flush-data': {
+						// Flush module's data
+						$slugs = [];
+						if ( isset( $_GET['slug'] ) ) {
+							// single flush
+							$slug = sanitize_key( $_GET['slug'] );
+
+							if ( empty( $slug ) ) {
+								exit( wp_redirect( $redirect ) );
+							}
+
+							check_admin_referer( 'jb_module_flush' . $slug . get_current_user_id() );
+							$slugs = [ $slug ];
+						} elseif( isset( $_REQUEST['item'] ) )  {
+							// bulk flush
+							check_admin_referer( 'bulk-' . sanitize_key( __( 'Modules', 'jobboardwp' ) ) );
+							$slugs = array_map( 'sanitize_key', $_REQUEST['item'] );
+						}
+
+						if ( ! count( $slugs ) ) {
+							exit( wp_redirect( $redirect ) );
+						}
+
+						$results = 0;
+						foreach ( $slugs as $slug ) {
+							if ( JB()->modules()->flush_data( $slug ) ) {
+								$results++;
+							}
+						}
+
+						if ( ! $results ) {
+							exit( wp_redirect( $redirect ) );
+						}
+
+						exit( wp_redirect( add_query_arg( 'msg', 'f', $redirect ) ) );
+						break;
+					}
+					}
+			}
+
+			//remove extra query arg
+			if ( ! empty( $_GET['_wp_http_referer'] ) ) {
+				exit( wp_redirect( remove_query_arg( [ '_wp_http_referer', '_wpnonce' ], wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) );
 			}
 		}
 
