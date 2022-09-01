@@ -74,6 +74,11 @@ jQuery(window).load(function($) {
 	observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
 });
 
+
+// remove duplicated taxonomy panels
+wp.data.dispatch( 'core/edit-post').removeEditorPanel( 'taxonomy-panel-jb-job-category' );
+wp.data.dispatch( 'core/edit-post').removeEditorPanel( 'taxonomy-panel-jb-job-type' );
+
 //-------------------------------------\\
 //---- Jobboard post job shortcode ----\\
 //-------------------------------------\\
