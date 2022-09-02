@@ -62,7 +62,7 @@
                 var offset = self.$element.offset(),
                     rect = self.$element.get(0).getBoundingClientRect(),
                     height = self.$dropdown.innerHeight() || 150,
-                    width = self.data.width || 150,
+                    width = self.$menu.data('width') || 150,
                     place = '';
 
                 var css = {
@@ -142,6 +142,7 @@
         self.$menu = $(element);
 
         self.data = self.$menu.data();
+        self.data.width = self.$menu.data('width');
 
         self.$element = self.$menu.closest(self.data.element);
         if ( !self.$element.length ) {
