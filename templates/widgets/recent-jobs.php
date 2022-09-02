@@ -11,12 +11,14 @@ if ( ! empty( $jb_widgets_recent_jobs['posts'] ) ) {
 			if ( $jb_widgets_recent_jobs['args']['no_logo'] || empty( $job_data['logo'] ) ) {
 				$list_row_class = ' jb-job-list-no-logo';
 			}
+			$job_id  = url_to_postid( $job_data['permalink'] );
+			$logo    = apply_filters( 'jb_job_change_logo', $job_data['logo'], $job_id );
 			?>
 
 			<div class="jb-job-list-row<?php echo esc_attr( $list_row_class ); ?>">
-				<?php if ( ! $jb_widgets_recent_jobs['args']['no_logo'] && ! empty( $job_data['logo'] ) ) { ?>
+				<?php if ( ! $jb_widgets_recent_jobs['args']['no_logo'] && ! empty( $logo ) ) { ?>
 					<div class="jb-job-logo">
-						<?php echo wp_kses( $job_data['logo'], JB()->get_allowed_html( 'templates' ) ); ?>
+						<?php echo wp_kses( $logo, JB()->get_allowed_html( 'templates' ) ); ?>
 					</div>
 				<?php } ?>
 				<div class="jb-row-data">

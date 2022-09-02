@@ -35,7 +35,8 @@
 
 					<label>
 						<span><?php esc_html_e( 'Find Jobs:', 'jobboardwp' ); ?></span>
-						<input type="search" class="jb-search-line" placeholder="<?php esc_attr_e( 'Job title, keywords, or company', 'jobboardwp' ); ?>" value="<?php echo esc_attr( $search_from_url ); ?>" aria-label="<?php esc_attr_e( 'Find Jobs by title', 'jobboardwp' ); ?>" />
+                        <?php $search_placeholder = apply_filters( 'jb_change_search_placeholder', 'Job title, keywords, or company' ); ?>
+						<input type="search" class="jb-search-line" placeholder="<?php esc_attr_e( $search_placeholder, 'jobboardwp' ); ?>" value="<?php echo esc_attr( $search_from_url ); ?>" aria-label="<?php esc_attr_e( 'Find Jobs by title', 'jobboardwp' ); ?>" />
 					</label>
 
 					<?php

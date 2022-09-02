@@ -36,7 +36,7 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 								<?php
 								/** @noinspection HtmlUnknownTarget */
 								// translators: %1$s: mailto URL, %2$s: contact email
-								echo wp_kses( sprintf( __( 'To apply for this job <strong>email your details to</strong> <a href="%1$s">%2$s</a>.', 'jobboardwp' ), esc_attr( $contact_mailto ), $contact ), JB()->get_allowed_html( 'templates' ) );
+								echo apply_filters( 'jb_job_change_apply_text', wp_kses( sprintf( __( 'To apply for this job <strong>email your details to</strong> <a href="%1$s">%2$s</a>.', 'jobboardwp' ), esc_attr( $contact_mailto ), $contact ), JB()->get_allowed_html( 'templates' ) ), $job_id );
 								?>
 							</p>
 						<?php } else { ?>
@@ -44,7 +44,7 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 								<?php
 								/** @noinspection HtmlUnknownTarget */
 								// translators: %1$s: application's website URL, %2$s: application's website URL text
-								echo wp_kses( sprintf( __( 'To apply for this job please visit <a href="%1$s">%2$s</a>.', 'jobboardwp' ), esc_attr( $contact ), $contact ), JB()->get_allowed_html( 'templates' ) );
+								echo apply_filters( 'jb_job_change_apply_text', wp_kses( sprintf( __( 'To apply for this job please visit <a href="%1$s">%2$s</a>.', 'jobboardwp' ), esc_attr( $contact ), $contact ), JB()->get_allowed_html( 'templates' ) ), $job_id );
 								?>
 							</p>
 						<?php } ?>
