@@ -210,6 +210,8 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 			__( 'Company website:', 'jobboardwp' ) . ' ' . $company_data['website'] . "\n\r" .
 			__( 'Company tagline:', 'jobboardwp' ) . ' ' . $company_data['tagline'];
 
+			$details = apply_filters( 'jb_change_mail_job_details', $details, $job );
+
 			return $details;
 		}
 
