@@ -78,7 +78,7 @@ class Modules_List_Table extends \WP_List_Table {
 
 		$modules = JB()->modules()->get_list();
 
-		@uasort(
+		@uasort( // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
 			$modules,
 			function ( $a, $b ) {
 				if ( strtolower( $a['title'] ) === strtolower( $b['title'] ) ) {
@@ -89,7 +89,7 @@ class Modules_List_Table extends \WP_List_Table {
 		); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
 
 		$per_page = $this->get_items_per_page( str_replace( '-', '_', $screen->id . '_per_page' ), 999 );
-		$paged    = $this->get_pagenJB();
+		$paged    = $this->get_pagenum();
 
 		$this->items = array_slice( $modules, ( $paged - 1 ) * $per_page, $per_page );
 
