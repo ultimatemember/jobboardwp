@@ -78,15 +78,7 @@ class Modules_List_Table extends \WP_List_Table {
 
 		$modules = JB()->modules()->get_list();
 
-		@uasort( // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
-			$modules,
-			function ( $a, $b ) {
-				if ( strtolower( $a['title'] ) === strtolower( $b['title'] ) ) {
-					return 0;
-				}
-				return ( strtolower( $a['title'] ) < strtolower( $b['title'] ) ) ? -1 : 1;
-			}
-		); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+		uasort( $modules, array( &$this, 'sort_modules_by_title' ) );
 
 		$per_page = $this->get_items_per_page( str_replace( '-', '_', $screen->id . '_per_page' ), 999 );
 		$paged    = $this->get_pagenum();
@@ -99,6 +91,25 @@ class Modules_List_Table extends \WP_List_Table {
 				'per_page'    => $per_page,
 			)
 		);
+	}
+
+	/**
+	 * Sorts a modules array by first member of each top level member
+	 *
+	 * Used by uasort() as a callback, should not be used directly.
+	 *
+	 * @since 1.3.0
+	 * @access private
+	 *
+	 * @param array $a
+	 * @param array $b
+	 * @return int
+	 */
+	private function sort_modules_by_title( $a, $b ) {
+		if ( strtolower( $a['title'] ) === strtolower( $b['title'] ) ) {
+			return 0;
+		}
+		return ( strtolower( $a['title'] ) < strtolower( $b['title'] ) ) ? -1 : 1;
 	}
 
 
