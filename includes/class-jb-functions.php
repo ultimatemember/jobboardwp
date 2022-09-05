@@ -795,7 +795,6 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			return $located;
 		}
 
-
 		/**
 		 * @param string $email_key
 		 * @param bool $with_ext
@@ -816,6 +815,19 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * @return {string} Email template path. 'emails/{$email_key}.php' by default.
 			 */
 			return apply_filters( 'jb_email_template_path', $template_path, $email_key );
+		}
+
+		/**
+		 * Undash string. Easy operate
+		 *
+		 * @since 1.3.0
+		 * @param string $slug
+		 *
+		 * @return string
+		 */
+		public function undash( $slug ) {
+			$slug = str_replace( '-', '_', $slug );
+			return $slug;
 		}
 	}
 }

@@ -430,6 +430,19 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 					$company_logo = isset( $image[0] ) ? $image[0] : '';
 				}
 
+				/**
+				 * Filters the job logo.
+				 *
+				 * @since 1.3.0
+				 * @hook jb_job_logo
+				 *
+				 * @param {string} $logo   Job logo.
+				 * @param {int}    $job_id Job ID.
+				 * @param {bool}   $raw    Context for getting job logo. If `true` getting RAW link to the logo.
+				 *
+				 * @return {array} Job logo.
+				 */
+				$company_logo = apply_filters( 'jb_job_logo', $company_logo, $job_id, $raw );
 				return $company_logo;
 			} else {
 				$company_logo = get_the_post_thumbnail( $job_id, 'thumbnail', array( 'class' => 'jb-job-company-logo' ) );
@@ -440,6 +453,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 					$company_logo = '';
 				}
 
+				/** This filter is documented in includes/common/class-job.php */
+				$company_logo = apply_filters( 'jb_job_logo', $company_logo, $job_id, $raw );
 				return $company_logo;
 			}
 		}

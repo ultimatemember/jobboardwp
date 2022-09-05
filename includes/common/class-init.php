@@ -20,6 +20,7 @@ if ( ! class_exists( 'jb\common\Init' ) ) {
 		 * Init constructor.
 		 */
 		public function __construct() {
+			add_action( 'jb_core_loaded', array( JB()->modules(), 'load_modules' ), 1 );
 			add_action( 'plugins_loaded', array( $this, 'init_template_path' ), 10 );
 		}
 

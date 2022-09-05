@@ -458,7 +458,18 @@
 			)
 		);
 
-		$posting->set_data(
+		/**
+		 * Filters the job submission form.
+		 *
+		 * @since 1.3.0
+		 * @hook jb_job_submission_form_args
+		 *
+		 * @param {array} $args Job submission form arguments. See frontend/class-form.php file for getting the list of the necessary arguments
+		 *
+		 * @return {array} Job submission form arguments for init.
+		 */
+		$posting_args = apply_filters(
+			'jb_job_submission_form_args',
 			array(
 				'id'        => 'jb-job-submission',
 				'class'     => '',
@@ -476,6 +487,7 @@
 			)
 		);
 
+		$posting->set_data( $posting_args );
 		$posting->display();
 	}
 	?>

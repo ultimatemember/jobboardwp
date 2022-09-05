@@ -210,6 +210,18 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 			__( 'Company website:', 'jobboardwp' ) . ' ' . $company_data['website'] . "\n\r" .
 			__( 'Company tagline:', 'jobboardwp' ) . ' ' . $company_data['tagline'];
 
+			/**
+			 * Filters the job details string.
+			 *
+			 * @since 1.3.0
+			 * @hook jb_get_mail_job_details
+			 *
+			 * @param {string} $details Job details that replaces the placeholder {job_details} in email templates.
+			 * @param {object} $job     Job CPT class (\WP_Post) instance.
+			 *
+			 * @return {string} Job details string.
+			 */
+			$details = apply_filters( 'jb_get_mail_job_details', $details, $job );
 			return $details;
 		}
 

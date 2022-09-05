@@ -15,7 +15,6 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 	 */
 	class Enqueue extends \jb\common\Enqueue {
 
-
 		/**
 		 * Enqueue constructor.
 		 */
@@ -41,8 +40,24 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 				add_filter( 'block_categories', array( &$this, 'blocks_category' ), 10, 1 );
 			}
 			add_action( 'enqueue_block_editor_assets', array( &$this, 'block_editor' ), 11 );
+
+			add_action( 'load-job-board_page_jb-settings', array( &$this, 'modules_page' ) );
 		}
 
+		/**
+		 * @since 1.3.0
+		 */
+		public function modules_page() {
+			add_action( 'admin_enqueue_scripts', array( &$this, 'modules_page_scripts' ) );
+		}
+
+		/**
+		 * @since 1.3.0
+		 */
+		public function modules_page_scripts() {
+			wp_register_style( 'jb-admin-modules', $this->css_url['admin'] . 'modules' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
+			wp_enqueue_style( 'jb-admin-modules' );
+		}
 
 		/**
 		 * Register location autocomplete scripts if needed
@@ -73,7 +88,6 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 				)
 			);
 		}
-
 
 		/**
 		 * Register and enqueue admin scripts and styles
@@ -174,14 +188,12 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			wp_register_script( 'jb-jobs', $this->js_url['frontend'] . 'jobs' . JB()->scrips_prefix . '.js', $jobs_deps, JB_VERSION, true );
 		}
 
-
 		/**
 		 *
 		 */
 		public function maybe_job_page() {
 			add_action( 'admin_enqueue_scripts', array( &$this, 'validation_scripts' ), 13 );
 		}
-
 
 		/**
 		 *
@@ -191,7 +203,6 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 				wp_enqueue_script( 'jb-validation' );
 			}
 		}
-
 
 		/**
 		 * Add Gutenberg category for JobBoardWP shortcodes
@@ -211,7 +222,6 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 				)
 			);
 		}
-
 
 		/**
 		 * Enqueue Gutenberg Block Editor assets

@@ -7,7 +7,8 @@ if ( ! empty( $jb_job_company['job_id'] ) ) {
 	$job_id = $jb_job_company['job_id'];
 
 	$logo    = JB()->common()->job()->get_logo( $job_id );
-	$company = JB()->common()->job()->get_company_data( $job_id ); ?>
+	$company = JB()->common()->job()->get_company_data( $job_id );
+	?>
 
 	<div class="jb-job-company">
 		<div class="jb-job-company-info<?php echo empty( $logo ) ? ' jb-job-no-logo' : ''; ?>">

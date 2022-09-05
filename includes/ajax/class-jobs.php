@@ -1081,7 +1081,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 
 		/**
-		 * AJAX handler for job delete
+		 * AJAX handler for validate job data on save through wp-admin editor
 		 *
 		 * @since 1.0
 		 */
@@ -1172,6 +1172,24 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 					}
 				}
 			}
+
+			/**
+			 * Filters job post validation errors.
+			 *
+			 * Note: You may use this hook for adding your custom validations or remove existed while job saved through wp-admin editor.
+			 *
+			 * Format for the errors: key = 'empty' - required field is empty
+			 *                        key = 'wrong' - invalid format if the field
+			 *                        value = array( '{field_id}' ) - user field ID that you used for the registration the field on the form.
+			 *
+			 * @since 1.3.0
+			 * @hook jb_ajax_job_validation_errors
+			 *
+			 * @param {array} $errors Errors list. If there aren't any errors it's empty array.
+			 *
+			 * @return {array} Errors list.
+			 */
+			$errors = apply_filters( 'jb_ajax_job_validation_errors', $errors );
 
 			if ( ! empty( $errors ) ) {
 				// add notice text

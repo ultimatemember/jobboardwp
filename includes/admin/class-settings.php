@@ -15,7 +15,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 	 */
 	class Settings {
 
-
 		/**
 		 * @var array
 		 *
@@ -23,9 +22,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 */
 		public $config;
 
-
 		public $sanitize_map = array();
-
 
 		/**
 		 * Settings constructor.
@@ -42,8 +39,31 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			add_action( 'admin_init', array( $this, 'save_settings' ), 10 );
 
 			add_filter( 'jb_change_settings_before_save', array( $this, 'save_email_templates' ) );
+
+			add_filter( 'jb_settings_custom_subtabs', array( $this, 'settings_custom_subtabs' ), 20, 2 );
+			add_filter( 'jb_settings_section_modules__content', array( $this, 'settings_modules_section' ), 20 );
 		}
 
+		/**
+		 * Filter: Set 'uexport' and 'uimport' tabs as pages with custom content
+		 * @hook jb_settings_custom_subtabs
+		 * @param array $subtabs
+		 * @param string $tab
+		 * @return array
+		 */
+		public function settings_custom_subtabs( $subtabs, $tab ) {
+			if ( 'modules' === $tab ) {
+				$subtabs = array_merge( $subtabs, array( '' ) );
+			}
+			return $subtabs;
+		}
+
+		/**
+		 *
+		 */
+		public function settings_modules_section() {
+			include_once JB_PATH . 'includes/admin/class-modules-list-table.php';
+		}
 
 		/**
 		 * Handler for settings forms
@@ -116,6 +136,18 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 								$value = sanitize_textarea_field( $value );
 								break;
 							default:
+								/**
+								 * Filters settings sanitizing value on save handler.
+								 *
+								 * Note: It's the filter for custom settings field's sanitizing. $key - is the field's 'id'
+								 *
+								 * @since 1.1.0
+								 * @hook jb_settings_sanitize_{$key}
+								 *
+								 * @param {mixed} $value Options value before sanitizing
+								 *
+								 * @return {mixed} Maybe sanitized option value.
+								 */
 								$value = apply_filters( 'jb_settings_sanitize_' . $key, $value );
 								break;
 						}
@@ -152,7 +184,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			}
 		}
 
-
 		public function multi_email_sanitize( $value ) {
 			$emails_array = explode( ',', $value );
 			if ( ! empty( $emails_array ) ) {
@@ -164,7 +195,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 			return $value;
 		}
-
 
 		/**
 		 * Set JB Settings
@@ -612,6 +642,12 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 							),
 						),
 					),
+					'modules' => array(
+						'title'  => __( 'Modules', 'jobboardwp' ),
+						'fields' => array(
+							array(),
+						),
+					),
 				)
 			);
 		}
@@ -1017,7 +1053,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 			$assoc_fields = array();
 			foreach ( $fields as &$data ) {
-				if ( ! isset( $data['value'] ) ) {
+				if ( ! isset( $data['value'] ) && isset( $data['id'] ) ) {
 					$data['value'] = JB()->options()->get( $data['id'] );
 				}
 

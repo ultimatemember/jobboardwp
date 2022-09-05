@@ -57,6 +57,12 @@ if ( ! class_exists( 'jb\Config' ) ) {
 		 */
 		public $email_notifications;
 
+		/**
+		 * @since 1.3.0
+		 *
+		 * @var array
+		 */
+		public $modules = array();
 
 		/**
 		 * Config constructor.
@@ -90,6 +96,19 @@ if ( ! class_exists( 'jb\Config' ) ) {
 			 * @return {mixed} Prepared config data.
 			 */
 			return apply_filters( 'jb_config_get', $this->$key, $key );
+		}
+
+		/**
+		 * Init default modules
+		 */
+		public function init_modules() {
+			$this->modules = array();
+
+			foreach ( $this->modules as $slug => &$data ) {
+				$data['key']  = $slug;
+				$data['path'] = JB_PATH . 'modules' . DIRECTORY_SEPARATOR . $slug;
+				$data['url']  = JB_URL . "modules/{$slug}/";
+			}
 		}
 
 

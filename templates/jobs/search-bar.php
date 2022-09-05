@@ -35,7 +35,20 @@
 
 					<label>
 						<span><?php esc_html_e( 'Find Jobs:', 'jobboardwp' ); ?></span>
-						<input type="search" class="jb-search-line" placeholder="<?php esc_attr_e( 'Job title, keywords, or company', 'jobboardwp' ); ?>" value="<?php echo esc_attr( $search_from_url ); ?>" aria-label="<?php esc_attr_e( 'Find Jobs by title', 'jobboardwp' ); ?>" />
+						<?php
+						/**
+						 * Filters the search bar placeholder.
+						 *
+						 * @since 1.3.0
+						 * @hook jb_jobs_search_line_placeholder
+						 *
+						 * @param {string} $placeholder Search bar placeholder.
+						 *
+						 * @return {string} Search bar placeholder.
+						 */
+						$placeholder = apply_filters( 'jb_jobs_search_line_placeholder', __( 'Job title, keywords, or company', 'jobboardwp' ) );
+						?>
+						<input type="search" class="jb-search-line" placeholder="<?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $search_from_url ); ?>" aria-label="<?php esc_attr_e( 'Find Jobs by title', 'jobboardwp' ); ?>" />
 					</label>
 
 					<?php

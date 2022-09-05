@@ -36,7 +36,20 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 								<?php
 								/** @noinspection HtmlUnknownTarget */
 								// translators: %1$s: mailto URL, %2$s: contact email
-								echo wp_kses( sprintf( __( 'To apply for this job <strong>email your details to</strong> <a href="%1$s">%2$s</a>.', 'jobboardwp' ), esc_attr( $contact_mailto ), $contact ), JB()->get_allowed_html( 'templates' ) );
+								$applying_text = sprintf( __( 'To apply for this job <strong>email your details to</strong> <a href="%1$s">%2$s</a>.', 'jobboardwp' ), esc_attr( $contact_mailto ), $contact );
+								/**
+								 * Filters the job application details string.
+								 *
+								 * @since 1.3.0
+								 * @hook jb_job_application_label
+								 *
+								 * @param {string} $applying_text Job applying text. Base on application method (email or website URL)
+								 * @param {int}    $job_id        Job ID.
+								 *
+								 * @return {string} Job application details.
+								 */
+								$applying_text = apply_filters( 'jb_job_application_label', $applying_text, $job_id );
+								echo wp_kses( $applying_text, JB()->get_allowed_html( 'templates' ) );
 								?>
 							</p>
 						<?php } else { ?>
@@ -44,7 +57,10 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 								<?php
 								/** @noinspection HtmlUnknownTarget */
 								// translators: %1$s: application's website URL, %2$s: application's website URL text
-								echo wp_kses( sprintf( __( 'To apply for this job please visit <a href="%1$s">%2$s</a>.', 'jobboardwp' ), esc_attr( $contact ), $contact ), JB()->get_allowed_html( 'templates' ) );
+								$applying_text = sprintf( __( 'To apply for this job please visit <a href="%1$s">%2$s</a>.', 'jobboardwp' ), esc_attr( $contact ), $contact );
+								/** This filter is documented in templates/job/footer.php */
+								$applying_text = apply_filters( 'jb_job_application_label', $applying_text, $job_id );
+								echo wp_kses( $applying_text, JB()->get_allowed_html( 'templates' ) );
 								?>
 							</p>
 						<?php } ?>
