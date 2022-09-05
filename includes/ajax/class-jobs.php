@@ -1084,6 +1084,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 
+			$errors = apply_filters( 'jb_change_validate_job_errors', $errors );
+
 			if ( ! empty( $errors ) ) {
 				// add notice text
 				$errors['notice'][] = __( 'Wrong Job\'s data', 'jobboardwp' );
