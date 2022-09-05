@@ -1175,6 +1175,18 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 					'posts_per_page' => - 1,
 				);
 				$job_ids = get_posts( $args );
+
+				/**
+				 * Filters the Job IDs for reminder about expired jobs.
+				 *
+				 * @since 1.1.0
+				 * @hook jb_check_for_reminder_expired_jobs_job_ids
+				 *
+				 * @param {array} $job_ids Job IDs.
+				 * @param {array} $args    \WP_Query arguments.
+				 *
+				 * @return {array} Filtered Job IDs.
+				 */
 				$job_ids = apply_filters( 'jb_check_for_reminder_expired_jobs_job_ids', $job_ids, $args );
 				$job_ids = array_unique( $job_ids );
 

@@ -81,6 +81,7 @@ class Recent_Jobs extends \WP_Widget {
 
 		$title = array_key_exists( 'title', $instance ) ? $instance['title'] : '';
 		if ( ! empty( $title ) ) {
+			/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 			$title = apply_filters( 'widget_title', $title );
 			echo wp_kses_post( $args['before_title'] . $title . $args['after_title'] );
 		}

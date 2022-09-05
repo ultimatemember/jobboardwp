@@ -336,6 +336,17 @@ class Modules_List_Table extends \WP_List_Table {
 			$actions['flush-data'] = '<a href="admin.php?page=jb-settings&tab=modules&action=flush-data&slug=' . esc_attr( $item['key'] ) . '&_wpnonce=' . wp_create_nonce( 'jb_module_flush' . $item['key'] . get_current_user_id() ) . '" class="delete">' . __( 'Flush data', 'jobboardwp' ) . '</a>';
 		}
 
+		/**
+		 * Filters the actions for the module in the list table.
+		 *
+		 * @since 1.3.0
+		 * @hook jb_module_list_table_actions
+		 *
+		 * @param {array}  $actions List Table actions.
+		 * @param {string} $key     Row key. It's a module slug by default.
+		 *
+		 * @return {array} List Table actions.
+		 */
 		$actions = apply_filters( 'jb_module_list_table_actions', $actions, $item['key'] );
 
 		$column_content = sprintf( '<div class="jb-module-data-wrapper"><div class="jb-module-title-wrapper">%1$s %2$s</div></div>', '<strong>' . esc_html( $item['title'] ) . '</strong>', $this->row_actions( $actions, true ) );
@@ -405,6 +416,16 @@ if ( ! empty( $_GET['msg'] ) ) {
 
 <?php
 $same_page_license = ob_get_clean();
+/**
+ * Filters the license form content.
+ *
+ * @since 1.3.0
+ * @hook jb_modules_page_same_page_license
+ *
+ * @param {string} $content License form content.
+ *
+ * @return {string} License form content.
+ */
 $same_page_license = apply_filters( 'jb_modules_page_same_page_license', $same_page_license );
 
 echo wp_kses( $same_page_license, JB()->get_allowed_html( 'templates' ) );
