@@ -36,7 +36,7 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 								<?php
 								/** @noinspection HtmlUnknownTarget */
 								// translators: %1$s: mailto URL, %2$s: contact email
-								echo wp_kses( apply_filters( 'jb_job_change_apply_text', sprintf( __( 'To apply for this job <strong>email your details to</strong> <a href="%1$s">%2$s</a>.', 'jobboardwp' ), esc_attr( $contact_mailto ),$contact ,$job_id ) ), JB()->get_allowed_html( 'templates' ) );
+								echo wp_kses( apply_filters( 'jb_job_change_apply_text', sprintf( __( 'To apply for this job <strong>email your details to</strong> <a href="%1$s">%2$s</a>.', 'jobboardwp' ), esc_attr( $contact_mailto ), $contact, $job_id ) ), JB()->get_allowed_html( 'templates' ) );
 								?>
 							</p>
 						<?php } else { ?>
