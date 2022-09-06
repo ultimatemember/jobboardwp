@@ -624,7 +624,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 *
 			 * @param {string} $template_name Template name. E.g. 'job/info' or 'job-categories', etc. See templates folder and see more keys
 			 * @param {string} $located       The path to the template from which it will be displayed. Can be default or placed in theme.
-             * @param {string} $module        The module slug.
+			 * @param {string} $module        The module slug.
 			 * @param {array}  $args          Arguments passed into template.
 			 * @param {string} $template_path The path to template. Can be custom for 3rd-party integrations. (default: '').
 			 */
