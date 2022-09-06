@@ -62,6 +62,10 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 *
 		 */
 		public function settings_modules_section() {
+			$modules = JB()->modules()->get_list();
+			if ( empty( $modules ) ) {
+				return;
+			}
 			include_once JB_PATH . 'includes/admin/class-modules-list-table.php';
 		}
 
@@ -645,7 +649,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					'modules' => array(
 						'title'  => __( 'Modules', 'jobboardwp' ),
 						'fields' => array(
-							array(),
 						),
 					),
 				)
