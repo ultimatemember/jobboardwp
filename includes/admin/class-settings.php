@@ -56,9 +56,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			// sorting licenses
 			if ( ! empty( $settings['licenses']['fields'] ) ) {
 				$licenses = $settings['licenses']['fields'];
-				@uasort( $licenses, function( $a, $b ) {
-					return strnatcasecmp( $a['label'], $b['label'] );
-				} );
+				uasort( $licenses, array( &$this, 'sort_modules_by_title' ) );
+
 				$settings['licenses']['fields'] = $licenses;
 			}
 
@@ -66,9 +65,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			if ( ! empty( $settings['modules']['sections'] ) ) {
 				$modules = $settings['modules']['sections'];
 
-				@uasort( $modules, function( $a, $b ) {
-					return strnatcasecmp( $a['title'], $b['title'] );
-				} );
+				uasort( $modules, array( &$this, 'sort_modules_by_title' ) );
 
 				$modules = array(
 						'' => array(
@@ -88,6 +85,14 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			}
 
 			return $settings;
+		}
+
+
+		private function sort_modules_by_title( $a, $b ) {
+			if ( strtolower( $a['title'] ) === strtolower( $b['title'] ) ) {
+				return 0;
+			}
+			return ( strtolower( $a['title'] ) < strtolower( $b['title'] ) ) ? -1 : 1;
 		}
 
 
