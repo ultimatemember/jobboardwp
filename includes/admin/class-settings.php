@@ -56,7 +56,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			// sorting licenses
 			if ( ! empty( $settings['licenses']['fields'] ) ) {
 				$licenses = $settings['licenses']['fields'];
-				uasort( $licenses, array( &$this, 'sort_modules_by_title' ) );
+				uasort( $licenses, array( &$this, 'sort_licenses_by_label' ) );
 
 				$settings['licenses']['fields'] = $licenses;
 			}
@@ -68,23 +68,31 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				uasort( $modules, array( &$this, 'sort_modules_by_title' ) );
 
 				$modules = array(
-						'' => array(
-							'title'  => __( 'Modules', 'jobboardwp' ),
-						)
-					) + $modules;
+					'' => array(
+						'title' => __( 'Modules', 'jobboardwp' ),
+					),
+				) + $modules;
 
 				$settings['modules']['sections'] = $modules;
 			} else {
 				$modules = array(
 					'' => array(
-						'title'  => __( 'Modules', 'jobboardwp' ),
-					)
+						'title' => __( 'Modules', 'jobboardwp' ),
+					),
 				);
 
 				$settings['modules']['sections'] = $modules;
 			}
 
 			return $settings;
+		}
+
+
+		private function sort_licenses_by_label( $a, $b ) {
+			if ( strtolower( $a['label'] ) === strtolower( $b['label'] ) ) {
+				return 0;
+			}
+			return ( strtolower( $a['label'] ) < strtolower( $b['label'] ) ) ? -1 : 1;
 		}
 
 
