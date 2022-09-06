@@ -1086,7 +1086,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				return false;
 			}
 
-			if ( ! empty( $this->config[ $tab ]['sections'] ) && ! empty( $this->config[ $tab ]['sections'][ $section ]['fields'] ) ) {
+			if ( ! empty( $this->config[ $tab ]['sections'] ) ) {
 				if ( empty( $section ) ) {
 					$sections = array_keys( $this->config[ $tab ]['sections'] );
 					$section  = $sections[0];
@@ -1096,7 +1096,11 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					return false;
 				}
 
-				$fields = $this->config[ $tab ]['sections'][ $section ]['fields'];
+				if ( ! empty( $this->config[ $tab ]['sections'][ $section ]['fields'] ) ) {
+					$fields = $this->config[ $tab ]['sections'][ $section ]['fields'];
+				} else {
+					$fields = array();
+				}
 			} else {
 				$fields = $this->config[ $tab ]['fields'];
 			}
