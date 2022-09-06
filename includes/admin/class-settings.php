@@ -42,7 +42,54 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 			add_filter( 'jb_settings_custom_subtabs', array( $this, 'settings_custom_subtabs' ), 20, 2 );
 			add_filter( 'jb_settings_section_modules__content', array( $this, 'settings_modules_section' ), 20 );
+
+			add_filter( 'jb_settings', array( $this, 'sorting_licenses_options' ), 9999, 1 );
 		}
+
+
+		/**
+		 * @param array $settings
+		 *
+		 * @return array
+		 */
+		public function sorting_licenses_options( $settings ) {
+			// sorting licenses
+			if ( ! empty( $settings['licenses']['fields'] ) ) {
+				$licenses = $settings['licenses']['fields'];
+				@uasort( $licenses, function( $a, $b ) {
+					return strnatcasecmp( $a['label'], $b['label'] );
+				} );
+				$settings['licenses']['fields'] = $licenses;
+			}
+
+			// sorting modules by the title
+			if ( ! empty( $settings['modules']['sections'] ) ) {
+				$modules = $settings['modules']['sections'];
+
+				@uasort( $modules, function( $a, $b ) {
+					return strnatcasecmp( $a['title'], $b['title'] );
+				} );
+
+				$modules = array(
+						'' => array(
+							'title'  => __( 'Modules', 'jobboardwp' ),
+						)
+					) + $modules;
+
+				$settings['modules']['sections'] = $modules;
+			} else {
+				$modules = array(
+					'' => array(
+						'title'  => __( 'Modules', 'jobboardwp' ),
+					)
+				);
+
+				$settings['modules']['sections'] = $modules;
+			}
+
+			return $settings;
+		}
+
 
 		/**
 		 * Filter: Set 'uexport' and 'uimport' tabs as pages with custom content
@@ -1026,7 +1073,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				return false;
 			}
 
-			if ( ! empty( $this->config[ $tab ]['sections'] ) ) {
+			if ( ! empty( $this->config[ $tab ]['sections'] ) && ! empty( $this->config[ $tab ]['sections'][ $section ]['fields'] ) ) {
 				if ( empty( $section ) ) {
 					$sections = array_keys( $this->config[ $tab ]['sections'] );
 					$section  = $sections[0];
