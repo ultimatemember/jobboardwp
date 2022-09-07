@@ -53,19 +53,9 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * @return array
 		 */
 		public function sorting_licenses_options( $settings ) {
-			// sorting licenses
-			if ( ! empty( $settings['licenses']['fields'] ) ) {
-				$licenses = $settings['licenses']['fields'];
-				uasort( $licenses, array( &$this, 'sort_licenses_by_label' ) );
-
-				$settings['licenses']['fields'] = $licenses;
-			}
-
 			// sorting modules by the title
 			if ( ! empty( $settings['modules']['sections'] ) ) {
 				$modules = $settings['modules']['sections'];
-
-				uasort( $modules, array( &$this, 'sort_modules_by_title' ) );
 
 				$modules = array(
 					'' => array(
@@ -85,22 +75,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			}
 
 			return $settings;
-		}
-
-
-		private function sort_licenses_by_label( $a, $b ) {
-			if ( strtolower( $a['label'] ) === strtolower( $b['label'] ) ) {
-				return 0;
-			}
-			return ( strtolower( $a['label'] ) < strtolower( $b['label'] ) ) ? -1 : 1;
-		}
-
-
-		private function sort_modules_by_title( $a, $b ) {
-			if ( strtolower( $a['title'] ) === strtolower( $b['title'] ) ) {
-				return 0;
-			}
-			return ( strtolower( $a['title'] ) < strtolower( $b['title'] ) ) ? -1 : 1;
 		}
 
 
