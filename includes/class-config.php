@@ -301,39 +301,42 @@ if ( ! class_exists( 'jb\Config' ) ) {
 		 * @since 1.0
 		 */
 		public function init_email_notifications() {
-			$this->email_notifications = array(
-				'job_submitted'           => array(
-					'key'            => 'job_submitted',
-					'title'          => __( 'Job submitted', 'jobboardwp' ),
-					'subject'        => __( 'New Job Submission - {site_name}', 'jobboardwp' ),
-					'description'    => __( 'Whether to send the admin an email when new job is posted on website.', 'jobboardwp' ),
-					'recipient'      => 'admin',
-					'default_active' => true,
-				),
-				'job_approved'            => array(
-					'key'            => 'job_approved',
-					'title'          => __( 'Job listing approved', 'jobboardwp' ),
-					'subject'        => __( 'Job listing is now live - {site_name}', 'jobboardwp' ),
-					'description'    => __( 'Whether to send the job\'s author an email when job is approved.', 'jobboardwp' ),
-					'recipient'      => 'user',
-					'default_active' => true,
-				),
-				'job_edited'              => array(
-					'key'            => 'job_edited',
-					'title'          => __( 'Job has been edited', 'jobboardwp' ),
-					'subject'        => __( 'A job listing has been edited - {site_name}', 'jobboardwp' ),
-					'description'    => __( 'Whether to send the admin an email when new job is edited on website.', 'jobboardwp' ),
-					'recipient'      => 'admin',
-					'default_active' => true,
-				),
-				'job_expiration_reminder' => array(
-					'key'            => 'job_expiration_reminder',
-					'title'          => __( 'Job expiration reminder', 'jobboardwp' ),
-					'subject'        => __( 'Your job will expire in {job_expiration_days} days - {site_name}', 'jobboardwp' ),
-					'description'    => __( 'Whether to send the job\'s author an email before job is expired.', 'jobboardwp' ),
-					'recipient'      => 'user',
-					'default_active' => true,
-				),
+			$this->email_notifications = apply_filters(
+				'jb_email_notifications',
+				array(
+					'job_submitted'           => array(
+						'key'            => 'job_submitted',
+						'title'          => __( 'Job submitted', 'jobboardwp' ),
+						'subject'        => __( 'New Job Submission - {site_name}', 'jobboardwp' ),
+						'description'    => __( 'Whether to send the admin an email when new job is posted on website.', 'jobboardwp' ),
+						'recipient'      => 'admin',
+						'default_active' => true,
+					),
+					'job_approved'            => array(
+						'key'            => 'job_approved',
+						'title'          => __( 'Job listing approved', 'jobboardwp' ),
+						'subject'        => __( 'Job listing is now live - {site_name}', 'jobboardwp' ),
+						'description'    => __( 'Whether to send the job\'s author an email when job is approved.', 'jobboardwp' ),
+						'recipient'      => 'user',
+						'default_active' => true,
+					),
+					'job_edited'              => array(
+						'key'            => 'job_edited',
+						'title'          => __( 'Job has been edited', 'jobboardwp' ),
+						'subject'        => __( 'A job listing has been edited - {site_name}', 'jobboardwp' ),
+						'description'    => __( 'Whether to send the admin an email when new job is edited on website.', 'jobboardwp' ),
+						'recipient'      => 'admin',
+						'default_active' => true,
+					),
+					'job_expiration_reminder' => array(
+						'key'            => 'job_expiration_reminder',
+						'title'          => __( 'Job expiration reminder', 'jobboardwp' ),
+						'subject'        => __( 'Your job will expire in {job_expiration_days} days - {site_name}', 'jobboardwp' ),
+						'description'    => __( 'Whether to send the job\'s author an email before job is expired.', 'jobboardwp' ),
+						'recipient'      => 'user',
+						'default_active' => true,
+					),
+				)
 			);
 		}
 	}
