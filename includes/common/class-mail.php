@@ -49,6 +49,10 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 		public function prepare_template( $slug, $args = array() ) {
 			$args['slug'] = $slug;
 
+			$emails         = JB()->config()->get( 'email_notifications' );
+			$module         = ! empty( $emails[ $slug ]['module'] ) ? $emails[ $slug ]['module'] : '';
+			$args['module'] = $module;
+
 			ob_start();
 
 			JB()->get_template_part( 'emails/base_wrapper', $args );

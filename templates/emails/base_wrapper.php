@@ -3,4 +3,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-JB()->get_template_part( JB()->get_email_template( $jb_emails_base_wrapper['slug'], false ) );
+JB()->get_template_part( JB()->get_email_template( $jb_emails_base_wrapper['slug'], false ), array(), $jb_emails_base_wrapper['module'] );
