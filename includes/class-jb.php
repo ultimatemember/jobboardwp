@@ -92,14 +92,13 @@ if ( ! class_exists( 'JB' ) ) {
 				$this->common()->cron()->maybe_schedule_tasks();
 
 				// textdomain loading
-				$this->localize();
+				add_action( 'init', array( &$this, 'localize' ), 0 );
 
 				// include JB classes
 				$this->includes();
 
 				// run hook for modules init
 				add_action( 'plugins_loaded', array( &$this, 'core_loaded_trigger' ), -19 );
-
 				// init widgets.
 				add_action( 'widgets_init', array( $this, 'widgets_init' ) );
 			}
@@ -189,6 +188,7 @@ if ( ! class_exists( 'JB' ) ) {
 			$language_domain = apply_filters( 'jb_language_textdomain', 'jobboardwp' );
 
 			$language_file = WP_LANG_DIR . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $language_domain . '-' . $language_locale . '.mo';
+
 			/**
 			 * Filters the path to the language file (*.mo).
 			 *
@@ -207,7 +207,6 @@ if ( ! class_exists( 'JB' ) ) {
 				load_plugin_textdomain( $language_domain, false, JB_PATH . '/languages/' );
 			}
 		}
-
 
 		/**
 		 * Include required core files used in admin and on the frontend.
