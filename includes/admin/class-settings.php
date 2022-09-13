@@ -16,12 +16,21 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 	class Settings {
 
 		/**
+		 * Settings Config.
+		 *
 		 * @var array
 		 *
-		 * @since 1.0
+		 * @since 1.0.0
 		 */
 		public $config;
 
+		/**
+		 * Data array using for sanitizing setting on save.
+		 *
+		 * @var array
+		 *
+		 * @since 1.1.0
+		 */
 		public $sanitize_map = array();
 
 		/**
@@ -42,13 +51,47 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 			add_filter( 'jb_settings_custom_subtabs', array( $this, 'settings_custom_subtabs' ), 20, 2 );
 			add_filter( 'jb_settings_section_modules__content', array( $this, 'settings_modules_section' ), 20 );
+
+			add_filter( 'jb_settings', array( $this, 'sorting_modules_options' ), 9999, 1 );
 		}
 
 		/**
-		 * Filter: Set 'uexport' and 'uimport' tabs as pages with custom content
+		 * Add "Modules > Modules" subtab if there are any registered modules.
+		 *
+		 * @since 1.3.0
+		 *
+		 * @hook jb_settings
+		 *
+		 * @param array $settings
+		 *
+		 * @return array
+		 */
+		public function sorting_modules_options( $settings ) {
+			// sorting modules by the title
+			$modules = array(
+				'' => array(
+					'title' => __( 'Modules', 'jobboardwp' ),
+				),
+			);
+			if ( ! empty( $settings['modules']['sections'] ) ) {
+				$settings['modules']['sections'] = $modules + $settings['modules']['sections'];
+			} else {
+				$settings['modules']['sections'] = $modules;
+			}
+
+			return $settings;
+		}
+
+		/**
+		 * Set Modules > Modules subtab as settings pages with custom content without standard settings form.
+		 *
+		 * @since 1.3.0
+		 *
 		 * @hook jb_settings_custom_subtabs
-		 * @param array $subtabs
+		 *
+		 * @param array  $subtabs
 		 * @param string $tab
+		 *
 		 * @return array
 		 */
 		public function settings_custom_subtabs( $subtabs, $tab ) {
@@ -59,19 +102,23 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		}
 
 		/**
+		 * Show Modules List_table on the Modules > Modules subtab.
 		 *
+		 * @since 1.3.0
+		 *
+		 * @hook jb_settings_section_modules__content
 		 */
 		public function settings_modules_section() {
 			$modules = JB()->modules()->get_list();
 			if ( empty( $modules ) ) {
 				return;
 			}
+			/** @noinspection PhpIncludeInspection */
 			include_once JB_PATH . 'includes/admin/class-modules-list-table.php';
 		}
 
 		/**
-		 * Handler for settings forms
-		 * when "Save Settings" button click
+		 * Handler for settings forms when "Save Settings" button click.
 		 *
 		 *
 		 * @since 1.0
@@ -188,6 +235,13 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			}
 		}
 
+		/**
+		 * Sanitize emails separated by the "," symbol and put them back to the same string but sanitized.
+		 *
+		 * @param string $value
+		 *
+		 * @return string
+		 */
 		public function multi_email_sanitize( $value ) {
 			$emails_array = explode( ',', $value );
 			if ( ! empty( $emails_array ) ) {
@@ -201,7 +255,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		}
 
 		/**
-		 * Set JB Settings
+		 * Set JB Settings.
 		 *
 		 * @since 1.0
 		 */
@@ -654,7 +708,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			);
 		}
 
-
 		/**
 		 * Display Email Notifications Templates List
 		 *
@@ -670,7 +723,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				include_once JB()->admin()->templates_path . 'settings' . DIRECTORY_SEPARATOR . 'emails-list-table.php';
 			}
 		}
-
 
 		/**
 		 * Edit email template fields
@@ -745,7 +797,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			return $fields;
 		}
 
-
 		/**
 		 * Include admin files conditionally.
 		 *
@@ -787,7 +838,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			}
 		}
 
-
 		/**
 		 * Show a slug input box for job post type slug.
 		 *
@@ -799,7 +849,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			<input name="<?php echo esc_attr( JB()->options()->get_key( 'job-slug' ) ); ?>" type="text" class="regular-text code" value="<?php echo esc_attr( JB()->options()->get( 'job-slug' ) ); ?>" placeholder="<?php echo esc_attr( $defaults['job-slug'] ); ?>" />
 			<?php
 		}
-
 
 		/**
 		 * Show a slug input box for job type slug.
@@ -813,7 +862,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			<?php
 		}
 
-
 		/**
 		 * Show a slug input box for job category slug.
 		 *
@@ -825,7 +873,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			<input name="<?php echo esc_attr( JB()->options()->get_key( 'job-category-slug' ) ); ?>" type="text" class="regular-text code" value="<?php echo esc_attr( JB()->options()->get( 'job-category-slug' ) ); ?>" placeholder=""<?php echo esc_attr( $defaults['job-category-slug'] ); ?>" />
 			<?php
 		}
-
 
 		/**
 		 * Save permalinks handler
@@ -852,7 +899,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				}
 			}
 		}
-
 
 		/**
 		 * Generate pages tabs
@@ -903,7 +949,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 			return '<h2 class="nav-tab-wrapper jb-nav-tab-wrapper">' . $tabs . '</h2>';
 		}
-
 
 		/**
 		 * Generate sub-tabs
@@ -971,7 +1016,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			return '<div><ul class="subsubsub">' . substr( $subtabs, 0, -3 ) . '</ul></div>';
 		}
 
-
 		/**
 		 * Render settings section
 		 *
@@ -997,7 +1041,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				)
 			)->display( false );
 		}
-
 
 		/**
 		 * Get settings section
@@ -1034,7 +1077,11 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					return false;
 				}
 
-				$fields = $this->config[ $tab ]['sections'][ $section ]['fields'];
+				if ( ! empty( $this->config[ $tab ]['sections'][ $section ]['fields'] ) ) {
+					$fields = $this->config[ $tab ]['sections'][ $section ]['fields'];
+				} else {
+					$fields = array();
+				}
 			} else {
 				$fields = $this->config[ $tab ]['fields'];
 			}
@@ -1066,7 +1113,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 			return $assoc ? $assoc_fields : $fields;
 		}
-
 
 		/**
 		 * Checking if the settings section is custom
@@ -1107,7 +1153,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			$custom_section = in_array( $current_tab, $custom_tabs, true ) || in_array( $current_subtab, $custom_subtabs, true );
 			return $custom_section;
 		}
-
 
 		/**
 		 * @param $settings
@@ -1213,6 +1258,5 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 			return $settings;
 		}
-
 	}
 }
