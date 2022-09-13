@@ -648,8 +648,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					),
 					'modules' => array(
 						'title'  => __( 'Modules', 'jobboardwp' ),
-						'fields' => array(
-						),
+						'fields' => array(),
 					),
 				)
 			);
