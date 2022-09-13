@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-09-06T10:15:17+00:00\n"
+"POT-Creation-Date: 2022-09-13T12:58:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: jobboardwp\n"
@@ -799,31 +799,31 @@ msgstr ""
 msgid "Once removed, this data cannot be restored."
 msgstr ""
 
-#: includes/admin/class-settings.php:727
+#: includes/admin/class-settings.php:726
 msgid "Subject Line"
 msgstr ""
 
-#: includes/admin/class-settings.php:728
+#: includes/admin/class-settings.php:727
 msgid "This is the subject line of the e-mail"
 msgstr ""
 
-#: includes/admin/class-settings.php:734
+#: includes/admin/class-settings.php:733
 msgid "Message Body"
 msgstr ""
 
-#: includes/admin/class-settings.php:735
+#: includes/admin/class-settings.php:734
 msgid "This is the content of the e-mail"
 msgstr ""
 
-#: includes/admin/class-settings.php:765
+#: includes/admin/class-settings.php:764
 msgid "Job base"
 msgstr ""
 
-#: includes/admin/class-settings.php:772
+#: includes/admin/class-settings.php:771
 msgid "Job type base"
 msgstr ""
 
-#: includes/admin/class-settings.php:781
+#: includes/admin/class-settings.php:780
 msgid "Job category base"
 msgstr ""
 
