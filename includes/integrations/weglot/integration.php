@@ -127,14 +127,18 @@ add_filter( 'jb_common_js_variables', 'jb_common_js_variables_weglot', 10, 1 );
 
 
 /**
- * @param $template_locations
- * @param $template_name
- * @param $template_path
+ * @since 1.1.1
+ * @since 1.3.0 Added $module argument.
+ *
+ * @param array  $template_locations
+ * @param string $template_name
+ * @param string $module
+ * @param string $template_path
  *
  * @return array
  * @throws Exception
  */
-function jb_pre_template_locations_weglot( $template_locations, $template_name, $template_path ) {
+function jb_pre_template_locations_weglot( $template_locations, $template_name, $module, $template_path ) {
 	if ( JB()->common()->mail()->is_sending() && 0 === strpos( $template_name, 'emails/' ) ) {
 		return $template_locations;
 	}
@@ -156,4 +160,4 @@ function jb_pre_template_locations_weglot( $template_locations, $template_name, 
 
 	return $template_locations;
 }
-add_filter( 'jb_pre_template_locations_common_locale_integration', 'jb_pre_template_locations_weglot', 10, 3 );
+add_filter( 'jb_pre_template_locations_common_locale_integration', 'jb_pre_template_locations_weglot', 10, 4 );

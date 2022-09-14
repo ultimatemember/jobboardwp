@@ -482,22 +482,33 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * Get the template path inside theme or custom path
 		 *
 		 * @since 1.1.1
+		 * @since 1.3.0 Added $module argument.
 		 * @access public
+		 *
+		 * @param string $module Module slug. (default: '').
 		 *
 		 * @return string
 		 */
-		public function template_path() {
+		public function template_path( $module = '' ) {
+			$path = 'jobboardwp/';
+
+			if ( ! empty( $module ) ) {
+				$path .= "$module/";
+			}
+
 			/**
 			 * Filters the template path inside theme or custom path.
 			 *
 			 * @since 1.1.1
+			 * @since 1.3.0 Added $module argument.
 			 * @hook jb_template_path
 			 *
-			 * @param {string} $path JobBoardWP templates' path.
+			 * @param {string} $path   JobBoardWP templates' path.
+			 * @param {string} $module Module slug. (default: '').
 			 *
 			 * @return {string} JobBoardWP templates' path.
 			 */
-			return apply_filters( 'jb_template_path', 'jobboardwp/' );
+			return apply_filters( 'jb_template_path', $path, $module );
 		}
 
 
@@ -505,23 +516,33 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * Get the default template path inside wp-content/plugins/
 		 *
 		 * @since 1.1.0
+		 * @since 1.3.0 Added $module argument.
 		 * @access public
+		 *
+		 * @param string $module Module slug. (default: '').
 		 *
 		 * @return string
 		 */
-		public function default_templates_path() {
+		public function default_templates_path( $module = '' ) {
 			$path = untrailingslashit( JB_PATH ) . '/templates/';
+			if ( ! empty( $module ) ) {
+				$module_data = JB()->modules()->get_data( $module );
+				$path = untrailingslashit( $module_data['path'] ) . '/templates/';
+			}
+
 			/**
 			 * Filters the default template path inside `wp-content/plugins/`.
 			 *
 			 * @since 1.1.0
+			 * @since 1.3.0 Added $module argument.
 			 * @hook jb_default_template_path
 			 *
-			 * @param {string} $path JobBoardWP default templates' path.
+			 * @param {string} $path   JobBoardWP default templates' path.
+			 * @param {string} $module Module slug. (default: '').
 			 *
 			 * @return {string} JobBoardWP default templates' path.
 			 */
-			return apply_filters( 'jb_default_template_path', $path );
+			return apply_filters( 'jb_default_template_path', $path, $module );
 		}
 
 
@@ -529,14 +550,16 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * Get JobBoardWP custom templates (e.g. jobs list) passing attributes and including the file.
 		 *
 		 * @since 1.1.0
+		 * @since 1.3.0 Added $module argument.
 		 *
 		 * @param string $template_name Template name.
 		 * @param array  $args          Arguments. (default: array).
+		 * @param string $module        Module slug. (default: '').
 		 * @param string $template_path Template path. (default: '').
 		 * @param string $default_path  Default path. (default: '').
 		 */
-		public function get_template_part( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
-			$template = $this->locate_template( $template_name, $template_path, $default_path );
+		public function get_template_part( $template_name, $args = array(), $module = '', $template_path = '', $default_path = '' ) {
+			$template = $this->locate_template( $template_name, $module, $template_path, $default_path );
 
 			/**
 			 * Filters the template location.
@@ -544,17 +567,19 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * Note: Allow 3rd party plugin filter template file from their plugin.
 			 *
 			 * @since 1.1.1
+			 * @since 1.3.0 Added $module argument.
 			 * @hook jb_get_template
 			 *
 			 * @param {string} $template      Predefined template location. That has been found via the `JB()->locate_template()` function.
 			 * @param {string} $template_name Template name.
 			 * @param {array}  $args          Arguments passed for the template.
+			 * @param {string} $module        Module slug. (default: '').
 			 * @param {string} $template_path Template path. (default: '').
 			 * @param {string} $default_path  Default path. (default: '').
 			 *
 			 * @return {string} Maybe a custom location for the $template_name.
 			 */
-			$filter_template = apply_filters( 'jb_get_template', $template, $template_name, $args, $template_path, $default_path );
+			$filter_template = apply_filters( 'jb_get_template', $template, $template_name, $args, $module, $template_path, $default_path );
 
 			if ( $filter_template !== $template ) {
 				if ( ! file_exists( $filter_template ) ) {
@@ -570,6 +595,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 				'template_path' => $template_path,
 				'located'       => $template,
 				'args'          => $args,
+				'module'        => $module,
 			);
 
 			$query_title                  = str_replace( '-', '_', sanitize_title( $template_name ) );
@@ -588,14 +614,17 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * Fires before the content of the template is displayed.
 			 *
 			 * @since 1.1.0
+			 * @since 1.3.0 Added $module argument.
+			 *
 			 * @hook jb_before_template_part
 			 *
 			 * @param {string} $template_name Template name. E.g. 'job/info' or 'job-categories', etc. See templates folder and see more keys
 			 * @param {string} $located       The path to the template from which it will be displayed. Can be default or placed in theme.
+			 * @param {string} $module        Module slug. (default: '').
 			 * @param {array}  $args          Arguments passed into template.
 			 * @param {string} $template_path The path to template. Can be custom for 3rd-party integrations. (default: '').
 			 */
-			do_action( 'jb_before_template_part', $action_args['template_name'], $action_args['located'], $action_args['args'], $action_args['template_path'] );
+			do_action( 'jb_before_template_part', $action_args['template_name'], $action_args['located'], $action_args['module'], $action_args['args'], $action_args['template_path'] );
 
 			include $action_args['located'];
 
@@ -603,14 +632,17 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * Fires after the content of the template is displayed.
 			 *
 			 * @since 1.1.0
+			 * @since 1.3.0 Added $module argument.
+			 *
 			 * @hook jb_after_template_part
 			 *
 			 * @param {string} $template_name Template name. E.g. 'job/info' or 'job-categories', etc. See templates folder and see more keys
 			 * @param {string} $located       The path to the template from which it will be displayed. Can be default or placed in theme.
+			 * @param {string} $module        Module slug. (default: '').
 			 * @param {array}  $args          Arguments passed into template.
 			 * @param {string} $template_path The path to template. Can be custom for 3rd-party integrations. (default: '').
 			 */
-			do_action( 'jb_after_template_part', $action_args['template_name'], $action_args['located'], $action_args['args'], $action_args['template_path'] );
+			do_action( 'jb_after_template_part', $action_args['template_name'], $action_args['located'], $action_args['module'], $action_args['args'], $action_args['template_path'] );
 		}
 
 
@@ -620,17 +652,19 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * @see get_template
 		 *
 		 * @since 1.1.1
+		 * @since 1.3.0 Added $module argument.
 		 *
 		 * @param string $template_name Template name.
 		 * @param array  $args          Arguments. (default: array).
+		 * @param string $module        Module slug. (default: '').
 		 * @param string $template_path Template path. (default: '').
 		 * @param string $default_path  Default path. (default: '').
 		 *
 		 * @return string
 		 */
-		public function get_template_html( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
+		public function get_template_html( $template_name, $args = array(), $module = '', $template_path = '', $default_path = '' ) {
 			ob_start();
-			$this->get_template_part( $template_name, $args, $template_path, $default_path );
+			$this->get_template_part( $template_name, $args, $module, $template_path, $default_path );
 			return ob_get_clean();
 		}
 
@@ -649,18 +683,20 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * where $locale is site_locale for regular templates, but $user_locale for email templates
 		 *
 		 * @since 1.1.1
+		 * @since 1.3.0 Added $module argument.
 		 *
 		 * @param string $template_name Template name.
+		 * @param string $module        Module slug. (default: '').
 		 * @param string $template_path Template path. (default: '').
 		 * @param string $default_path  Default path. (default: '').
 		 * @return string
 		 */
-		public function locate_template( $template_name, $template_path = '', $default_path = '' ) {
+		public function locate_template( $template_name, $module = '', $template_path = '', $default_path = '' ) {
 			$template_name .= '.php';
 
 			// path in theme
 			if ( ! $template_path ) {
-				$template_path = $this->template_path();
+				$template_path = $this->template_path( $module );
 			}
 
 			$template_locations = array(
@@ -673,15 +709,17 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * Note: Handle locations array before multisite's blog ID path will be added. JobBoardWP uses this hook for integration with multilingual plugins.
 			 *
 			 * @since 1.1.1
+			 * @since 1.3.0 Added $module argument.
 			 * @hook jb_pre_template_locations
 			 *
 			 * @param {array}  $template_locations Template locations array for WP native `locate_template()` function.
 			 * @param {string} $template_name      Template name.
+			 * @param {string} $module             Module slug. (default: '').
 			 * @param {string} $template_path      Template path. (default: '').
 			 *
 			 * @return {array} An array for WP native `locate_template()` function with paths where we need to search for the $template_name.
 			 */
-			$template_locations = apply_filters( 'jb_pre_template_locations', $template_locations, $template_name, $template_path );
+			$template_locations = apply_filters( 'jb_pre_template_locations', $template_locations, $template_name, $module, $template_path );
 
 			// build multisite blog_ids priority paths
 			if ( is_multisite() ) {
@@ -703,15 +741,17 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * Note: Final chance for getting customized the templates locations array.
 			 *
 			 * @since 1.1.1
+			 * @since 1.3.0 Added $module argument.
 			 * @hook jb_template_locations
 			 *
 			 * @param {array}  $template_locations Template locations array for WP native `locate_template()` function.
 			 * @param {string} $template_name      Template name.
+			 * @param {string} $module             Module slug. (default: '').
 			 * @param {string} $template_path      Template path. (default: '').
 			 *
 			 * @return {array} An array for WP native `locate_template()` function with paths where we need to search for the $template_name.
 			 */
-			$template_locations = apply_filters( 'jb_template_locations', $template_locations, $template_name, $template_path );
+			$template_locations = apply_filters( 'jb_template_locations', $template_locations, $template_name, $module, $template_path );
 
 			$template_locations = array_map( 'wp_normalize_path', $template_locations );
 
@@ -722,14 +762,16 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * This can be used to avoid the possibility of dumping templates if you are using a theme that is constantly updated and it is not possible to create a child-theme.
 			 *
 			 * @since 1.1.1
+			 * @since 1.3.0 Added $module argument.
 			 * @hook jb_template_structure_custom_path
 			 *
 			 * @param {bool}   $custom_path   Custom path to JobBoardWP templates. It's `false` by default.
 			 * @param {string} $template_name Template name.
+			 * @param {string} $module        Module slug. (default: '').
 			 *
 			 * @return {bool|string} Maybe custom path to JobBoardWP templates. Otherwise false.
 			 */
-			$custom_path = apply_filters( 'jb_template_structure_custom_path', false, $template_name );
+			$custom_path = apply_filters( 'jb_template_structure_custom_path', false, $template_name, $module );
 			if ( false === $custom_path || ! is_dir( $custom_path ) ) {
 				$template = locate_template( $template_locations );
 			} else {
@@ -742,7 +784,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			if ( ! $template || JB_TEMPLATE_CONFLICT_TEST ) {
 				// default path in plugin
 				if ( ! $default_path ) {
-					$default_path = $this->default_templates_path();
+					$default_path = $this->default_templates_path( $module );
 				}
 
 				$template = wp_normalize_path( trailingslashit( $default_path ) . $template_name );
@@ -755,15 +797,17 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * Note: Ignore all locate rules for the selected $template_name.
 			 *
 			 * @since 1.1.1
+			 * @since 1.3.0 Added $module argument.
 			 * @hook jb_locate_template
 			 *
 			 * @param {string} $template      Template full path.
 			 * @param {string} $template_name Template name.
+			 * @param {string} $module        Module slug. (default: '').
 			 * @param {string} $template_path Template path. (default: '').
 			 *
 			 * @return {string} Template full path.
 			 */
-			return apply_filters( 'jb_locate_template', $template, $template_name, $template_path );
+			return apply_filters( 'jb_locate_template', $template, $template_name, $module, $template_path );
 		}
 
 
@@ -815,6 +859,29 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * @return {string} Email template path. 'emails/{$email_key}.php' by default.
 			 */
 			return apply_filters( 'jb_email_template_path', $template_path, $email_key );
+		}
+
+		/**
+		 * Getting module slug for email notification.
+		 *
+		 * @since 1.3.0
+		 *
+		 * @param string $email_key Email Notification key.
+		 *
+		 * @return bool|string false                               If email key doesn't exist in the email notifications list
+		 *                     '{empty_string}' or '{module_slug}' For core email notification or email notification inside the module.
+		 */
+		public function get_email_template_module( $email_key ) {
+			$email_notifications = JB()->config()->get( 'email_notifications' );
+			if ( ! array_key_exists( $email_key, $email_notifications ) ) {
+				return false;
+			}
+
+			if ( ! array_key_exists( 'module', $email_notifications[ $email_key ] ) ) {
+				return '';
+			}
+
+			return $email_notifications[ $email_key ]['module'];
 		}
 
 		/**

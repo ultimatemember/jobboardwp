@@ -1173,15 +1173,16 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			$content  = stripslashes( sanitize_textarea_field( $settings[ $template ] ) );
 
 			$template_name = JB()->get_email_template( $template );
+			$module        = JB()->get_email_template_module( $template );
 
-			$template_path = JB()->template_path();
+			$template_path = JB()->template_path( $module );
 
 			$template_locations = array(
 				trailingslashit( $template_path ) . $template_name,
 			);
 
 			/** This filter is documented in includes/class-jb-functions.php */
-			$template_locations = apply_filters( 'jb_pre_template_locations', $template_locations, $template_name, $template_path );
+			$template_locations = apply_filters( 'jb_pre_template_locations', $template_locations, $template_name, $module, $template_path );
 
 			// build multisite blog_ids priority paths
 			if ( is_multisite() ) {
@@ -1198,24 +1199,26 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			}
 
 			/** This filter is documented in includes/class-jb-functions.php */
-			$template_locations = apply_filters( 'jb_template_locations', $template_locations, $template_name, $template_path );
+			$template_locations = apply_filters( 'jb_template_locations', $template_locations, $template_name, $module, $template_path );
 			$template_locations = array_map( 'wp_normalize_path', $template_locations );
 			/**
 			 * Filters the email templates locations on save handler.
 			 *
 			 * @since 1.1.1
+			 * @since 1.3.0 Added $module argument.
 			 * @hook jb_save_email_templates_locations
 			 *
 			 * @param {array}  $template_locations Template locations array for WP native `locate_template()` function.
 			 * @param {string} $template_name      Template name.
+			 * @param {string} $module             Module slug. (default: '').
 			 * @param {string} $template_path      Template path. (default: '').
 			 *
 			 * @return {array} An array for WP native `locate_template()` function with paths where we need to search for the $template_name.
 			 */
-			$template_locations = apply_filters( 'jb_save_email_templates_locations', $template_locations, $template_name, $template_path );
+			$template_locations = apply_filters( 'jb_save_email_templates_locations', $template_locations, $template_name, $module, $template_path );
 
 			/** This filter is documented in includes/class-jb-functions.php */
-			$custom_path = apply_filters( 'jb_template_structure_custom_path', false, $template_name );
+			$custom_path = apply_filters( 'jb_template_structure_custom_path', false, $template_name, $module );
 			if ( false === $custom_path || ! is_dir( $custom_path ) ) {
 				$template_exists = locate_template( $template_locations );
 			} else {
@@ -1238,7 +1241,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				}
 				$template_exists = wp_normalize_path( $base_dir . $template_locations[0] );
 
-				$default_template_path = wp_normalize_path( trailingslashit( JB()->default_templates_path() ) . $template_name );
+				$default_template_path = wp_normalize_path( trailingslashit( JB()->default_templates_path( $module ) ) . $template_name );
 
 				if ( file_exists( $default_template_path ) ) {
 					$dirname = dirname( $template_exists );

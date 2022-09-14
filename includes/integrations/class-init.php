@@ -23,7 +23,7 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 			// running before all plugins_loaded callbacks in JobBoardWP.
 			add_action( 'plugins_loaded', array( &$this, 'plugins_loaded' ), 9 );
 
-			add_filter( 'jb_pre_template_locations', array( &$this, 'pre_template_locations_common_locale' ), 10, 3 );
+			add_filter( 'jb_pre_template_locations', array( &$this, 'pre_template_locations_common_locale' ), 10, 4 );
 		}
 
 
@@ -52,13 +52,17 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 		/**
 		 * Email notifications integration with `get_user_locale()`
 		 *
-		 * @param $template_locations
-		 * @param $template_name
-		 * @param $template_path
+		 * @since 1.1.1
+		 * @since 1.3.0 Added $module argument.
+		 *
+		 * @param array  $template_locations
+		 * @param string $template_name
+		 * @param string $module
+		 * @param string $template_path
 		 *
 		 * @return array
 		 */
-		public function pre_template_locations_common_locale( $template_locations, $template_name, $template_path ) {
+		public function pre_template_locations_common_locale( $template_locations, $template_name, $module, $template_path ) {
 			// make pre templates locations array to avoid the conflicts between different locales when multilingual plugins are integrated
 			// e.g. "jobboardwp/ru_RU(user locale)/uk(WPML)/emails/job_approved.php"
 			// must be the next priority:
@@ -73,15 +77,17 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 			 * Note: Internal JobBoardWP hook for getting individual multilingual location in the common integration function.
 			 *
 			 * @since 1.1.1
+			 * @since 1.3.0 Added $module argument.
 			 * @hook jb_pre_template_locations_common_locale_integration
 			 *
 			 * @param {array}  $template_locations Template locations array for WP native `locate_template()` function.
 			 * @param {string} $template_name      Template name.
+			 * @param {string} $module             Module slug. (default: '').
 			 * @param {string} $template_path      Template path. (default: '').
 			 *
 			 * @return {array} An array for WP native `locate_template()` function with paths where we need to search for the $template_name.
 			 */
-			$template_locations = apply_filters( 'jb_pre_template_locations_common_locale_integration', $template_locations, $template_name, $template_path );
+			$template_locations = apply_filters( 'jb_pre_template_locations_common_locale_integration', $template_locations, $template_name, $module, $template_path );
 
 			// use the user_locale only for email notifications templates
 			if ( JB()->common()->mail()->is_sending() && 0 === strpos( $template_name, 'emails/' ) ) {

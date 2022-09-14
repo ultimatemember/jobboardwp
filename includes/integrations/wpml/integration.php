@@ -389,14 +389,15 @@ function jb_wpml_get_status_html( $template, $code ) {
 	$current_language = $sitepress->get_current_language();
 	$sitepress->switch_lang( $code );
 
-	$template_path = JB()->template_path();
+	$module        = JB()->get_email_template_module( $template );
+	$template_path = JB()->template_path( $module );
 
 	$template_locations = array(
 		trailingslashit( $template_path ) . $template_name,
 	);
 
 	/** This filter is documented in includes/class-jb-functions.php */
-	$template_locations = apply_filters( 'jb_pre_template_locations', $template_locations, $template_name, $template_path );
+	$template_locations = apply_filters( 'jb_pre_template_locations', $template_locations, $template_name, $module, $template_path );
 
 	// build multisite blog_ids priority paths
 	if ( is_multisite() ) {
@@ -413,7 +414,7 @@ function jb_wpml_get_status_html( $template, $code ) {
 	}
 
 	/** This filter is documented in includes/class-jb-functions.php */
-	$template_locations = apply_filters( 'jb_template_locations', $template_locations, $template_name, $template_path );
+	$template_locations = apply_filters( 'jb_template_locations', $template_locations, $template_name, $module, $template_path );
 	$template_locations = array_map( 'wp_normalize_path', $template_locations );
 
 	foreach ( $template_locations as $k => $location ) {
@@ -425,7 +426,7 @@ function jb_wpml_get_status_html( $template, $code ) {
 	$sitepress->switch_lang( $current_language );
 
 	/** This filter is documented in includes/class-jb-functions.php */
-	$custom_path = apply_filters( 'jb_template_structure_custom_path', false, $template_name );
+	$custom_path = apply_filters( 'jb_template_structure_custom_path', false, $template_name, $module );
 	if ( false === $custom_path || ! is_dir( $custom_path ) ) {
 		$template_exists = locate_template( $template_locations );
 	} else {
@@ -461,13 +462,14 @@ function jb_wpml_render_status_icon( $link, $text, $img ) {
 
 
 /**
- * @param $template_locations
- * @param $template_name
- * @param $template_path
+ * @param array  $template_locations
+ * @param string $template_name
+ * @param string $module
+ * @param string $template_path
  *
  * @return array
  */
-function jb_pre_template_locations_wpml( $template_locations, $template_name, $template_path ) {
+function jb_pre_template_locations_wpml( $template_locations, $template_name, $module, $template_path ) {
 	if ( JB()->common()->mail()->is_sending() && 0 === strpos( $template_name, 'emails/' ) ) {
 		return $template_locations;
 	}
@@ -489,7 +491,7 @@ function jb_pre_template_locations_wpml( $template_locations, $template_name, $t
 
 	return $template_locations;
 }
-add_filter( 'jb_pre_template_locations_common_locale_integration', 'jb_pre_template_locations_wpml', 10, 3 );
+add_filter( 'jb_pre_template_locations_common_locale_integration', 'jb_pre_template_locations_wpml', 10, 4 );
 
 
 /**

@@ -49,6 +49,10 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 		public function prepare_template( $slug, $args = array() ) {
 			$args['slug'] = $slug;
 
+			$emails         = JB()->config()->get( 'email_notifications' );
+			$module         = ! empty( $emails[ $slug ]['module'] ) ? $emails[ $slug ]['module'] : '';
+			$args['module'] = $module;
+
 			ob_start();
 
 			JB()->get_template_part( 'emails/base_wrapper', $args );
@@ -83,10 +87,12 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 		 * @param string $email
 		 * @param null $template
 		 * @param array $args
+		 * @param array $attachments
 		 *
 		 * @since 1.0
+		 * @since 1.3.0 Added $attachments argument.
 		 */
-		public function send( $email, $template, $args = array() ) {
+		public function send( $email, $template, $args = array(), $attachments = array() ) {
 			if ( ! is_email( $email ) ) {
 				return;
 			}
@@ -120,8 +126,6 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 			 * @param {array}  $args     Passed into the `send()` function arguments. There can be data to replace placeholders.
 			 */
 			do_action( 'jb_before_email_notification_sending', $email, $template, $args );
-
-			$attachments = null;
 
 			/**
 			 * Filters the email notification content type that is used in email header.
