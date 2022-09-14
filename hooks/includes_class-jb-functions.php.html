@@ -560,7 +560,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			$path = untrailingslashit( JB_PATH ) . '/templates/';
 			if ( ! empty( $module ) ) {
 				$module_data = JB()->modules()->get_data( $module );
-				$path = untrailingslashit( $module_data['path'] ) . '/templates/';
+				$path        = untrailingslashit( $module_data['path'] ) . '/templates/';
 			}
 
 			/**
