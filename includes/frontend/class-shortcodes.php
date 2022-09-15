@@ -260,6 +260,16 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 					ob_start();
 
+					/**
+					 * Filters the default visibility for the login form section on the job submission form.
+					 *
+					 * @since 1.3.0
+					 * @hook jb_job_visible_login
+					 *
+					 * @param {bool} $visible_login Login form visibility. Set to true if need to display it.
+					 *
+					 * @return {bool} Login form visibility.
+					 */
 					$visible_login = apply_filters( 'jb_job_visible_login', false );
 					// phpcs:ignore WordPress.Security.NonceVerification -- getting value from GET line
 					if ( isset( $_GET['login'] ) && 'failed' === sanitize_key( $_GET['login'] ) ) {
@@ -303,6 +313,12 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 							<?php
 						}
 
+						/**
+						 * Fires before rendering login form on the job submission page
+						 *
+						 * @since 1.3.0
+						 * @hook jb_before_login_form
+						 */
 						do_action( 'jb_before_login_form' );
 
 						$login_args = array(

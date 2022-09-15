@@ -105,6 +105,15 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 			if ( ! is_user_logged_in() ) {
 				$user_id = 0;
 
+				/**
+				 * Fires just before trying to create user if it doesn't exist when job submission.
+				 *
+				 * @since 1.3.0
+				 * @hook jb_job_create_user_validation
+				 *
+				 * @param {object} $posting_form Frontend form class (\jb\frontend\Forms) instance.
+				 * @param {int}    $user_id      Current user ID or 0 if guest.
+				 */
 				do_action( 'jb_job_create_user_validation', $posting_form, $user_id );
 
 				if ( JB()->options()->get( 'account-required' ) ) {

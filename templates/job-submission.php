@@ -256,8 +256,17 @@
 
 		$your_details_enabled = JB()->options()->get( 'your-details-section' );
 		if ( ! ( is_user_logged_in() && empty( $your_details_enabled ) ) ) {
-
-			$strict_wrap_attrs = apply_filters( 'jb_job_submissin_strict_wrap_attrs', '' );
+			/**
+			 * Filters HTML attributes for the My Details section.
+			 *
+			 * @since 1.3.0
+			 * @hook jb_job_submission_strict_wrap_attrs
+			 *
+			 * @param {string} $strict_wrap_attrs HTML attributes for the My Details section.
+			 *
+			 * @return {string} HTML attributes for the My Details section. It's empty string by default.
+			 */
+			$strict_wrap_attrs = apply_filters( 'jb_job_submission_strict_wrap_attrs', '' );
 			// phpcs:ignore WordPress.Security.NonceVerification -- getting value from GET line
 			if ( isset( $_GET['login'] ) && 'failed' === sanitize_key( $_GET['login'] ) ) {
 				$strict_wrap_attrs = ' style="display: none;"';
