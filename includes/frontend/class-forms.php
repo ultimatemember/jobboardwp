@@ -183,6 +183,8 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			}
 
 			echo wp_kses( $fields . $hidden . '<div class="jb-form-buttons-section">' . $buttons . '</div>', JB()->get_allowed_html( 'templates' ) );
+
+			do_action( 'jb_after_form_fields', $this->form_data );
 			?>
 
 			</form>

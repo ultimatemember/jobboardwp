@@ -260,7 +260,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 					ob_start();
 
-					$visible_login = false;
+					$visible_login = apply_filters( 'jb_job_visible_login', false );
 					// phpcs:ignore WordPress.Security.NonceVerification -- getting value from GET line
 					if ( isset( $_GET['login'] ) && 'failed' === sanitize_key( $_GET['login'] ) ) {
 						$visible_login = true;
@@ -302,6 +302,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 							<?php
 						}
+
+						do_action( 'jb_before_login_form' );
 
 						$login_args = array(
 							'echo'           => false,
