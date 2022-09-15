@@ -138,6 +138,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 			if ( ! is_user_logged_in() ) {
 				$user_id = 0;
 
+				do_action( 'jb_job_create_user_validation', $posting_form, $user_id );
+
 				if ( JB()->options()->get( 'account-required' ) ) {
 					$username     = '';
 					$password     = '';
