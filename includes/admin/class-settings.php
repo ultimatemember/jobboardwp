@@ -56,7 +56,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		}
 
 		/**
-		 * Add "Modules > Modules" subtab if there are any registered modules.
+		 * Add "Modules > Modules" subtab if there are any registered modules. Sorting modules by the title.
 		 *
 		 * @since 1.3.0
 		 *
@@ -67,7 +67,11 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * @return array
 		 */
 		public function sorting_modules_options( $settings ) {
-			// sorting modules by the title
+			$modules = JB()->modules()->get_list();
+			if ( empty( $modules ) ) {
+				return $settings;
+			}
+
 			$modules = array(
 				'' => array(
 					'title' => __( 'Modules', 'jobboardwp' ),
@@ -95,6 +99,11 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * @return array
 		 */
 		public function settings_custom_subtabs( $subtabs, $tab ) {
+			$modules = JB()->modules()->get_list();
+			if ( empty( $modules ) ) {
+				return $subtabs;
+			}
+
 			if ( 'modules' === $tab ) {
 				$subtabs = array_merge( $subtabs, array( '' ) );
 			}
@@ -386,6 +395,318 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				)
 			);
 
+			$settings = array(
+				'general' => array(
+					'title'    => __( 'General', 'jobboardwp' ),
+					'sections' => array(
+						'pages'          => array(
+							'title'  => __( 'Pages', 'jobboardwp' ),
+							'fields' => $general_pages_fields,
+						),
+						'job'            => array(
+							'title'  => __( 'Job', 'jobboardwp' ),
+							'fields' => array(
+								array(
+									'id'      => 'job-categories',
+									'type'    => 'checkbox',
+									'label'   => __( 'Job Categories', 'jobboardwp' ),
+									'helptip' => __( 'Enable categories for jobs.', 'jobboardwp' ),
+								),
+								array(
+									'id'      => 'job-template',
+									'type'    => 'select',
+									'options' => $job_templates,
+									'label'   => __( 'Job Template', 'jobboardwp' ),
+									'helptip' => __( 'Select which template you would like applied to the job CPT.', 'jobboardwp' ),
+									'size'    => 'medium',
+								),
+								array(
+									'id'      => 'job-dateformat',
+									'type'    => 'select',
+									'options' => array(
+										'relative' => __( 'Relative to the posting date (e.g., 1 hour, 1 day, 1 week ago)', 'jobboardwp' ),
+										'default'  => __( 'Default date format set via WP > Settings > General', 'jobboardwp' ),
+									),
+									'label'   => __( 'Date format', 'jobboardwp' ),
+									'helptip' => __( 'Select the date format used for jobs on the front-end.', 'jobboardwp' ),
+								),
+								array(
+									'id'    => 'job-breadcrumbs',
+									'type'  => 'checkbox',
+									'label' => __( 'Show breadcrumbs on the job page', 'jobboardwp' ),
+									'size'  => 'medium',
+								),
+								array(
+									'id'      => 'googlemaps-api-key',
+									'type'    => 'text',
+									'label'   => __( 'GoogleMaps API key', 'jobboardwp' ),
+									'helptip' => __( 'Enable using GoogleMaps API for getting extended data about job location.', 'jobboardwp' ),
+									'size'    => 'medium',
+								),
+								array(
+									'id'      => 'disable-structured-data',
+									'type'    => 'checkbox',
+									'label'   => __( 'Disable Google structured data', 'jobboardwp' ),
+									'helptip' => __( 'Disable parsing an individual job page as "Google JobPosting" data by the robots.', 'jobboardwp' ),
+									'size'    => 'medium',
+								),
+							),
+						),
+						'job_submission' => array(
+							'title'  => __( 'Job Submission', 'jobboardwp' ),
+							'fields' => array(
+								array(
+									'id'      => 'account-required',
+									'type'    => 'checkbox',
+									'label'   => __( 'Account Needed', 'jobboardwp' ),
+									'helptip' => __( 'Require users to be logged-in before they can submit a job.', 'jobboardwp' ),
+								),
+								array(
+									'id'      => 'account-creation',
+									'type'    => 'checkbox',
+									'label'   => __( 'User Registration', 'jobboardwp' ),
+									'helptip' => __( 'Allow users to create an account when submitting a job listing.', 'jobboardwp' ),
+								),
+								array(
+									'id'          => 'account-username-generate',
+									'type'        => 'checkbox',
+									'label'       => __( 'Use email addresses as usernames', 'jobboardwp' ),
+									'helptip'     => __( 'Hide the username field on the submission form and set the username as the user\'s email address.', 'jobboardwp' ),
+									'conditional' => array( 'account-creation', '=', '1' ),
+								),
+								array(
+									'id'          => 'account-password-email',
+									'type'        => 'checkbox',
+									'label'       => __( 'Email password link', 'jobboardwp' ),
+									'helptip'     => __( 'Hide password field on submission form and send users an email with a link to set password.', 'jobboardwp' ),
+									'conditional' => array( 'account-creation', '=', '1' ),
+								),
+								array(
+									'id'      => 'your-details-section',
+									'type'    => 'select',
+									'label'   => __( '"Your Details" for logged in users', 'jobboardwp' ),
+									'options' => array(
+										0 => __( 'Hidden', 'jobboardwp' ),
+										1 => __( 'Visible with editable email, first/last name fields', 'jobboardwp' ),
+									),
+									'helptip' => __( 'Select if the "Your Details" section is shown for logged in users.', 'jobboardwp' ),
+									'size'    => 'medium',
+								),
+								array(
+									'id'          => 'full-name-required',
+									'type'        => 'checkbox',
+									'label'       => __( 'First and Last names required', 'jobboardwp' ),
+									'helptip'     => __( 'Make the first and last name fields required.', 'jobboardwp' ),
+									'conditional' => array( 'account-creation||your-details-section', '=', 1 ),
+								),
+								array(
+									'id'          => 'account-role',
+									'type'        => 'select',
+									'label'       => __( 'User Role', 'jobboardwp' ),
+									'options'     => $roles,
+									'helptip'     => __( 'New registered users who are created during submission will be assigned this role.', 'jobboardwp' ),
+									'size'        => 'small',
+									'conditional' => array( 'account-creation', '=', '1' ),
+								),
+								array(
+									'id'      => 'job-moderation',
+									'type'    => 'checkbox',
+									'label'   => __( 'Set submissions as Pending', 'jobboardwp' ),
+									'helptip' => __( 'New job submissions will not appear on the jobs list until approved by admin.', 'jobboardwp' ),
+								),
+								array(
+									'id'          => 'pending-job-editing',
+									'type'        => 'checkbox',
+									'label'       => __( 'Pending Job Edits', 'jobboardwp' ),
+									'helptip'     => __( 'Allow users to edit their pending jobs until they are approved by an admin.', 'jobboardwp' ),
+									'conditional' => array( 'job-moderation', '=', '1' ),
+								),
+								array(
+									'id'      => 'published-job-editing',
+									'type'    => 'select',
+									'label'   => __( 'Published Job Edits', 'jobboardwp' ),
+									'options' => array(
+										0 => __( 'Users cannot edit their published job listings', 'jobboardwp' ),
+										1 => __( 'Users can edit their published job listings but edits require approval by admin', 'jobboardwp' ),
+										2 => __( 'Users can edit their published job listing without approval by admin', 'jobboardwp' ),
+									),
+									'helptip' => __( 'Select if users can edit their published jobs and if edits require admin approval.', 'jobboardwp' ),
+									'size'    => 'medium',
+								),
+								array(
+									'id'      => 'individual-job-duration',
+									'type'    => 'checkbox',
+									'label'   => __( 'Show individual expiry date', 'jobboardwp' ),
+									'helptip' => __( 'Allow users to set the job expiry date on the job posting form.', 'jobboardwp' ),
+								),
+								array(
+									'id'          => 'job-duration',
+									'type'        => 'text',
+									'label'       => __( 'Job duration', 'jobboardwp' ),
+									'helptip'     => __( 'Set how long you want jobs to appear on the jobs list. After the set duration jobs will set to expired. If you do not want jobs to have an expiration date, leave this field blank.', 'jobboardwp' ),
+									'size'        => 'small',
+									'conditional' => array( 'individual-job-duration', '=', '0' ),
+								),
+								array(
+									'id'      => 'job-expiration-reminder',
+									'type'    => 'checkbox',
+									'label'   => __( 'Send expiration reminder to the author?', 'jobboardwp' ),
+									'helptip' => __( 'Enable notification to the job author about the job expiration.', 'jobboardwp' ),
+								),
+								array(
+									'id'          => 'job-expiration-reminder-time',
+									'type'        => 'text',
+									'label'       => __( 'Reminder time for "X" days', 'jobboardwp' ),
+									'helptip'     => __( 'Set the number of days before expiration when the job author receives an email.', 'jobboardwp' ),
+									'description' => __( 'Job duration must be longer than "X" days.', 'jobboardwp' ),
+									'conditional' => array( 'job-expiration-reminder', '=', '1' ),
+									'size'        => 'small',
+								),
+								array(
+									'id'      => 'required-job-type',
+									'type'    => 'checkbox',
+									'label'   => __( 'Required job type', 'jobboardwp' ),
+									'helptip' => __( 'Job type is required.', 'jobboardwp' ),
+								),
+								array(
+									'id'      => 'application-method',
+									'type'    => 'select',
+									'label'   => __( 'How to apply', 'jobboardwp' ),
+									'options' => array(
+										'email' => __( 'Email addresses', 'jobboardwp' ),
+										'url'   => __( 'Website URL', 'jobboardwp' ),
+										''      => __( 'Email address or website URL', 'jobboardwp' ),
+									),
+									'helptip' => __( 'Select whether employers have to provide an email address, website URL or either for their job listing, so job seekers can apply for the job.', 'jobboardwp' ),
+									'size'    => 'small',
+								),
+								array(
+									'id'          => 'job-submitted-notice',
+									'type'        => 'text',
+									'label'       => __( 'Job submitted notice', 'jobboardwp' ),
+									'helptip'     => __( 'The text that appears after a job has been submitted.', 'jobboardwp' ),
+									'size'        => 'long',
+									'conditional' => array( 'job-moderation', '=', '1' ),
+								),
+							),
+						),
+						'jobs'           => array(
+							'title'  => __( 'Jobs List', 'jobboardwp' ),
+							'fields' => array(
+								array(
+									'id'      => 'jobs-list-pagination',
+									'type'    => 'number',
+									'label'   => __( 'Jobs per page', 'jobboardwp' ),
+									'helptip' => __( 'How many jobs would you like to appear on initial load and after clicking load more button.', 'jobboardwp' ),
+									'size'    => 'small',
+								),
+								array(
+									'id'      => 'jobs-list-no-logo',
+									'type'    => 'checkbox',
+									'label'   => __( 'Hide Logos', 'jobboardwp' ),
+									'helptip' => __( 'If selected company logos will not appear on the jobs list.', 'jobboardwp' ),
+								),
+								array(
+									'id'      => 'jobs-list-hide-filled',
+									'type'    => 'checkbox',
+									'label'   => __( 'Hide filled jobs', 'jobboardwp' ),
+									'helptip' => __( 'If selected jobs that have been marked as filled will not appear on the jobs list.', 'jobboardwp' ),
+								),
+								array(
+									'id'      => 'jobs-list-hide-expired',
+									'type'    => 'checkbox',
+									'label'   => __( 'Hide expired jobs', 'jobboardwp' ),
+									'helptip' => __( 'If selected jobs that have expired will not appear in jobs list or in archive/search.', 'jobboardwp' ),
+								),
+								array(
+									'id'      => 'jobs-list-hide-search',
+									'type'    => 'checkbox',
+									'label'   => __( 'Hide search field', 'jobboardwp' ),
+									'helptip' => __( 'If selected the search field will not be displayed on the jobs list.', 'jobboardwp' ),
+								),
+								array(
+									'id'      => 'jobs-list-hide-location-search',
+									'type'    => 'checkbox',
+									'label'   => __( 'Hide location field', 'jobboardwp' ),
+									'helptip' => __( 'If selected the location search field will not be displayed on the jobs list.', 'jobboardwp' ),
+								),
+								array(
+									'id'      => 'jobs-list-hide-filters',
+									'type'    => 'checkbox',
+									'label'   => __( 'Hide filters', 'jobboardwp' ),
+									'helptip' => __( 'If selected the filters section will not be displayed on the jobs list.', 'jobboardwp' ),
+								),
+								array(
+									'id'      => 'jobs-list-hide-job-types',
+									'type'    => 'checkbox',
+									'label'   => __( 'Hide job types', 'jobboardwp' ),
+									'helptip' => __( 'If selected the job types filter will not be displayed on the jobs list.', 'jobboardwp' ),
+								),
+							),
+						),
+					),
+				),
+				'email'   => array(
+					'title'  => __( 'Email', 'jobboardwp' ),
+					'fields' => array(
+						array(
+							'id'      => 'admin_email',
+							'type'    => 'text',
+							'label'   => __( 'Admin E-mail Address', 'jobboardwp' ),
+							'helptip' => __( 'e.g. admin@companyname.com', 'jobboardwp' ),
+						),
+						array(
+							'id'      => 'mail_from',
+							'type'    => 'text',
+							'label'   => __( 'Mail appears from', 'jobboardwp' ),
+							'helptip' => __( 'e.g. Site Name', 'jobboardwp' ),
+						),
+						array(
+							'id'      => 'mail_from_addr',
+							'type'    => 'text',
+							'label'   => __( 'Mail appears from address', 'jobboardwp' ),
+							'helptip' => __( 'e.g. admin@companyname.com', 'jobboardwp' ),
+						),
+					),
+				),
+				'styles'  => array(
+					'title'  => __( 'Styles', 'jobboardwp' ),
+					'fields' => array(
+						array(
+							'id'      => 'disable-styles',
+							'type'    => 'checkbox',
+							'label'   => __( 'Disable styles', 'jobboardwp' ),
+							'helptip' => __( 'Check this to disable all included styling of buttons, and all other elements.', 'jobboardwp' ),
+						),
+						array(
+							'id'      => 'disable-fa-styles',
+							'type'    => 'checkbox',
+							'label'   => __( 'Disable FontAwesome styles', 'jobboardwp' ),
+							'helptip' => __( 'To avoid duplicates if you have enqueued FontAwesome styles you could disable it.', 'jobboardwp' ),
+						),
+					),
+				),
+				'misc'    => array(
+					'title'  => __( 'Misc', 'jobboardwp' ),
+					'fields' => array(
+						array(
+							'id'      => 'uninstall-delete-settings',
+							'type'    => 'checkbox',
+							'label'   => __( 'Delete settings on uninstall', 'jobboardwp' ),
+							'helptip' => __( 'Once removed, this data cannot be restored.', 'jobboardwp' ),
+						),
+					),
+				),
+			);
+
+			$modules = JB()->modules()->get_list();
+			if ( ! empty( $modules ) ) {
+				$settings['modules'] = array(
+					'title'  => __( 'Modules', 'jobboardwp' ),
+					'fields' => array(),
+				);
+			}
+
 			/**
 			 * Filters JobBoardWP Settings fields.
 			 *
@@ -396,316 +717,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			 *
 			 * @return {array} JobBoardWP Settings.
 			 */
-			$this->config = apply_filters(
-				'jb_settings',
-				array(
-					'general' => array(
-						'title'    => __( 'General', 'jobboardwp' ),
-						'sections' => array(
-							'pages'          => array(
-								'title'  => __( 'Pages', 'jobboardwp' ),
-								'fields' => $general_pages_fields,
-							),
-							'job'            => array(
-								'title'  => __( 'Job', 'jobboardwp' ),
-								'fields' => array(
-									array(
-										'id'      => 'job-categories',
-										'type'    => 'checkbox',
-										'label'   => __( 'Job Categories', 'jobboardwp' ),
-										'helptip' => __( 'Enable categories for jobs.', 'jobboardwp' ),
-									),
-									array(
-										'id'      => 'job-template',
-										'type'    => 'select',
-										'options' => $job_templates,
-										'label'   => __( 'Job Template', 'jobboardwp' ),
-										'helptip' => __( 'Select which template you would like applied to the job CPT.', 'jobboardwp' ),
-										'size'    => 'medium',
-									),
-									array(
-										'id'      => 'job-dateformat',
-										'type'    => 'select',
-										'options' => array(
-											'relative' => __( 'Relative to the posting date (e.g., 1 hour, 1 day, 1 week ago)', 'jobboardwp' ),
-											'default'  => __( 'Default date format set via WP > Settings > General', 'jobboardwp' ),
-										),
-										'label'   => __( 'Date format', 'jobboardwp' ),
-										'helptip' => __( 'Select the date format used for jobs on the front-end.', 'jobboardwp' ),
-									),
-									array(
-										'id'    => 'job-breadcrumbs',
-										'type'  => 'checkbox',
-										'label' => __( 'Show breadcrumbs on the job page', 'jobboardwp' ),
-										'size'  => 'medium',
-									),
-									array(
-										'id'      => 'googlemaps-api-key',
-										'type'    => 'text',
-										'label'   => __( 'GoogleMaps API key', 'jobboardwp' ),
-										'helptip' => __( 'Enable using GoogleMaps API for getting extended data about job location.', 'jobboardwp' ),
-										'size'    => 'medium',
-									),
-									array(
-										'id'      => 'disable-structured-data',
-										'type'    => 'checkbox',
-										'label'   => __( 'Disable Google structured data', 'jobboardwp' ),
-										'helptip' => __( 'Disable parsing an individual job page as "Google JobPosting" data by the robots.', 'jobboardwp' ),
-										'size'    => 'medium',
-									),
-								),
-							),
-							'job_submission' => array(
-								'title'  => __( 'Job Submission', 'jobboardwp' ),
-								'fields' => array(
-									array(
-										'id'      => 'account-required',
-										'type'    => 'checkbox',
-										'label'   => __( 'Account Needed', 'jobboardwp' ),
-										'helptip' => __( 'Require users to be logged-in before they can submit a job.', 'jobboardwp' ),
-									),
-									array(
-										'id'      => 'account-creation',
-										'type'    => 'checkbox',
-										'label'   => __( 'User Registration', 'jobboardwp' ),
-										'helptip' => __( 'Allow users to create an account when submitting a job listing.', 'jobboardwp' ),
-									),
-									array(
-										'id'          => 'account-username-generate',
-										'type'        => 'checkbox',
-										'label'       => __( 'Use email addresses as usernames', 'jobboardwp' ),
-										'helptip'     => __( 'Hide the username field on the submission form and set the username as the user\'s email address.', 'jobboardwp' ),
-										'conditional' => array( 'account-creation', '=', '1' ),
-									),
-									array(
-										'id'          => 'account-password-email',
-										'type'        => 'checkbox',
-										'label'       => __( 'Email password link', 'jobboardwp' ),
-										'helptip'     => __( 'Hide password field on submission form and send users an email with a link to set password.', 'jobboardwp' ),
-										'conditional' => array( 'account-creation', '=', '1' ),
-									),
-									array(
-										'id'      => 'your-details-section',
-										'type'    => 'select',
-										'label'   => __( '"Your Details" for logged in users', 'jobboardwp' ),
-										'options' => array(
-											0 => __( 'Hidden', 'jobboardwp' ),
-											1 => __( 'Visible with editable email, first/last name fields', 'jobboardwp' ),
-										),
-										'helptip' => __( 'Select if the "Your Details" section is shown for logged in users.', 'jobboardwp' ),
-										'size'    => 'medium',
-									),
-									array(
-										'id'          => 'full-name-required',
-										'type'        => 'checkbox',
-										'label'       => __( 'First and Last names required', 'jobboardwp' ),
-										'helptip'     => __( 'Make the first and last name fields required.', 'jobboardwp' ),
-										'conditional' => array( 'account-creation||your-details-section', '=', 1 ),
-									),
-									array(
-										'id'          => 'account-role',
-										'type'        => 'select',
-										'label'       => __( 'User Role', 'jobboardwp' ),
-										'options'     => $roles,
-										'helptip'     => __( 'New registered users who are created during submission will be assigned this role.', 'jobboardwp' ),
-										'size'        => 'small',
-										'conditional' => array( 'account-creation', '=', '1' ),
-									),
-									array(
-										'id'      => 'job-moderation',
-										'type'    => 'checkbox',
-										'label'   => __( 'Set submissions as Pending', 'jobboardwp' ),
-										'helptip' => __( 'New job submissions will not appear on the jobs list until approved by admin.', 'jobboardwp' ),
-									),
-									array(
-										'id'          => 'pending-job-editing',
-										'type'        => 'checkbox',
-										'label'       => __( 'Pending Job Edits', 'jobboardwp' ),
-										'helptip'     => __( 'Allow users to edit their pending jobs until they are approved by an admin.', 'jobboardwp' ),
-										'conditional' => array( 'job-moderation', '=', '1' ),
-									),
-									array(
-										'id'      => 'published-job-editing',
-										'type'    => 'select',
-										'label'   => __( 'Published Job Edits', 'jobboardwp' ),
-										'options' => array(
-											0 => __( 'Users cannot edit their published job listings', 'jobboardwp' ),
-											1 => __( 'Users can edit their published job listings but edits require approval by admin', 'jobboardwp' ),
-											2 => __( 'Users can edit their published job listing without approval by admin', 'jobboardwp' ),
-										),
-										'helptip' => __( 'Select if users can edit their published jobs and if edits require admin approval.', 'jobboardwp' ),
-										'size'    => 'medium',
-									),
-									array(
-										'id'      => 'individual-job-duration',
-										'type'    => 'checkbox',
-										'label'   => __( 'Show individual expiry date', 'jobboardwp' ),
-										'helptip' => __( 'Allow users to set the job expiry date on the job posting form.', 'jobboardwp' ),
-									),
-									array(
-										'id'          => 'job-duration',
-										'type'        => 'text',
-										'label'       => __( 'Job duration', 'jobboardwp' ),
-										'helptip'     => __( 'Set how long you want jobs to appear on the jobs list. After the set duration jobs will set to expired. If you do not want jobs to have an expiration date, leave this field blank.', 'jobboardwp' ),
-										'size'        => 'small',
-										'conditional' => array( 'individual-job-duration', '=', '0' ),
-									),
-									array(
-										'id'      => 'job-expiration-reminder',
-										'type'    => 'checkbox',
-										'label'   => __( 'Send expiration reminder to the author?', 'jobboardwp' ),
-										'helptip' => __( 'Enable notification to the job author about the job expiration.', 'jobboardwp' ),
-									),
-									array(
-										'id'          => 'job-expiration-reminder-time',
-										'type'        => 'text',
-										'label'       => __( 'Reminder time for "X" days', 'jobboardwp' ),
-										'helptip'     => __( 'Set the number of days before expiration when the job author receives an email.', 'jobboardwp' ),
-										'description' => __( 'Job duration must be longer than "X" days.', 'jobboardwp' ),
-										'conditional' => array( 'job-expiration-reminder', '=', '1' ),
-										'size'        => 'small',
-									),
-									array(
-										'id'      => 'required-job-type',
-										'type'    => 'checkbox',
-										'label'   => __( 'Required job type', 'jobboardwp' ),
-										'helptip' => __( 'Job type is required.', 'jobboardwp' ),
-									),
-									array(
-										'id'      => 'application-method',
-										'type'    => 'select',
-										'label'   => __( 'How to apply', 'jobboardwp' ),
-										'options' => array(
-											'email' => __( 'Email addresses', 'jobboardwp' ),
-											'url'   => __( 'Website URL', 'jobboardwp' ),
-											''      => __( 'Email address or website URL', 'jobboardwp' ),
-										),
-										'helptip' => __( 'Select whether employers have to provide an email address, website URL or either for their job listing, so job seekers can apply for the job.', 'jobboardwp' ),
-										'size'    => 'small',
-									),
-									array(
-										'id'          => 'job-submitted-notice',
-										'type'        => 'text',
-										'label'       => __( 'Job submitted notice', 'jobboardwp' ),
-										'helptip'     => __( 'The text that appears after a job has been submitted.', 'jobboardwp' ),
-										'size'        => 'long',
-										'conditional' => array( 'job-moderation', '=', '1' ),
-									),
-								),
-							),
-							'jobs'           => array(
-								'title'  => __( 'Jobs List', 'jobboardwp' ),
-								'fields' => array(
-									array(
-										'id'      => 'jobs-list-pagination',
-										'type'    => 'number',
-										'label'   => __( 'Jobs per page', 'jobboardwp' ),
-										'helptip' => __( 'How many jobs would you like to appear on initial load and after clicking load more button.', 'jobboardwp' ),
-										'size'    => 'small',
-									),
-									array(
-										'id'      => 'jobs-list-no-logo',
-										'type'    => 'checkbox',
-										'label'   => __( 'Hide Logos', 'jobboardwp' ),
-										'helptip' => __( 'If selected company logos will not appear on the jobs list.', 'jobboardwp' ),
-									),
-									array(
-										'id'      => 'jobs-list-hide-filled',
-										'type'    => 'checkbox',
-										'label'   => __( 'Hide filled jobs', 'jobboardwp' ),
-										'helptip' => __( 'If selected jobs that have been marked as filled will not appear on the jobs list.', 'jobboardwp' ),
-									),
-									array(
-										'id'      => 'jobs-list-hide-expired',
-										'type'    => 'checkbox',
-										'label'   => __( 'Hide expired jobs', 'jobboardwp' ),
-										'helptip' => __( 'If selected jobs that have expired will not appear in jobs list or in archive/search.', 'jobboardwp' ),
-									),
-									array(
-										'id'      => 'jobs-list-hide-search',
-										'type'    => 'checkbox',
-										'label'   => __( 'Hide search field', 'jobboardwp' ),
-										'helptip' => __( 'If selected the search field will not be displayed on the jobs list.', 'jobboardwp' ),
-									),
-									array(
-										'id'      => 'jobs-list-hide-location-search',
-										'type'    => 'checkbox',
-										'label'   => __( 'Hide location field', 'jobboardwp' ),
-										'helptip' => __( 'If selected the location search field will not be displayed on the jobs list.', 'jobboardwp' ),
-									),
-									array(
-										'id'      => 'jobs-list-hide-filters',
-										'type'    => 'checkbox',
-										'label'   => __( 'Hide filters', 'jobboardwp' ),
-										'helptip' => __( 'If selected the filters section will not be displayed on the jobs list.', 'jobboardwp' ),
-									),
-									array(
-										'id'      => 'jobs-list-hide-job-types',
-										'type'    => 'checkbox',
-										'label'   => __( 'Hide job types', 'jobboardwp' ),
-										'helptip' => __( 'If selected the job types filter will not be displayed on the jobs list.', 'jobboardwp' ),
-									),
-								),
-							),
-						),
-					),
-					'email'   => array(
-						'title'  => __( 'Email', 'jobboardwp' ),
-						'fields' => array(
-							array(
-								'id'      => 'admin_email',
-								'type'    => 'text',
-								'label'   => __( 'Admin E-mail Address', 'jobboardwp' ),
-								'helptip' => __( 'e.g. admin@companyname.com', 'jobboardwp' ),
-							),
-							array(
-								'id'      => 'mail_from',
-								'type'    => 'text',
-								'label'   => __( 'Mail appears from', 'jobboardwp' ),
-								'helptip' => __( 'e.g. Site Name', 'jobboardwp' ),
-							),
-							array(
-								'id'      => 'mail_from_addr',
-								'type'    => 'text',
-								'label'   => __( 'Mail appears from address', 'jobboardwp' ),
-								'helptip' => __( 'e.g. admin@companyname.com', 'jobboardwp' ),
-							),
-						),
-					),
-					'styles'  => array(
-						'title'  => __( 'Styles', 'jobboardwp' ),
-						'fields' => array(
-							array(
-								'id'      => 'disable-styles',
-								'type'    => 'checkbox',
-								'label'   => __( 'Disable styles', 'jobboardwp' ),
-								'helptip' => __( 'Check this to disable all included styling of buttons, and all other elements.', 'jobboardwp' ),
-							),
-							array(
-								'id'      => 'disable-fa-styles',
-								'type'    => 'checkbox',
-								'label'   => __( 'Disable FontAwesome styles', 'jobboardwp' ),
-								'helptip' => __( 'To avoid duplicates if you have enqueued FontAwesome styles you could disable it.', 'jobboardwp' ),
-							),
-						),
-					),
-					'misc'    => array(
-						'title'  => __( 'Misc', 'jobboardwp' ),
-						'fields' => array(
-							array(
-								'id'      => 'uninstall-delete-settings',
-								'type'    => 'checkbox',
-								'label'   => __( 'Delete settings on uninstall', 'jobboardwp' ),
-								'helptip' => __( 'Once removed, this data cannot be restored.', 'jobboardwp' ),
-							),
-						),
-					),
-					'modules' => array(
-						'title'  => __( 'Modules', 'jobboardwp' ),
-						'fields' => array(),
-					),
-				)
-			);
+			$this->config = apply_filters( 'jb_settings', $settings );
 		}
 
 		/**

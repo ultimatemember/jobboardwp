@@ -559,6 +559,22 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * @param string $default_path  Default path. (default: '').
 		 */
 		public function get_template_part( $template_name, $args = array(), $module = '', $template_path = '', $default_path = '' ) {
+			/**
+			 * Fires just before the algorithm for getting JobBoardWP custom templates.
+			 *
+			 * Note: Allow 3rd party plugins or modules filter template file, arguments, module name from their side.
+			 *
+			 * @since 1.3.0
+			 * @hook jb_change_template_part
+			 *
+			 * @param {string} $template_name Template name passed by reference.
+			 * @param {array}  $args          Arguments passed for the template by reference.
+			 * @param {string} $module        Module slug passed by reference. (default: '').
+			 * @param {string} $template_path Template path passed by reference. (default: '').
+			 * @param {string} $default_path  Default path passed by reference. (default: '').
+			 */
+			do_action_ref_array( 'jb_change_template_part', array( &$template_name, &$args, &$module, &$template_path, &$default_path ) );
+
 			$template = $this->locate_template( $template_name, $module, $template_path, $default_path );
 
 			/**

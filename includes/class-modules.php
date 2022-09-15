@@ -27,7 +27,8 @@ class Modules {
 	 */
 	public function __construct() {
 		add_action( 'jb_core_loaded', array( &$this, 'predefined_modules' ), 0 );
-		add_filter( 'jb_module_can_activate', array( &$this, 'maybe_disable_module_activation' ), 9, 2 );
+		// temporarily disable
+		// add_filter( 'jb_module_can_activate', array( &$this, 'maybe_disable_module_activation' ), 9, 2 );
 	}
 
 	/**
@@ -88,16 +89,6 @@ class Modules {
 				$data['description'] = '<strong>' . __( 'Module has not been installed properly. Please check the module\'s directory and re-install it.', 'jobboardwp' ) . '</strong><br />' . $data['description'];
 
 			} else {
-
-				// avoid activation JB module and the JBv2 extension same time
-				if ( array_key_exists( 'plugin_slug', $data ) ) {
-					$data['disabled'] = array_key_exists( $data['plugin_slug'], $all_plugins );
-
-					if ( $data['disabled'] ) {
-						/* translators: %s: activate notice */
-						$data['description'] = '<strong>' . sprintf( __( 'Module cannot be activated until "%s" plugin isn\'t installed.', 'jobboardwp' ), $all_plugins[ $data['plugin_slug'] ]['Name'] ) . '</strong><br />' . $data['description'];
-					}
-				}
 
 				if ( array_key_exists( 'plugins_required', $data ) ) {
 					$maybe_installed = array_intersect( array_keys( $data['plugins_required'] ), array_keys( $all_plugins ) );
