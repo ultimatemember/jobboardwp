@@ -394,6 +394,17 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					'job_edited_sub'                 => 'text',
 				)
 			);
+			/**
+			 * Filters JobBoardWP Settings fields sanitizing type.
+			 *
+			 * @since 1.3.0
+			 * @hook jb_settings_sanitizing_map
+			 *
+			 * @param {array} $sanitize_map Settings fields sanitizing type.
+			 *
+			 * @return {array} Settings fields sanitizing type.
+			 */
+			$this->sanitize_map = apply_filters( 'jb_settings_sanitizing_map', $this->sanitize_map );
 
 			$settings = array(
 				'general' => array(
