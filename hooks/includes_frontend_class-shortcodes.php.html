@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: includes/frontend/class-shortcodes.php - JobBoardWP Hook Docs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+
+	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|IBM+Plex+Sans:300,400|Playfair+Display:900&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="styles-um.css">
+</head>
+
+<body>
+
+<div id="main">
+
+	
+    <h1 class="page-title">Source: includes/frontend/class-shortcodes.php</h1>
+	
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;?php namespace jb\frontend;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+
+if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
+
+
+	/**
+	 * Class Shortcodes
+	 *
+	 * @package jb\frontend
+	 */
+	class Shortcodes {
+
+
+		/**
+		 * Shortcodes constructor.
+		 */
+		public function __construct() {
+			// posting a job form
+			add_shortcode( 'jb_post_job', array( &amp;$this, 'job_post' ) );
+			add_filter( 'jb_forms_before_render_section', array( &amp;$this, 'render_section' ), 10, 3 );
+
+			add_shortcode( 'jb_job', array( &amp;$this, 'single_job' ) );
+			add_shortcode( 'jb_jobs', array( &amp;$this, 'jobs' ) );
+			add_shortcode( 'jb_jobs_dashboard', array( &amp;$this, 'jobs_dashboard' ) );
+			add_shortcode( 'jb_job_categories_list', array( &amp;$this, 'job_categories_list' ) );
+
+			add_shortcode( 'jb_recent_jobs', array( &amp;$this, 'recent_jobs' ) );
+		}
+
+
+		/**
+		 * Added for WP_Kses valid CSS attributes
+		 *
+		 * @param array $attrs
+		 *
+		 * @return array
+		 */
+		public function add_display_css_attr( $attrs ) {
+			$attrs[] = 'display';
+			$attrs[] = 'object-fit';
+			return $attrs;
+		}
+
+
+		/**
+		 * Jobs shortcode
+		 * [jb_post_job /]
+		 *
+		 * @param array $atts
+		 *
+		 * @return string
+		 * @since 1.0
+		 */
+		public function job_post( $atts = array() ) {
+			// there is possible to use 'shortcode_atts_jb_post_job' filter for getting customized $atts
+			$atts = shortcode_atts( array(), $atts, 'jb_post_job' );
+
+			add_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10, 1 );
+
+			// phpcs:disable WordPress.Security.NonceVerification -- getting value from GET line
+
+			if ( empty( $_GET['job-id'] ) ) {
+				// empty posting form
+				// handle draft notice after submission to draft
+				$posting_form        = JB()->frontend()->forms( array( 'id' => 'jb-job-submission' ) );
+				$jobs_dashboard_link = JB()->common()->permalinks()->get_predefined_page_link( 'jobs-dashboard' );
+
+				if ( ! empty( $_GET['msg'] ) ) {
+					switch ( sanitize_key( $_GET['msg'] ) ) {
+						case 'draft':
+							/** @noinspection HtmlUnknownTarget */
+							$posting_form->add_notice(
+								// translators: %s: jobs dashboard page link
+								sprintf( __( 'Job\'s draft was saved. You could resumed it from the &lt;a href="%s" title="Job Dashboard">job dashboard&lt;/a>', 'jobboardwp' ), $jobs_dashboard_link ),
+								'draft'
+							);
+
+							break;
+						case 'on-moderation':
+							$notice = JB()->options()->get( 'job-submitted-notice' );
+							$notice = ! empty( $notice ) ? $notice : __( 'Job is submitted successfully. It will be visible once approved.', 'jobboardwp' );
+
+							$posting_form->add_notice(
+								$notice,
+								'on-moderation'
+							);
+
+							break;
+						case 'published':
+							if ( ! empty( $_GET['published-id'] ) ) {
+								$job_permalink = get_permalink( absint( $_GET['published-id'] ) );
+								/** @noinspection HtmlUnknownTarget */
+								$posting_form->add_notice(
+									// translators: %s: link to the published job
+									sprintf( __( 'Job is posted successfully. To view your job &lt;a href="%s">click here&lt;/a>', 'jobboardwp' ), $job_permalink ),
+									'published'
+								);
+							} else {
+								$posting_form->add_notice(
+									__( 'Job is posted successfully.', 'jobboardwp' ),
+									'published'
+								);
+							}
+
+							break;
+					}
+				}
+
+				// phpcs:enable WordPress.Security.NonceVerification -- getting value from GET line
+
+				wp_enqueue_script( 'jb-post-job' );
+				wp_enqueue_style( 'jb-post-job' );
+
+				ob_start();
+
+				JB()->get_template_part( 'job-submission', $atts );
+
+				remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
+				return ob_get_clean();
+
+			} else {
+
+				// getting job post if $_GET['job-id'] isn't empty
+				// validate Job by ID
+
+				$job_id = absint( $_GET['job-id'] );
+				$job    = get_post( $job_id );
+
+				if ( is_wp_error( $job ) || empty( $job ) ) {
+					remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
+					return __( 'Wrong job', 'jobboardwp' );
+				}
+
+				if ( ! is_user_logged_in() &amp;&amp; 0 !== (int) $job->post_author ) {
+
+					ob_start();
+					?>
+
+					&lt;p>
+						&lt;?php
+						/** @noinspection HtmlUnknownTarget */
+						// translators: %s: login link
+						echo wp_kses( sprintf( __( '&lt;a href="%s">Sign in&lt;/a> to post a job.', 'jobboardwp' ), esc_attr( wp_login_url( get_permalink() ) ) ), JB()->get_allowed_html( 'templates' ) );
+						?>
+					&lt;/p>
+
+					&lt;?php
+					remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
+					return ob_get_clean();
+
+				} elseif ( is_user_logged_in() &amp;&amp; get_current_user_id() !== (int) $job->post_author ) {
+
+					remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
+					return __( 'Wrong job', 'jobboardwp' );
+
+				}
+
+				if ( empty( $_GET['jb-preview'] ) ) {
+
+					// edit job form
+					if ( ! wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-job-draft' . $job_id ) ) {
+						remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
+						return __( 'Security check wrong', 'jobboardwp' );
+					}
+
+					$statuses = array( 'draft', 'publish', 'jb-preview', 'jb-expired' );
+					if ( JB()->options()->get( 'pending-job-editing' ) ) {
+						$statuses[] = 'pending';
+					}
+
+					if ( ! in_array( $job->post_status, $statuses, true ) ) {
+						remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
+						return __( 'Wrong job', 'jobboardwp' );
+					}
+
+					if ( ! empty( $job ) &amp;&amp; in_array( $job->post_status, array( 'publish' ), true ) &amp;&amp; 0 === (int) JB()->options()->get( 'published-job-editing' ) ) {
+						remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
+						return __( 'You haven\'t ability to edit this job.', 'jobboardwp' );
+					}
+
+					$atts['job'] = $job;
+
+					wp_enqueue_script( 'jb-post-job' );
+					wp_enqueue_style( 'jb-post-job' );
+
+					ob_start();
+
+					JB()->get_template_part( 'job-submission', $atts );
+					remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
+					return ob_get_clean();
+
+				} else {
+
+					// preview job
+					if ( ! wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-job-preview' . $job_id ) ) {
+						remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
+						return __( 'Security check wrong', 'jobboardwp' );
+					}
+
+					if ( 'jb-preview' !== $job->post_status ) {
+						remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
+						return __( 'Wrong job preview', 'jobboardwp' );
+					}
+
+					$atts['job_id'] = $job->ID;
+
+					wp_enqueue_script( 'jb-preview-job' );
+					wp_enqueue_style( 'jb-preview-job' );
+
+					ob_start();
+
+					JB()->get_template_part( 'job-preview', $atts );
+
+					remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
+
+					return ob_get_clean();
+				}
+			}
+		}
+
+
+		/**
+		 * Customize rendering 'my-details' section based on 'account-creation' option
+		 *
+		 * @param string $html
+		 * @param array $section_data
+		 * @param array $form_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_section( $html, $section_data, $form_data ) {
+			if ( 'my-details' === $section_data['key'] ) {
+				// phpcs:disable Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- needed for strict output style attribute
+				if ( JB()->options()->get( 'account-creation' ) &amp;&amp; ! is_user_logged_in() ) {
+
+					$id     = isset( $form_data['id'] ) ? $form_data['id'] : 'jb-frontend-form-' . uniqid();
+					$name   = isset( $form_data['name'] ) ? $form_data['name'] : $id;
+					$action = isset( $form_data['action'] ) ? $form_data['action'] : '';
+					$method = isset( $form_data['method'] ) ? $form_data['method'] : 'post';
+
+					$data_attrs = isset( $form_data['data'] ) ? $form_data['data'] : array();
+					$data_attr  = '';
+					foreach ( $data_attrs as $key => $val ) {
+						$data_attr .= " data-{$key}=\"" . esc_attr( $val ) . '" ';
+					}
+
+					add_filter( 'jb_forms_move_form_tag', '__return_true' );
+
+					//use WP native function for fill $_SERVER variables by correct values
+					wp_fix_server_vars();
+
+					$redirect = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+					ob_start();
+
+					/**
+					 * Filters the default visibility for the login form section on the job submission form.
+					 *
+					 * @since 1.3.0
+					 * @hook jb_job_visible_login
+					 *
+					 * @param {bool} $visible_login Login form visibility. Set to true if need to display it.
+					 *
+					 * @return {bool} Login form visibility.
+					 */
+					$visible_login = apply_filters( 'jb_job_visible_login', false );
+					// phpcs:ignore WordPress.Security.NonceVerification -- getting value from GET line
+					if ( isset( $_GET['login'] ) &amp;&amp; 'failed' === sanitize_key( $_GET['login'] ) ) {
+						$visible_login = true;
+					}
+					?>
+
+					&lt;p id="jb-sign-in-notice" class="jb-form-pre-section-notice"&lt;?php if ( $visible_login ) { ?> style="display: none;"&lt;?php } ?>>
+						&lt;?php
+						if ( JB()->options()->get( 'account-required' ) ) {
+							if ( ! JB()->options()->get( 'account-username-generate' ) ) {
+								echo wp_kses( __( 'If you don\'t have an account you can create one below by entering your email address/username or &lt;a href="#" id="jb-show-login-form">sign in&lt;/a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
+							} else {
+								echo wp_kses( __( 'If you don\'t have an account you can create one below by entering your email address or &lt;a href="#" id="jb-show-login-form">sign in&lt;/a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
+							}
+						} else {
+							if ( ! JB()->options()->get( 'account-username-generate' ) ) {
+								echo wp_kses( __( 'If you don\'t have an account you can optionally create one below by entering your email address/username or &lt;a href="#" id="jb-show-login-form">sign in&lt;/a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
+							} else {
+								echo wp_kses( __( 'If you don\'t have an account you can optionally create one below by entering your email address or &lt;a href="#" id="jb-show-login-form">sign in&lt;/a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
+							}
+						}
+						?>
+					&lt;/p>
+
+					&lt;p id="jb-sign-up-notice" class="jb-form-pre-section-notice"&lt;?php if ( ! $visible_login ) { ?> style="display: none;"&lt;?php } ?>>
+						&lt;?php echo wp_kses( __( 'You could login below or &lt;a href="#" id="jb-hide-login-form">create account&lt;/a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) ); ?>
+					&lt;/p>
+
+					&lt;div id="jb-login-form-wrapper"&lt;?php if ( ! $visible_login ) { ?> style="display: none;"&lt;?php } ?>>
+
+						&lt;?php
+						// phpcs:ignore WordPress.Security.NonceVerification -- getting value from GET line
+						if ( isset( $_GET['login'] ) &amp;&amp; 'failed' === sanitize_key( $_GET['login'] ) ) {
+							?>
+
+							&lt;span class="jb-frontend-form-error">
+								&lt;?php esc_html_e( 'Invalid username, email address or incorrect password.', 'jobboardwp' ); ?>
+							&lt;/span>
+
+							&lt;?php
+						}
+
+						/**
+						 * Fires before rendering login form on the job submission page
+						 *
+						 * @since 1.3.0
+						 * @hook jb_before_login_form
+						 */
+						do_action( 'jb_before_login_form' );
+
+						$login_args = array(
+							'echo'           => false,
+							'remember'       => true,
+							'redirect'       => $redirect,
+							'form_id'        => 'jb-loginform',
+							'id_username'    => 'user_login',
+							'id_password'    => 'user_pass',
+							'id_remember'    => 'rememberme',
+							'id_submit'      => 'wp-submit',
+							'label_username' => __( 'Username or Email Address', 'jobboardwp' ),
+							'label_password' => __( 'Password', 'jobboardwp' ),
+							'label_remember' => __( 'Remember Me', 'jobboardwp' ),
+							'label_log_in'   => __( 'Log In', 'jobboardwp' ),
+							'value_username' => '',
+							'value_remember' => false,
+						);
+
+						echo wp_login_form( $login_args );
+						?>
+
+						&lt;div class="clear">&lt;/div>
+					&lt;/div>
+
+					&lt;?php
+					echo wp_kses( '&lt;form action="' . esc_attr( $action ) . '" method="' . esc_attr( $method ) . '" name="' . esc_attr( $name ) . '" id="' . esc_attr( $id ) . '" class="jb-form" ' . $data_attr . '>', JB()->get_allowed_html( 'templates' ) );
+
+					$html .= ob_get_clean();
+				} elseif ( ! JB()->options()->get( 'account-creation' ) &amp;&amp; ! is_user_logged_in() ) {
+					ob_start();
+					?>
+
+					&lt;p>
+						&lt;?php
+						/** @noinspection HtmlUnknownTarget */
+						// translators: %s: login link
+						echo wp_kses( sprintf( __( '&lt;a href="%s">Sign in&lt;/a> to post a job.', 'jobboardwp' ), esc_attr( wp_login_url( get_permalink() ) ) ), JB()->get_allowed_html( 'templates' ) );
+						?>
+					&lt;/p>
+
+					&lt;?php
+					$html .= ob_get_clean();
+				}
+				// phpcs:enable Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- needed for strict output style attribute
+			}
+
+			return $html;
+		}
+
+
+		/**
+		 * Single job shortcode
+		 * [jb_job /]
+		 *
+		 * @param array $atts
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function single_job( $atts = array() ) {
+			// there is possible to use 'shortcode_atts_jb_job' filter for getting customized $atts
+			$atts = shortcode_atts(
+				array(
+					'id'            => '',
+					'ignore_status' => false, // internal argument
+				),
+				$atts,
+				'jb_job'
+			);
+
+			if ( empty( $atts['id'] ) ) {
+				return '';
+			}
+
+			$job = get_post( $atts['id'] );
+			if ( empty( $job ) || is_wp_error( $job ) ) {
+				return '';
+			}
+
+			if ( ! $atts['ignore_status'] &amp;&amp; 'publish' !== $job->post_status ) {
+				return '';
+			}
+
+			$atts['default_template_replaced'] = false;
+			if ( JB()->frontend()->templates()->template_replaced ) {
+				$atts['default_template_replaced'] = true;
+			}
+
+			wp_enqueue_script( 'jb-single-job' );
+			wp_enqueue_style( 'jb-job' );
+
+			ob_start();
+
+			JB()->get_template_part( 'single-job', $atts );
+
+			return ob_get_clean();
+		}
+
+
+		/**
+		 * Jobs shortcode
+		 * [jb_jobs /]
+		 *
+		 * @param array $atts
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function jobs( $atts = array() ) {
+			// there is possible to use 'shortcode_atts_jb_jobs' filter for getting customized $atts
+			$atts = shortcode_atts(
+				array(
+					'employer-id'          => '',
+					'per-page'             => JB()->options()->get( 'jobs-list-pagination' ),
+					'no-logo'              => JB()->options()->get( 'jobs-list-no-logo' ),
+					'hide-filled'          => JB()->options()->get( 'jobs-list-hide-filled' ),
+					'hide-expired'         => JB()->options()->get( 'jobs-list-hide-expired' ),
+					'hide-search'          => JB()->options()->get( 'jobs-list-hide-search' ),
+					'hide-location-search' => JB()->options()->get( 'jobs-list-hide-location-search' ),
+					'hide-filters'         => JB()->options()->get( 'jobs-list-hide-filters' ),
+					'hide-job-types'       => JB()->options()->get( 'jobs-list-hide-job-types' ),
+					'no-jobs-text'         => __( 'No Jobs', 'jobboardwp' ),
+					'no-jobs-search-text'  => __( 'No Jobs found', 'jobboardwp' ),
+					'load-more-text'       => __( 'Load more jobs', 'jobboardwp' ),
+					'category'             => '',
+					'type'                 => '',
+					'orderby'              => 'date',
+					'order'                => 'DESC',
+					'filled-only'          => false, //shortcode attribute only if attribute set 0||1
+				),
+				$atts,
+				'jb_jobs'
+			);
+
+			wp_enqueue_script( 'jb-jobs' );
+			wp_enqueue_style( 'jb-jobs' );
+
+			ob_start();
+
+			JB()->get_template_part( 'jobs/wrapper', $atts );
+
+			return ob_get_clean();
+		}
+
+
+		/**
+		 * Jobs dashboard shortcode
+		 * [jb_jobs_dashboard /]
+		 *
+		 * @param array $atts
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function jobs_dashboard( $atts = array() ) {
+			// there is possible to use 'shortcode_atts_jb_jobs_dashboard' filter for getting customized $atts
+			$atts = shortcode_atts(
+				array(
+					'columns' => array(
+						'title'   => __( 'Title', 'jobboardwp' ),
+						'status'  => __( 'Status', 'jobboardwp' ),
+						'posted'  => __( 'Posted', 'jobboardwp' ),
+						'expired' => __( 'Closing on', 'jobboardwp' ),
+					),
+				),
+				$atts,
+				'jb_jobs_dashboard'
+			);
+
+			wp_enqueue_script( 'jb-jobs-dashboard' );
+			wp_enqueue_style( 'jb-jobs-dashboard' );
+
+			ob_start();
+
+			JB()->get_template_part( 'dashboard/jobs', $atts );
+
+			return ob_get_clean();
+		}
+
+
+		/**
+		 * Jobs dashboard shortcode
+		 * [jb_job_categories_list /]
+		 *
+		 * @param array $atts
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function job_categories_list( $atts = array() ) {
+			if ( ! JB()->options()->get( 'job-categories' ) ) {
+				return '';
+			}
+
+			// there is possible to use 'shortcode_atts_jb_job_categories_list' filter for getting customized $atts
+			$atts = shortcode_atts( array(), $atts, 'jb_job_categories_list' );
+
+			wp_enqueue_script( 'jb-job-categories' );
+			wp_enqueue_style( 'jb-job-categories' );
+
+			ob_start();
+
+			JB()->get_template_part( 'job-categories', $atts );
+
+			return ob_get_clean();
+		}
+
+
+		/**
+		 * The "Recent Jobs" shortcode
+		 * [jb_recent_jobs /]
+		 *
+		 * @since  1.2.1
+		 *
+		 * @usedby Widget "JobBoardWP - Recent Jobs".
+		 *
+		 * @param  array $atts An array of attributes.
+		 * @return string
+		 */
+		public function recent_jobs( $atts = array() ) {
+			$default = array(
+				'number'       => 5,
+				'category'     => '',
+				'type'         => '',
+				'remote_only'  => false,
+				'orderby'      => 'date',
+				'hide_filled'  => JB()->options()->get( 'jobs-list-hide-filled' ),
+				'no_logo'      => JB()->options()->get( 'jobs-list-no-logo' ),
+				'no_job_types' => JB()->options()->get( 'jobs-list-hide-job-types' ),
+			);
+
+			$args = shortcode_atts( $default, $atts, 'jb_recent_jobs' );
+
+			$numberposts = absint( $args['number'] );
+
+			$query_args = array(
+				'post_type'      => 'jb-job',
+				'post_status'    => array( 'publish' ),
+				'posts_per_page' => ( $numberposts &lt;= 99 ) ? $numberposts : 99,
+				'order'          => 'DESC',
+			);
+
+			$types = array();
+			if ( ! empty( $args['type'] ) ) {
+				$types = array_map( 'absint', array_map( 'trim', explode( ',', $args['type'] ) ) );
+			}
+			if ( ! empty( $types ) ) {
+				$query_args['tax_query'][] = array(
+					'taxonomy' => 'jb-job-type',
+					'field'    => 'id',
+					'terms'    => $types,
+				);
+			}
+
+			if ( JB()->options()->get( 'job-categories' ) ) {
+				$categories = array();
+				if ( ! empty( $args['category'] ) ) {
+					$categories = array_map( 'absint', array_map( 'trim', explode( ',', $args['category'] ) ) );
+				}
+				if ( ! empty( $categories ) ) {
+					$query_args['tax_query'][] = array(
+						'taxonomy' => 'jb-job-category',
+						'field'    => 'id',
+						'terms'    => $categories,
+					);
+				}
+			}
+
+			$remote_only = (bool) $args['remote_only'];
+			if ( $remote_only ) {
+				if ( ! isset( $query_args['meta_query'] ) ) {
+					$query_args['meta_query'] = array();
+				}
+
+				$query_args['meta_query'] = array_merge(
+					$query_args['meta_query'],
+					array(
+						'relation' => 'AND',
+						array(
+							'key'     => 'jb-location-type',
+							'value'   => '1',
+							'compare' => '=',
+						),
+					)
+				);
+			}
+
+			if ( ! empty( $args['hide_filled'] ) ) {
+				if ( ! isset( $query_args['meta_query'] ) ) {
+					$query_args['meta_query'] = array();
+				}
+
+				$query_args['meta_query'] = array_merge(
+					$query_args['meta_query'],
+					array(
+						'relation' => 'AND',
+						array(
+							'relation' => 'OR',
+							array(
+								'key'   => 'jb-is-filled',
+								'value' => false,
+							),
+							array(
+								'key'   => 'jb-is-filled',
+								'value' => 0,
+							),
+							array(
+								'key'     => 'jb-is-filled',
+								'compare' => 'NOT EXISTS',
+							),
+						),
+					)
+				);
+			}
+
+			if ( 'expiry_date' === sanitize_key( $args['orderby'] ) ) {
+				if ( ! isset( $query_args['meta_query'] ) ) {
+					$query_args['meta_query'] = array();
+				}
+
+				$query_args['meta_query'][] = array(
+					'relation'    => 'OR',
+					'expiry_date' => array(
+						'key'     => 'jb-expiry-date',
+						'compare' => 'EXISTS',
+						'type'    => 'DATE',
+					),
+					array(
+						'key'     => 'jb-expiry-date',
+						'compare' => 'NOT EXISTS',
+					),
+				);
+
+				$query_args['orderby'] = array(
+					'expiry_date' => 'DESC',
+					'date'        => 'DESC',
+				);
+				unset( $query_args['order'] );
+			} else {
+				$query_args['orderby'] = 'date';
+			}
+
+			$r = new \WP_Query( $query_args );
+
+			if ( ! $r->have_posts() ) {
+				return '';
+			}
+
+			wp_enqueue_script( 'jb-front-global' );
+			wp_enqueue_style( 'jb-jobs-widget' );
+
+			$attrs = array(
+				'posts' => array(),
+				'args'  => $args,
+			);
+			foreach ( $r->posts as $recent_job ) {
+				$job_company_data = JB()->common()->job()->get_company_data( $recent_job->ID );
+
+				$title = esc_html( get_the_title( $recent_job ) );
+				$title = ! empty( $title ) ? $title : __( '(no title)', 'jobboardwp' );
+
+				$job_data = array(
+					'title'     => $title,
+					'permalink' => get_permalink( $recent_job ),
+					'date'      => JB()->common()->job()->get_posted_date( $recent_job->ID ),
+					'expires'   => JB()->common()->job()->get_expiry_date( $recent_job->ID ),
+					'company'   => array(
+						'name'    => $job_company_data['name'],
+						'tagline' => $job_company_data['tagline'],
+					),
+					'location'  => JB()->common()->job()->get_location_link( $recent_job->ID ),
+				);
+
+				if ( JB()->options()->get( 'job-categories' ) ) {
+					$job_data['category'] = JB()->common()->job()->get_job_category( $recent_job->ID );
+				}
+
+				if ( ! $args['no_logo'] ) {
+					$job_data['logo'] = JB()->common()->job()->get_logo( $recent_job->ID );
+				}
+
+				if ( ! $args['no_job_types'] ) {
+					$data_types = array();
+					$types      = wp_get_post_terms(
+						$recent_job->ID,
+						'jb-job-type',
+						array(
+							'orderby' => 'name',
+							'order'   => 'ASC',
+						)
+					);
+					foreach ( $types as $type ) {
+						$data_types[] = array(
+							'name'     => $type->name,
+							'color'    => get_term_meta( $type->term_id, 'jb-color', true ),
+							'bg_color' => get_term_meta( $type->term_id, 'jb-background', true ),
+						);
+					}
+
+					$job_data['types'] = $data_types;
+				}
+
+				$attrs['posts'][] = $job_data;
+			}
+
+			add_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10, 1 );
+
+			$content = JB()->get_template_html( 'widgets/recent-jobs', $attrs );
+
+			remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
+			return $content;
+		}
+	}
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+
+    <footer>
+		<a href="https://wordpress.org/plugins/jobboardwp/">JobBoardWP Plugin</a> &bull;
+		<a href="https://docs.jobboardwp.com/">Official Docs</a>
+	</footer>
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Actions</h3><ul><li><a href="jb-after-job-delete.html">jb-after-job-delete</a></li><li><a href="jb-job-submission-validation.html">jb-job-submission-validation</a></li><li><a href="jb_admin_after_main_notices.html">jb_admin_after_main_notices</a></li><li><a href="jb_admin_create_notices.html">jb_admin_create_notices</a></li><li><a href="jb_admin_init_locale.html">jb_admin_init_locale</a></li><li><a href="jb_after_email_notification_sending.html">jb_after_email_notification_sending</a></li><li><a href="jb_after_form_fields.html">jb_after_form_fields</a></li><li><a href="jb_after_job_apply_block.html">jb_after_job_apply_block</a></li><li><a href="jb_after_job_content.html">jb_after_job_content</a></li><li><a href="jb_after_template_part.html">jb_after_template_part</a></li><li><a href="jb_before_email_notification_sending.html">jb_before_email_notification_sending</a></li><li><a href="jb_before_job_content.html">jb_before_job_content</a></li><li><a href="jb_before_login_form.html">jb_before_login_form</a></li><li><a href="jb_before_settings_%257B$current_tab%257D_%257B$current_subtab%257D_content.html">jb_before_settings_{$current_tab}_{$current_subtab}_content</a></li><li><a href="jb_before_template_part.html">jb_before_template_part</a></li><li><a href="jb_change_template_part.html">jb_change_template_part</a></li><li><a href="jb_core_loaded.html">jb_core_loaded</a></li><li><a href="jb_fill_job.html">jb_fill_job</a></li><li><a href="jb_job_categories_footer.html">jb_job_categories_footer</a></li><li><a href="jb_job_create_user_validation.html">jb_job_create_user_validation</a></li><li><a href="jb_job_edited.html">jb_job_edited</a></li><li><a href="jb_job_is_approved.html">jb_job_is_approved</a></li><li><a href="jb_job_is_expired.html">jb_job_is_expired</a></li><li><a href="jb_job_published.html">jb_job_published</a></li><li><a href="jb_job_submission_after_create_account.html">jb_job_submission_after_create_account</a></li><li><a href="jb_jobs_filter_type_%257B$type%257D.html">jb_jobs_filter_type_{$type}</a></li><li><a href="jb_jobs_head_after.html">jb_jobs_head_after</a></li><li><a href="jb_jobs_head_before.html">jb_jobs_head_before</a></li><li><a href="jb_settings_before_save.html">jb_settings_before_save</a></li><li><a href="jb_settings_save.html">jb_settings_save</a></li><li><a href="jb_settings_section_modules__content.html">jb_settings_section_modules__content</a></li><li><a href="jb_unfill_job.html">jb_unfill_job</a></li></ul><h3>Filters</h3><ul><li><a href="jb-job-company-data.html">jb-job-company-data</a></li><li><a href="jb-job-location-structured-data.html">jb-job-location-structured-data</a></li><li><a href="jb-job-raw-data.html">jb-job-raw-data</a></li><li><a href="jb-job-structured-data.html">jb-job-structured-data</a></li><li><a href="jb-save-job-user-company-data.html">jb-save-job-user-company-data</a></li><li><a href="jb-user-company-data.html">jb-user-company-data</a></li><li><a href="jb_admin_enqueue_localize.html">jb_admin_enqueue_localize</a></li><li><a href="jb_admin_jobs_listtable_columns.html">jb_admin_jobs_listtable_columns</a></li><li><a href="jb_admin_settings_get_pages_list.html">jb_admin_settings_get_pages_list</a></li><li><a href="jb_admin_settings_pages_list_value.html">jb_admin_settings_pages_list_value</a></li><li><a href="jb_ajax_job_validation_errors.html">jb_ajax_job_validation_errors</a></li><li><a href="jb_can_applied_job.html">jb_can_applied_job</a></li><li><a href="jb_change_settings_before_save.html">jb_change_settings_before_save</a></li><li><a href="jb_check_for_reminder_expired_jobs_job_ids.html">jb_check_for_reminder_expired_jobs_job_ids</a></li><li><a href="jb_common_js_variables.html">jb_common_js_variables</a></li><li><a href="jb_config_get.html">jb_config_get</a></li><li><a href="jb_content_editor_options.html">jb_content_editor_options</a></li><li><a href="jb_cpt_list.html">jb_cpt_list</a></li><li><a href="jb_cron_delete_expired_jobs.html">jb_cron_delete_expired_jobs</a></li><li><a href="jb_cron_delete_expired_jobs_days.html">jb_cron_delete_expired_jobs_days</a></li><li><a href="jb_debug_information_pages.html">jb_debug_information_pages</a></li><li><a href="jb_default_individual_expiry.html">jb_default_individual_expiry</a></li><li><a href="jb_default_template_path.html">jb_default_template_path</a></li><li><a href="jb_email_send_subject.html">jb_email_send_subject</a></li><li><a href="jb_email_template_content.html">jb_email_template_content</a></li><li><a href="jb_email_template_content_type.html">jb_email_template_content_type</a></li><li><a href="jb_email_template_path.html">jb_email_template_path</a></li><li><a href="jb_email_templates_columns.html">jb_email_templates_columns</a></li><li><a href="jb_emails_list_table_custom_column_content.html">jb_emails_list_table_custom_column_content</a></li><li><a href="jb_enqueue_localize.html">jb_enqueue_localize</a></li><li><a href="jb_filesystem_max_file_age.html">jb_filesystem_max_file_age</a></li><li><a href="jb_form_error.html">jb_form_error</a></li><li><a href="jb_form_global_error.html">jb_form_global_error</a></li><li><a href="jb_form_notice.html">jb_form_notice</a></li><li><a href="jb_formatting_modules_list.html">jb_formatting_modules_list</a></li><li><a href="jb_forms_before_render_section.html">jb_forms_before_render_section</a></li><li><a href="jb_forms_move_form_tag.html">jb_forms_move_form_tag</a></li><li><a href="jb_frontend_common_styles_deps.html">jb_frontend_common_styles_deps</a></li><li><a href="jb_frontend_forms_required_star_disabled.html">jb_frontend_forms_required_star_disabled</a></li><li><a href="jb_get_employer_jobs_args.html">jb_get_employer_jobs_args</a></li><li><a href="jb_get_job_categories_args.html">jb_get_job_categories_args</a></li><li><a href="jb_get_job_categories_response.html">jb_get_job_categories_response</a></li><li><a href="jb_get_jobs_query_args.html">jb_get_jobs_query_args</a></li><li><a href="jb_get_mail_job_details.html">jb_get_mail_job_details</a></li><li><a href="jb_get_predefined_page_id.html">jb_get_predefined_page_id</a></li><li><a href="jb_get_template.html">jb_get_template</a></li><li><a href="jb_is_predefined_page.html">jb_is_predefined_page</a></li><li><a href="jb_job_application_label.html">jb_job_application_label</a></li><li><a href="jb_job_dashboard_job_data_response.html">jb_job_dashboard_job_data_response</a></li><li><a href="jb_job_dashboard_response.html">jb_job_dashboard_response</a></li><li><a href="jb_job_details_metabox_fields.html">jb_job_details_metabox_fields</a></li><li><a href="jb_job_logo.html">jb_job_logo</a></li><li><a href="jb_job_submission_create_account_data.html">jb_job_submission_create_account_data</a></li><li><a href="jb_job_submission_form_args.html">jb_job_submission_form_args</a></li><li><a href="jb_job_submission_strict_wrap_attrs.html">jb_job_submission_strict_wrap_attrs</a></li><li><a href="jb_job_submission_update_account_data.html">jb_job_submission_update_account_data</a></li><li><a href="jb_job_submitted_data.html">jb_job_submitted_data</a></li><li><a href="jb_job_type_styling.html">jb_job_type_styling</a></li><li><a href="jb_job_visible_login.html">jb_job_visible_login</a></li><li><a href="jb_jobs_directory_filter_types.html">jb_jobs_directory_filter_types</a></li><li><a href="jb_jobs_directory_filters.html">jb_jobs_directory_filters</a></li><li><a href="jb_jobs_job_data_response.html">jb_jobs_job_data_response</a></li><li><a href="jb_jobs_list_calculate_pagination_result.html">jb_jobs_list_calculate_pagination_result</a></li><li><a href="jb_jobs_list_category_filter_args.html">jb_jobs_list_category_filter_args</a></li><li><a href="jb_jobs_list_response.html">jb_jobs_list_response</a></li><li><a href="jb_jobs_list_type_filter_args.html">jb_jobs_list_type_filter_args</a></li><li><a href="jb_jobs_scripts_enqueue.html">jb_jobs_scripts_enqueue</a></li><li><a href="jb_jobs_search_line_placeholder.html">jb_jobs_search_line_placeholder</a></li><li><a href="jb_language_file.html">jb_language_file</a></li><li><a href="jb_language_locale.html">jb_language_locale</a></li><li><a href="jb_language_textdomain.html">jb_language_textdomain</a></li><li><a href="jb_late_escaping_allowed_tags.html">jb_late_escaping_allowed_tags</a></li><li><a href="jb_locate_template.html">jb_locate_template</a></li><li><a href="jb_mail_placeholders.html">jb_mail_placeholders</a></li><li><a href="jb_mail_replace_placeholders.html">jb_mail_replace_placeholders</a></li><li><a href="jb_module_can_activate.html">jb_module_can_activate</a></li><li><a href="jb_module_list_table_actions.html">jb_module_list_table_actions</a></li><li><a href="jb_modules_page_same_page_license.html">jb_modules_page_same_page_license</a></li><li><a href="jb_options_get_%257B$option_id%257D.html">jb_options_get_{$option_id}</a></li><li><a href="jb_options_key.html">jb_options_key</a></li><li><a href="jb_post_statuses.html">jb_post_statuses</a></li><li><a href="jb_pre_template_locations.html">jb_pre_template_locations</a></li><li><a href="jb_pre_template_locations_common_locale_integration.html">jb_pre_template_locations_common_locale_integration</a></li><li><a href="jb_predefined_modules.html">jb_predefined_modules</a></li><li><a href="jb_predefined_page_option_key.html">jb_predefined_page_option_key</a></li><li><a href="jb_predefined_validated_modules.html">jb_predefined_validated_modules</a></li><li><a href="jb_render_field_type_%257B$field_type%257D.html">jb_render_field_type_{$field_type}</a></li><li><a href="jb_rich_text_editor_buttons.html">jb_rich_text_editor_buttons</a></li><li><a href="jb_save_email_templates_locations.html">jb_save_email_templates_locations</a></li><li><a href="jb_section_fields.html">jb_section_fields</a></li><li><a href="jb_settings.html">jb_settings</a></li><li><a href="jb_settings_custom_subtabs.html">jb_settings_custom_subtabs</a></li><li><a href="jb_settings_custom_tabs.html">jb_settings_custom_tabs</a></li><li><a href="jb_settings_email_section_fields.html">jb_settings_email_section_fields</a></li><li><a href="jb_settings_sanitize_%257B$key%257D.html">jb_settings_sanitize_{$key}</a></li><li><a href="jb_settings_section_%257B$current_tab%257D_%257B$current_subtab%257D_content.html">jb_settings_section_{$current_tab}_{$current_subtab}_content</a></li><li><a href="jb_taxonomies_list.html">jb_taxonomies_list</a></li><li><a href="jb_template_include.html">jb_template_include</a></li><li><a href="jb_template_locations.html">jb_template_locations</a></li><li><a href="jb_template_locations_base_user_id_for_locale.html">jb_template_locations_base_user_id_for_locale</a></li><li><a href="jb_template_path.html">jb_template_path</a></li><li><a href="jb_template_structure_custom_path.html">jb_template_structure_custom_path</a></li><li><a href="jb_uploading_logo_mime_types.html">jb_uploading_logo_mime_types</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
