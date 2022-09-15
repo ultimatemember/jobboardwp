@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-09-15T14:56:30+00:00\n"
+"POT-Creation-Date: 2022-09-15T15:15:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: jobboardwp\n"
@@ -103,13 +103,13 @@ msgid "(#ID) Position"
 msgstr ""
 
 #: includes/admin/class-columns.php:333
-#: includes/frontend/class-shortcodes.php:470
+#: includes/frontend/class-shortcodes.php:486
 msgid "Status"
 msgstr ""
 
 #: includes/admin/class-columns.php:334
 #: includes/admin/templates/job/data.php:220
-#: templates/job-submission.php:297
+#: templates/job-submission.php:306
 msgid "Location"
 msgstr ""
 
@@ -124,7 +124,7 @@ msgid "Category"
 msgstr ""
 
 #: includes/admin/class-columns.php:338
-#: includes/frontend/class-shortcodes.php:471
+#: includes/frontend/class-shortcodes.php:487
 #: templates/js/jobs-list.php:70
 #: templates/js/jobs-list.php:72
 #: templates/js/jobs-list.php:83
@@ -174,12 +174,12 @@ msgid "Member"
 msgstr ""
 
 #: includes/admin/class-forms.php:321
-#: includes/frontend/class-forms.php:510
+#: includes/frontend/class-forms.php:521
 msgid "Required"
 msgstr ""
 
 #: includes/admin/class-forms.php:686
-#: includes/frontend/class-forms.php:777
+#: includes/frontend/class-forms.php:788
 msgid "Please select..."
 msgstr ""
 
@@ -310,7 +310,7 @@ msgid "Flush module data"
 msgstr ""
 
 #: includes/admin/class-modules-list-table.php:379
-#: templates/job-submission.php:372
+#: templates/job-submission.php:381
 #: templates/job/content.php:11
 msgid "Description"
 msgstr ""
@@ -961,13 +961,13 @@ msgstr ""
 #: includes/admin/templates/job/data.php:144
 #: includes/common/class-cpt.php:134
 #: includes/frontend/class-jobs-directory.php:69
-#: templates/job-submission.php:333
+#: templates/job-submission.php:342
 msgid "Job Type"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:176
 #: includes/common/class-cpt.php:180
-#: templates/job-submission.php:350
+#: templates/job-submission.php:359
 msgid "Job Category"
 msgstr ""
 
@@ -986,7 +986,7 @@ msgstr ""
 
 #: includes/admin/templates/job/data.php:210
 #: includes/common/class-job.php:243
-#: templates/job-submission.php:289
+#: templates/job-submission.php:298
 msgid "Onsite"
 msgstr ""
 
@@ -994,7 +994,7 @@ msgstr ""
 #: includes/common/class-job.php:246
 #: includes/common/class-job.php:290
 #: includes/common/class-job.php:315
-#: templates/job-submission.php:290
+#: templates/job-submission.php:299
 msgid "Remote"
 msgstr ""
 
@@ -1008,8 +1008,8 @@ msgid "Required for onsite jobs."
 msgstr ""
 
 #: includes/admin/templates/job/data.php:230
-#: templates/job-submission.php:309
-#: templates/job-submission.php:320
+#: templates/job-submission.php:318
+#: templates/job-submission.php:329
 msgid "Preferred Location"
 msgstr ""
 
@@ -1103,7 +1103,7 @@ msgstr ""
 
 #: includes/ajax/class-jobs.php:508
 #: includes/ajax/class-jobs.php:932
-#: includes/frontend/class-shortcodes.php:670
+#: includes/frontend/class-shortcodes.php:686
 msgid "(no title)"
 msgstr ""
 
@@ -1136,9 +1136,9 @@ msgstr ""
 
 #: includes/ajax/class-jobs.php:821
 #: includes/ajax/class-jobs.php:875
-#: includes/frontend/class-actions-listener.php:794
-#: includes/frontend/class-actions-listener.php:903
-#: includes/frontend/class-actions-listener.php:917
+#: includes/frontend/class-actions-listener.php:803
+#: includes/frontend/class-actions-listener.php:912
+#: includes/frontend/class-actions-listener.php:926
 #: includes/frontend/class-shortcodes.php:136
 #: includes/frontend/class-shortcodes.php:159
 #: includes/frontend/class-shortcodes.php:178
@@ -1313,7 +1313,7 @@ msgid "Search Jobs"
 msgstr ""
 
 #: includes/common/class-cpt.php:71
-#: includes/frontend/class-shortcodes.php:431
+#: includes/frontend/class-shortcodes.php:447
 msgid "No Jobs found"
 msgstr ""
 
@@ -1866,201 +1866,201 @@ msgstr ""
 msgid "Company tagline:"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:119
-#: includes/frontend/class-actions-listener.php:269
-#: includes/frontend/class-actions-listener.php:364
+#: includes/frontend/class-actions-listener.php:128
+#: includes/frontend/class-actions-listener.php:278
+#: includes/frontend/class-actions-listener.php:373
 msgid "Please fill the first name field."
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:123
-#: includes/frontend/class-actions-listener.php:273
-#: includes/frontend/class-actions-listener.php:368
+#: includes/frontend/class-actions-listener.php:132
+#: includes/frontend/class-actions-listener.php:282
+#: includes/frontend/class-actions-listener.php:377
 msgid "Please fill the last name field."
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:128
-#: includes/frontend/class-actions-listener.php:373
+#: includes/frontend/class-actions-listener.php:137
+#: includes/frontend/class-actions-listener.php:382
 msgid "Please fill email address"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:133
-#: includes/frontend/class-actions-listener.php:255
-#: includes/frontend/class-actions-listener.php:379
+#: includes/frontend/class-actions-listener.php:142
+#: includes/frontend/class-actions-listener.php:264
+#: includes/frontend/class-actions-listener.php:388
 msgid "Wrong email address format"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:137
-#: includes/frontend/class-actions-listener.php:259
-#: includes/frontend/class-actions-listener.php:383
+#: includes/frontend/class-actions-listener.php:146
+#: includes/frontend/class-actions-listener.php:268
+#: includes/frontend/class-actions-listener.php:392
 msgid "Please use another email address"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:145
-#: includes/frontend/class-actions-listener.php:281
+#: includes/frontend/class-actions-listener.php:154
+#: includes/frontend/class-actions-listener.php:290
 msgid "Password is required"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:149
-#: includes/frontend/class-actions-listener.php:285
+#: includes/frontend/class-actions-listener.php:158
+#: includes/frontend/class-actions-listener.php:294
 msgid "Please confirm the password"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:158
-#: includes/frontend/class-actions-listener.php:292
+#: includes/frontend/class-actions-listener.php:167
+#: includes/frontend/class-actions-listener.php:301
 msgid "Your passwords do not match"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:162
+#: includes/frontend/class-actions-listener.php:171
 msgid "Your password must contain at least 8 characters"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:166
+#: includes/frontend/class-actions-listener.php:175
 msgid "Your password must contain less than 30 characters"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:171
+#: includes/frontend/class-actions-listener.php:180
 msgid "Your password must contain at least one lowercase letter, one capital letter and one number"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:182
+#: includes/frontend/class-actions-listener.php:191
 msgid "Username is required"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:186
-#: includes/frontend/class-actions-listener.php:305
+#: includes/frontend/class-actions-listener.php:195
+#: includes/frontend/class-actions-listener.php:314
 msgid "Please use another username"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:451
-#: includes/frontend/class-actions-listener.php:907
+#: includes/frontend/class-actions-listener.php:460
+#: includes/frontend/class-actions-listener.php:916
 msgid "Security issue, Please try again"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:455
+#: includes/frontend/class-actions-listener.php:464
 msgid "You cannot save draft jobs, Please try again"
-msgstr ""
-
-#: includes/frontend/class-actions-listener.php:477
-#: includes/frontend/class-actions-listener.php:481
-msgid "Job title cannot be empty"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:486
 #: includes/frontend/class-actions-listener.php:490
-msgid "Job description cannot be empty"
+msgid "Job title cannot be empty"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:495
+#: includes/frontend/class-actions-listener.php:499
+msgid "Job description cannot be empty"
+msgstr ""
+
+#: includes/frontend/class-actions-listener.php:504
 msgid "Application contact cannot be empty"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:501
+#: includes/frontend/class-actions-listener.php:510
 msgid "Job application must be an email address"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:511
+#: includes/frontend/class-actions-listener.php:520
 msgid "Job application must be an URL"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:523
+#: includes/frontend/class-actions-listener.php:532
 msgid "Job application must be an email address or URL"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:533
+#: includes/frontend/class-actions-listener.php:542
 msgid "Job location type invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:538
+#: includes/frontend/class-actions-listener.php:547
 msgid "Location for onsite job is required"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:549
+#: includes/frontend/class-actions-listener.php:558
 msgid "Job type is required"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:555
-#: includes/frontend/class-actions-listener.php:559
+#: includes/frontend/class-actions-listener.php:564
+#: includes/frontend/class-actions-listener.php:568
 msgid "Company name cannot be empty"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:570
+#: includes/frontend/class-actions-listener.php:579
 msgid "Company website is invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:590
+#: includes/frontend/class-actions-listener.php:599
 msgid "Company Twitter is invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:603
+#: includes/frontend/class-actions-listener.php:612
 msgid "Company Facebook is invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:615
+#: includes/frontend/class-actions-listener.php:624
 msgid "Company Instagram is invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:630
+#: includes/frontend/class-actions-listener.php:639
 msgid "Something wrong with image, please re-upload"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:675
+#: includes/frontend/class-actions-listener.php:684
 msgid "Wrong image URL. Invalid URL"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:701
+#: includes/frontend/class-actions-listener.php:710
 msgid "Wrong image URL. Invalid job"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:708
+#: includes/frontend/class-actions-listener.php:717
 msgid "Wrong image URL. Invalid attachment ID"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:715
+#: includes/frontend/class-actions-listener.php:724
 msgid "Wrong image URL. Invalid attachment path"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:807
+#: includes/frontend/class-actions-listener.php:816
 msgid "Job submission issue, Please try again"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:911
+#: includes/frontend/class-actions-listener.php:920
 msgid "Wrong action, Please try again"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:926
+#: includes/frontend/class-actions-listener.php:935
 msgid "Security action, Please try again."
 msgstr ""
 
-#: includes/frontend/class-forms.php:413
+#: includes/frontend/class-forms.php:424
 msgid "Submit"
 msgstr ""
 
-#: includes/frontend/class-forms.php:546
+#: includes/frontend/class-forms.php:557
 msgid "Selected image"
 msgstr ""
 
-#: includes/frontend/class-forms.php:547
+#: includes/frontend/class-forms.php:558
 msgid "Select file"
 msgstr ""
 
-#: includes/frontend/class-forms.php:548
+#: includes/frontend/class-forms.php:559
 msgid "Change"
 msgstr ""
 
-#: includes/frontend/class-forms.php:549
+#: includes/frontend/class-forms.php:560
 msgid "Remove"
 msgstr ""
 
-#: includes/frontend/class-forms.php:550
+#: includes/frontend/class-forms.php:561
 #: templates/job/footer.php:68
 msgid "Cancel"
 msgstr ""
 
-#: includes/frontend/class-forms.php:586
+#: includes/frontend/class-forms.php:597
 msgid "Drop file to upload"
 msgstr ""
 
-#: includes/frontend/class-forms.php:587
+#: includes/frontend/class-forms.php:598
 msgid "or"
 msgstr ""
 
@@ -2088,7 +2088,7 @@ msgstr ""
 
 #. translators: %s: login link
 #: includes/frontend/class-shortcodes.php:148
-#: includes/frontend/class-shortcodes.php:343
+#: includes/frontend/class-shortcodes.php:359
 msgid "<a href=\"%s\">Sign in</a> to post a job."
 msgstr ""
 
@@ -2105,61 +2105,61 @@ msgstr ""
 msgid "Wrong job preview"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:274
+#: includes/frontend/class-shortcodes.php:284
 msgid "If you don't have an account you can create one below by entering your email address/username or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:276
+#: includes/frontend/class-shortcodes.php:286
 msgid "If you don't have an account you can create one below by entering your email address or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:280
+#: includes/frontend/class-shortcodes.php:290
 msgid "If you don't have an account you can optionally create one below by entering your email address/username or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:282
+#: includes/frontend/class-shortcodes.php:292
 msgid "If you don't have an account you can optionally create one below by entering your email address or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:289
+#: includes/frontend/class-shortcodes.php:299
 msgid "You could login below or <a href=\"#\" id=\"jb-hide-login-form\">create account</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:300
+#: includes/frontend/class-shortcodes.php:310
 msgid "Invalid username, email address or incorrect password."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:317
+#: includes/frontend/class-shortcodes.php:333
 msgid "Username or Email Address"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:318
+#: includes/frontend/class-shortcodes.php:334
 #: templates/job-submission.php:197
 msgid "Password"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:319
+#: includes/frontend/class-shortcodes.php:335
 msgid "Remember Me"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:320
+#: includes/frontend/class-shortcodes.php:336
 msgid "Log In"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:430
+#: includes/frontend/class-shortcodes.php:446
 msgid "No Jobs"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:432
+#: includes/frontend/class-shortcodes.php:448
 msgid "Load more jobs"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:469
+#: includes/frontend/class-shortcodes.php:485
 #: assets/admin/js/blocks.js:442
 msgid "Title"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:472
+#: includes/frontend/class-shortcodes.php:488
 #: templates/js/jobs-list.php:78
 #: templates/widgets/recent-jobs.php:73
 msgid "Closing on"
@@ -2272,101 +2272,101 @@ msgstr ""
 msgid "Save Draft"
 msgstr ""
 
-#: templates/job-submission.php:267
+#: templates/job-submission.php:276
 msgid "Your Details"
 msgstr ""
 
-#: templates/job-submission.php:279
+#: templates/job-submission.php:288
 msgid "Job Title"
 msgstr ""
 
-#: templates/job-submission.php:286
+#: templates/job-submission.php:295
 msgid "Job Location"
 msgstr ""
 
-#: templates/job-submission.php:291
+#: templates/job-submission.php:300
 msgid "Onsite or Remote"
 msgstr ""
 
-#: templates/job-submission.php:298
-#: templates/job-submission.php:310
-#: templates/job-submission.php:321
+#: templates/job-submission.php:307
+#: templates/job-submission.php:319
+#: templates/job-submission.php:330
 msgid "City, State, or Country"
 msgstr ""
 
-#: templates/job-submission.php:335
+#: templates/job-submission.php:344
 msgid "Please select job type"
 msgstr ""
 
-#: templates/job-submission.php:352
+#: templates/job-submission.php:361
 msgid "Please select job category"
 msgstr ""
 
-#: templates/job-submission.php:363
+#: templates/job-submission.php:372
 msgid "Enter an email address or website URL"
 msgstr ""
 
-#: templates/job-submission.php:365
+#: templates/job-submission.php:374
 msgid "Enter an email address"
 msgstr ""
 
-#: templates/job-submission.php:367
+#: templates/job-submission.php:376
 msgid "Enter a website URL"
 msgstr ""
 
-#: templates/job-submission.php:381
+#: templates/job-submission.php:390
 msgid "Expired date"
 msgstr ""
 
-#: templates/job-submission.php:389
+#: templates/job-submission.php:398
 msgid "Application Contact"
 msgstr ""
 
-#: templates/job-submission.php:401
+#: templates/job-submission.php:410
 msgid "Job Details"
 msgstr ""
 
-#: templates/job-submission.php:405
+#: templates/job-submission.php:414
 msgid "Company Details"
 msgstr ""
 
-#: templates/job-submission.php:409
+#: templates/job-submission.php:418
 msgid "Name"
 msgstr ""
 
-#: templates/job-submission.php:413
+#: templates/job-submission.php:422
 msgid "Enter the name of the company"
 msgstr ""
 
-#: templates/job-submission.php:417
+#: templates/job-submission.php:426
 msgid "Website"
 msgstr ""
 
-#: templates/job-submission.php:423
+#: templates/job-submission.php:432
 msgid "Tagline"
 msgstr ""
 
-#: templates/job-submission.php:426
+#: templates/job-submission.php:435
 msgid "Briefly describe your company"
 msgstr ""
 
-#: templates/job-submission.php:430
+#: templates/job-submission.php:439
 msgid "Twitter username"
 msgstr ""
 
-#: templates/job-submission.php:436
+#: templates/job-submission.php:445
 msgid "Facebook username"
 msgstr ""
 
-#: templates/job-submission.php:442
+#: templates/job-submission.php:451
 msgid "Instagram username"
 msgstr ""
 
-#: templates/job-submission.php:448
+#: templates/job-submission.php:457
 msgid "Logo"
 msgstr ""
 
-#: templates/job-submission.php:451
+#: templates/job-submission.php:460
 msgid "Company logo image"
 msgstr ""
 
