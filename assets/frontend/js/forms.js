@@ -86,9 +86,9 @@ jQuery( document ).ready( function($) {
 		var $filelist = $button.parents('.jb-uploader-dropzone');
 		var $button_wrapper = $button.parents('.jb-select-media-button-wrapper');
 		var $errorlist = $filelist.siblings( '.jb-uploader-errorlist' );
-		var extensions = wp.hooks.applyFilters( 'jb_job_uploader_extensions', 'jpg,jpeg,gif,png,bmp,ico,tiff', $button );
+		var extensions = 'jpg,jpeg,gif,png,bmp,ico,tiff';
 
-		var uploader = new plupload.Uploader({
+		var uploader_args = {
 			browse_button: $button.get( 0 ), // you can pass in id...
 			drop_element: $filelist.get( 0 ), // ... or DOM Element itself
 			container: $button_wrapper.get( 0 ), // ... or DOM Element itself
@@ -169,8 +169,10 @@ jQuery( document ).ready( function($) {
 				UploadComplete: function ( up, files ) {
 				}
 			}
-		});
+		};
+		uploader_args = wp.hooks.applyFilters( 'jb_job_uploader_filters_attrs', uploader_args, $button );
 
+		var uploader = new plupload.Uploader( uploader_args );
 		uploader.init();
 	});
 });
