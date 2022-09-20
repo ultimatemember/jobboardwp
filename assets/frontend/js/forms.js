@@ -86,7 +86,15 @@ jQuery( document ).ready( function($) {
 		var $filelist = $button.parents('.jb-uploader-dropzone');
 		var $button_wrapper = $button.parents('.jb-select-media-button-wrapper');
 		var $errorlist = $filelist.siblings( '.jb-uploader-errorlist' );
-		var extensions = wp.hooks.applyFilters( 'jb_job_uploader_extensions', 'jpg,jpeg,gif,png,bmp,ico,tiff', $button );
+		var attrs = {
+			max_file_size: '10mb',
+			mime_types: [
+				{ title: wp.i18n.__( 'Image files', 'jobboardwp' ), extensions: 'jpg,jpeg,gif,png,bmp,ico,tiff' },
+			],
+			prevent_duplicates: true,
+			max_file_count: 1
+		};
+		attrs = wp.hooks.applyFilters( 'jb_job_uploader_filters_attrs', attrs, $button );
 
 		var uploader = new plupload.Uploader({
 			browse_button: $button.get( 0 ), // you can pass in id...
@@ -97,14 +105,7 @@ jQuery( document ).ready( function($) {
 			max_retries: 1,
 			multipart: true,
 			multi_selection: false,
-			filters: {
-				max_file_size: '10mb',
-				mime_types: [
-					{ title: wp.i18n.__( 'Image files', 'jobboardwp' ), extensions: extensions },
-				],
-				prevent_duplicates: true,
-				max_file_count: 1
-			},
+			filters: attrs,
 			init: {
 				Error: function ( up, err ) {
 					$errorlist.html( '<p>' + wp.i18n.__( 'Error!', 'jobboardwp' ) + ' ' + err.message + '</p>' );
