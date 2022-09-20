@@ -86,7 +86,7 @@ jQuery( document ).ready( function($) {
 		var $filelist = $button.parents('.jb-uploader-dropzone');
 		var $button_wrapper = $button.parents('.jb-select-media-button-wrapper');
 		var $errorlist = $filelist.siblings( '.jb-uploader-errorlist' );
-		var extensions = wp.hooks.applyFilters( 'jb_job_uploader_extensions', 'jpg,jpeg,gif,png,bmp,ico,tiff' );
+		var extensions = wp.hooks.applyFilters( 'jb_job_uploader_extensions', 'jpg,jpeg,gif,png,bmp,ico,tiff', $button );
 
 		var uploader = new plupload.Uploader({
 			browse_button: $button.get( 0 ), // you can pass in id...
