@@ -60,23 +60,6 @@ class Modules {
 	 */
 	public function __construct() {
 		add_action( 'jb_core_loaded', array( &amp;$this, 'predefined_modules' ), 0 );
-		// temporarily disable
-		// add_filter( 'jb_module_can_activate', array( &amp;$this, 'maybe_disable_module_activation' ), 9, 2 );
-	}
-
-	/**
-	 * @param $can_activate
-	 * @param $slug
-	 *
-	 * @return bool
-	 */
-	public function maybe_disable_module_activation( $can_activate, $slug ) {
-		$free_modules = JB()->config()->get( 'modules' );
-		if ( ! array_key_exists( $slug, $free_modules ) ) {
-			$can_activate = false;
-		}
-
-		return $can_activate;
 	}
 
 	/**
