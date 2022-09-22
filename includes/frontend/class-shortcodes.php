@@ -238,7 +238,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		public function render_section( $html, $section_data, $form_data ) {
 			if ( 'my-details' === $section_data['key'] ) {
 				// phpcs:disable Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- needed for strict output style attribute
-				if ( JB()->options()->get( 'account-creation' ) && ! is_user_logged_in() ) {
+				if ( ( JB()->options()->get( 'account-creation' ) && ! is_user_logged_in() ) || ( ! JB()->options()->get( 'account-creation' ) && ! is_user_logged_in() ) ) {
 
 					$id     = isset( $form_data['id'] ) ? $form_data['id'] : 'jb-frontend-form-' . uniqid();
 					$name   = isset( $form_data['name'] ) ? $form_data['name'] : $id;
@@ -286,18 +286,28 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 								echo wp_kses( __( 'If you don\'t have an account you can create one below by entering your email address or <a href="#" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
 							}
 						} else {
-							if ( ! JB()->options()->get( 'account-username-generate' ) ) {
-								echo wp_kses( __( 'If you don\'t have an account you can optionally create one below by entering your email address/username or <a href="#" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
+							if ( JB()->options()->get( 'account-creation' ) ) {
+								if ( ! JB()->options()->get( 'account-username-generate' ) ) {
+									echo wp_kses( __( 'If you don\'t have an account you can optionally create one below by entering your email address/username or <a href="#" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
+								} else {
+									echo wp_kses( __( 'If you don\'t have an account you can optionally create one below by entering your email address or <a href="#" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
+								}
 							} else {
-								echo wp_kses( __( 'If you don\'t have an account you can optionally create one below by entering your email address or <a href="#" id="jb-show-login-form">sign in</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
+								echo wp_kses( __( '<a href="#" id="jb-show-login-form">Sign in</a> to post a job.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) );
 							}
 						}
 						?>
 					</p>
 
-					<p id="jb-sign-up-notice" class="jb-form-pre-section-notice"<?php if ( ! $visible_login ) { ?> style="display: none;"<?php } ?>>
-						<?php echo wp_kses( __( 'You could login below or <a href="#" id="jb-hide-login-form">create account</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) ); ?>
-					</p>
+					<?php
+					if ( JB()->options()->get( 'account-creation' ) ) {
+						?>
+						<p id="jb-sign-up-notice" class="jb-form-pre-section-notice"<?php if ( ! $visible_login ) { ?> style="display: none;"<?php } ?>>
+							<?php echo wp_kses( __( 'You could login below or <a href="#" id="jb-hide-login-form">create account</a>.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) ); ?>
+						</p>
+						<?php
+					}
+					?>
 
 					<div id="jb-login-form-wrapper"<?php if ( ! $visible_login ) { ?> style="display: none;"<?php } ?>>
 
@@ -347,20 +357,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					<?php
 					echo wp_kses( '<form action="' . esc_attr( $action ) . '" method="' . esc_attr( $method ) . '" name="' . esc_attr( $name ) . '" id="' . esc_attr( $id ) . '" class="jb-form" ' . $data_attr . '>', JB()->get_allowed_html( 'templates' ) );
 
-					$html .= ob_get_clean();
-				} elseif ( ! JB()->options()->get( 'account-creation' ) && ! is_user_logged_in() ) {
-					ob_start();
-					?>
-
-					<p>
-						<?php
-						/** @noinspection HtmlUnknownTarget */
-						// translators: %s: login link
-						echo wp_kses( sprintf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), esc_attr( wp_login_url( get_permalink() ) ) ), JB()->get_allowed_html( 'templates' ) );
-						?>
-					</p>
-
-					<?php
 					$html .= ob_get_clean();
 				}
 				// phpcs:enable Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- needed for strict output style attribute
