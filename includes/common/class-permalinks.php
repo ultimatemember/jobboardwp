@@ -77,6 +77,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 				if ( ! empty( $postid ) && $postid === $this->get_predefined_page_id( 'job-post' ) ) {
 					// phpcs:ignore WordPress.Security.NonceVerification
 					if ( ! empty( $_GET['redirect_to'] ) && esc_url_raw( $_GET['redirect_to'] ) === $_SERVER['HTTP_REFERER'] ) {
+						$error->remove( 'authentication_failed' );
 						return;
 					}
 

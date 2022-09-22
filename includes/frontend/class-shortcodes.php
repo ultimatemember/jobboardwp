@@ -24,12 +24,23 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			add_shortcode( 'jb_post_job', array( &$this, 'job_post' ) );
 			add_filter( 'jb_forms_before_render_section', array( &$this, 'render_section' ), 10, 3 );
 
+			add_filter( 'login_form_middle', array( $this, 'add_login_form_hidden' ), 10, 2 );
+
 			add_shortcode( 'jb_job', array( &$this, 'single_job' ) );
 			add_shortcode( 'jb_jobs', array( &$this, 'jobs' ) );
 			add_shortcode( 'jb_jobs_dashboard', array( &$this, 'jobs_dashboard' ) );
 			add_shortcode( 'jb_job_categories_list', array( &$this, 'job_categories_list' ) );
 
 			add_shortcode( 'jb_recent_jobs', array( &$this, 'recent_jobs' ) );
+		}
+
+		public function add_login_form_hidden( $content, $args ) {
+			if ( ! ( array_key_exists( 'form_id', $args ) && 'jb-loginform' === $args['form_id'] ) ) {
+				return $content;
+			}
+
+			$content .= '<input type="hidden" name="jb_login_form" value="1" />';
+			return $content;
 		}
 
 
@@ -336,6 +347,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 							'label_log_in'   => __( 'Log In', 'jobboardwp' ),
 							'value_username' => '',
 							'value_remember' => false,
+							'jb_login_form'  => true,
 						);
 
 						echo wp_login_form( $login_args );
