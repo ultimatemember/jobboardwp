@@ -144,28 +144,28 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1931688720"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-206178728"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1931688720" class="accordion-body collapse in">
+            <div id="namespace-206178728" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1830463110"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1860434167"></a>
                                 <a href="../namespaces/jb.html" style="margin-left: 30px; padding-left: 0">jb</a>
             </div>
-            <div id="namespace-1830463110" class="accordion-body collapse ">
+            <div id="namespace-1860434167" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-726690686"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1029034779"></a>
                                 <a href="../namespaces/jb-admin.html" style="margin-left: 30px; padding-left: 0">admin</a>
             </div>
-            <div id="namespace-726690686" class="accordion-body collapse ">
+            <div id="namespace-1029034779" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -193,10 +193,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-110592001"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1740457286"></a>
                                 <a href="../namespaces/jb-ajax.html" style="margin-left: 30px; padding-left: 0">ajax</a>
             </div>
-            <div id="namespace-110592001" class="accordion-body collapse ">
+            <div id="namespace-1740457286" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -215,10 +215,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-173271059"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1107187024"></a>
                                 <a href="../namespaces/jb-common.html" style="margin-left: 30px; padding-left: 0">common</a>
             </div>
-            <div id="namespace-173271059" class="accordion-body collapse ">
+            <div id="namespace-1107187024" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -244,10 +244,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1267742498"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-421831662"></a>
                                 <a href="../namespaces/jb-frontend.html" style="margin-left: 30px; padding-left: 0">frontend</a>
             </div>
-            <div id="namespace-1267742498" class="accordion-body collapse ">
+            <div id="namespace-421831662" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -268,10 +268,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1976897232"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-280464458"></a>
                                 <a href="../namespaces/jb-integrations.html" style="margin-left: 30px; padding-left: 0">integrations</a>
             </div>
-            <div id="namespace-1976897232" class="accordion-body collapse ">
+            <div id="namespace-280464458" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -286,10 +286,10 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1894253124"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-775044158"></a>
                                 <a href="../namespaces/jb-widgets.html" style="margin-left: 30px; padding-left: 0">widgets</a>
             </div>
-            <div id="namespace-1894253124" class="accordion-body collapse ">
+            <div id="namespace-775044158" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -520,11 +520,24 @@ eather username or password is empty.</em></p>
             <article class="method">
                 <h3 class="public ">login_failed()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">login_failed() : void</pre>
+                <pre class="signature" style="margin-right: 54px;">login_failed(string  <span class="argument">$username</span>, \WP_Error  <span class="argument">$error = null</span>) : void</pre>
                 <p><em>Redirects visitor to the login page with login
 failed status.</em></p>
                 
 
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$username </td>
+                                <td><p>Username or email address.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>\WP_Error</td>
+                                <td>$error </td>
+                                <td><p>A WP_Error object with the authentication failure details.</p></td>
+                            </tr>
+                                            </table>
                 
                 
                 
@@ -951,7 +964,7 @@ failed status.</em></p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on September 20th, 2022 at 11:01.
+                    on September 22nd, 2022 at 13:59.
                 </section>
             </section>
         </section>
