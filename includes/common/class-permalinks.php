@@ -20,7 +20,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		 * Permalinks constructor.
 		 */
 		public function __construct() {
-			add_action( 'wp_login_failed', array( &$this, 'login_failed' ) );
+			add_action( 'wp_login_failed', array( &$this, 'login_failed' ), 10, 2 );
 			add_filter( 'authenticate', array( &$this, 'verify_username_password' ), 1, 3 );
 		}
 
@@ -60,11 +60,14 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		 * Redirects visitor to the login page with login
 		 * failed status.
 		 *
+		 * @param string    $username Username or email address.
+		 * @param \WP_Error $error    A WP_Error object with the authentication failure details.
+		 *
 		 * @return void
 		 *
 		 * @since 1.0
 		 */
-		public function login_failed() {
+		public function login_failed( $username, $error = null ) {
 			//use WP native function for fill $_SERVER variables by correct values
 			wp_fix_server_vars();
 
@@ -74,6 +77,11 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 				if ( ! empty( $postid ) && $postid === $this->get_predefined_page_id( 'job-post' ) ) {
 					// phpcs:ignore WordPress.Security.NonceVerification
 					if ( ! empty( $_GET['redirect_to'] ) && esc_url_raw( $_GET['redirect_to'] ) === $_SERVER['HTTP_REFERER'] ) {
+						return;
+					}
+
+					// phpcs:ignore WordPress.Security.NonceVerification
+					if ( '' === $username && isset( $_GET['loggedout'] ) && 'true' === $_GET['loggedout'] ) {
 						return;
 					}
 
