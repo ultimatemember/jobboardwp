@@ -397,10 +397,11 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 					if ( ! $posting_form->has_errors() ) {
 						// Update account.
 						$userdata = array(
-							'ID'         => $user_id,
-							'user_email' => $author_email,
-							'first_name' => $author_fname,
-							'last_name'  => $author_lname,
+							'ID'           => $user_id,
+							'user_email'   => $author_email,
+							'first_name'   => $author_fname,
+							'last_name'    => $author_lname,
+							'display_name' => $author_fname . ' ' . $author_lname,
 						);
 
 						/**
