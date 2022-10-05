@@ -57,7 +57,7 @@ class Recent_Jobs extends \WP_Widget {
 		$shortcode_args_line = '';
 		$shortcode_args      = wp_parse_args( $instance, $default );
 		foreach ( $shortcode_args as $key => $arg ) {
-			if ( 'title' === $key ) {
+			if ( ! in_array( $key, array( 'number', 'category', 'type', 'remote_only', 'orderby', 'hide_filled', 'no_logo', 'no_job_types' ), true ) ) {
 				continue;
 			}
 

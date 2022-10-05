@@ -481,6 +481,16 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			remove_filter( 'get_meta_sql', array( &$this, 'change_meta_sql' ), 10 );
 			remove_filter( 'posts_search_orderby', array( &$this, 'relevance_search' ), 10 );
 
+			/**
+			 * Fires after Jobs List query get results.
+			 *
+			 * @since 1.3.0
+			 * @hook jb_after_get_jobs_query
+			 *
+			 * @param {WP_Query} $jobs_query WP_Query for getting Jobs in the list.
+			 */
+			do_action( 'jb_after_get_jobs_query', $jobs_query );
+
 			$jobs = array();
 			if ( ! empty( $jobs_query ) ) {
 				foreach ( $jobs_query as $job_post ) {
