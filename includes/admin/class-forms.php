@@ -652,7 +652,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				$name_attr = ' name="' . esc_attr( $name ) . '[]" ';
 				foreach ( $field_data['options'] as $optkey => $option ) {
 					$id_attr = ' id="' . $id . '-' . $optkey . '" ';
-					if ( in_array( $optkey, $values, false ) ) {
+					if ( in_array( (string) $optkey, $values, true ) ) {
 						$checked = 'checked';
 					} else {
 						$checked = '';
