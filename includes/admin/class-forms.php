@@ -721,7 +721,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 							$value = array();
 						}
 
-						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( in_array( $key, $value, true ), true, false ) . '>' . esc_html( $option ) . '</option>';
+						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( in_array( (string) $key, $value, true ), true, false ) . '>' . esc_html( $option ) . '</option>';
 					} else {
 						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( (string) $key === $value, true, false ) . '>' . esc_html( $option ) . '</option>';
 					}
