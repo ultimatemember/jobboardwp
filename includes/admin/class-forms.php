@@ -621,7 +621,6 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 		 * @since 1.0
 		 */
 		public function render_checkbox( $field_data ) {
-//		    print_r($field_data);
 			if ( empty( $field_data['id'] ) ) {
 				return '';
 			}
@@ -647,13 +646,13 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
 			$name_attr = ' name="' . esc_attr( $name ) . '" ';
 
-			if ( ! empty( $field_data['options'] ) ){
+			if ( ! empty( $field_data['options'] ) ) {
 				$values    = $this->get_field_value( $field_data );
 				$html      = '';
 				$name_attr = ' name="' . esc_attr( $name ) . '[]" ';
 				foreach ( $field_data['options'] as $optkey => $option ) {
 					$id_attr = ' id="' . $id . '-' . $optkey . '" ';
-					if ( in_array( $optkey,$values ) ){
+					if ( in_array( $optkey, $values, true ) ) {
 						$checked = 'checked';
 					} else {
 						$checked = '';
@@ -662,7 +661,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				}
 			} else {
 				$value = $this->get_field_value( $field_data );
-				$html = "<input type=\"hidden\" $id_attr_hidden $name_attr value=\"0\" /><input type=\"checkbox\" $id_attr $class_attr $name_attr $data_attr " . checked( $value, true, false ) . ' value="1" />';
+				$html  = "<input type=\"hidden\" $id_attr_hidden $name_attr value=\"0\" /><input type=\"checkbox\" $id_attr $class_attr $name_attr $data_attr " . checked( $value, true, false ) . ' value="1" />';
 			}
 
 			return $html;
