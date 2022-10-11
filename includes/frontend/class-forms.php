@@ -60,7 +60,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			'label',
 			'datepicker',
 			'radio',
-			'checkbox'
+			'checkbox',
 		);
 
 
