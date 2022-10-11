@@ -59,6 +59,8 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			'media',
 			'label',
 			'datepicker',
+			'radio',
+			'checkbox'
 		);
 
 
@@ -897,6 +899,101 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				if ( ! empty( $cond_html ) ) {
 					$html .= '<span data-visible-if="' . esc_attr( $optkey ) . '">' . $cond_html . '</span>';
 				}
+			}
+
+			return $html;
+		}
+
+
+		/**
+		 * Render radio
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_radio( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			if ( empty( $field_data['options'] ) ) {
+				return '';
+			}
+
+			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $field_data['id'];
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class     .= ! empty( $field_data['size'] ) ? $field_data['size'] : ' jb-long-field';
+			$class_attr = ' class="jb-forms-field jb-forms-condition-option' . esc_attr( $class ) . '" ';
+
+			$data = array( 'field_id' => $field_data['id'] );
+
+			$data_attr = '';
+			foreach ( $data as $key => $val ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $val ) . '" ';
+			}
+
+			$name      = $field_data['id'];
+			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$value = $this->get_field_value( $field_data );
+
+			$html = '';
+			foreach ( $field_data['options'] as $optkey => $option ) {
+				$id_attr = ' id="' . $id . '-' . $optkey . '" ';
+
+				$html .= "<label><input type=\"radio\" $id_attr $class_attr $name_attr $data_attr " . checked( $value, $optkey, false ) . ' value="' . esc_attr( $optkey ) . '" />&nbsp;' . $option . '</label>';
+			}
+
+			return $html;
+		}
+
+		/**
+		 * Render checkbox
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_checkbox( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			if ( empty( $field_data['options'] ) ) {
+				return '';
+			}
+
+			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $field_data['id'];
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class     .= ! empty( $field_data['size'] ) ? $field_data['size'] : ' jb-long-field';
+			$class_attr = ' class="jb-forms-field jb-forms-condition-option' . esc_attr( $class ) . '" ';
+
+			$data = array( 'field_id' => $field_data['id'] );
+
+			$data_attr = '';
+			foreach ( $data as $key => $val ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $val ) . '" ';
+			}
+
+			$name      = $field_data['id'];
+			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$value = $this->get_field_value( $field_data );
+
+			$html = '';
+			foreach ( $field_data['options'] as $optkey => $option ) {
+				$id_attr = ' id="' . $id . '-' . $optkey . '" ';
+
+				$html .= "<label><input type=\"checkbox\" $id_attr $class_attr $name_attr $data_attr " . checked( $value, $optkey, false ) . ' value="' . esc_attr( $optkey ) . '" />&nbsp;' . $option . '</label>';
 			}
 
 			return $html;
