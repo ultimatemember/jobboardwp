@@ -621,6 +621,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 		 * @since 1.0
 		 */
 		public function render_checkbox( $field_data ) {
+//		    print_r($field_data);
 			if ( empty( $field_data['id'] ) ) {
 				return '';
 			}
@@ -646,10 +647,23 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
 			$name_attr = ' name="' . esc_attr( $name ) . '" ';
 
-			$value = $this->get_field_value( $field_data );
-
-			$html = "<input type=\"hidden\" $id_attr_hidden $name_attr value=\"0\" />
-			<input type=\"checkbox\" $id_attr $class_attr $name_attr $data_attr " . checked( $value, true, false ) . ' value="1" />';
+			if ( ! empty( $field_data['options'] ) ){
+				$values    = $this->get_field_value( $field_data );
+				$html      = '';
+				$name_attr = ' name="' . esc_attr( $name ) . '[]" ';
+				foreach ( $field_data['options'] as $optkey => $option ) {
+					$id_attr = ' id="' . $id . '-' . $optkey . '" ';
+					if ( in_array( $optkey,$values ) ){
+						$checked = 'checked';
+					} else {
+						$checked = '';
+					}
+					$html .= "<label><input type=\"checkbox\" $id_attr $name_attr $data_attr " . $checked . ' value="' . esc_attr( $optkey ) . '" />&nbsp;' . $option . '</label>';
+				}
+			} else {
+				$value = $this->get_field_value( $field_data );
+				$html = "<input type=\"hidden\" $id_attr_hidden $name_attr value=\"0\" /><input type=\"checkbox\" $id_attr $class_attr $name_attr $data_attr " . checked( $value, true, false ) . ' value="1" />';
+			}
 
 			return $html;
 		}
@@ -961,6 +975,49 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			}
 
 			return $value;
+		}
+
+		/**
+		 * Render radio
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_radio( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			if ( empty( $field_data['options'] ) ) {
+				return '';
+			}
+
+			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $field_data['id'];
+
+			$data = array( 'field_id' => $field_data['id'] );
+
+			$data_attr = '';
+			foreach ( $data as $key => $val ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $val ) . '" ';
+			}
+
+			$name      = $field_data['id'];
+			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$value = $this->get_field_value( $field_data );
+
+			$html = '';
+			foreach ( $field_data['options'] as $optkey => $option ) {
+				$id_attr = ' id="' . $id . '-' . $optkey . '" ';
+
+				$html .= "<label><input type=\"radio\" $id_attr $name_attr $data_attr " . checked( $value, $optkey, false ) . ' value="' . esc_attr( $optkey ) . '" />&nbsp;' . $option . '</label>';
+			}
+
+			return $html;
 		}
 	}
 }
