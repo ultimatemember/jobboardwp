@@ -284,11 +284,11 @@
   .jb-uploaded-wrapper.jb-waiting-change {
     display: block; }
     .jb-uploaded-wrapper.jb-waiting-change .jb-uploaded-content-wrapper {
-      display: none; }
+      display: none !important; }
     .jb-uploaded-wrapper.jb-waiting-change .jb-cancel-change-media {
-      display: inline; }
+      display: inline !important; }
     .jb-uploaded-wrapper.jb-waiting-change .jb-change-media {
-      display: none; }
+      display: none !important; }
 
 .jb-uploader {
   width: 100%;
