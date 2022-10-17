@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-10-05T02:08:26+00:00\n"
+"POT-Creation-Date: 2022-10-17T11:12:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.6.0\n"
+"X-Generator: WP-CLI 2.7.0\n"
 "X-Domain: jobboardwp\n"
 
 #. Plugin Name of the plugin
@@ -2598,20 +2598,20 @@ msgstr ""
 msgid "Number"
 msgstr ""
 
-#: assets/frontend/js/forms.js:103
+#: assets/frontend/js/forms.js:105
 msgid "Image files"
 msgstr ""
 
-#: assets/frontend/js/forms.js:110
+#: assets/frontend/js/forms.js:112
 msgid "Error!"
 msgstr ""
 
-#: assets/frontend/js/forms.js:145
+#: assets/frontend/js/forms.js:142
 msgid "Error! Wrong file upload server response."
 msgstr ""
 
 #. translators: %s is the error status code.
-#: assets/frontend/js/forms.js:160
+#: assets/frontend/js/forms.js:157
 msgid "File was not loaded, Status Code %s"
 msgstr ""
 
