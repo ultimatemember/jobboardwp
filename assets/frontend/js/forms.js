@@ -29,6 +29,7 @@ jQuery( document ).ready( function($) {
 	 *
 	 * @type {*|jQuery|HTMLElement}
 	 */
+	var uploader;
 	var datepicker = $('.jb-datepicker');
 	if ( datepicker.length ) {
 		datepicker.each( function() {
@@ -74,6 +75,7 @@ jQuery( document ).ready( function($) {
 
 	$( document.body ).on( 'click', '.jb-clear-media', function(e) {
 		e.preventDefault();
+		uploader.splice();
 		$(this).parents('.jb-uploaded-wrapper').siblings('.jb-media-value').val('');
 		$(this).parents('.jb-uploaded-wrapper').siblings('.jb-media-value-hash').val('');
 		$(this).parents('.jb-uploaded-wrapper').removeClass('jb-uploaded').removeClass('jb-waiting-change');
@@ -130,11 +132,6 @@ jQuery( document ).ready( function($) {
 					if ( ! $filelist.find( '.jb-uploader-file' ).length ) {
 						$errorlist.empty();
 					}
-
-					$button.prop( 'jb-uploader-data', $.extend( args, {
-						files: files
-					} ) );
-
 				},
 				FileUploaded: function ( up, file, result ) {
 					if ( result.status === 200 && result.response ) {
@@ -172,7 +169,7 @@ jQuery( document ).ready( function($) {
 		};
 		uploader_args = wp.hooks.applyFilters( 'jb_job_uploader_filters_attrs', uploader_args, $button );
 
-		var uploader = new plupload.Uploader( uploader_args );
+		uploader = new plupload.Uploader( uploader_args );
 		uploader.init();
 	});
 });
