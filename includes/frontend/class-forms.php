@@ -692,7 +692,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
 			$name_attr = ' name="' . esc_attr( $name ) . '" ';
 
-			$value = esc_attr( $this->get_field_value( $field_data ) );
+			$value = esc_textarea( $this->get_field_value( $field_data ) );
 
 			$html = "<textarea $id_attr $class_attr $name_attr $data_attr $placeholder_attr $required >$value</textarea>";
 
@@ -813,7 +813,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				return '';
 			}
 
-			if ( empty( $field_data['ignore_predefined_options'] ) && empty( $field_data['options'] ) ) {
+			if ( empty( $field_data['ignore_predefined_options'] ) && ! isset( $field_data['options'] ) ) {
 				return '';
 			}
 
@@ -962,7 +962,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				return '';
 			}
 
-			if ( empty( $field_data['options'] ) ) {
+			if ( ! isset( $field_data['options'] ) ) {
 				return '';
 			}
 
@@ -1009,7 +1009,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				return '';
 			}
 
-			if ( empty( $field_data['options'] ) ) {
+			if ( ! isset( $field_data['options'] ) ) {
 				return '';
 			}
 
