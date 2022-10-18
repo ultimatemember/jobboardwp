@@ -636,9 +636,11 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
 			$name_attr = ' name="' . esc_attr( $name ) . '" ';
 
+			$disabled = ! empty( $field_data['disabled'] ) ? 'disabled' : '';
+
 			$value = $this->get_field_value( $field_data );
 
-			$html = "&lt;textarea $id_attr $class_attr $name_attr $data_attr $rows>" . esc_textarea( $value ) . '&lt;/textarea>';
+			$html = "&lt;textarea $id_attr $class_attr $name_attr $data_attr $rows $disabled>" . esc_textarea( $value ) . '&lt;/textarea>';
 
 			return $html;
 		}
@@ -679,6 +681,8 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
 			$name_attr = ' name="' . esc_attr( $name ) . '" ';
 
+			$disabled = ! empty( $field_data['disabled'] ) ? 'disabled' : '';
+
 			if ( ! empty( $field_data['options'] ) ) {
 				$values    = $this->get_field_value( $field_data );
 				$html      = '';
@@ -690,11 +694,11 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 					} else {
 						$checked = '';
 					}
-					$html .= "&lt;label>&lt;input type=\"checkbox\" $id_attr $name_attr $data_attr " . $checked . ' value="' . esc_attr( $optkey ) . '" />&amp;nbsp;' . $option . '&lt;/label>';
+					$html .= "&lt;label>&lt;input $disabled type=\"checkbox\" $id_attr $name_attr $data_attr " . $checked . ' value="' . esc_attr( $optkey ) . '" />&amp;nbsp;' . $option . '&lt;/label>';
 				}
 			} else {
 				$value = $this->get_field_value( $field_data );
-				$html  = "&lt;input type=\"hidden\" $id_attr_hidden $name_attr value=\"0\" />&lt;input type=\"checkbox\" $id_attr $class_attr $name_attr $data_attr " . checked( $value, true, false ) . ' value="1" />';
+				$html  = "&lt;input type=\"hidden\" $id_attr_hidden $name_attr value=\"0\" />&lt;input $disabled type=\"checkbox\" $id_attr $class_attr $name_attr $data_attr " . checked( $value, true, false ) . ' value="1" />';
 			}
 
 			return $html;
@@ -743,6 +747,8 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$name      = $name . ( ! empty( $field_data['multi'] ) ? '[]' : '' );
 			$name_attr = ' name="' . esc_attr( $name ) . '" ';
 
+			$disabled = ! empty( $field_data['disabled'] ) ? 'disabled' : '';
+
 			$value = $this->get_field_value( $field_data );
 
 			$options = '';
@@ -765,7 +771,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			if ( ! empty( $multiple ) ) {
 				$hidden = "&lt;input type=\"hidden\" $hidden_name_attr value=\"\" />";
 			}
-			$html = "$hidden&lt;select $multiple $id_attr $name_attr $class_attr $data_attr>$options&lt;/select>";
+			$html = "$hidden&lt;select $disabled $multiple $id_attr $name_attr $class_attr $data_attr>$options&lt;/select>";
 
 			return $html;
 		}
