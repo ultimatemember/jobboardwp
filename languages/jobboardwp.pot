@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-10-17T16:06:05+00:00\n"
+"POT-Creation-Date: 2022-10-18T22:53:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: jobboardwp\n"
 
 #. Plugin Name of the plugin
@@ -178,24 +178,24 @@ msgstr ""
 msgid "Required"
 msgstr ""
 
-#: includes/admin/class-forms.php:699
+#: includes/admin/class-forms.php:703
 #: includes/frontend/class-forms.php:832
 msgid "Please select..."
 msgstr ""
 
-#: includes/admin/class-forms.php:817
+#: includes/admin/class-forms.php:823
 msgid "Create Default"
 msgstr ""
 
-#: includes/admin/class-forms.php:911
+#: includes/admin/class-forms.php:917
 msgid "Select media"
 msgstr ""
 
-#: includes/admin/class-forms.php:939
+#: includes/admin/class-forms.php:945
 msgid "Select"
 msgstr ""
 
-#: includes/admin/class-forms.php:940
+#: includes/admin/class-forms.php:946
 msgid "Clear"
 msgstr ""
 
