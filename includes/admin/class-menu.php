@@ -234,7 +234,7 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 
 					if ( empty( $email_key ) || empty( $email_notifications[ $email_key ] ) ) {
 						// phpcs:ignore WordPress.Security.NonceVerification
-						if ( ! empty( $_GET['_wp_http_referer'] ) ) {
+						if ( ! empty( $_GET['_wp_http_referer'] ) && 'modules' !== $current_tab ) {
 							// phpcs:ignore WordPress.Security.SafeRedirect -- admin screen redirect
 							wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
 							exit;
