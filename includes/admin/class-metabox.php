@@ -191,10 +191,10 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			 */
 			$location_type_disable = apply_filters( 'jb_location_type_disable', false );
 			if ( false === (bool) $location_type_disable ) {
-				if ( !isset($_POST['jb-job-meta']['jb-location-type']) ) {
+				if ( ! isset( $_POST['jb-job-meta']['jb-location-type'] ) ) {
 					return;
 				}
-				if ( sanitize_text_field($_POST['jb-job-meta']['jb-location-type']) === '0' && empty($_POST['jb-job-meta']['jb-location']) ) {
+				if ( sanitize_text_field( $_POST['jb-job-meta']['jb-location-type'] ) === '0' && empty( $_POST['jb-job-meta']['jb-location'] ) ) {
 					return;
 				}
 			}
