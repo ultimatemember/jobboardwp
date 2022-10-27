@@ -411,7 +411,9 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$value      = $this->get_field_value( $field_data );
 			$value_attr = ' value="' . esc_attr( $value ) . '" ';
 
-			$html = "<input type=\"text\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $required />";
+			$disabled = ! empty( $field_data['disabled'] ) ? 'disabled' : '';
+
+			$html = "<input type=\"text\" $disabled $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $required />";
 
 			return $html;
 		}
