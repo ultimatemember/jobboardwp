@@ -179,11 +179,24 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			}
 
 			// location validation
-			if ( ! isset( $_POST['jb-job-meta']['jb-location-type'] ) ) {
-				return;
-			}
-			if ( sanitize_text_field( $_POST['jb-job-meta']['jb-location-type'] ) === '0' && empty( $_POST['jb-job-meta']['jb-location'] ) ) {
-				return;
+			/**
+			 * Filters the checking job location type.
+			 *
+			 * @since 1.3.0
+			 * @hook jb_location_type_disable
+			 *
+			 * @param {bool} $disable Cheking job location type. Set to true if disable job location type.
+			 *
+			 * @return {bool} Login form visibility.
+			 */
+			$location_type_disable = apply_filters( 'jb_location_type_disable', false );
+			if ( false === (bool) $location_type_disable ) {
+				if ( !isset($_POST['jb-job-meta']['jb-location-type']) ) {
+					return;
+				}
+				if ( sanitize_text_field($_POST['jb-job-meta']['jb-location-type']) === '0' && empty($_POST['jb-job-meta']['jb-location']) ) {
+					return;
+				}
 			}
 
 			$sanitize_map = array(
