@@ -870,7 +870,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 							$selected = '';
 						}
 						$options .= '<option value="' . esc_attr( $key ) . '" ' . $selected . '>' . esc_html( $option ) . '</option>';
-                    } else {
+					} else {
 						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( $value, $key, false ) . '>' . esc_html( $option ) . '</option>';
 					}
 				}
@@ -1048,9 +1048,9 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 					} else {
 						$checked = '';
 					}
-                } else {
+				} else {
 					$checked = checked( $value, $optkey, false );
-                }
+				}
 
 				$html .= "<label><input type=\"checkbox\" $id_attr $class_attr $name_attr $data_attr " . $checked . ' value="' . esc_attr( $optkey ) . '" />&nbsp;' . $option . '</label>';
 			}
