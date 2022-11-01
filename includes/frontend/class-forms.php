@@ -858,12 +858,19 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$options = '';
 			if ( ! empty( $field_data['options'] ) ) {
 				foreach ( $field_data['options'] as $key => $option ) {
-					if ( ! empty( $field_data['multi'] ) ) {
+					if ( isset( $field_data['multi'] ) && ! empty( $field_data['multi'] && ! empty( $added_values ) ) ) {
 						if ( in_array( (string) $key, $value, true ) ) {
 							unset( $added_values[ array_search( (string) $key, $added_values, true ) ] );
 						}
 						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( in_array( (string) $key, $value, true ), true, false ) . '>' . esc_html( $option ) . '</option>';
-					} else {
+					} elseif ( isset( $field_data['multi'] ) && ! empty( $field_data['multi'] && is_array( $value ) ) ) {
+						if ( in_array( (string) $key, $value, true ) ) {
+							$selected = 'selected';
+						} else {
+							$selected = '';
+						}
+						$options .= '<option value="' . esc_attr( $key ) . '" ' . $selected . '>' . esc_html( $option ) . '</option>';
+                    } else {
 						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( $value, $key, false ) . '>' . esc_html( $option ) . '</option>';
 					}
 				}
@@ -1017,7 +1024,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
 			$class     .= ! empty( $field_data['size'] ) ? $field_data['size'] : ' jb-long-field';
-			$class_attr = ' class="jb-forms-field jb-forms-condition-option' . esc_attr( $class ) . '" ';
+			$class_attr = ' class="jb-forms-field' . esc_attr( $class ) . '" ';
 
 			$data = array( 'field_id' => $field_data['id'] );
 
@@ -1035,8 +1042,17 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$html = '';
 			foreach ( $field_data['options'] as $optkey => $option ) {
 				$id_attr = ' id="' . $id . '-' . $optkey . '" ';
+				if ( is_array( $value ) ) {
+					if ( in_array( (string) $optkey, $value, true ) ) {
+						$checked = 'checked';
+					} else {
+						$checked = '';
+					}
+                } else {
+					$checked = checked( $value, $optkey, false );
+                }
 
-				$html .= "<label><input type=\"checkbox\" $id_attr $class_attr $name_attr $data_attr " . checked( $value, $optkey, false ) . ' value="' . esc_attr( $optkey ) . '" />&nbsp;' . $option . '</label>';
+				$html .= "<label><input type=\"checkbox\" $id_attr $class_attr $name_attr $data_attr " . $checked . ' value="' . esc_attr( $optkey ) . '" />&nbsp;' . $option . '</label>';
 			}
 
 			return $html;
