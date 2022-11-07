@@ -15,14 +15,12 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 	 */
 	class Forms {
 
-
 		/**
 		 * @var bool
 		 *
 		 * @since 1.0
 		 */
 		public $form_data;
-
 
 		/**
 		 * @var string
@@ -31,18 +29,15 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		 */
 		public $error_class = 'jb-form-error-row';
 
-
 		/**
 		 * @var array
 		 */
 		public $errors = array();
 
-
 		/**
 		 * @var array
 		 */
 		public $notices = array();
-
 
 		/**
 		 * @var array
@@ -64,7 +59,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			'textarea',
 		);
 
-
 		/**
 		 * Forms constructor.
 		 *
@@ -75,7 +69,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				$this->form_data = $form_data;
 			}
 		}
-
 
 		/**
 		 * Set Form Data
@@ -90,7 +83,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$this->form_data = $data;
 			return $this;
 		}
-
 
 		/**
 		 * Render form
@@ -214,7 +206,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			}
 		}
 
-
 		/**
 		 * Validate type of the field
 		 *
@@ -227,7 +218,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		public function validate_type( $data ) {
 			return ( ! empty( $data['type'] ) && in_array( $data['type'], $this->types, true ) );
 		}
-
 
 		/**
 		 * Get field value
@@ -286,7 +276,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			// phpcs:enable WordPress.Security.NonceVerification -- there is already verified
 		}
 
-
 		/**
 		 * Render form row
 		 *
@@ -342,7 +331,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			return $html;
 		}
 
-
 		/**
 		 * Render form section
 		 *
@@ -396,7 +384,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			return $html;
 		}
 
-
 		/**
 		 * Render field label
 		 *
@@ -409,7 +396,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		public function render_label( $data ) {
 			return '<p>' . $data['label'] . '</p>';
 		}
-
 
 		/**
 		 * Render button
@@ -448,7 +434,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			return ob_get_clean();
 		}
 
-
 		/**
 		 * Render hidden field
 		 *
@@ -484,7 +469,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			return $html;
 		}
-
 
 		/**
 		 * Render field label
@@ -528,7 +512,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			return "<label $for_attr class=\"jb-form-row-label\">{$label}{$helptip}</label>";
 		}
-
 
 		/**
 		 * Render media uploader field
@@ -598,9 +581,9 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				<span id="jb_<?php echo esc_attr( $id ); ?>_filelist" class="jb-uploader-dropzone">
 					<span><?php esc_html_e( 'Drop file to upload', 'jobboardwp' ); ?></span>
 					<span><?php esc_html_e( 'or', 'jobboardwp' ); ?></span>
-					<div class="jb-select-media-button-wrapper">
+					<span class="jb-select-media-button-wrapper">
 						<input type="button" class="jb-select-media" data-action="<?php echo esc_attr( $field_data['action'] ); ?>" id="jb_<?php echo esc_attr( $id ); ?>_plupload" value="<?php echo esc_attr( $select_label ); ?>" />
-					</div>
+					</span>
 				</span>
 
 				<span id="jb-<?php echo esc_attr( $id ); ?>-errorlist" class="jb-uploader-errorlist"></span>
@@ -612,7 +595,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$html = ob_get_clean();
 			return $html;
 		}
-
 
 		/**
 		 * Render text field
@@ -699,7 +681,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			return $html;
 		}
 
-
 		/**
 		 * Render location autocomplete field
 		 *
@@ -753,7 +734,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			return $html;
 		}
 
-
 		/**
 		 * Render password field
 		 *
@@ -797,7 +777,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			return $html;
 		}
 
-
 		/**
 		 * Render dropdown field
 		 *
@@ -808,7 +787,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		 * @since 1.0
 		 */
 		public function render_select( $field_data ) {
-
 			if ( empty( $field_data['id'] ) ) {
 				return '';
 			}
@@ -858,11 +836,20 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$options = '';
 			if ( ! empty( $field_data['options'] ) ) {
 				foreach ( $field_data['options'] as $key => $option ) {
-					if ( ! empty( $field_data['multi'] ) ) {
+					if ( isset( $added_values ) ) {
 						if ( in_array( (string) $key, $value, true ) ) {
 							unset( $added_values[ array_search( (string) $key, $added_values, true ) ] );
 						}
-						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( in_array( (string) $key, $value, true ), true, false ) . '>' . esc_html( $option ) . '</option>';
+					}
+
+					if ( ! empty( $field_data['multi'] ) ) {
+						if ( is_array( $value ) ) {
+							$selected = selected( in_array( (string) $key, $value, true ), true, false );
+						} else {
+							$selected = selected( $value, $key, false );
+						}
+
+						$options .= '<option value="' . esc_attr( $key ) . '" ' . $selected . '>' . esc_html( $option ) . '</option>';
 					} else {
 						$options .= '<option value="' . esc_attr( $key ) . '" ' . selected( $value, $key, false ) . '>' . esc_html( $option ) . '</option>';
 					}
@@ -883,7 +870,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			return $html;
 		}
-
 
 		/**
 		 * Render conditional radio
@@ -947,7 +933,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			return $html;
 		}
 
-
 		/**
 		 * Render radio
 		 *
@@ -970,7 +955,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
 			$class     .= ! empty( $field_data['size'] ) ? $field_data['size'] : ' jb-long-field';
-			$class_attr = ' class="jb-forms-field jb-forms-condition-option' . esc_attr( $class ) . '" ';
+			$class_attr = ' class="jb-forms-field' . esc_attr( $class ) . '" ';
 
 			$data = array( 'field_id' => $field_data['id'] );
 
@@ -989,7 +974,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			foreach ( $field_data['options'] as $optkey => $option ) {
 				$id_attr = ' id="' . $id . '-' . $optkey . '" ';
 
-				$html .= "<label><input type=\"radio\" $id_attr $class_attr $name_attr $data_attr " . checked( $value, $optkey, false ) . ' value="' . esc_attr( $optkey ) . '" />&nbsp;' . $option . '</label>';
+				$html .= "<label><input type=\"radio\" $id_attr $class_attr $name_attr $data_attr " . checked( $value, $optkey, false ) . ' value="' . esc_attr( $optkey ) . '" />&nbsp;' . esc_html( $option ) . '</label>';
 			}
 
 			return $html;
@@ -1017,7 +1002,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
 			$class     .= ! empty( $field_data['size'] ) ? $field_data['size'] : ' jb-long-field';
-			$class_attr = ' class="jb-forms-field jb-forms-condition-option' . esc_attr( $class ) . '" ';
+			$class_attr = ' class="jb-forms-field' . esc_attr( $class ) . '" ';
 
 			$data = array( 'field_id' => $field_data['id'] );
 
@@ -1036,12 +1021,16 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			foreach ( $field_data['options'] as $optkey => $option ) {
 				$id_attr = ' id="' . $id . '-' . $optkey . '" ';
 
-				$html .= "<label><input type=\"checkbox\" $id_attr $class_attr $name_attr $data_attr " . checked( $value, $optkey, false ) . ' value="' . esc_attr( $optkey ) . '" />&nbsp;' . $option . '</label>';
+				if ( is_array( $value ) ) {
+					$checked = checked( in_array( (string) $optkey, $value, true ), true, false );
+				} else {
+					$checked = checked( $value, $optkey, false );
+				}
+				$html .= "<label><input type=\"checkbox\" $id_attr $class_attr $name_attr $data_attr $checked value=\"" . esc_attr( $optkey ) . '" />&nbsp;' . esc_html( $option ) . '</label>';
 			}
 
 			return $html;
 		}
-
 
 		/**
 		 * Render WP Editor field
@@ -1130,7 +1119,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			return $editor_contents;
 		}
 
-
 		/**
 		 * Remove unusable MCE button for JB WP Editors
 		 *
@@ -1159,7 +1147,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			return $mce_buttons;
 		}
-
 
 		/**
 		 * Render datepicker field
@@ -1206,7 +1193,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			return $html;
 		}
 
-
 		/**
 		 * Add form error
 		 *
@@ -1249,7 +1235,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			}
 		}
 
-
 		/**
 		 * Add form notice
 		 *
@@ -1273,7 +1258,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$this->notices[ $key ] = apply_filters( 'jb_form_notice', $text, $key );
 		}
 
-
 		/**
 		 * If a form has error by field key
 		 *
@@ -1286,7 +1270,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			return ! empty( $this->errors[ $field ] ) || ! empty( $this->errors[ $field ] );
 		}
 
-
 		/**
 		 * If a form has errors
 		 *
@@ -1297,7 +1280,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		public function has_errors() {
 			return ! empty( $this->errors );
 		}
-
 
 		/**
 		 * If a form has notices
@@ -1310,7 +1292,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			return ! empty( $this->notices );
 		}
 
-
 		/**
 		 * Flush errors
 		 *
@@ -1320,7 +1301,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$this->errors = array();
 		}
 
-
 		/**
 		 * Flush notices
 		 *
@@ -1329,7 +1309,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		public function flush_notices() {
 			$this->notices = array();
 		}
-
 
 		/**
 		 * Get a form error by a field key
@@ -1344,7 +1323,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$default = 'global' === $field ? array() : '';
 			return ! empty( $this->errors[ $field ] ) ? $this->errors[ $field ] : $default;
 		}
-
 
 		/**
 		 * Get a form notices
