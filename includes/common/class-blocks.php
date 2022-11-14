@@ -97,10 +97,10 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 							'type' => 'string',
 						),
 						'category'             => array(
-							'type' => 'string',
+							'type' => 'array',
 						),
 						'type'                 => array(
-							'type' => 'string',
+							'type' => 'array',
 						),
 						'orderby'              => array(
 							'default' => 'date',
@@ -227,12 +227,21 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 				$shortcode .= ' load-more-text="' . $atts['load_more_text'] . '"';
 			}
 
-			if ( isset( $atts['category'] ) && '' !== $atts['category'] ) {
-				$shortcode .= ' category="' . $atts['category'] . '"';
+//			if ( isset( $atts['category'] ) && '' !== $atts['category'] ) {
+//				$shortcode .= ' category="' . $atts['category'] . '"';
+//			}
+//
+//			if ( isset( $atts['type'] ) && '' !== $atts['type'] ) {
+//				$shortcode .= ' type="' . $atts['type'] . '"';
+//			}
+			if ( isset( $atts['type'] ) && is_array( $atts['type'] ) ) {
+				$types      = implode( ',', $atts['type'] );
+				$shortcode .= ' type="' . $types . '"';
 			}
 
-			if ( isset( $atts['type'] ) && '' !== $atts['type'] ) {
-				$shortcode .= ' type="' . $atts['type'] . '"';
+			if ( isset( $atts['category'] ) && is_array( $atts['category'] ) ) {
+				$categories = implode( ',', $atts['category'] );
+				$shortcode .= ' category="' . $categories . '"';
 			}
 
 			if ( $atts['orderby'] ) {
@@ -273,12 +282,12 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 
 			$shortcode .= ' no_logo="' . $atts['no_logo'] . '"';
 
-			if ( $atts['type'] && is_array( $atts['type'] ) ) {
+			if ( isset( $atts['type'] ) && is_array( $atts['type'] ) ) {
 				$types      = implode( ',', $atts['type'] );
 				$shortcode .= ' type="' . $types . '"';
 			}
 
-			if ( $atts['category'] && is_array( $atts['category'] ) ) {
+			if ( isset( $atts['category'] ) && is_array( $atts['category'] ) ) {
 				$categories = implode( ',', $atts['category'] );
 				$shortcode .= ' category="' . $categories . '"';
 			}

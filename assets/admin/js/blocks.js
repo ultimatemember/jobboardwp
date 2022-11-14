@@ -447,10 +447,10 @@ if ( 1 !== exclude_blocks ) {
 					],
 					types = props.types,
 					type = props.attributes.type,
-					types_data = [{id: '', name: ''}],
+					types_data = [],
 					categories = props.categories,
 					category = props.attributes.category,
-					categories_data = [{id: '', name: ''}],
+					categories_data = [],
 					filled_only = props.attributes.filled_only,
 					content = props.attributes.content,
 					category_hide = '-hide',
@@ -470,7 +470,7 @@ if ( 1 !== exclude_blocks ) {
 				if (categories !== null) {
 					categories_data = categories_data.concat(categories);
 					if (categories.length !== 0) {
-						type_hide = '';
+						category_hide = '';
 					}
 				}
 
@@ -598,6 +598,7 @@ if ( 1 !== exclude_blocks ) {
 					}
 
 					shortcode = shortcode + ']';
+					console.log(shortcode)
 					props.setAttributes({content: shortcode});
 				}
 
@@ -804,6 +805,11 @@ if ( 1 !== exclude_blocks ) {
 									className: 'jb_select_category' + category_hide,
 									value: props.attributes.category,
 									options: get_category,
+									multiple: true,
+									style: {
+										height: '80px'
+									},
+									suffix: ' ',
 									onChange: function onChange(value) {
 										props.setAttributes({category: value});
 										jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, value, type, orderby, order, filled_only);
@@ -817,6 +823,11 @@ if ( 1 !== exclude_blocks ) {
 									className: 'jb_select_type' + type_hide,
 									value: props.attributes.type,
 									options: get_types,
+									multiple: true,
+									style: {
+										height: '80px'
+									},
+									suffix: ' ',
 									onChange: function onChange(value) {
 										props.setAttributes({type: value});
 										jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, value, orderby, order, filled_only);
