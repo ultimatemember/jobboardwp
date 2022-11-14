@@ -152,11 +152,11 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 							'type'    => 'string',
 						),
 						'type'         => array(
-							'type'    => 'string',
+							'type'    => 'array',
 							'default' => '',
 						),
 						'category'     => array(
-							'type'    => 'string',
+							'type'    => 'array',
 							'default' => '',
 						),
 					),
@@ -273,12 +273,14 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 
 			$shortcode .= ' no_logo="' . $atts['no_logo'] . '"';
 
-			if ( $atts['type'] ) {
-				$shortcode .= ' type="' . $atts['type'] . '"';
+			if ( $atts['type'] && is_array( $atts['type'] ) ) {
+				$types      = implode( ',', $atts['type'] );
+				$shortcode .= ' type="' . $types . '"';
 			}
 
-			if ( $atts['category'] ) {
-				$shortcode .= ' category="' . $atts['category'] . '"';
+			if ( $atts['category'] && is_array( $atts['category'] ) ) {
+				$categories = implode( ',', $atts['category'] );
+				$shortcode .= ' category="' . $categories . '"';
 			}
 
 			$shortcode .= ' remote_only="' . $atts['remote_only'] . '"';

@@ -939,10 +939,10 @@ if ( 1 !== exclude_blocks ) {
 					],
 					types = props.types,
 					type = props.attributes.type,
-					types_data = [{id: '', name: ''}],
+					types_data = [],
 					categories = props.categories,
 					category = props.attributes.category,
-					categories_data = [{id: '', name: ''}],
+					categories_data = [],
 					remote_only = props.attributes.remote_only,
 					content = props.attributes.content,
 					category_hide = '-hide',
@@ -1140,6 +1140,11 @@ if ( 1 !== exclude_blocks ) {
 									label: wp.i18n.__('Select category', 'jobboardwp'),
 									className: 'jb_select_category' + category_hide,
 									value: props.attributes.category,
+									multiple: true,
+									style: {
+										height: '80px'
+									},
+									suffix: ' ',
 									options: get_category,
 									onChange: function onChange(value) {
 										props.setAttributes({category: value});
@@ -1153,6 +1158,11 @@ if ( 1 !== exclude_blocks ) {
 									label: wp.i18n.__('Select type', 'jobboardwp'),
 									className: 'jb_select_type' + type_hide,
 									value: props.attributes.type,
+									multiple: true,
+									style: {
+										height: '80px'
+									},
+									suffix: ' ',
 									options: get_types,
 									onChange: function onChange(value) {
 										props.setAttributes({type: value});
