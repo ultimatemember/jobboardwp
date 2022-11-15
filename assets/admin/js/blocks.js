@@ -807,7 +807,8 @@ if ( 1 !== exclude_blocks ) {
 									options: get_category,
 									multiple: true,
 									style: {
-										height: '80px'
+										height: '80px',
+										overflow: 'auto'
 									},
 									suffix: ' ',
 									onChange: function onChange(value) {
@@ -825,7 +826,8 @@ if ( 1 !== exclude_blocks ) {
 									options: get_types,
 									multiple: true,
 									style: {
-										height: '80px'
+										height: '80px',
+										overflow: 'auto'
 									},
 									suffix: ' ',
 									onChange: function onChange(value) {
@@ -1153,7 +1155,8 @@ if ( 1 !== exclude_blocks ) {
 									value: props.attributes.category,
 									multiple: true,
 									style: {
-										height: '80px'
+										height: '80px',
+										overflow: 'auto'
 									},
 									suffix: ' ',
 									options: get_category,
@@ -1171,7 +1174,8 @@ if ( 1 !== exclude_blocks ) {
 									value: props.attributes.type,
 									multiple: true,
 									style: {
-										height: '80px'
+										height: '80px',
+										overflow: 'auto'
 									},
 									suffix: ' ',
 									options: get_types,
