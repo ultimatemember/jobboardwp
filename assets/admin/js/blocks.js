@@ -264,7 +264,8 @@ if ( 1 !== exclude_blocks ) {
 		attributes: {
 			content: {
 				source: 'html',
-				selector: 'p'
+				selector: 'p',
+				default: ''
 			}
 		},
 
@@ -302,7 +303,8 @@ if ( 1 !== exclude_blocks ) {
 		attributes: {
 			content: {
 				source: 'html',
-				selector: 'p'
+				selector: 'p',
+				default: ''
 			}
 		},
 		edit: function (props) {
@@ -400,7 +402,8 @@ if ( 1 !== exclude_blocks ) {
 			},
 			content: {
 				source: 'html',
-				selector: 'p'
+				selector: 'p',
+				default: ''
 			}
 		},
 
@@ -598,7 +601,7 @@ if ( 1 !== exclude_blocks ) {
 					}
 
 					shortcode = shortcode + ']';
-					console.log(shortcode)
+
 					props.setAttributes({content: shortcode});
 				}
 
