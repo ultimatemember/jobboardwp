@@ -50,16 +50,18 @@ jQuery(window).load(function($) {
 	var observer = new MutationObserver(function(mutations) {
 		mutations.forEach(function(mutation) {
 
-			jQuery('input.id_base').each(function () {
-				if ( 'jb_recent_jobs' === jQuery(this).val() ) {
-					var container = jQuery(this).closest('.wp-block-legacy-widget__edit-form');
-					if ( 'hidden' === container.attr('hidden') ) {
-						container.find('select').each(function () {
-							jQuery(this).change();
-						});
+			if ( jQuery('#widgets-editor'.length > 0 ) ) {
+				jQuery('input.id_base').each(function () {
+					if ('jb_recent_jobs' === jQuery(this).val()) {
+						var container = jQuery(this).closest('.wp-block-legacy-widget__edit-form');
+						if ('hidden' === container.attr('hidden')) {
+							container.find('select').each(function () {
+								jQuery(this).change();
+							});
+						}
 					}
-				}
-			});
+				});
+			}
 
 			jQuery(mutation.addedNodes).find('.jb-job-categories').each(function() {
 				wp.JB.job_categories_list.objects.wrapper = jQuery('.jb-job-categories');
