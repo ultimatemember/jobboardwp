@@ -157,10 +157,9 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 
 			add_filter( 'jb_frontend_common_styles_deps', array( &$this, 'extends_styles' ), 10, 1 );
 
-
-			$this->css_url['admin']    = JB_URL . 'assets/admin/css/';
-			$this->js_url['admin']     = JB_URL . 'assets/admin/js/';
-			$this->js_url['frontend']  = JB_URL . 'assets/frontend/js/';
+			$this->css_url['admin']   = JB_URL . 'assets/admin/css/';
+			$this->js_url['admin']    = JB_URL . 'assets/admin/js/';
+			$this->js_url['frontend'] = JB_URL . 'assets/frontend/js/';
 			add_action( 'enqueue_block_assets', array( &$this, 'block_editor' ), 11 );
 		}
 

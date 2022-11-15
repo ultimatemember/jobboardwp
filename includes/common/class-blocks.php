@@ -227,13 +227,6 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 				$shortcode .= ' load-more-text="' . $atts['load_more_text'] . '"';
 			}
 
-//			if ( isset( $atts['category'] ) && '' !== $atts['category'] ) {
-//				$shortcode .= ' category="' . $atts['category'] . '"';
-//			}
-//
-//			if ( isset( $atts['type'] ) && '' !== $atts['type'] ) {
-//				$shortcode .= ' type="' . $atts['type'] . '"';
-//			}
 			if ( isset( $atts['type'] ) && is_array( $atts['type'] ) ) {
 				$types      = implode( ',', $atts['type'] );
 				$shortcode .= ' type="' . $types . '"';
