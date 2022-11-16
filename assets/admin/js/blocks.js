@@ -50,7 +50,8 @@ jQuery(window).load(function($) {
 	var observer = new MutationObserver(function(mutations) {
 		mutations.forEach(function(mutation) {
 
-			if ( jQuery('#widgets-editor'.length > 0 ) ) {
+			// Please don't delete. This is fix for firefox browser widgets page for legacy widget and multiple select
+			if ( jQuery('#widgets-editor'.length > 0 ) && navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ) {
 				jQuery('input.id_base').each(function () {
 					if ('jb_recent_jobs' === jQuery(this).val()) {
 						var container = jQuery(this).closest('.wp-block-legacy-widget__edit-form');
