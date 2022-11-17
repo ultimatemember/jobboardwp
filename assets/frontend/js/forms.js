@@ -147,6 +147,7 @@ jQuery( document ).ready( function($) {
 							$button.parents('.jb-uploader').addClass( 'jb-uploaded' );
 							$button.parents('.jb-uploader').siblings('.jb-uploaded-wrapper').addClass( 'jb-uploaded' ).removeClass('jb-waiting-change');
 							$button.parents('.jb-uploader').siblings('.jb-uploaded-wrapper').find('img').attr( 'src', response.data[0].url );
+							wp.hooks.doAction( 'jb_job_uploader_after_success_upload', $button, response );
 
 							$button.parents('.jb-uploader').siblings('.jb-media-value').val( response.data[0].name_saved );
 							$button.parents('.jb-uploader').siblings('.jb-media-value-hash').val( response.data[0].hash );
