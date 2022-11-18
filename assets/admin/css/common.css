@@ -101,13 +101,6 @@ body.post-type-jb-job.jb_icl_active .wp-list-table .column-icl_translations {
   #jb-settings-emails table.emailnotifications .jb-notification-status.jb-notification-is-active {
     color: #46b450; }
 
-#jb-settings-wrap {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  flex-wrap: nowrap; }
-
 .jb-wrap {
   clear: both;
   scroll-snap-align: center; }

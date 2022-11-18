@@ -118,9 +118,19 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 			// Uploader for the chunks
 			if ( $chunks ) {
 
-				if ( isset( $_COOKIE['jb-logo-upload'] ) ) {
+				if ( isset( $_COOKIE['jb-logo-upload'] ) && $chunks > 1 ) {
 					$unique_name = sanitize_file_name( $_COOKIE['jb-logo-upload'] );
 					$filepath    = JB()->common()->filesystem()->temp_upload_dir . DIRECTORY_SEPARATOR . $unique_name;
+
+					$image_type = wp_check_filetype( $unique_name, $mimes );
+					if ( ! $image_type['ext'] ) {
+						wp_send_json(
+							array(
+								'OK'   => 0,
+								'info' => __( 'Wrong filetype.', 'jobboardwp' ),
+							)
+						);
+					}
 				} else {
 					$unique_name = wp_unique_filename( JB()->common()->filesystem()->temp_upload_dir, $filename, array( &$this, 'unique_filename' ) );
 					$filepath    = JB()->common()->filesystem()->temp_upload_dir . DIRECTORY_SEPARATOR . $unique_name;
