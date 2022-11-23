@@ -49,6 +49,21 @@ if ( ! jb_blocks_options['exclude_blocks'] ) {
 jQuery(window).load(function($) {
 	var observer = new MutationObserver(function(mutations) {
 		mutations.forEach(function(mutation) {
+
+			// Please don't delete. This is fix for firefox browser widgets page for legacy widget and multiple select
+			if ( jQuery('#widgets-editor'.length > 0 ) && navigator.userAgent.toLowerCase().indexOf('firefox') > -1 ) {
+				jQuery('input.id_base').each(function () {
+					if ('jb_recent_jobs' === jQuery(this).val()) {
+						var container = jQuery(this).closest('.wp-block-legacy-widget__edit-form');
+						if ('hidden' === container.attr('hidden')) {
+							container.find('select').each(function () {
+								jQuery(this).change();
+							});
+						}
+					}
+				});
+			}
+
 			jQuery(mutation.addedNodes).find('.jb-job-categories').each(function() {
 				wp.JB.job_categories_list.objects.wrapper = jQuery('.jb-job-categories');
 				if ( wp.JB.job_categories_list.objects.wrapper.length ) {
@@ -78,7 +93,6 @@ jQuery(window).load(function($) {
 
 	observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
 });
-
 
 // remove duplicated taxonomy panels
 if ( 1 === exclude_blocks ) {
@@ -264,7 +278,8 @@ if ( 1 !== exclude_blocks ) {
 		attributes: {
 			content: {
 				source: 'html',
-				selector: 'p'
+				selector: 'p',
+				default: ''
 			}
 		},
 
@@ -302,7 +317,8 @@ if ( 1 !== exclude_blocks ) {
 		attributes: {
 			content: {
 				source: 'html',
-				selector: 'p'
+				selector: 'p',
+				default: ''
 			}
 		},
 		edit: function (props) {
@@ -400,7 +416,8 @@ if ( 1 !== exclude_blocks ) {
 			},
 			content: {
 				source: 'html',
-				selector: 'p'
+				selector: 'p',
+				default: ''
 			}
 		},
 
@@ -447,10 +464,10 @@ if ( 1 !== exclude_blocks ) {
 					],
 					types = props.types,
 					type = props.attributes.type,
-					types_data = [{id: '', name: ''}],
+					types_data = [],
 					categories = props.categories,
 					category = props.attributes.category,
-					categories_data = [{id: '', name: ''}],
+					categories_data = [],
 					filled_only = props.attributes.filled_only,
 					content = props.attributes.content,
 					category_hide = '-hide',
@@ -470,7 +487,7 @@ if ( 1 !== exclude_blocks ) {
 				if (categories !== null) {
 					categories_data = categories_data.concat(categories);
 					if (categories.length !== 0) {
-						type_hide = '';
+						category_hide = '';
 					}
 				}
 
@@ -598,6 +615,7 @@ if ( 1 !== exclude_blocks ) {
 					}
 
 					shortcode = shortcode + ']';
+
 					props.setAttributes({content: shortcode});
 				}
 
@@ -804,6 +822,12 @@ if ( 1 !== exclude_blocks ) {
 									className: 'jb_select_category' + category_hide,
 									value: props.attributes.category,
 									options: get_category,
+									multiple: true,
+									style: {
+										height: '80px',
+										overflow: 'auto'
+									},
+									suffix: ' ',
 									onChange: function onChange(value) {
 										props.setAttributes({category: value});
 										jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, value, type, orderby, order, filled_only);
@@ -817,6 +841,12 @@ if ( 1 !== exclude_blocks ) {
 									className: 'jb_select_type' + type_hide,
 									value: props.attributes.type,
 									options: get_types,
+									multiple: true,
+									style: {
+										height: '80px',
+										overflow: 'auto'
+									},
+									suffix: ' ',
 									onChange: function onChange(value) {
 										props.setAttributes({type: value});
 										jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, value, orderby, order, filled_only);
@@ -939,10 +969,10 @@ if ( 1 !== exclude_blocks ) {
 					],
 					types = props.types,
 					type = props.attributes.type,
-					types_data = [{id: '', name: ''}],
+					types_data = [],
 					categories = props.categories,
 					category = props.attributes.category,
-					categories_data = [{id: '', name: ''}],
+					categories_data = [],
 					remote_only = props.attributes.remote_only,
 					content = props.attributes.content,
 					category_hide = '-hide',
@@ -1140,6 +1170,12 @@ if ( 1 !== exclude_blocks ) {
 									label: wp.i18n.__('Select category', 'jobboardwp'),
 									className: 'jb_select_category' + category_hide,
 									value: props.attributes.category,
+									multiple: true,
+									style: {
+										height: '80px',
+										overflow: 'auto'
+									},
+									suffix: ' ',
 									options: get_category,
 									onChange: function onChange(value) {
 										props.setAttributes({category: value});
@@ -1153,6 +1189,12 @@ if ( 1 !== exclude_blocks ) {
 									label: wp.i18n.__('Select type', 'jobboardwp'),
 									className: 'jb_select_type' + type_hide,
 									value: props.attributes.type,
+									multiple: true,
+									style: {
+										height: '80px',
+										overflow: 'auto'
+									},
+									suffix: ' ',
 									options: get_types,
 									onChange: function onChange(value) {
 										props.setAttributes({type: value});
