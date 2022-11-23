@@ -515,7 +515,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * Get the template path inside theme or custom path
 		 *
 		 * @since 1.1.1
-		 * @since 1.3.0 Added $module argument.
+		 * @since 1.2.2 Added $module argument.
 		 * @access public
 		 *
 		 * @param string $module Module slug. (default: '').
@@ -533,7 +533,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * Filters the template path inside theme or custom path.
 			 *
 			 * @since 1.1.1
-			 * @since 1.3.0 Added $module argument.
+			 * @since 1.2.2 Added $module argument.
 			 * @hook jb_template_path
 			 *
 			 * @param {string} $path   JobBoardWP templates' path.
@@ -549,7 +549,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * Get the default template path inside wp-content/plugins/
 		 *
 		 * @since 1.1.0
-		 * @since 1.3.0 Added $module argument.
+		 * @since 1.2.2 Added $module argument.
 		 * @access public
 		 *
 		 * @param string $module Module slug. (default: '').
@@ -567,7 +567,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * Filters the default template path inside `wp-content/plugins/`.
 			 *
 			 * @since 1.1.0
-			 * @since 1.3.0 Added $module argument.
+			 * @since 1.2.2 Added $module argument.
 			 * @hook jb_default_template_path
 			 *
 			 * @param {string} $path   JobBoardWP default templates' path.
@@ -583,7 +583,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * Get JobBoardWP custom templates (e.g. jobs list) passing attributes and including the file.
 		 *
 		 * @since 1.1.0
-		 * @since 1.3.0 Added $module argument.
+		 * @since 1.2.2 Added $module argument.
 		 *
 		 * @param string $template_name Template name.
 		 * @param array  $args          Arguments. (default: array).
@@ -597,7 +597,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 *
 			 * Note: Allow 3rd party plugins or modules filter template file, arguments, module name from their side.
 			 *
-			 * @since 1.3.0
+			 * @since 1.2.2
 			 * @hook jb_change_template_part
 			 *
 			 * @param {string} $template_name Template name passed by reference.
@@ -616,7 +616,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * Note: Allow 3rd party plugin filter template file from their plugin.
 			 *
 			 * @since 1.1.1
-			 * @since 1.3.0 Added $module argument.
+			 * @since 1.2.2 Added $module argument.
 			 * @hook jb_get_template
 			 *
 			 * @param {string} $template      Predefined template location. That has been found via the `JB()->locate_template()` function.
@@ -663,7 +663,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * Fires before the content of the template is displayed.
 			 *
 			 * @since 1.1.0
-			 * @since 1.3.0 Added $module argument.
+			 * @since 1.2.2 Added $module argument.
 			 *
 			 * @hook jb_before_template_part
 			 *
@@ -681,7 +681,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * Fires after the content of the template is displayed.
 			 *
 			 * @since 1.1.0
-			 * @since 1.3.0 Added $module argument.
+			 * @since 1.2.2 Added $module argument.
 			 *
 			 * @hook jb_after_template_part
 			 *
@@ -701,7 +701,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * @see get_template
 		 *
 		 * @since 1.1.1
-		 * @since 1.3.0 Added $module argument.
+		 * @since 1.2.2 Added $module argument.
 		 *
 		 * @param string $template_name Template name.
 		 * @param array  $args          Arguments. (default: array).
@@ -732,7 +732,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * where $locale is site_locale for regular templates, but $user_locale for email templates
 		 *
 		 * @since 1.1.1
-		 * @since 1.3.0 Added $module argument.
+		 * @since 1.2.2 Added $module argument.
 		 *
 		 * @param string $template_name Template name.
 		 * @param string $module        Module slug. (default: '').
@@ -758,7 +758,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * Note: Handle locations array before multisite's blog ID path will be added. JobBoardWP uses this hook for integration with multilingual plugins.
 			 *
 			 * @since 1.1.1
-			 * @since 1.3.0 Added $module argument.
+			 * @since 1.2.2 Added $module argument.
 			 * @hook jb_pre_template_locations
 			 *
 			 * @param {array}  $template_locations Template locations array for WP native `locate_template()` function.
@@ -790,7 +790,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * Note: Final chance for getting customized the templates locations array.
 			 *
 			 * @since 1.1.1
-			 * @since 1.3.0 Added $module argument.
+			 * @since 1.2.2 Added $module argument.
 			 * @hook jb_template_locations
 			 *
 			 * @param {array}  $template_locations Template locations array for WP native `locate_template()` function.
@@ -811,7 +811,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * This can be used to avoid the possibility of dumping templates if you are using a theme that is constantly updated and it is not possible to create a child-theme.
 			 *
 			 * @since 1.1.1
-			 * @since 1.3.0 Added $module argument.
+			 * @since 1.2.2 Added $module argument.
 			 * @hook jb_template_structure_custom_path
 			 *
 			 * @param {bool}   $custom_path   Custom path to JobBoardWP templates. It's `false` by default.
@@ -846,7 +846,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 * Note: Ignore all locate rules for the selected $template_name.
 			 *
 			 * @since 1.1.1
-			 * @since 1.3.0 Added $module argument.
+			 * @since 1.2.2 Added $module argument.
 			 * @hook jb_locate_template
 			 *
 			 * @param {string} $template      Template full path.
@@ -913,7 +913,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		/**
 		 * Getting module slug for email notification.
 		 *
-		 * @since 1.3.0
+		 * @since 1.2.2
 		 *
 		 * @param string $email_key Email Notification key.
 		 *
@@ -936,7 +936,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		/**
 		 * Undash string. Easy operate
 		 *
-		 * @since 1.3.0
+		 * @since 1.2.2
 		 * @param string $slug
 		 *
 		 * @return string
