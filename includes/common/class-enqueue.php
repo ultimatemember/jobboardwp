@@ -157,12 +157,37 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 
 			add_filter( 'jb_frontend_common_styles_deps', array( &$this, 'extends_styles' ), 10, 1 );
 
+			global $wp_version;
+			if ( version_compare( $wp_version, '5.8', '>=' ) ) {
+				add_filter( 'block_categories_all', array( &$this, 'blocks_category' ), 10, 1 );
+			} else {
+				add_filter( 'block_categories', array( &$this, 'blocks_category' ), 10, 1 );
+			}
+
 			$this->css_url['admin']   = JB_URL . 'assets/admin/css/';
 			$this->js_url['admin']    = JB_URL . 'assets/admin/js/';
 			$this->js_url['frontend'] = JB_URL . 'assets/frontend/js/';
 			add_action( 'enqueue_block_assets', array( &$this, 'block_editor' ), 11 );
 		}
 
+		/**
+		 * Add Gutenberg category for JobBoardWP shortcodes
+		 *
+		 * @param array $categories
+		 *
+		 * @return array
+		 */
+		public function blocks_category( $categories ) {
+			return array_merge(
+				$categories,
+				array(
+					array(
+						'slug'  => 'jb-blocks',
+						'title' => __( 'JobBoardWP', 'jobboardwp' ),
+					),
+				)
+			);
+		}
 
 		/**
 		 * Enqueue Gutenberg Block Editor assets

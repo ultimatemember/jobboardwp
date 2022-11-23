@@ -33,13 +33,6 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			add_action( 'load-post.php', array( &$this, 'maybe_job_page' ) );
 			add_action( 'load-post-new.php', array( &$this, 'maybe_job_page' ) );
 
-			global $wp_version;
-			if ( version_compare( $wp_version, '5.8', '>=' ) ) {
-				add_filter( 'block_categories_all', array( &$this, 'blocks_category' ), 10, 1 );
-			} else {
-				add_filter( 'block_categories', array( &$this, 'blocks_category' ), 10, 1 );
-			}
-
 			add_action( 'load-job-board_page_jb-settings', array( &$this, 'modules_page' ) );
 		}
 
@@ -201,25 +194,6 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			if ( JB()->admin()->is_own_post_type() ) {
 				wp_enqueue_script( 'jb-validation' );
 			}
-		}
-
-		/**
-		 * Add Gutenberg category for JobBoardWP shortcodes
-		 *
-		 * @param array $categories
-		 *
-		 * @return array
-		 */
-		public function blocks_category( $categories ) {
-			return array_merge(
-				$categories,
-				array(
-					array(
-						'slug'  => 'jb-blocks',
-						'title' => __( 'JobBoardWP', 'jobboardwp' ),
-					),
-				)
-			);
 		}
 	}
 }

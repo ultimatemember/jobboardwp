@@ -15,15 +15,13 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 	 */
 	class Blocks {
 
-
 		/**
-		 * Job constructor.
+		 * Blocks constructor.
 		 */
 		public function __construct() {
 			add_action( 'init', array( &$this, 'block_editor_render' ), 11 );
 			add_filter( 'allowed_block_types_all', array( &$this, 'jb_allowed_block_types' ), 10, 2 );
 		}
-
 
 		public function block_editor_render() {
 			$blocks = array(
