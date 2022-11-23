@@ -614,6 +614,120 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			return $html;
 		}
 
+		/**
+		 * Render WP Editor field
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function render_wp_editor( $field_data ) {
+
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
+
+			$data = array( 'field_id' => $field_data['id'] );
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= ' data-' . $key . '="' . esc_attr( $value ) . '" ';
+			}
+
+			$name = $field_data['id'];
+			$name = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+
+			$value = $this->get_field_value( $field_data );
+
+			add_filter( 'mce_buttons', array( $this, 'filter_mce_buttons' ), 10, 2 );
+
+			add_action(
+				'after_wp_tiny_mce',
+				function( $settings ) {
+					if ( isset( $settings['_job_description']['plugins'] ) && false !== strpos( $settings['_job_description']['plugins'], 'wplink' ) ) {
+						?>
+						<script>
+							jQuery("#link-selector > .howto, #link-selector > #search-panel").remove();
+						</script>
+						<?php
+					}
+				}
+			);
+
+			/**
+			 * Filters the WP_Editor options.
+			 *
+			 * @since 1.0
+			 * @hook jb_content_editor_options
+			 *
+			 * @param {array} $editor_settings WP_Editor field's settings. See the all settings here https://developer.wordpress.org/reference/classes/_wp_editors/parse_settings/#parameters
+			 * @param {array} $field_data      Frontend form's field data.
+			 *
+			 * @return {array} WP_Editor field's settings.
+			 */
+			$editor_settings = apply_filters(
+				'jb_content_editor_options',
+				array(
+					'textarea_name' => $name,
+					'wpautop'       => true,
+					'editor_height' => 145,
+					'media_buttons' => false,
+					'quicktags'     => false,
+					'tinymce'       => array(
+						'init_instance_callback' => "function (editor) {
+														editor.on( 'keyup paste mouseover', function (e) {
+														var content = editor.getContent( { format: 'html' } ).trim();
+														var textarea = jQuery( '#' + editor.id );
+														textarea.val( content ).trigger( 'keyup' ).trigger( 'keypress' ).trigger( 'keydown' ).trigger( 'change' ).trigger( 'paste' ).trigger( 'mouseover' );
+													});}",
+					),
+				),
+				$field_data
+			);
+
+			ob_start();
+
+			wp_editor( $value, $id, $editor_settings );
+
+			$editor_contents = ob_get_clean();
+
+			remove_filter( 'mce_buttons', array( $this, 'filter_mce_buttons' ), 10 );
+
+			return $editor_contents;
+		}
+
+		/**
+		 * Remove unusable MCE button for JB WP Editors
+		 *
+		 * @param array $mce_buttons
+		 * @param int $editor_id
+		 *
+		 * @return array
+		 *
+		 * @since 1.0
+		 */
+		public function filter_mce_buttons( $mce_buttons, $editor_id ) {
+			$mce_buttons = array_diff( $mce_buttons, array( 'alignright', 'alignleft', 'aligncenter', 'wp_adv', 'wp_more', 'fullscreen', 'formatselect', 'spellchecker', 'link' ) );
+			/**
+			 * Filters the WP_Editor MCE buttons list.
+			 *
+			 * @since 1.0
+			 * @hook jb_rich_text_editor_buttons
+			 *
+			 * @param {array}  $mce_buttons TinyMCE buttons. See the list of buttons here https://developer.wordpress.org/reference/hooks/mce_buttons/
+			 * @param {string} $editor_id   WP_Editor ID.
+			 * @param {object} $form        Frontend form class (\jb\frontend\Forms) instance.
+			 *
+			 * @return {array} TinyMCE buttons.
+			 */
+			$mce_buttons = apply_filters( 'jb_rich_text_editor_buttons', $mce_buttons, $editor_id, $this );
+
+			return $mce_buttons;
+		}
 
 		/**
 		 * Render checkbox
