@@ -468,22 +468,28 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				);
 			}
 
-			$type = ! empty( $_POST['type'] ) ? absint( $_POST['type'] ) : '';
-			if ( ! empty( $type ) ) {
+			$types = array();
+			if ( ! empty( $_POST['type'] ) ) {
+				$types = array_map( 'absint', array_map( 'trim', explode( ',', $_POST['type'] ) ) );
+			}
+			if ( ! empty( $types ) ) {
 				$query_args['tax_query'][] = array(
 					'taxonomy' => 'jb-job-type',
 					'field'    => 'id',
-					'terms'    => $type,
+					'terms'    => $types,
 				);
 			}
 
 			if ( JB()->options()->get( 'job-categories' ) ) {
-				$category = ! empty( $_POST['category'] ) ? absint( $_POST['category'] ) : '';
-				if ( ! empty( $category ) ) {
+				$categories = array();
+				if ( ! empty( $_POST['category'] ) ) {
+					$categories = array_map( 'absint', array_map( 'trim', explode( ',', $_POST['category'] ) ) );
+				}
+				if ( ! empty( $categories ) ) {
 					$query_args['tax_query'][] = array(
 						'taxonomy' => 'jb-job-category',
 						'field'    => 'id',
-						'terms'    => $category,
+						'terms'    => $categories,
 					);
 				}
 			}
