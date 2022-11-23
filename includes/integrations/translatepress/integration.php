@@ -51,7 +51,7 @@ add_filter( 'jb_common_js_variables', 'jb_common_js_variables_translatepress', 1
 /**
  *
  * @since 1.1.1
- * @since 1.3.0 Added $module argument.
+ * @since 1.2.2 Added $module argument.
  *
  * @param array  $template_locations
  * @param string $template_name

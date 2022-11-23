@@ -39,7 +39,7 @@
 						/**
 						 * Filters the search bar placeholder.
 						 *
-						 * @since 1.3.0
+						 * @since 1.2.2
 						 * @hook jb_jobs_search_line_placeholder
 						 *
 						 * @param {string} $placeholder Search bar placeholder.

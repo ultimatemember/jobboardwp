@@ -274,7 +274,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					/**
 					 * Filters the default visibility for the login form section on the job submission form.
 					 *
-					 * @since 1.3.0
+					 * @since 1.2.2
 					 * @hook jb_job_visible_login
 					 *
 					 * @param {bool} $visible_login Login form visibility. Set to true if need to display it.
@@ -327,7 +327,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						/**
 						 * Fires before rendering login form on the job submission page
 						 *
-						 * @since 1.3.0
+						 * @since 1.2.2
 						 * @hook jb_before_login_form
 						 */
 						do_action( 'jb_before_login_form' );

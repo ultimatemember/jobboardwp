@@ -182,7 +182,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			/**
 			 * Filters the checking job location type.
 			 *
-			 * @since 1.3.0
+			 * @since 1.2.2
 			 * @hook jb_location_type_disable
 			 *
 			 * @param {bool} $disable Cheking job location type. Set to true if disable job location type.

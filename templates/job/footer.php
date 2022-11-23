@@ -40,7 +40,7 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 								/**
 								 * Filters the job application details string.
 								 *
-								 * @since 1.3.0
+								 * @since 1.2.2
 								 * @hook jb_job_application_label
 								 *
 								 * @param {string} $applying_text Job applying text. Base on application method (email or website URL)

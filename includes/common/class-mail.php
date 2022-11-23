@@ -90,7 +90,7 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 		 * @param array $attachments
 		 *
 		 * @since 1.0
-		 * @since 1.3.0 Added $attachments argument.
+		 * @since 1.2.2 Added $attachments argument.
 		 */
 		public function send( $email, $template, $args = array(), $attachments = array() ) {
 			if ( ! is_email( $email ) ) {
@@ -217,7 +217,7 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 			/**
 			 * Filters the job details string.
 			 *
-			 * @since 1.3.0
+			 * @since 1.2.2
 			 * @hook jb_get_mail_job_details
 			 *
 			 * @param {string}  $details Job details that replaces the placeholder {job_details} in email templates.

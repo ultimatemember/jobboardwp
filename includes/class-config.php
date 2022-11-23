@@ -58,7 +58,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 		public $email_notifications;
 
 		/**
-		 * @since 1.3.0
+		 * @since 1.2.2
 		 *
 		 * @var array
 		 */

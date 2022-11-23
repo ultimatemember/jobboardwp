@@ -96,7 +96,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 		/**
 		 * Handles Modules list table
 		 *
-		 * @since 1.3.0
+		 * @since 1.2.2
 		 *
 		 * @uses Modules::activate() JB()->modules()->activate( $slug )
 		 * @uses Modules::deactivate() JB()->modules()->deactivate( $slug )

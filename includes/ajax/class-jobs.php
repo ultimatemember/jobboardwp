@@ -490,7 +490,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			/**
 			 * Fires after Jobs List query get results.
 			 *
-			 * @since 1.3.0
+			 * @since 1.2.2
 			 * @hook jb_after_get_jobs_query
 			 *
 			 * @param {WP_Query} $jobs_query WP_Query for getting Jobs in the list.
@@ -1198,7 +1198,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			 *                        key = 'wrong' - invalid format if the field
 			 *                        value = array( '{field_id}' ) - user field ID that you used for the registration the field on the form.
 			 *
-			 * @since 1.3.0
+			 * @since 1.2.2
 			 * @hook jb_ajax_job_validation_errors
 			 *
 			 * @param {array} $errors Errors list. If there aren't any errors it's empty array.

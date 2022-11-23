@@ -229,7 +229,7 @@ if ( ! class_exists( 'JB' ) ) {
 		}
 
 		/**
-		 * @since 1.3.0
+		 * @since 1.2.2
 		 *
 		 * @return jb\Modules
 		 */
@@ -244,7 +244,7 @@ if ( ! class_exists( 'JB' ) ) {
 		/**
 		 * Get single module API
 		 *
-		 * @since 1.3.0
+		 * @since 1.2.2
 		 *
 		 * @param $slug
 		 *
@@ -274,7 +274,7 @@ if ( ! class_exists( 'JB' ) ) {
 			/**
 			 * Fires after JobBoardWP core is loaded.
 			 *
-			 * @since 1.3.0
+			 * @since 1.2.2
 			 * @hook jb_core_loaded
 			 */
 			do_action( 'jb_core_loaded' );

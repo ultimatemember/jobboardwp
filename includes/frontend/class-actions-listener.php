@@ -108,7 +108,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 				/**
 				 * Fires just before trying to create user if it doesn't exist when job submission.
 				 *
-				 * @since 1.3.0
+				 * @since 1.2.2
 				 * @hook jb_job_create_user_validation
 				 *
 				 * @param {object} $posting_form Frontend form class (\jb\frontend\Forms) instance.

@@ -44,14 +44,14 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 		}
 
 		/**
-		 * @since 1.3.0
+		 * @since 1.2.2
 		 */
 		public function modules_page() {
 			add_action( 'admin_enqueue_scripts', array( &$this, 'modules_page_scripts' ) );
 		}
 
 		/**
-		 * @since 1.3.0
+		 * @since 1.2.2
 		 */
 		public function modules_page_scripts() {
 			wp_register_style( 'jb-admin-modules', $this->css_url['admin'] . 'modules' . JB()->scrips_prefix . '.css', array(), JB_VERSION );

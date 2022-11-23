@@ -53,7 +53,7 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 		 * Email notifications integration with `get_user_locale()`
 		 *
 		 * @since 1.1.1
-		 * @since 1.3.0 Added $module argument.
+		 * @since 1.2.2 Added $module argument.
 		 *
 		 * @param array  $template_locations
 		 * @param string $template_name
@@ -77,7 +77,7 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 			 * Note: Internal JobBoardWP hook for getting individual multilingual location in the common integration function.
 			 *
 			 * @since 1.1.1
-			 * @since 1.3.0 Added $module argument.
+			 * @since 1.2.2 Added $module argument.
 			 * @hook jb_pre_template_locations_common_locale_integration
 			 *
 			 * @param {array}  $template_locations Template locations array for WP native `locate_template()` function.

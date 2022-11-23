@@ -6,7 +6,7 @@ Tags: job, job board, job portal, job listing, job manager
 Requires PHP: 5.6
 Requires at least: 5.4
 Tested up to: 6.1
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -104,6 +104,27 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 10. Screenshot 10
 
 == Changelog ==
+
+= 1.2.2: November 23, 2022 =
+
+* Added: Support multiselects for job type and job category in the blocks
+* Fixed: Blocks' preview for some arguments set-up
+* Fixed: Security issues related to logo uploader
+* Fixed: Loading plugin textdomain
+* Fixed: Uploader previews
+* Fixed: Login error when make logout action on the job submission page
+* Fixed: Login redirect for the guests
+* Fixed: Duplicate image notice in uploader
+* Tweak: Added new field-types for frontend and backend forms for 3rd-party integrations
+
+* Templates required update:
+  - emails/base_wrapper.php
+  - job-submission.php
+  - job/company.php
+  - job/footer.php
+  - jobs/search-bar.php
+
+* Cached and optimized/minified assets(JS/CSS) must be flushed/re-generated after upgrade
 
 = 1.2.1: September 5, 2022 =
 

@@ -98,7 +98,7 @@ class Modules_List_Table extends \WP_List_Table {
 	 *
 	 * Used by uasort() as a callback, should not be used directly.
 	 *
-	 * @since 1.3.0
+	 * @since 1.2.2
 	 * @access private
 	 *
 	 * @param array $a
@@ -339,7 +339,7 @@ class Modules_List_Table extends \WP_List_Table {
 		/**
 		 * Filters the actions for the module in the list table.
 		 *
-		 * @since 1.3.0
+		 * @since 1.2.2
 		 * @hook jb_module_list_table_actions
 		 *
 		 * @param {array}  $actions List Table actions.
@@ -419,7 +419,7 @@ $same_page_license = ob_get_clean();
 /**
  * Filters the license form content.
  *
- * @since 1.3.0
+ * @since 1.2.2
  * @hook jb_modules_page_same_page_license
  *
  * @param {string} $content License form content.

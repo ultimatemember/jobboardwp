@@ -58,7 +58,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		/**
 		 * Add "Modules > Modules" subtab if there are any registered modules. Sorting modules by the title.
 		 *
-		 * @since 1.3.0
+		 * @since 1.2.2
 		 *
 		 * @hook jb_settings
 		 *
@@ -89,7 +89,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		/**
 		 * Set Modules > Modules subtab as settings pages with custom content without standard settings form.
 		 *
-		 * @since 1.3.0
+		 * @since 1.2.2
 		 *
 		 * @hook jb_settings_custom_subtabs
 		 *
@@ -113,7 +113,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		/**
 		 * Show Modules List_table on the Modules > Modules subtab.
 		 *
-		 * @since 1.3.0
+		 * @since 1.2.2
 		 *
 		 * @hook jb_settings_section_modules__content
 		 */
@@ -397,7 +397,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			/**
 			 * Filters JobBoardWP Settings fields sanitizing type.
 			 *
-			 * @since 1.3.0
+			 * @since 1.2.2
 			 * @hook jb_settings_sanitizing_map
 			 *
 			 * @param {array} $sanitize_map Settings fields sanitizing type.
@@ -1228,7 +1228,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			 * Filters the email templates locations on save handler.
 			 *
 			 * @since 1.1.1
-			 * @since 1.3.0 Added $module argument.
+			 * @since 1.2.2 Added $module argument.
 			 * @hook jb_save_email_templates_locations
 			 *
 			 * @param {array}  $template_locations Template locations array for WP native `locate_template()` function.
