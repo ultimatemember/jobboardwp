@@ -123,6 +123,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 				'job-type-slug'                  => 'job-type',
 				'job-category-slug'              => 'job-category',
 				'job-categories'                 => true,
+				'job-categories-filter'          => false,
 				'job-template'                   => '',
 				'job-dateformat'                 => 'default',
 				'job-breadcrumbs'                => false,

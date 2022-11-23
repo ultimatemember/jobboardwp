@@ -350,6 +350,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				array(
 					'job-categories'                 => 'bool',
 					'job-template'                   => 'text',
+					'job-categories-filter'          => 'bool',
 					'job-dateformat'                 => 'text',
 					'googlemaps-api-key'             => 'text',
 					'account-required'               => 'bool',
@@ -422,6 +423,13 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 									'type'    => 'checkbox',
 									'label'   => __( 'Job Categories', 'jobboardwp' ),
 									'helptip' => __( 'Enable categories for jobs.', 'jobboardwp' ),
+								),
+								array(
+									'id'          => 'job-categories-filter',
+									'type'        => 'checkbox',
+									'label'       => __( 'Filters on Job Categories pages', 'jobboardwp' ),
+									'helptip'     => __( 'Enable filters on jobs categories pages.', 'jobboardwp' ),
+									'conditional' => array( 'job-categories', '=', '1' ),
 								),
 								array(
 									'id'      => 'job-template',

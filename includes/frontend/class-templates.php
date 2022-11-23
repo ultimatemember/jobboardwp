@@ -33,6 +33,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			 * Handlers for single job template
 			 */
 			add_filter( 'single_template', array( &$this, 'cpt_template' ) );
+			add_filter('archive_template', array( &$this, 'cpt_archive_template' ), 10, 3);
 			add_action( 'wp_footer', array( $this, 'output_structured_data' ) );
 		}
 
@@ -185,6 +186,25 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			}
 
 			return $single_template;
+		}
+
+		/**
+		 * Change archive template
+		 *
+		 * @param string $template
+		 * @param string $type
+		 * @param array  $templates
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
+		public function cpt_archive_template( $template, $type, $templates ) {
+			if ( JB()->options()->get( 'job-categories-filter' ) && 'archive' === $type ) {
+				$template = untrailingslashit( JB_PATH ) . '/templates/job-archive.php';
+			}
+
+			return $template;
 		}
 
 
