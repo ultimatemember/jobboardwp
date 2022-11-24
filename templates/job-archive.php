@@ -5,14 +5,14 @@
 <div class="jb-job-categories-wrapper">
 	<?php
 	$tax_id = get_queried_object_id();
-	$attrs = '';
+	$attrs  = '';
 	if ( 'jb-job-type' === get_queried_object()->taxonomy ) {
-		$attrs = 'type="' . $tax_id . '"';
+		$shortcode = '[jb_jobs type="' . $tax_id . '"]';
 	} elseif ( 'jb-job-category' === get_queried_object()->taxonomy ) {
-		$attrs = 'category="' . $tax_id . '"';
+		$shortcode = '[jb_jobs category="' . $tax_id . '"]';
 	}
 
-	echo apply_shortcodes( "[jb_jobs " . $attrs . "]" );
+	echo apply_shortcodes( $shortcode );
 	?>
 </div>
 <?php get_footer(); ?>
