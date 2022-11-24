@@ -7,10 +7,12 @@
 	$tax_id = get_queried_object_id();
 	$attrs  = '';
 	if ( 'jb-job-type' === get_queried_object()->taxonomy ) {
-		echo apply_shortcodes( '[jb_jobs type="' . esc_attr( $tax_id ) . '"]' );
+		$shortcode = '[jb_jobs type="' . $tax_id . '"]';
 	} elseif ( 'jb-job-category' === get_queried_object()->taxonomy ) {
-		echo apply_shortcodes( '[jb_jobs category="' . esc_attr( $tax_id ) . '"]' );
+		$shortcode = '[jb_jobs category="' . $tax_id . '"]';
 	}
+
+	echo apply_shortcodes( wp_kses_post( $shortcode ) );
 	?>
 </div>
 <?php get_footer(); ?>
