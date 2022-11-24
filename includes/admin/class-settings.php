@@ -427,9 +427,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 								array(
 									'id'          => 'job-categories-filter',
 									'type'        => 'checkbox',
-									'label'       => __( 'Filters on Job Categories pages', 'jobboardwp' ),
-									'helptip'     => __( 'Enable filters on jobs categories pages.', 'jobboardwp' ),
-									'conditional' => array( 'job-categories', '=', '1' ),
+									'label'       => __( 'Filters on Job Categories and Types pages', 'jobboardwp' ),
+									'helptip'     => __( 'Enable filters on jobs categories and types pages.', 'jobboardwp' ),
 								),
 								array(
 									'id'      => 'job-template',

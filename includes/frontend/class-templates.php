@@ -200,8 +200,10 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 * @since 1.0
 		 */
 		public function cpt_archive_template( $template, $type, $templates ) {
-			if ( JB()->options()->get( 'job-categories-filter' ) && 'archive' === $type ) {
-				$template = untrailingslashit( JB_PATH ) . '/templates/job-archive.php';
+			if ( isset( get_queried_object()->taxonomy ) && ( 'jb-job-type' === get_queried_object()->taxonomy || 'jb-job-category' === get_queried_object()->taxonomy ) ) {
+				if ( JB()->options()->get('job-categories-filter') && 'archive' === $type ) {
+					$template = untrailingslashit(JB_PATH) . '/templates/job-archive.php';
+				}
 			}
 
 			return $template;
