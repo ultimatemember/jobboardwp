@@ -338,6 +338,11 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				$job_templates = array_merge( $job_templates, $custom_templates );
 			}
 
+			$job_archive_templates = array(
+				''        => __( 'Wordpress native post archive template', 'jobboardwp' ),
+				'default' => __( 'Default job archive template', 'jobboardwp' ),
+			);
+
 			global $wp_roles;
 
 			$roles = array();
@@ -350,7 +355,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				array(
 					'job-categories'                 => 'bool',
 					'job-template'                   => 'text',
-					'job-categories-filter'          => 'bool',
+					'job-archive-template'           => 'text',
 					'job-dateformat'                 => 'text',
 					'googlemaps-api-key'             => 'text',
 					'account-required'               => 'bool',
@@ -425,17 +430,19 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 									'helptip' => __( 'Enable categories for jobs.', 'jobboardwp' ),
 								),
 								array(
-									'id'      => 'job-categories-filter',
-									'type'    => 'checkbox',
-									'label'   => __( 'Filters on Job Categories and Types pages', 'jobboardwp' ),
-									'helptip' => __( 'Enable filters on jobs categories and types pages.', 'jobboardwp' ),
-								),
-								array(
 									'id'      => 'job-template',
 									'type'    => 'select',
 									'options' => $job_templates,
 									'label'   => __( 'Job Template', 'jobboardwp' ),
 									'helptip' => __( 'Select which template you would like applied to the job CPT.', 'jobboardwp' ),
+									'size'    => 'medium',
+								),
+								array(
+									'id'      => 'job-archive-template',
+									'type'    => 'select',
+									'options' => $job_archive_templates,
+									'label'   => __( 'Jobs Archive Template', 'jobboardwp' ),
+									'helptip' => __( 'Select which template you would like applied to the jobs archives by job type and job category.', 'jobboardwp' ),
 									'size'    => 'medium',
 								),
 								array(

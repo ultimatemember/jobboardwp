@@ -1,7 +1,15 @@
-<?php get_header(); ?>
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+get_header();
+?>
+
 <header class="page-header alignwide">
 	<?php the_archive_title( '<h1 class="page-title">', '</h1>' ); ?>
 </header>
+
 <div class="jb-job-categories-wrapper">
 	<?php
 	$tax_id = get_queried_object_id();
@@ -12,7 +20,8 @@
 		$shortcode = '[jb_jobs category="' . $tax_id . '"]';
 	}
 
-	echo apply_shortcodes( wp_kses_post( $shortcode ) );
+	echo apply_shortcodes( wp_filter_content_tags( prepend_attachment( shortcode_unautop( wpautop( wptexturize( do_blocks( $shortcode ) ) ) ) ) ) );
 	?>
 </div>
+
 <?php get_footer(); ?>

@@ -6,26 +6,44 @@ if ( typeof ( wp.JB.jobs_list ) !== 'object' ) {
 	wp.JB.jobs_list = {};
 }
 
+// jQuery.fn.extend({
+// 	jb_is_busy: function() {
+// 		if ( ! jQuery(this).hasClass('jb-jobs') ) {
+// 			throw new Error( "It's not a jobs list" );
+// 		} else {
+// 			return jQuery(this).hasClass('jb-busy');
+// 		}
+// 	}
+// });
+
 wp.JB.jobs_list = {
+	wrapper_selector: '.jb-jobs',
 	first_load: true,
 	is_search: false,
 	objects: {
 		wrapper: jQuery( '.jb-jobs' ),
 	},
-	is_busy: function() {
-		return wp.JB.jobs_list.objects.wrapper.hasClass('jb-busy');
+	get_wrapper_index: function( wrapper ) {
+		return wrapper.data('wrapper-index');
+	},
+	is_busy: function( jobs_list ) {
+		return jobs_list.hasClass('jb-busy');
 	},
 	preloader: {
-		show: function() {
-			wp.JB.jobs_list.objects.wrapper.addClass('jb-busy').find('.jb-overlay').show();
+		show: function( jobs_list ) {
+			jobs_list.addClass('jb-busy').find('.jb-overlay').show();
 		},
-		hide: function() {
-			wp.JB.jobs_list.objects.wrapper.removeClass('jb-busy').find('.jb-overlay').hide();
+		hide: function( jobs_list ) {
+			jobs_list.removeClass('jb-busy').find('.jb-overlay').hide();
 		}
 	},
 	url: {
-		set: function( key, value ) {
+		set: function( jobs_list, key, value ) {
 			var data = wp.JB.jobs_list.url.get();
+
+			console.log( data );
+
+			var list_index = wp.JB.jobs_list.get_wrapper_index( jobs_list );
 
 			var new_data = {};
 
@@ -43,10 +61,11 @@ wp.JB.jobs_list = {
 			}
 
 			if ( value !== '' ) {
-				new_data[ key ] = value;
+				new_data[ key + '[' + list_index + ']' ] = value;
 			}
+
 			jQuery.each( data, function( data_key ) {
-				if ( key === data_key ) {
+				if ( key + '[' + list_index + ']' === data_key ) {
 					if ( value !== '' ) {
 						new_data[ data_key ] = value;
 					}
@@ -67,9 +86,9 @@ wp.JB.jobs_list = {
 				query_string = '';
 			}
 
-			window.history.pushState( 'string', 'JB Jobs Dashboard', window.location.origin + window.location.pathname + query_string );
+			window.history.pushState( 'string', 'JB Jobs List', window.location.origin + window.location.pathname + query_string );
 		},
-		get: function( search_key ) {
+		get: function( jobs_list, search_key ) {
 			var data = {};
 
 			var url_data = wp.JB.jobs_list.url.parse();
@@ -106,131 +125,132 @@ wp.JB.jobs_list = {
 					data[ attr[0] ] = attr[1];
 				});
 			}
+
 			return data;
 		},
-		get_page: function() {
-			var page = wp.JB.jobs_list.objects.wrapper.data( 'page' );
+		get_page: function( jobs_list ) {
+			var page = jobs_list.data( 'page' );
 			if ( ! page || typeof page == 'undefined' ) {
 				page = 1;
 			}
 			return page;
 		},
-		get_per_page: function() {
-			var per_page = wp.JB.jobs_list.objects.wrapper.data( 'per-page' );
+		get_per_page: function( jobs_list ) {
+			var per_page = jobs_list.data( 'per-page' );
 			if ( ! per_page || typeof per_page == 'undefined' ) {
 				per_page = null;
 			}
 			return per_page;
 		},
-		get_employer: function() {
-			var employer_id = wp.JB.jobs_list.objects.wrapper.data( 'employer' );
+		get_employer: function( jobs_list ) {
+			var employer_id = jobs_list.data( 'employer' );
 			if ( ! employer_id || typeof employer_id == 'undefined' ) {
 				employer_id = '';
 			}
 			return employer_id;
 		},
-		get_logo: function() {
-			var hide_logo = wp.JB.jobs_list.objects.wrapper.data( 'no-logo' );
+		get_logo: function( jobs_list ) {
+			var hide_logo = jobs_list.data( 'no-logo' );
 			if ( typeof hide_logo == 'undefined' ) {
 				hide_logo = null;
 			}
 			return hide_logo;
 		},
-		get_hide_job_types: function() {
-			var hide_job_types = wp.JB.jobs_list.objects.wrapper.data( 'hide-job-types' );
+		get_hide_job_types: function( jobs_list ) {
+			var hide_job_types = jobs_list.data( 'hide-job-types' );
 			if ( typeof hide_job_types == 'undefined' ) {
 				hide_job_types = null;
 			}
 			return hide_job_types;
 		},
-		get_search: function() {
-			if ( wp.JB.jobs_list.objects.wrapper.find('.jb-search-line').length ) {
-				return wp.JB.jobs_list.objects.wrapper.find( '.jb-search-line' ).val();
+		get_search: function( jobs_list ) {
+			if ( jobs_list.find('.jb-search-line').length ) {
+				return jobs_list.find( '.jb-search-line' ).val();
 			} else {
 				return '';
 			}
 		},
-		get_location: function() {
-			if ( wp.JB.jobs_list.objects.wrapper.find('.jb-search-location').length ) {
-				return wp.JB.jobs_list.objects.wrapper.find( '.jb-search-location' ).val();
+		get_location: function( jobs_list ) {
+			if ( jobs_list.find('.jb-search-location').length ) {
+				return jobs_list.find( '.jb-search-location' ).val();
 			} else {
 				return '';
 			}
 		},
-		get_type: function() {
-			if ( wp.JB.jobs_list.objects.wrapper.find('.jb-only-remote').length ) {
-				return wp.JB.jobs_list.objects.wrapper.find( '.jb-only-remote' ).is(':checked') ? 1 : 0;
+		get_type: function( jobs_list ) {
+			if ( jobs_list.find('.jb-only-remote').length ) {
+				return jobs_list.find( '.jb-only-remote' ).is(':checked') ? 1 : 0;
 			} else {
 				return '';
 			}
 		},
-		get_type_tag: function() {
-			if ( wp.JB.jobs_list.objects.wrapper.find('.jb-job-type-filter').length ) {
-				return wp.JB.jobs_list.objects.wrapper.find( '.jb-job-type-filter' ).val();
+		get_type_tag: function( jobs_list ) {
+			if ( jobs_list.find('.jb-job-type-filter').length ) {
+				return jobs_list.find( '.jb-job-type-filter' ).val();
 			} else {
-				return wp.JB.jobs_list.objects.wrapper.data('type');
+				return jobs_list.data('type');
 			}
 		},
-		get_category: function() {
-			if ( wp.JB.jobs_list.objects.wrapper.find('.jb-job-category-filter').length ) {
-				return wp.JB.jobs_list.objects.wrapper.find( '.jb-job-category-filter' ).val();
+		get_category: function( jobs_list ) {
+			if ( jobs_list.find('.jb-job-category-filter').length ) {
+				return jobs_list.find( '.jb-job-category-filter' ).val();
 			} else {
-				return wp.JB.jobs_list.objects.wrapper.data('category');
+				return jobs_list.data('category');
 			}
 		},
-		get_hide_expired: function() {
-			var hide_expired = wp.JB.jobs_list.objects.wrapper.data( 'hide-expired' );
+		get_hide_expired: function( jobs_list ) {
+			var hide_expired = jobs_list.data( 'hide-expired' );
 			if ( typeof hide_expired == 'undefined' ) {
 				hide_expired = null;
 			}
 			return hide_expired;
 		},
-		get_hide_filled: function() {
-			var hide_filled = wp.JB.jobs_list.objects.wrapper.data( 'hide-filled' );
+		get_hide_filled: function( jobs_list ) {
+			var hide_filled = jobs_list.data( 'hide-filled' );
 			if ( typeof hide_filled == 'undefined' ) {
 				hide_filled = null;
 			}
 			return hide_filled;
 		},
-		get_filled_only: function() {
-			var filled_only = wp.JB.jobs_list.objects.wrapper.data( 'filled-only' );
+		get_filled_only: function( jobs_list ) {
+			var filled_only = jobs_list.data( 'filled-only' );
 			if ( typeof filled_only == 'undefined' ) {
 				filled_only = null;
 			}
 			return filled_only;
 		},
-		get_orderby: function() {
-			var orderby = wp.JB.jobs_list.objects.wrapper.data( 'orderby' );
+		get_orderby: function( jobs_list ) {
+			var orderby = jobs_list.data( 'orderby' );
 			if ( typeof orderby == 'undefined' ) {
 				orderby = 'date';
 			}
 			return orderby;
 		},
-		get_order: function() {
-			var order = wp.JB.jobs_list.objects.wrapper.data( 'order' );
+		get_order: function( jobs_list ) {
+			var order = jobs_list.data( 'order' );
 			if ( typeof order == 'undefined' ) {
 				order = 'DESC';
 			}
 			return order;
 		}
 	},
-	ajax: function( append ) {
+	ajax: function( jobs_list, append ) {
 		var request = {
-			page: wp.JB.jobs_list.url.get_page(),
-			per_page: wp.JB.jobs_list.url.get_per_page(),
-			search: wp.JB.jobs_list.url.get_search(),
-			location: wp.JB.jobs_list.url.get_location(),
-			remote_only: wp.JB.jobs_list.url.get_type(),
-			type: wp.JB.jobs_list.url.get_type_tag(),
-			category: wp.JB.jobs_list.url.get_category(),
-			employer: wp.JB.jobs_list.url.get_employer(),
-			no_logo: wp.JB.jobs_list.url.get_logo(),
-			hide_job_types: wp.JB.jobs_list.url.get_hide_job_types(),
-			hide_expired: wp.JB.jobs_list.url.get_hide_expired(),
-			hide_filled: wp.JB.jobs_list.url.get_hide_filled(),
-			filled_only: wp.JB.jobs_list.url.get_filled_only(),
-			orderby: wp.JB.jobs_list.url.get_orderby(),
-			order: wp.JB.jobs_list.url.get_order(),
+			page: wp.JB.jobs_list.url.get_page( jobs_list ),
+			per_page: wp.JB.jobs_list.url.get_per_page( jobs_list ),
+			search: wp.JB.jobs_list.url.get_search( jobs_list ),
+			location: wp.JB.jobs_list.url.get_location( jobs_list ),
+			remote_only: wp.JB.jobs_list.url.get_type( jobs_list ),
+			type: wp.JB.jobs_list.url.get_type_tag( jobs_list ),
+			category: wp.JB.jobs_list.url.get_category( jobs_list ),
+			employer: wp.JB.jobs_list.url.get_employer( jobs_list ),
+			no_logo: wp.JB.jobs_list.url.get_logo( jobs_list ),
+			hide_job_types: wp.JB.jobs_list.url.get_hide_job_types( jobs_list ),
+			hide_expired: wp.JB.jobs_list.url.get_hide_expired( jobs_list ),
+			hide_filled: wp.JB.jobs_list.url.get_hide_filled( jobs_list ),
+			filled_only: wp.JB.jobs_list.url.get_filled_only( jobs_list ),
+			orderby: wp.JB.jobs_list.url.get_orderby( jobs_list ),
+			order: wp.JB.jobs_list.url.get_order( jobs_list ),
 			nonce: jb_front_data.nonce
 		};
 
@@ -245,7 +265,7 @@ wp.JB.jobs_list = {
 
 		request = wp.hooks.applyFilters( 'jb_jobs_request', request );
 
-		wp.JB.jobs_list.preloader.show();
+		wp.JB.jobs_list.preloader.show( jobs_list );
 
 		wp.ajax.send( 'jb-get-jobs', {
 			data:  request,
@@ -253,46 +273,46 @@ wp.JB.jobs_list = {
 				var template = wp.template( 'jb-jobs-list-line' );
 
 				if ( append ) {
-					wp.JB.jobs_list.objects.wrapper.find('.jb-jobs-wrapper').append( template( answer ) );
+					jobs_list.find('.jb-jobs-wrapper').append( template( answer ) );
 				} else {
-					wp.JB.jobs_list.objects.wrapper.find('.jb-jobs-wrapper').html( template( answer ) );
+					jobs_list.find('.jb-jobs-wrapper').html( template( answer ) );
 				}
 
-				wp.JB.jobs_list.objects.wrapper.data( 'total_pages', answer.pagination.total_pages );
+				jobs_list.data( 'total_pages', answer.pagination.total_pages );
 
 				if ( answer.pagination.total_pages > 0 ) {
-					wp.JB.jobs_list.objects.wrapper.find('.jb-jobs-wrapper').removeClass('jb-no-jobs');
+					jobs_list.find('.jb-jobs-wrapper').removeClass('jb-no-jobs');
 
 					if ( answer.pagination.total_pages == answer.pagination.current_page ) {
-						wp.JB.jobs_list.objects.wrapper.find( '.jb-load-more-jobs' ).hide();
+						jobs_list.find( '.jb-load-more-jobs' ).hide();
 					} else {
-						wp.JB.jobs_list.objects.wrapper.find( '.jb-load-more-jobs' ).show();
+						jobs_list.find( '.jb-load-more-jobs' ).show();
 					}
 				} else {
 
 					if ( ! append ) {
 						if ( wp.JB.jobs_list.is_search ) {
-							wp.JB.jobs_list.objects.wrapper.find('.jb-jobs-wrapper').html( wp.JB.jobs_list.objects.wrapper.data('no-jobs-search') );
+							jobs_list.find('.jb-jobs-wrapper').html( jobs_list.data('no-jobs-search') );
 						} else {
-							wp.JB.jobs_list.objects.wrapper.find('.jb-jobs-wrapper').html( wp.JB.jobs_list.objects.wrapper.data('no-jobs') );
+							jobs_list.find('.jb-jobs-wrapper').html( jobs_list.data('no-jobs') );
 						}
 					}
 
-					wp.JB.jobs_list.objects.wrapper.find('.jb-jobs-wrapper').addClass('jb-no-jobs');
+					jobs_list.find('.jb-jobs-wrapper').addClass('jb-no-jobs');
 
-					wp.JB.jobs_list.objects.wrapper.find( '.jb-load-more-jobs' ).hide();
+					jobs_list.find( '.jb-load-more-jobs' ).hide();
 				}
 
 				wp.hooks.doAction( 'jb_jobs_list_loaded', answer );
 
-				wp.JB.jobs_list.objects.wrapper.find( '.jb-do-search' ).removeClass('disabled');
+				jobs_list.find( '.jb-do-search' ).removeClass('disabled');
 
-				wp.JB.jobs_list.preloader.hide();
+				wp.JB.jobs_list.preloader.hide( jobs_list );
 			},
 			error: function( data ) {
 				console.log( data );
-				wp.JB.jobs_list.preloader.hide();
-				wp.JB.jobs_list.objects.wrapper.find( '.jb-do-search' ).removeClass('disabled');
+				wp.JB.jobs_list.preloader.hide( jobs_list );
+				jobs_list.find( '.jb-do-search' ).removeClass('disabled');
 			}
 		});
 	}
@@ -301,33 +321,38 @@ wp.JB.jobs_list = {
 
 jQuery( document ).ready( function($) {
 	if ( wp.JB.jobs_list.objects.wrapper.length ) {
-		wp.JB.jobs_list.ajax();
+		wp.JB.jobs_list.objects.wrapper.each( function () {
+			wp.JB.jobs_list.ajax( $(this) );
+		});
 	}
 
 	$( document.body ).on( 'click', '.jb-do-search', function() {
 		if ( $(this).hasClass('disabled') ) {
 			return;
 		}
-		if ( wp.JB.jobs_list.is_busy() ) {
+
+		var jobs_list = $(this).parents( '.jb-jobs' );
+
+		if ( wp.JB.jobs_list.is_busy( jobs_list ) ) {
 			return;
 		}
 
-		wp.JB.jobs_list.preloader.show();
+		wp.JB.jobs_list.preloader.show( jobs_list );
 
-		wp.JB.jobs_list.objects.wrapper.data( 'page', 1 );
-		wp.JB.jobs_list.url.set( 'jb-page', '' );
+		jobs_list.data( 'page', 1 );
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-page', '' );
 
-		var search = wp.JB.jobs_list.url.get_search();
-		wp.JB.jobs_list.url.set( 'jb-search', search );
+		var search = wp.JB.jobs_list.url.get_search( jobs_list );
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-search', search );
 
-		var location = wp.JB.jobs_list.url.get_location();
-		wp.JB.jobs_list.url.set( 'jb-location-search', location );
+		var location = wp.JB.jobs_list.url.get_location( jobs_list );
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-location-search', location );
 
-		wp.hooks.doAction( 'jb_jobs_list_do_search' );
+		wp.hooks.doAction( 'jb_jobs_list_do_search', jobs_list );
 
 		$(this).addClass('disabled');
 
-		wp.JB.jobs_list.ajax();
+		wp.JB.jobs_list.ajax( jobs_list );
 	});
 
 
@@ -335,115 +360,128 @@ jQuery( document ).ready( function($) {
 	$( document.body ).on( 'keypress', '.jb-search-line, .jb-search-location', function(e) {
 		if ( e.which === 13 ) {
 
-			var button = $(this).parents('.jb-jobs').find('.jb-do-search');
+			var jobs_list = $(this).parents( '.jb-jobs' );
+
+			var button = jobs_list.find('.jb-do-search');
 
 			if ( button.hasClass('disabled') ) {
 				return;
 			}
-			if ( wp.JB.jobs_list.is_busy() ) {
+			if ( wp.JB.jobs_list.is_busy( jobs_list ) ) {
 				return;
 			}
 
-			wp.JB.jobs_list.preloader.show();
+			wp.JB.jobs_list.preloader.show( jobs_list );
 
-			wp.JB.jobs_list.objects.wrapper.data( 'page', 1 );
-			wp.JB.jobs_list.url.set( 'jb-page', '' );
+			jobs_list.data( 'page', 1 );
+			wp.JB.jobs_list.url.set( jobs_list, 'jb-page', '' );
 
-			var search = wp.JB.jobs_list.url.get_search();
-			wp.JB.jobs_list.url.set( 'jb-search', search );
+			var search = wp.JB.jobs_list.url.get_search( jobs_list );
+			wp.JB.jobs_list.url.set( jobs_list, 'jb-search', search );
 
-			var location = wp.JB.jobs_list.url.get_location();
-			wp.JB.jobs_list.url.set( 'jb-location-search', location );
+			var location = wp.JB.jobs_list.url.get_location( jobs_list );
+			wp.JB.jobs_list.url.set( jobs_list, 'jb-location-search', location );
 
-			wp.hooks.doAction( 'jb_jobs_list_do_search' );
+			wp.hooks.doAction( 'jb_jobs_list_do_search', jobs_list );
 
 			button.addClass('disabled');
 
-			wp.JB.jobs_list.ajax();
+			wp.JB.jobs_list.ajax( jobs_list );
 		}
 	});
 
 
 	$( document.body ).on( 'click', '.jb-only-remote', function() {
-		wp.JB.jobs_list.objects.wrapper.find( '.jb-do-search' ).addClass('disabled');
+		var jobs_list = $(this).parents( '.jb-jobs' );
 
-		if ( wp.JB.jobs_list.is_busy() ) {
+		if ( wp.JB.jobs_list.is_busy( jobs_list ) ) {
 			return;
 		}
 
-		wp.JB.jobs_list.preloader.show();
+		jobs_list.find( '.jb-do-search' ).addClass('disabled');
 
-		wp.JB.jobs_list.objects.wrapper.data( 'page', 1 );
-		wp.JB.jobs_list.url.set( 'jb-page', '' );
+		wp.JB.jobs_list.preloader.show( jobs_list );
 
-		var is_remote = wp.JB.jobs_list.url.get_type();
+		jobs_list.data( 'page', 1 );
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-page', '' );
+
+		var is_remote = wp.JB.jobs_list.url.get_type( jobs_list );
 		if ( is_remote ) {
-			wp.JB.jobs_list.url.set( 'jb-is-remote', is_remote );
+			wp.JB.jobs_list.url.set( jobs_list, 'jb-is-remote', is_remote );
 		} else {
-			wp.JB.jobs_list.url.set( 'jb-is-remote', '' );
+			wp.JB.jobs_list.url.set( jobs_list, 'jb-is-remote', '' );
 		}
 
-		wp.JB.jobs_list.ajax();
+		wp.JB.jobs_list.ajax( jobs_list );
 	});
 
 
 	$( document.body ).on( 'change', '.jb-job-type-filter', function() {
-		wp.JB.jobs_list.objects.wrapper.find( '.jb-do-search' ).addClass('disabled');
+		var jobs_list = $(this).parents( '.jb-jobs' );
 
-		if ( wp.JB.jobs_list.is_busy() ) {
+		if ( wp.JB.jobs_list.is_busy( jobs_list ) ) {
 			return;
 		}
 
-		wp.JB.jobs_list.preloader.show();
+		jobs_list.find( '.jb-do-search' ).addClass('disabled');
 
-		wp.JB.jobs_list.objects.wrapper.data( 'page', 1 );
-		wp.JB.jobs_list.url.set( 'jb-page', '' );
+		wp.JB.jobs_list.preloader.show( jobs_list );
 
-		wp.JB.jobs_list.url.set( 'jb-job-type', $(this).val() );
+		jobs_list.data( 'page', 1 );
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-page', '' );
 
-		wp.JB.jobs_list.ajax();
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-job-type', $(this).val() );
+
+		wp.JB.jobs_list.ajax( jobs_list );
 	});
 
 
 	$( document.body ).on( 'change', '.jb-job-category-filter', function() {
-		wp.JB.jobs_list.objects.wrapper.find( '.jb-do-search' ).addClass('disabled');
+		var jobs_list = $(this).parents( '.jb-jobs' );
 
-		if ( wp.JB.jobs_list.is_busy() ) {
+		if ( wp.JB.jobs_list.is_busy( jobs_list ) ) {
 			return;
 		}
 
-		wp.JB.jobs_list.preloader.show();
+		jobs_list.find( '.jb-do-search' ).addClass('disabled');
 
-		wp.JB.jobs_list.objects.wrapper.data( 'page', 1 );
-		wp.JB.jobs_list.url.set( 'jb-page', '' );
+		wp.JB.jobs_list.preloader.show( jobs_list );
 
-		wp.JB.jobs_list.url.set( 'jb-job-category', $(this).val() );
+		jobs_list.data( 'page', 1 );
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-page', '' );
 
-		wp.JB.jobs_list.ajax();
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-job-category', $(this).val() );
+
+		wp.JB.jobs_list.ajax( jobs_list );
 	});
 
 
 	$( document.body ).on( 'click', '.jb-load-more-jobs', function() {
+		var jobs_list = $(this).parents( '.jb-jobs' );
+
 		if ( $(this).hasClass('disabled') ) {
 			return;
 		}
-		if ( wp.JB.jobs_list.is_busy() ) {
+
+		if ( wp.JB.jobs_list.is_busy( jobs_list ) ) {
 			return;
 		}
 
-		wp.JB.jobs_list.preloader.show();
+		wp.JB.jobs_list.preloader.show( jobs_list );
 
-		var page = wp.JB.jobs_list.objects.wrapper.data( 'page' )*1 + 1;
-		wp.JB.jobs_list.objects.wrapper.data( 'page', page );
+		var page = jobs_list.data( 'page' )*1 + 1;
+		jobs_list.data( 'page', page );
 
-		wp.JB.jobs_list.url.set( 'jb-page', page );
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-page', page );
 
-		wp.JB.jobs_list.ajax( true );
+		wp.JB.jobs_list.ajax( jobs_list, true );
 	});
 
 	window.addEventListener( 'popstate', function(e) {
 		if ( wp.JB.jobs_list.objects.wrapper.length ) {
-			wp.JB.jobs_list.ajax();
+			wp.JB.jobs_list.objects.wrapper.each( function () {
+				wp.JB.jobs_list.ajax( $(this) );
+			});
 		}
 	});
 });

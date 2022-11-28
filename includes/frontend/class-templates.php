@@ -33,7 +33,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			 * Handlers for single job template
 			 */
 			add_filter( 'single_template', array( &$this, 'cpt_template' ) );
-			add_filter( 'archive_template', array( &$this, 'cpt_archive_template' ), 10, 3 );
+			add_filter( 'archive_template', array( &$this, 'cpt_archive_template' ), 100, 3 );
 			add_action( 'wp_footer', array( $this, 'output_structured_data' ) );
 		}
 
@@ -200,9 +200,13 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 * @since 1.0
 		 */
 		public function cpt_archive_template( $template, $type, $templates ) {
-			if ( isset( get_queried_object()->taxonomy ) && ( 'jb-job-type' === get_queried_object()->taxonomy || 'jb-job-category' === get_queried_object()->taxonomy ) ) {
-				if ( JB()->options()->get( 'job-categories-filter' ) && 'archive' === $type ) {
-					$template = untrailingslashit( JB_PATH ) . '/templates/job-archive.php';
+			if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+
+			} else {
+				if ( isset( get_queried_object()->taxonomy ) && ( 'jb-job-type' === get_queried_object()->taxonomy || 'jb-job-category' === get_queried_object()->taxonomy ) ) {
+					if ( 'default' === JB()->options()->get( 'job-archive-template' ) && 'archive' === $type ) {
+						$template = untrailingslashit( JB_PATH ) . '/templates/job-archive.php';
+					}
 				}
 			}
 
