@@ -41,8 +41,6 @@ wp.JB.jobs_list = {
 		set: function( jobs_list, key, value ) {
 			var data = wp.JB.jobs_list.url.get();
 
-			console.log( data );
-
 			var list_index = wp.JB.jobs_list.get_wrapper_index( jobs_list );
 
 			var new_data = {};
@@ -263,7 +261,7 @@ wp.JB.jobs_list = {
 			wp.JB.jobs_list.first_load = false;
 		}
 
-		request = wp.hooks.applyFilters( 'jb_jobs_request', request );
+		request = wp.hooks.applyFilters( 'jb_jobs_request', request, jobs_list );
 
 		wp.JB.jobs_list.preloader.show( jobs_list );
 

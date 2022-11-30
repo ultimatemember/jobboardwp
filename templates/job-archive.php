@@ -10,7 +10,7 @@ get_header();
 	<?php the_archive_title( '<h1 class="page-title">', '</h1>' ); ?>
 </header>
 
-<div class="jb-job-categories-wrapper">
+<div class="entry-content <?php echo esc_attr( get_queried_object()->taxonomy . '-wrapper' ); ?>">
 	<?php
 	$tax_id = get_queried_object_id();
 	$attrs  = '';

@@ -81,7 +81,9 @@ jQuery(window).load(function($) {
 			jQuery(mutation.addedNodes).find('.jb-jobs').each(function() {
 				wp.JB.jobs_list.objects.wrapper = jQuery('.jb-jobs');
 				if ( wp.JB.jobs_list.objects.wrapper.length ) {
-					wp.JB.jobs_list.ajax();
+					wp.JB.jobs_list.objects.wrapper.each( function () {
+						wp.JB.jobs_list.ajax( jQuery(this) );
+					});
 				}
 			});
 

@@ -115,13 +115,13 @@ document.body.appendChild( jb_location_script );
 
 
 // extends AJAX request arguments
-wp.hooks.addFilter( 'jb_jobs_request', 'jb_autocomplete_location', function( request ) {
-	if ( wp.JB.jobs_list.objects.wrapper.find('.jb-location-autocomplete-data').length ) {
-		request['location-city'] = wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-city' ).val();
-		request['location-state-short'] = wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-state-short' ).val();
-		request['location-state-long'] = wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-state-long' ).val();
-		request['location-country-short'] = wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-country-short' ).val();
-		request['location-country-long'] = wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-country-long' ).val();
+wp.hooks.addFilter( 'jb_jobs_request', 'jb_autocomplete_location', function( request, jobs_list ) {
+	if ( jobs_list.find('.jb-location-autocomplete-data').length ) {
+		request['location-city'] = jobs_list.find( '.jb-location-autocomplete-data.jb-location-city' ).val();
+		request['location-state-short'] = jobs_list.find( '.jb-location-autocomplete-data.jb-location-state-short' ).val();
+		request['location-state-long'] = jobs_list.find( '.jb-location-autocomplete-data.jb-location-state-long' ).val();
+		request['location-country-short'] = jobs_list.find( '.jb-location-autocomplete-data.jb-location-country-short' ).val();
+		request['location-country-long'] = jobs_list.find( '.jb-location-autocomplete-data.jb-location-country-long' ).val();
 		request['location'] = '';
 	}
 
@@ -129,24 +129,24 @@ wp.hooks.addFilter( 'jb_jobs_request', 'jb_autocomplete_location', function( req
 }, 10 );
 
 // add location data to URL on search click
-wp.hooks.addAction( 'jb_jobs_list_do_search', 'jb_autocomplete_location', function() {
-	if ( wp.JB.jobs_list.objects.wrapper.find('.jb-location-autocomplete-data.jb-location-city').length ) {
-		wp.JB.jobs_list.url.set( 'jb-location-search-city', wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-city' ).val() );
+wp.hooks.addAction( 'jb_jobs_list_do_search', 'jb_autocomplete_location', function( jobs_list ) {
+	if ( jobs_list.find('.jb-location-autocomplete-data.jb-location-city').length ) {
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-location-search-city', jobs_list.find( '.jb-location-autocomplete-data.jb-location-city' ).val() );
 	}
 
-	if ( wp.JB.jobs_list.objects.wrapper.find('.jb-location-autocomplete-data.jb-location-state-short').length ) {
-		wp.JB.jobs_list.url.set( 'jb-location-search-state-short', wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-state-short' ).val() );
+	if ( jobs_list.find('.jb-location-autocomplete-data.jb-location-state-short').length ) {
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-location-search-state-short', jobs_list.find( '.jb-location-autocomplete-data.jb-location-state-short' ).val() );
 	}
 
-	if ( wp.JB.jobs_list.objects.wrapper.find('.jb-location-autocomplete-data.jb-location-state-long').length ) {
-		wp.JB.jobs_list.url.set( 'jb-location-search-state-long', wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-state-long' ).val() );
+	if ( jobs_list.find('.jb-location-autocomplete-data.jb-location-state-long').length ) {
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-location-search-state-long', jobs_list.find( '.jb-location-autocomplete-data.jb-location-state-long' ).val() );
 	}
 
-	if ( wp.JB.jobs_list.objects.wrapper.find('.jb-location-autocomplete-data.jb-location-country-short').length ) {
-		wp.JB.jobs_list.url.set( 'jb-location-search-country-short', wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-country-short' ).val() );
+	if ( jobs_list.find('.jb-location-autocomplete-data.jb-location-country-short').length ) {
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-location-search-country-short', jobs_list.find( '.jb-location-autocomplete-data.jb-location-country-short' ).val() );
 	}
 
-	if ( wp.JB.jobs_list.objects.wrapper.find('.jb-location-autocomplete-data.jb-location-country-long').length ) {
-		wp.JB.jobs_list.url.set( 'jb-location-search-country-long', wp.JB.jobs_list.objects.wrapper.find( '.jb-location-autocomplete-data.jb-location-country-long' ).val() );
+	if ( jobs_list.find('.jb-location-autocomplete-data.jb-location-country-long').length ) {
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-location-search-country-long', jobs_list.find( '.jb-location-autocomplete-data.jb-location-country-long' ).val() );
 	}
 }, 10 );
