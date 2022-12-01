@@ -318,6 +318,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 							'readonly'     => true,
 							'required'     => true,
 							'autocomplete' => true,
+							'placeholder'  => true,
 						),
 						'img'      => array(
 							'alt'      => true,
