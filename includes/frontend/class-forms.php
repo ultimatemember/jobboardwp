@@ -1100,7 +1100,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 						'init_instance_callback' => "function (editor) {
 														editor.on( 'keyup paste mouseover', function (e) {
 														var content = editor.getContent( { format: 'html' } ).trim();
-														var textarea = jQuery( '#' + editor.id ); 
+														var textarea = jQuery( '#' + editor.id );
 														textarea.val( content ).trigger( 'keyup' ).trigger( 'keypress' ).trigger( 'keydown' ).trigger( 'change' ).trigger( 'paste' ).trigger( 'mouseover' );
 													});}",
 					),
