@@ -560,7 +560,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			}
 			$uploader_classes = implode( ' ', $uploader_classes );
 
-			$styles = 'width: ' . esc_attr( $thumb_w ) . 'px; height: ' . esc_attr( $thumb_h ) . 'px; display: block;';
+			$styles = 'width: ' . $thumb_w . 'px; height: ' . $thumb_h . 'px; display: block;';
 
 			/**
 			 * Filters the preview style.
