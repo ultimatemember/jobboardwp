@@ -565,10 +565,13 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			/**
 			 * Filters the preview style.
 			 *
+			 * @hook jb_upload_wrapper_styles
 			 * @since 1.2.3
 			 *
-			 * @param string $styles      Styles
-			 * @param array  $field_data  Field data.
+			 * @param {string} $styles      Styles
+			 * @param {array}  $field_data  Field data.
+			 *
+			 * @return {string} Styles attribute
 			 */
 			$styles = apply_filters( 'jb_upload_wrapper_styles', $styles, $field_data );
 
