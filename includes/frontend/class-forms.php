@@ -560,13 +560,25 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			}
 			$uploader_classes = implode( ' ', $uploader_classes );
 
+			$styles = 'width: ' . esc_attr( $thumb_w ) . 'px; height: ' . esc_attr( $thumb_h ) . 'px; display: block;';
+
+			/**
+			 * Filters the preview style.
+			 *
+			 * @since 1.2.3
+			 *
+			 * @param string $styles      Styles
+			 * @param array  $field_data  Field data.
+			 */
+			$styles = apply_filters( 'jb_upload_wrapper_styles', $styles, $field_data );
+
 			$value = ! empty( $field_data['value'] ) ? $field_data['value'] : '';
 
 			ob_start();
 			?>
 
 			<span class="<?php echo esc_attr( $wrapper_classes ); ?>">
-				<span class="jb-uploaded-content-wrapper jb-<?php echo esc_attr( $id ); ?>-image-wrapper" style="width: <?php echo esc_attr( $thumb_w ); ?>px;height: <?php echo esc_attr( $thumb_h ); ?>px; display: block;">
+				<span class="jb-uploaded-content-wrapper jb-<?php echo esc_attr( $id ); ?>-image-wrapper" style="<?php echo esc_attr( $styles ); ?>">
 					<?php
 					$output = '<img src="' . ( ! empty( $field_data['value'] ) ? esc_url( $field_data['value'] ) : '' ) . '" alt="' . esc_attr( $img_alt ) . '" ' . $img_style . ' />';
 					echo wp_kses( apply_filters( 'jb_preview_media_output', $output, $field_data ), JB()->get_allowed_html( 'templates' ) );
