@@ -203,7 +203,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
 				if ( isset( get_queried_object()->taxonomy ) && ( 'jb-job-type' === get_queried_object()->taxonomy || 'jb-job-category' === get_queried_object()->taxonomy ) ) {
 					if ( 'default' === JB()->options()->get( 'job-archive-template' ) && 'archive' === $type ) {
-						add_filter( 'render_block_data', array( $this, 'jb_change_archive_template' ), 10, 3);
+						add_filter( 'render_block_data', array( $this, 'jb_change_archive_template' ), 10, 3 );
 					}
 				}
 			} else {
@@ -216,19 +216,19 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 			return $template;
 		}
-		function jb_change_archive_template( $pre_render, $parsed_block, $parent_block ) {
+		public function jb_change_archive_template( $pre_render, $parsed_block, $parent_block ) {
 			$tax_id = get_queried_object_id();
 			$attrs  = array();
 			if ( 'jb-job-category' === get_queried_object()->taxonomy ) {
 				$attrs = array(
 					'category' => array(
-						$tax_id
+						$tax_id,
 					),
 				);
 			} elseif ( 'jb-job-type' === get_queried_object()->taxonomy ) {
 				$attrs = array(
 					'type' => array(
-						$tax_id
+						$tax_id,
 					),
 				);
 			}
@@ -245,17 +245,19 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			return $parsed_block;
 		}
 
-		function set( $path, &$array = array(), $value = null ) {
+		public function set( $path, &$array = array(), $value = null ) {
 			$path = explode( '_', $path );
 			$temp = &$array;
 
-			foreach( $path as $key ) {
+			foreach ( $path as $key ) {
 				$temp = &$temp[ $key ];
 			}
-			return $temp = $value;
+			$temp = $value;
+
+			return $temp;
 		}
 
-		function search_path( $needle, $haystack ) {
+		public function search_path( $needle, $haystack ) {
 			if ( ! is_array( $haystack ) ) {
 				return false;
 			}
@@ -263,7 +265,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			foreach ( $haystack as $key => $value ) {
 				if ( 'core/query' === $value && $value === $needle ) {
 					return $key;
-				} else if ( is_array( $value ) ) {
+				} elseif ( is_array( $value ) ) {
 					$key_result = $this->search_path( $needle, $value );
 					if ( false !== $key_result ) {
 						return $key . '_' . $key_result;
