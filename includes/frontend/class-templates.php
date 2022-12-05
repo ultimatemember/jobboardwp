@@ -201,7 +201,11 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 */
 		public function cpt_archive_template( $template, $type, $templates ) {
 			if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
-
+				if ( isset( get_queried_object()->taxonomy ) && ( 'jb-job-type' === get_queried_object()->taxonomy || 'jb-job-category' === get_queried_object()->taxonomy ) ) {
+					if ( 'default' === JB()->options()->get( 'job-archive-template' ) && 'archive' === $type ) {
+						add_filter( 'render_block_data', array( $this, 'jb_change_archive_template' ), 10, 3 );
+					}
+				}
 			} else {
 				if ( isset( get_queried_object()->taxonomy ) && ( 'jb-job-type' === get_queried_object()->taxonomy || 'jb-job-category' === get_queried_object()->taxonomy ) ) {
 					if ( 'default' === JB()->options()->get( 'job-archive-template' ) && 'archive' === $type ) {
@@ -212,7 +216,65 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 			return $template;
 		}
+		public function jb_change_archive_template( $pre_render, $parsed_block, $parent_block ) {
+			$tax_id = get_queried_object_id();
+			$attrs  = array();
+			if ( 'jb-job-category' === get_queried_object()->taxonomy ) {
+				$attrs = array(
+					'category' => array(
+						$tax_id,
+					),
+				);
+			} elseif ( 'jb-job-type' === get_queried_object()->taxonomy ) {
+				$attrs = array(
+					'type' => array(
+						$tax_id,
+					),
+				);
+			}
 
+			if ( 'core/group' === $parsed_block['blockName'] ) {
+				$key_path = $this->search_path( 'core/query', $parsed_block );
+				if ( false !== $key_path ) {
+					$attrs_path = str_replace( '_blockName', '_attrs', $key_path );
+					$this->set( $key_path, $parsed_block, 'jb-block/jb-jobs-list' );
+					$this->set( $attrs_path, $parsed_block, $attrs );
+				}
+			}
+
+			return $parsed_block;
+		}
+
+		public function set( $path, &$array = array(), $value = null ) {
+			$path = explode( '_', $path );
+			$temp = &$array;
+
+			foreach ( $path as $key ) {
+				$temp = &$temp[ $key ];
+			}
+			$temp = $value;
+
+			return $temp;
+		}
+
+		public function search_path( $needle, $haystack ) {
+			if ( ! is_array( $haystack ) ) {
+				return false;
+			}
+
+			foreach ( $haystack as $key => $value ) {
+				if ( 'core/query' === $value && $value === $needle ) {
+					return $key;
+				} elseif ( is_array( $value ) ) {
+					$key_result = $this->search_path( $needle, $value );
+					if ( false !== $key_result ) {
+						return $key . '_' . $key_result;
+					}
+				}
+			}
+
+			return false;
+		}
 
 		/**
 		 * Callback for twentytwenty WP native theme to disable showing post meta
