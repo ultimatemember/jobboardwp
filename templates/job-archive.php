@@ -20,6 +20,7 @@ get_header();
 		$shortcode = '[jb_jobs category="' . $tax_id . '"]';
 	}
 
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- shortcode content output, early escaped
 	echo apply_shortcodes( wp_filter_content_tags( prepend_attachment( shortcode_unautop( wpautop( wptexturize( do_blocks( $shortcode ) ) ) ) ) ) );
 	?>
 </div>
