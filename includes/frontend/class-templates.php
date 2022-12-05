@@ -216,9 +216,18 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 			return $template;
 		}
+
+		/**
+		 * @param $pre_render
+		 * @param $parsed_block
+		 * @param $parent_block
+		 *
+		 * @return mixed
+		 */
 		public function jb_change_archive_template( $pre_render, $parsed_block, $parent_block ) {
 			$tax_id = get_queried_object_id();
 			$attrs  = array();
+
 			if ( 'jb-job-category' === get_queried_object()->taxonomy ) {
 				$attrs = array(
 					'category' => array(
@@ -245,7 +254,14 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			return $parsed_block;
 		}
 
-		public function set( $path, &$array = array(), $value = null ) {
+		/**
+		 * @param string $path
+		 * @param array $array
+		 * @param null $value
+		 *
+		 * @return array|mixed|null
+		 */
+		private function set( $path, &$array = array(), $value = null ) {
 			$path = explode( '_', $path );
 			$temp = &$array;
 
@@ -257,7 +273,13 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			return $temp;
 		}
 
-		public function search_path( $needle, $haystack ) {
+		/**
+		 * @param $needle
+		 * @param $haystack
+		 *
+		 * @return bool|int|string
+		 */
+		private function search_path( $needle, $haystack ) {
 			if ( ! is_array( $haystack ) ) {
 				return false;
 			}
