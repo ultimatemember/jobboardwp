@@ -142,6 +142,10 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 						$this->company_name_meta = $meta_join_for_search;
 
+						$search_meta  = $wpdb->remove_placeholder_escape( $search_meta );
+						$search_query = $wpdb->remove_placeholder_escape( $search_query );
+						$sql['where'] = $wpdb->remove_placeholder_escape( $sql['where'] );
+
 						// phpcs:disable Squiz.Strings.DoubleQuoteUsage.NotRequired -- don't remove regex indentation
 						$sql['where'] = preg_replace(
 							"/\( (" . $meta_join_for_search . ".meta_key = 'jb-company-name' AND " . $meta_join_for_search . ".meta_value LIKE " . $search_meta . ") \)/im",
