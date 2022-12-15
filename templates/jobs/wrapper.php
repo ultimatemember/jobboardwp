@@ -2,14 +2,14 @@
 	exit;
 }
 
-global $post;
+global $post, $jb_jobs_shortcode_index;
 
 // phpcs:disable VariableAnalysis
 // There are "undefined" variables here because they're defined in the code that includes this file as a template.
 
 // phpcs:disable WordPress.Security.NonceVerification -- getting value from GET line
 
-$current_page = ( ! empty( $_GET['jb-page'] ) && is_numeric( $_GET['jb-page'] ) ) ? absint( $_GET['jb-page'] ) : 1;
+$current_page = ( ! empty( $_GET['jb-page'][ $jb_jobs_shortcode_index ] ) && is_numeric( $_GET['jb-page'][ $jb_jobs_shortcode_index ] ) ) ? absint( $_GET['jb-page'][ $jb_jobs_shortcode_index ] ) : 1;
 ?>
 
 <div class="jb jb-jobs" data-base-post="<?php echo isset( $post->ID ) ? esc_attr( $post->ID ) : ''; ?>"
@@ -26,7 +26,8 @@ $current_page = ( ! empty( $_GET['jb-page'] ) && is_numeric( $_GET['jb-page'] ) 
 	data-no-jobs="<?php echo esc_attr( $jb_jobs_wrapper['no-jobs-text'] ); ?>"
 	data-no-jobs-search="<?php echo esc_attr( $jb_jobs_wrapper['no-jobs-search-text'] ); ?>"
 	data-category="<?php echo esc_attr( $jb_jobs_wrapper['category'] ); ?>"
-	data-type="<?php echo esc_attr( $jb_jobs_wrapper['type'] ); ?>">
+	data-type="<?php echo esc_attr( $jb_jobs_wrapper['type'] ); ?>"
+	data-wrapper-index="<?php echo esc_attr( $jb_jobs_shortcode_index ); ?>">
 
 	<?php
 	JB()->get_template_part( 'ajax-overlay', $jb_jobs_wrapper );

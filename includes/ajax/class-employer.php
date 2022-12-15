@@ -91,6 +91,8 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 					'bmp'          => 'image/bmp',
 					'tiff|tif'     => 'image/tiff',
 					'ico'          => 'image/x-icon',
+					'webp'         => 'image/webp',
+					'heic'         => 'image/heic',
 				)
 			);
 

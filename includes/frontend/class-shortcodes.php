@@ -443,6 +443,14 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		 * @since 1.0
 		 */
 		public function jobs( $atts = array() ) {
+			global $jb_jobs_shortcode_index;
+
+			if ( empty( $jb_jobs_shortcode_index ) ) {
+				$jb_jobs_shortcode_index = 1;
+			} else {
+				$jb_jobs_shortcode_index ++;
+			}
+
 			// there is possible to use 'shortcode_atts_jb_jobs' filter for getting customized $atts
 			$atts = shortcode_atts(
 				array(

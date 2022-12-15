@@ -47,6 +47,12 @@ function JBLocationAutocomplete() {
 		}
 	});
 
+	jQuery( document.body ).on( 'change', '.jb-location-autocomplete', function() {
+		if ( jQuery(this).val() === '' ) {
+			jQuery(this).siblings('.jb-location-autocomplete-data').val( '' );
+		}
+	});
+
 	jQuery('.jb-location-autocomplete').each( function() {
 
 		JBLocationSelectOnEnter( jQuery(this).get(0) );

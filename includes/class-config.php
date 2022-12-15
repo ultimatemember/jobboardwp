@@ -124,6 +124,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 				'job-category-slug'              => 'job-category',
 				'job-categories'                 => true,
 				'job-template'                   => '',
+				'job-archive-template'           => '',
 				'job-dateformat'                 => 'default',
 				'job-breadcrumbs'                => false,
 				'googlemaps-api-key'             => '',
