@@ -142,6 +142,14 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 						$this->company_name_meta = $meta_join_for_search;
 
+						preg_match( '~(?<=\{)(.*?)(?=\})~', $search_meta, $matches, PREG_OFFSET_CAPTURE, 0 );
+
+						if ( $matches[0][0] ) {
+							$search_meta  = str_replace( '{' . $matches[0][0] . '}', '#%&', $search_meta );
+							$search_query = str_replace( '{' . $matches[0][0] . '}', '#%&', $search_query );
+							$sql['where'] = str_replace( '{' . $matches[0][0] . '}', '#%&', $sql['where'] );
+						}
+
 						// phpcs:disable Squiz.Strings.DoubleQuoteUsage.NotRequired -- don't remove regex indentation
 						$sql['where'] = preg_replace(
 							"/\( (" . $meta_join_for_search . ".meta_key = 'jb-company-name' AND " . $meta_join_for_search . ".meta_value LIKE " . $search_meta . ") \)/im",
@@ -149,6 +157,9 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 							$sql['where'],
 							1
 						);
+						if ( $matches[0][0] ) {
+							$sql['where'] = str_replace( '#%&', '{' . $matches[0][0] . '}', $sql['where'] );
+						}
 						// phpcs:enable Squiz.Strings.DoubleQuoteUsage.NotRequired -- don't remove regex indentation
 					}
 				}
