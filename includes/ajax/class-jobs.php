@@ -145,9 +145,9 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						preg_match( '~(?<=\{)(.*?)(?=\})~', $search_meta, $matches, PREG_OFFSET_CAPTURE, 0 );
 
 						if ( $matches[0][0] ) {
-							$search_meta  = str_replace( '{' . $matches[0][0] . '}', '%', $search_meta );
-							$search_query = str_replace( '{' . $matches[0][0] . '}', '%', $search_query );
-							$sql['where'] = str_replace( '{' . $matches[0][0] . '}', '%', $sql['where'] );
+							$search_meta  = str_replace( '{' . $matches[0][0] . '}', '#%&', $search_meta );
+							$search_query = str_replace( '{' . $matches[0][0] . '}', '#%&', $search_query );
+							$sql['where'] = str_replace( '{' . $matches[0][0] . '}', '#%&', $sql['where'] );
 						}
 
 						// phpcs:disable Squiz.Strings.DoubleQuoteUsage.NotRequired -- don't remove regex indentation
@@ -158,7 +158,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 							1
 						);
 						if ( $matches[0][0] ) {
-							$sql['where'] = str_replace( '%', '{' . $matches[0][0] . '}', $sql['where'] );
+							$sql['where'] = str_replace( '#%&', '{' . $matches[0][0] . '}', $sql['where'] );
 						}
 						// phpcs:enable Squiz.Strings.DoubleQuoteUsage.NotRequired -- don't remove regex indentation
 					}
