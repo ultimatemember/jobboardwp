@@ -144,6 +144,9 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 						preg_match( '~(?<=\{)(.*?)(?=\})~', $search_meta, $matches, PREG_OFFSET_CAPTURE, 0 );
 
+						// workaround for standard mySQL hashes which are used by $wpdb->prepare instead of the %symbol
+						// sometimes it breaks error for strings like that wp_postmeta.meta_value LIKE '{12f209b48a89eeab33424902879d05d503f251ca8812dde03b59484a2991dc74}AMS{12f209b48a89eeab33424902879d05d503f251ca8812dde03b59484a2991dc74}'
+						// {12f209b48a89eeab33424902879d05d503f251ca8812dde03b59484a2991dc74} isn't applied by the `preg_replace()` below
 						if ( $matches[0][0] ) {
 							$search_meta  = str_replace( '{' . $matches[0][0] . '}', '#%&', $search_meta );
 							$search_query = str_replace( '{' . $matches[0][0] . '}', '#%&', $search_query );
