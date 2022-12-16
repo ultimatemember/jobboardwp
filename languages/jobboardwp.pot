@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-12-15T21:17:01+00:00\n"
+"POT-Creation-Date: 2022-12-16T13:18:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: jobboardwp\n"
@@ -57,7 +57,7 @@ msgstr ""
 
 #: includes/admin/class-columns.php:140
 #: includes/admin/class-columns.php:335
-#: includes/ajax/class-jobs.php:943
+#: includes/ajax/class-jobs.php:954
 msgid "Filled"
 msgstr ""
 
@@ -1118,41 +1118,41 @@ msgstr ""
 msgid "Wrong AJAX Nonce"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:524
-#: includes/ajax/class-jobs.php:948
+#: includes/ajax/class-jobs.php:535
+#: includes/ajax/class-jobs.php:959
 #: includes/frontend/class-shortcodes.php:706
 msgid "(no title)"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:734
+#: includes/ajax/class-jobs.php:745
 msgid "Invalid taxonomy registration"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:786
+#: includes/ajax/class-jobs.php:797
 msgid "Wrong job ID."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:793
+#: includes/ajax/class-jobs.php:804
 msgid "Wrong job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:797
+#: includes/ajax/class-jobs.php:808
 msgid "You haven't ability to delete this job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:815
-#: includes/ajax/class-jobs.php:869
-#: includes/ajax/class-jobs.php:923
+#: includes/ajax/class-jobs.php:826
+#: includes/ajax/class-jobs.php:880
+#: includes/ajax/class-jobs.php:934
 msgid "Something went wrong."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:830
-#: includes/ajax/class-jobs.php:884
+#: includes/ajax/class-jobs.php:841
+#: includes/ajax/class-jobs.php:895
 msgid "Wrong job ID"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:837
-#: includes/ajax/class-jobs.php:891
+#: includes/ajax/class-jobs.php:848
+#: includes/ajax/class-jobs.php:902
 #: includes/frontend/class-actions-listener.php:803
 #: includes/frontend/class-actions-listener.php:912
 #: includes/frontend/class-actions-listener.php:926
@@ -1162,36 +1162,36 @@ msgstr ""
 msgid "Wrong job"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:841
+#: includes/ajax/class-jobs.php:852
 msgid "You haven't ability to fill this job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:845
+#: includes/ajax/class-jobs.php:856
 msgid "Job is already filled."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:895
+#: includes/ajax/class-jobs.php:906
 msgid "You haven't ability to un-fill this job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:899
+#: includes/ajax/class-jobs.php:910
 msgid "Job isn't filled yet."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:943
+#: includes/ajax/class-jobs.php:954
 msgid "Not-filled"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:1109
+#: includes/ajax/class-jobs.php:1120
 #: includes/ajax/class-notices.php:33
 msgid "Wrong Data"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:1212
+#: includes/ajax/class-jobs.php:1223
 msgid "Wrong Job's data"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:1214
+#: includes/ajax/class-jobs.php:1225
 msgid " Description is required"
 msgstr ""
 
