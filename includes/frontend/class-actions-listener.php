@@ -817,15 +817,15 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							} else {
 
 								/**
-								 * Fires after creating job and pass validation
+								 * Fires after submitted job data and pass validation through frontend job posting form.
 								 *
-								 * @since 1.0
-								 * @hook jb_after_job_creating
+								 * @since 1.2.3
+								 * @hook jb_after_job_submitted_successfully
 								 *
-								 * @param {int}     $job_id Job's ID.
-								 * @param {bool}    $is_edited new or edit.
+								 * @param {int}  $job_id    Job's ID.
+								 * @param {bool} $is_edited New job or edit process.
 								 */
-								do_action( 'jb_after_job_creating', $job_id, $is_edited );
+								do_action( 'jb_after_job_submitted_successfully', $job_id, $is_edited );
 
 								// $company_logo must be an image URL
 								if ( ! empty( $company_logo ) ) {
