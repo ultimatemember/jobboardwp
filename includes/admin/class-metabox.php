@@ -371,6 +371,17 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				}
 			}
 
+			/**
+			 * Fires after creating job and pass validation
+			 *
+			 * @since 1.0
+			 * @hook jb_after_job_creating
+			 *
+			 * @param {string}  $post_id Job's ID.
+			 * @param {object}  $post post object.
+			 */
+			do_action( 'jb_after_save_metabox', $post_id, $post );
+
 			update_post_meta( $post_id, 'jb-last-edit-date', $current_time );
 		}
 	}
