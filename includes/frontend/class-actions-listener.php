@@ -816,6 +816,17 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								$posting_form->add_error( 'global', __( 'Job submission issue, Please try again', 'jobboardwp' ) );
 							} else {
 
+								/**
+								 * Fires after creating job and pass validation
+								 *
+								 * @since 1.0
+								 * @hook jb_after_job_creating
+								 *
+								 * @param {int}     $job_id Job's ID.
+								 * @param {bool}    $is_edited new or edit.
+								 */
+								do_action( 'jb_after_job_creating', $job_id, $is_edited );
+
 								// $company_logo must be an image URL
 								if ( ! empty( $company_logo ) ) {
 									if ( $set_attachment ) {
