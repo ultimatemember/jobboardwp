@@ -29,6 +29,9 @@
 		);
 
 		$types_options = array();
+		if ( empty( JB()->options()->get( 'required-job-type' ) ) ) {
+			$types_options[''] = __( '(None)', 'jobboardwp' );
+		}
 		foreach ( $types as $t ) {
 			$types_options[ $t->term_id ] = $t->name;
 		}
