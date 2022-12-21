@@ -190,6 +190,6 @@ function jb_init_dropdown() {
 }
 
 /* Init all dropdown menus on page load */
-jQuery( document ).on( 'ready', function () {
-    jb_init_dropdown();
-});
+jQuery( function() {
+	jb_init_dropdown();
+} );

@@ -99,7 +99,7 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 				'fr'     => __( 'French', 'jobboardwp' ),
 				'fr-CA'  => __( 'French (Canada)', 'jobboardwp' ),
 				'gl'     => __( 'Galician', 'jobboardwp' ),
-				'ka'     => __( 'Georgian', 'jobboardwp' ),
+				'ka'     => __( 'Kartuli', 'jobboardwp' ),
 				'de'     => __( 'German', 'jobboardwp' ),
 				'el'     => __( 'Greek', 'jobboardwp' ),
 				'gu'     => __( 'Gujarati', 'jobboardwp' ),

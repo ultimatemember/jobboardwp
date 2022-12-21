@@ -110,6 +110,8 @@ function JBLocationAutocomplete() {
 	}).on('click', function() {
 		$selected_autocomplete = jQuery(this);
 	});
+
+	wp.hooks.doAction( 'jb_google_maps_api_callback' );
 }
 
 var jb_location_script = document.createElement( 'script' );

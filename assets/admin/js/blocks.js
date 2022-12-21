@@ -46,7 +46,7 @@ if ( ! jb_blocks_options['exclude_blocks'] ) {
 	exclude_blocks = 1;
 }
 
-jQuery(window).load(function($) {
+jQuery(window).on( 'load', function($) {
 	var observer = new MutationObserver(function(mutations) {
 		mutations.forEach(function(mutation) {
 

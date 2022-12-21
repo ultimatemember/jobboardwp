@@ -26,8 +26,9 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 			$this->js_url['frontend']  = JB_URL . 'assets/frontend/js/';
 			$this->css_url['frontend'] = JB_URL . 'assets/frontend/css/';
 
-			add_action( 'wp_enqueue_scripts', array( &$this, 'register_scripts' ), 11 );
-			add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_gmap' ), 10 );
+			add_action( 'wp_enqueue_scripts', array( &$this, 'register_common_scripts' ), 10 );
+			add_action( 'wp_enqueue_scripts', array( &$this, 'register_scripts' ), 20 );
+			add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_gmap' ), 19 );
 		}
 
 
@@ -61,13 +62,12 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 			);
 		}
 
-
 		/**
 		 * Register frontend scripts
 		 *
-		 * @since 1.0
+		 * @since 1.2.3
 		 */
-		public function register_scripts() {
+		public function register_common_scripts() {
 			wp_register_script( 'select2', $this->url['common'] . 'libs/select2/js/select2.full.min.js', array( 'jquery' ), JB_VERSION, true );
 
 			wp_register_script( 'jb-helptip', $this->js_url['common'] . 'helptip' . JB()->scrips_prefix . '.js', array( 'jquery', 'jquery-ui-tooltip' ), JB_VERSION, true );
@@ -94,7 +94,14 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 			 */
 			$localize_data = apply_filters( 'jb_enqueue_localize', $localize_data );
 			wp_localize_script( 'jb-front-global', 'jb_front_data', $localize_data );
+		}
 
+		/**
+		 * Register frontend scripts
+		 *
+		 * @since 1.0
+		 */
+		public function register_scripts() {
 			$forms_deps = array( 'jb-front-global', 'jquery-ui-datepicker' );
 			$jobs_deps  = array( 'jb-front-global' );
 
