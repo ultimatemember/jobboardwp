@@ -161,7 +161,7 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 
 
 		private function get_active_modules() {
-			$modules = JB()->modules()->get_list();
+			$modules        = JB()->modules()->get_list();
 			$active_modules = array();
 			if ( ! empty( $modules ) ) {
 				foreach ( $modules as $slug => $data ) {
@@ -499,7 +499,7 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 				array(
 					'jb-active-modules' => array(
 						'label' => __( 'Active modules', 'jobboardwp' ),
-						'value' => implode(', ', $this->get_active_modules() ),
+						'value' => implode( ', ', $this->get_active_modules() ),
 					),
 				)
 			);
