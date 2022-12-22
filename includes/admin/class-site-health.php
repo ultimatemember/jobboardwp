@@ -160,6 +160,21 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 		}
 
 
+		private function get_active_modules() {
+			$modules = JB()->modules()->get_list();
+			$active_modules = array();
+			if ( ! empty( $modules ) ) {
+				foreach ( $modules as $slug => $data ) {
+					if ( JB()->modules()->is_active( $slug ) ) {
+						$active_modules[ $slug ] = $data['title'];
+					}
+				}
+			}
+
+			return $active_modules;
+		}
+
+
 		/**
 		 * Add our data to Site Health information.
 		 *
@@ -477,6 +492,17 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 					);
 				}
 			}
+
+			// Active modules
+			$info['jobboardwp']['fields'] = array_merge(
+				$info['jobboardwp']['fields'],
+				array(
+					'jb-active-modules' => array(
+						'label' => __( 'Active modules', 'jobboardwp' ),
+						'value' => implode(', ', $this->get_active_modules() ),
+					),
+				)
+			);
 
 			return $info;
 		}
