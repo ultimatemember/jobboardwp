@@ -9,14 +9,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-12-21T00:19:43+00:00\n"
+"POT-Creation-Date: 2022-12-23T10:56:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: jobboardwp\n"
 
 #. Plugin Name of the plugin
 #. Author of the plugin
-#: includes/admin/class-site-health.php:229
+#: includes/admin/class-site-health.php:244
 #: includes/common/class-enqueue.php:186
 msgid "JobBoardWP"
 msgstr ""
@@ -255,7 +255,7 @@ msgstr ""
 
 #: includes/admin/class-menu.php:92
 #: includes/admin/class-settings.php:429
-#: includes/admin/class-site-health.php:237
+#: includes/admin/class-site-health.php:252
 #: includes/common/class-cpt.php:179
 #: includes/common/class-cpt.php:197
 msgid "Job Categories"
@@ -373,12 +373,12 @@ msgid "Choose a page..."
 msgstr ""
 
 #: includes/admin/class-settings.php:332
-#: includes/admin/class-site-health.php:182
+#: includes/admin/class-site-health.php:197
 msgid "Wordpress native post template"
 msgstr ""
 
 #: includes/admin/class-settings.php:333
-#: includes/admin/class-site-health.php:183
+#: includes/admin/class-site-health.php:198
 msgid "Default job template"
 msgstr ""
 
@@ -395,7 +395,7 @@ msgid "General"
 msgstr ""
 
 #: includes/admin/class-settings.php:420
-#: includes/admin/class-site-health.php:233
+#: includes/admin/class-site-health.php:248
 msgid "Pages"
 msgstr ""
 
@@ -412,7 +412,7 @@ msgid "Enable categories for jobs."
 msgstr ""
 
 #: includes/admin/class-settings.php:436
-#: includes/admin/class-site-health.php:241
+#: includes/admin/class-site-health.php:256
 msgid "Job Template"
 msgstr ""
 
@@ -429,17 +429,17 @@ msgid "Select which template you would like applied to the jobs archives by job 
 msgstr ""
 
 #: includes/admin/class-settings.php:452
-#: includes/admin/class-site-health.php:187
+#: includes/admin/class-site-health.php:202
 msgid "Relative to the posting date (e.g., 1 hour, 1 day, 1 week ago)"
 msgstr ""
 
 #: includes/admin/class-settings.php:453
-#: includes/admin/class-site-health.php:188
+#: includes/admin/class-site-health.php:203
 msgid "Default date format set via WP > Settings > General"
 msgstr ""
 
 #: includes/admin/class-settings.php:455
-#: includes/admin/class-site-health.php:245
+#: includes/admin/class-site-health.php:260
 msgid "Date format"
 msgstr ""
 
@@ -448,12 +448,12 @@ msgid "Select the date format used for jobs on the front-end."
 msgstr ""
 
 #: includes/admin/class-settings.php:461
-#: includes/admin/class-site-health.php:249
+#: includes/admin/class-site-health.php:264
 msgid "Show breadcrumbs on the job page"
 msgstr ""
 
 #: includes/admin/class-settings.php:467
-#: includes/admin/class-site-health.php:253
+#: includes/admin/class-site-health.php:268
 msgid "GoogleMaps API key"
 msgstr ""
 
@@ -462,7 +462,7 @@ msgid "Enable using GoogleMaps API for getting extended data about job location.
 msgstr ""
 
 #: includes/admin/class-settings.php:474
-#: includes/admin/class-site-health.php:257
+#: includes/admin/class-site-health.php:272
 msgid "Disable Google structured data"
 msgstr ""
 
@@ -475,7 +475,7 @@ msgid "Job Submission"
 msgstr ""
 
 #: includes/admin/class-settings.php:486
-#: includes/admin/class-site-health.php:261
+#: includes/admin/class-site-health.php:276
 msgid "Account Needed"
 msgstr ""
 
@@ -484,7 +484,7 @@ msgid "Require users to be logged-in before they can submit a job."
 msgstr ""
 
 #: includes/admin/class-settings.php:492
-#: includes/admin/class-site-health.php:265
+#: includes/admin/class-site-health.php:280
 msgid "User Registration"
 msgstr ""
 
@@ -493,7 +493,7 @@ msgid "Allow users to create an account when submitting a job listing."
 msgstr ""
 
 #: includes/admin/class-settings.php:498
-#: includes/admin/class-site-health.php:276
+#: includes/admin/class-site-health.php:291
 msgid "Use email addresses as usernames"
 msgstr ""
 
@@ -502,7 +502,7 @@ msgid "Hide the username field on the submission form and set the username as th
 msgstr ""
 
 #: includes/admin/class-settings.php:505
-#: includes/admin/class-site-health.php:280
+#: includes/admin/class-site-health.php:295
 msgid "Email password link"
 msgstr ""
 
@@ -511,17 +511,17 @@ msgid "Hide password field on submission form and send users an email with a lin
 msgstr ""
 
 #: includes/admin/class-settings.php:512
-#: includes/admin/class-site-health.php:291
+#: includes/admin/class-site-health.php:306
 msgid "\"Your Details\" for logged in users"
 msgstr ""
 
 #: includes/admin/class-settings.php:514
-#: includes/admin/class-site-health.php:292
+#: includes/admin/class-site-health.php:307
 msgid "Hidden"
 msgstr ""
 
 #: includes/admin/class-settings.php:515
-#: includes/admin/class-site-health.php:292
+#: includes/admin/class-site-health.php:307
 msgid "Visible with editable email, first/last name fields"
 msgstr ""
 
@@ -530,7 +530,7 @@ msgid "Select if the \"Your Details\" section is shown for logged in users."
 msgstr ""
 
 #: includes/admin/class-settings.php:523
-#: includes/admin/class-site-health.php:295
+#: includes/admin/class-site-health.php:310
 msgid "First and Last names required"
 msgstr ""
 
@@ -539,7 +539,7 @@ msgid "Make the first and last name fields required."
 msgstr ""
 
 #: includes/admin/class-settings.php:530
-#: includes/admin/class-site-health.php:299
+#: includes/admin/class-site-health.php:314
 msgid "User Role"
 msgstr ""
 
@@ -548,7 +548,7 @@ msgid "New registered users who are created during submission will be assigned t
 msgstr ""
 
 #: includes/admin/class-settings.php:539
-#: includes/admin/class-site-health.php:303
+#: includes/admin/class-site-health.php:318
 msgid "Set submissions as Pending"
 msgstr ""
 
@@ -557,7 +557,7 @@ msgid "New job submissions will not appear on the jobs list until approved by ad
 msgstr ""
 
 #: includes/admin/class-settings.php:545
-#: includes/admin/class-site-health.php:314
+#: includes/admin/class-site-health.php:329
 msgid "Pending Job Edits"
 msgstr ""
 
@@ -566,22 +566,22 @@ msgid "Allow users to edit their pending jobs until they are approved by an admi
 msgstr ""
 
 #: includes/admin/class-settings.php:552
-#: includes/admin/class-site-health.php:325
+#: includes/admin/class-site-health.php:340
 msgid "Published Job Edits"
 msgstr ""
 
 #: includes/admin/class-settings.php:554
-#: includes/admin/class-site-health.php:192
+#: includes/admin/class-site-health.php:207
 msgid "Users cannot edit their published job listings"
 msgstr ""
 
 #: includes/admin/class-settings.php:555
-#: includes/admin/class-site-health.php:193
+#: includes/admin/class-site-health.php:208
 msgid "Users can edit their published job listings but edits require approval by admin"
 msgstr ""
 
 #: includes/admin/class-settings.php:556
-#: includes/admin/class-site-health.php:194
+#: includes/admin/class-site-health.php:209
 msgid "Users can edit their published job listing without approval by admin"
 msgstr ""
 
@@ -590,7 +590,7 @@ msgid "Select if users can edit their published jobs and if edits require admin 
 msgstr ""
 
 #: includes/admin/class-settings.php:564
-#: includes/admin/class-site-health.php:329
+#: includes/admin/class-site-health.php:344
 msgid "Show individual expiry date"
 msgstr ""
 
@@ -599,7 +599,7 @@ msgid "Allow users to set the job expiry date on the job posting form."
 msgstr ""
 
 #: includes/admin/class-settings.php:570
-#: includes/admin/class-site-health.php:340
+#: includes/admin/class-site-health.php:355
 msgid "Job duration"
 msgstr ""
 
@@ -616,7 +616,7 @@ msgid "Enable notification to the job author about the job expiration."
 msgstr ""
 
 #: includes/admin/class-settings.php:584
-#: includes/admin/class-site-health.php:362
+#: includes/admin/class-site-health.php:377
 msgid "Reminder time for \"X\" days"
 msgstr ""
 
@@ -629,7 +629,7 @@ msgid "Job duration must be longer than \"X\" days."
 msgstr ""
 
 #: includes/admin/class-settings.php:593
-#: includes/admin/class-site-health.php:373
+#: includes/admin/class-site-health.php:388
 msgid "Required job type"
 msgstr ""
 
@@ -638,22 +638,22 @@ msgid "Job type is required."
 msgstr ""
 
 #: includes/admin/class-settings.php:599
-#: includes/admin/class-site-health.php:377
+#: includes/admin/class-site-health.php:392
 msgid "How to apply"
 msgstr ""
 
 #: includes/admin/class-settings.php:601
-#: includes/admin/class-site-health.php:198
+#: includes/admin/class-site-health.php:213
 msgid "Email addresses"
 msgstr ""
 
 #: includes/admin/class-settings.php:602
-#: includes/admin/class-site-health.php:199
+#: includes/admin/class-site-health.php:214
 msgid "Website URL"
 msgstr ""
 
 #: includes/admin/class-settings.php:603
-#: includes/admin/class-site-health.php:200
+#: includes/admin/class-site-health.php:215
 msgid "Email address or website URL"
 msgstr ""
 
@@ -662,7 +662,7 @@ msgid "Select whether employers have to provide an email address, website URL or
 msgstr ""
 
 #: includes/admin/class-settings.php:611
-#: includes/admin/class-site-health.php:381
+#: includes/admin/class-site-health.php:396
 msgid "Job submitted notice"
 msgstr ""
 
@@ -675,7 +675,7 @@ msgid "Jobs List"
 msgstr ""
 
 #: includes/admin/class-settings.php:624
-#: includes/admin/class-site-health.php:385
+#: includes/admin/class-site-health.php:400
 msgid "Jobs per page"
 msgstr ""
 
@@ -684,7 +684,7 @@ msgid "How many jobs would you like to appear on initial load and after clicking
 msgstr ""
 
 #: includes/admin/class-settings.php:631
-#: includes/admin/class-site-health.php:389
+#: includes/admin/class-site-health.php:404
 msgid "Hide Logos"
 msgstr ""
 
@@ -693,7 +693,7 @@ msgid "If selected company logos will not appear on the jobs list."
 msgstr ""
 
 #: includes/admin/class-settings.php:637
-#: includes/admin/class-site-health.php:393
+#: includes/admin/class-site-health.php:408
 msgid "Hide filled jobs"
 msgstr ""
 
@@ -702,7 +702,7 @@ msgid "If selected jobs that have been marked as filled will not appear on the j
 msgstr ""
 
 #: includes/admin/class-settings.php:643
-#: includes/admin/class-site-health.php:397
+#: includes/admin/class-site-health.php:412
 msgid "Hide expired jobs"
 msgstr ""
 
@@ -711,7 +711,7 @@ msgid "If selected jobs that have expired will not appear in jobs list or in arc
 msgstr ""
 
 #: includes/admin/class-settings.php:649
-#: includes/admin/class-site-health.php:401
+#: includes/admin/class-site-health.php:416
 msgid "Hide search field"
 msgstr ""
 
@@ -720,7 +720,7 @@ msgid "If selected the search field will not be displayed on the jobs list."
 msgstr ""
 
 #: includes/admin/class-settings.php:655
-#: includes/admin/class-site-health.php:405
+#: includes/admin/class-site-health.php:420
 msgid "Hide location field"
 msgstr ""
 
@@ -729,7 +729,7 @@ msgid "If selected the location search field will not be displayed on the jobs l
 msgstr ""
 
 #: includes/admin/class-settings.php:661
-#: includes/admin/class-site-health.php:409
+#: includes/admin/class-site-health.php:424
 #: assets/admin/js/blocks.js:760
 msgid "Hide filters"
 msgstr ""
@@ -739,7 +739,7 @@ msgid "If selected the filters section will not be displayed on the jobs list."
 msgstr ""
 
 #: includes/admin/class-settings.php:667
-#: includes/admin/class-site-health.php:413
+#: includes/admin/class-site-health.php:428
 #: includes/widgets/class-recent-jobs.php:192
 #: assets/admin/js/blocks.js:772
 #: assets/admin/js/blocks.js:1160
@@ -758,7 +758,7 @@ msgid "Email"
 msgstr ""
 
 #: includes/admin/class-settings.php:680
-#: includes/admin/class-site-health.php:449
+#: includes/admin/class-site-health.php:464
 msgid "Admin E-mail Address"
 msgstr ""
 
@@ -768,7 +768,7 @@ msgid "e.g. admin@companyname.com"
 msgstr ""
 
 #: includes/admin/class-settings.php:686
-#: includes/admin/class-site-health.php:453
+#: includes/admin/class-site-health.php:468
 msgid "Mail appears from"
 msgstr ""
 
@@ -777,7 +777,7 @@ msgid "e.g. Site Name"
 msgstr ""
 
 #: includes/admin/class-settings.php:692
-#: includes/admin/class-site-health.php:457
+#: includes/admin/class-site-health.php:472
 msgid "Mail appears from address"
 msgstr ""
 
@@ -786,7 +786,7 @@ msgid "Styles"
 msgstr ""
 
 #: includes/admin/class-settings.php:703
-#: includes/admin/class-site-health.php:417
+#: includes/admin/class-site-health.php:432
 msgid "Disable styles"
 msgstr ""
 
@@ -795,7 +795,7 @@ msgid "Check this to disable all included styling of buttons, and all other elem
 msgstr ""
 
 #: includes/admin/class-settings.php:709
-#: includes/admin/class-site-health.php:421
+#: includes/admin/class-site-health.php:436
 msgid "Disable FontAwesome styles"
 msgstr ""
 
@@ -808,7 +808,7 @@ msgid "Misc"
 msgstr ""
 
 #: includes/admin/class-settings.php:720
-#: includes/admin/class-site-health.php:425
+#: includes/admin/class-site-health.php:440
 msgid "Delete settings on uninstall"
 msgstr ""
 
@@ -871,64 +871,68 @@ msgstr ""
 msgid "background: "
 msgstr ""
 
-#: includes/admin/class-site-health.php:174
+#: includes/admin/class-site-health.php:189
 msgid "Yes"
 msgstr ""
 
-#: includes/admin/class-site-health.php:175
+#: includes/admin/class-site-health.php:190
 msgid "No"
 msgstr ""
 
-#: includes/admin/class-site-health.php:176
+#: includes/admin/class-site-health.php:191
 msgid "All"
 msgstr ""
 
-#: includes/admin/class-site-health.php:177
+#: includes/admin/class-site-health.php:192
 msgid "Default"
 msgstr ""
 
-#: includes/admin/class-site-health.php:178
+#: includes/admin/class-site-health.php:193
 msgid "No predefined page"
 msgstr ""
 
-#: includes/admin/class-site-health.php:230
+#: includes/admin/class-site-health.php:245
 msgid "This debug information about JobBoardWP plugin."
 msgstr ""
 
-#: includes/admin/class-site-health.php:351
+#: includes/admin/class-site-health.php:366
 msgid "Send expiration reminder to the author? "
 msgstr ""
 
-#: includes/admin/class-site-health.php:429
+#: includes/admin/class-site-health.php:444
 msgid "All publish jobs count"
 msgstr ""
 
-#: includes/admin/class-site-health.php:433
+#: includes/admin/class-site-health.php:448
 msgid "Expired jobs count"
 msgstr ""
 
-#: includes/admin/class-site-health.php:437
+#: includes/admin/class-site-health.php:452
 msgid "Filled jobs count"
 msgstr ""
 
-#: includes/admin/class-site-health.php:441
+#: includes/admin/class-site-health.php:456
 msgid "Jobs categories"
 msgstr ""
 
-#: includes/admin/class-site-health.php:445
+#: includes/admin/class-site-health.php:460
 msgid "Jobs types"
 msgstr ""
 
-#: includes/admin/class-site-health.php:469
+#: includes/admin/class-site-health.php:484
 msgid " Subject"
 msgstr ""
 
-#: includes/admin/class-site-health.php:473
+#: includes/admin/class-site-health.php:488
 msgid "Template "
 msgstr ""
 
-#: includes/admin/class-site-health.php:473
+#: includes/admin/class-site-health.php:488
 msgid " in theme?"
+msgstr ""
+
+#: includes/admin/class-site-health.php:501
+msgid "Active modules"
 msgstr ""
 
 #: includes/admin/templates/job-type/styling-create.php:23
