@@ -1,4 +1,4 @@
-# Copyright (C) 2022 JobBoardWP
+# Copyright (C) 2023 JobBoardWP
 # This file is distributed under the same license as the JobBoardWP plugin.
 msgid ""
 msgstr ""
@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-12-23T10:56:22+00:00\n"
+"POT-Creation-Date: 2023-01-04T21:33:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: jobboardwp\n"
