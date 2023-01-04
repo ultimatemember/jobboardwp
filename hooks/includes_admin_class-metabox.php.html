@@ -253,7 +253,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			$current_time = time();
 
 			// merge preferred location into location
-			if ( '0' !== sanitize_text_field( $_POST['jb-job-meta']['jb-location-type'] ) ) {
+			if ( isset( $_POST['jb-job-meta']['jb-location-type'] ) &amp;&amp; '0' !== sanitize_text_field( $_POST['jb-job-meta']['jb-location-type'] ) ) {
 				if ( isset( $_POST['jb-job-meta']['jb-location-preferred'] ) ) {
 					$_POST['jb-job-meta']['jb-location'] = $_POST['jb-job-meta']['jb-location-preferred'];
 					unset( $_POST['jb-job-meta']['jb-location-preferred'] );
