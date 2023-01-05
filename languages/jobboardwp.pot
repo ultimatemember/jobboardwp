@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-01-04T21:33:38+00:00\n"
+"POT-Creation-Date: 2023-01-05T19:15:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: jobboardwp\n"
@@ -227,15 +227,15 @@ msgstr ""
 msgid "Volunteer"
 msgstr ""
 
-#: includes/admin/class-menu.php:84
+#: includes/admin/class-menu.php:94
 msgid "Job Board"
 msgstr ""
 
-#: includes/admin/class-menu.php:85
+#: includes/admin/class-menu.php:95
 msgid "Dashboard"
 msgstr ""
 
-#: includes/admin/class-menu.php:87
+#: includes/admin/class-menu.php:97
 #: includes/class-config.php:284
 #: includes/common/class-cpt.php:60
 #: templates/job-categories.php:15
@@ -243,17 +243,17 @@ msgstr ""
 msgid "Jobs"
 msgstr ""
 
-#: includes/admin/class-menu.php:88
+#: includes/admin/class-menu.php:98
 msgid "Add New"
 msgstr ""
 
-#: includes/admin/class-menu.php:89
+#: includes/admin/class-menu.php:99
 #: includes/common/class-cpt.php:133
 #: includes/common/class-cpt.php:151
 msgid "Job Types"
 msgstr ""
 
-#: includes/admin/class-menu.php:92
+#: includes/admin/class-menu.php:102
 #: includes/admin/class-settings.php:429
 #: includes/admin/class-site-health.php:252
 #: includes/common/class-cpt.php:179
@@ -261,7 +261,7 @@ msgstr ""
 msgid "Job Categories"
 msgstr ""
 
-#: includes/admin/class-menu.php:95
+#: includes/admin/class-menu.php:105
 #: includes/admin/class-modules-list-table.php:328
 msgid "Settings"
 msgstr ""
