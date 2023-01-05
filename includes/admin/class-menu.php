@@ -81,7 +81,17 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 		 * @since 1.0
 		 */
 		public function menu() {
-			add_menu_page( __( 'Job Board', 'jobboardwp' ), __( 'Job Board', 'jobboardwp' ), 'manage_options', $this->slug, '', 'dashicons-businessman', 40 );
+			$parent_capability = 'manage_options';
+			if ( ! current_user_can( 'manage_options' ) ) {
+				if ( current_user_can( 'read_private_jb-jobs' ) ) {
+					$parent_capability = 'read_private_jb-jobs';
+				} elseif ( current_user_can( 'create_jb-jobs' ) ) {
+					$parent_capability = 'create_jb-jobs';
+				} elseif ( current_user_can( 'manage_jb-job-types' ) ) {
+					$parent_capability = 'manage_jb-job-types';
+				}
+			}
+			add_menu_page( __( 'Job Board', 'jobboardwp' ), __( 'Job Board', 'jobboardwp' ), $parent_capability, $this->slug, '', 'dashicons-businessman', 40 );
 			add_submenu_page( $this->slug, __( 'Dashboard', 'jobboardwp' ), __( 'Dashboard', 'jobboardwp' ), 'manage_options', $this->slug, '' );
 
 			add_submenu_page( $this->slug, __( 'Jobs', 'jobboardwp' ), __( 'Jobs', 'jobboardwp' ), 'read_private_jb-jobs', 'edit.php?post_type=jb-job' );
