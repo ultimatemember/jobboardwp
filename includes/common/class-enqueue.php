@@ -298,6 +298,27 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 			);
 		}
 
+		/**
+		 * It checks if jquery-ui is enabled.
+		 *
+		 * @return bool
+		 */
+		public function is_jquery_ui_enabled() {
+			/**
+			 * Filters the jquery-ui styles in styles queue.
+			 *
+			 * Note: Set to `true` if you need to disable jquery-ui scripts.
+			 *
+			 * @since 1.2.3
+			 * @hook jb_disable_jquery_ui
+			 *
+			 * @param {bool} $disable_jquery_ui Disable jquery-ui styles.
+			 *
+			 * @return {bool} Disable jquery-ui styles.
+			 */
+			$disable_jquery_ui = apply_filters( 'jb_disable_jquery_ui', false );
+			return ! $disable_jquery_ui;
+		}
 
 		/**
 		 * Register common JS/CSS libraries
@@ -305,7 +326,9 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 		 * @since 1.0
 		 */
 		public function common_libs() {
-			wp_register_style( 'jquery-ui', $this->url['common'] . 'libs/jquery-ui/jquery-ui' . JB()->scrips_prefix . '.css', array(), '1.12.1' );
+			if ( $this->is_jquery_ui_enabled() ) {
+				wp_register_style( 'jquery-ui', $this->url['common'] . 'libs/jquery-ui/jquery-ui' . JB()->scrips_prefix . '.css', array(), '1.12.1' );
+			}
 
 			if ( ! JB()->options()->get( 'disable-fa-styles' ) ) {
 				wp_register_style( 'jb-far', $this->url['common'] . 'libs/fontawesome/css/regular' . JB()->scrips_prefix . '.css', array(), $this->fa_version );

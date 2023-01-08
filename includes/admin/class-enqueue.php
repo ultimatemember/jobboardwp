@@ -144,7 +144,17 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 
 			wp_register_style( 'jb-helptip', $this->css_url['common'] . 'helptip' . JB()->scrips_prefix . '.css', array( 'dashicons' ), JB_VERSION );
 			wp_register_style( 'jb-common', $this->css_url['admin'] . 'common' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
-			wp_register_style( 'jb-forms', $this->css_url['admin'] . 'forms' . JB()->scrips_prefix . '.css', array( 'jb-common', 'jb-helptip', 'wp-color-picker', 'jquery-ui', 'select2' ), JB_VERSION );
+
+			$forms_css_deps = array(
+				'jb-common',
+				'jb-helptip',
+				'wp-color-picker',
+				'select2',
+			);
+			if ( $this->is_jquery_ui_enabled() ) {
+				$forms_css_deps[] = 'jquery-ui';
+			}
+			wp_register_style( 'jb-forms', $this->css_url['admin'] . 'forms' . JB()->scrips_prefix . '.css', $forms_css_deps, JB_VERSION );
 
 			// Enqueue scripts and styles
 			// Global at all wp-admin pages
@@ -161,7 +171,13 @@ if ( ! class_exists( 'jb\admin\Enqueue' ) ) {
 			wp_register_style( 'jb-common-preview', $this->css_url['frontend'] . 'common' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
 			wp_register_style( 'jb-jobs-widget', $this->css_url['frontend'] . 'jobs-widget' . JB()->scrips_prefix . '.css', array( 'jb-common-preview' ), JB_VERSION );
 			wp_register_style( 'jb-job', $this->css_url['frontend'] . 'job' . JB()->scrips_prefix . '.css', array( 'jb-common-preview' ), JB_VERSION );
-			wp_register_style( 'jb-forms-preview', $this->css_url['frontend'] . 'forms' . JB()->scrips_prefix . '.css', array( 'jb-common-preview', 'jquery-ui' ), JB_VERSION );
+			$forms_preview_css_deps = array(
+				'jb-common-preview',
+			);
+			if ( $this->is_jquery_ui_enabled() ) {
+				$forms_preview_css_deps[] = 'jquery-ui';
+			}
+			wp_register_style( 'jb-forms-preview', $this->css_url['frontend'] . 'forms' . JB()->scrips_prefix . '.css', $forms_preview_css_deps, JB_VERSION );
 			wp_register_style( 'jb-job-categories', $this->css_url['frontend'] . 'job-categories' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
 			wp_register_style( 'jb-jobs-dashboard', $this->css_url['frontend'] . 'jobs-dashboard' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
 			wp_register_style( 'jb-jobs', $this->css_url['frontend'] . 'jobs' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );

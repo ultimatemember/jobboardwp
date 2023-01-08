@@ -134,7 +134,13 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 
 			wp_register_style( 'select2', $this->url['common'] . 'libs/select2/css/select2' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
 
-			wp_register_style( 'jb-helptip', $this->css_url['common'] . 'helptip' . JB()->scrips_prefix . '.css', array( 'dashicons', 'jquery-ui' ), JB_VERSION );
+			$helptip_css_deps = array(
+				'dashicons',
+			);
+			if ( $this->is_jquery_ui_enabled() ) {
+				$helptip_css_deps[] = 'jquery-ui';
+			}
+			wp_register_style( 'jb-helptip', $this->css_url['common'] . 'helptip' . JB()->scrips_prefix . '.css', $helptip_css_deps, JB_VERSION );
 
 			/**
 			 * Filters the 'jb-common' style dependencies array.
@@ -149,7 +155,13 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 			$common_frontend_deps = apply_filters( 'jb_frontend_common_styles_deps', array( 'select2', 'jb-helptip' ) );
 			wp_register_style( 'jb-common', $this->css_url['frontend'] . 'common' . JB()->scrips_prefix . '.css', $common_frontend_deps, JB_VERSION );
 
-			wp_register_style( 'jb-forms', $this->css_url['frontend'] . 'forms' . JB()->scrips_prefix . '.css', array( 'jb-common', 'jquery-ui' ), JB_VERSION );
+			$forms_css_deps = array(
+				'jb-common',
+			);
+			if ( $this->is_jquery_ui_enabled() ) {
+				$forms_css_deps[] = 'jquery-ui';
+			}
+			wp_register_style( 'jb-forms', $this->css_url['frontend'] . 'forms' . JB()->scrips_prefix . '.css', $forms_css_deps, JB_VERSION );
 
 			wp_register_style( 'jb-job', $this->css_url['frontend'] . 'job' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
 			wp_register_style( 'jb-jobs', $this->css_url['frontend'] . 'jobs' . JB()->scrips_prefix . '.css', array( 'jb-common' ), JB_VERSION );
