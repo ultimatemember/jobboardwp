@@ -1007,60 +1007,78 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				return '';
 			}
 
-			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
+			/**
+			 * Filters the media formats.
+			 *
+			 * @hook jb_get_media_field_formats
+			 * @since 1.2.3
+			 *
+			 * @param {string}  $field_formats  formats
+			 * @param {array}   $field_id       field id.
+			 *
+			 * @return {string} $field_formats formats
+			 */
+			$field_formats = apply_filters( 'jb_get_media_field_formats', array(), $field_data['id'] );
+			$field_formats = str_replace( '|', ',', implode( ',', $field_formats ) );
 
-			$class  = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
-			$class .= ! empty( $field_data['size'] ) ? $field_data['size'] : 'jb-long-field';
 
-			$data = array(
-				'field_id' => $field_data['id'] . '_url',
-			);
+			$field_data['action'] = 'jb_upload_media_file';
 
-			if ( ! empty( $field_data['default']['url'] ) ) {
-				$data['default'] = esc_attr( $field_data['default']['url'] );
-			}
+			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $field_data['id'];
 
-			$data_attr = '';
-			foreach ( $data as $key => $value ) {
-				$data_attr .= " data-{$key}=\"" . esc_attr( $value ) . '" ';
-			}
-
-			$name = $field_data['id'];
+			$name = isset( $field_data['name'] ) ? $field_data['name'] : $field_data['id'];
 			$name = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
 
-			$value = $this->get_field_value( $field_data );
+			$field_id = str_replace( 'jb-', '', $field_data['id'] );
 
-			$upload_frame_title = ! empty( $field_data['upload_frame_title'] ) ? $field_data['upload_frame_title'] : __( 'Select media', 'jobboardwp' );
+			$select_label = isset( $field_data['labels']['select'] ) ? $field_data['labels']['select'] : __( 'Select file', 'jobboardwp' );
+			$change_label = isset( $field_data['labels']['change'] ) ? $field_data['labels']['change'] : __( 'Change', 'jobboardwp' );
+			$remove_label = isset( $field_data['labels']['remove'] ) ? $field_data['labels']['remove'] : __( 'Remove', 'jobboardwp' );
+			$cancel_label = isset( $field_data['labels']['cancel'] ) ? $field_data['labels']['cancel'] : __( 'Cancel', 'jobboardwp' );
 
-			$image_id        = ! empty( $value['id'] ) ? $value['id'] : '';
-			$image_width     = ! empty( $value['width'] ) ? $value['width'] : '';
-			$image_height    = ! empty( $value['height'] ) ? $value['height'] : '';
-			$image_thumbnail = ! empty( $value['thumbnail'] ) ? $value['thumbnail'] : '';
-			$image_url       = ! empty( $value['url'] ) ? $value['url'] : '';
+			$wrapper_classes = array( 'jb-uploaded-wrapper', 'jb-' . $id . '-wrapper' );
+			if ( ! empty( $field_data['value'] ) ) {
+				$wrapper_classes = array_merge( $wrapper_classes, array( 'jb-uploaded', 'jb-' . $id . '-uploaded' ) );
+			}
+			$wrapper_classes = implode( ' ', $wrapper_classes );
 
+			$uploader_classes = array( 'jb-uploader', 'jb-' . $id . '-uploader' );
+			if ( ! empty( $field_data['value'] ) ) {
+				$uploader_classes = array_merge( $uploader_classes, array( 'jb-uploaded', 'jb-' . $id . '-uploaded' ) );
+			}
+			$uploader_classes = implode( ' ', $uploader_classes );
+
+			$value = ! empty( $field_data['value'] ) ? $field_data['value'] : '';
+
+			$media_url = apply_filters( 'jb_get_media_field_url', $value, $field_data['id'] );
 			ob_start();
 			?>
 
-			<div class="jb-media-upload">
-				<input type="hidden" class="jb-media-upload-data-id" name="<?php echo esc_attr( $name ); ?>[id]" id="<?php echo esc_attr( $id ); ?>_id" value="<?php echo esc_attr( $image_id ); ?>">
-				<input type="hidden" class="jb-media-upload-data-width" name="<?php echo esc_attr( $name ); ?>[width]" id="<?php echo esc_attr( $id ); ?>_width" value="<?php echo esc_attr( $image_width ); ?>">
-				<input type="hidden" class="jb-media-upload-data-height" name="<?php echo esc_attr( $name ); ?>[height]" id="<?php echo esc_attr( $id ); ?>_height" value="<?php echo esc_attr( $image_height ); ?>">
-				<input type="hidden" class="jb-media-upload-data-thumbnail" name="<?php echo esc_attr( $name ); ?>[thumbnail]" id="<?php echo esc_attr( $id ); ?>_thumbnail" value="<?php echo esc_attr( $image_thumbnail ); ?>">
+			<span class="<?php echo esc_attr( $wrapper_classes ); ?>">
+				<span class="jb-uploaded-content-wrapper jb-<?php echo esc_attr( $id ); ?>-image-wrapper">
+					<?php
+					$output = '<a target="_blank" class="media-upload-field-preview" data-formats="' . esc_attr( $field_formats ) . '" href="' . esc_url( $media_url ) . '"><span>' . esc_html__('File', 'jobboardwp-pro') . '</span></a>';
+					echo wp_kses( apply_filters( 'jb_preview_media_output', $output, $field_data ), JB()->get_allowed_html( 'templates' ) );
+					?>
+				</span>
+				<a class="jb-cancel-change-media" href="#"><?php echo esc_html( $cancel_label ); ?></a>
+				<a class="jb-change-media" href="#"><?php echo esc_html( $change_label ); ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+				<a class="jb-clear-media" href="#"><?php echo esc_html( $remove_label ); ?></a>
+			</span>
 
-				<?php echo wp_kses( '<input type="hidden" class="jb-forms-field jb-media-upload-data-url ' . esc_attr( $class ) . '" name="' . esc_attr( $name ) . '[url]" id="' . esc_attr( $id ) . '_url" value="' . esc_attr( $image_url ) . '" ' . $data_attr . '>', JB()->get_allowed_html( 'wp-admin' ) ); ?>
+			<span class="<?php echo esc_attr( $uploader_classes ); ?>">
+				<span id="jb_<?php echo esc_attr( $id ); ?>_filelist" class="jb-uploader-dropzone">
+					<span><?php esc_html_e( 'Drop file to upload', 'jobboardwp' ); ?></span>
+					<span><?php esc_html_e( 'or', 'jobboardwp' ); ?></span>
+					<span class="jb-select-media-button-wrapper">
+						<input type="button" class="jb-select-media" data-action="<?php echo esc_attr( $field_data['action'] ); ?>" id="jb_<?php echo esc_attr( $id ); ?>_plupload" value="<?php echo esc_attr( $select_label ); ?>" />
+					</span>
+				</span>
 
-				<?php if ( ! isset( $field_data['preview'] ) || false !== $field_data['preview'] ) { ?>
-					<img src="<?php echo esc_attr( $image_url ); ?>" alt="" class="icon_preview"><div style="clear:both;"></div>
-				<?php } ?>
-
-				<?php if ( ! empty( $field_data['url'] ) ) { ?>
-					<label class="screen-reader-text" for="jb-media-upload-url"><?php echo esc_attr( $this->render_field_label( $field_data ) ); ?></label>
-					<input type="text" id="jb-media-upload-url" class="jb-media-upload-url" readonly value="<?php echo esc_attr( $image_url ); ?>" /><div style="clear:both;"></div>
-				<?php } ?>
-
-				<input type="button" class="jb-set-image button button-primary" value="<?php esc_attr_e( 'Select', 'jobboardwp' ); ?>" data-upload_frame="<?php echo esc_attr( $upload_frame_title ); ?>" />
-				<input type="button" class="jb-clear-image button" value="<?php esc_attr_e( 'Clear', 'jobboardwp' ); ?>" />
-			</div>
+				<span id="jb-<?php echo esc_attr( $id ); ?>-errorlist" class="jb-uploader-errorlist"></span>
+			</span>
+			<input type="hidden" class="jb-media-value" id="<?php echo esc_attr( $id ); ?>" data-field="<?php echo esc_attr( $field_id ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $media_url ); ?>" />
+			<input type="hidden" class="jb-media-value-hash" id="<?php echo esc_attr( $field_id ); ?>_hash" name="<?php echo esc_attr( $field_id ); ?>_hash" value="" />
 
 			<?php
 			$html = ob_get_clean();
