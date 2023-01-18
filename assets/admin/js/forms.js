@@ -34,7 +34,7 @@ jQuery( document ).ready( function($) {
 			browse_button: $button.get( 0 ), // you can pass in id...
 			drop_element: $filelist.get( 0 ), // ... or DOM Element itself
 			container: $button_wrapper.get( 0 ), // ... or DOM Element itself
-			url: wp.ajax.settings.url + '?action=' + $action + '&nonce=' + jb_front_data.nonce,
+			url: wp.ajax.settings.url + '?action=' + $action + '&nonce=' + jb_admin_data.nonce + '&admin=1',
 			chunk_size: '1024kb',
 			max_retries: 1,
 			multipart: true,
@@ -87,7 +87,7 @@ jQuery( document ).ready( function($) {
 							$button.parents('.jb-uploader').addClass( 'jb-uploaded' );
 							$button.parents('.jb-uploader').siblings('.jb-uploaded-wrapper').addClass( 'jb-uploaded' ).removeClass('jb-waiting-change');
 							$button.parents('.jb-uploader').siblings('.jb-uploaded-wrapper').find('img').attr( 'src', response.data[0].url );
-							wp.hooks.doAction( 'jb_job_uploader_after_success_upload', $button, response );
+							wp.hooks.doAction( 'jb_job_admin_uploader_after_success_upload', $button, response );
 
 							$button.parents('.jb-uploader').siblings('.jb-media-value').val( response.data[0].name_saved );
 							if ( jQuery('.jb-media-value-save').length ) {
@@ -111,7 +111,7 @@ jQuery( document ).ready( function($) {
 				}
 			}
 		};
-		uploader_args = wp.hooks.applyFilters( 'jb_job_uploader_filters_attrs', uploader_args, $button );
+		uploader_args = wp.hooks.applyFilters( 'jb_job_admin_uploader_filters_attrs', uploader_args, $button );
 
 		jb_media_uploader = new plupload.Uploader( uploader_args );
 		jb_media_uploader.init();
