@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-01-08T22:49:06+00:00\n"
+"POT-Creation-Date: 2023-01-18T22:31:13+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: jobboardwp\n"
@@ -188,15 +188,34 @@ msgid "Create Default"
 msgstr ""
 
 #: includes/admin/class-forms.php:1033
-msgid "Select media"
+#: includes/frontend/class-forms.php:544
+msgid "Select file"
 msgstr ""
 
-#: includes/admin/class-forms.php:1061
-msgid "Select"
+#: includes/admin/class-forms.php:1034
+#: includes/frontend/class-forms.php:545
+msgid "Change"
 msgstr ""
 
-#: includes/admin/class-forms.php:1062
-msgid "Clear"
+#: includes/admin/class-forms.php:1035
+#: includes/frontend/class-forms.php:546
+msgid "Remove"
+msgstr ""
+
+#: includes/admin/class-forms.php:1036
+#: includes/frontend/class-forms.php:547
+#: templates/job/footer.php:68
+msgid "Cancel"
+msgstr ""
+
+#: includes/admin/class-forms.php:1070
+#: includes/frontend/class-forms.php:597
+msgid "Drop file to upload"
+msgstr ""
+
+#: includes/admin/class-forms.php:1071
+#: includes/frontend/class-forms.php:598
+msgid "or"
 msgstr ""
 
 #: includes/admin/class-install.php:177
@@ -2061,31 +2080,6 @@ msgstr ""
 msgid "Selected image"
 msgstr ""
 
-#: includes/frontend/class-forms.php:544
-msgid "Select file"
-msgstr ""
-
-#: includes/frontend/class-forms.php:545
-msgid "Change"
-msgstr ""
-
-#: includes/frontend/class-forms.php:546
-msgid "Remove"
-msgstr ""
-
-#: includes/frontend/class-forms.php:547
-#: templates/job/footer.php:68
-msgid "Cancel"
-msgstr ""
-
-#: includes/frontend/class-forms.php:597
-msgid "Drop file to upload"
-msgstr ""
-
-#: includes/frontend/class-forms.php:598
-msgid "or"
-msgstr ""
-
 #: includes/frontend/class-jobs-directory.php:70
 msgid "Company"
 msgstr ""
@@ -2620,19 +2614,23 @@ msgstr ""
 msgid "Number"
 msgstr ""
 
+#: assets/admin/js/forms.js:45
 #: assets/frontend/js/forms.js:105
 msgid "Image files"
 msgstr ""
 
+#: assets/admin/js/forms.js:52
 #: assets/frontend/js/forms.js:112
 msgid "Error!"
 msgstr ""
 
+#: assets/admin/js/forms.js:82
 #: assets/frontend/js/forms.js:142
 msgid "Error! Wrong file upload server response."
 msgstr ""
 
 #. translators: %s is the error status code.
+#: assets/admin/js/forms.js:101
 #: assets/frontend/js/forms.js:158
 msgid "File was not loaded, Status Code %s"
 msgstr ""

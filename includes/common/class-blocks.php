@@ -254,7 +254,7 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 		public function jb_single_job_render( $atts ) {
 			$shortcode = '[jb_job';
 
-			if ( $atts['job_id'] ) {
+			if ( isset( $atts['job_id'] ) && '' !== $atts['job_id'] ) {
 				$shortcode .= ' id="' . $atts['job_id'] . '"';
 			}
 
