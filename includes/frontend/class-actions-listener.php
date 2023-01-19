@@ -467,12 +467,34 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 						// register user if it's needed
 						$user_id = $this->maybe_create_user();
 
+						$nonce_action = '';
+						if ( empty( $user_id ) ) {
+							if ( isset( $_COOKIE['jb-guest-job-posting'] ) ) {
+								$nonce_action = 'jb-guest-job-posting' . sanitize_text_field( $_COOKIE['jb-guest-job-posting'] );
+							} else {
+								$uniqid = uniqid();
+								JB()->setcookie( 'jb-guest-job-posting', $uniqid, time() + HOUR_IN_SECONDS );
+								$nonce_action = 'jb-guest-job-posting' . $uniqid;
+							}
+						}
+
 						$is_edited = false;
 						if ( ! empty( $_GET['job-id'] ) ) {
 							$job_id = absint( $_GET['job-id'] );
 							$job    = get_post( $job_id );
 							if ( ! empty( $job ) && ! is_wp_error( $job ) ) {
 								$is_edited = true;
+
+								if ( ! empty( $user_id ) ) {
+									if ( absint( $job->post_author ) !== absint( $user_id ) && ! user_can( $user_id, 'edit_post', $job_id ) ) {
+										$posting_form->add_error( 'global', __( 'Security action, Please try again with another job.', 'jobboardwp' ) );
+									}
+								} else {
+									$job_guest_nonce = get_post_meta( $job_id, 'jb-guest-nonce', true );
+									if ( empty( $job_guest_nonce ) || ! wp_verify_nonce( $job_guest_nonce, $nonce_action ) ) {
+										$posting_form->add_error( 'global', __( 'Security action, Please try again with another job.', 'jobboardwp' ) );
+									}
+								}
 							}
 						}
 
@@ -771,6 +793,11 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								'jb-expiry-date'         => $expiry,
 							);
 
+							// make guest jobs secure per each wp_nonce(unique per session)
+							if ( empty( $user_id ) ) {
+								$meta_input['jb-guest-nonce'] = wp_create_nonce( $nonce_action );
+							}
+
 							$job_data = array(
 								'post_type'    => 'jb-job',
 								'post_author'  => $user_id,
@@ -937,6 +964,22 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							$preview_form->add_error( 'global', __( 'Wrong job', 'jobboardwp' ) );
 						}
 
+						if ( is_user_logged_in() ) {
+							if ( absint( $job->post_author ) !== get_current_user_id() && ! current_user_can( 'edit_post', $job_id ) ) {
+								$preview_form->add_error( 'global', __( 'Security action, Please try again with another job.', 'jobboardwp' ) );
+							}
+						} else {
+							if ( ! isset( $_COOKIE['jb-guest-job-posting'] ) ) {
+								$preview_form->add_error( 'global', __( 'Security action, Please try again with another job.', 'jobboardwp' ) );
+							} else {
+								$nonce_action    = 'jb-guest-job-posting' . sanitize_text_field( $_COOKIE['jb-guest-job-posting'] );
+								$job_guest_nonce = get_post_meta( $job_id, 'jb-guest-nonce', true );
+								if ( empty( $job_guest_nonce ) || ! wp_verify_nonce( $job_guest_nonce, $nonce_action ) ) {
+									$preview_form->add_error( 'global', __( 'Security action, Please try again with another job.', 'jobboardwp' ) );
+								}
+							}
+						}
+
 						if ( 'publish' === sanitize_key( $_POST['jb-job-submission-step'] ) ) {
 
 							$is_edited   = get_post_meta( $job_id, 'jb-last-edit-date', true );
@@ -1079,6 +1122,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 										$job_post_page_url
 									);
 								}
+
+								JB()->setcookie( 'jb-guest-job-posting', false );
 
 								wp_safe_redirect( $url );
 								exit;
