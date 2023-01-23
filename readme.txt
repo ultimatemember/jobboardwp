@@ -6,7 +6,7 @@ Tags: job, job board, job portal, job listing, job manager
 Requires PHP: 5.6
 Requires at least: 5.4
 Tested up to: 6.1
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -104,6 +104,27 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 10. Screenshot 10
 
 == Changelog ==
+
+= 1.2.3: January 23, 2023 =
+
+* Added: Ability to show jobs list filters on the single job category or single job type page (tax archive template)
+* Added: Placeholder attribute for the textarea field-type
+* Added: Hook for uploader preview styles `jb_upload_wrapper_styles`
+* Added: New mime-types for the job company logo (WebP and HEIC)
+* Added: Hooks for custom fields and attributes taxonomies `jb_job_after_save_metabox` and `jb_after_job_submitted_successfully`
+* Added `jb_disable_jquery_ui` hook for force disabling jquery-ui styles
+* Fixed: Displaying more than 1 jobs list per page
+* Fixed: SQL meta placeholders in the long queries
+* Fixed: Custom capabilities [issue](https://wordpress.org/support/topic/allow-editor-role-to-post-edit-jobs/#post-16343503)
+* Fixed: Security issue with job posting process
+* Fixed: Function for rendering media field for uploads in JobBoardWP wp-admin forms
+
+* Templates required update:
+  - job-submission.php
+  - jobs/search-bar.php
+  - jobs/wrapper.php
+
+* Cached and optimized/minified assets(JS/CSS) must be flushed/re-generated after upgrade
 
 = 1.2.2: November 23, 2022 =
 
