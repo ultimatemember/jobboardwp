@@ -266,3 +266,11 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 = 1.0.0: July 21, 2020 =
 
 * Initial Release
+
+== Upgrade Notice ==
+
+= 1.2.3 =
+This version fixes a security related bug. Upgrade immediately.
+
+= 1.1.0 =
+This version fixes a security related bug. Upgrade immediately.
