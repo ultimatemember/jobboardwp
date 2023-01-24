@@ -387,9 +387,9 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 						return $template;
 					}
 
-					add_action('wp_head', array( &$this, 'on_wp_head_finish' ), 99999999);
-					add_filter('the_content', array( &$this, 'cpt_content' ), 10, 1);
-					add_filter('post_class', array( &$this, 'hidden_title_class' ), 10, 1);
+					add_action( 'wp_head', array( &$this, 'on_wp_head_finish' ), 99999999 );
+					add_filter( 'the_content', array( &$this, 'cpt_content' ), 10, 1 );
+					add_filter( 'post_class', array( &$this, 'hidden_title_class' ), 10, 1 );
 				} else {
 					$t              = get_template_directory() . DIRECTORY_SEPARATOR . 'jobboardwp' . DIRECTORY_SEPARATOR . $template_setting . '.php';
 					$child_template = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'jobboardwp' . DIRECTORY_SEPARATOR . $template_setting . '.php';
@@ -429,7 +429,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		public function jb_change_single_job_block_templates( $query_result, $query, $template_type ) {
 			$theme = wp_get_theme();
 
-			$template_contents = file_get_contents( JB_PATH . 'templates/block-templates/single.html' );
+			$template_contents = file_get_contents( JB_PATH . 'templates/block-templates/single.html' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 			$template_contents = str_replace( '~theme~', $theme->stylesheet, $template_contents );
 
 			$new_block                 = new \WP_Block_Template();
@@ -462,15 +462,16 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @since 1.2.4
 		 */
-		function jb_change_single_job_template( $pre_render, $parsed_block, $parent_block ){
+		public function jb_change_single_job_template( $pre_render, $parsed_block, $parent_block ) {
 			if ( empty( $pre_render['blockName'] ) && '' !== trim( $parsed_block['innerHTML'] ) ) {
 				global $post;
 
-				$attrs = array(
+				$attrs   = array(
 					'id'            => $post->ID,
 					'ignore_status' => true,
 				);
 				$content = JB()->get_template_html( 'single-job', $attrs );
+
 				$parsed_block['innerContent'][0] = $content;
 			}
 
