@@ -181,6 +181,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 			if ( 'jb-job' === $post->post_type ) {
 				if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+					wp_enqueue_script( 'jb-single-job' );
 					add_filter( 'get_block_templates', array( $this, 'jb_change_single_job_block_templates' ), 10, 3 );
 				}
 				add_filter( 'twentytwenty_disallowed_post_types_for_meta_output', array( &$this, 'add_cpt_meta' ), 10, 1 );
@@ -439,7 +440,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			$new_block->title          = 'single';
 			$new_block->description    = '';
 			$new_block->source         = 'plugin';
-//			$new_block->source         = 'theme';
 			$new_block->status         = 'publish';
 			$new_block->has_theme_file = true;
 			$new_block->is_custom      = true;
