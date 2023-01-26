@@ -37,9 +37,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\frontend\Templates' ) ) {
-
 
 	/**
 	 * Class Templates
@@ -48,12 +46,10 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 	 */
 	class Templates {
 
-
 		/**
 		 * @var bool
 		 */
 		public $template_replaced = false;
-
 
 		/**
 		 * Templates constructor.
@@ -69,7 +65,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			add_filter( 'archive_template', array( &amp;$this, 'cpt_archive_template' ), 100, 3 );
 			add_action( 'wp_footer', array( $this, 'output_structured_data' ) );
 		}
-
 
 		/**
 		 * Change WP native job post content
@@ -87,7 +82,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			}
 		}
 
-
 		/**
 		 * Enqueue single job assets
 		 *
@@ -97,7 +91,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			wp_enqueue_script( 'jb-single-job' );
 			wp_enqueue_style( 'jb-job' );
 		}
-
 
 		/**
 		 * Add JB block before the job post content
@@ -146,7 +139,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			return $content;
 		}
 
-
 		/**
 		 * Add JB block after the job post content
 		 *
@@ -194,7 +186,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			return $content;
 		}
 
-
 		/**
 		 * Check if the Job has custom template, or load by default page template
 		 *
@@ -215,7 +206,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			if ( 'jb-job' === $post->post_type ) {
 				// check if block theme and change templale
 				if ( function_exists( 'wp_is_block_theme' ) &amp;&amp; wp_is_block_theme() ) {
-					add_filter( 'get_block_templates', array( $this, 'jb_change_single_job_block_templates' ), 10, 3 );
+					add_filter( 'get_block_templates', array( $this, 'jb_change_single_job_block_templates' ), 10, 1 );
 				}
 				add_filter( 'twentytwenty_disallowed_post_types_for_meta_output', array( &amp;$this, 'add_cpt_meta' ), 10, 1 );
 				add_filter( 'template_include', array( &amp;$this, 'cpt_template_include' ), 10, 1 );
@@ -349,7 +340,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			return $types;
 		}
 
-
 		/**
 		 * Hide job thumbnail
 		 *
@@ -371,7 +361,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 			return $has_thumbnail;
 		}
-
 
 		/**
 		 * If it's job individual page loading by default Page template from theme
@@ -446,30 +435,38 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			return $template;
 		}
 
-
 		/**
-		 * Change block template gor single job
+		 * Change block template for single job
 		 *
-		 * @param WP_Block_Template[] $query_result Array of found block templates.
-		 * @param array               $query        Arguments to retrieve templates.
-		 * @param string              $template_type wp_template or wp_template_part.
+		 * @param \WP_Block_Template[] $query_result Array of found block templates.
 		 *
 		 * @return array
 		 *
 		 * @since 1.2.4
 		 */
-		public function jb_change_single_job_block_templates( $query_result, $query, $template_type ) {
+		public function jb_change_single_job_block_templates( $query_result ) {
 			$theme = wp_get_theme();
 
-			$template_contents = file_get_contents( JB_PATH . 'templates/block-templates/single.html' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-			$template_contents = str_replace( '~theme~', $theme->stylesheet, $template_contents );
-			$template_contents = str_replace( '~jb_single_job_content~', '[jb_job id="' . get_the_ID() . '"]', $template_contents );
+			/** @var $wp_filesystem \WP_Filesystem_Base */
+			global $wp_filesystem;
+
+			if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
+				/** @noinspection PhpIncludeInspection */
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+
+				$credentials = request_filesystem_credentials( site_url() );
+				\WP_Filesystem( $credentials );
+			}
+
+			$template_contents = $wp_filesystem->get_contents( wp_normalize_path( JB_PATH . 'templates/block-templates/single.html' ) );
+			$template_contents = str_replace( '~theme~', $theme->get_stylesheet(), $template_contents );
+			$template_contents = str_replace( '~jb_single_job_content~', '[jb_job id="' . get_the_ID() . '" /]', $template_contents );
 
 			$new_block                 = new \WP_Block_Template();
 			$new_block->type           = 'wp_template';
-			$new_block->theme          = $theme->stylesheet;
+			$new_block->theme          = $theme->get_stylesheet();
 			$new_block->slug           = 'single';
-			$new_block->id             = $theme->stylesheet . '//single';
+			$new_block->id             = $theme->get_stylesheet() . '//single';
 			$new_block->title          = 'single';
 			$new_block->description    = '';
 			$new_block->source         = 'plugin';
@@ -484,7 +481,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			return $query_result;
 		}
 
-
 		/**
 		 * Clear the post title
 		 *
@@ -493,7 +489,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		public function on_wp_head_finish() {
 			add_filter( 'the_title', array( $this, 'clear_title' ), 10, 2 );
 		}
-
 
 		/**
 		 * Return empty title
@@ -514,7 +509,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 			return $title;
 		}
-
 
 		/**
 		 * Set default content of the job page
@@ -545,7 +539,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			return $content;
 		}
 
-
 		/**
 		 * Add hidden class if users need to add some custom CSS on page template to hide a header when title is hidden
 		 *
@@ -559,7 +552,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			$classes[] = 'jb-hidden-title';
 			return $classes;
 		}
-
 
 		/**
 		 * Add structured data to the footer of job listing pages.
@@ -586,7 +578,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- structured data output, early escaped
 			echo '&lt;script type="application/ld+json">' . _wp_specialchars( wp_json_encode( $structured_data ), ENT_NOQUOTES, 'UTF-8', true ) . '&lt;/script>';
 		}
-
 
 		/**
 		 * Dropdown menu template
