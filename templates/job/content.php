@@ -2,7 +2,6 @@
 	exit;
 }
 
-
 if ( ! empty( $jb_job_content['job_id'] ) ) {
 	$job_id = $jb_job_content['job_id'];
 	?>

@@ -4,7 +4,10 @@
 
 if ( ! empty( $jb_single_job['id'] ) ) {
 
-	$default_template_replaced = $jb_single_job['default_template_replaced'];
+	$default_template_replaced = '';
+	if ( isset( $jb_single_job['default_template_replaced'] ) ) {
+		$default_template_replaced = $jb_single_job['default_template_replaced'];
+	}
 
 	$job_id    = $jb_single_job['id'];
 	$job_title = get_the_title( $job_id );

@@ -180,6 +180,10 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			}
 
 			if ( 'jb-job' === $post->post_type ) {
+				// check if block theme and change templale
+				if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+					add_filter( 'get_block_templates', array( $this, 'jb_change_single_job_block_templates' ), 10, 3 );
+				}
 				add_filter( 'twentytwenty_disallowed_post_types_for_meta_output', array( &$this, 'add_cpt_meta' ), 10, 1 );
 				add_filter( 'template_include', array( &$this, 'cpt_template_include' ), 10, 1 );
 				add_filter( 'has_post_thumbnail', array( &$this, 'hide_post_thumbnail' ), 10, 2 );
@@ -350,6 +354,10 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 				$template_setting = JB()->options()->get( 'job-template' );
 				if ( 'default' === $template_setting ) {
+					if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+						return $template;
+					}
+
 					$t              = get_template_directory() . DIRECTORY_SEPARATOR . 'singular.php';
 					$child_template = get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'singular.php';
 					if ( file_exists( $child_template ) ) {
@@ -403,6 +411,44 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			}
 
 			return $template;
+		}
+
+
+		/**
+		 * Change block template gor single job
+		 *
+		 * @param WP_Block_Template[] $query_result Array of found block templates.
+		 * @param array               $query        Arguments to retrieve templates.
+		 * @param string              $template_type wp_template or wp_template_part.
+		 *
+		 * @return array
+		 *
+		 * @since 1.2.4
+		 */
+		public function jb_change_single_job_block_templates( $query_result, $query, $template_type ) {
+			$theme = wp_get_theme();
+
+			$template_contents = file_get_contents( JB_PATH . 'templates/block-templates/single.html' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+			$template_contents = str_replace( '~theme~', $theme->stylesheet, $template_contents );
+			$template_contents = str_replace( '~jb_single_job_content~', '[jb_job id="' . get_the_ID() . '"]', $template_contents );
+
+			$new_block                 = new \WP_Block_Template();
+			$new_block->type           = 'wp_template';
+			$new_block->theme          = $theme->stylesheet;
+			$new_block->slug           = 'single';
+			$new_block->id             = $theme->stylesheet . '//single';
+			$new_block->title          = 'single';
+			$new_block->description    = '';
+			$new_block->source         = 'plugin';
+			$new_block->status         = 'publish';
+			$new_block->has_theme_file = true;
+			$new_block->is_custom      = true;
+			$new_block->content        = $template_contents;
+			$new_block->area           = 'uncategorized';
+
+			$query_result[] = $new_block;
+
+			return $query_result;
 		}
 
 
