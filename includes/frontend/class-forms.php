@@ -546,8 +546,12 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$remove_label = isset( $field_data['labels']['remove'] ) ? $field_data['labels']['remove'] : __( 'Remove', 'jobboardwp' );
 			$cancel_label = isset( $field_data['labels']['cancel'] ) ? $field_data['labels']['cancel'] : __( 'Cancel', 'jobboardwp' );
 
+			$value_array = explode( '/', $field_data['value'] );
+
 			$wrapper_classes = array( 'jb-uploaded-wrapper', 'jb-' . $id . '-wrapper' );
-			if ( ! empty( $field_data['value'] ) ) {
+
+			// check if a file uploaded
+			if ( ! empty( $field_data['value'] ) && ! empty( end( $value_array ) ) ) {
 				$wrapper_classes = array_merge( $wrapper_classes, array( 'jb-uploaded', 'jb-' . $id . '-uploaded' ) );
 			}
 			$wrapper_classes = implode( ' ', $wrapper_classes );
@@ -555,7 +559,8 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$img_style = $thumb_crop ? 'style="object-fit: cover;"' : '';
 
 			$uploader_classes = array( 'jb-uploader', 'jb-' . $id . '-uploader' );
-			if ( ! empty( $field_data['value'] ) ) {
+			// check if a file uploaded
+			if ( ! empty( $field_data['value'] ) && ! empty( end( $value_array ) ) ) {
 				$uploader_classes = array_merge( $uploader_classes, array( 'jb-uploaded', 'jb-' . $id . '-uploaded' ) );
 			}
 			$uploader_classes = implode( ' ', $uploader_classes );
@@ -575,7 +580,12 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			 */
 			$styles = apply_filters( 'jb_upload_wrapper_styles', $styles, $field_data );
 
-			$value = ! empty( $field_data['value'] ) ? $field_data['value'] : '';
+			// check if $field_data['value'] is a full path or only name
+			if ( count( $value_array ) > 1 && ! empty( end( $value_array ) ) ) {
+				$value = end( $value_array );
+			} else {
+				$value = ! empty( $field_data['value'] ) ? $field_data['value'] : '';
+			}
 
 			ob_start();
 			?>

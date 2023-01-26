@@ -1057,7 +1057,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				<span class="jb-uploaded-content-wrapper jb-<?php echo esc_attr( $id ); ?>-image-wrapper">
 					<?php
 					$output = '<a target="_blank" class="media-upload-field-preview" data-formats="' . esc_attr( $field_formats ) . '" href="' . esc_url( $media_url ) . '"><span>' . esc_html__( 'File', 'jobboardwp' ) . '</span></a>';
-					echo wp_kses( apply_filters( 'jb_preview_media_output', $output, $field_data ), JB()->get_allowed_html( 'templates' ) );
+					echo wp_kses( apply_filters( 'jb_admin_preview_media_output', $output, $field_data ), JB()->get_allowed_html( 'templates' ) );
 					?>
 				</span>
 				<a class="jb-cancel-change-media" href="#"><?php echo esc_html( $cancel_label ); ?></a>

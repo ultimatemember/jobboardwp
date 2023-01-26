@@ -30,6 +30,7 @@ jQuery( document ).ready( function($) {
 	 * @type {*|jQuery|HTMLElement}
 	 */
 	var jb_media_uploader;
+	var jb_media_uploaders = {};
 	var jb_datepicker = $('.jb-datepicker');
 	if ( jb_datepicker.length ) {
 		jb_datepicker.each( function() {
@@ -75,7 +76,8 @@ jQuery( document ).ready( function($) {
 
 	$( document.body ).on( 'click', '.jb-clear-media', function(e) {
 		e.preventDefault();
-		jb_media_uploader.splice();
+		var plupload_id = $(this).parents('.jb-form-field-content').attr('data-uploader');
+		jb_media_uploaders[ plupload_id ].splice();
 		$(this).parents('.jb-uploaded-wrapper').siblings('.jb-media-value').val('');
 		$(this).parents('.jb-uploaded-wrapper').siblings('.jb-media-value-hash').val('');
 		$(this).parents('.jb-uploaded-wrapper').removeClass('jb-uploaded').removeClass('jb-waiting-change');
@@ -171,6 +173,9 @@ jQuery( document ).ready( function($) {
 		uploader_args = wp.hooks.applyFilters( 'jb_job_uploader_filters_attrs', uploader_args, $button );
 
 		jb_media_uploader = new plupload.Uploader( uploader_args );
+		jb_media_uploaders[ jb_media_uploader['id'] ] = jb_media_uploader;
 		jb_media_uploader.init();
+
+		$(this).parents('.jb-form-field-content').attr('data-uploader', jb_media_uploader['id']);
 	});
 });
