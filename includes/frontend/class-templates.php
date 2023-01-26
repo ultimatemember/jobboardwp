@@ -180,6 +180,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			}
 
 			if ( 'jb-job' === $post->post_type ) {
+				// check if block theme and change templale
 				if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
 					add_filter( 'get_block_templates', array( $this, 'jb_change_single_job_block_templates' ), 10, 3 );
 				}
