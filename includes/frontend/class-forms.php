@@ -609,9 +609,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 				<span id="jb-<?php echo esc_attr( $id ); ?>-errorlist" class="jb-uploader-errorlist"></span>
 			</span>
-			<?php
-
-			?>
 			<input type="hidden" class="jb-media-value" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $value ); ?>" />
 			<input type="hidden" class="jb-media-value-hash" id="<?php echo esc_attr( $id ); ?>_hash" name="<?php echo esc_attr( $name ); ?>_hash" value="" />
 
