@@ -181,7 +181,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 			if ( 'jb-job' === $post->post_type ) {
 				if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
-					wp_enqueue_script( 'jb-single-job' );
 					add_filter( 'get_block_templates', array( $this, 'jb_change_single_job_block_templates' ), 10, 3 );
 				}
 				add_filter( 'twentytwenty_disallowed_post_types_for_meta_output', array( &$this, 'add_cpt_meta' ), 10, 1 );
@@ -355,7 +354,6 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 				$template_setting = JB()->options()->get( 'job-template' );
 				if ( 'default' === $template_setting ) {
 					if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
-						add_filter( 'render_block_data', array( $this, 'jb_change_single_job_template' ), 10, 3 );
 						return $template;
 					}
 
@@ -431,6 +429,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 
 			$template_contents = file_get_contents( JB_PATH . 'templates/block-templates/single.html' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 			$template_contents = str_replace( '~theme~', $theme->stylesheet, $template_contents );
+			$template_contents = str_replace( '~jb_single_job_content~', '[jb_job id="' . get_the_ID() . '"]', $template_contents );
 
 			$new_block                 = new \WP_Block_Template();
 			$new_block->type           = 'wp_template';
@@ -447,35 +446,8 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			$new_block->area           = 'uncategorized';
 
 			$query_result[] = $new_block;
+
 			return $query_result;
-		}
-
-
-		/**
-		 * Change archive template
-		 *
-		 * @param string        $pre_render   The block being rendered.
-		 * @param array         $parsed_block Block being rendered, filtered by `render_block_data`.
-		 * @param WP_Block|null $parent_block If this is a nested block, a reference to the parent block.
-		 *
-		 * @return string
-		 *
-		 * @since 1.2.4
-		 */
-		public function jb_change_single_job_template( $pre_render, $parsed_block, $parent_block ) {
-			if ( empty( $pre_render['blockName'] ) && '' !== trim( $parsed_block['innerHTML'] ) ) {
-				global $post;
-
-				$attrs   = array(
-					'id'            => $post->ID,
-					'ignore_status' => true,
-				);
-				$content = JB()->get_template_html( 'single-job', $attrs );
-
-				$parsed_block['innerContent'][0] = $content;
-			}
-
-			return $parsed_block;
 		}
 
 
