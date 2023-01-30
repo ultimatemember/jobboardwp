@@ -580,11 +580,15 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			 */
 			$styles = apply_filters( 'jb_upload_wrapper_styles', $styles, $field_data );
 
-			// check if $field_data['value'] is a full path or only name
-			if ( count( $value_array ) > 1 && ! empty( end( $value_array ) ) ) {
-				$value = end( $value_array );
-			} else {
+			if ( 'jb-upload-company-logo' === $field_data['action'] ) {
 				$value = ! empty( $field_data['value'] ) ? $field_data['value'] : '';
+			} else {
+				// check if $field_data['value'] is a full path or only name
+				if ( count( $value_array ) > 1 && ! empty( end( $value_array ) ) ) {
+					$value = end( $value_array );
+				} else {
+					$value = ! empty( $field_data['value'] ) ? $field_data['value'] : '';
+				}
 			}
 
 			ob_start();
