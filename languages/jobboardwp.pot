@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-01-26T14:58:00+00:00\n"
+"POT-Creation-Date: 2023-01-30T12:54:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: jobboardwp\n"
@@ -179,7 +179,7 @@ msgid "Required"
 msgstr ""
 
 #: includes/admin/class-forms.php:819
-#: includes/frontend/class-forms.php:835
+#: includes/frontend/class-forms.php:839
 msgid "Please select..."
 msgstr ""
 
@@ -213,12 +213,12 @@ msgid "File"
 msgstr ""
 
 #: includes/admin/class-forms.php:1070
-#: includes/frontend/class-forms.php:607
+#: includes/frontend/class-forms.php:611
 msgid "Drop file to upload"
 msgstr ""
 
 #: includes/admin/class-forms.php:1071
-#: includes/frontend/class-forms.php:608
+#: includes/frontend/class-forms.php:612
 msgid "or"
 msgstr ""
 
