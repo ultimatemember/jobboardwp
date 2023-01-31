@@ -223,12 +223,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				array(
 					'relation' => 'OR',
 					array(
-						'key' => 'jb-featured-order',
-						'compare' => 'NOT EXISTS'
+						'key'     => 'jb-featured-order',
+						'compare' => 'NOT EXISTS',
 					),
 					array(
-						'key' => 'jb-featured-order',
-						'compare' => 'EXISTS'
+						'key'     => 'jb-featured-order',
+						'compare' => 'EXISTS',
 					),
 				),
 			);
@@ -507,10 +507,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			 * @return {array} Arguments for WP_Query.
 			 */
 			$query_args = apply_filters( 'jb_get_jobs_query_args', $query_args );
-//echo '<pre>';
-//print_r($query_args);
-//echo '</pre>';
-//exit();
+
 			$get_posts  = new \WP_Query();
 			$jobs_query = $get_posts->query( $query_args );
 
