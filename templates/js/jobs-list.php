@@ -95,6 +95,11 @@
 									</div>
 								<# } #>
 							<# } #>
+							<# if ( job.featured ) { #>
+								<div class="jb-job-types jb-responsive jb-ui-s jb-ui-xs">
+									<div class="jb-job-featured"><?php esc_html_e( 'Featured', 'jobboardwp' ); ?></div>
+								</div>
+							<# } #>
 						</div>
 					</div>
 				</div>

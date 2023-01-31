@@ -215,6 +215,8 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				'jb-company-instagram'   => 'text',
 				'jb-is-filled'           => 'bool',
 				'jb-expiry-date'         => 'text',
+				'jb-is-featured'         => 'bool',
+				'jb-featured-order'      => 'text',
 			);
 
 			$current_time = time();
