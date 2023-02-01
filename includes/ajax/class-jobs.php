@@ -218,6 +218,23 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			$query_args = array();
 
+			$query_args['meta_query'] = array(
+				'relation' => 'AND',
+				array(
+					'relation' => 'OR',
+					'featured' => array(
+						'key'     => 'jb-featured-order',
+						'compare' => 'NOT EXISTS',
+						'type'    => 'NUMERIC',
+					),
+					array(
+						'key'     => 'jb-featured-order',
+						'compare' => 'EXISTS',
+						'type'    => 'NUMERIC',
+					),
+				),
+			);
+
 			global $wpdb;
 			// Prepare for BIG SELECT query
 			$wpdb->query( 'SET SQL_BIG_SELECTS=1' );
@@ -306,8 +323,10 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			$query_args = array_merge(
 				$query_args,
 				array(
-					'orderby'     => $orderby,
-					'order'       => $order,
+					'orderby'     => array(
+						'featured' => 'DESC',
+						$orderby   => $order,
+					),
 					'post_type'   => 'jb-job',
 					'post_status' => $statuses,
 				)
@@ -553,6 +572,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						'logo'      => JB()->common()->job()->get_logo( $job_post->ID ),
 						'location'  => wp_kses( JB()->common()->job()->get_location_link( $job_post->ID ), JB()->get_allowed_html( 'templates' ) ),
 						'types'     => $data_types,
+						'featured'  => esc_html( JB()->common()->job()->is_featured( $job_post->ID ) ),
 						'actions'   => array(),
 					);
 

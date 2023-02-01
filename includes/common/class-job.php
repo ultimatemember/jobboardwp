@@ -501,6 +501,21 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 
 		/**
+		 * Is job featured?
+		 *
+		 * @param int $job_id
+		 *
+		 * @return bool
+		 *
+		 * @since 1.2.4
+		 */
+		public function is_featured( $job_id ) {
+			$featured = get_post_meta( $job_id, 'jb-is-featured', true );
+			return (bool) $featured;
+		}
+
+
+		/**
 		 * Is job expired?
 		 *
 		 * @param int $job_id

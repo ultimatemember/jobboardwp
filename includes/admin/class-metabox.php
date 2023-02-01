@@ -215,6 +215,8 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				'jb-company-instagram'   => 'text',
 				'jb-is-filled'           => 'bool',
 				'jb-expiry-date'         => 'text',
+				'jb-is-featured'         => 'bool',
+				'jb-featured-order'      => 'absint',
 			);
 
 			$current_time = time();
@@ -368,6 +370,10 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 					}
 
 					update_post_meta( $post_id, $k, $v );
+
+					if ( 'jb-featured-order' === $k && 1 !== absint( $_POST['jb-job-meta']['jb-is-featured'] ) ) {
+						delete_post_meta( $post_id, 'jb-featured-order' );
+					}
 				}
 			}
 
