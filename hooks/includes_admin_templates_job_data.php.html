@@ -48,6 +48,8 @@ $company_twitter   = '';
 $company_facebook  = '';
 $company_instagram = '';
 $is_filled         = false;
+$is_featured       = false;
+$featured_order    = '';
 $expiry_date       = '';
 $location_type     = '0';
 $author            = get_current_user_id();
@@ -98,6 +100,8 @@ if ( $post_id ) {
 	$company_facebook  = get_post_meta( $post_id, 'jb-company-facebook', true );
 	$company_instagram = get_post_meta( $post_id, 'jb-company-instagram', true );
 	$is_filled         = JB()->common()->job()->is_filled( $post_id );
+	$is_featured       = JB()->common()->job()->is_featured( $post_id );
+	$featured_order    = get_post_meta( $post_id, 'jb-featured-order', true );
 	$job_type          = '';
 	$job_category      = '';
 
@@ -317,6 +321,21 @@ $job_details_fields = array_merge(
 			'value'       => $expiry_date,
 			'size'        => 'small',
 			'description' => $expiry_description,
+		),
+		array(
+			'id'          => 'jb-is-featured',
+			'type'        => 'checkbox',
+			'label'       => __( 'Is Featured?', 'jobboardwp' ),
+			'value'       => $is_featured,
+			'size'        => 'small',
+			'description' => __( 'Add a feature option.', 'jobboardwp' ),
+		),
+		array(
+			'id'          => 'jb-featured-order',
+			'type'        => 'text',
+			'label'       => __( 'Featured Order', 'jobboardwp' ),
+			'value'       => $featured_order,
+			'conditional' => array( 'jb-is-featured', '!=', '0' ),
 		),
 	)
 );
