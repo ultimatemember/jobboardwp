@@ -222,13 +222,15 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				'relation' => 'AND',
 				array(
 					'relation' => 'OR',
-					array(
+					'featured' => array(
 						'key'     => 'jb-featured-order',
 						'compare' => 'NOT EXISTS',
+						'type'    => 'NUMERIC',
 					),
 					array(
 						'key'     => 'jb-featured-order',
 						'compare' => 'EXISTS',
+						'type'    => 'NUMERIC',
 					),
 				),
 			);
@@ -321,8 +323,10 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			$query_args = array_merge(
 				$query_args,
 				array(
-					'orderby'     => 'meta_value_num ' . $orderby,
-					'order'       => $order,
+					'orderby'     => array(
+						'featured' => 'DESC',
+						$orderby   => $order
+					),
 					'post_type'   => 'jb-job',
 					'post_status' => $statuses,
 				)

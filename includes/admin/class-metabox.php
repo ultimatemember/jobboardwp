@@ -216,7 +216,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				'jb-is-filled'           => 'bool',
 				'jb-expiry-date'         => 'text',
 				'jb-is-featured'         => 'bool',
-				'jb-featured-order'      => 'text',
+				'jb-featured-order'      => 'absint',
 			);
 
 			$current_time = time();
