@@ -18,7 +18,7 @@
 			}
 			?>
 
-			<div class="jb-job-list-row<?php echo $list_row_class; ?><# if ( job.actions.length > 0 ) { #> jb-job-list-with-actions<# } #>"><?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static output, JS template line::14, line::16 ?>
+			<div class="jb-job-list-row<?php echo $list_row_class; ?><# if ( job.actions.length > 0 ) { #> jb-job-list-with-actions<# } #><# if ( job.featured ) { #> jb-job-list-featured<# } #>"><?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static output, JS template line::14, line::16 ?>
 				<# if ( ! data.hide_logo ) { #>
 					<# if ( job.logo ) { #>
 						<div class="jb-job-logo">
@@ -29,17 +29,22 @@
 				<div class="jb-row-data">
 					<div class="jb-job-title">
 						<span class="jb-job-title-link-line"><a href="<?php /** @noinspection HtmlUnknownTarget */ ?>{{{job.permalink}}}" class="jb-job-title-link">{{{job.title}}}</a></span>
-						<# if ( ! data.hide_job_types ) { #>
-							<# if ( job.types.length > 0 ) { #>
-								<div class="jb-job-types jb-responsive jb-ui-m jb-ui-l jb-ui-xl">
-									<# _.each( job.types, function( type, t_key, t_list ) { #>
-										<div class="jb-job-type" style="color:{{{type.color}}};background:{{{type.bg_color}}};">
-											{{{type.name}}}
-										</div>
-									<# }); #>
-								</div>
+						<div class="jb-job-title-end jb-responsive jb-ui-m jb-ui-l jb-ui-xl">
+							<# if ( job.featured ) { #>
+								<div class="jb-job-featured"><?php esc_html_e( 'Featured', 'jobboardwp' ); ?></div>
 							<# } #>
-						<# } #>
+							<# if ( ! data.hide_job_types ) { #>
+								<# if ( job.types.length > 0 ) { #>
+									<div class="jb-job-types">
+										<# _.each( job.types, function( type, t_key, t_list ) { #>
+											<div class="jb-job-type" style="color:{{{type.color}}};background:{{{type.bg_color}}};">
+												{{{type.name}}}
+											</div>
+										<# }); #>
+									</div>
+								<# } #>
+							<# } #>
+						</div>
 					</div>
 					<div class="jb-row-info">
 						<div class="jb-row-left-side">
@@ -83,23 +88,22 @@
 							<div class="date jb-responsive jb-ui-m jb-ui-l jb-ui-xl date" title="<?php esc_attr_e( 'Posted', 'jobboardwp' ); ?>">
 								{{{job.date}}}
 							</div>
-
-							<# if ( ! data.hide_job_types ) { #>
-								<# if ( job.types.length > 0 ) { #>
-									<div class="jb-job-types jb-responsive jb-ui-s jb-ui-xs">
-										<# _.each( job.types, function( type, t_key, t_list ) { #>
-											<div class="jb-job-type" style="color:{{{type.color}}};background:{{{type.bg_color}}};">
-												{{{type.name}}}
-											</div>
-										<# }); #>
-									</div>
+							<div class="jb-row-right-side-line">
+								<# if ( job.featured ) { #>
+									<div class="jb-job-featured jb-responsive jb-ui-s jb-ui-xs"><?php esc_html_e( 'Featured', 'jobboardwp' ); ?></div>
 								<# } #>
-							<# } #>
-							<# if ( job.featured ) { #>
-								<div class="jb-job-types jb-responsive jb-ui-s jb-ui-xs">
-									<div class="jb-job-featured"><?php esc_html_e( 'Featured', 'jobboardwp' ); ?></div>
-								</div>
-							<# } #>
+								<# if ( ! data.hide_job_types ) { #>
+									<# if ( job.types.length > 0 ) { #>
+										<div class="jb-job-types jb-responsive jb-ui-s jb-ui-xs">
+											<# _.each( job.types, function( type, t_key, t_list ) { #>
+												<div class="jb-job-type" style="color:{{{type.color}}};background:{{{type.bg_color}}};">
+													{{{type.name}}}
+												</div>
+											<# }); #>
+										</div>
+									<# } #>
+								<# } #>
+							</div>
 						</div>
 					</div>
 				</div>

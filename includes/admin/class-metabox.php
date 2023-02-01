@@ -233,6 +233,15 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				}
 			}
 
+			if ( empty( $_POST['jb-job-meta']['jb-is-featured'] ) ) {
+				unset( $_POST['jb-job-meta']['jb-featured-order'] );
+			} else {
+				if ( empty( $_POST['jb-job-meta']['jb-featured-order'] ) ) {
+					// workaround if user set featured option but doesn't the order
+					$_POST['jb-job-meta']['jb-featured-order'] = 1;
+				}
+			}
+
 			//save metadata
 			foreach ( $_POST['jb-job-meta'] as $k => $v ) {
 				if ( strstr( $k, 'jb-' ) ) {
@@ -371,7 +380,8 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 					update_post_meta( $post_id, $k, $v );
 
-					if ( 'jb-featured-order' === $k && 1 !== absint( $_POST['jb-job-meta']['jb-is-featured'] ) ) {
+					// flush featured order in case when the job isn't featured
+					if ( 'jb-is-featured' === $k && empty( $v ) ) {
 						delete_post_meta( $post_id, 'jb-featured-order' );
 					}
 				}

@@ -185,13 +185,14 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		public function relevance_search( /** @noinspection PhpUnusedParameterInspection */$search_orderby, $query ) {
 			global $wpdb;
 
-			$search_orderby = '';
+			$orderby_array = array();
 
 			// phpcs:ignore WordPress.Security.NonceVerification -- already verified here
 			$search     = trim( stripslashes( sanitize_text_field( $_POST['search'] ) ) );
 			$meta_value = '%' . $wpdb->esc_like( $search ) . '%';
 
 			// Sentence match in 'post_title'.
+			$search_orderby = '';
 			if ( $meta_value ) {
 				$search_orderby .= $wpdb->prepare( "WHEN {$wpdb->posts}.post_title LIKE %s THEN 1 ", $meta_value );
 				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $this->company_name_meta is static variable
@@ -199,9 +200,27 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				$search_orderby .= $wpdb->prepare( "WHEN {$wpdb->posts}.post_content LIKE %s THEN 3 ", $meta_value );
 			}
 
-			if ( $search_orderby ) {
-				$search_orderby = '(CASE ' . $search_orderby . 'ELSE 4 END)';
+			$meta_clauses    = $query->meta_query->get_clauses();
+			$meta_clause     = $meta_clauses['featured'];
+			$orderby_array[] = "CAST({$meta_clause['alias']}.meta_value AS {$meta_clause['cast']}) DESC";
+
+			if ( ! empty( $search_orderby ) ) {
+				$orderby_array[] = '(CASE ' . $search_orderby . 'ELSE 4 END)';
 			}
+
+			if ( isset( $_POST['orderby'] ) && 'title' === sanitize_key( $_POST['orderby'] ) ) {
+				$orderby = 'post_title';
+			} else {
+				$orderby = 'post_date';
+			}
+			if ( isset( $_POST['order'] ) && 'ASC' === sanitize_text_field( $_POST['order'] ) ) {
+				$order = 'ASC';
+			} else {
+				$order = 'DESC';
+			}
+			$orderby_array[] = "{$wpdb->posts}.{$orderby} {$order}";
+
+			$search_orderby = implode( ', ', $orderby_array );
 
 			return $search_orderby;
 		}
@@ -345,6 +364,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				$search = trim( stripslashes( sanitize_text_field( $_POST['search'] ) ) );
 				if ( ! empty( $search ) ) {
 					$query_args['s'] = $search;
+					// if search there is 'posts_search_orderby' hook used and order handler is moved to `$this->relevance_search()` function
+					$query_args['orderby'] = false;
 
 					if ( ! isset( $query_args['meta_query'] ) ) {
 						$query_args['meta_query'] = array();
@@ -572,7 +593,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						'logo'      => JB()->common()->job()->get_logo( $job_post->ID ),
 						'location'  => wp_kses( JB()->common()->job()->get_location_link( $job_post->ID ), JB()->get_allowed_html( 'templates' ) ),
 						'types'     => $data_types,
-						'featured'  => esc_html( JB()->common()->job()->is_featured( $job_post->ID ) ),
+						'featured'  => (bool) JB()->common()->job()->is_featured( $job_post->ID ),
 						'actions'   => array(),
 					);
 

@@ -178,16 +178,31 @@
           display: flex;
           flex-direction: row;
           justify-content: space-between;
-          align-items: center;
+          align-items: baseline;
           flex-wrap: wrap;
           width: 100%;
           margin: 0; }
+          .jb-jobs .jb-jobs-wrapper .jb-job-list-row .jb-row-data .jb-job-title .jb-job-title-end {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 5px; }
           .jb-jobs .jb-jobs-wrapper .jb-job-list-row .jb-row-data .jb-job-title .jb-job-title-link-line {
             margin: 0 15px 10px 0; }
             .jb-jobs .jb-jobs-wrapper .jb-job-list-row .jb-row-data .jb-job-title .jb-job-title-link-line .jb-job-title-link {
               font-weight: bold;
               font-size: 16px;
               overflow: auto; }
+          .jb-jobs .jb-jobs-wrapper .jb-job-list-row .jb-row-data .jb-job-title .jb-job-featured {
+            font-size: 12px;
+            font-weight: bold;
+            padding: 5px 9px;
+            border-radius: 3px;
+            background: #eaecf0;
+            color: #344054;
+            margin: 0 0 10px 0; }
           .jb-jobs .jb-jobs-wrapper .jb-job-list-row .jb-row-data .jb-job-title .jb-job-types {
             display: flex;
             flex-direction: row;
@@ -251,7 +266,7 @@
               justify-content: flex-start;
               align-items: baseline;
               flex-wrap: wrap;
-              margin: 0 0 10px 0; }
+              margin: 0; }
               .jb-jobs .jb-jobs-wrapper .jb-job-list-row .jb-row-data .jb-row-info .jb-row-right-side .jb-job-types .jb-job-type {
                 font-size: 12px;
                 font-weight: bold;
@@ -317,8 +332,15 @@
       align-items: stretch;
       flex-wrap: nowrap;
       width: 100%;
-      margin: 0 0 10px 0;
+      margin: 0;
       max-width: none; }
+      .jb-jobs.jb-ui-xs .jb-jobs-wrapper .jb-job-list-row .jb-row-info .jb-row-right-side .jb-row-right-side-line, .jb-jobs.jb-ui-s .jb-jobs-wrapper .jb-job-list-row .jb-row-info .jb-row-right-side .jb-row-right-side-line {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: baseline;
+        flex-wrap: nowrap;
+        gap: 5px; }
 
 .select2-dropdown .select2-results .select2-results__options .select2-results__option {
   margin: 0; }
