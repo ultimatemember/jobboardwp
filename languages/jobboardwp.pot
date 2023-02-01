@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-01-30T12:54:48+00:00\n"
+"POT-Creation-Date: 2023-02-01T12:30:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: jobboardwp\n"
@@ -57,7 +57,7 @@ msgstr ""
 
 #: includes/admin/class-columns.php:140
 #: includes/admin/class-columns.php:335
-#: includes/ajax/class-jobs.php:957
+#: includes/ajax/class-jobs.php:977
 msgid "Filled"
 msgstr ""
 
@@ -108,7 +108,7 @@ msgid "Status"
 msgstr ""
 
 #: includes/admin/class-columns.php:334
-#: includes/admin/templates/job/data.php:220
+#: includes/admin/templates/job/data.php:224
 #: templates/job-submission.php:309
 msgid "Location"
 msgstr ""
@@ -978,63 +978,63 @@ msgstr ""
 msgid "Customize job type tag background"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:26
+#: includes/admin/templates/job/data.php:28
 #: includes/common/class-job.php:215
 msgid "Guest"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:48
-#: includes/admin/templates/job/data.php:162
+#: includes/admin/templates/job/data.php:50
+#: includes/admin/templates/job/data.php:166
 #: templates/job-submission.php:33
 #: templates/job-submission.php:52
 msgid "(None)"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:130
+#: includes/admin/templates/job/data.php:134
 msgid "Posted by"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:137
+#: includes/admin/templates/job/data.php:141
 msgid "Application contact"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:138
+#: includes/admin/templates/job/data.php:142
 msgid "It's required email or URL for the \"application\" area."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:144
+#: includes/admin/templates/job/data.php:148
 #: includes/common/class-cpt.php:134
 #: includes/frontend/class-jobs-directory.php:69
 #: templates/job-submission.php:345
 msgid "Job Type"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:176
+#: includes/admin/templates/job/data.php:180
 #: includes/common/class-cpt.php:180
 #: templates/job-submission.php:362
 msgid "Job Category"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:187
+#: includes/admin/templates/job/data.php:191
 msgid "Leave empty to make this job un-expired."
 msgstr ""
 
 #. translators: %s: link to the settings section
-#: includes/admin/templates/job/data.php:199
+#: includes/admin/templates/job/data.php:203
 msgid "If empty, then job will have an expiration date based on the <a href=\"%s#jb_options_job-duration\">Job Duration</a> setting."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:208
+#: includes/admin/templates/job/data.php:212
 msgid "Location Type"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:210
+#: includes/admin/templates/job/data.php:214
 #: includes/common/class-job.php:243
 #: templates/job-submission.php:301
 msgid "Onsite"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:211
+#: includes/admin/templates/job/data.php:215
 #: includes/common/class-job.php:246
 #: includes/common/class-job.php:290
 #: includes/common/class-job.php:315
@@ -1042,59 +1042,71 @@ msgstr ""
 msgid "Remote"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:212
+#: includes/admin/templates/job/data.php:216
 #: includes/common/class-job.php:240
 msgid "Onsite or remote"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:221
+#: includes/admin/templates/job/data.php:225
 msgid "Required for onsite jobs."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:230
+#: includes/admin/templates/job/data.php:234
 #: templates/job-submission.php:321
 #: templates/job-submission.php:332
 msgid "Preferred Location"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:231
+#: includes/admin/templates/job/data.php:235
 msgid "Leave this blank if location is not important."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:239
+#: includes/admin/templates/job/data.php:243
 msgid "Company name"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:246
+#: includes/admin/templates/job/data.php:250
 msgid "Company website"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:252
+#: includes/admin/templates/job/data.php:256
 msgid "Company tagline"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:258
+#: includes/admin/templates/job/data.php:262
 msgid "Company twitter"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:264
+#: includes/admin/templates/job/data.php:268
 msgid "Company facebook"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:270
+#: includes/admin/templates/job/data.php:274
 msgid "Company instagram"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:276
+#: includes/admin/templates/job/data.php:280
 msgid "Position Filled"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:277
+#: includes/admin/templates/job/data.php:281
 msgid "Filled listings will no longer accept applications."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:283
+#: includes/admin/templates/job/data.php:287
 msgid "Expiry Date"
+msgstr ""
+
+#: includes/admin/templates/job/data.php:295
+msgid "Is Featured?"
+msgstr ""
+
+#: includes/admin/templates/job/data.php:298
+msgid "Add a feature option."
+msgstr ""
+
+#: includes/admin/templates/job/data.php:303
+msgid "Featured Order"
 msgstr ""
 
 #: includes/admin/templates/settings/emails-list-table.php:7
@@ -1146,41 +1158,41 @@ msgstr ""
 msgid "Wrong AJAX Nonce"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:538
-#: includes/ajax/class-jobs.php:962
+#: includes/ajax/class-jobs.php:557
+#: includes/ajax/class-jobs.php:982
 #: includes/frontend/class-shortcodes.php:706
 msgid "(no title)"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:748
+#: includes/ajax/class-jobs.php:768
 msgid "Invalid taxonomy registration"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:800
+#: includes/ajax/class-jobs.php:820
 msgid "Wrong job ID."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:807
+#: includes/ajax/class-jobs.php:827
 msgid "Wrong job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:811
+#: includes/ajax/class-jobs.php:831
 msgid "You haven't ability to delete this job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:829
-#: includes/ajax/class-jobs.php:883
-#: includes/ajax/class-jobs.php:937
+#: includes/ajax/class-jobs.php:849
+#: includes/ajax/class-jobs.php:903
+#: includes/ajax/class-jobs.php:957
 msgid "Something went wrong."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:844
-#: includes/ajax/class-jobs.php:898
+#: includes/ajax/class-jobs.php:864
+#: includes/ajax/class-jobs.php:918
 msgid "Wrong job ID"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:851
-#: includes/ajax/class-jobs.php:905
+#: includes/ajax/class-jobs.php:871
+#: includes/ajax/class-jobs.php:925
 #: includes/frontend/class-actions-listener.php:830
 #: includes/frontend/class-actions-listener.php:950
 #: includes/frontend/class-actions-listener.php:964
@@ -1190,36 +1202,36 @@ msgstr ""
 msgid "Wrong job"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:855
+#: includes/ajax/class-jobs.php:875
 msgid "You haven't ability to fill this job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:859
+#: includes/ajax/class-jobs.php:879
 msgid "Job is already filled."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:909
+#: includes/ajax/class-jobs.php:929
 msgid "You haven't ability to un-fill this job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:913
+#: includes/ajax/class-jobs.php:933
 msgid "Job isn't filled yet."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:957
+#: includes/ajax/class-jobs.php:977
 msgid "Not-filled"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:1123
+#: includes/ajax/class-jobs.php:1143
 #: includes/ajax/class-notices.php:33
 msgid "Wrong Data"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:1226
+#: includes/ajax/class-jobs.php:1246
 msgid "Wrong Job's data"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:1228
+#: includes/ajax/class-jobs.php:1248
 msgid " Description is required"
 msgstr ""
 
@@ -1334,8 +1346,8 @@ msgid "Add New Job"
 msgstr ""
 
 #: includes/common/class-cpt.php:65
-#: includes/common/class-job.php:716
-#: includes/common/class-job.php:725
+#: includes/common/class-job.php:731
+#: includes/common/class-job.php:740
 msgid "Edit"
 msgstr ""
 
@@ -1857,25 +1869,25 @@ msgstr ""
 msgid "Anywhere"
 msgstr ""
 
-#: includes/common/class-job.php:688
+#: includes/common/class-job.php:703
 msgid "Submit again"
 msgstr ""
 
-#: includes/common/class-job.php:691
 #: includes/common/class-job.php:706
-#: includes/common/class-job.php:740
+#: includes/common/class-job.php:721
+#: includes/common/class-job.php:755
 msgid "Delete"
 msgstr ""
 
-#: includes/common/class-job.php:703
+#: includes/common/class-job.php:718
 msgid "Continue submission"
 msgstr ""
 
-#: includes/common/class-job.php:731
+#: includes/common/class-job.php:746
 msgid "Mark as filled"
 msgstr ""
 
-#: includes/common/class-job.php:735
+#: includes/common/class-job.php:750
 msgid "Mark as un-filled"
 msgstr ""
 
@@ -2489,6 +2501,10 @@ msgstr ""
 #. translators: %s: Post a job URL
 #: templates/js/jobs-dashboard.php:92
 msgid "No created jobs yet. <a href=\"%s\">Create</a> new one."
+msgstr ""
+
+#: templates/js/jobs-list.php:100
+msgid "Featured"
 msgstr ""
 
 #: assets/admin/js/blocks.js:112
