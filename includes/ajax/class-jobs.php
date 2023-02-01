@@ -208,11 +208,13 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				$orderby_array[] = '(CASE ' . $search_orderby . 'ELSE 4 END)';
 			}
 
+			// phpcs:ignore WordPress.Security.NonceVerification -- already verified here
 			if ( isset( $_POST['orderby'] ) && 'title' === sanitize_key( $_POST['orderby'] ) ) {
 				$orderby = 'post_title';
 			} else {
 				$orderby = 'post_date';
 			}
+			// phpcs:ignore WordPress.Security.NonceVerification -- already verified here
 			if ( isset( $_POST['order'] ) && 'ASC' === sanitize_text_field( $_POST['order'] ) ) {
 				$order = 'ASC';
 			} else {
