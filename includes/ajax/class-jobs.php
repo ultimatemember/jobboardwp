@@ -325,7 +325,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				array(
 					'orderby'     => array(
 						'featured' => 'DESC',
-						$orderby   => $order
+						$orderby   => $order,
 					),
 					'post_type'   => 'jb-job',
 					'post_status' => $statuses,
