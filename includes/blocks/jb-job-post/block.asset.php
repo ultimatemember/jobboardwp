@@ -1,5 +1,4 @@
-<?php return
-	array(
+<?php return array(
 		'dependencies' => array(
 			'wp-blocks',
 			'wp-element',
@@ -7,5 +6,5 @@
 			'wp-server-side-render',
 			'wp-polyfill',
 		),
-		'version' => '1',
+		'version'      => '1',
 	);
