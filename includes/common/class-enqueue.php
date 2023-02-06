@@ -201,15 +201,7 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 
 			wp_set_script_translations( 'jb_admin_blocks_shortcodes', 'jobboardwp' );
 
-			$jb_options = array(
-				'jobs-list-no-logo'              => JB()->options()->get( 'jobs-list-no-logo' ),
-				'jobs-list-hide-filled'          => JB()->options()->get( 'jobs-list-hide-filled' ),
-				'jobs-list-hide-expired'         => JB()->options()->get( 'jobs-list-hide-expired' ),
-				'jobs-list-hide-search'          => JB()->options()->get( 'jobs-list-hide-search' ),
-				'jobs-list-hide-location-search' => JB()->options()->get( 'jobs-list-hide-location-search' ),
-				'jobs-list-hide-filters'         => JB()->options()->get( 'jobs-list-hide-filters' ),
-				'jobs-list-hide-job-types'       => JB()->options()->get( 'jobs-list-hide-job-types' ),
-			);
+			$jb_options = array();
 			if ( isset( $current_screen->id ) && 'jb-job' === $current_screen->id ) {
 				$jb_options['exclude_blocks'] = 1;
 			}

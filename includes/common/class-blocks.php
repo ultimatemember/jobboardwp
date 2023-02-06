@@ -26,11 +26,9 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 		public function block_editor_render() {
 			$blocks = array(
 				'jb-block/jb-job-post'             => array(
-					'editor_script'   => 'jb_admin_blocks_shortcodes',
 					'render_callback' => array( $this, 'jb_job_post_render' ),
 				),
 				'jb-block/jb-job'                  => array(
-					'editor_script'   => 'jb_admin_blocks_shortcodes',
 					'render_callback' => array( $this, 'jb_single_job_render' ),
 					'attributes'      => array(
 						'job_id' => array(
@@ -39,15 +37,12 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 					),
 				),
 				'jb-block/jb-jobs-dashboard'       => array(
-					'editor_script'   => 'jb_admin_blocks_shortcodes',
 					'render_callback' => array( $this, 'jb_jobs_dashboard_render' ),
 				),
 				'jb-block/jb-jobs-categories-list' => array(
-					'editor_script'   => 'jb_admin_blocks_shortcodes',
 					'render_callback' => array( $this, 'jb_jobs_categories_list_render' ),
 				),
 				'jb-block/jb-jobs-list'            => array(
-					'editor_script'   => 'jb_admin_blocks_shortcodes',
 					'render_callback' => array( $this, 'jb_jobs_list_render' ),
 					'attributes'      => array(
 						'user_id'              => array(
@@ -59,31 +54,31 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 						),
 						'no_logo'              => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-no-logo' ),
+							'default' => (bool) JB()->options()->get( 'jobs-list-no-logo' ),
 						),
 						'hide_filled'          => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-filled' ),
+							'default' => (bool) JB()->options()->get( 'jobs-list-hide-filled' ),
 						),
 						'hide_expired'         => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-expired' ),
+							'default' => (bool) JB()->options()->get( 'jobs-list-hide-expired' ),
 						),
 						'hide_search'          => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-search' ),
+							'default' => (bool) JB()->options()->get( 'jobs-list-hide-search' ),
 						),
 						'hide_location_search' => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-location-search' ),
+							'default' => (bool) JB()->options()->get( 'jobs-list-hide-location-search' ),
 						),
 						'hide_filters'         => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-filters' ),
+							'default' => (bool) JB()->options()->get( 'jobs-list-hide-filters' ),
 						),
 						'hide_job_types'       => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-job-types' ),
+							'default' => (bool) JB()->options()->get( 'jobs-list-hide-job-types' ),
 						),
 						'no_jobs_text'         => array(
 							'type' => 'string',
@@ -101,8 +96,8 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 							'type' => 'array',
 						),
 						'orderby'              => array(
-							'default' => 'date',
 							'type'    => 'string',
+							'default' => 'date',
 						),
 						'order'                => array(
 							'type'    => 'string',
@@ -112,17 +107,9 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 							'type'    => 'boolean',
 							'default' => false,
 						),
-						'isLoading'            => array(
-							'type'    => 'boolean',
-							'default' => false,
-						),
-						'content'              => array(
-							'type' => 'string',
-						),
 					),
 				),
 				'jb-block/jb-recent-jobs'          => array(
-					'editor_script'   => 'jb_admin_blocks_shortcodes',
 					'render_callback' => array( $this, 'jb_recent_jobs_render' ),
 					'attributes'      => array(
 						'number'       => array(
@@ -131,15 +118,15 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 						),
 						'no_logo'      => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-no-logo' ),
+							'default' => (bool) JB()->options()->get( 'jobs-list-no-logo' ),
 						),
 						'hide_filled'  => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-filled' ),
+							'default' => (bool) JB()->options()->get( 'jobs-list-hide-filled' ),
 						),
 						'no_job_types' => array(
 							'type'    => 'boolean',
-							'default' => JB()->options()->get( 'jobs-list-hide-job-types' ),
+							'default' => (bool) JB()->options()->get( 'jobs-list-hide-job-types' ),
 						),
 						'remote_only'  => array(
 							'type'    => 'boolean',
@@ -161,11 +148,11 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 				),
 			);
 
-			foreach ( $blocks as $block_type => $block_data ) {
-				register_block_type( $block_type, $block_data );
+			foreach ( $blocks as $k => $block_data ) {
+				$block_type = str_replace( 'jb-block/', '', $k );
+				register_block_type_from_metadata( JB_PATH . 'includes/blocks/' . $block_type, $block_data );
 			}
 		}
-
 
 		public function jb_job_post_render( $atts ) {
 			$shortcode = '[jb_post_job]';
@@ -173,20 +160,17 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 			return apply_shortcodes( $shortcode );
 		}
 
-
 		public function jb_jobs_dashboard_render() {
 			$shortcode = '[jb_jobs_dashboard]';
 
 			return apply_shortcodes( $shortcode );
 		}
 
-
 		public function jb_jobs_categories_list_render() {
 			$shortcode = '[jb_job_categories_list]';
 
 			return apply_shortcodes( $shortcode );
 		}
-
 
 		public function jb_jobs_list_render( $atts ) {
 			$shortcode = '[jb_jobs ';
@@ -250,7 +234,6 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 			return apply_shortcodes( $shortcode );
 		}
 
-
 		public function jb_single_job_render( $atts ) {
 			$shortcode = '[jb_job';
 
@@ -262,7 +245,6 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 
 			return apply_shortcodes( $shortcode );
 		}
-
 
 		public function jb_recent_jobs_render( $atts ) {
 			$shortcode = '[jb_recent_jobs';
@@ -297,7 +279,6 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 
 			return apply_shortcodes( $shortcode );
 		}
-
 
 		public function jb_allowed_block_types( $allowed_block_types, $block_editor_context ) {
 			if ( 'core/edit-widgets' === $block_editor_context->name ) {
