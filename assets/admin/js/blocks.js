@@ -22,32 +22,6 @@ jQuery(window).on( 'load', function($) {
 				});
 			}
 
-			// jQuery(mutation.addedNodes).find('.jb-job-categories').each(function() {
-			// 	wp.JB.job_categories_list.objects.wrapper = jQuery('.jb-job-categories');
-			// 	if ( wp.JB.job_categories_list.objects.wrapper.length ) {
-			// 		wp.JB.job_categories_list.ajax();
-			// 	}
-			// });
-			//
-			// jQuery(mutation.addedNodes).find('.jb-job-dashboard').each(function() {
-			// 	wp.JB.jobs_dashboard.objects.wrapper = jQuery('.jb-job-dashboard');
-			// 	if ( wp.JB.jobs_dashboard.objects.wrapper.length ) {
-			// 		wp.JB.jobs_dashboard.ajax();
-			// 	}
-			// });
-			//
-			// jQuery(mutation.addedNodes).find('.jb-jobs').each(function() {
-			// 	wp.JB.jobs_list.objects.wrapper = jQuery('.jb-jobs');
-			// 	if ( wp.JB.jobs_list.objects.wrapper.length ) {
-			// 		wp.JB.jobs_list.objects.wrapper.each( function () {
-			// 			wp.JB.jobs_list.ajax( jQuery(this) );
-			// 		});
-			// 	}
-			// });
-			//
-			// jQuery(mutation.addedNodes).find('.jb').each(function() {
-			// 	jb_responsive();
-			// });
 		});
 	});
 
