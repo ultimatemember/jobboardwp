@@ -105,7 +105,7 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 == Changelog ==
 
-= 1.2.4: February xx, 2023 =
+= 1.2.4: February 17, 2023 =
 
 * Added: Featured jobs functionality
 * Added: Hooks and handlers for 3rd-party integration
