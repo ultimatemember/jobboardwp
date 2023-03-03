@@ -1008,15 +1008,15 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			}
 
 			/**
-			 * Filters the media formats.
+			 * Filters the media formats. Backend form fields.
 			 *
 			 * @hook jb_get_media_field_formats
 			 * @since 1.2.3
 			 *
-			 * @param {array}  $field_formats  formats. By default array is empty. The full array is array('pdf', 'doc', 'docx', 'csv', 'txt|asc|c|cc|h|srt', 'xla|xls|xlt|xlw', 'xlsx', 'jpg|jpeg|jpe', 'png', 'gif', 'bmp', 'tiff|tif', 'webp', 'heic', 'ico', 'zip' )
-			 * @param {string} $field_id       field id.
+			 * @param {array}  $field_formats  Formats. By default array is empty. The full array is array('pdf', 'doc', 'docx', 'csv', 'txt|asc|c|cc|h|srt', 'xla|xls|xlt|xlw', 'xlsx', 'jpg|jpeg|jpe', 'png', 'gif', 'bmp', 'tiff|tif', 'webp', 'heic', 'ico', 'zip' )
+			 * @param {string} $field_id       Field id.
 			 *
-			 * @return {string} $field_formats formats
+			 * @return {string} $field_formats Formats for media upload field.
 			 */
 			$field_formats = apply_filters( 'jb_get_media_field_formats', array(), $field_data['id'] );
 			$field_formats = str_replace( '|', ',', implode( ',', $field_formats ) );
@@ -1049,6 +1049,17 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 			$value = ! empty( $field_data['value'] ) ? $field_data['value'] : '';
 
+			/**
+			 * Filters the media-type field URL. Backend form fields.
+			 *
+			 * @since 1.2.4
+			 * @hook jb_get_media_field_url
+			 *
+			 * @param {string} $value     Media URL.
+			 * @param {string} $field_id  Field ID.
+			 *
+			 * @return {string} Filtered media file URL.
+			 */
 			$media_url = apply_filters( 'jb_get_media_field_url', $value, $field_data['id'] );
 			ob_start();
 			?>
@@ -1057,6 +1068,17 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				<span class="jb-uploaded-content-wrapper jb-<?php echo esc_attr( $id ); ?>-image-wrapper">
 					<?php
 					$output = '<a target="_blank" class="media-upload-field-preview" data-formats="' . esc_attr( $field_formats ) . '" href="' . esc_url( $media_url ) . '"><span>' . esc_html__( 'File', 'jobboardwp' ) . '</span></a>';
+					/**
+					 * Filters the media-type field preview HTML. Backend form fields.
+					 *
+					 * @since 1.2.4
+					 * @hook jb_admin_preview_media_output
+					 *
+					 * @param {string} $output     Media field preview.
+					 * @param {array}  $field_data Field data.
+					 *
+					 * @return {string} Filtered the media-type field preview HTML.
+					 */
 					echo wp_kses( apply_filters( 'jb_admin_preview_media_output', $output, $field_data ), JB()->get_allowed_html( 'templates' ) );
 					?>
 				</span>

@@ -215,6 +215,8 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				'jb-company-instagram'   => 'text',
 				'jb-is-filled'           => 'bool',
 				'jb-expiry-date'         => 'text',
+				'jb-is-featured'         => 'bool',
+				'jb-featured-order'      => 'absint',
 			);
 
 			$current_time = time();
@@ -228,6 +230,15 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				if ( isset( $_POST['jb-job-meta']['jb-location-preferred-data'] ) ) {
 					$_POST['jb-job-meta']['jb-location-data'] = $_POST['jb-job-meta']['jb-location-preferred-data'];
 					unset( $_POST['jb-job-meta']['jb-location-preferred-data'] );
+				}
+			}
+
+			if ( empty( $_POST['jb-job-meta']['jb-is-featured'] ) ) {
+				unset( $_POST['jb-job-meta']['jb-featured-order'] );
+			} else {
+				if ( empty( $_POST['jb-job-meta']['jb-featured-order'] ) ) {
+					// workaround if user set featured option but doesn't the order
+					$_POST['jb-job-meta']['jb-featured-order'] = 1;
 				}
 			}
 
@@ -368,6 +379,11 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 					}
 
 					update_post_meta( $post_id, $k, $v );
+
+					// flush featured order in case when the job isn't featured
+					if ( 'jb-is-featured' === $k && empty( $v ) ) {
+						delete_post_meta( $post_id, 'jb-featured-order' );
+					}
 				}
 			}
 

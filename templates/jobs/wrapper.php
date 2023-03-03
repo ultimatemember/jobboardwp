@@ -34,6 +34,16 @@ $current_page = ( ! empty( $_GET['jb-page'][ $jb_jobs_shortcode_index ] ) && is_
 
 	JB()->get_template_part( 'jobs/search-bar', $jb_jobs_wrapper );
 
+	/**
+	 * Fires in Jobs List wrapper above the list and below the search bar.
+	 *
+	 * @since 1.2.5
+	 * @hook jb_before_jobs_list
+	 *
+	 * @param {array} $args Arguments passed into template.
+	 */
+	do_action( 'jb_before_jobs_list', $jb_jobs_wrapper );
+
 	JB()->get_template_part( 'jobs/list', $jb_jobs_wrapper );
 
 	/**
