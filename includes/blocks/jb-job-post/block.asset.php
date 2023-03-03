@@ -6,5 +6,5 @@
 		'wp-server-side-render',
 		'wp-polyfill',
 	),
-	'version'      => '1',
+	'version'      => JB_VERSION,
 );

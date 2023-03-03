@@ -1,4 +1,3 @@
-var useBlockProps = wp.blockEditor.useBlockProps;
 wp.blocks.registerBlockType('jb-block/jb-jobs-dashboard', {
 	title: wp.i18n.__('Jobs dashboard', 'jobboardwp'),
 	description: wp.i18n.__('Displaying jobs dashboard', 'jobboardwp'),
@@ -13,6 +12,7 @@ wp.blocks.registerBlockType('jb-block/jb-jobs-dashboard', {
 	},
 
 	edit: function (props) {
+		var useBlockProps = wp.blockEditor.useBlockProps;
 		var blockProps = useBlockProps();
 		var content = props.attributes.content;
 

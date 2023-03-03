@@ -1,4 +1,3 @@
-var useBlockProps = wp.blockEditor.useBlockProps;
 wp.blocks.registerBlockType('jb-block/jb-jobs-list', {
 	edit: wp.data.withSelect(function (select) {
 		return {
@@ -16,6 +15,7 @@ wp.blocks.registerBlockType('jb-block/jb-jobs-list', {
 			})
 		};
 	})(function (props) {
+			var useBlockProps = wp.blockEditor.useBlockProps;
 			var blockProps = useBlockProps();
 			var users = props.users,
 				user_id = props.attributes.user_id,

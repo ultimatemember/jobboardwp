@@ -1,4 +1,3 @@
-var useBlockProps = wp.blockEditor.useBlockProps;
 wp.blocks.registerBlockType('jb-block/jb-recent-jobs', {
 	edit: wp.data.withSelect(function (select) {
 		return {
@@ -12,6 +11,7 @@ wp.blocks.registerBlockType('jb-block/jb-recent-jobs', {
 			})
 		};
 	})(function (props) {
+			var useBlockProps = wp.blockEditor.useBlockProps;
 			var blockProps = useBlockProps();
 			var className = props.className,
 				number = props.attributes.number,
