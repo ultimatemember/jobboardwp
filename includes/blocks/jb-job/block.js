@@ -75,6 +75,7 @@ wp.blocks.registerBlockType('jb-block/jb-job', {
 
 			jQuery('.jb-button.jb-job-apply').attr('disabled', 'disabled');
 
+			var useBlockProps = wp.blockEditor.useBlockProps;
 			var blockProps = useBlockProps();
 
 			return wp.element.createElement('div', blockProps, [
