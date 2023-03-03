@@ -204,6 +204,10 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 			$jb_options = array();
 			if ( isset( $current_screen->id ) && 'jb-job' === $current_screen->id ) {
 				$jb_options['exclude_blocks'] = 1;
+			} elseif ( isset( $current_screen->id ) && 'widgets' === $current_screen->id ) {
+				$jb_options['exclude_blocks'] = 2;
+			} else {
+				$jb_options['exclude_blocks'] = 0;
 			}
 
 			wp_localize_script( 'jb_admin_blocks_shortcodes', 'jb_blocks_options', $jb_options );

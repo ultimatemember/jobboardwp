@@ -1,9 +1,5 @@
 var exclude_blocks;
-if ( ! jb_blocks_options['exclude_blocks'] ) {
-	exclude_blocks = 0;
-} else {
-	exclude_blocks = 1;
-}
+exclude_blocks = parseInt( jb_blocks_options['exclude_blocks'] );
 jQuery(window).on( 'load', function($) {
 	var observer = new MutationObserver(function(mutations) {
 		mutations.forEach(function(mutation) {
@@ -39,7 +35,7 @@ if ( 1 === exclude_blocks ) {
 	wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-jobs-categories-list');
 	wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-jobs-list');
 	wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-recent-jobs');
-} else {
+} else if ( 0 === exclude_blocks ) {
 	wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-job-post');
 	wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-jobs-dashboard');
 	wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-job');
