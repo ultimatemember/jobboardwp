@@ -5,5 +5,5 @@
   "name": "jb-block/jb-jobs-dashboard",
   "category": "jb-blocks",
   "icon": "dashboard",
-  "editorScript": "file:./block.js"
+  "editorScript": "file:./build/index.js"
 }

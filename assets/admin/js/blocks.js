@@ -26,20 +26,24 @@ jQuery(window).on( 'load', function($) {
 
 // remove duplicated taxonomy panels
 if ( 1 === exclude_blocks ) {
-	wp.data.dispatch('core/edit-post').removeEditorPanel('taxonomy-panel-jb-job-category');
-	wp.data.dispatch('core/edit-post').removeEditorPanel('taxonomy-panel-jb-job-type');
+	if ( null !== wp.data.dispatch('core/edit-post') ) {
+		wp.data.dispatch('core/edit-post').removeEditorPanel('taxonomy-panel-jb-job-category');
+		wp.data.dispatch('core/edit-post').removeEditorPanel('taxonomy-panel-jb-job-type');
 
-	wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-job-post');
-	wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-jobs-dashboard');
-	wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-job');
-	wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-jobs-categories-list');
-	wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-jobs-list');
-	wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-recent-jobs');
+		wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-job-post');
+		wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-jobs-dashboard');
+		wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-job');
+		wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-jobs-categories-list');
+		wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-jobs-list');
+		wp.data.dispatch('core/edit-post').hideBlockTypes('jb-block/jb-recent-jobs');
+	}
 } else if ( 0 === exclude_blocks ) {
-	wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-job-post');
-	wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-jobs-dashboard');
-	wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-job');
-	wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-jobs-categories-list');
-	wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-jobs-list');
-	wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-recent-jobs');
+	if ( null !== wp.data.dispatch('core/edit-post') ){
+		wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-job-post');
+		wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-jobs-dashboard');
+		wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-job');
+		wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-jobs-categories-list');
+		wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-jobs-list');
+		wp.data.dispatch('core/edit-post').showBlockTypes('jb-block/jb-recent-jobs');
+	}
 }

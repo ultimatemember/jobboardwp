@@ -10,5 +10,5 @@
       "type": "integer"
     }
   },
-  "editorScript": "file:./block.js"
+  "editorScript": "file:./build/index.js"
 }
