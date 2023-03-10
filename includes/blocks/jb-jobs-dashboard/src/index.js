@@ -18,30 +18,13 @@ jQuery(window).on( 'load', function($) {
 	observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
 });
 
+import { registerBlockType } from '@wordpress/blocks';
+import ServerSideRender from '@wordpress/server-side-render';
 import { useBlockProps } from '@wordpress/block-editor';
-import { ServerSideRender } from '@wordpress/components';
 
-wp.blocks.registerBlockType('jb-block/jb-jobs-dashboard', {
-	title: wp.i18n.__('Jobs dashboard', 'jobboardwp'),
-	description: wp.i18n.__('Displaying jobs dashboard', 'jobboardwp'),
-	icon: 'dashboard',
-	category: 'jb-blocks',
-	attributes: {
-		content: {
-			source: 'html',
-			selector: 'p',
-			default: ''
-		}
-	},
-
+registerBlockType('jb-block/jb-jobs-dashboard', {
 	edit: function (props) {
 		const blockProps = useBlockProps();
-
-		let { content } = props.attributes;
-		if (content === undefined) {
-			props.setAttributes({ content: '[jb_jobs_dashboard]' });
-			content = '[jb_jobs_dashboard]';
-		}
 
 		return (
 			<div {...blockProps}>

@@ -1,8 +1,10 @@
 import { withSelect } from '@wordpress/data';
-import { ServerSideRender, PanelBody, SelectControl, Spinner } from '@wordpress/components';
+import { PanelBody, SelectControl, Spinner } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import ServerSideRender from '@wordpress/server-side-render';
+import {registerBlockType} from "@wordpress/blocks";
 
-wp.blocks.registerBlockType('jb-block/jb-job', {
+registerBlockType('jb-block/jb-job', {
 	edit: withSelect(function (select) {
 		return {
 			posts: select('core').getEntityRecords('postType', 'jb-job', {
@@ -70,7 +72,6 @@ wp.blocks.registerBlockType('jb-block/jb-job', {
 							onChange={(value) => {
 								props.setAttributes({job_id: value});
 								let shortcode = jbShortcode(value);
-								props.setAttributes({content: shortcode});
 							}}
 						/>
 					</PanelBody>
