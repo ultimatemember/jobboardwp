@@ -1,19 +1,20 @@
-import { withSelect } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 import { PanelBody, SelectControl, Spinner } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
-import {registerBlockType} from "@wordpress/blocks";
+import { registerBlockType } from "@wordpress/blocks";
 
 registerBlockType('jb-block/jb-job', {
-	edit: withSelect(function (select) {
-		return {
-			posts: select('core').getEntityRecords('postType', 'jb-job', {
+	edit: function (props) {
+		let { job_id, setAttributes } = props.attributes;
+		const blockProps = useBlockProps();
+		const posts = useSelect((select) => {
+			return select('core').getEntityRecords('postType', 'jb-job', {
 				per_page: -1,
 				_fields: ['id', 'title']
-			})
-		};
-	})(function(props) {
-		let posts = props.posts;
+			});
+		});
+
 		if (!posts) {
 			return (
 				<p>
@@ -22,33 +23,22 @@ registerBlockType('jb-block/jb-job', {
 				</p>
 			);
 		}
-		if (0 === posts.length) {
+
+		if (posts.length === 0) {
 			return 'No posts found.';
 		}
-		let job_id = props.attributes.job_id, posts_data;
 
-		posts_data = [{id: '', title: ''}].concat(posts);
+		let posts_data = [{ id: '', title: '' }].concat(posts);
 
-		let get_post = get_option(posts_data);
-
-		function get_option(posts) {
-
-			let option = [];
-
-			posts.map(function (post) {
-				option.push(
-					{
-						label: post.title.rendered,
-						value: post.id
-					}
-				);
-			});
-			return option;
-		}
+		let get_post = posts_data.map((post) => {
+			return {
+				label: post.title.rendered,
+				value: post.id
+			};
+		});
 
 		function jbShortcode(value) {
 			let shortcode = '';
-
 			if (value !== undefined && value !== '') {
 				shortcode = '[jb_job id="' + value + '"]';
 			} else {
@@ -57,7 +47,6 @@ registerBlockType('jb-block/jb-job', {
 			return shortcode;
 		}
 
-		let blockProps = useBlockProps();
 		return (
 			<div {...blockProps}>
 				<ServerSideRender block="jb-block/jb-job" attributes={props.attributes} />
@@ -68,17 +57,17 @@ registerBlockType('jb-block/jb-job', {
 							className="jb_select_job"
 							value={job_id}
 							options={get_post}
-							style={{height: '35px', lineHeight: '20px', padding: '0 7px'}}
+							style={{ height: '35px', lineHeight: '20px', padding: '0 7px' }}
 							onChange={(value) => {
-								props.setAttributes({job_id: value});
-								let shortcode = jbShortcode(value);
+								props.setAttributes({ job_id: value });
+								jbShortcode(value);
 							}}
 						/>
 					</PanelBody>
 				</InspectorControls>
 			</div>
 		);
-	}), // end withSelect
+	}, // end edit
 
 	save: function save(props) {
 		return null;
