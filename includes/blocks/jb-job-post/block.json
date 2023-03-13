@@ -5,5 +5,5 @@
   "name": "jb-block/jb-job-post",
   "category": "jb-blocks",
   "icon": "forms",
-  "editorScript": "file:./block.js"
+  "editorScript": "file:./build/index.js"
 }
