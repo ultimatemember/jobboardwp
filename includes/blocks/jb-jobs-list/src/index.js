@@ -1,26 +1,32 @@
-wp.blocks.registerBlockType('jb-block/jb-jobs-list', {
-	edit: wp.data.withSelect(function (select) {
-		return {
-			users: select('core').getEntityRecords('root', 'user', {
-				per_page: -1,
-				_fields: ['id', 'name']
-			}),
-			types: select('core').getEntityRecords('taxonomy', 'jb-job-type', {
-				per_page: -1,
-				_fields: ['id', 'name']
-			}),
-			categories: select('core').getEntityRecords('taxonomy', 'jb-job-category', {
-				per_page: -1,
-				_fields: ['id', 'name']
-			})
-		};
-	})(function (props) {
-			var useBlockProps = wp.blockEditor.useBlockProps;
-			var blockProps = useBlockProps();
-			var users = props.users,
-				user_id = props.attributes.user_id,
+import { useSelect } from '@wordpress/data';
+import { PanelBody, SelectControl, TextControl, ToggleControl, Spinner } from '@wordpress/components';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import ServerSideRender from '@wordpress/server-side-render';
+import { registerBlockType } from '@wordpress/blocks';
+
+registerBlockType('jb-block/jb-jobs-list', {
+	edit: (function (props) {
+			const blockProps = useBlockProps();
+			const users = useSelect((select) => {
+				return select('core').getEntityRecords('root', 'user', {
+					per_page: -1,
+					_fields: ['id', 'name']
+				});
+			});
+			const types = useSelect((select) => {
+				return select('core').getEntityRecords('taxonomy', 'jb-job-type', {
+					per_page: -1,
+					_fields: ['id', 'name']
+				});
+			});
+			const categories = useSelect((select) => {
+				return select('core').getEntityRecords('taxonomy', 'jb-job-category', {
+					per_page: -1,
+					_fields: ['id', 'name']
+				});
+			});
+			let user_id = props.attributes.user_id,
 				users_data = [{id: '', name: ''}],
-				className = props.className,
 				per_page = props.attributes.per_page,
 				no_logo = props.attributes.no_logo,
 				hide_filled = props.attributes.hide_filled,
@@ -42,16 +48,21 @@ wp.blocks.registerBlockType('jb-block/jb-jobs-list', {
 					{label: wp.i18n.__('Ascending', 'jobboardwp'), value: 'ASC'},
 					{label: wp.i18n.__('Descending', 'jobboardwp'), value: 'DESC'}
 				],
-				types = props.types,
 				type = props.attributes.type,
 				types_data = [],
-				categories = props.categories,
+				// categories = props.categories,
 				category = props.attributes.category,
 				categories_data = [],
 				filled_only = props.attributes.filled_only,
-				content = props.attributes.content,
 				category_hide = '-hide',
 				type_hide = '-hide';
+
+			if ('' === category) {
+				category = [];
+			}
+			if ('' === type) {
+				type = [];
+			}
 
 			if (users !== null) {
 				users_data = users_data.concat(users);
@@ -73,7 +84,7 @@ wp.blocks.registerBlockType('jb-block/jb-jobs-list', {
 
 			function get_option(data, type) {
 
-				var option = [];
+				let option = [];
 
 				if (type === 'user') {
 					data.map(function (user) {
@@ -108,7 +119,7 @@ wp.blocks.registerBlockType('jb-block/jb-jobs-list', {
 			}
 
 			function jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, type, orderby, order, filled_only) {
-				var shortcode = '[jb_jobs';
+				let shortcode = '[jb_jobs';
 
 				if (user_id !== undefined && user_id !== '') {
 					shortcode = shortcode + ' employer-id="' + user_id + '"';
@@ -195,285 +206,210 @@ wp.blocks.registerBlockType('jb-block/jb-jobs-list', {
 				}
 
 				shortcode = shortcode + ']';
-
-				props.setAttributes({content: shortcode});
+				return shortcode;
 			}
 
 			if (!users_data || !types_data || !categories_data) {
-				return wp.element.createElement(
-					'p',
-					{
-						className: className
-					},
-					wp.element.createElement(
-						wp.components.Spinner,
-						null
-					),
-					wp.i18n.__('Loading data', 'jobboardwp')
+				return (
+					<p>
+						<Spinner />
+						{wp.i18n.__('Loading...', 'jobboardwp')}
+					</p>
 				);
 			}
 
 			if (0 === users_data.length || 0 === types_data.length || 0 === categories_data.length) {
-				return wp.element.createElement(
-					'p',
-					null,
-					wp.i18n.__('No data', 'jobboardwp')
-				);
+				return 'No data.';
 			}
 
-			if (content === undefined) {
-				props.setAttributes({content: '[jb_jobs]'});
-			}
+			let get_category = get_option(categories_data, 'category');
+			let get_users = get_option(users_data, 'user');
+			let get_types = get_option(types_data, 'type');
 
-			var get_category = get_option(categories_data, 'category');
-			var get_users = get_option(users_data, 'user');
-			var get_types = get_option(types_data, 'type');
-
-			return wp.element.createElement('div', blockProps, [
-				wp.element.createElement(wp.components.ServerSideRender, {
-					block: 'jb-block/jb-jobs-list',
-					attributes: props.attributes
-				}),
-				wp.element.createElement(
-					wp.blockEditor.InspectorControls,
-					{},
-					wp.element.createElement(
-						wp.components.PanelBody,
-						{
-							title: wp.i18n.__('Jobs list', 'jobboardwp')
-						},
-						wp.element.createElement(
-							wp.components.SelectControl,
-							{
-								label: wp.i18n.__('Select employer', 'jobboardwp'),
-								className: 'jb_select_employer',
-								value: props.attributes.user_id,
-								options: get_users,
-								onChange: function onChange(value) {
+			return (
+				<div {...blockProps}>
+					<ServerSideRender block="jb-block/jb-jobs-list" attributes={props.attributes} />
+					<InspectorControls>
+						<PanelBody title={wp.i18n.__('Jobs list', 'jobboardwp')}>
+							<SelectControl
+								label={wp.i18n.__('Select employer', 'jobboardwp')}
+								className="jb_select_employer"
+								value={props.attributes.user_id}
+								options={get_users}
+								style={{height: '35px', lineHeight: '20px', padding: '0 7px'}}
+								onChange={(value) => {
 									props.setAttributes({user_id: value});
 									jbShortcode(value, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, type, orderby, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.TextControl,
-							{
-								label: wp.i18n.__('Per page', 'jobboardwp'),
-								className: 'jb_per_page',
-								type: 'number',
-								min: 1,
-								value: props.attributes.per_page,
-								onChange: function onChange(value) {
+								}}
+							/>
+							<TextControl
+								label={wp.i18n.__('Per page', 'jobboardwp')}
+								className="jb_per_page"
+								type="number"
+								min={ 1 }
+								value={props.attributes.per_page}
+								onChange={(value) => {
 									if (value === '') {
 										value = 1;
 									}
 									props.setAttributes({per_page: value});
 									jbShortcode(user_id, value, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, type, orderby, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.ToggleControl,
-							{
-								label: wp.i18n.__('Hide logo', 'jobboardwp'),
-								className: 'jb_no_logo',
-								checked: props.attributes.no_logo,
-								onChange: function onChange(value) {
+								}}
+							/>
+							<ToggleControl
+								label={wp.i18n.__('Hide logo', 'jobboardwp')}
+								className="jb_no_logo"
+								checked={props.attributes.no_logo}
+								onChange={(value) => {
 									props.setAttributes({no_logo: value});
 									jbShortcode(user_id, per_page, value, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, type, orderby, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.ToggleControl,
-							{
-								label: wp.i18n.__('Hide filled', 'jobboardwp'),
-								className: 'jb_hide_filled',
-								checked: props.attributes.hide_filled,
-								onChange: function onChange(value) {
+								}}
+							/>
+							<ToggleControl
+								label={wp.i18n.__('Hide filled', 'jobboardwp')}
+								className="jb_hide_filled"
+								checked={props.attributes.hide_filled}
+								onChange={(value) => {
 									props.setAttributes({hide_filled: value});
 									jbShortcode(user_id, per_page, no_logo, value, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, type, orderby, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.ToggleControl,
-							{
-								label: wp.i18n.__('Hide expired', 'jobboardwp'),
-								className: 'jb_hide_expired',
-								checked: props.attributes.hide_expired,
-								onChange: function onChange(value) {
+								}}
+							/>
+							<ToggleControl
+								label={wp.i18n.__('Hide expired', 'jobboardwp')}
+								className="jb_hide_expired"
+								checked={props.attributes.hide_expired}
+								onChange={(value) => {
 									props.setAttributes({hide_expired: value});
 									jbShortcode(user_id, per_page, no_logo, hide_filled, value, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, type, orderby, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.ToggleControl,
-							{
-								label: wp.i18n.__('Hide search', 'jobboardwp'),
-								className: 'jb_hide_search',
-								checked: props.attributes.hide_search,
-								onChange: function onChange(value) {
+								}}
+							/>
+							<ToggleControl
+								label={wp.i18n.__('Hide search', 'jobboardwp')}
+								className="jb_hide_search"
+								checked={props.attributes.hide_search}
+								onChange={(value) => {
 									props.setAttributes({hide_search: value});
 									jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, value, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, type, orderby, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.ToggleControl,
-							{
-								label: wp.i18n.__('Hide location search', 'jobboardwp'),
-								className: 'jb_hide_location_search',
-								checked: props.attributes.hide_location_search,
-								onChange: function onChange(value) {
+								}}
+							/>
+							<ToggleControl
+								label={wp.i18n.__('Hide location search', 'jobboardwp')}
+								className="jb_hide_location_search"
+								checked={props.attributes.hide_location_search}
+								onChange={(value) => {
 									props.setAttributes({hide_location_search: value});
 									jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, value, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, type, orderby, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.ToggleControl,
-							{
-								label: wp.i18n.__('Hide filters', 'jobboardwp'),
-								className: 'jb_hide_filters',
-								checked: props.attributes.hide_filters,
-								onChange: function onChange(value) {
+								}}
+							/>
+							<ToggleControl
+								label={wp.i18n.__('Hide filters', 'jobboardwp')}
+								className="jb_hide_filters"
+								checked={props.attributes.hide_filters}
+								onChange={(value) => {
 									props.setAttributes({hide_filters: value});
 									jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, value, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, type, orderby, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.ToggleControl,
-							{
-								label: wp.i18n.__('Hide job types', 'jobboardwp'),
-								className: 'jb_hide_job_types',
-								checked: props.attributes.hide_job_types,
-								onChange: function onChange(value) {
+								}}
+							/>
+							<ToggleControl
+								label={wp.i18n.__('Hide job types', 'jobboardwp')}
+								className="jb_hide_job_types"
+								checked={props.attributes.hide_job_types}
+								onChange={(value) => {
 									props.setAttributes({hide_job_types: value});
 									jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, value, no_jobs_text, no_job_search_text, load_more_text, category, type, orderby, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.TextControl,
-							{
-								label: wp.i18n.__('No jobs text', 'jobboardwp'),
-								className: 'jb_no_jobs_text',
-								type: 'text',
-								value: props.attributes.no_jobs_text,
-								onChange: function onChange(value) {
+								}}
+							/>
+							<TextControl
+								label={wp.i18n.__('No jobs text', 'jobboardwp')}
+								className="jb_no_jobs_text"
+								type="text"
+								value={props.attributes.no_jobs_text}
+								onChange={(value) => {
 									props.setAttributes({no_jobs_text: value});
 									jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, value, no_job_search_text, load_more_text, category, type, orderby, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.TextControl,
-							{
-								label: wp.i18n.__('No job search text', 'jobboardwp'),
-								className: 'jb_no_job_search_text',
-								type: 'text',
-								value: props.attributes.no_job_search_text,
-								onChange: function onChange(value) {
+								}}
+							/>
+							<TextControl
+								label={wp.i18n.__('No job search text', 'jobboardwp')}
+								className="jb_no_job_search_text"
+								type="text"
+								value={props.attributes.no_job_search_text}
+								onChange={(value) => {
 									props.setAttributes({no_job_search_text: value});
 									jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, value, load_more_text, category, type, orderby, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.TextControl,
-							{
-								label: wp.i18n.__('Load more text', 'jobboardwp'),
-								className: 'jb_load_more_text',
-								type: 'text',
-								value: props.attributes.load_more_text,
-								onChange: function onChange(value) {
+								}}
+							/>
+							<TextControl
+								label={wp.i18n.__('Load more text', 'jobboardwp')}
+								className="jb_load_more_text"
+								type="text"
+								value={props.attributes.load_more_text}
+								onChange={(value) => {
 									props.setAttributes({load_more_text: value});
 									jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, value, category, type, orderby, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.SelectControl,
-							{
-								label: wp.i18n.__('Select category', 'jobboardwp'),
-								className: 'jb_select_category' + category_hide,
-								value: props.attributes.category,
-								options: get_category,
-								multiple: true,
-								style: {
-									height: '80px',
-									overflow: 'auto'
-								},
-								suffix: ' ',
-								onChange: function onChange(value) {
+								}}
+							/>
+							<SelectControl
+								label={wp.i18n.__('Select category', 'jobboardwp')}
+								className={'jb_select_category' + category_hide}
+								value={category}
+								options={get_category}
+								multiple={true}
+								suffix=' '
+								style={{height: '35px', lineHeight: '20px', padding: '0 7px'}}
+								onChange={(value) => {
 									props.setAttributes({category: value});
 									jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, value, type, orderby, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.SelectControl,
-							{
-								label: wp.i18n.__('Select type', 'jobboardwp'),
-								className: 'jb_select_type' + type_hide,
-								value: props.attributes.type,
-								options: get_types,
-								multiple: true,
-								style: {
-									height: '80px',
-									overflow: 'auto'
-								},
-								suffix: ' ',
-								onChange: function onChange(value) {
+								}}
+							/>
+							<SelectControl
+								label={wp.i18n.__('Select type', 'jobboardwp')}
+								className="{'jb_select_type' + type_hide}"
+								value={type}
+								options={get_types}
+								multiple={true}
+								suffix=' '
+								style={{height: '80px', overflow: 'auto'}}
+								onChange={(value) => {
 									props.setAttributes({type: value});
 									jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, value, orderby, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.SelectControl,
-							{
-								label: wp.i18n.__('Select order by', 'jobboardwp'),
-								className: 'jb_select_orderby',
-								value: props.attributes.orderby,
-								options: orderby_opt,
-								onChange: function onChange(value) {
+								}}
+							/>
+							<SelectControl
+								label={wp.i18n.__('Select order by', 'jobboardwp')}
+								className='jb_select_orderby'
+								value={props.attributes.orderby}
+								options={orderby_opt}
+								style={{height: '35px', lineHeight: '20px', padding: '0 7px'}}
+								onChange={(value) => {
 									props.setAttributes({orderby: value});
 									jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, type, value, order, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.SelectControl,
-							{
-								label: wp.i18n.__('Select order', 'jobboardwp'),
-								className: 'jb_select_order',
-								value: props.attributes.order,
-								options: order_opt,
-								onChange: function onChange(value) {
+								}}
+							/>
+							<SelectControl
+								label={wp.i18n.__('Select order', 'jobboardwp')}
+								className='jb_select_order'
+								value={props.attributes.order}
+								options={order_opt}
+								style={{height: '35px', lineHeight: '20px', padding: '0 7px'}}
+								onChange={(value) => {
 									props.setAttributes({order: value});
 									jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, type, orderby, value, filled_only);
-								}
-							}
-						),
-						wp.element.createElement(
-							wp.components.ToggleControl,
-							{
-								label: wp.i18n.__('Filled only', 'jobboardwp'),
-								className: 'jb_filled_only',
-								checked: props.attributes.filled_only,
-								onChange: function onChange(value) {
+								}}
+							/>
+							<ToggleControl
+								label={wp.i18n.__('Filled only', 'jobboardwp')}
+								className="jb_filled_only"
+								checked={props.attributes.filled_only}
+								onChange={(value) => {
 									props.setAttributes({filled_only: value});
 									jbShortcode(user_id, per_page, no_logo, hide_filled, hide_expired, hide_search, hide_location_search, hide_filters, hide_job_types, no_jobs_text, no_job_search_text, load_more_text, category, type, orderby, order, value);
-								}
-							}
-						)
-					)
-				)
-			]);
+								}}
+							/>
+						</PanelBody>
+					</InspectorControls>
+				</div>
+			);
 		} // end withSelect
 	), // end edit
 
@@ -483,7 +419,7 @@ wp.blocks.registerBlockType('jb-block/jb-jobs-list', {
 });
 
 jQuery(window).on( 'load', function($) {
-	var observer = new MutationObserver(function(mutations) {
+	let observer = new MutationObserver(function(mutations) {
 		mutations.forEach(function(mutation) {
 
 			jQuery(mutation.addedNodes).find('.jb-jobs').each(function() {

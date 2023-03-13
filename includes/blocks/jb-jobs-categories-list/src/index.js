@@ -1,25 +1,3 @@
-import { registerBlockType } from '@wordpress/blocks';
-import ServerSideRender from '@wordpress/server-side-render';
-import { useBlockProps } from '@wordpress/block-editor';
-
-registerBlockType('jb-block/jb-jobs-categories-list', {
-	edit: function (props) {
-		const blockProps = useBlockProps();
-
-		return (
-			<div {...blockProps}>
-				<ServerSideRender block="jb-block/jb-jobs-categories-list" />
-			</div>
-		);
-
-	},
-
-	save: function (props) {
-		return null;
-	}
-
-});
-
 jQuery(window).on( 'load', function($) {
 	var observer = new MutationObserver(function(mutations) {
 		mutations.forEach(function(mutation) {
@@ -38,4 +16,23 @@ jQuery(window).on( 'load', function($) {
 	});
 
 	observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
+});
+
+import { registerBlockType } from '@wordpress/blocks';
+import ServerSideRender from '@wordpress/server-side-render';
+import { useBlockProps } from '@wordpress/block-editor';
+
+registerBlockType('jb-block/jb-jobs-categories-list', {
+	edit: function(props) {
+		const blockProps = useBlockProps();
+
+		return (
+			<div {...blockProps}>
+				<ServerSideRender block="jb-block/jb-jobs-categories-list" />
+			</div>
+		);
+	},
+	save: function() {
+		return null;
+	}
 });

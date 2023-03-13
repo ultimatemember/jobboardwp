@@ -13,7 +13,7 @@
     "@wordpress/block-editor": "^11.5.0",
     "@wordpress/blocks": "^12.5.0",
     "@wordpress/components": "^23.5.0",
-    "@wordpress/scripts": "^25.5.0",
+    "@wordpress/scripts": "^25.5.1",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
     "gulp-cli": "^2.3.0",
@@ -25,5 +25,8 @@
   },
   "scripts": {
     "build:docs": "rm -rf docs/hooks/ && jsdoc -c hookdoc-conf.json"
+  },
+  "dependencies": {
+    "react": "^18.2.0"
   }
 }

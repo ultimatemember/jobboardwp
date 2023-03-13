@@ -61,5 +61,5 @@
       "default": false
     }
   },
-  "editorScript": "file:./block.js"
+  "editorScript": "file:./build/index.js"
 }
