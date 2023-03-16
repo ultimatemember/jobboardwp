@@ -195,6 +195,11 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 		public function block_editor() {
 			global $current_screen;
 
+			// todo enqueue scripts|styles for block editor
+//			JB()->frontend()->enqueue()->register_common_scripts();
+//			JB()->frontend()->enqueue()->register_scripts();
+//			JB()->frontend()->enqueue()->enqueue_gmap();
+
 			wp_register_style( 'jb_admin_blocks_shortcodes', $this->css_url['admin'] . 'blocks' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
 			wp_enqueue_style( 'jb_admin_blocks_shortcodes' );
 			wp_register_script( 'jb_admin_blocks_shortcodes', $this->js_url['admin'] . 'blocks' . JB()->scrips_prefix . '.js', array( 'wp-i18n', 'wp-blocks', 'wp-components' ), JB_VERSION, true );
@@ -241,6 +246,7 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 			wp_enqueue_script( 'jb-dropdown' );
 			wp_enqueue_script( 'jb-jobs-dashboard' );
 			wp_enqueue_script( 'jb-jobs' );
+			wp_enqueue_script( 'jb-post-job' );
 		}
 
 
