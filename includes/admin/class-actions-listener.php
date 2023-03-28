@@ -106,7 +106,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 			if ( ! ( isset( $_GET['page'] ) && 'jb-settings' === $_GET['page'] && isset( $_GET['tab'] ) && 'modules' === $_GET['tab'] && ! isset( $_GET['section'] ) ) ) {
 				return;
 			}
-
+			// phpcs:ignore WordPress.Security.NonceVerification -- will be verified below through `check_admin_referer()`
 			if ( isset( $_REQUEST['_wp_http_referer'] ) ) {
 				$redirect = remove_query_arg( array( '_wp_http_referer' ), wp_unslash( $_REQUEST['_wp_http_referer'] ) );
 			} else {
@@ -115,7 +115,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 
 			if ( isset( $_GET['action'] ) ) {
 				switch ( sanitize_key( $_GET['action'] ) ) {
-					case 'activate': {
+					case 'activate':
 						// Activate module
 						$slugs = array();
 						if ( isset( $_GET['slug'] ) ) {
@@ -129,7 +129,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 
 							check_admin_referer( 'jb_module_activate' . $slug . get_current_user_id() );
 							$slugs = array( $slug );
-						} elseif( isset( $_REQUEST['item'] ) ) {
+						} elseif ( isset( $_REQUEST['item'] ) ) {
 							// bulk activate
 							check_admin_referer( 'bulk-' . sanitize_key( __( 'Modules', 'jobboardwp' ) ) );
 							$slugs = array_map( 'sanitize_key', $_REQUEST['item'] );
@@ -155,8 +155,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 						wp_safe_redirect( add_query_arg( 'msg', 'a', $redirect ) );
 						exit;
 						break;
-					}
-					case 'deactivate': {
+					case 'deactivate':
 						// Deactivate module
 						$slugs = array();
 						if ( isset( $_GET['slug'] ) ) {
@@ -170,7 +169,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 
 							check_admin_referer( 'jb_module_deactivate' . $slug . get_current_user_id() );
 							$slugs = array( $slug );
-						} elseif( isset( $_REQUEST['item'] ) )  {
+						} elseif ( isset( $_REQUEST['item'] ) ) {
 							// bulk deactivate
 							check_admin_referer( 'bulk-' . sanitize_key( __( 'Modules', 'jobboardwp' ) ) );
 							$slugs = array_map( 'sanitize_key', $_REQUEST['item'] );
@@ -196,8 +195,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 						wp_safe_redirect( add_query_arg( 'msg', 'd', $redirect ) );
 						exit;
 						break;
-					}
-					case 'flush-data': {
+					case 'flush-data':
 						// Flush module's data
 						$slugs = array();
 						if ( isset( $_GET['slug'] ) ) {
@@ -211,7 +209,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 
 							check_admin_referer( 'jb_module_flush' . $slug . get_current_user_id() );
 							$slugs = array( $slug );
-						} elseif( isset( $_REQUEST['item'] ) )  {
+						} elseif ( isset( $_REQUEST['item'] ) ) {
 							// bulk flush
 							check_admin_referer( 'bulk-' . sanitize_key( __( 'Modules', 'jobboardwp' ) ) );
 							$slugs = array_map( 'sanitize_key', $_REQUEST['item'] );
@@ -237,7 +235,6 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 						wp_safe_redirect( add_query_arg( 'msg', 'f', $redirect ) );
 						exit;
 						break;
-					}
 				}
 			}
 
