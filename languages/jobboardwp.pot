@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-03-28T08:39:04+00:00\n"
+"POT-Creation-Date: 2023-03-28T08:47:39+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: jobboardwp\n"
@@ -30,8 +30,8 @@ msgid "Add a modern job board to your website. Display job listings and allow em
 msgstr ""
 
 #: includes/admin/class-actions-listener.php:134
-#: includes/admin/class-actions-listener.php:175
-#: includes/admin/class-actions-listener.php:216
+#: includes/admin/class-actions-listener.php:174
+#: includes/admin/class-actions-listener.php:214
 #: includes/admin/class-modules-list-table.php:362
 #: includes/admin/class-settings.php:77
 #: includes/admin/class-settings.php:730
