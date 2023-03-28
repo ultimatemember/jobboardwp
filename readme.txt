@@ -105,9 +105,14 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 == Changelog ==
 
-= 1.2.5: March 29, 2023 =
+= 1.2.5: March 28, 2023 =
 
+* Added: Some labels for Job Category and Job Type taxonomies on register
+* Added: Hook `jb_before_jobs_list` for 3rd-party integrations and add content above the jobs list and below the search bar
 * Tweak: Changes the structure for the Gutenberg blocks' scripts and way of registration
+
+* Templates required update:
+  - jobs/wrapper.php
 
 * Cached and optimized/minified assets(JS/CSS) must be flushed/re-generated after upgrade
 
