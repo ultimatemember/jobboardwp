@@ -228,10 +228,7 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 		public function block_editor() {
 			global $current_screen;
 
-			// todo enqueue scripts|styles for block editor
-//			JB()->frontend()->enqueue()->register_common_scripts();
-//			JB()->frontend()->enqueue()->register_scripts();
-//			JB()->frontend()->enqueue()->enqueue_gmap();
+			// todo enqueue scripts|styles for block editor properly
 
 			wp_register_style( 'jb_admin_blocks_shortcodes', $this->css_url['admin'] . 'blocks' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
 			wp_enqueue_style( 'jb_admin_blocks_shortcodes' );
