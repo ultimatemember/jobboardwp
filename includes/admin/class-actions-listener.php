@@ -106,7 +106,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 			if ( ! ( isset( $_GET['page'] ) && 'jb-settings' === $_GET['page'] && isset( $_GET['tab'] ) && 'modules' === $_GET['tab'] && ! isset( $_GET['section'] ) ) ) {
 				return;
 			}
-			// phpcs:ignore WordPress.Security.NonceVerification -- will be verified below through `check_admin_referer()`
+
 			if ( isset( $_REQUEST['_wp_http_referer'] ) ) {
 				$redirect = remove_query_arg( array( '_wp_http_referer' ), wp_unslash( $_REQUEST['_wp_http_referer'] ) );
 			} else {
@@ -114,6 +114,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 			}
 
 			if ( isset( $_GET['action'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification -- will be verified below through `check_admin_referer()`
 				switch ( sanitize_key( $_GET['action'] ) ) {
 					case 'activate':
 						// Activate module
@@ -154,7 +155,6 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 
 						wp_safe_redirect( add_query_arg( 'msg', 'a', $redirect ) );
 						exit;
-						break;
 					case 'deactivate':
 						// Deactivate module
 						$slugs = array();
@@ -194,7 +194,6 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 
 						wp_safe_redirect( add_query_arg( 'msg', 'd', $redirect ) );
 						exit;
-						break;
 					case 'flush-data':
 						// Flush module's data
 						$slugs = array();
@@ -234,7 +233,6 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 
 						wp_safe_redirect( add_query_arg( 'msg', 'f', $redirect ) );
 						exit;
-						break;
 				}
 			}
 
