@@ -1,0 +1,10 @@
+{
+  "apiVersion": 2,
+  "title": "Post job",
+  "description": "Displaying jobs posting form",
+  "name": "jb-block/jb-job-post",
+  "category": "jb-blocks",
+  "icon": "forms",
+  "editorScript": "file:./build/index.js",
+  "textdomain": "jobboardwp"
+}

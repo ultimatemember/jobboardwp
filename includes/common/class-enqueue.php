@@ -195,23 +195,24 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 		public function block_editor() {
 			global $current_screen;
 
+			// todo enqueue scripts|styles for block editor
+//			JB()->frontend()->enqueue()->register_common_scripts();
+//			JB()->frontend()->enqueue()->register_scripts();
+//			JB()->frontend()->enqueue()->enqueue_gmap();
+
 			wp_register_style( 'jb_admin_blocks_shortcodes', $this->css_url['admin'] . 'blocks' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
 			wp_enqueue_style( 'jb_admin_blocks_shortcodes' );
 			wp_register_script( 'jb_admin_blocks_shortcodes', $this->js_url['admin'] . 'blocks' . JB()->scrips_prefix . '.js', array( 'wp-i18n', 'wp-blocks', 'wp-components' ), JB_VERSION, true );
 
 			wp_set_script_translations( 'jb_admin_blocks_shortcodes', 'jobboardwp' );
 
-			$jb_options = array(
-				'jobs-list-no-logo'              => JB()->options()->get( 'jobs-list-no-logo' ),
-				'jobs-list-hide-filled'          => JB()->options()->get( 'jobs-list-hide-filled' ),
-				'jobs-list-hide-expired'         => JB()->options()->get( 'jobs-list-hide-expired' ),
-				'jobs-list-hide-search'          => JB()->options()->get( 'jobs-list-hide-search' ),
-				'jobs-list-hide-location-search' => JB()->options()->get( 'jobs-list-hide-location-search' ),
-				'jobs-list-hide-filters'         => JB()->options()->get( 'jobs-list-hide-filters' ),
-				'jobs-list-hide-job-types'       => JB()->options()->get( 'jobs-list-hide-job-types' ),
-			);
+			$jb_options = array();
 			if ( isset( $current_screen->id ) && 'jb-job' === $current_screen->id ) {
 				$jb_options['exclude_blocks'] = 1;
+			} elseif ( isset( $current_screen->id ) && 'widgets' === $current_screen->id ) {
+				$jb_options['exclude_blocks'] = 2;
+			} else {
+				$jb_options['exclude_blocks'] = 0;
 			}
 
 			wp_localize_script( 'jb_admin_blocks_shortcodes', 'jb_blocks_options', $jb_options );
@@ -245,6 +246,7 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 			wp_enqueue_script( 'jb-dropdown' );
 			wp_enqueue_script( 'jb-jobs-dashboard' );
 			wp_enqueue_script( 'jb-jobs' );
+			wp_enqueue_script( 'jb-post-job' );
 		}
 
 

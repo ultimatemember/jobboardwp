@@ -1,0 +1,15 @@
+{
+  "apiVersion": 2,
+  "name": "jb-block/jb-job",
+  "title": "Single job",
+  "description": "Displaying a single job",
+  "icon": "text",
+  "category": "jb-blocks",
+  "attributes": {
+    "job_id": {
+      "type": "integer"
+    }
+  },
+  "editorScript": "file:./build/index.js",
+  "textdomain": "jobboardwp"
+}

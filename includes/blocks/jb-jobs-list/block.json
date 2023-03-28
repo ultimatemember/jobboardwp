@@ -1,0 +1,66 @@
+{
+  "apiVersion": 2,
+  "name": "jb-block/jb-jobs-list",
+  "title": "Jobs list",
+  "description": "Displaying jobs list",
+  "icon": "editor-ul",
+  "category": "jb-blocks",
+  "attributes": {
+    "user_id": {
+      "type": "string"
+    },
+    "per_page": {
+      "type": "string"
+    },
+    "no_logo": {
+      "type": "boolean"
+    },
+    "hide_filled": {
+      "type": "boolean"
+    },
+    "hide_expired": {
+      "type": "boolean"
+    },
+    "hide_search": {
+      "type": "boolean"
+    },
+    "hide_location_search": {
+      "type": "boolean"
+    },
+    "hide_filters": {
+      "type": "boolean"
+    },
+    "hide_job_types": {
+      "type": "boolean"
+    },
+    "no_jobs_text": {
+      "type": "string"
+    },
+    "no_job_search_text": {
+      "type": "string"
+    },
+    "load_more_text": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "orderby": {
+      "type": "string",
+      "default": "date"
+    },
+    "order": {
+      "type": "string",
+      "default": "DESC"
+    },
+    "filled_only": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "editorScript": "file:./build/index.js",
+  "textdomain": "jobboardwp"
+}

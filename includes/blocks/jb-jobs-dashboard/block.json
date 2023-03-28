@@ -1,0 +1,10 @@
+{
+  "apiVersion": 2,
+  "title": "Jobs dashboard",
+  "description": "Displaying jobs dashboard",
+  "name": "jb-block/jb-jobs-dashboard",
+  "category": "jb-blocks",
+  "icon": "dashboard",
+  "editorScript": "file:./build/index.js",
+  "textdomain": "jobboardwp"
+}

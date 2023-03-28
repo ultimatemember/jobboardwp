@@ -1,0 +1,10 @@
+{
+  "apiVersion": 2,
+  "title": "Jobs categories list",
+  "description": "Displaying jobs categories list",
+  "name": "jb-block/jb-jobs-categories-list",
+  "category": "jb-blocks",
+  "icon": "editor-ul",
+  "editorScript": "file:./build/index.js",
+  "textdomain": "jobboardwp"
+}

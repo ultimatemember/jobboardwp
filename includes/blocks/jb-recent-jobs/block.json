@@ -1,0 +1,39 @@
+{
+  "apiVersion": 2,
+  "name": "jb-block/jb-recent-jobs",
+  "title": "Recent Jobs",
+  "description": "Displaying recent jobs",
+  "icon": "editor-ul",
+  "category": "jb-blocks",
+  "attributes": {
+    "number": {
+      "type": "string",
+      "default": 5
+    },
+    "no_logo": {
+      "type": "boolean"
+    },
+    "hide_filled": {
+      "type": "boolean"
+    },
+    "no_job_types": {
+      "type": "boolean"
+    },
+    "category": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "orderby": {
+      "type": "string",
+      "default": "date"
+    },
+    "remote_only": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "editorScript": "file:./build/index.js",
+  "textdomain": "jobboardwp"
+}
