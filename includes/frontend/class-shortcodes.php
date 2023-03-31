@@ -362,17 +362,31 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					$html .= ob_get_clean();
 				} elseif ( ! JB()->options()->get( 'account-creation' ) && ! is_user_logged_in() ) {
 					ob_start();
-					?>
-
-					<p>
-						<?php
-						/** @noinspection HtmlUnknownTarget */
-						// translators: %s: login link
-						echo wp_kses( sprintf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), esc_attr( wp_login_url( get_permalink() ) ) ), JB()->get_allowed_html( 'templates' ) );
+					if ( JB()->options()->get( 'account-required' ) ) {
 						?>
-					</p>
 
-					<?php
+						<p>
+							<?php
+							/** @noinspection HtmlUnknownTarget */
+							// translators: %s: login link
+							echo wp_kses( sprintf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), esc_attr( wp_login_url( get_permalink() ) ) ), JB()->get_allowed_html( 'templates' ) );
+							?>
+						</p>
+
+						<?php
+					} else {
+						?>
+
+						<p>
+							<?php
+							/** @noinspection HtmlUnknownTarget */
+							// translators: %s: login link
+							echo wp_kses( sprintf( __( '<a href="%s">Sign in</a> to post a job or to do that as a guest.', 'jobboardwp' ), esc_attr( wp_login_url( get_permalink() ) ) ), JB()->get_allowed_html( 'templates' ) );
+							?>
+						</p>
+
+						<?php
+					}
 					$html .= ob_get_clean();
 				}
 				// phpcs:enable Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace -- needed for strict output style attribute
