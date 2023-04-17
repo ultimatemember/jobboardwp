@@ -248,6 +248,10 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 						'label' => __( 'Pages', 'jobboardwp' ),
 						'value' => $pages,
 					),
+					'job-salary'              => array(
+						'label' => __( 'Job Salary', 'jobboardwp' ),
+						'value' => JB()->options()->get( 'job-salary' ) ? $labels['yes'] : $labels['no'],
+					),
 					'job-categories'          => array(
 						'label' => __( 'Job Categories', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'job-categories' ) ? $labels['yes'] : $labels['no'],

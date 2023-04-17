@@ -122,6 +122,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 				'job-slug'                       => 'job',
 				'job-type-slug'                  => 'job-type',
 				'job-category-slug'              => 'job-category',
+				'job-salary'                     => false,
 				'job-categories'                 => true,
 				'job-template'                   => '',
 				'job-archive-template'           => '',

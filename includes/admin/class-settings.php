@@ -354,6 +354,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				$this->sanitize_map,
 				array(
 					'job-categories'                 => 'bool',
+					'job-salary'                     => 'bool',
 					'job-template'                   => 'text',
 					'job-archive-template'           => 'text',
 					'job-dateformat'                 => 'text',
@@ -423,6 +424,12 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 						'job'            => array(
 							'title'  => __( 'Job', 'jobboardwp' ),
 							'fields' => array(
+								array(
+									'id'      => 'job-salary',
+									'type'    => 'checkbox',
+									'label'   => __( 'Is salary required?', 'jobboardwp' ),
+									'helptip' => __( 'Enable salary for jobs.', 'jobboardwp' ),
+								),
 								array(
 									'id'      => 'job-categories',
 									'type'    => 'checkbox',
