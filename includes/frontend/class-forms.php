@@ -677,6 +677,52 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		 *
 		 * @since 1.0
 		 */
+		public function render_number( $field_data ) {
+			if ( empty( $field_data['id'] ) ) {
+				return '';
+			}
+
+			$id      = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '_' : '' ) . $field_data['id'];
+			$id_attr = ' id="' . esc_attr( $id ) . '" ';
+
+			$class      = ! empty( $field_data['class'] ) ? $field_data['class'] : '';
+			$class     .= ! empty( $field_data['size'] ) ? 'jb-' . $field_data['size'] . '-field' : 'jb-long-field';
+			$class_attr = ' class="jb-forms-field ' . esc_attr( $class ) . '" ';
+
+			$data = array( 'field_id' => $field_data['id'] );
+
+			$data_attr = '';
+			foreach ( $data as $key => $value ) {
+				$data_attr .= " data-{$key}=\"" . esc_attr( $value ) . '" ';
+			}
+
+			$placeholder_attr = ! empty( $field_data['placeholder'] ) ? ' placeholder="' . $field_data['placeholder'] . '"' : '';
+			$required         = ! empty( $field_data['required'] ) ? ' required' : '';
+			$min              = ! empty( $field_data['min'] ) ? ' min' : '';
+			$max              = ! empty( $field_data['max'] ) ? ' max' : '';
+			$step             = ! empty( $field_data['step'] ) ? ' step' : '';
+
+			$name      = isset( $field_data['name'] ) ? $field_data['name'] : $field_data['id'];
+			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
+			$name_attr = ' name="' . esc_attr( $name ) . '" ';
+
+			$value      = $this->get_field_value( $field_data );
+			$value_attr = ' value="' . esc_attr( $value ) . '" ';
+
+			$html = "<input type=\"number\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $required $min $max $step />";
+
+			return $html;
+		}
+
+		/**
+		 * Render text field
+		 *
+		 * @param array $field_data
+		 *
+		 * @return string
+		 *
+		 * @since 1.0
+		 */
 		public function render_textarea( $field_data ) {
 			if ( empty( $field_data['id'] ) ) {
 				return '';
