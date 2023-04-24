@@ -178,4 +178,146 @@ jQuery( document ).ready( function($) {
 
 		$(this).parents('.jb-form-field-content').attr('data-uploader', jb_media_uploader['id']);
 	});
+
+	/**
+	 * On option fields change
+	 */
+	jQuery( document.body ).on( 'change', '.jb-forms-field', function() {
+		if ( jQuery('.jb-form-row[data-conditional*=\'"' + jQuery(this).data('field_id') + '",\']').length > 0 ||
+			jQuery('.jb-form-row[data-conditional*=\'' + jQuery(this).data('field_id') + '|\']').length > 0 ||
+			jQuery('.jb-form-row[data-conditional*=\'|' + jQuery(this).data('field_id') + '\']').length > 0 ) {
+			run_check_conditions();
+		}
+	});
+
+	//first load hide unconditional fields
+	run_check_conditions();
+
+	/**
+	 * Run conditional logic
+	 */
+	function run_check_conditions() {
+		jQuery( '.jb-form-row' ).removeClass('jb-forms-line-conditioned').each( function() {
+			if ( typeof jQuery(this).data('conditional') === 'undefined' || jQuery(this).hasClass('jb-forms-line-conditioned') ) {
+				return;
+			}
+
+			if ( check_condition( jQuery(this) ) ) {
+				jQuery(this).show();
+			} else {
+				jQuery(this).hide();
+			}
+		});
+	}
+
+	/**
+	 * Conditional logic
+	 *
+	 * true - show field
+	 * false - hide field
+	 *
+	 * @returns {boolean}
+	 */
+	function check_condition( form_line ) {
+		form_line.addClass( 'jb-forms-line-conditioned' );
+		var conditional = form_line.data('conditional');
+		var condition = conditional[1];
+		var value = conditional[2];
+
+		var parent_condition = true;
+
+		if ( conditional[0].indexOf( '||' ) === -1 ) {
+			var condition_field = jQuery( '#' + conditional[0] );
+			if ( typeof condition_field.parents('.jb-form-row').data('conditional') !== 'undefined' ) {
+				parent_condition = check_condition( condition_field.parents('.jb-form-row') );
+			}
+		}
+
+		var tagName = '';
+		var input_type = '';
+		var own_condition = false;
+		if ( condition === '=' ) {
+
+			if ( conditional[0].indexOf( '||' ) !== -1 ) {
+				var complete_condition = false;
+
+				var selectors = conditional[0].split('||');
+
+				jQuery.each( selectors, function( i ) {
+					var condition_field = jQuery( '#' + selectors[i] );
+
+					own_condition = false;
+
+					parent_condition = true;
+					if ( typeof condition_field.parents('.jb-form-row').data('conditional') !== 'undefined' ) {
+						parent_condition = check_condition( condition_field.parents('.jb-form-row') );
+					}
+
+					var tagName = condition_field.prop("tagName").toLowerCase();
+
+					if ( tagName === 'input' ) {
+						var input_type = condition_field.attr('type');
+						if ( input_type === 'checkbox' ) {
+							own_condition = ( value == '1' ) ? condition_field.is(':checked') : ! condition_field.is(':checked');
+						} else {
+							if ( Array.isArray( value ) ) {
+								own_condition = ( value.indexOf( condition_field.val() ) !== -1 );
+							} else {
+								own_condition = ( condition_field.val() === value );
+							}
+						}
+					} else if ( tagName === 'select' ) {
+						if ( Array.isArray( value ) ) {
+							own_condition = ( value.indexOf( condition_field.val() ) !== -1 );
+						} else {
+							own_condition = ( condition_field.val() === value );
+						}
+					}
+
+					if ( own_condition && parent_condition ) {
+						complete_condition = true;
+					}
+				});
+
+				return complete_condition;
+
+			} else {
+				tagName = condition_field.prop("tagName").toLowerCase();
+
+				if ( tagName === 'input' ) {
+					input_type = condition_field.attr('type');
+					if ( input_type === 'checkbox' ) {
+						own_condition = ( value === '1' ) ? condition_field.is(':checked') : ! condition_field.is(':checked');
+					} else {
+						if ( Array.isArray( value ) ) {
+							own_condition = ( value.indexOf( condition_field.val() ) !== -1 );
+						} else {
+							own_condition = ( condition_field.val() === value );
+						}
+					}
+				} else if ( tagName === 'select' ) {
+					if ( Array.isArray( value ) ) {
+						own_condition = ( value.indexOf( condition_field.val() ) !== -1 );
+					} else {
+						own_condition = ( condition_field.val() === value );
+					}
+				}
+
+			}
+		} else if ( condition === '!=' ) {
+			tagName = condition_field.prop("tagName").toLowerCase();
+			if ( tagName === 'input' ) {
+				input_type = condition_field.attr('type');
+				if ( input_type === 'checkbox' ) {
+					own_condition = ( value === '1' ) ? ! condition_field.is(':checked') : condition_field.is(':checked');
+				} else {
+					own_condition = ( condition_field.val() !== value );
+				}
+			} else if ( tagName === 'select' ) {
+				own_condition = ( condition_field.val() !== value );
+			}
+		}
+
+		return ( own_condition && parent_condition );
+	}
 });

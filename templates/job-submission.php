@@ -73,6 +73,13 @@
 		$company_instagram = '';
 		$company_logo      = '';
 
+		$salary_type = '0';
+		$amount_type = '0';
+		$amount      = '';
+		$min_amount  = '';
+		$max_amount  = '';
+		$period      = '';
+
 		if ( is_user_logged_in() ) {
 			$c_data = JB()->common()->user()->get_company_data();
 
@@ -123,6 +130,15 @@
 			$company_facebook  = $data['company_facebook'];
 			$company_instagram = $data['company_instagram'];
 			$company_logo      = $data['company_logo'];
+
+			if ( JB()->options()->get( 'job-salary' ) ) {
+				$salary_type = $data['salary_type'];
+				$amount_type = $data['amount_type'];
+				$amount      = $data['amount'];
+				$min_amount  = $data['min_amount'];
+				$max_amount  = $data['max_amount'];
+				$period      = $data['period'];
+			}
 		}
 
 		$my_details_fields = array();
@@ -359,14 +375,80 @@
 				array(
 					array(
 						'type'    => 'select',
-						'label'   => __( 'Job Category', 'jobboardwp' ),
+						'label'   => __( 'Salary type', 'jobboardwp' ),
 						'data'    => array(
-							'placeholder' => __( 'Please select job category', 'jobboardwp' ),
+							'placeholder' => __( 'Please select salary type', 'jobboardwp' ),
 						),
-						'id'      => 'job_category',
+						'id'      => 'salary_type',
 						'class'   => 'jb-s1',
-						'options' => $categories_options,
-						'value'   => $job_category,
+						'options' => array(
+							'0' => __( 'Don\'t specify', 'jobboardwp' ),
+							'1' => __( 'Fixed', 'jobboardwp' ),
+							'2' => __( 'Recurring', 'jobboardwp' ),
+						),
+						'value'   => $salary_type,
+					),
+					array(
+						'type'        => 'select',
+						'label'       => __( 'Amount type', 'jobboardwp' ),
+						'data'        => array(
+							'placeholder' => __( 'Please select amount type', 'jobboardwp' ),
+						),
+						'id'          => 'amount_type',
+						'class'       => 'jb-s1',
+						'options'     => array(
+							'0' => __( 'Numeric', 'jobboardwp' ),
+							'1' => __( 'Range (min-max)', 'jobboardwp' ),
+						),
+						'value'       => $amount_type,
+						'conditional' => array( 'salary_type', '!=', '0' ),
+					),
+					array(
+						'type'        => 'text',
+						'label'       => __( 'Amount $', 'jobboardwp' ),
+						'data'        => array(
+							'placeholder' => __( 'Please select amount', 'jobboardwp' ),
+						),
+						'id'          => 'amount',
+						'value'       => $amount,
+						'conditional' => array( 'amount_type', '=', '0' ),
+					),
+					array(
+						'type'        => 'text',
+						'label'       => __( 'Min Amount $', 'jobboardwp' ),
+						'data'        => array(
+							'placeholder' => __( 'Please select min amount', 'jobboardwp' ),
+						),
+						'id'          => 'min_amount',
+						'value'       => $min_amount,
+						'conditional' => array( 'amount_type', '=', '1' ),
+					),
+					array(
+						'type'        => 'text',
+						'label'       => __( 'Max Amount $', 'jobboardwp' ),
+						'data'        => array(
+							'placeholder' => __( 'Please select max amount', 'jobboardwp' ),
+						),
+						'id'          => 'max_amount',
+						'value'       => $max_amount,
+						'conditional' => array( 'amount_type', '=', '1' ),
+					),
+					array(
+						'type'        => 'select',
+						'label'       => __( 'Period', 'jobboardwp' ),
+						'data'        => array(
+							'placeholder' => __( 'Please select salary period', 'jobboardwp' ),
+						),
+						'id'          => 'period',
+						'class'       => 'jb-s1',
+						'options'     => array(
+							'hour'  => __( 'Hour', 'jobboardwp' ),
+							'day'   => __( 'Day', 'jobboardwp' ),
+							'week'  => __( 'Week', 'jobboardwp' ),
+							'month' => __( 'Month', 'jobboardwp' ),
+						),
+						'value'       => $period,
+						'conditional' => array( 'salary_type', '=', '2' ),
 					),
 				)
 			);

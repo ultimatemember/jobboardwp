@@ -16,7 +16,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 	class Forms {
 
 		/**
-		 * @var bool
+		 * @var bool|array
 		 *
 		 * @since 1.0
 		 */
@@ -308,10 +308,12 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				$row_classes[] = $this->error_class;
 			}
 
+			$conditional = ! empty( $data['conditional'] ) ? 'data-conditional="' . esc_attr( wp_json_encode( $data['conditional'] ) ) . '"' : '';
+
 			ob_start();
 			?>
 
-			<div class="<?php echo esc_attr( implode( ' ', $row_classes ) ); ?>">
+			<div class="<?php echo esc_attr( implode( ' ', $row_classes ) ); ?>" <?php echo wp_kses( $conditional, JB()->get_allowed_html( 'templates' ) ); ?>>
 				<?php echo wp_kses( $this->render_field_label( $data ), JB()->get_allowed_html( 'templates' ) ); ?>
 
 				<span class="jb-form-field-content">
