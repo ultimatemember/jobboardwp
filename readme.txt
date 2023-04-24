@@ -4,7 +4,7 @@ Plugin URI: https://wordpress.org/plugins/jobboardwp/
 Contributors: ultimatemember, nsinelnikov
 Tags: job, job board, job portal, job listing, job manager
 Requires PHP: 5.6
-Requires at least: 5.4
+Requires at least: 5.5
 Tested up to: 6.2
 Stable tag: 1.2.5
 License: GNU Version 2 or Any Later Version
