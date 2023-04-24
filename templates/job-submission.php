@@ -132,12 +132,12 @@
 			$company_logo      = $data['company_logo'];
 
 			if ( JB()->options()->get( 'job-salary' ) ) {
-				$salary_type = $data['salary_type'];
-				$amount_type = $data['amount_type'];
-				$amount      = $data['amount'];
-				$min_amount  = $data['min_amount'];
-				$max_amount  = $data['max_amount'];
-				$period      = $data['period'];
+				$salary_type = $data['job_salary_type'];
+				$amount_type = $data['job_amount_type'];
+				$amount      = $data['job_amount'];
+				$min_amount  = $data['job_min_amount'];
+				$max_amount  = $data['job_max_amount'];
+				$period      = $data['job_period'];
 			}
 		}
 
@@ -383,12 +383,12 @@
 						'data'    => array(
 							'placeholder' => __( 'Please select salary type', 'jobboardwp' ),
 						),
-						'id'      => 'salary_type',
+						'id'      => 'job_salary_type',
 						'class'   => 'jb-s1',
 						'options' => array(
-							'0' => __( 'Don\'t specify', 'jobboardwp' ),
-							'1' => __( 'Fixed', 'jobboardwp' ),
-							'2' => __( 'Recurring', 'jobboardwp' ),
+							'not'       => __( 'Don\'t specify', 'jobboardwp' ),
+							'fixed'     => __( 'Fixed', 'jobboardwp' ),
+							'recurring' => __( 'Recurring', 'jobboardwp' ),
 						),
 						'value'   => $salary_type,
 					),
@@ -398,52 +398,56 @@
 						'data'        => array(
 							'placeholder' => __( 'Please select amount type', 'jobboardwp' ),
 						),
-						'id'          => 'amount_type',
+						'id'          => 'job_amount_type',
 						'class'       => 'jb-s1',
 						'options'     => array(
-							'0' => __( 'Numeric', 'jobboardwp' ),
-							'1' => __( 'Range (min-max)', 'jobboardwp' ),
+							'numeric' => __( 'Numeric', 'jobboardwp' ),
+							'range'   => __( 'Range (min-max)', 'jobboardwp' ),
 						),
 						'value'       => $amount_type,
-						'conditional' => array( 'salary_type', '!=', '0' ),
+						'conditional' => array( 'job_salary_type', '!=', 'not' ),
 					),
 					array(
 						'type'        => 'text',
+						'required'    => true,
 						'label'       => __( 'Amount', 'jobboardwp' ) . ' ' . $currency_symbol,
 						'data'        => array(
 							'placeholder' => __( 'Please select amount', 'jobboardwp' ),
 						),
-						'id'          => 'amount',
+						'id'          => 'job_job_amount',
 						'value'       => $amount,
-						'conditional' => array( 'amount_type', '=', '0' ),
+						'conditional' => array( 'job_amount_type', '=', 'numeric' ),
 					),
 					array(
 						'type'        => 'text',
+						'required'    => true,
 						'label'       => __( 'Min Amount', 'jobboardwp' ) . ' ' . $currency_symbol,
 						'data'        => array(
 							'placeholder' => __( 'Please select min amount', 'jobboardwp' ),
 						),
-						'id'          => 'min_amount',
+						'id'          => 'job_min_amount',
 						'value'       => $min_amount,
-						'conditional' => array( 'amount_type', '=', '1' ),
+						'conditional' => array( 'job_amount_type', '=', 'range' ),
 					),
 					array(
 						'type'        => 'text',
+						'required'    => true,
 						'label'       => __( 'Max Amount', 'jobboardwp' ) . ' ' . $currency_symbol,
 						'data'        => array(
 							'placeholder' => __( 'Please select max amount', 'jobboardwp' ),
 						),
-						'id'          => 'max_amount',
+						'id'          => 'job_max_amount',
 						'value'       => $max_amount,
-						'conditional' => array( 'amount_type', '=', '1' ),
+						'conditional' => array( 'job_amount_type', '=', 'range' ),
 					),
 					array(
 						'type'        => 'select',
+						'required'    => true,
 						'label'       => __( 'Period', 'jobboardwp' ),
 						'data'        => array(
 							'placeholder' => __( 'Please select salary period', 'jobboardwp' ),
 						),
-						'id'          => 'period',
+						'id'          => 'job_period',
 						'class'       => 'jb-s1',
 						'options'     => array(
 							'hour'  => __( 'Hour', 'jobboardwp' ),
@@ -452,7 +456,7 @@
 							'month' => __( 'Month', 'jobboardwp' ),
 						),
 						'value'       => $period,
-						'conditional' => array( 'salary_type', '=', '2' ),
+						'conditional' => array( 'job_salary_type', '=', 'recurring' ),
 					),
 				)
 			);

@@ -201,11 +201,16 @@ jQuery( document ).ready( function($) {
 			if ( typeof jQuery(this).data('conditional') === 'undefined' || jQuery(this).hasClass('jb-forms-line-conditioned') ) {
 				return;
 			}
+			var required = jQuery(this).attr('data-required');
 
 			if ( check_condition( jQuery(this) ) ) {
 				jQuery(this).show();
+				if ( required === 'required' ) {
+					jQuery(this).find('select, input').attr('required', 'required');
+				}
 			} else {
 				jQuery(this).hide();
+				jQuery(this).find('select, input').removeAttr('required');
 			}
 		});
 	}
