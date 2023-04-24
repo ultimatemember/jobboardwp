@@ -509,6 +509,9 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			}
 
 			$placeholder_attr = ! empty( $field_data['placeholder'] ) ? ' placeholder="' . esc_attr( $field_data['placeholder'] ) . '"' : '';
+			$min              = ! empty( $field_data['min'] ) ? ' min' : '';
+			$max              = ! empty( $field_data['max'] ) ? ' max' : '';
+			$step             = ! empty( $field_data['step'] ) ? ' step' : '';
 
 			$name      = $field_data['id'];
 			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
@@ -517,7 +520,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$value      = $this->get_field_value( $field_data );
 			$value_attr = ' value="' . esc_attr( $value ) . '" ';
 
-			$html = "<input type=\"number\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr />";
+			$html = "<input type=\"number\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $min $max $step />";
 
 			return $html;
 		}
