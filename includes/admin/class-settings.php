@@ -355,6 +355,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				array(
 					'job-categories'                 => 'bool',
 					'job-salary'                     => 'bool',
+					'job-salary-currency'            => 'text',
 					'job-template'                   => 'text',
 					'job-archive-template'           => 'text',
 					'job-dateformat'                 => 'text',
@@ -413,6 +414,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			 */
 			$this->sanitize_map = apply_filters( 'jb_settings_sanitizing_map', $this->sanitize_map );
 
+			$currency_code_options = JB()->config()->get( 'currencies' );
+
 			$settings = array(
 				'general' => array(
 					'title'    => __( 'General', 'jobboardwp' ),
@@ -429,6 +432,13 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 									'type'    => 'checkbox',
 									'label'   => __( 'Is salary required?', 'jobboardwp' ),
 									'helptip' => __( 'Enable salary for jobs.', 'jobboardwp' ),
+								),
+								array(
+									'id'      => 'job-salary-currency',
+									'type'    => 'select',
+									'label'   => __( 'Currency', 'jobboardwp' ),
+									'helptip' => __( 'What currency will be used for salary.', 'woocommerce' ),
+									'options' => $currency_code_options,
 								),
 								array(
 									'id'      => 'job-categories',

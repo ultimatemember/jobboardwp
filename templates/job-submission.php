@@ -301,6 +301,10 @@
 
 		$gmap_key = JB()->options()->get( 'googlemaps-api-key' );
 
+		$currency         = JB()->options()->get( 'job-salary-currency' );
+		$currency_symbols = JB()->config()->get( 'currency_symbols' );
+		$currency_symbol  = $currency_symbols[ $currency ];
+
 		$job_details_fields = array(
 			array(
 				'type'     => 'text',
@@ -405,7 +409,7 @@
 					),
 					array(
 						'type'        => 'text',
-						'label'       => __( 'Amount $', 'jobboardwp' ),
+						'label'       => __( 'Amount', 'jobboardwp' ) . ' ' . $currency_symbol,
 						'data'        => array(
 							'placeholder' => __( 'Please select amount', 'jobboardwp' ),
 						),
@@ -415,7 +419,7 @@
 					),
 					array(
 						'type'        => 'text',
-						'label'       => __( 'Min Amount $', 'jobboardwp' ),
+						'label'       => __( 'Min Amount', 'jobboardwp' ) . ' ' . $currency_symbol,
 						'data'        => array(
 							'placeholder' => __( 'Please select min amount', 'jobboardwp' ),
 						),
@@ -425,7 +429,7 @@
 					),
 					array(
 						'type'        => 'text',
-						'label'       => __( 'Max Amount $', 'jobboardwp' ),
+						'label'       => __( 'Max Amount', 'jobboardwp' ) . ' ' . $currency_symbol,
 						'data'        => array(
 							'placeholder' => __( 'Please select max amount', 'jobboardwp' ),
 						),
