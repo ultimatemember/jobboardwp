@@ -30,6 +30,38 @@ if ( ! empty( $jb_job_info['job_id'] ) ) {
 				<?php echo wp_kses( JB()->common()->job()->display_types( $job_id ), JB()->get_allowed_html( 'templates' ) ); ?>
 			</div>
 		</div>
+		<?php
+		$amount_output = '';
+		$salary_type   = get_post_meta( $job_id, 'jb-salary-type', true );
+		if ( 'not' !== $salary_type ) {
+			$currency         = JB()->options()->get( 'job-salary-currency' );
+			$currency_symbols = JB()->config()->get( 'currency_symbols' );
+			$currency_symbol  = $currency_symbols[ $currency ];
+
+			$amount_type = get_post_meta( $job_id, 'jb-amount-type', true );
+			if ( 'numeric' === $amount_type ) {
+				$amount = get_post_meta( $job_id, 'jb-amount', true );
+
+				$amount_output = $amount . ' ' . $currency_symbol;
+			} else {
+				$amount_min = get_post_meta( $job_id, 'jb-min-amount', true );
+				$amount_max = get_post_meta( $job_id, 'jb-max-amount', true );
+
+				$amount_output = $amount_min . '-' . $amount_max . $currency_symbol;
+			}
+			if ( 'recurring' === $salary_type ) {
+				$period        = get_post_meta( $job_id, 'jb-period', true );
+				$amount_output .= ' ' . esc_html__( 'per', 'jobboardwp' ) . ' ' . $period;
+			}
+		}
+		if ( '' !== $amount_output ) {
+			?>
+			<div class="jb-job-info-row jb-job-info-row-third">
+				<div class="jb-job-types">
+					<?php echo esc_attr__( 'Salary:', 'jobboardwp' ) . ' ' . wp_kses( $amount_output, JB()->get_allowed_html( 'templates' ) ); ?>
+				</div>
+			</div>
+		<?php } ?>
 	</div>
 
 	<?php

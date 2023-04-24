@@ -659,6 +659,27 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				}
 
 				$response['category'] = $job_categories;
+
+				if ( JB()->options()->get( 'job-salary' ) ) {
+					if ( get_post_meta( $job_id, 'jb-salary-type', true ) ) {
+						$response['job_salary_type'] = get_post_meta( $job_id, 'jb-salary-type', true );
+					}
+					if ( get_post_meta( $job_id, 'jb-amount-type', true ) ) {
+						$response['job_amount_type'] = get_post_meta( $job_id, 'jb-amount-type', true );
+					}
+					if ( get_post_meta( $job_id, 'jb-amount', true ) ) {
+						$response['job_amount'] = get_post_meta( $job_id, 'jb-amount', true );
+					}
+					if ( get_post_meta( $job_id, 'jb-min-amount', true ) ) {
+						$response['job_min_amount'] = get_post_meta( $job_id, 'jb-min-amount', true );
+					}
+					if ( get_post_meta( $job_id, 'jb-max-amount', true ) ) {
+						$response['job_max_amount'] = get_post_meta( $job_id, 'jb-max-amount', true );
+					}
+					if ( get_post_meta( $job_id, 'jb-period', true ) ) {
+						$response['job_period'] = get_post_meta( $job_id, 'jb-period', true );
+					}
+				}
 			}
 
 			/**
