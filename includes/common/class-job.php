@@ -1046,7 +1046,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 						array(
 							'key'     => 'jb-expiry-date',
 							'value'   => gmdate( 'Y-m-d' ),
-							'compare' => '<',
+							'compare' => '<=',
 						),
 						array(
 							'key'     => 'jb-expiry-date',
