@@ -73,7 +73,7 @@
 		$company_instagram = '';
 		$company_logo      = '';
 
-		if ( JB()->options()->get( 'job-categories' ) ) {
+		if ( JB()->options()->get( 'job-salary' ) ) {
 			$salary_type = 'not';
 			$amount_type = 'numeric';
 			$amount      = '';
@@ -371,7 +371,7 @@
 				'required' => ! empty( JB()->options()->get( 'required-job-type' ) ) ? true : false,
 			),
 		);
-		if ( JB()->options()->get( 'job-categories' ) ) {
+		if ( JB()->options()->get( 'job-salary' ) ) {
 			$currency         = JB()->options()->get( 'job-salary-currency' );
 			$currency_symbols = JB()->config()->get( 'currency_symbols' );
 			$currency_symbol  = $currency_symbols[ $currency ];

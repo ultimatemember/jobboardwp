@@ -24,7 +24,7 @@ $job_location_data = '';
 $job_type          = '';
 $job_category      = '';
 
-if ( JB()->options()->get( 'job-categories' ) ) {
+if ( JB()->options()->get( 'job-salary' ) ) {
 	$salary_type = 'not';
 	$amount_type = 'numeric';
 	$amount      = '';
@@ -80,7 +80,7 @@ if ( $post_id ) {
 	$featured_order    = get_post_meta( $post_id, 'jb-featured-order', true );
 	$job_type          = '';
 	$job_category      = '';
-	if ( JB()->options()->get( 'job-categories' ) ) {
+	if ( JB()->options()->get( 'job-salary' ) ) {
 		$salary_type = get_post_meta( $post_id, 'jb-salary-type', true );
 		$amount_type = get_post_meta( $post_id, 'jb-amount-type', true );
 		$amount      = get_post_meta( $post_id, 'jb-amount', true );
@@ -324,7 +324,7 @@ $job_details_fields = array_merge(
 	)
 );
 
-if ( JB()->options()->get( 'job-categories' ) ) {
+if ( JB()->options()->get( 'job-salary' ) ) {
 	$currency         = JB()->options()->get( 'job-salary-currency' );
 	$currency_symbols = JB()->config()->get( 'currency_symbols' );
 	$currency_symbol  = $currency_symbols[ $currency ];

@@ -185,6 +185,43 @@ global $jb_jobs_shortcode_index;
 		</div>
 
 		<?php
+		if ( JB()->options()->get( 'job-salary' ) ) {
+			global $wpdb;
+			$max_values    = $wpdb->get_results( "SELECT meta_value FROM $wpdb->postmeta WHERE `meta_key` LIKE 'jb-max-amount'", ARRAY_A );
+			$amount_values = $wpdb->get_results( "SELECT meta_value FROM $wpdb->postmeta WHERE `meta_key` LIKE 'jb-amount'", ARRAY_A );
+
+			$values = array_merge( $max_values, $amount_values );
+
+			$max_value = 0;
+			foreach ( $values as $value ) {
+				if ( null !== $value['meta_value'] && ( null === $max_value || $max_value < $value['meta_value'] ) ) {
+					$max_value = ceil( $value['meta_value'] );
+				}
+			}
+
+			if ( ! empty( $_GET['jb-salary'] ) ) {
+				$salary = explode( '-', $_GET['jb-salary'][1] );
+				$min    = absint( $salary[0] );
+				$max    = absint( $salary[1] );
+			} else {
+				$min = 0;
+				$max = $max_value;
+			}
+
+			$currency         = JB()->options()->get( 'job-salary-currency' );
+			$currency_symbols = JB()->config()->get( 'currency_symbols' );
+			$currency_symbol  = $currency_symbols[ $currency ];
+			?>
+			<div class="jb-salary-filter">
+				<p><?php esc_attr_e( 'Salary range', 'jobboardwp' ); ?></p>
+				<div class="range-slider" data-symbol="<?php echo esc_attr( $currency_symbol ); ?>">
+					<span class="rangeValues"><?php echo $min; ?> - <?php echo $max; ?> <?php echo $currency_symbol; ?></span>
+					<input value="<?php echo esc_attr( $min ); ?>" min="0" max="<?php echo esc_attr( $max_value ); ?>" step="1" type="range">
+					<input value="<?php echo esc_attr( $max ); ?>" min="0" max="<?php echo esc_attr( $max_value ); ?>" step="1" type="range">
+				</div>
+			</div>
+			<?php
+		}
 	}
 
 	/**
