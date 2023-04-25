@@ -73,12 +73,14 @@
 		$company_instagram = '';
 		$company_logo      = '';
 
-		$salary_type = '0';
-		$amount_type = '0';
-		$amount      = '';
-		$min_amount  = '';
-		$max_amount  = '';
-		$period      = '';
+		if ( JB()->options()->get( 'job-categories' ) ) {
+			$salary_type = 'not';
+			$amount_type = 'numeric';
+			$amount      = '';
+			$min_amount  = '';
+			$max_amount  = '';
+			$period      = '';
+		}
 
 		if ( is_user_logged_in() ) {
 			$c_data = JB()->common()->user()->get_company_data();
@@ -301,10 +303,6 @@
 
 		$gmap_key = JB()->options()->get( 'googlemaps-api-key' );
 
-		$currency         = JB()->options()->get( 'job-salary-currency' );
-		$currency_symbols = JB()->config()->get( 'currency_symbols' );
-		$currency_symbol  = $currency_symbols[ $currency ];
-
 		$job_details_fields = array(
 			array(
 				'type'     => 'text',
@@ -374,6 +372,10 @@
 			),
 		);
 		if ( JB()->options()->get( 'job-categories' ) ) {
+			$currency         = JB()->options()->get( 'job-salary-currency' );
+			$currency_symbols = JB()->config()->get( 'currency_symbols' );
+			$currency_symbol  = $currency_symbols[ $currency ];
+
 			$job_details_fields = array_merge(
 				$job_details_fields,
 				array(

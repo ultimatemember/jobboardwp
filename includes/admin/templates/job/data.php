@@ -24,6 +24,15 @@ $job_location_data = '';
 $job_type          = '';
 $job_category      = '';
 
+if ( JB()->options()->get( 'job-categories' ) ) {
+	$salary_type = 'not';
+	$amount_type = 'numeric';
+	$amount      = '';
+	$min_amount  = '';
+	$max_amount  = '';
+	$period      = '';
+}
+
 $users = array(
 	'0' => __( 'Guest', 'jobboardwp' ),
 );
@@ -71,6 +80,14 @@ if ( $post_id ) {
 	$featured_order    = get_post_meta( $post_id, 'jb-featured-order', true );
 	$job_type          = '';
 	$job_category      = '';
+	if ( JB()->options()->get( 'job-categories' ) ) {
+		$salary_type = get_post_meta( $post_id, 'jb-salary-type', true );
+		$amount_type = get_post_meta( $post_id, 'jb-amount-type', true );
+		$amount      = get_post_meta( $post_id, 'jb-amount', true );
+		$min_amount  = get_post_meta( $post_id, 'jb-min-amount', true );
+		$max_amount  = get_post_meta( $post_id, 'jb-max-amount', true );
+		$period      = get_post_meta( $post_id, 'jb-period', true );
+	}
 
 	// workaround on the submission form because Job Type isn't multiple dropdown
 	$types = wp_get_post_terms(
@@ -306,6 +323,84 @@ $job_details_fields = array_merge(
 		),
 	)
 );
+
+if ( JB()->options()->get( 'job-categories' ) ) {
+	$currency         = JB()->options()->get( 'job-salary-currency' );
+	$currency_symbols = JB()->config()->get( 'currency_symbols' );
+	$currency_symbol  = $currency_symbols[ $currency ];
+
+	$job_details_fields = array_merge(
+		$job_details_fields,
+		array(
+			array(
+				'type'    => 'select',
+				'label'   => __( 'Salary type', 'jobboardwp' ),
+				'data'    => array(
+					'placeholder' => __( 'Please select salary type', 'jobboardwp' ),
+				),
+				'id'      => 'job-salary-type',
+				'options' => array(
+					'not'       => __( 'Don\'t specify', 'jobboardwp' ),
+					'fixed'     => __( 'Fixed', 'jobboardwp' ),
+					'recurring' => __( 'Recurring', 'jobboardwp' ),
+				),
+				'value'   => $salary_type,
+			),
+			array(
+				'type'        => 'select',
+				'label'       => __( 'Amount type', 'jobboardwp' ),
+				'data'        => array(
+					'placeholder' => __( 'Please select amount type', 'jobboardwp' ),
+				),
+				'id'          => 'job-amount-type',
+				'options'     => array(
+					'numeric' => __( 'Numeric', 'jobboardwp' ),
+					'range'   => __( 'Range (min-max)', 'jobboardwp' ),
+				),
+				'value'       => $amount_type,
+				'conditional' => array( 'job-salary-type', '!=', 'not' ),
+			),
+			array(
+				'type'        => 'text',
+				'required'    => true,
+				'label'       => __( 'Amount', 'jobboardwp' ) . ' ' . $currency_symbol,
+				'id'          => 'job-amount',
+				'value'       => $amount,
+				'conditional' => array( 'job-amount-type', '=', 'numeric' ),
+			),
+			array(
+				'type'        => 'text',
+				'required'    => true,
+				'label'       => __( 'Min Amount', 'jobboardwp' ) . ' ' . $currency_symbol,
+				'id'          => 'job-min-amount',
+				'value'       => $min_amount,
+				'conditional' => array( 'job-amount-type', '=', 'range' ),
+			),
+			array(
+				'type'        => 'text',
+				'required'    => true,
+				'label'       => __( 'Max Amount', 'jobboardwp' ) . ' ' . $currency_symbol,
+				'id'          => 'job-max-amount',
+				'value'       => $max_amount,
+				'conditional' => array( 'job-amount-type', '=', 'range' ),
+			),
+			array(
+				'type'        => 'select',
+				'required'    => true,
+				'label'       => __( 'Period', 'jobboardwp' ),
+				'id'          => 'job-period',
+				'options'     => array(
+					'hour'  => __( 'Hour', 'jobboardwp' ),
+					'day'   => __( 'Day', 'jobboardwp' ),
+					'week'  => __( 'Week', 'jobboardwp' ),
+					'month' => __( 'Month', 'jobboardwp' ),
+				),
+				'value'       => $period,
+				'conditional' => array( 'job-salary-type', '=', 'recurring' ),
+			),
+		)
+	);
+}
 
 /**
  * Filters the job meta fields in the metabox (Admin Dashboard > Add/Edit Job screen).
