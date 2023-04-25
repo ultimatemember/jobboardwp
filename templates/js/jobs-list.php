@@ -83,6 +83,14 @@
 									<?php esc_html_e( 'Closing on', 'jobboardwp' ); ?> {{{job.expires}}}
 								</div>
 							<# } #>
+
+							<?php if ( JB()->options()->get( 'job-salary' ) ) { ?>
+								<# if ( job.salary ) { #>
+									<div class="salary">
+										<?php echo esc_html__( 'Salary:', 'jobboardwp' ); ?> {{{job.salary}}}
+									</div>
+								<# } #>
+							<?php } ?>
 						</div>
 						<div class="jb-row-right-side">
 							<div class="date jb-responsive jb-ui-m jb-ui-l jb-ui-xl date" title="<?php esc_attr_e( 'Posted', 'jobboardwp' ); ?>">

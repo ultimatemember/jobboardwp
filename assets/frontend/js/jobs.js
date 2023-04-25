@@ -230,6 +230,23 @@ wp.JB.jobs_list = {
 				order = 'DESC';
 			}
 			return order;
+		},
+		get_salary:  function( jobs_list ) {
+			var min, max, salary;
+
+			if ( jobs_list.find('.range-slider').length ) {
+				if ( '1' === jobs_list.find('.range-slider').data( 'search' ) ) {
+					min = jobs_list.find('.range-slider').data( 'min' );
+					max = jobs_list.find('.range-slider').data( 'max' );
+					salary = min + ' - ' + max;
+				} else {
+					salary = '';
+				}
+			} else {
+				salary = '';
+			}
+
+			return salary;
 		}
 	},
 	ajax: function( jobs_list, append ) {
@@ -249,9 +266,10 @@ wp.JB.jobs_list = {
 			filled_only: wp.JB.jobs_list.url.get_filled_only( jobs_list ),
 			orderby: wp.JB.jobs_list.url.get_orderby( jobs_list ),
 			order: wp.JB.jobs_list.url.get_order( jobs_list ),
+			salary: wp.JB.jobs_list.url.get_salary( jobs_list ),
 			nonce: jb_front_data.nonce
 		};
-
+console.log(request)
 		wp.JB.jobs_list.is_search = !! ( request.search || request.location || request.remote_only );
 
 		if ( wp.JB.jobs_list.first_load ) {
@@ -268,6 +286,7 @@ wp.JB.jobs_list = {
 		wp.ajax.send( 'jb-get-jobs', {
 			data:  request,
 			success: function( answer ) {
+				console.log(answer)
 				var template = wp.template( 'jb-jobs-list-line' );
 
 				if ( append ) {
@@ -475,22 +494,6 @@ jQuery( document ).ready( function($) {
 		wp.JB.jobs_list.ajax( jobs_list, true );
 	});
 
-	function getVals(){
-		var parent = this.parentNode;
-		var symbol = parent.getAttribute('data-symbol');
-
-		var slides = parent.getElementsByTagName('input');
-		var slide1 = parseFloat( slides[0].value );
-		var slide2 = parseFloat( slides[1].value );
-		// Neither slider will clip the other, so make sure we determine which is larger
-		if( slide1 > slide2 ){ var tmp = slide2; slide2 = slide1; slide1 = tmp; }
-
-		var displayElement = parent.getElementsByClassName('rangeValues')[0];
-		displayElement.innerHTML = slide1 + ' - ' + slide2 + ' ' + symbol;
-		parent.setAttribute('data-min', slide1);
-		parent.setAttribute('data-max', slide2);
-	}
-
 	// window.onload = function(){
 	$( document.body ).on( 'change', '.range-slider input', function() {
 		var jobs_list = $(this).parents( '.jb-jobs' );
@@ -518,6 +521,9 @@ jQuery( document ).ready( function($) {
 
 		var min = $(this).parents( '.range-slider' ).attr('data-min');
 		var max = $(this).parents( '.range-slider' ).attr('data-max');
+
+		jobs_list.data( 'page', 1 );
+
 		wp.JB.jobs_list.url.set( jobs_list, 'jb-salary', min + '-' + max );
 
 		wp.JB.jobs_list.ajax( jobs_list );
@@ -531,3 +537,20 @@ jQuery( document ).ready( function($) {
 		}
 	});
 });
+
+function getVals(){
+	var parent = this.parentNode;
+	var symbol = parent.getAttribute('data-symbol');
+
+	var slides = parent.getElementsByTagName('input');
+	var slide1 = parseFloat( slides[0].value );
+	var slide2 = parseFloat( slides[1].value );
+	// Neither slider will clip the other, so make sure we determine which is larger
+	if( slide1 > slide2 ){ var tmp = slide2; slide2 = slide1; slide1 = tmp; }
+
+	var displayElement = parent.getElementsByClassName('rangeValues')[0];
+	displayElement.innerHTML = slide1 + ' - ' + slide2 + ' ' + symbol;
+	parent.setAttribute('data-min', slide1);
+	parent.setAttribute('data-max', slide2);
+	parent.setAttribute('data-search', 1);
+}

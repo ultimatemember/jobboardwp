@@ -517,6 +517,71 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 
+			if ( JB()->options()->get( 'job-salary' ) ) {
+				if ( ! empty( $_POST['salary'] ) ) {
+
+					if ( ! isset( $query_args['meta_query'] ) ) {
+						$query_args['meta_query'] = array();
+					}
+
+					$salary = explode( '-', $_POST['salary'] );
+					$min    = absint( $salary[0] );
+					$max    = absint( $salary[1] );
+
+					$query_args['meta_query'] = array_merge(
+						$query_args['meta_query'],
+						array(
+							'relation' => 'AND',
+							array(
+								'relation' => 'AND',
+								array(
+									'key'     => 'jb-salary-type',
+									'value'   => array( 'fixed', 'recurring' ),
+									'compare' => 'IN',
+								),
+								array(
+									'relation' => 'OR',
+									array(
+										'relation' => 'AND',
+										array(
+											'key'     => 'jb-amount-type',
+											'value'   => 'range',
+											'compare' => '=',
+										),
+										array(
+											'key'     => 'jb-min-amount',
+											'value'   => array( $min, $max ),
+											'type'    => 'NUMERIC',
+											'compare' => 'BETWEEN',
+										),
+										array(
+											'key'     => 'jb-min-amount',
+											'value'   => array( $min, $max ),
+											'type'    => 'NUMERIC',
+											'compare' => 'BETWEEN',
+										),
+									),
+									array(
+										'relation' => 'AND',
+										array(
+											'key'     => 'jb-amount-type',
+											'value'   => 'numeric',
+											'compare' => '=',
+										),
+										array(
+											'key'     => 'jb-amount',
+											'type'    => 'NUMERIC',
+											'value'   => array( $min, $max ),
+											'compare' => 'BETWEEN',
+										),
+									),
+								),
+							),
+						)
+					);
+				}
+			}
+
 			add_filter( 'get_meta_sql', array( &$this, 'change_meta_sql' ), 10, 6 );
 			add_filter( 'posts_search', array( &$this, 'set_search' ), 10, 2 );
 			add_filter( 'posts_where', array( &$this, 'change_where_posts' ), 10, 2 );
@@ -601,6 +666,38 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 					if ( JB()->options()->get( 'job-categories' ) ) {
 						$job_data['category'] = wp_kses( JB()->common()->job()->get_job_category( $job_post->ID ), JB()->get_allowed_html( 'templates' ) );
+					}
+
+					if ( JB()->options()->get( 'job-salary' ) ) {
+						$amount_output = '';
+						$salary_type   = get_post_meta( $job_post->ID, 'jb-salary-type', true );
+						if ( 'not' !== $salary_type ) {
+							$currency         = JB()->options()->get( 'job-salary-currency' );
+							$currency_symbols = JB()->config()->get( 'currency_symbols' );
+							$currency_symbol  = $currency_symbols[ $currency ];
+
+							$amount_type = get_post_meta( $job_post->ID, 'jb-amount-type', true );
+							if ( 'numeric' === $amount_type ) {
+								$amount = get_post_meta( $job_post->ID, 'jb-amount', true );
+
+								if ( ! empty( $amount ) ) {
+									$amount_output = $amount . ' ' . $currency_symbol;
+								}
+							} else {
+								$amount_min = get_post_meta( $job_post->ID, 'jb-min-amount', true );
+								$amount_max = get_post_meta( $job_post->ID, 'jb-max-amount', true );
+								if ( ! empty( $amount_min ) && ! empty( $amount_max ) ) {
+									$amount_output = $amount_min . '-' . $amount_max . $currency_symbol;
+								}
+							}
+							if ( 'recurring' === $salary_type ) {
+								$period         = get_post_meta( $job_post->ID, 'jb-period', true );
+								$amount_output .= ' ' . esc_html__( 'per', 'jobboardwp' ) . ' ' . $period;
+							}
+						}
+						if ( '' !== $amount_output ) {
+							$job_data['salary'] = wp_kses( $amount_output, JB()->get_allowed_html( 'templates' ) );
+						}
 					}
 
 					/**

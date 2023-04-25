@@ -490,6 +490,10 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				'jb_jobs'
 			);
 
+			if ( JB()->options()->get( 'job-salary' ) ) {
+				$atts['salary'] = '';
+			}
+
 			wp_enqueue_script( 'jb-jobs' );
 			wp_enqueue_style( 'jb-jobs' );
 
@@ -733,6 +737,39 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 				if ( JB()->options()->get( 'job-categories' ) ) {
 					$job_data['category'] = JB()->common()->job()->get_job_category( $recent_job->ID );
+				}
+
+				if ( JB()->options()->get( 'job-salary' ) ) {
+					$amount_output = '';
+					$salary_type   = get_post_meta( $recent_job->ID, 'jb-salary-type', true );
+					if ( 'not' !== $salary_type ) {
+						$currency         = JB()->options()->get( 'job-salary-currency' );
+						$currency_symbols = JB()->config()->get( 'currency_symbols' );
+						$currency_symbol  = $currency_symbols[ $currency ];
+
+						$amount_type = get_post_meta( $recent_job->ID, 'jb-amount-type', true );
+						if ( 'numeric' === $amount_type ) {
+							$amount = get_post_meta( $recent_job->ID, 'jb-amount', true );
+
+							if ( ! empty( $amount ) ) {
+								$amount_output = $amount . ' ' . $currency_symbol;
+							}
+						} else {
+							$amount_min = get_post_meta( $recent_job->ID, 'jb-min-amount', true );
+							$amount_max = get_post_meta( $recent_job->ID, 'jb-max-amount', true );
+
+							if ( ! empty( $amount_min ) && ! empty( $amount_max ) ) {
+								$amount_output = $amount_min . '-' . $amount_max . $currency_symbol;
+							}
+						}
+						if ( 'recurring' === $salary_type ) {
+							$period         = get_post_meta( $recent_job->ID, 'jb-period', true );
+							$amount_output .= ' ' . esc_html__( 'per', 'jobboardwp' ) . ' ' . $period;
+						}
+					}
+					if ( '' !== $amount_output ) {
+						$job_data['salary'] = $amount_output;
+					}
 				}
 
 				if ( ! $args['no_logo'] ) {

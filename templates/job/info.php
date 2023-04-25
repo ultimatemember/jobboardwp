@@ -58,7 +58,7 @@ if ( ! empty( $jb_job_info['job_id'] ) ) {
 			?>
 			<div class="jb-job-info-row jb-job-info-row-third">
 				<div class="jb-job-types">
-					<?php echo esc_attr__( 'Salary:', 'jobboardwp' ) . ' ' . wp_kses( $amount_output, JB()->get_allowed_html( 'templates' ) ); ?>
+					<?php echo esc_html__( 'Salary:', 'jobboardwp' ) . ' ' . wp_kses( $amount_output, JB()->get_allowed_html( 'templates' ) ); ?>
 				</div>
 			</div>
 		<?php } ?>

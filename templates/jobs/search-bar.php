@@ -214,7 +214,7 @@ global $jb_jobs_shortcode_index;
 			?>
 			<div class="jb-salary-filter">
 				<p><?php esc_attr_e( 'Salary range', 'jobboardwp' ); ?></p>
-				<div class="range-slider" data-symbol="<?php echo esc_attr( $currency_symbol ); ?>">
+				<div class="range-slider" data-symbol="<?php echo esc_attr( $currency_symbol ); ?>" data-min="<?php echo esc_attr( $min ); ?>" data-max="<?php echo esc_attr( $max ); ?>">
 					<span class="rangeValues"><?php echo $min; ?> - <?php echo $max; ?> <?php echo $currency_symbol; ?></span>
 					<input value="<?php echo esc_attr( $min ); ?>" min="0" max="<?php echo esc_attr( $max_value ); ?>" step="1" type="range">
 					<input value="<?php echo esc_attr( $max ); ?>" min="0" max="<?php echo esc_attr( $max_value ); ?>" step="1" type="range">
