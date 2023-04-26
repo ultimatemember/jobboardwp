@@ -768,8 +768,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									} else {
 										$amount_type = sanitize_key( $_POST['job_amount_type'] );
 										if ( 'numeric' === $amount_type ) {
-											if ( ! is_int( $_POST['job_amount'] ) ) {
-												$posting_form->add_error( 'job_amount', __( 'Job amount must be numeric', 'jobboardwp' ) );
+											if ( ! ctype_digit( $_POST['job_amount'] ) ) {
+												$posting_form->add_error( 'job_amount', __( 'Job amount must be integer', 'jobboardwp' ) );
 											} else {
 												if ( empty( $_POST['job_amount'] ) ) {
 													$posting_form->add_error( 'job_amount', __( 'Job amount is required and must be more than 0', 'jobboardwp' ) );
@@ -780,8 +780,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 											if ( empty( $_POST['job_min_amount'] ) ) {
 												$posting_form->add_error( 'job_min_amount', __( 'Job amount is required and must be more than 0', 'jobboardwp' ) );
 											} else {
-												if ( ! preg_match( '/^[0-9]+(\.[0-9]{1,2})?$/', $_POST['job_min_amount'] ) ) {
-													$posting_form->add_error( 'job_min_amount', __( 'Job amount must be numeric', 'jobboardwp' ) );
+												if ( ! ctype_digit( $_POST['job_min_amount'] ) ) {
+													$posting_form->add_error( 'job_min_amount', __( 'Job amount must be integer', 'jobboardwp' ) );
 												} else {
 													$job_min_amount = absint( $_POST['job_min_amount'] );
 												}
@@ -789,8 +789,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 											if ( empty( $_POST['job_max_amount'] ) ) {
 												$posting_form->add_error( 'job_max_amount', __( 'Job amount is required and must be more than 0', 'jobboardwp' ) );
 											} else {
-												if ( ! preg_match( '/^[0-9]+(\.[0-9]{1,2})?$/', $_POST['job_max_amount'] ) ) {
-													$posting_form->add_error( 'job_max_amount', __( 'Job amount must be numeric', 'jobboardwp' ) );
+												if ( ! ctype_digit( $_POST['job_max_amount'] ) ) {
+													$posting_form->add_error( 'job_max_amount', __( 'Job amount must be integer', 'jobboardwp' ) );
 												} else {
 													$job_max_amount = absint( $_POST['job_max_amount'] );
 												}

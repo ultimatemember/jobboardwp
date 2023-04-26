@@ -416,7 +416,7 @@
 						'data'        => array(
 							'placeholder' => __( 'Please select amount', 'jobboardwp' ),
 						),
-						'id'          => 'job_job_amount',
+						'id'          => 'job_amount',
 						'value'       => $amount,
 						'conditional' => array( 'job_amount_type', '=', 'numeric' ),
 					),

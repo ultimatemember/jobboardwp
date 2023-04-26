@@ -119,7 +119,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		 * @since 1.0
 		 */
 		public function change_meta_sql( $sql, /** @noinspection PhpUnusedParameterInspection */$queries, /** @noinspection PhpUnusedParameterInspection */$type, /** @noinspection PhpUnusedParameterInspection */$primary_table, /** @noinspection PhpUnusedParameterInspection */$primary_id_column, /** @noinspection PhpUnusedParameterInspection */$context ) {
-			// phpcs:ignore WordPress.Security.NonceVerification -- already verified here
+			// phpcs:disable WordPress.Security.NonceVerification
 			if ( ! empty( $_POST['search'] ) ) {
 				global $wpdb;
 				$search = trim( stripslashes( sanitize_text_field( $_POST['search'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification -- already verified here
@@ -167,6 +167,30 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 					}
 				}
 			}
+			if ( JB()->options()->get( 'job-salary' ) ) {
+				if ( ! empty( $_POST['salary'] ) ) {
+					global $wpdb;
+					$salary = explode( '-', $_POST['salary'] );
+					$min    = intval( $salary[0] );
+					$max    = intval( $salary[1] );
+
+					$sql['join'] .= "
+						LEFT JOIN wp_postmeta AS jb_salary_type ON ( wp_posts.ID = jb_salary_type.post_id AND jb_salary_type.meta_key = 'jb-salary-type' )
+						LEFT JOIN wp_postmeta AS jb_amount_type ON ( wp_posts.ID = jb_amount_type.post_id AND jb_amount_type.meta_key = 'jb-amount-type' )
+						LEFT JOIN wp_postmeta AS jb_amount ON ( wp_posts.ID = jb_amount.post_id AND jb_amount.meta_key = 'jb-amount' )
+						LEFT JOIN wp_postmeta AS jb_min_amount ON ( wp_posts.ID = jb_min_amount.post_id AND jb_min_amount.meta_key = 'jb-min-amount' )
+						LEFT JOIN wp_postmeta AS jb_max_amount ON ( wp_posts.ID = jb_max_amount.post_id AND jb_max_amount.meta_key = 'jb-max-amount' )
+					";
+
+					$sql['where'] .= " AND (
+							(jb_salary_type.meta_key IS NULL) OR
+							(jb_salary_type.meta_value LIKE 'not') OR
+							(jb_salary_type.meta_value NOT LIKE 'not' AND jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'numeric' AND jb_amount.meta_value BETWEEN $min AND $max) OR
+							(jb_salary_type.meta_value NOT LIKE 'not' AND jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'range' AND ( jb_min_amount.meta_value BETWEEN $min AND $max OR jb_max_amount.meta_value BETWEEN $min AND $max) )
+					)";
+				}
+			}
+			// phpcs:enable WordPress.Security.NonceVerification
 
 			return $sql;
 		}
@@ -513,71 +537,6 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						'taxonomy' => 'jb-job-category',
 						'field'    => 'id',
 						'terms'    => $categories,
-					);
-				}
-			}
-
-			if ( JB()->options()->get( 'job-salary' ) ) {
-				if ( ! empty( $_POST['salary'] ) ) {
-
-					if ( ! isset( $query_args['meta_query'] ) ) {
-						$query_args['meta_query'] = array();
-					}
-
-					$salary = explode( '-', $_POST['salary'] );
-					$min    = absint( $salary[0] );
-					$max    = absint( $salary[1] );
-
-					$query_args['meta_query'] = array_merge(
-						$query_args['meta_query'],
-						array(
-							'relation' => 'AND',
-							array(
-								'relation' => 'AND',
-								array(
-									'key'     => 'jb-salary-type',
-									'value'   => array( 'fixed', 'recurring' ),
-									'compare' => 'IN',
-								),
-								array(
-									'relation' => 'OR',
-									array(
-										'relation' => 'AND',
-										array(
-											'key'     => 'jb-amount-type',
-											'value'   => 'range',
-											'compare' => '=',
-										),
-										array(
-											'key'     => 'jb-min-amount',
-											'value'   => array( $min, $max ),
-											'type'    => 'NUMERIC',
-											'compare' => 'BETWEEN',
-										),
-										array(
-											'key'     => 'jb-min-amount',
-											'value'   => array( $min, $max ),
-											'type'    => 'NUMERIC',
-											'compare' => 'BETWEEN',
-										),
-									),
-									array(
-										'relation' => 'AND',
-										array(
-											'key'     => 'jb-amount-type',
-											'value'   => 'numeric',
-											'compare' => '=',
-										),
-										array(
-											'key'     => 'jb-amount',
-											'type'    => 'NUMERIC',
-											'value'   => array( $min, $max ),
-											'compare' => 'BETWEEN',
-										),
-									),
-								),
-							),
-						)
 					);
 				}
 			}
