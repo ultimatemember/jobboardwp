@@ -175,11 +175,11 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 					$max    = intval( $salary[1] );
 
 					$sql['join'] .= "
-						LEFT JOIN wp_postmeta AS jb_salary_type ON ( wp_posts.ID = jb_salary_type.post_id AND jb_salary_type.meta_key = 'jb-salary-type' )
-						LEFT JOIN wp_postmeta AS jb_amount_type ON ( wp_posts.ID = jb_amount_type.post_id AND jb_amount_type.meta_key = 'jb-amount-type' )
-						LEFT JOIN wp_postmeta AS jb_amount ON ( wp_posts.ID = jb_amount.post_id AND jb_amount.meta_key = 'jb-amount' )
-						LEFT JOIN wp_postmeta AS jb_min_amount ON ( wp_posts.ID = jb_min_amount.post_id AND jb_min_amount.meta_key = 'jb-min-amount' )
-						LEFT JOIN wp_postmeta AS jb_max_amount ON ( wp_posts.ID = jb_max_amount.post_id AND jb_max_amount.meta_key = 'jb-max-amount' )
+						LEFT JOIN $wpdb->postmeta AS jb_salary_type ON ( $wpdb->posts.ID = jb_salary_type.post_id AND jb_salary_type.meta_key = 'jb-salary-type' )
+						LEFT JOIN $wpdb->postmeta AS jb_amount_type ON ( $wpdb->posts.ID = jb_amount_type.post_id AND jb_amount_type.meta_key = 'jb-amount-type' )
+						LEFT JOIN $wpdb->postmeta AS jb_amount ON ( $wpdb->posts.ID = jb_amount.post_id AND jb_amount.meta_key = 'jb-amount' )
+						LEFT JOIN $wpdb->postmeta AS jb_min_amount ON ( $wpdb->posts.ID = jb_min_amount.post_id AND jb_min_amount.meta_key = 'jb-min-amount' )
+						LEFT JOIN $wpdb->postmeta AS jb_max_amount ON ( $wpdb->posts.ID = jb_max_amount.post_id AND jb_max_amount.meta_key = 'jb-max-amount' )
 					";
 
 					$sql['where'] .= " AND (
@@ -191,7 +191,10 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 			// phpcs:enable WordPress.Security.NonceVerification
-
+//echo '<pre>';
+//print_r($sql);
+//echo '</pre>';
+//exit();
 			return $sql;
 		}
 
