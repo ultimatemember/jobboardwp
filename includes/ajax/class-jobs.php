@@ -191,10 +191,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 			// phpcs:enable WordPress.Security.NonceVerification
-//echo '<pre>';
-//print_r($sql);
-//echo '</pre>';
-//exit();
+
 			return $sql;
 		}
 
@@ -214,7 +211,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			$orderby_array = array();
 
-			// phpcs:ignore WordPress.Security.NonceVerification -- already verified here
+			// phpcs:disable WordPress.Security.NonceVerification -- already verified here
 			$search     = trim( stripslashes( sanitize_text_field( $_POST['search'] ) ) );
 			$meta_value = '%' . $wpdb->esc_like( $search ) . '%';
 
@@ -235,18 +232,17 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				$orderby_array[] = '(CASE ' . $search_orderby . 'ELSE 4 END)';
 			}
 
-			// phpcs:ignore WordPress.Security.NonceVerification -- already verified here
 			if ( isset( $_POST['orderby'] ) && 'title' === sanitize_key( $_POST['orderby'] ) ) {
 				$orderby = 'post_title';
 			} else {
 				$orderby = 'post_date';
 			}
-			// phpcs:ignore WordPress.Security.NonceVerification -- already verified here
 			if ( isset( $_POST['order'] ) && 'ASC' === sanitize_text_field( $_POST['order'] ) ) {
 				$order = 'ASC';
 			} else {
 				$order = 'DESC';
 			}
+			// phpcs:enable WordPress.Security.NonceVerification -- already verified here
 			$orderby_array[] = "{$wpdb->posts}.{$orderby} {$order}";
 
 			$search_orderby = implode( ', ', $orderby_array );

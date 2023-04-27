@@ -50,7 +50,7 @@ if ( ! empty( $jb_job_info['job_id'] ) ) {
 				$amount_output = $amount_min . '-' . $amount_max . $currency_symbol;
 			}
 			if ( 'recurring' === $salary_type ) {
-				$period        = get_post_meta( $job_id, 'jb-period', true );
+				$period         = get_post_meta( $job_id, 'jb-period', true );
 				$amount_output .= ' ' . esc_html__( 'per', 'jobboardwp' ) . ' ' . $period;
 			}
 		}
