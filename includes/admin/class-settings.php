@@ -415,7 +415,10 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			 */
 			$this->sanitize_map = apply_filters( 'jb_settings_sanitizing_map', $this->sanitize_map );
 
-			$currency_code_options = JB()->config()->get( 'currencies' );
+			$currency_code_options = array();
+			foreach ( JB()->config()->get( 'currencies' ) as $key => $currency ) {
+				$currency_code_options[ $key ] = $currency[0];
+			}
 
 			$job_submission_fields = array(
 				array(

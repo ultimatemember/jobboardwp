@@ -631,8 +631,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						$salary_type   = get_post_meta( $job_post->ID, 'jb-salary-type', true );
 						if ( 'not' !== $salary_type ) {
 							$currency         = JB()->options()->get( 'job-salary-currency' );
-							$currency_symbols = JB()->config()->get( 'currency_symbols' );
-							$currency_symbol  = $currency_symbols[ $currency ];
+							$currency_symbols = JB()->config()->get( 'currencies' );
+							$currency_symbol  = $currency_symbols[ $currency ][1];
 
 							$amount_type = get_post_meta( $job_post->ID, 'jb-amount-type', true );
 							if ( 'numeric' === $amount_type ) {

@@ -744,8 +744,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					$salary_type   = get_post_meta( $recent_job->ID, 'jb-salary-type', true );
 					if ( 'not' !== $salary_type ) {
 						$currency         = JB()->options()->get( 'job-salary-currency' );
-						$currency_symbols = JB()->config()->get( 'currency_symbols' );
-						$currency_symbol  = $currency_symbols[ $currency ];
+						$currency_symbols = JB()->config()->get( 'currencies' );
+						$currency_symbol  = $currency_symbols[ $currency ][1];
 
 						$amount_type = get_post_meta( $recent_job->ID, 'jb-amount-type', true );
 						if ( 'numeric' === $amount_type ) {

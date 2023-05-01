@@ -373,8 +373,8 @@
 		);
 		if ( JB()->options()->get( 'job-salary' ) ) {
 			$currency         = JB()->options()->get( 'job-salary-currency' );
-			$currency_symbols = JB()->config()->get( 'currency_symbols' );
-			$currency_symbol  = $currency_symbols[ $currency ];
+			$currency_symbols = JB()->config()->get( 'currencies' );
+			$currency_symbol  = $currency_symbols[ $currency ][1];
 
 			$job_details_fields = array_merge(
 				$job_details_fields,

@@ -211,8 +211,8 @@ global $jb_jobs_shortcode_index;
 			}
 
 			$currency         = JB()->options()->get( 'job-salary-currency' );
-			$currency_symbols = JB()->config()->get( 'currency_symbols' );
-			$currency_symbol  = $currency_symbols[ $currency ];
+			$currency_symbols = JB()->config()->get( 'currencies' );
+			$currency_symbol  = $currency_symbols[ $currency ][1];
 			?>
 			<div class="jb-salary-filter">
 				<p><?php esc_attr_e( 'Salary range', 'jobboardwp' ); ?></p>
