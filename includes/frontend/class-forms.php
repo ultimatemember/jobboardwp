@@ -57,6 +57,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			'radio',
 			'checkbox',
 			'textarea',
+			'number',
 		);
 
 		/**
@@ -698,9 +699,9 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			$placeholder_attr = ! empty( $field_data['placeholder'] ) ? ' placeholder="' . $field_data['placeholder'] . '"' : '';
 			$required         = ! empty( $field_data['required'] ) ? ' required' : '';
-			$min              = ! empty( $field_data['min'] ) ? ' min' : '';
-			$max              = ! empty( $field_data['max'] ) ? ' max' : '';
-			$step             = ! empty( $field_data['step'] ) ? ' step' : '';
+			$min              = ! empty( $field_data['min'] ) ? ' min="' . esc_attr( $field_data['min'] ) . '"' : '';
+			$max              = ! empty( $field_data['max'] ) ? ' max="' . esc_attr( $field_data['max'] ) . '"' : '';
+			$step             = ! empty( $field_data['step'] ) ? ' step="' . esc_attr( $field_data['step'] ) . '"' : '';
 
 			$name      = isset( $field_data['name'] ) ? $field_data['name'] : $field_data['id'];
 			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;

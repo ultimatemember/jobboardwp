@@ -183,6 +183,9 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 							'selected'     => true,
 							'required'     => true,
 							'autocomplete' => true,
+							'min'          => true,
+							'max'          => true,
+							'step'         => true,
 						),
 						'textarea' => array(
 							'cols'         => true,
@@ -309,6 +312,9 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 							'required'     => true,
 							'autocomplete' => true,
 							'size'         => true,
+							'min'          => true,
+							'max'          => true,
+							'step'         => true,
 						),
 						'textarea' => array(
 							'cols'         => true,

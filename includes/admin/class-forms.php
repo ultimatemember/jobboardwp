@@ -509,9 +509,9 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			}
 
 			$placeholder_attr = ! empty( $field_data['placeholder'] ) ? ' placeholder="' . esc_attr( $field_data['placeholder'] ) . '"' : '';
-			$min              = ! empty( $field_data['min'] ) ? ' min' : '';
-			$max              = ! empty( $field_data['max'] ) ? ' max' : '';
-			$step             = ! empty( $field_data['step'] ) ? ' step' : '';
+			$min              = ! empty( $field_data['min'] ) ? ' min="' . esc_attr( $field_data['min'] ) . '"' : '';
+			$max              = ! empty( $field_data['max'] ) ? ' max="' . esc_attr( $field_data['max'] ) . '"' : '';
+			$step             = ! empty( $field_data['step'] ) ? ' step="' . esc_attr( $field_data['step'] ) . '"' : '';
 
 			$name      = $field_data['id'];
 			$name      = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
