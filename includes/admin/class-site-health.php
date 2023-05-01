@@ -248,10 +248,6 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 						'label' => __( 'Pages', 'jobboardwp' ),
 						'value' => $pages,
 					),
-					'job-salary'              => array(
-						'label' => __( 'Job Salary', 'jobboardwp' ),
-						'value' => JB()->options()->get( 'job-salary' ) ? $labels['yes'] : $labels['no'],
-					),
 					'job-categories'          => array(
 						'label' => __( 'Job Categories', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'job-categories' ) ? $labels['yes'] : $labels['no'],
@@ -267,6 +263,10 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 					'job-breadcrumbs'         => array(
 						'label' => __( 'Show breadcrumbs on the job page', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'job-breadcrumbs' ) ? $labels['yes'] : $labels['no'],
+					),
+					'job-salary'              => array(
+						'label' => __( 'Job Salary', 'jobboardwp' ),
+						'value' => JB()->options()->get( 'job-salary' ) ? $labels['yes'] : $labels['no'],
 					),
 					'googlemaps-api-key'      => array(
 						'label' => __( 'GoogleMaps API key', 'jobboardwp' ),
@@ -286,6 +286,23 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 					),
 				),
 			);
+
+			if ( JB()->options()->get( 'job-salary' ) ) {
+				$info['jobboardwp']['fields'] = JB()->array_insert_after(
+					$info['jobboardwp']['fields'],
+					'job-salary',
+					array(
+						'job-salary-currency' => array(
+							'label' => __( 'Currency', 'jobboardwp' ),
+							'value' => JB()->options()->get( 'job-salary-currency' ),
+						),
+						'required-job-salary' => array(
+							'label' => __( 'Required job salary', 'jobboardwp' ),
+							'value' => JB()->options()->get( 'required-job-salary' ) ? $labels['yes'] : $labels['no'],
+						),
+					)
+				);
+			}
 
 			if ( 1 === (int) JB()->options()->get( 'account-creation' ) ) {
 				$info['jobboardwp']['fields'] = array_merge(

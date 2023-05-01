@@ -162,6 +162,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 				'job-expiration-reminder'        => false,
 				'job-expiration-reminder-time'   => '',
 				'required-job-type'              => true,
+				'required-job-salary'            => false,
 				'application-method'             => '',
 				'job-submitted-notice'           => __( 'Thank you for submitting your job. It will be appear on the website once approved.', 'jobboardwp' ),
 				'disable-styles'                 => false,
@@ -347,9 +348,12 @@ if ( ! class_exists( 'jb\Config' ) ) {
 			);
 		}
 
-
+		/**
+		 * Init currency titles.
+		 *
+		 * @since 1.2.6
+		 */
 		public function init_currencies() {
-
 			$this->currencies = array_unique(
 				apply_filters(
 					'jb_currencies',
@@ -522,9 +526,12 @@ if ( ! class_exists( 'jb\Config' ) ) {
 			);
 		}
 
-
+		/**
+		 * Init currency symbols.
+		 *
+		 * @since 1.2.6
+		 */
 		public function init_currency_symbols() {
-
 			$this->currency_symbols = apply_filters(
 				'jb_currency_symbols',
 				array(
