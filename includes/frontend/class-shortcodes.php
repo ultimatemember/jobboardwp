@@ -752,14 +752,14 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 							$amount = get_post_meta( $recent_job->ID, 'jb-amount', true );
 
 							if ( ! empty( $amount ) ) {
-								$amount_output = $amount . ' ' . $currency_symbol;
+								$amount_output = sprintf( JB()->get_job_salary_price_format(), $currency_symbol, $amount );
 							}
 						} else {
 							$amount_min = get_post_meta( $recent_job->ID, 'jb-min-amount', true );
 							$amount_max = get_post_meta( $recent_job->ID, 'jb-max-amount', true );
 
 							if ( ! empty( $amount_min ) && ! empty( $amount_max ) ) {
-								$amount_output = $amount_min . '-' . $amount_max . $currency_symbol;
+								$amount_output = sprintf( JB()->get_job_salary_price_format(), $currency_symbol, $amount_min . '-' . $amount_max );
 							}
 						}
 						if ( 'recurring' === $salary_type ) {

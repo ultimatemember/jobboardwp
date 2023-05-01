@@ -635,6 +635,19 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 									'conditional' => array( 'job-salary', '=', '1' ),
 								),
 								array(
+									'id'          => 'job-salary-currency-pos',
+									'type'        => 'select',
+									'label'       => __( 'Currency position', 'jobboardwp' ),
+									'helptip'     => __( 'This controls the position of the currency symbol.', 'jobboardwp' ),
+									'options'     => array(
+										'left'        => __( 'Left', 'jobboardwp' ),
+										'right'       => __( 'Right', 'jobboardwp' ),
+										'left_space'  => __( 'Left with space', 'jobboardwp' ),
+										'right_space' => __( 'Right with space', 'jobboardwp' ),
+									),
+									'conditional' => array( 'job-salary', '=', '1' ),
+								),
+								array(
 									'id'      => 'googlemaps-api-key',
 									'type'    => 'text',
 									'label'   => __( 'GoogleMaps API key', 'jobboardwp' ),

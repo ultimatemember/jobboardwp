@@ -913,5 +913,33 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			$slug = str_replace( '-', '_', $slug );
 			return $slug;
 		}
+
+
+		/**
+		 * Get the price format depending on the currency position.
+		 *
+		 * @return string
+		 */
+		public function get_job_salary_price_format() {
+			$currency_pos = JB()->options()->get( 'job-salary-currency-pos' );
+			$format       = '%1$s%2$s';
+
+			switch ( $currency_pos ) {
+				case 'left':
+					$format = '%1$s%2$s';
+					break;
+				case 'right':
+					$format = '%2$s%1$s';
+					break;
+				case 'left_space':
+					$format = '%1$s&nbsp;%2$s';
+					break;
+				case 'right_space':
+					$format = '%2$s&nbsp;%1$s';
+					break;
+			}
+
+			return apply_filters( 'job_salary_format', $format, $currency_pos );
+		}
 	}
 }
