@@ -217,6 +217,12 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				'jb-expiry-date'         => 'text',
 				'jb-is-featured'         => 'bool',
 				'jb-featured-order'      => 'absint',
+				'jb-salary-type'         => 'text',
+				'jb-salary-amount-type'  => 'text',
+				'jb-salary-amount'       => 'absint',
+				'jb-salary-min-amount'   => 'absint',
+				'jb-salary-max-amount'   => 'absint',
+				'jb-salary-period'       => 'text',
 			);
 
 			$current_time = time();

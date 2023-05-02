@@ -65,6 +65,13 @@
 		$job_application   = '';
 		$job_expired       = '';
 
+		$salary_type        = '';
+		$salary_amount_type = 'numeric';
+		$salary_amount      = '';
+		$salary_min_amount  = '';
+		$salary_max_amount  = '';
+		$salary_period      = '';
+
 		$company_name      = '';
 		$company_website   = '';
 		$company_tagline   = '';
@@ -72,15 +79,6 @@
 		$company_facebook  = '';
 		$company_instagram = '';
 		$company_logo      = '';
-
-		if ( JB()->options()->get( 'job-salary' ) ) {
-			$salary_type = 'not';
-			$amount_type = 'numeric';
-			$amount      = '';
-			$min_amount  = '';
-			$max_amount  = '';
-			$period      = '';
-		}
 
 		if ( is_user_logged_in() ) {
 			$c_data = JB()->common()->user()->get_company_data();
@@ -134,12 +132,12 @@
 			$company_logo      = $data['company_logo'];
 
 			if ( JB()->options()->get( 'job-salary' ) ) {
-				$salary_type = $data['job_salary_type'];
-				$amount_type = $data['job_amount_type'];
-				$amount      = $data['job_amount'];
-				$min_amount  = $data['job_min_amount'];
-				$max_amount  = $data['job_max_amount'];
-				$period      = $data['job_period'];
+				$salary_type        = $data['salary_type'];
+				$salary_amount_type = $data['salary_amount_type'];
+				$salary_amount      = $data['salary_amount'];
+				$salary_min_amount  = $data['salary_min_amount'];
+				$salary_max_amount  = $data['salary_max_amount'];
+				$salary_period      = $data['salary_period'];
 			}
 		}
 
@@ -388,7 +386,7 @@
 						'id'      => 'job_salary_type',
 						'class'   => 'jb-s1',
 						'options' => array(
-							'not'       => __( 'Don\'t specify', 'jobboardwp' ),
+							''          => __( 'Not specified', 'jobboardwp' ),
 							'fixed'     => __( 'Fixed', 'jobboardwp' ),
 							'recurring' => __( 'Recurring', 'jobboardwp' ),
 						),
@@ -400,14 +398,14 @@
 						'data'        => array(
 							'placeholder' => __( 'Please select amount type', 'jobboardwp' ),
 						),
-						'id'          => 'job_amount_type',
+						'id'          => 'job_salary_amount_type',
 						'class'       => 'jb-s1',
 						'options'     => array(
 							'numeric' => __( 'Numeric', 'jobboardwp' ),
 							'range'   => __( 'Range (min-max)', 'jobboardwp' ),
 						),
-						'value'       => $amount_type,
-						'conditional' => array( 'job_salary_type', '!=', 'not' ),
+						'value'       => $salary_amount_type,
+						'conditional' => array( 'job_salary_type', '!=', '' ),
 					),
 					array(
 						'type'        => 'text',
@@ -416,9 +414,9 @@
 						'data'        => array(
 							'placeholder' => __( 'Please select amount', 'jobboardwp' ),
 						),
-						'id'          => 'job_amount',
-						'value'       => $amount,
-						'conditional' => array( 'job_amount_type', '=', 'numeric' ),
+						'id'          => 'job_salary_amount',
+						'value'       => $salary_amount,
+						'conditional' => array( 'job_salary_amount_type', '=', 'numeric' ),
 					),
 					array(
 						'type'        => 'text',
@@ -427,9 +425,9 @@
 						'data'        => array(
 							'placeholder' => __( 'Please select min amount', 'jobboardwp' ),
 						),
-						'id'          => 'job_min_amount',
-						'value'       => $min_amount,
-						'conditional' => array( 'job_amount_type', '=', 'range' ),
+						'id'          => 'job_salary_min_amount',
+						'value'       => $salary_min_amount,
+						'conditional' => array( 'job_salary_amount_type', '=', 'range' ),
 					),
 					array(
 						'type'        => 'text',
@@ -438,9 +436,9 @@
 						'data'        => array(
 							'placeholder' => __( 'Please select max amount', 'jobboardwp' ),
 						),
-						'id'          => 'job_max_amount',
-						'value'       => $max_amount,
-						'conditional' => array( 'job_amount_type', '=', 'range' ),
+						'id'          => 'job_salary_max_amount',
+						'value'       => $salary_max_amount,
+						'conditional' => array( 'job_salary_amount_type', '=', 'range' ),
 					),
 					array(
 						'type'        => 'select',
@@ -449,7 +447,7 @@
 						'data'        => array(
 							'placeholder' => __( 'Please select salary period', 'jobboardwp' ),
 						),
-						'id'          => 'job_period',
+						'id'          => 'job_salary_period',
 						'class'       => 'jb-s1',
 						'options'     => array(
 							'hour'  => __( 'Hour', 'jobboardwp' ),
@@ -457,7 +455,7 @@
 							'week'  => __( 'Week', 'jobboardwp' ),
 							'month' => __( 'Month', 'jobboardwp' ),
 						),
-						'value'       => $period,
+						'value'       => $salary_period,
 						'conditional' => array( 'job_salary_type', '=', 'recurring' ),
 					),
 				)

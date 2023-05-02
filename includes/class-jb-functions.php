@@ -920,14 +920,10 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 *
 		 * @return string
 		 */
-		public function get_job_salary_price_format() {
+		public function get_job_salary_format() {
 			$currency_pos = JB()->options()->get( 'job-salary-currency-pos' );
-			$format       = '%1$s%2$s';
 
 			switch ( $currency_pos ) {
-				case 'left':
-					$format = '%1$s%2$s';
-					break;
 				case 'right':
 					$format = '%2$s%1$s';
 					break;
@@ -937,9 +933,24 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 				case 'right_space':
 					$format = '%2$s&nbsp;%1$s';
 					break;
+				case 'left':
+				default:
+					$format = '%1$s%2$s';
+					break;
 			}
 
-			return apply_filters( 'job_salary_format', $format, $currency_pos );
+			/**
+			 * Filters job salary format.
+			 *
+			 * @since 1.2.6
+			 * @hook jb_job_salary_format
+			 *
+			 * @param {string} $format  Email template path.
+			 * @param {string} $currency_pos Email notification key.
+			 *
+			 * @return {string} Email template path. 'emails/{$email_key}.php' by default.
+			 */
+			return apply_filters( 'jb_job_salary_format', $format, $currency_pos );
 		}
 	}
 }

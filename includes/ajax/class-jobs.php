@@ -176,17 +176,17 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 					$sql['join'] .= "
 						LEFT JOIN $wpdb->postmeta AS jb_salary_type ON ( $wpdb->posts.ID = jb_salary_type.post_id AND jb_salary_type.meta_key = 'jb-salary-type' )
-						LEFT JOIN $wpdb->postmeta AS jb_amount_type ON ( $wpdb->posts.ID = jb_amount_type.post_id AND jb_amount_type.meta_key = 'jb-amount-type' )
-						LEFT JOIN $wpdb->postmeta AS jb_amount ON ( $wpdb->posts.ID = jb_amount.post_id AND jb_amount.meta_key = 'jb-amount' )
-						LEFT JOIN $wpdb->postmeta AS jb_min_amount ON ( $wpdb->posts.ID = jb_min_amount.post_id AND jb_min_amount.meta_key = 'jb-min-amount' )
-						LEFT JOIN $wpdb->postmeta AS jb_max_amount ON ( $wpdb->posts.ID = jb_max_amount.post_id AND jb_max_amount.meta_key = 'jb-max-amount' )
+						LEFT JOIN $wpdb->postmeta AS jb_amount_type ON ( $wpdb->posts.ID = jb_amount_type.post_id AND jb_amount_type.meta_key = 'jb-salary-amount-type' )
+						LEFT JOIN $wpdb->postmeta AS jb_amount ON ( $wpdb->posts.ID = jb_amount.post_id AND jb_amount.meta_key = 'jb-salary-amount' )
+						LEFT JOIN $wpdb->postmeta AS jb_min_amount ON ( $wpdb->posts.ID = jb_min_amount.post_id AND jb_min_amount.meta_key = 'jb-salary-min-amount' )
+						LEFT JOIN $wpdb->postmeta AS jb_max_amount ON ( $wpdb->posts.ID = jb_max_amount.post_id AND jb_max_amount.meta_key = 'jb-salary-max-amount' )
 					";
 
 					$sql['where'] .= " AND (
 							(jb_salary_type.meta_key IS NULL) OR
-							(jb_salary_type.meta_value LIKE 'not') OR
-							(jb_salary_type.meta_value NOT LIKE 'not' AND jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'numeric' AND jb_amount.meta_value BETWEEN $min AND $max) OR
-							(jb_salary_type.meta_value NOT LIKE 'not' AND jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'range' AND ( jb_min_amount.meta_value BETWEEN $min AND $max OR jb_max_amount.meta_value BETWEEN $min AND $max) )
+							(jb_salary_type.meta_value = '') OR
+							(jb_salary_type.meta_value != '' AND jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'numeric' AND jb_amount.meta_value BETWEEN $min AND $max) OR
+							(jb_salary_type.meta_value != '' AND jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'range' AND ( jb_min_amount.meta_value BETWEEN $min AND $max OR jb_max_amount.meta_value BETWEEN $min AND $max) )
 					)";
 				}
 			}
@@ -629,28 +629,28 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 					if ( JB()->options()->get( 'job-salary' ) ) {
 						$amount_output = '';
 						$salary_type   = get_post_meta( $job_post->ID, 'jb-salary-type', true );
-						if ( 'not' !== $salary_type ) {
+						if ( '' !== $salary_type ) {
 							$currency         = JB()->options()->get( 'job-salary-currency' );
 							$currency_symbols = JB()->config()->get( 'currencies' );
 							$currency_symbol  = $currency_symbols[ $currency ][1];
 
-							$amount_type = get_post_meta( $job_post->ID, 'jb-amount-type', true );
-							if ( 'numeric' === $amount_type ) {
-								$amount = get_post_meta( $job_post->ID, 'jb-amount', true );
+							$salary_amount_type = get_post_meta( $job_post->ID, 'jb-salary-amount-type', true );
+							if ( 'numeric' === $salary_amount_type ) {
+								$salary_amount = get_post_meta( $job_post->ID, 'jb-salary-amount', true );
 
-								if ( ! empty( $amount ) ) {
-									$amount_output = sprintf( JB()->get_job_salary_price_format(), $currency_symbol, $amount );
+								if ( ! empty( $salary_amount ) ) {
+									$amount_output = sprintf( JB()->get_job_salary_format(), $currency_symbol, $salary_amount );
 								}
 							} else {
-								$amount_min = get_post_meta( $job_post->ID, 'jb-min-amount', true );
-								$amount_max = get_post_meta( $job_post->ID, 'jb-max-amount', true );
-								if ( ! empty( $amount_min ) && ! empty( $amount_max ) ) {
-									$amount_output = sprintf( JB()->get_job_salary_price_format(), $currency_symbol, $amount_min . '-' . $amount_max );
+								$salary_min_amount = get_post_meta( $job_post->ID, 'jb-salary-min-amount', true );
+								$salary_max_amount = get_post_meta( $job_post->ID, 'jb-salary-max-amount', true );
+								if ( ! empty( $salary_min_amount ) && ! empty( $salary_max_amount ) ) {
+									$amount_output = sprintf( JB()->get_job_salary_format(), $currency_symbol, $salary_min_amount . '-' . $salary_max_amount );
 								}
 							}
 							if ( 'recurring' === $salary_type ) {
-								$period         = get_post_meta( $job_post->ID, 'jb-period', true );
-								$amount_output .= ' ' . esc_html__( 'per', 'jobboardwp' ) . ' ' . $period;
+								$salary_period         = get_post_meta( $job_post->ID, 'jb-salary-period', true );
+								$amount_output .= ' ' . esc_html__( 'per', 'jobboardwp' ) . ' ' . $salary_period;
 							}
 						}
 						if ( '' !== $amount_output ) {

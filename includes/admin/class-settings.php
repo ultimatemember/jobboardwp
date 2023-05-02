@@ -356,6 +356,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					'job-categories'                 => 'bool',
 					'job-salary'                     => 'bool',
 					'job-salary-currency'            => 'text',
+					'job-salary-currency-pos'        => 'key',
 					'job-template'                   => 'text',
 					'job-archive-template'           => 'text',
 					'job-dateformat'                 => 'text',
@@ -417,7 +418,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 			$currency_code_options = array();
 			foreach ( JB()->config()->get( 'currencies' ) as $key => $currency ) {
-				$currency_code_options[ $key ] = $currency[0];
+				$currency_code_options[ $key ] = $currency['label'] . ' (' . $currency['symbol'] . ')';
 			}
 
 			$job_submission_fields = array(

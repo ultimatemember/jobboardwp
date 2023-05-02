@@ -187,8 +187,8 @@ global $jb_jobs_shortcode_index;
 		<?php
 		if ( JB()->options()->get( 'job-salary' ) ) {
 			global $wpdb;
-			$max_values    = $wpdb->get_results( "SELECT meta_value FROM $wpdb->postmeta WHERE `meta_key` LIKE 'jb-max-amount'", ARRAY_A );
-			$amount_values = $wpdb->get_results( "SELECT meta_value FROM $wpdb->postmeta WHERE `meta_key` LIKE 'jb-amount'", ARRAY_A );
+			$max_values    = $wpdb->get_results( "SELECT meta_value FROM $wpdb->postmeta WHERE `meta_key` LIKE 'jb-salary-max-amount'", ARRAY_A );
+			$amount_values = $wpdb->get_results( "SELECT meta_value FROM $wpdb->postmeta WHERE `meta_key` LIKE 'jb-salary-amount'", ARRAY_A );
 
 			$values = array_merge( $max_values, $amount_values );
 

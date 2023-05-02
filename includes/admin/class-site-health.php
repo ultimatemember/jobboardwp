@@ -288,13 +288,20 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 			);
 
 			if ( JB()->options()->get( 'job-salary' ) ) {
+				$currency        = JB()->options()->get( 'job-salary-currency' );
+				$currencies_data = JB()->config()->get( 'currencies' );
+				$currency_text   = __( 'Invalid', 'jobboardwp' );
+				if ( array_key_exists( $currency, $currencies_data ) ) {
+					$currency_text = $currency . ' - ' . $currencies_data[ $currency ]['label'] . ' (' . $currencies_data[ $currency ]['symbol'] . ')';
+				}
+
 				$info['jobboardwp']['fields'] = JB()->array_insert_after(
 					$info['jobboardwp']['fields'],
 					'job-salary',
 					array(
 						'job-salary-currency' => array(
 							'label' => __( 'Currency', 'jobboardwp' ),
-							'value' => JB()->options()->get( 'job-salary-currency' ),
+							'value' => $currency_text,
 						),
 						'required-job-salary' => array(
 							'label' => __( 'Required job salary', 'jobboardwp' ),
@@ -515,12 +522,18 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 			}
 
 			// Active modules
+			$active_modules = $this->get_active_modules();
+			if ( empty( $active_modules ) ) {
+				$active_modules_text = __( 'No (0)', 'jobboardwp' );
+			} else {
+				$active_modules_text = implode( ', ', $this->get_active_modules() );
+			}
 			$info['jobboardwp']['fields'] = array_merge(
 				$info['jobboardwp']['fields'],
 				array(
 					'jb-active-modules' => array(
 						'label' => __( 'Active modules', 'jobboardwp' ),
-						'value' => implode( ', ', $this->get_active_modules() ),
+						'value' => $active_modules_text,
 					),
 				)
 			);

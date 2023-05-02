@@ -742,29 +742,29 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				if ( JB()->options()->get( 'job-salary' ) ) {
 					$amount_output = '';
 					$salary_type   = get_post_meta( $recent_job->ID, 'jb-salary-type', true );
-					if ( 'not' !== $salary_type ) {
+					if ( '' !== $salary_type ) {
 						$currency         = JB()->options()->get( 'job-salary-currency' );
 						$currency_symbols = JB()->config()->get( 'currencies' );
 						$currency_symbol  = $currency_symbols[ $currency ][1];
 
-						$amount_type = get_post_meta( $recent_job->ID, 'jb-amount-type', true );
-						if ( 'numeric' === $amount_type ) {
-							$amount = get_post_meta( $recent_job->ID, 'jb-amount', true );
+						$salary_amount_type = get_post_meta( $recent_job->ID, 'jb-salary-amount-type', true );
+						if ( 'numeric' === $salary_amount_type ) {
+							$salary_amount = get_post_meta( $recent_job->ID, 'jb-salary-amount', true );
 
-							if ( ! empty( $amount ) ) {
-								$amount_output = sprintf( JB()->get_job_salary_price_format(), $currency_symbol, $amount );
+							if ( ! empty( $salary_amount ) ) {
+								$amount_output = sprintf( JB()->get_job_salary_format(), $currency_symbol, $salary_amount );
 							}
 						} else {
-							$amount_min = get_post_meta( $recent_job->ID, 'jb-min-amount', true );
-							$amount_max = get_post_meta( $recent_job->ID, 'jb-max-amount', true );
+							$salary_min_amount = get_post_meta( $recent_job->ID, 'jb-salary-min-amount', true );
+							$salary_max_amount = get_post_meta( $recent_job->ID, 'jb-salary-max-amount', true );
 
-							if ( ! empty( $amount_min ) && ! empty( $amount_max ) ) {
-								$amount_output = sprintf( JB()->get_job_salary_price_format(), $currency_symbol, $amount_min . '-' . $amount_max );
+							if ( ! empty( $salary_min_amount ) && ! empty( $salary_max_amount ) ) {
+								$amount_output = sprintf( JB()->get_job_salary_format(), $currency_symbol, $salary_min_amount . '-' . $salary_max_amount );
 							}
 						}
 						if ( 'recurring' === $salary_type ) {
-							$period         = get_post_meta( $recent_job->ID, 'jb-period', true );
-							$amount_output .= ' ' . esc_html__( 'per', 'jobboardwp' ) . ' ' . $period;
+							$salary_period         = get_post_meta( $recent_job->ID, 'jb-salary-period', true );
+							$amount_output .= ' ' . esc_html__( 'per', 'jobboardwp' ) . ' ' . $salary_period;
 						}
 					}
 					if ( '' !== $amount_output ) {

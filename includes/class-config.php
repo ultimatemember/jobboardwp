@@ -131,6 +131,7 @@ if ( ! class_exists( 'jb\Config' ) ) {
 				'job-category-slug'              => 'job-category',
 				'job-salary'                     => false,
 				'job-salary-currency'            => 'USD',
+				'job-salary-currency-pos'        => 'left',
 				'job-categories'                 => true,
 				'job-template'                   => '',
 				'job-archive-template'           => '',
@@ -349,346 +350,699 @@ if ( ! class_exists( 'jb\Config' ) ) {
 		}
 
 		/**
-		 * Init currency titles.
+		 * Init currency data.
 		 *
 		 * @since 1.2.6
 		 */
 		public function init_currencies() {
-			$currencies = array(
-				'AED' => __( 'United Arab Emirates dirham', 'jobboardwp' ),
-				'AFN' => __( 'Afghan afghani', 'jobboardwp' ),
-				'ALL' => __( 'Albanian lek', 'jobboardwp' ),
-				'AMD' => __( 'Armenian dram', 'jobboardwp' ),
-				'ANG' => __( 'Netherlands Antillean guilder', 'jobboardwp' ),
-				'AOA' => __( 'Angolan kwanza', 'jobboardwp' ),
-				'ARS' => __( 'Argentine peso', 'jobboardwp' ),
-				'AUD' => __( 'Australian dollar', 'jobboardwp' ),
-				'AWG' => __( 'Aruban florin', 'jobboardwp' ),
-				'AZN' => __( 'Azerbaijani manat', 'jobboardwp' ),
-				'BAM' => __( 'Bosnia and Herzegovina convertible mark', 'jobboardwp' ),
-				'BBD' => __( 'Barbadian dollar', 'jobboardwp' ),
-				'BDT' => __( 'Bangladeshi taka', 'jobboardwp' ),
-				'BGN' => __( 'Bulgarian lev', 'jobboardwp' ),
-				'BHD' => __( 'Bahraini dinar', 'jobboardwp' ),
-				'BIF' => __( 'Burundian franc', 'jobboardwp' ),
-				'BMD' => __( 'Bermudian dollar', 'jobboardwp' ),
-				'BND' => __( 'Brunei dollar', 'jobboardwp' ),
-				'BOB' => __( 'Bolivian boliviano', 'jobboardwp' ),
-				'BRL' => __( 'Brazilian real', 'jobboardwp' ),
-				'BSD' => __( 'Bahamian dollar', 'jobboardwp' ),
-				'BTC' => __( 'Bitcoin', 'jobboardwp' ),
-				'BTN' => __( 'Bhutanese ngultrum', 'jobboardwp' ),
-				'BWP' => __( 'Botswana pula', 'jobboardwp' ),
-				'BYR' => __( 'Belarusian ruble (old)', 'jobboardwp' ),
-				'BYN' => __( 'Belarusian ruble', 'jobboardwp' ),
-				'BZD' => __( 'Belize dollar', 'jobboardwp' ),
-				'CAD' => __( 'Canadian dollar', 'jobboardwp' ),
-				'CDF' => __( 'Congolese franc', 'jobboardwp' ),
-				'CHF' => __( 'Swiss franc', 'jobboardwp' ),
-				'CLP' => __( 'Chilean peso', 'jobboardwp' ),
-				'CNY' => __( 'Chinese yuan', 'jobboardwp' ),
-				'COP' => __( 'Colombian peso', 'jobboardwp' ),
-				'CRC' => __( 'Costa Rican col&oacute;n', 'jobboardwp' ),
-				'CUC' => __( 'Cuban convertible peso', 'jobboardwp' ),
-				'CUP' => __( 'Cuban peso', 'jobboardwp' ),
-				'CVE' => __( 'Cape Verdean escudo', 'jobboardwp' ),
-				'CZK' => __( 'Czech koruna', 'jobboardwp' ),
-				'DJF' => __( 'Djiboutian franc', 'jobboardwp' ),
-				'DKK' => __( 'Danish krone', 'jobboardwp' ),
-				'DOP' => __( 'Dominican peso', 'jobboardwp' ),
-				'DZD' => __( 'Algerian dinar', 'jobboardwp' ),
-				'EGP' => __( 'Egyptian pound', 'jobboardwp' ),
-				'ERN' => __( 'Eritrean nakfa', 'jobboardwp' ),
-				'ETB' => __( 'Ethiopian birr', 'jobboardwp' ),
-				'EUR' => __( 'Euro', 'jobboardwp' ),
-				'FJD' => __( 'Fijian dollar', 'jobboardwp' ),
-				'FKP' => __( 'Falkland Islands pound', 'jobboardwp' ),
-				'GBP' => __( 'Pound sterling', 'jobboardwp' ),
-				'GEL' => __( 'Georgian lari', 'jobboardwp' ),
-				'GGP' => __( 'Guernsey pound', 'jobboardwp' ),
-				'GHS' => __( 'Ghana cedi', 'jobboardwp' ),
-				'GIP' => __( 'Gibraltar pound', 'jobboardwp' ),
-				'GMD' => __( 'Gambian dalasi', 'jobboardwp' ),
-				'GNF' => __( 'Guinean franc', 'jobboardwp' ),
-				'GTQ' => __( 'Guatemalan quetzal', 'jobboardwp' ),
-				'GYD' => __( 'Guyanese dollar', 'jobboardwp' ),
-				'HKD' => __( 'Hong Kong dollar', 'jobboardwp' ),
-				'HNL' => __( 'Honduran lempira', 'jobboardwp' ),
-				'HRK' => __( 'Croatian kuna', 'jobboardwp' ),
-				'HTG' => __( 'Haitian gourde', 'jobboardwp' ),
-				'HUF' => __( 'Hungarian forint', 'jobboardwp' ),
-				'IDR' => __( 'Indonesian rupiah', 'jobboardwp' ),
-				'ILS' => __( 'Israeli new shekel', 'jobboardwp' ),
-				'IMP' => __( 'Manx pound', 'jobboardwp' ),
-				'INR' => __( 'Indian rupee', 'jobboardwp' ),
-				'IQD' => __( 'Iraqi dinar', 'jobboardwp' ),
-				'IRR' => __( 'Iranian rial', 'jobboardwp' ),
-				'IRT' => __( 'Iranian toman', 'jobboardwp' ),
-				'ISK' => __( 'Icelandic kr&oacute;na', 'jobboardwp' ),
-				'JEP' => __( 'Jersey pound', 'jobboardwp' ),
-				'JMD' => __( 'Jamaican dollar', 'jobboardwp' ),
-				'JOD' => __( 'Jordanian dinar', 'jobboardwp' ),
-				'JPY' => __( 'Japanese yen', 'jobboardwp' ),
-				'KES' => __( 'Kenyan shilling', 'jobboardwp' ),
-				'KGS' => __( 'Kyrgyzstani som', 'jobboardwp' ),
-				'KHR' => __( 'Cambodian riel', 'jobboardwp' ),
-				'KMF' => __( 'Comorian franc', 'jobboardwp' ),
-				'KPW' => __( 'North Korean won', 'jobboardwp' ),
-				'KRW' => __( 'South Korean won', 'jobboardwp' ),
-				'KWD' => __( 'Kuwaiti dinar', 'jobboardwp' ),
-				'KYD' => __( 'Cayman Islands dollar', 'jobboardwp' ),
-				'KZT' => __( 'Kazakhstani tenge', 'jobboardwp' ),
-				'LAK' => __( 'Lao kip', 'jobboardwp' ),
-				'LBP' => __( 'Lebanese pound', 'jobboardwp' ),
-				'LKR' => __( 'Sri Lankan rupee', 'jobboardwp' ),
-				'LRD' => __( 'Liberian dollar', 'jobboardwp' ),
-				'LSL' => __( 'Lesotho loti', 'jobboardwp' ),
-				'LYD' => __( 'Libyan dinar', 'jobboardwp' ),
-				'MAD' => __( 'Moroccan dirham', 'jobboardwp' ),
-				'MDL' => __( 'Moldovan leu', 'jobboardwp' ),
-				'MGA' => __( 'Malagasy ariary', 'jobboardwp' ),
-				'MKD' => __( 'Macedonian denar', 'jobboardwp' ),
-				'MMK' => __( 'Burmese kyat', 'jobboardwp' ),
-				'MNT' => __( 'Mongolian t&ouml;gr&ouml;g', 'jobboardwp' ),
-				'MOP' => __( 'Macanese pataca', 'jobboardwp' ),
-				'MRU' => __( 'Mauritanian ouguiya', 'jobboardwp' ),
-				'MUR' => __( 'Mauritian rupee', 'jobboardwp' ),
-				'MVR' => __( 'Maldivian rufiyaa', 'jobboardwp' ),
-				'MWK' => __( 'Malawian kwacha', 'jobboardwp' ),
-				'MXN' => __( 'Mexican peso', 'jobboardwp' ),
-				'MYR' => __( 'Malaysian ringgit', 'jobboardwp' ),
-				'MZN' => __( 'Mozambican metical', 'jobboardwp' ),
-				'NAD' => __( 'Namibian dollar', 'jobboardwp' ),
-				'NGN' => __( 'Nigerian naira', 'jobboardwp' ),
-				'NIO' => __( 'Nicaraguan c&oacute;rdoba', 'jobboardwp' ),
-				'NOK' => __( 'Norwegian krone', 'jobboardwp' ),
-				'NPR' => __( 'Nepalese rupee', 'jobboardwp' ),
-				'NZD' => __( 'New Zealand dollar', 'jobboardwp' ),
-				'OMR' => __( 'Omani rial', 'jobboardwp' ),
-				'PAB' => __( 'Panamanian balboa', 'jobboardwp' ),
-				'PEN' => __( 'Sol', 'jobboardwp' ),
-				'PGK' => __( 'Papua New Guinean kina', 'jobboardwp' ),
-				'PHP' => __( 'Philippine peso', 'jobboardwp' ),
-				'PKR' => __( 'Pakistani rupee', 'jobboardwp' ),
-				'PLN' => __( 'Polish z&#x142;oty', 'jobboardwp' ),
-				'PRB' => __( 'Transnistrian ruble', 'jobboardwp' ),
-				'PYG' => __( 'Paraguayan guaran&iacute;', 'jobboardwp' ),
-				'QAR' => __( 'Qatari riyal', 'jobboardwp' ),
-				'RON' => __( 'Romanian leu', 'jobboardwp' ),
-				'RSD' => __( 'Serbian dinar', 'jobboardwp' ),
-				'RUB' => __( 'Russian ruble', 'jobboardwp' ),
-				'RWF' => __( 'Rwandan franc', 'jobboardwp' ),
-				'SAR' => __( 'Saudi riyal', 'jobboardwp' ),
-				'SBD' => __( 'Solomon Islands dollar', 'jobboardwp' ),
-				'SCR' => __( 'Seychellois rupee', 'jobboardwp' ),
-				'SDG' => __( 'Sudanese pound', 'jobboardwp' ),
-				'SEK' => __( 'Swedish krona', 'jobboardwp' ),
-				'SGD' => __( 'Singapore dollar', 'jobboardwp' ),
-				'SHP' => __( 'Saint Helena pound', 'jobboardwp' ),
-				'SLL' => __( 'Sierra Leonean leone', 'jobboardwp' ),
-				'SOS' => __( 'Somali shilling', 'jobboardwp' ),
-				'SRD' => __( 'Surinamese dollar', 'jobboardwp' ),
-				'SSP' => __( 'South Sudanese pound', 'jobboardwp' ),
-				'STN' => __( 'S&atilde;o Tom&eacute; and Pr&iacute;ncipe dobra', 'jobboardwp' ),
-				'SYP' => __( 'Syrian pound', 'jobboardwp' ),
-				'SZL' => __( 'Swazi lilangeni', 'jobboardwp' ),
-				'THB' => __( 'Thai baht', 'jobboardwp' ),
-				'TJS' => __( 'Tajikistani somoni', 'jobboardwp' ),
-				'TMT' => __( 'Turkmenistan manat', 'jobboardwp' ),
-				'TND' => __( 'Tunisian dinar', 'jobboardwp' ),
-				'TOP' => __( 'Tongan pa&#x2bb;anga', 'jobboardwp' ),
-				'TRY' => __( 'Turkish lira', 'jobboardwp' ),
-				'TTD' => __( 'Trinidad and Tobago dollar', 'jobboardwp' ),
-				'TWD' => __( 'New Taiwan dollar', 'jobboardwp' ),
-				'TZS' => __( 'Tanzanian shilling', 'jobboardwp' ),
-				'UAH' => __( 'Ukrainian hryvnia', 'jobboardwp' ),
-				'UGX' => __( 'Ugandan shilling', 'jobboardwp' ),
-				'USD' => __( 'United States (US) dollar', 'jobboardwp' ),
-				'UYU' => __( 'Uruguayan peso', 'jobboardwp' ),
-				'UZS' => __( 'Uzbekistani som', 'jobboardwp' ),
-				'VEF' => __( 'Venezuelan bol&iacute;var', 'jobboardwp' ),
-				'VES' => __( 'Bol&iacute;var soberano', 'jobboardwp' ),
-				'VND' => __( 'Vietnamese &#x111;&#x1ed3;ng', 'jobboardwp' ),
-				'VUV' => __( 'Vanuatu vatu', 'jobboardwp' ),
-				'WST' => __( 'Samoan t&#x101;l&#x101;', 'jobboardwp' ),
-				'XAF' => __( 'Central African CFA franc', 'jobboardwp' ),
-				'XCD' => __( 'East Caribbean dollar', 'jobboardwp' ),
-				'XOF' => __( 'West African CFA franc', 'jobboardwp' ),
-				'XPF' => __( 'CFP franc', 'jobboardwp' ),
-				'YER' => __( 'Yemeni rial', 'jobboardwp' ),
-				'ZAR' => __( 'South African rand', 'jobboardwp' ),
-				'ZMW' => __( 'Zambian kwacha', 'jobboardwp' ),
-			);
+			$this->currencies = array(
+				'AED' => array(
+					'label'  => __( 'United Arab Emirates dirham', 'jobboardwp' ),
+					'symbol' => '&#x62f;.&#x625;',
+				),
+				'AFN' => array(
+					'label'  => __( 'Afghan afghani', 'jobboardwp' ),
+					'symbol' => '&#x60b;',
+				),
+				'ALL' => array(
+					'label'  => __( 'Albanian lek', 'jobboardwp' ),
+					'symbol' => 'L',
+				),
+				'AMD' => array(
+					'label'  => __( 'Armenian dram', 'jobboardwp' ),
+					'symbol' => 'AMD',
+				),
+				'ANG' => array(
+					'label'  => __( 'Netherlands Antillean guilder', 'jobboardwp' ),
+					'symbol' => '&fnof;',
+				),
+				'AOA' => array(
+					'label'  => __( 'Angolan kwanza', 'jobboardwp' ),
+					'symbol' => 'Kz',
+				),
+				'ARS' => array(
+					'label'  => __( 'Argentine peso', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'AUD' => array(
+					'label'  => __( 'Australian dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'AWG' => array(
+					'label'  => __( 'Aruban florin', 'jobboardwp' ),
+					'symbol' => 'Afl.',
+				),
+				'AZN' => array(
+					'label'  => __( 'Azerbaijani manat', 'jobboardwp' ),
+					'symbol' => '&#8380;',
+				),
+				'BAM' => array(
+					'label'  => __( 'Bosnia and Herzegovina convertible mark', 'jobboardwp' ),
+					'symbol' => 'KM',
+				),
+				'BBD' => array(
+					'label'  => __( 'Barbadian dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'BDT' => array(
+					'label'  => __( 'Bangladeshi taka', 'jobboardwp' ),
+					'symbol' => '&#2547;&nbsp;',
+				),
+				'BGN' => array(
+					'label'  => __( 'Bulgarian lev', 'jobboardwp' ),
+					'symbol' => '&#1083;&#1074;.',
+				),
+				'BHD' => array(
+					'label'  => __( 'Bahraini dinar', 'jobboardwp' ),
+					'symbol' => '.&#x62f;.&#x628;',
+				),
+				'BIF' => array(
+					'label'  => __( 'Burundian franc', 'jobboardwp' ),
+					'symbol' => 'Fr',
+				),
+				'BMD' => array(
+					'label'  => __( 'Bermudian dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'BND' => array(
+					'label'  => __( 'Brunei dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'BOB' => array(
+					'label'  => __( 'Bolivian boliviano', 'jobboardwp' ),
+					'symbol' => 'Bs.',
+				),
+				'BRL' => array(
+					'label'  => __( 'Brazilian real', 'jobboardwp' ),
+					'symbol' => '&#82;&#36;',
+				),
+				'BSD' => array(
+					'label'  => __( 'Bahamian dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'BTC' => array(
+					'label'  => __( 'Bitcoin', 'jobboardwp' ),
+					'symbol' => '&#3647;',
+				),
+				'BTN' => array(
+					'label'  => __( 'Bhutanese ngultrum', 'jobboardwp' ),
+					'symbol' => 'Nu.',
+				),
+				'BWP' => array(
+					'label'  => __( 'Botswana pula', 'jobboardwp' ),
+					'symbol' => 'P',
+				),
+				'BYR' => array(
+					'label'  => __( 'Belarusian ruble (old)', 'jobboardwp' ),
+					'symbol' => 'Br',
+				),
+				'BYN' => array(
+					'label'  => __( 'Belarusian ruble', 'jobboardwp' ),
+					'symbol' => 'Br',
+				),
+				'BZD' => array(
+					'label'  => __( 'Belize dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'CAD' => array(
+					'label'  => __( 'Canadian dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'CDF' => array(
+					'label'  => __( 'Congolese franc', 'jobboardwp' ),
+					'symbol' => 'Fr',
+				),
+				'CHF' => array(
+					'label'  => __( 'Swiss franc', 'jobboardwp' ),
+					'symbol' => '&#67;&#72;&#70;',
+				),
+				'CLP' => array(
+					'label'  => __( 'Chilean peso', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'CNY' => array(
+					'label'  => __( 'Chinese yuan', 'jobboardwp' ),
+					'symbol' => '&yen;',
+				),
+				'COP' => array(
+					'label'  => __( 'Colombian peso', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'CRC' => array(
+					'label'  => __( 'Costa Rican col&oacute;n', 'jobboardwp' ),
+					'symbol' => '&#x20a1;',
+				),
+				'CUC' => array(
+					'label'  => __( 'Cuban convertible peso', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'CUP' => array(
+					'label'  => __( 'Cuban peso', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'CVE' => array(
+					'label'  => __( 'Cape Verdean escudo', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'CZK' => array(
+					'label'  => __( 'Czech koruna', 'jobboardwp' ),
+					'symbol' => '&#75;&#269;',
+				),
+				'DJF' => array(
+					'label'  => __( 'Djiboutian franc', 'jobboardwp' ),
+					'symbol' => 'Fr',
+				),
+				'DKK' => array(
+					'label'  => __( 'Danish krone', 'jobboardwp' ),
+					'symbol' => 'kr.',
+				),
+				'DOP' => array(
+					'label'  => __( 'Dominican peso', 'jobboardwp' ),
+					'symbol' => 'RD&#36;',
+				),
+				'DZD' => array(
+					'label'  => __( 'Algerian dinar', 'jobboardwp' ),
+					'symbol' => '&#x62f;.&#x62c;',
+				),
+				'EGP' => array(
+					'label'  => __( 'Egyptian pound', 'jobboardwp' ),
+					'symbol' => 'EGP',
+				),
+				'ERN' => array(
+					'label'  => __( 'Eritrean nakfa', 'jobboardwp' ),
+					'symbol' => 'Nfk',
+				),
+				'ETB' => array(
+					'label'  => __( 'Ethiopian birr', 'jobboardwp' ),
+					'symbol' => 'Br',
+				),
+				'EUR' => array(
+					'label'  => __( 'Euro', 'jobboardwp' ),
+					'symbol' => '&euro;',
+				),
+				'FJD' => array(
+					'label'  => __( 'Fijian dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'FKP' => array(
+					'label'  => __( 'Falkland Islands pound', 'jobboardwp' ),
+					'symbol' => '&pound;',
+				),
+				'GBP' => array(
+					'label'  => __( 'Pound sterling', 'jobboardwp' ),
+					'symbol' => '&pound;',
+				),
+				'GEL' => array(
+					'label'  => __( 'Georgian lari', 'jobboardwp' ),
+					'symbol' => '&#x20be;',
+				),
+				'GGP' => array(
+					'label'  => __( 'Guernsey pound', 'jobboardwp' ),
+					'symbol' => '&pound;',
+				),
+				'GHS' => array(
+					'label'  => __( 'Ghana cedi', 'jobboardwp' ),
+					'symbol' => '&#x20b5;',
+				),
+				'GIP' => array(
+					'label'  => __( 'Gibraltar pound', 'jobboardwp' ),
+					'symbol' => '&pound;',
+				),
+				'GMD' => array(
+					'label'  => __( 'Gambian dalasi', 'jobboardwp' ),
+					'symbol' => 'D',
+				),
+				'GNF' => array(
+					'label'  => __( 'Guinean franc', 'jobboardwp' ),
+					'symbol' => 'Fr',
+				),
+				'GTQ' => array(
+					'label'  => __( 'Guatemalan quetzal', 'jobboardwp' ),
+					'symbol' => 'Q',
+				),
+				'GYD' => array(
+					'label'  => __( 'Guyanese dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'HKD' => array(
+					'label'  => __( 'Hong Kong dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'HNL' => array(
+					'label'  => __( 'Honduran lempira', 'jobboardwp' ),
+					'symbol' => 'L',
+				),
+				'HRK' => array(
+					'label'  => __( 'Croatian kuna', 'jobboardwp' ),
+					'symbol' => 'kn',
+				),
+				'HTG' => array(
+					'label'  => __( 'Haitian gourde', 'jobboardwp' ),
+					'symbol' => 'G',
+				),
+				'HUF' => array(
+					'label'  => __( 'Hungarian forint', 'jobboardwp' ),
+					'symbol' => '&#70;&#116;',
+				),
+				'IDR' => array(
+					'label'  => __( 'Indonesian rupiah', 'jobboardwp' ),
+					'symbol' => 'Rp',
+				),
+				'ILS' => array(
+					'label'  => __( 'Israeli new shekel', 'jobboardwp' ),
+					'symbol' => '&#8362;',
+				),
+				'IMP' => array(
+					'label'  => __( 'Manx pound', 'jobboardwp' ),
+					'symbol' => '&pound;',
+				),
+				'INR' => array(
+					'label'  => __( 'Indian rupee', 'jobboardwp' ),
+					'symbol' => '&#8377;',
+				),
+				'IQD' => array(
+					'label'  => __( 'Iraqi dinar', 'jobboardwp' ),
+					'symbol' => '&#x62f;.&#x639;',
+				),
+				'IRR' => array(
+					'label'  => __( 'Iranian rial', 'jobboardwp' ),
+					'symbol' => '&#xfdfc;',
+				),
+				'IRT' => array(
+					'label'  => __( 'Iranian toman', 'jobboardwp' ),
+					'symbol' => '&#x062A;&#x0648;&#x0645;&#x0627;&#x0646;',
+				),
+				'ISK' => array(
+					'label'  => __( 'Icelandic kr&oacute;na', 'jobboardwp' ),
+					'symbol' => 'kr.',
+				),
+				'JEP' => array(
+					'label'  => __( 'Jersey pound', 'jobboardwp' ),
+					'symbol' => '&pound;',
+				),
+				'JMD' => array(
+					'label'  => __( 'Jamaican dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'JOD' => array(
+					'label'  => __( 'Jordanian dinar', 'jobboardwp' ),
+					'symbol' => '&#x62f;.&#x627;',
+				),
+				'JPY' => array(
+					'label'  => __( 'Japanese yen', 'jobboardwp' ),
+					'symbol' => '&yen;',
+				),
+				'KES' => array(
+					'label'  => __( 'Kenyan shilling', 'jobboardwp' ),
+					'symbol' => 'KSh',
+				),
+				'KGS' => array(
+					'label'  => __( 'Kyrgyzstani som', 'jobboardwp' ),
+					'symbol' => '&#x441;&#x43e;&#x43c;',
+				),
+				'KHR' => array(
+					'label'  => __( 'Cambodian riel', 'jobboardwp' ),
+					'symbol' => '&#x17db;',
+				),
+				'KMF' => array(
+					'label'  => __( 'Comorian franc', 'jobboardwp' ),
+					'symbol' => 'Fr',
+				),
+				'KPW' => array(
+					'label'  => __( 'North Korean won', 'jobboardwp' ),
+					'symbol' => '&#x20a9;',
+				),
+				'KRW' => array(
+					'label'  => __( 'South Korean won', 'jobboardwp' ),
+					'symbol' => '&#8361;',
+				),
+				'KWD' => array(
+					'label'  => __( 'Kuwaiti dinar', 'jobboardwp' ),
+					'symbol' => '&#x62f;.&#x643;',
+				),
+				'KYD' => array(
+					'label'  => __( 'Cayman Islands dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'KZT' => array(
+					'label'  => __( 'Kazakhstani tenge', 'jobboardwp' ),
+					'symbol' => '&#8376;',
+				),
+				'LAK' => array(
+					'label'  => __( 'Lao kip', 'jobboardwp' ),
+					'symbol' => '&#8365;',
+				),
+				'LBP' => array(
+					'label'  => __( 'Lebanese pound', 'jobboardwp' ),
+					'symbol' => '&#x644;.&#x644;',
+				),
+				'LKR' => array(
+					'label'  => __( 'Sri Lankan rupee', 'jobboardwp' ),
+					'symbol' => '&#xdbb;&#xdd4;',
+				),
+				'LRD' => array(
+					'label'  => __( 'Liberian dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'LSL' => array(
+					'label'  => __( 'Lesotho loti', 'jobboardwp' ),
+					'symbol' => 'L',
+				),
+				'LYD' => array(
+					'label'  => __( 'Libyan dinar', 'jobboardwp' ),
+					'symbol' => '&#x62f;.&#x644;',
+				),
+				'MAD' => array(
+					'label'  => __( 'Moroccan dirham', 'jobboardwp' ),
+					'symbol' => '&#x62f;.&#x645;.',
+				),
+				'MDL' => array(
+					'label'  => __( 'Moldovan leu', 'jobboardwp' ),
+					'symbol' => 'MDL',
+				),
+				'MGA' => array(
+					'label'  => __( 'Malagasy ariary', 'jobboardwp' ),
+					'symbol' => 'Ar',
+				),
+				'MKD' => array(
+					'label'  => __( 'Macedonian denar', 'jobboardwp' ),
+					'symbol' => '&#x434;&#x435;&#x43d;',
+				),
+				'MMK' => array(
+					'label'  => __( 'Burmese kyat', 'jobboardwp' ),
+					'symbol' => 'Ks',
+				),
+				'MNT' => array(
+					'label'  => __( 'Mongolian t&ouml;gr&ouml;g', 'jobboardwp' ),
+					'symbol' => '&#x20ae;',
+				),
+				'MOP' => array(
+					'label'  => __( 'Macanese pataca', 'jobboardwp' ),
+					'symbol' => 'P',
+				),
+				'MRU' => array(
+					'label'  => __( 'Mauritanian ouguiya', 'jobboardwp' ),
+					'symbol' => 'UM',
+				),
+				'MUR' => array(
+					'label'  => __( 'Mauritian rupee', 'jobboardwp' ),
+					'symbol' => '&#x20a8;',
+				),
+				'MVR' => array(
+					'label'  => __( 'Maldivian rufiyaa', 'jobboardwp' ),
+					'symbol' => '.&#x783;',
+				),
+				'MWK' => array(
+					'label'  => __( 'Malawian kwacha', 'jobboardwp' ),
+					'symbol' => 'MK',
+				),
+				'MXN' => array(
+					'label'  => __( 'Mexican peso', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'MYR' => array(
+					'label'  => __( 'Malaysian ringgit', 'jobboardwp' ),
+					'symbol' => '&#82;&#77;',
+				),
+				'MZN' => array(
+					'label'  => __( 'Mozambican metical', 'jobboardwp' ),
+					'symbol' => 'MT',
+				),
+				'NAD' => array(
+					'label'  => __( 'Namibian dollar', 'jobboardwp' ),
+					'symbol' => 'N&#36;',
+				),
+				'NGN' => array(
+					'label'  => __( 'Nigerian naira', 'jobboardwp' ),
+					'symbol' => '&#8358;',
+				),
+				'NIO' => array(
+					'label'  => __( 'Nicaraguan c&oacute;rdoba', 'jobboardwp' ),
+					'symbol' => 'C&#36;',
+				),
+				'NOK' => array(
+					'label'  => __( 'Norwegian krone', 'jobboardwp' ),
+					'symbol' => '&#107;&#114;',
+				),
+				'NPR' => array(
+					'label'  => __( 'Nepalese rupee', 'jobboardwp' ),
+					'symbol' => '&#8360;',
+				),
+				'NZD' => array(
+					'label'  => __( 'New Zealand dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'OMR' => array(
+					'label'  => __( 'Omani rial', 'jobboardwp' ),
+					'symbol' => '&#x631;.&#x639;.',
+				),
+				'PAB' => array(
+					'label'  => __( 'Panamanian balboa', 'jobboardwp' ),
+					'symbol' => 'B/.',
+				),
+				'PEN' => array(
+					'label'  => __( 'Sol', 'jobboardwp' ),
+					'symbol' => 'S/',
+				),
+				'PGK' => array(
+					'label'  => __( 'Papua New Guinean kina', 'jobboardwp' ),
+					'symbol' => 'K',
+				),
+				'PHP' => array(
+					'label'  => __( 'Philippine peso', 'jobboardwp' ),
+					'symbol' => '&#8369;',
+				),
+				'PKR' => array(
+					'label'  => __( 'Pakistani rupee', 'jobboardwp' ),
+					'symbol' => '&#8360;',
+				),
+				'PLN' => array(
+					'label'  => __( 'Polish z&#x142;oty', 'jobboardwp' ),
+					'symbol' => '&#122;&#322;',
+				),
+				'PRB' => array(
+					'label'  => __( 'Transnistrian ruble', 'jobboardwp' ),
+					'symbol' => '&#x440;.',
+				),
+				'PYG' => array(
+					'label'  => __( 'Paraguayan guaran&iacute;', 'jobboardwp' ),
+					'symbol' => '&#8370;',
+				),
+				'QAR' => array(
+					'label'  => __( 'Qatari riyal', 'jobboardwp' ),
+					'symbol' => '&#x631;.&#x642;',
+				),
+				'RON' => array(
+					'label'  => __( 'Romanian leu', 'jobboardwp' ),
+					'symbol' => 'lei',
+				),
+				'RSD' => array(
+					'label'  => __( 'Serbian dinar', 'jobboardwp' ),
+					'symbol' => '&#1088;&#1089;&#1076;',
+				),
+				'RUB' => array(
+					'label'  => __( 'Russian ruble', 'jobboardwp' ),
+					'symbol' => '&#8381;',
+				),
+				'RWF' => array(
+					'label'  => __( 'Rwandan franc', 'jobboardwp' ),
+					'symbol' => 'Fr',
+				),
+				'SAR' => array(
+					'label'  => __( 'Saudi riyal', 'jobboardwp' ),
+					'symbol' => '&#x631;.&#x633;',
+				),
+				'SBD' => array(
+					'label'  => __( 'Solomon Islands dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+				'SCR' => array(
+					'label'  => __( 'Seychellois rupee', 'jobboardwp' ),
+					'symbol' => '&#x20a8;',
+				),
+				'SDG' => array(
+					'label'  => __( 'Sudanese pound', 'jobboardwp' ),
+					'symbol' => '&#x62c;.&#x633;.',
+				),
+				'SEK' => array(
+					'label'  => __( 'Swedish krona', 'jobboardwp' ),
+					'symbol' => '&#107;&#114;',
+				),
+				'SGD' => array(
+					'label'  => __( 'Singapore dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
 
-			$currency_symbols = array(
-				'AED' => '&#x62f;.&#x625;',
-				'AFN' => '&#x60b;',
-				'ALL' => 'L',
-				'AMD' => 'AMD',
-				'ANG' => '&fnof;',
-				'AOA' => 'Kz',
-				'ARS' => '&#36;',
-				'AUD' => '&#36;',
-				'AWG' => 'Afl.',
-				'AZN' => '&#8380;',
-				'BAM' => 'KM',
-				'BBD' => '&#36;',
-				'BDT' => '&#2547;&nbsp;',
-				'BGN' => '&#1083;&#1074;.',
-				'BHD' => '.&#x62f;.&#x628;',
-				'BIF' => 'Fr',
-				'BMD' => '&#36;',
-				'BND' => '&#36;',
-				'BOB' => 'Bs.',
-				'BRL' => '&#82;&#36;',
-				'BSD' => '&#36;',
-				'BTC' => '&#3647;',
-				'BTN' => 'Nu.',
-				'BWP' => 'P',
-				'BYR' => 'Br',
-				'BYN' => 'Br',
-				'BZD' => '&#36;',
-				'CAD' => '&#36;',
-				'CDF' => 'Fr',
-				'CHF' => '&#67;&#72;&#70;',
-				'CLP' => '&#36;',
-				'CNY' => '&yen;',
-				'COP' => '&#36;',
-				'CRC' => '&#x20a1;',
-				'CUC' => '&#36;',
-				'CUP' => '&#36;',
-				'CVE' => '&#36;',
-				'CZK' => '&#75;&#269;',
-				'DJF' => 'Fr',
-				'DKK' => 'kr.',
-				'DOP' => 'RD&#36;',
-				'DZD' => '&#x62f;.&#x62c;',
-				'EGP' => 'EGP',
-				'ERN' => 'Nfk',
-				'ETB' => 'Br',
-				'EUR' => '&euro;',
-				'FJD' => '&#36;',
-				'FKP' => '&pound;',
-				'GBP' => '&pound;',
-				'GEL' => '&#x20be;',
-				'GGP' => '&pound;',
-				'GHS' => '&#x20b5;',
-				'GIP' => '&pound;',
-				'GMD' => 'D',
-				'GNF' => 'Fr',
-				'GTQ' => 'Q',
-				'GYD' => '&#36;',
-				'HKD' => '&#36;',
-				'HNL' => 'L',
-				'HRK' => 'kn',
-				'HTG' => 'G',
-				'HUF' => '&#70;&#116;',
-				'IDR' => 'Rp',
-				'ILS' => '&#8362;',
-				'IMP' => '&pound;',
-				'INR' => '&#8377;',
-				'IQD' => '&#x62f;.&#x639;',
-				'IRR' => '&#xfdfc;',
-				'IRT' => '&#x062A;&#x0648;&#x0645;&#x0627;&#x0646;',
-				'ISK' => 'kr.',
-				'JEP' => '&pound;',
-				'JMD' => '&#36;',
-				'JOD' => '&#x62f;.&#x627;',
-				'JPY' => '&yen;',
-				'KES' => 'KSh',
-				'KGS' => '&#x441;&#x43e;&#x43c;',
-				'KHR' => '&#x17db;',
-				'KMF' => 'Fr',
-				'KPW' => '&#x20a9;',
-				'KRW' => '&#8361;',
-				'KWD' => '&#x62f;.&#x643;',
-				'KYD' => '&#36;',
-				'KZT' => '&#8376;',
-				'LAK' => '&#8365;',
-				'LBP' => '&#x644;.&#x644;',
-				'LKR' => '&#xdbb;&#xdd4;',
-				'LRD' => '&#36;',
-				'LSL' => 'L',
-				'LYD' => '&#x62f;.&#x644;',
-				'MAD' => '&#x62f;.&#x645;.',
-				'MDL' => 'MDL',
-				'MGA' => 'Ar',
-				'MKD' => '&#x434;&#x435;&#x43d;',
-				'MMK' => 'Ks',
-				'MNT' => '&#x20ae;',
-				'MOP' => 'P',
-				'MRU' => 'UM',
-				'MUR' => '&#x20a8;',
-				'MVR' => '.&#x783;',
-				'MWK' => 'MK',
-				'MXN' => '&#36;',
-				'MYR' => '&#82;&#77;',
-				'MZN' => 'MT',
-				'NAD' => 'N&#36;',
-				'NGN' => '&#8358;',
-				'NIO' => 'C&#36;',
-				'NOK' => '&#107;&#114;',
-				'NPR' => '&#8360;',
-				'NZD' => '&#36;',
-				'OMR' => '&#x631;.&#x639;.',
-				'PAB' => 'B/.',
-				'PEN' => 'S/',
-				'PGK' => 'K',
-				'PHP' => '&#8369;',
-				'PKR' => '&#8360;',
-				'PLN' => '&#122;&#322;',
-				'PRB' => '&#x440;.',
-				'PYG' => '&#8370;',
-				'QAR' => '&#x631;.&#x642;',
-				'RMB' => '&yen;',
-				'RON' => 'lei',
-				'RSD' => '&#1088;&#1089;&#1076;',
-				'RUB' => '&#8381;',
-				'RWF' => 'Fr',
-				'SAR' => '&#x631;.&#x633;',
-				'SBD' => '&#36;',
-				'SCR' => '&#x20a8;',
-				'SDG' => '&#x62c;.&#x633;.',
-				'SEK' => '&#107;&#114;',
-				'SGD' => '&#36;',
-				'SHP' => '&pound;',
-				'SLL' => 'Le',
-				'SOS' => 'Sh',
-				'SRD' => '&#36;',
-				'SSP' => '&pound;',
-				'STN' => 'Db',
-				'SYP' => '&#x644;.&#x633;',
-				'SZL' => 'E',
-				'THB' => '&#3647;',
-				'TJS' => '&#x405;&#x41c;',
-				'TMT' => 'm',
-				'TND' => '&#x62f;.&#x62a;',
-				'TOP' => 'T&#36;',
-				'TRY' => '&#8378;',
-				'TTD' => '&#36;',
-				'TWD' => '&#78;&#84;&#36;',
-				'TZS' => 'Sh',
-				'UAH' => '&#8372;',
-				'UGX' => 'UGX',
-				'USD' => '&#36;',
-				'UYU' => '&#36;',
-				'UZS' => 'UZS',
-				'VEF' => 'Bs F',
-				'VES' => 'Bs.S',
-				'VND' => '&#8363;',
-				'VUV' => 'Vt',
-				'WST' => 'T',
-				'XAF' => 'CFA',
-				'XCD' => '&#36;',
-				'XOF' => 'CFA',
-				'XPF' => 'Fr',
-				'YER' => '&#xfdfc;',
-				'ZAR' => '&#82;',
-				'ZMW' => 'ZK',
-			);
+				'SHP' => array(
+					'label'  => __( 'Saint Helena pound', 'jobboardwp' ),
+					'symbol' => '&pound;',
+				),
 
-			$this->currencies = array_merge_recursive( $currencies, $currency_symbols );
-			$this->currencies = apply_filters( 'jb_currencies', $this->currencies );
+				'SLL' => array(
+					'label'  => __( 'Sierra Leonean leone', 'jobboardwp' ),
+					'symbol' => 'Le',
+				),
+
+				'SOS' => array(
+					'label'  => __( 'Somali shilling', 'jobboardwp' ),
+					'symbol' => 'Sh',
+				),
+
+				'SRD' => array(
+					'label'  => __( 'Surinamese dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+
+				'SSP' => array(
+					'label'  => __( 'South Sudanese pound', 'jobboardwp' ),
+					'symbol' => '&pound;',
+				),
+
+				'STN' => array(
+					'label'  => __( 'S&atilde;o Tom&eacute; and Pr&iacute;ncipe dobra', 'jobboardwp' ),
+					'symbol' => 'Db',
+				),
+
+				'SYP' => array(
+					'label'  => __( 'Syrian pound', 'jobboardwp' ),
+					'symbol' => '&#x644;.&#x633;',
+				),
+
+				'SZL' => array(
+					'label'  => __( 'Swazi lilangeni', 'jobboardwp' ),
+					'symbol' => 'E',
+				),
+
+				'THB' => array(
+					'label'  => __( 'Thai baht', 'jobboardwp' ),
+					'symbol' => '&#3647;',
+				),
+
+				'TJS' => array(
+					'label'  => __( 'Tajikistani somoni', 'jobboardwp' ),
+					'symbol' => '&#x405;&#x41c;',
+				),
+
+				'TMT' => array(
+					'label'  => __( 'Turkmenistan manat', 'jobboardwp' ),
+					'symbol' => 'm',
+				),
+
+				'TND' => array(
+					'label'  => __( 'Tunisian dinar', 'jobboardwp' ),
+					'symbol' => '&#x62f;.&#x62a;',
+				),
+
+				'TOP' => array(
+					'label'  => __( 'Tongan pa&#x2bb;anga', 'jobboardwp' ),
+					'symbol' => 'T&#36;',
+				),
+
+				'TRY' => array(
+					'label'  => __( 'Turkish lira', 'jobboardwp' ),
+					'symbol' => '&#8378;',
+				),
+
+				'TTD' => array(
+					'label'  => __( 'Trinidad and Tobago dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+
+				'TWD' => array(
+					'label'  => __( 'New Taiwan dollar', 'jobboardwp' ),
+					'symbol' => '&#78;&#84;&#36;',
+				),
+
+				'TZS' => array(
+					'label'  => __( 'Tanzanian shilling', 'jobboardwp' ),
+					'symbol' => 'Sh',
+				),
+
+				'UAH' => array(
+					'label'  => __( 'Ukrainian hryvnia', 'jobboardwp' ),
+					'symbol' => '&#8372;',
+				),
+
+				'UGX' => array(
+					'label'  => __( 'Ugandan shilling', 'jobboardwp' ),
+					'symbol' => 'UGX',
+				),
+
+				'USD' => array(
+					'label'  => __( 'United States (US) dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+
+				'UYU' => array(
+					'label'  => __( 'Uruguayan peso', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+
+				'UZS' => array(
+					'label'  => __( 'Uzbekistani som', 'jobboardwp' ),
+					'symbol' => 'UZS',
+				),
+
+				'VEF' => array(
+					'label'  => __( 'Venezuelan bol&iacute;var', 'jobboardwp' ),
+					'symbol' => 'Bs F',
+				),
+
+				'VES' => array(
+					'label'  => __( 'Bol&iacute;var soberano', 'jobboardwp' ),
+					'symbol' => 'Bs.S',
+				),
+
+				'VND' => array(
+					'label'  => __( 'Vietnamese &#x111;&#x1ed3;ng', 'jobboardwp' ),
+					'symbol' => '&#8363;',
+				),
+
+				'VUV' => array(
+					'label'  => __( 'Vanuatu vatu', 'jobboardwp' ),
+					'symbol' => 'Vt',
+				),
+
+				'WST' => array(
+					'label'  => __( 'Samoan t&#x101;l&#x101;', 'jobboardwp' ),
+					'symbol' => 'T',
+				),
+
+				'XAF' => array(
+					'label'  => __( 'Central African CFA franc', 'jobboardwp' ),
+					'symbol' => 'CFA',
+				),
+
+				'XCD' => array(
+					'label'  => __( 'East Caribbean dollar', 'jobboardwp' ),
+					'symbol' => '&#36;',
+				),
+
+				'XOF' => array(
+					'label'  => __( 'West African CFA franc', 'jobboardwp' ),
+					'symbol' => 'CFA',
+				),
+
+				'XPF' => array(
+					'label'  => __( 'CFP franc', 'jobboardwp' ),
+					'symbol' => 'Fr',
+				),
+
+				'YER' => array(
+					'label'  => __( 'Yemeni rial', 'jobboardwp' ),
+					'symbol' => '&#xfdfc;',
+				),
+
+				'ZAR' => array(
+					'label'  => __( 'South African rand', 'jobboardwp' ),
+					'symbol' => '&#82;',
+				),
+
+				'ZMW' => array(
+					'label'  => __( 'Zambian kwacha', 'jobboardwp' ),
+					'symbol' => 'ZK',
+				),
+			);
 		}
 	}
 }
