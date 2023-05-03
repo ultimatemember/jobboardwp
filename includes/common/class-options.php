@@ -46,7 +46,7 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 			 * @since 1.0
 			 * @hook jb_options_key
 			 *
-			 * @param {string} $option_name Option name. By default it's simplified option key with 'jb_' prefix.
+			 * @param {string} $option_name Option name. By default, it's a simplified option key with 'jb_' prefix.
 			 * @param {string} $option      Simplified option key without prefix.
 			 *
 			 * @return {string} Option name.
@@ -78,7 +78,7 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 			 * @since 1.0
 			 * @hook jb_options_get_{$option_id}
 			 *
-			 * @param {mixed}  $value     Option name. By default it's simplified option key with 'jb_' prefix.
+			 * @param {mixed}  $value     Option name. By default, it's a simplified option key with 'jb_' prefix.
 			 * @param {string} $option_id Simplified option key without prefix.
 			 * @param {string} $default   Default option value passed to a function.
 			 *
@@ -166,7 +166,7 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 			 * @since 1.0
 			 * @hook jb_predefined_page_option_key
 			 *
-			 * @param {string} $key  Simplified option key. By default it's page slug with '_page' suffix.
+			 * @param {string} $key  Simplified option key. By default, it's a page slug with '_page' suffix.
 			 * @param {string} $slug The predefined page slug. E.g. 'jon-dashboard'.
 			 *
 			 * @return {string} Simplified option key.

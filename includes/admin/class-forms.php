@@ -1016,7 +1016,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			 * @hook jb_get_media_field_formats
 			 * @since 1.2.3
 			 *
-			 * @param {array}  $field_formats  Formats. By default array is empty. The full array is array('pdf', 'doc', 'docx', 'csv', 'txt|asc|c|cc|h|srt', 'xla|xls|xlt|xlw', 'xlsx', 'jpg|jpeg|jpe', 'png', 'gif', 'bmp', 'tiff|tif', 'webp', 'heic', 'ico', 'zip' )
+			 * @param {array}  $field_formats  Formats. By default, array is empty. The full array is array('pdf', 'doc', 'docx', 'csv', 'txt|asc|c|cc|h|srt', 'xla|xls|xlt|xlw', 'xlsx', 'jpg|jpeg|jpe', 'png', 'gif', 'bmp', 'tiff|tif', 'webp', 'heic', 'ico', 'zip' )
 			 * @param {string} $field_id       Field id.
 			 *
 			 * @return {string} $field_formats Formats for media upload field.

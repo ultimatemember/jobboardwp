@@ -1201,7 +1201,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 			// Delete old expired jobs.
 			/**
-			 * Set whether or not we should delete expired jobs after a certain amount of time.
+			 * Set whether we should delete expired jobs after a certain amount of time.
 			 *
 			 * @since 1.0
 			 * @hook jb_cron_delete_expired_jobs

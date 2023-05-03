@@ -46,7 +46,7 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 			$this->show_update_messages();
 			/**
 			 * Fires when admin notices list is generated.
-			 * Note: It's internal hook that you could use for adding admin notices to JobBoardWP admin notices list.
+			 * Note: It's an internal hook that you could use for adding admin notices to JobBoardWP admin notices list.
 			 *
 			 * @since 1.1.0
 			 * @hook jb_admin_create_notices

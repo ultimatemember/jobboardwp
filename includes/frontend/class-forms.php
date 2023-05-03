@@ -602,7 +602,19 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				<span class="jb-uploaded-content-wrapper jb-<?php echo esc_attr( $id ); ?>-image-wrapper" style="<?php echo esc_attr( $styles ); ?>">
 					<?php
 					$output = '<img src="' . ( ! empty( $field_data['value'] ) ? esc_url( $field_data['value'] ) : '' ) . '" alt="' . esc_attr( $img_alt ) . '" ' . $img_style . ' />';
-					echo wp_kses( apply_filters( 'jb_preview_media_output', $output, $field_data ), JB()->get_allowed_html( 'templates' ) );
+					/**
+					 * Filters the preview media output.
+					 *
+					 * @hook jb_preview_media_output
+					 * @since 1.2.2
+					 *
+					 * @param {string} $output      Media output.
+					 * @param {array}  $field_data  Field data.
+					 *
+					 * @return {string} Filtered media output.
+					 */
+					$output = apply_filters( 'jb_preview_media_output', $output, $field_data );
+					echo wp_kses( $output, JB()->get_allowed_html( 'templates' ) );
 					?>
 				</span>
 				<a class="jb-cancel-change-media" href="#"><?php echo esc_html( $cancel_label ); ?></a>
@@ -1161,7 +1173,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			 * @since 1.0
 			 * @hook jb_content_editor_options
 			 *
-			 * @param {array} $editor_settings WP_Editor field's settings. See the all settings here https://developer.wordpress.org/reference/classes/_wp_editors/parse_settings/#parameters
+			 * @param {array} $editor_settings WP_Editor field's settings. See all settings here https://developer.wordpress.org/reference/classes/_wp_editors/parse_settings/#parameters
 			 * @param {array} $field_data      Frontend form's field data.
 			 *
 			 * @return {array} WP_Editor field's settings.

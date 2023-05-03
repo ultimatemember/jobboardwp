@@ -287,7 +287,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				 * @param {bool|int} $pre_result `false` or predefined page ID from multilingual plugins option value.
 				 * @param {string}   $option_key Setting key.
 				 *
-				 * @return {bool|int} Predefined page ID. Otherwise `false`.
+				 * @return {bool|int} Predefined page ID. Otherwise, `false`.
 				 */
 				$pre_result = apply_filters( 'jb_admin_settings_pages_list_value', false, $option_key );
 				if ( false === $pre_result ) {

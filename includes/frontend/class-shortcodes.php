@@ -325,7 +325,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						}
 
 						/**
-						 * Fires before rendering login form on the job submission page
+						 * Fires before rendering a login form on the job submission page
 						 *
 						 * @since 1.2.2
 						 * @hook jb_before_login_form

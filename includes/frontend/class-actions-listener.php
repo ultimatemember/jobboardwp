@@ -236,7 +236,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 
 						if ( ! is_wp_error( $user_id ) ) {
 							/**
-							 * Fires after creating user account when posting a new job.
+							 * Fires after creating a user account when posting a new job.
 							 *
 							 * @since 1.1.0
 							 * @hook jb_job_submission_after_create_account
