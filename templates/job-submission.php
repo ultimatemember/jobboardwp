@@ -65,6 +65,13 @@
 		$job_application   = '';
 		$job_expired       = '';
 
+		$salary_type        = '';
+		$salary_amount_type = 'numeric';
+		$salary_amount      = '';
+		$salary_min_amount  = '';
+		$salary_max_amount  = '';
+		$salary_period      = '';
+
 		$company_name      = '';
 		$company_website   = '';
 		$company_tagline   = '';
@@ -123,6 +130,15 @@
 			$company_facebook  = $data['company_facebook'];
 			$company_instagram = $data['company_instagram'];
 			$company_logo      = $data['company_logo'];
+
+			if ( JB()->options()->get( 'job-salary' ) ) {
+				$salary_type        = array_key_exists( 'salary_type', $data ) ? $data['salary_type'] : '';
+				$salary_amount_type = array_key_exists( 'salary_amount_type', $data ) ? $data['salary_amount_type'] : '';
+				$salary_amount      = array_key_exists( 'salary_amount', $data ) ? $data['salary_amount'] : '';
+				$salary_min_amount  = array_key_exists( 'salary_min_amount', $data ) ? $data['salary_min_amount'] : '';
+				$salary_max_amount  = array_key_exists( 'salary_max_amount', $data ) ? $data['salary_max_amount'] : '';
+				$salary_period      = array_key_exists( 'salary_period', $data ) ? $data['salary_period'] : '';
+			}
 		}
 
 		$my_details_fields = array();
@@ -350,23 +366,86 @@
 				'class'    => ! empty( JB()->options()->get( 'required-job-type' ) ) ? 'jb-s2' : 'jb-s1',
 				'options'  => $types_options,
 				'value'    => $job_type,
-				'required' => ! empty( JB()->options()->get( 'required-job-type' ) ) ? true : false,
+				'required' => ! empty( JB()->options()->get( 'required-job-type' ) ),
 			),
 		);
-		if ( JB()->options()->get( 'job-categories' ) ) {
+
+		if ( JB()->options()->get( 'job-salary' ) ) {
+			$currency         = JB()->options()->get( 'job-salary-currency' );
+			$currency_symbols = JB()->config()->get( 'currencies' );
+			$currency_symbol  = $currency_symbols[ $currency ]['symbol'];
+
 			$job_details_fields = array_merge(
 				$job_details_fields,
 				array(
 					array(
-						'type'    => 'select',
-						'label'   => __( 'Job Category', 'jobboardwp' ),
-						'data'    => array(
-							'placeholder' => __( 'Please select job category', 'jobboardwp' ),
+						'type'        => 'select',
+						'label'       => __( 'Salary', 'jobboardwp' ),
+						'placeholder' => __( 'Please select salary type', 'jobboardwp' ),
+						'id'          => 'job_salary_type',
+						'options'     => array(
+							''          => __( 'Not specified', 'jobboardwp' ),
+							'fixed'     => __( 'Fixed', 'jobboardwp' ),
+							'recurring' => __( 'Recurring', 'jobboardwp' ),
 						),
-						'id'      => 'job_category',
-						'class'   => 'jb-s1',
-						'options' => $categories_options,
-						'value'   => $job_category,
+						'value'       => $salary_type,
+					),
+					array(
+						'type'        => 'select',
+						'label'       => __( 'Salary amount type', 'jobboardwp' ),
+						'placeholder' => __( 'Please select amount type', 'jobboardwp' ),
+						'id'          => 'job_salary_amount_type',
+						'options'     => array(
+							'numeric' => __( 'Numeric', 'jobboardwp' ),
+							'range'   => __( 'Range (min-max)', 'jobboardwp' ),
+						),
+						'value'       => $salary_amount_type,
+						'conditional' => array( 'job_salary_type', '!=', '' ),
+					),
+					array(
+						'type'        => 'text',
+						'required'    => true,
+						// translators: %s - Currency symbol
+						'label'       => sprintf( __( 'Salary amount %s', 'jobboardwp' ), $currency_symbol ),
+						'placeholder' => __( 'Enter salary amount', 'jobboardwp' ),
+						'id'          => 'job_salary_amount',
+						'value'       => $salary_amount,
+						'conditional' => array( 'job_salary_amount_type', '=', 'numeric' ),
+					),
+					array(
+						'type'        => 'text',
+						'required'    => true,
+						// translators: %s - Currency symbol
+						'label'       => sprintf( __( 'Salary Min Amount %s', 'jobboardwp' ), $currency_symbol ),
+						'placeholder' => __( 'Enter salary min amount', 'jobboardwp' ),
+						'id'          => 'job_salary_min_amount',
+						'value'       => $salary_min_amount,
+						'conditional' => array( 'job_salary_amount_type', '=', 'range' ),
+					),
+					array(
+						'type'        => 'text',
+						'required'    => true,
+						// translators: %s - Currency symbol
+						'label'       => sprintf( __( 'Salary Max Amount %s', 'jobboardwp' ), $currency_symbol ),
+						'placeholder' => __( 'Enter salary max amount', 'jobboardwp' ),
+						'id'          => 'job_salary_max_amount',
+						'value'       => $salary_max_amount,
+						'conditional' => array( 'job_salary_amount_type', '=', 'range' ),
+					),
+					array(
+						'type'        => 'select',
+						'required'    => true,
+						'label'       => __( 'Salary Period', 'jobboardwp' ),
+						'placeholder' => __( 'Please select salary period', 'jobboardwp' ),
+						'id'          => 'job_salary_period',
+						'options'     => array(
+							'hour'  => __( 'Hour', 'jobboardwp' ),
+							'day'   => __( 'Day', 'jobboardwp' ),
+							'week'  => __( 'Week', 'jobboardwp' ),
+							'month' => __( 'Month', 'jobboardwp' ),
+						),
+						'value'       => $salary_period,
+						'conditional' => array( 'job_salary_type', '=', 'recurring' ),
 					),
 				)
 			);

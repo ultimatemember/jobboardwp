@@ -336,8 +336,10 @@ jQuery( document ).ready( function($) {
 
 			if ( check_condition( jQuery(this) ) ) {
 				jQuery(this).show();
+				jQuery(this).find('select, input').prop('disabled', false);
 			} else {
 				jQuery(this).hide();
+				jQuery(this).find('select, input').prop('disabled', true);
 			}
 		});
 	}

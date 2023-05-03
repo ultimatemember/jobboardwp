@@ -919,5 +919,44 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			$slug = str_replace( '-', '_', $slug );
 			return $slug;
 		}
+
+
+		/**
+		 * Get the price format depending on the currency position.
+		 *
+		 * @return string
+		 */
+		public function get_job_salary_format( $context = '' ) {
+			$currency_pos = JB()->options()->get( 'job-salary-currency-pos' );
+
+			switch ( $currency_pos ) {
+				case 'right':
+					$format = ( 'js' === $context ) ? '${salary}${symbol}' : '%2$s%1$s';
+					break;
+				case 'left_space':
+					$format = ( 'js' === $context ) ? '${symbol} ${salary}' : '%1$s&nbsp;%2$s';
+					break;
+				case 'right_space':
+					$format = ( 'js' === $context ) ? '${salary} ${symbol}' : '%2$s&nbsp;%1$s';
+					break;
+				case 'left':
+				default:
+					$format = ( 'js' === $context ) ? '${symbol}${salary}' : '%1$s%2$s';
+					break;
+			}
+
+			/**
+			 * Filters job salary format.
+			 *
+			 * @since 1.2.6
+			 * @hook jb_job_salary_format
+			 *
+			 * @param {string} $format  Email template path.
+			 * @param {string} $currency_pos Email notification key.
+			 *
+			 * @return {string} Email template path. 'emails/{$email_key}.php' by default.
+			 */
+			return apply_filters( 'jb_job_salary_format', $format, $currency_pos );
+		}
 	}
 }

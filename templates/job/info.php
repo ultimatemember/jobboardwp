@@ -5,6 +5,8 @@
 if ( ! empty( $jb_job_info['job_id'] ) ) {
 
 	$job_id = $jb_job_info['job_id'];
+
+	$amount_output = JB()->common()->job()->get_formatted_salary( $job_id );
 	?>
 
 	<div class="jb-job-info">
@@ -22,6 +24,12 @@ if ( ! empty( $jb_job_info['job_id'] ) ) {
 			<?php if ( JB()->options()->get( 'job-categories' ) ) { ?>
 				<div class="jb-job-cat">
 					<?php echo wp_kses( JB()->common()->job()->get_job_category( $job_id ), JB()->get_allowed_html( 'templates' ) ); ?>
+				</div>
+			<?php } ?>
+			<?php if ( '' !== $amount_output ) { ?>
+				<div class="jb-job-salary">
+					<i class="far fa-money-bill-alt"></i>
+					<?php echo esc_html( $amount_output ); ?>
 				</div>
 			<?php } ?>
 		</div>

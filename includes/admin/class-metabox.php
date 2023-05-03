@@ -217,6 +217,12 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				'jb-expiry-date'         => 'text',
 				'jb-is-featured'         => 'bool',
 				'jb-featured-order'      => 'absint',
+				'jb-salary-type'         => 'text',
+				'jb-salary-amount-type'  => 'text',
+				'jb-salary-amount'       => 'absint',
+				'jb-salary-min-amount'   => 'absint',
+				'jb-salary-max-amount'   => 'absint',
+				'jb-salary-period'       => 'text',
 			);
 
 			$current_time = time();
@@ -242,9 +248,15 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				}
 			}
 
+			$skip_meta_update = array();
+
 			//save metadata
 			foreach ( $_POST['jb-job-meta'] as $k => $v ) {
 				if ( strstr( $k, 'jb-' ) ) {
+					if ( in_array( $k, $skip_meta_update, true ) ) {
+						continue;
+					}
+
 					$meta_key = sanitize_key( $k );
 
 					if ( isset( $sanitize_map[ $meta_key ] ) ) {
@@ -378,9 +390,65 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 						continue;
 					}
 
+					// Flush salary data if it isn't supported by the current salary type.
+					if ( 'jb-salary-type' === $k ) {
+						if ( empty( $v ) ) {
+							$skip_meta_update = array_merge(
+								$skip_meta_update,
+								array(
+									'jb-salary-type',
+									'jb-salary-amount-type',
+									'jb-salary-amount',
+									'jb-salary-min-amount',
+									'jb-salary-max-amount',
+									'jb-salary-period',
+								)
+							);
+							delete_post_meta( $post_id, 'jb-salary-type' );
+							delete_post_meta( $post_id, 'jb-salary-amount-type' );
+							delete_post_meta( $post_id, 'jb-salary-amount' );
+							delete_post_meta( $post_id, 'jb-salary-min-amount' );
+							delete_post_meta( $post_id, 'jb-salary-max-amount' );
+							delete_post_meta( $post_id, 'jb-salary-period' );
+							continue;
+						} elseif ( 'fixed' === $v ) {
+							$skip_meta_update = array_merge(
+								$skip_meta_update,
+								array(
+									'jb-salary-period',
+								)
+							);
+							delete_post_meta( $post_id, 'jb-salary-period' );
+						}
+					}
+
 					update_post_meta( $post_id, $k, $v );
 
-					// flush featured order in case when the job isn't featured
+					// Flush salary data if it isn't supported by the current salary type.
+					if ( 'jb-salary-amount-type' === $k ) {
+						if ( 'numeric' === $v ) {
+							$skip_meta_update = array_merge(
+								$skip_meta_update,
+								array(
+									'jb-salary-min-amount',
+									'jb-salary-max-amount',
+								)
+							);
+
+							delete_post_meta( $post_id, 'jb-salary-min-amount' );
+							delete_post_meta( $post_id, 'jb-salary-max-amount' );
+						} elseif ( 'range' === $v ) {
+							$skip_meta_update = array_merge(
+								$skip_meta_update,
+								array(
+									'jb-salary-amount',
+								)
+							);
+							delete_post_meta( $post_id, 'jb-salary-amount' );
+						}
+					}
+
+					// Flush featured order in case when the job isn't featured.
 					if ( 'jb-is-featured' === $k && empty( $v ) ) {
 						delete_post_meta( $post_id, 'jb-featured-order' );
 					}

@@ -170,7 +170,7 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 
 					break;
 				case 'company':
-					$values = $wpdb->get_col( "SELECT DISTINCT meta_value FROM $wpdb->postmeta WHERE meta_key = 'jb_company_name' AND meta_value != ''" );
+					$values = $wpdb->get_col( "SELECT DISTINCT meta_value FROM {$wpdb->postmeta} WHERE meta_key = 'jb_company_name' AND meta_value != ''" );
 					if ( ! empty( $values ) ) {
 						$values = array_combine( $values, $values );
 					}

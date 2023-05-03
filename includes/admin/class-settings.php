@@ -354,6 +354,9 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				$this->sanitize_map,
 				array(
 					'job-categories'                 => 'bool',
+					'job-salary'                     => 'bool',
+					'job-salary-currency'            => 'text',
+					'job-salary-currency-pos'        => 'key',
 					'job-template'                   => 'text',
 					'job-archive-template'           => 'text',
 					'job-dateformat'                 => 'text',
@@ -373,6 +376,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					'job-expiration-reminder'        => 'bool',
 					'job-expiration-reminder-time'   => 'text',
 					'required-job-type'              => 'bool',
+					'required-job-salary'            => 'bool',
 					'application-method'             => 'text',
 					'job-submitted-notice'           => 'text',
 					'jobs-list-pagination'           => 'absint',
@@ -411,6 +415,162 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			 * @return {array} Settings fields sanitizing type.
 			 */
 			$this->sanitize_map = apply_filters( 'jb_settings_sanitizing_map', $this->sanitize_map );
+
+			$currency_code_options = array();
+			foreach ( JB()->config()->get( 'currencies' ) as $key => $currency ) {
+				$currency_code_options[ $key ] = $currency['label'] . ' (' . $currency['symbol'] . ')';
+			}
+
+			$job_submission_fields = array(
+				array(
+					'id'      => 'account-required',
+					'type'    => 'checkbox',
+					'label'   => __( 'Account Needed', 'jobboardwp' ),
+					'helptip' => __( 'Require users to be logged-in before they can submit a job.', 'jobboardwp' ),
+				),
+				array(
+					'id'      => 'account-creation',
+					'type'    => 'checkbox',
+					'label'   => __( 'User Registration', 'jobboardwp' ),
+					'helptip' => __( 'Allow users to create an account when submitting a job listing.', 'jobboardwp' ),
+				),
+				array(
+					'id'          => 'account-username-generate',
+					'type'        => 'checkbox',
+					'label'       => __( 'Use email addresses as usernames', 'jobboardwp' ),
+					'helptip'     => __( 'Hide the username field on the submission form and set the username as the user\'s email address.', 'jobboardwp' ),
+					'conditional' => array( 'account-creation', '=', '1' ),
+				),
+				array(
+					'id'          => 'account-password-email',
+					'type'        => 'checkbox',
+					'label'       => __( 'Email password link', 'jobboardwp' ),
+					'helptip'     => __( 'Hide password field on submission form and send users an email with a link to set password.', 'jobboardwp' ),
+					'conditional' => array( 'account-creation', '=', '1' ),
+				),
+				array(
+					'id'      => 'your-details-section',
+					'type'    => 'select',
+					'label'   => __( '"Your Details" for logged in users', 'jobboardwp' ),
+					'options' => array(
+						0 => __( 'Hidden', 'jobboardwp' ),
+						1 => __( 'Visible with editable email, first/last name fields', 'jobboardwp' ),
+					),
+					'helptip' => __( 'Select if the "Your Details" section is shown for logged in users.', 'jobboardwp' ),
+					'size'    => 'medium',
+				),
+				array(
+					'id'          => 'full-name-required',
+					'type'        => 'checkbox',
+					'label'       => __( 'First and Last names required', 'jobboardwp' ),
+					'helptip'     => __( 'Make the first and last name fields required.', 'jobboardwp' ),
+					'conditional' => array( 'account-creation||your-details-section', '=', 1 ),
+				),
+				array(
+					'id'          => 'account-role',
+					'type'        => 'select',
+					'label'       => __( 'User Role', 'jobboardwp' ),
+					'options'     => $roles,
+					'helptip'     => __( 'New registered users who are created during submission will be assigned this role.', 'jobboardwp' ),
+					'size'        => 'small',
+					'conditional' => array( 'account-creation', '=', '1' ),
+				),
+				array(
+					'id'      => 'job-moderation',
+					'type'    => 'checkbox',
+					'label'   => __( 'Set submissions as Pending', 'jobboardwp' ),
+					'helptip' => __( 'New job submissions will not appear on the jobs list until approved by admin.', 'jobboardwp' ),
+				),
+				array(
+					'id'          => 'pending-job-editing',
+					'type'        => 'checkbox',
+					'label'       => __( 'Pending Job Edits', 'jobboardwp' ),
+					'helptip'     => __( 'Allow users to edit their pending jobs until they are approved by an admin.', 'jobboardwp' ),
+					'conditional' => array( 'job-moderation', '=', '1' ),
+				),
+				array(
+					'id'          => 'job-submitted-notice',
+					'type'        => 'text',
+					'label'       => __( 'Job submitted notice', 'jobboardwp' ),
+					'helptip'     => __( 'The text that appears after a job has been submitted.', 'jobboardwp' ),
+					'size'        => 'long',
+					'conditional' => array( 'job-moderation', '=', '1' ),
+				),
+				array(
+					'id'      => 'published-job-editing',
+					'type'    => 'select',
+					'label'   => __( 'Published Job Edits', 'jobboardwp' ),
+					'options' => array(
+						0 => __( 'Users cannot edit their published job listings', 'jobboardwp' ),
+						1 => __( 'Users can edit their published job listings but edits require approval by admin', 'jobboardwp' ),
+						2 => __( 'Users can edit their published job listing without approval by admin', 'jobboardwp' ),
+					),
+					'helptip' => __( 'Select if users can edit their published jobs and if edits require admin approval.', 'jobboardwp' ),
+					'size'    => 'medium',
+				),
+				array(
+					'id'      => 'individual-job-duration',
+					'type'    => 'checkbox',
+					'label'   => __( 'Show individual expiry date', 'jobboardwp' ),
+					'helptip' => __( 'Allow users to set the job expiry date on the job posting form.', 'jobboardwp' ),
+				),
+				array(
+					'id'          => 'job-duration',
+					'type'        => 'text',
+					'label'       => __( 'Job duration', 'jobboardwp' ),
+					'helptip'     => __( 'Set how long you want jobs to appear on the jobs list. After the set duration jobs will set to expired. If you do not want jobs to have an expiration date, leave this field blank.', 'jobboardwp' ),
+					'size'        => 'small',
+					'conditional' => array( 'individual-job-duration', '=', '0' ),
+				),
+				array(
+					'id'      => 'job-expiration-reminder',
+					'type'    => 'checkbox',
+					'label'   => __( 'Send expiration reminder to the author?', 'jobboardwp' ),
+					'helptip' => __( 'Enable notification to the job author about the job expiration.', 'jobboardwp' ),
+				),
+				array(
+					'id'          => 'job-expiration-reminder-time',
+					'type'        => 'text',
+					'label'       => __( 'Reminder time for "X" days', 'jobboardwp' ),
+					'helptip'     => __( 'Set the number of days before expiration when the job author receives an email.', 'jobboardwp' ),
+					'description' => __( 'Job duration must be longer than "X" days.', 'jobboardwp' ),
+					'conditional' => array( 'job-expiration-reminder', '=', '1' ),
+					'size'        => 'small',
+				),
+				array(
+					'id'      => 'required-job-type',
+					'type'    => 'checkbox',
+					'label'   => __( 'Required job type', 'jobboardwp' ),
+					'helptip' => __( 'Job type is required.', 'jobboardwp' ),
+				),
+			);
+
+			if ( JB()->options()->get( 'job-salary' ) ) {
+				$job_submission_fields[] = array(
+					'id'      => 'required-job-salary',
+					'type'    => 'checkbox',
+					'label'   => __( 'Required job salary', 'jobboardwp' ),
+					'helptip' => __( 'Job salary is required.', 'jobboardwp' ),
+				);
+			}
+
+			$job_submission_fields = array_merge(
+				$job_submission_fields,
+				array(
+					array(
+						'id'      => 'application-method',
+						'type'    => 'select',
+						'label'   => __( 'How to apply', 'jobboardwp' ),
+						'options' => array(
+							'email' => __( 'Email addresses', 'jobboardwp' ),
+							'url'   => __( 'Website URL', 'jobboardwp' ),
+							''      => __( 'Email address or website URL', 'jobboardwp' ),
+						),
+						'helptip' => __( 'Select whether employers have to provide an email address, website URL or either for their job listing, so job seekers can apply for the job.', 'jobboardwp' ),
+						'size'    => 'small',
+					),
+				)
+			);
 
 			$settings = array(
 				'general' => array(
@@ -462,6 +622,33 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 									'size'  => 'medium',
 								),
 								array(
+									'id'      => 'job-salary',
+									'type'    => 'checkbox',
+									'label'   => __( 'Enable salary', 'jobboardwp' ),
+									'helptip' => __( 'Allow users to set job salary data.', 'jobboardwp' ),
+								),
+								array(
+									'id'          => 'job-salary-currency',
+									'type'        => 'select',
+									'label'       => __( 'Currency', 'jobboardwp' ),
+									'helptip'     => __( 'What currency will be used for salary.', 'jobboardwp' ),
+									'options'     => $currency_code_options,
+									'conditional' => array( 'job-salary', '=', '1' ),
+								),
+								array(
+									'id'          => 'job-salary-currency-pos',
+									'type'        => 'select',
+									'label'       => __( 'Currency position', 'jobboardwp' ),
+									'helptip'     => __( 'This controls the position of the currency symbol.', 'jobboardwp' ),
+									'options'     => array(
+										'left'        => __( 'Left', 'jobboardwp' ),
+										'right'       => __( 'Right', 'jobboardwp' ),
+										'left_space'  => __( 'Left with space', 'jobboardwp' ),
+										'right_space' => __( 'Right with space', 'jobboardwp' ),
+									),
+									'conditional' => array( 'job-salary', '=', '1' ),
+								),
+								array(
 									'id'      => 'googlemaps-api-key',
 									'type'    => 'text',
 									'label'   => __( 'GoogleMaps API key', 'jobboardwp' ),
@@ -479,141 +666,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 						),
 						'job_submission' => array(
 							'title'  => __( 'Job Submission', 'jobboardwp' ),
-							'fields' => array(
-								array(
-									'id'      => 'account-required',
-									'type'    => 'checkbox',
-									'label'   => __( 'Account Needed', 'jobboardwp' ),
-									'helptip' => __( 'Require users to be logged-in before they can submit a job.', 'jobboardwp' ),
-								),
-								array(
-									'id'      => 'account-creation',
-									'type'    => 'checkbox',
-									'label'   => __( 'User Registration', 'jobboardwp' ),
-									'helptip' => __( 'Allow users to create an account when submitting a job listing.', 'jobboardwp' ),
-								),
-								array(
-									'id'          => 'account-username-generate',
-									'type'        => 'checkbox',
-									'label'       => __( 'Use email addresses as usernames', 'jobboardwp' ),
-									'helptip'     => __( 'Hide the username field on the submission form and set the username as the user\'s email address.', 'jobboardwp' ),
-									'conditional' => array( 'account-creation', '=', '1' ),
-								),
-								array(
-									'id'          => 'account-password-email',
-									'type'        => 'checkbox',
-									'label'       => __( 'Email password link', 'jobboardwp' ),
-									'helptip'     => __( 'Hide password field on submission form and send users an email with a link to set password.', 'jobboardwp' ),
-									'conditional' => array( 'account-creation', '=', '1' ),
-								),
-								array(
-									'id'      => 'your-details-section',
-									'type'    => 'select',
-									'label'   => __( '"Your Details" for logged in users', 'jobboardwp' ),
-									'options' => array(
-										0 => __( 'Hidden', 'jobboardwp' ),
-										1 => __( 'Visible with editable email, first/last name fields', 'jobboardwp' ),
-									),
-									'helptip' => __( 'Select if the "Your Details" section is shown for logged in users.', 'jobboardwp' ),
-									'size'    => 'medium',
-								),
-								array(
-									'id'          => 'full-name-required',
-									'type'        => 'checkbox',
-									'label'       => __( 'First and Last names required', 'jobboardwp' ),
-									'helptip'     => __( 'Make the first and last name fields required.', 'jobboardwp' ),
-									'conditional' => array( 'account-creation||your-details-section', '=', 1 ),
-								),
-								array(
-									'id'          => 'account-role',
-									'type'        => 'select',
-									'label'       => __( 'User Role', 'jobboardwp' ),
-									'options'     => $roles,
-									'helptip'     => __( 'New registered users who are created during submission will be assigned this role.', 'jobboardwp' ),
-									'size'        => 'small',
-									'conditional' => array( 'account-creation', '=', '1' ),
-								),
-								array(
-									'id'      => 'job-moderation',
-									'type'    => 'checkbox',
-									'label'   => __( 'Set submissions as Pending', 'jobboardwp' ),
-									'helptip' => __( 'New job submissions will not appear on the jobs list until approved by admin.', 'jobboardwp' ),
-								),
-								array(
-									'id'          => 'pending-job-editing',
-									'type'        => 'checkbox',
-									'label'       => __( 'Pending Job Edits', 'jobboardwp' ),
-									'helptip'     => __( 'Allow users to edit their pending jobs until they are approved by an admin.', 'jobboardwp' ),
-									'conditional' => array( 'job-moderation', '=', '1' ),
-								),
-								array(
-									'id'      => 'published-job-editing',
-									'type'    => 'select',
-									'label'   => __( 'Published Job Edits', 'jobboardwp' ),
-									'options' => array(
-										0 => __( 'Users cannot edit their published job listings', 'jobboardwp' ),
-										1 => __( 'Users can edit their published job listings but edits require approval by admin', 'jobboardwp' ),
-										2 => __( 'Users can edit their published job listing without approval by admin', 'jobboardwp' ),
-									),
-									'helptip' => __( 'Select if users can edit their published jobs and if edits require admin approval.', 'jobboardwp' ),
-									'size'    => 'medium',
-								),
-								array(
-									'id'      => 'individual-job-duration',
-									'type'    => 'checkbox',
-									'label'   => __( 'Show individual expiry date', 'jobboardwp' ),
-									'helptip' => __( 'Allow users to set the job expiry date on the job posting form.', 'jobboardwp' ),
-								),
-								array(
-									'id'          => 'job-duration',
-									'type'        => 'text',
-									'label'       => __( 'Job duration', 'jobboardwp' ),
-									'helptip'     => __( 'Set how long you want jobs to appear on the jobs list. After the set duration jobs will set to expired. If you do not want jobs to have an expiration date, leave this field blank.', 'jobboardwp' ),
-									'size'        => 'small',
-									'conditional' => array( 'individual-job-duration', '=', '0' ),
-								),
-								array(
-									'id'      => 'job-expiration-reminder',
-									'type'    => 'checkbox',
-									'label'   => __( 'Send expiration reminder to the author?', 'jobboardwp' ),
-									'helptip' => __( 'Enable notification to the job author about the job expiration.', 'jobboardwp' ),
-								),
-								array(
-									'id'          => 'job-expiration-reminder-time',
-									'type'        => 'text',
-									'label'       => __( 'Reminder time for "X" days', 'jobboardwp' ),
-									'helptip'     => __( 'Set the number of days before expiration when the job author receives an email.', 'jobboardwp' ),
-									'description' => __( 'Job duration must be longer than "X" days.', 'jobboardwp' ),
-									'conditional' => array( 'job-expiration-reminder', '=', '1' ),
-									'size'        => 'small',
-								),
-								array(
-									'id'      => 'required-job-type',
-									'type'    => 'checkbox',
-									'label'   => __( 'Required job type', 'jobboardwp' ),
-									'helptip' => __( 'Job type is required.', 'jobboardwp' ),
-								),
-								array(
-									'id'      => 'application-method',
-									'type'    => 'select',
-									'label'   => __( 'How to apply', 'jobboardwp' ),
-									'options' => array(
-										'email' => __( 'Email addresses', 'jobboardwp' ),
-										'url'   => __( 'Website URL', 'jobboardwp' ),
-										''      => __( 'Email address or website URL', 'jobboardwp' ),
-									),
-									'helptip' => __( 'Select whether employers have to provide an email address, website URL or either for their job listing, so job seekers can apply for the job.', 'jobboardwp' ),
-									'size'    => 'small',
-								),
-								array(
-									'id'          => 'job-submitted-notice',
-									'type'        => 'text',
-									'label'       => __( 'Job submitted notice', 'jobboardwp' ),
-									'helptip'     => __( 'The text that appears after a job has been submitted.', 'jobboardwp' ),
-									'size'        => 'long',
-									'conditional' => array( 'job-moderation', '=', '1' ),
-								),
-							),
+							'fields' => $job_submission_fields,
 						),
 						'jobs'           => array(
 							'title'  => __( 'Jobs List', 'jobboardwp' ),

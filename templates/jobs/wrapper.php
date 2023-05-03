@@ -27,6 +27,7 @@ $current_page = ( ! empty( $_GET['jb-page'][ $jb_jobs_shortcode_index ] ) && is_
 	data-no-jobs-search="<?php echo esc_attr( $jb_jobs_wrapper['no-jobs-search-text'] ); ?>"
 	data-category="<?php echo esc_attr( $jb_jobs_wrapper['category'] ); ?>"
 	data-type="<?php echo esc_attr( $jb_jobs_wrapper['type'] ); ?>"
+	<?php echo JB()->options()->get( 'job-salary' ) ? 'data-salary="' . esc_attr( $jb_jobs_wrapper['salary'] ) . '"' : ''; ?>
 	data-wrapper-index="<?php echo esc_attr( $jb_jobs_shortcode_index ); ?>">
 
 	<?php

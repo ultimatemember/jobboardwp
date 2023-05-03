@@ -73,6 +73,18 @@ if ( ! empty( $jb_widgets_recent_jobs['posts'] ) ) {
 									<?php esc_html_e( 'Closing on', 'jobboardwp' ); ?> <?php echo esc_html( $job_data['expires'] ); ?>
 								</div>
 							<?php } ?>
+							<?php
+							if ( JB()->options()->get( 'job-salary' ) ) {
+								if ( ! empty( $job_data['salary'] ) ) {
+									?>
+									<div class="jb-job-salary">
+										<i class="far fa-money-bill-alt"></i>
+										<?php echo esc_html( $job_data['salary'] ); ?>
+									</div>
+									<?php
+								}
+							}
+							?>
 						</div>
 						<div class="jb-row-right-side">
 							<div class="date jb-responsive jb-ui-m jb-ui-l jb-ui-xl date" title="<?php esc_attr_e( 'Posted', 'jobboardwp' ); ?>">

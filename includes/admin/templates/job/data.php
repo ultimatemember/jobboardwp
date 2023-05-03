@@ -24,6 +24,13 @@ $job_location_data = '';
 $job_type          = '';
 $job_category      = '';
 
+$salary_type        = '';
+$salary_amount_type = 'numeric';
+$salary_amount      = '';
+$salary_min_amount  = '';
+$salary_max_amount  = '';
+$salary_period      = '';
+
 $users = array(
 	'0' => __( 'Guest', 'jobboardwp' ),
 );
@@ -71,6 +78,15 @@ if ( $post_id ) {
 	$featured_order    = get_post_meta( $post_id, 'jb-featured-order', true );
 	$job_type          = '';
 	$job_category      = '';
+
+	if ( JB()->options()->get( 'job-salary' ) ) {
+		$salary_type        = get_post_meta( $post_id, 'jb-salary-type', true );
+		$salary_amount_type = get_post_meta( $post_id, 'jb-salary-amount-type', true );
+		$salary_amount      = get_post_meta( $post_id, 'jb-salary-amount', true );
+		$salary_min_amount  = get_post_meta( $post_id, 'jb-salary-min-amount', true );
+		$salary_max_amount  = get_post_meta( $post_id, 'jb-salary-max-amount', true );
+		$salary_period      = get_post_meta( $post_id, 'jb-salary-period', true );
+	}
 
 	// workaround on the submission form because Job Type isn't multiple dropdown
 	$types = wp_get_post_terms(
@@ -149,7 +165,7 @@ $job_details_fields = array(
 		'id'       => 'jb-job-type',
 		'options'  => $types_options,
 		'value'    => $job_type,
-		'required' => ! empty( JB()->options()->get( 'required-job-type' ) ) ? true : false,
+		'required' => ! empty( JB()->options()->get( 'required-job-type' ) ),
 		'size'     => 'medium',
 	),
 );
@@ -306,6 +322,98 @@ $job_details_fields = array_merge(
 		),
 	)
 );
+
+if ( JB()->options()->get( 'job-salary' ) ) {
+	$currency        = JB()->options()->get( 'job-salary-currency' );
+	$currencies_data = JB()->config()->get( 'currencies' );
+	$currency_symbol = $currencies_data[ $currency ]['symbol'];
+
+	$job_details_fields = array_merge(
+		$job_details_fields,
+		array(
+			array(
+				'type'        => 'select',
+				'label'       => __( 'Salary', 'jobboardwp' ),
+				'placeholder' => __( 'Please select salary', 'jobboardwp' ),
+				'size'        => 'small',
+				'id'          => 'jb-salary-type',
+				'options'     => array(
+					''          => __( 'Not specified', 'jobboardwp' ),
+					'fixed'     => __( 'Fixed', 'jobboardwp' ),
+					'recurring' => __( 'Recurring', 'jobboardwp' ),
+				),
+				'required'    => ! empty( JB()->options()->get( 'required-job-salary' ) ),
+				'value'       => $salary_type,
+			),
+			array(
+				'type'        => 'select',
+				'label'       => __( 'Salary amount type', 'jobboardwp' ),
+				'placeholder' => __( 'Please select amount type', 'jobboardwp' ),
+				'id'          => 'jb-salary-amount-type',
+				'options'     => array(
+					'numeric' => __( 'Numeric', 'jobboardwp' ),
+					'range'   => __( 'Range (min-max)', 'jobboardwp' ),
+				),
+				'value'       => $salary_amount_type,
+				'size'        => 'small',
+				'conditional' => array( 'jb-salary-type', '!=', '' ),
+			),
+			array(
+				'type'        => 'number',
+				'min'         => 0,
+				'step'        => 1,
+				'size'        => 'small',
+				'required'    => true,
+				// translators: %s - Currency symbol
+				'label'       => sprintf( __( 'Salary Amount %s', 'jobboardwp' ), $currency_symbol ),
+				'id'          => 'jb-salary-amount',
+				'value'       => $salary_amount,
+				'conditional' => array( 'jb-salary-amount-type', '=', 'numeric' ),
+			),
+			array(
+				'type'        => 'number',
+				'min'         => 0,
+				'step'        => 1,
+				'size'        => 'small',
+				'required'    => true,
+				// translators: %s - Currency symbol
+				'label'       => sprintf( __( 'Salary Min Amount %s', 'jobboardwp' ), $currency_symbol ),
+				'description' => __( 'Set to "0" for displaying only max amount. (E.g. "Salary is up to {max_amount}")', 'jobboardwp' ),
+				'id'          => 'jb-salary-min-amount',
+				'value'       => $salary_min_amount,
+				'conditional' => array( 'jb-salary-amount-type', '=', 'range' ),
+			),
+			array(
+				'type'        => 'number',
+				'min'         => 0,
+				'step'        => 1,
+				'size'        => 'small',
+				'required'    => true,
+				// translators: %s - Currency symbol
+				'label'       => sprintf( __( 'Salary Max Amount %s', 'jobboardwp' ), $currency_symbol ),
+				'description' => __( 'Set to "0" for displaying only min amount. (E.g. "Salary starts from {min_amount}")', 'jobboardwp' ),
+				'id'          => 'jb-salary-max-amount',
+				'value'       => $salary_max_amount,
+				'conditional' => array( 'jb-salary-amount-type', '=', 'range' ),
+			),
+			array(
+				'type'        => 'select',
+				'required'    => true,
+				'size'        => 'small',
+				'label'       => __( 'Salary Period', 'jobboardwp' ),
+				'id'          => 'jb-salary-period',
+				'options'     => array(
+					'hour'  => __( 'Hour', 'jobboardwp' ),
+					'day'   => __( 'Day', 'jobboardwp' ),
+					'week'  => __( 'Week', 'jobboardwp' ),
+					'month' => __( 'Month', 'jobboardwp' ),
+				),
+				'value'       => $salary_period,
+				'conditional' => array( 'jb-salary-type', '=', 'recurring' ),
+			),
+		)
+	);
+}
 
 /**
  * Filters the job meta fields in the metabox (Admin Dashboard > Add/Edit Job screen).
