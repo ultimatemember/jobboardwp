@@ -465,34 +465,36 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				$jb_jobs_shortcode_index ++;
 			}
 
-			// there is possible to use 'shortcode_atts_jb_jobs' filter for getting customized $atts
-			$atts = shortcode_atts(
-				array(
-					'employer-id'          => '',
-					'per-page'             => JB()->options()->get( 'jobs-list-pagination' ),
-					'no-logo'              => JB()->options()->get( 'jobs-list-no-logo' ),
-					'hide-filled'          => JB()->options()->get( 'jobs-list-hide-filled' ),
-					'hide-expired'         => JB()->options()->get( 'jobs-list-hide-expired' ),
-					'hide-search'          => JB()->options()->get( 'jobs-list-hide-search' ),
-					'hide-location-search' => JB()->options()->get( 'jobs-list-hide-location-search' ),
-					'hide-filters'         => JB()->options()->get( 'jobs-list-hide-filters' ),
-					'hide-job-types'       => JB()->options()->get( 'jobs-list-hide-job-types' ),
-					'no-jobs-text'         => __( 'No Jobs', 'jobboardwp' ),
-					'no-jobs-search-text'  => __( 'No Jobs found', 'jobboardwp' ),
-					'load-more-text'       => __( 'Load more jobs', 'jobboardwp' ),
-					'category'             => '',
-					'type'                 => '',
-					'orderby'              => 'date',
-					'order'                => 'DESC',
-					'filled-only'          => false, //shortcode attribute only if attribute set 0||1
-				),
-				$atts,
-				'jb_jobs'
+			$default_args = array(
+				'employer-id'          => '',
+				'per-page'             => JB()->options()->get( 'jobs-list-pagination' ),
+				'no-logo'              => JB()->options()->get( 'jobs-list-no-logo' ),
+				'hide-filled'          => JB()->options()->get( 'jobs-list-hide-filled' ),
+				'hide-expired'         => JB()->options()->get( 'jobs-list-hide-expired' ),
+				'hide-search'          => JB()->options()->get( 'jobs-list-hide-search' ),
+				'hide-location-search' => JB()->options()->get( 'jobs-list-hide-location-search' ),
+				'hide-filters'         => JB()->options()->get( 'jobs-list-hide-filters' ),
+				'hide-job-types'       => JB()->options()->get( 'jobs-list-hide-job-types' ),
+				'no-jobs-text'         => __( 'No Jobs', 'jobboardwp' ),
+				'no-jobs-search-text'  => __( 'No Jobs found', 'jobboardwp' ),
+				'load-more-text'       => __( 'Load more jobs', 'jobboardwp' ),
+				'category'             => '',
+				'type'                 => '',
+				'orderby'              => 'date',
+				'order'                => 'DESC',
+				'filled-only'          => false, //shortcode attribute only if attribute set 0||1
 			);
 
 			if ( JB()->options()->get( 'job-salary' ) ) {
-				$atts['salary'] = '';
+				$default_args['salary'] = '';
 			}
+
+			// there is possible to use 'shortcode_atts_jb_jobs' filter for getting customized $atts
+			$atts = shortcode_atts(
+				$default_args,
+				$atts,
+				'jb_jobs'
+			);
 
 			wp_enqueue_script( 'jb-jobs' );
 			wp_enqueue_style( 'jb-jobs' );
@@ -739,37 +741,9 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					$job_data['category'] = JB()->common()->job()->get_job_category( $recent_job->ID );
 				}
 
-				if ( JB()->options()->get( 'job-salary' ) ) {
-					$amount_output = '';
-					$salary_type   = get_post_meta( $recent_job->ID, 'jb-salary-type', true );
-					if ( '' !== $salary_type ) {
-						$currency         = JB()->options()->get( 'job-salary-currency' );
-						$currency_symbols = JB()->config()->get( 'currencies' );
-						$currency_symbol  = $currency_symbols[ $currency ][1];
-
-						$salary_amount_type = get_post_meta( $recent_job->ID, 'jb-salary-amount-type', true );
-						if ( 'numeric' === $salary_amount_type ) {
-							$salary_amount = get_post_meta( $recent_job->ID, 'jb-salary-amount', true );
-
-							if ( ! empty( $salary_amount ) ) {
-								$amount_output = sprintf( JB()->get_job_salary_format(), $currency_symbol, $salary_amount );
-							}
-						} else {
-							$salary_min_amount = get_post_meta( $recent_job->ID, 'jb-salary-min-amount', true );
-							$salary_max_amount = get_post_meta( $recent_job->ID, 'jb-salary-max-amount', true );
-
-							if ( ! empty( $salary_min_amount ) && ! empty( $salary_max_amount ) ) {
-								$amount_output = sprintf( JB()->get_job_salary_format(), $currency_symbol, $salary_min_amount . '-' . $salary_max_amount );
-							}
-						}
-						if ( 'recurring' === $salary_type ) {
-							$salary_period         = get_post_meta( $recent_job->ID, 'jb-salary-period', true );
-							$amount_output .= ' ' . esc_html__( 'per', 'jobboardwp' ) . ' ' . $salary_period;
-						}
-					}
-					if ( '' !== $amount_output ) {
-						$job_data['salary'] = $amount_output;
-					}
+				$amount_output = JB()->common()->job()->get_formatted_salary( $recent_job->ID );
+				if ( '' !== $amount_output ) {
+					$job_data['salary'] = $amount_output;
 				}
 
 				if ( ! $args['no_logo'] ) {

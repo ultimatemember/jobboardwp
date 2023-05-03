@@ -77,8 +77,9 @@ if ( ! empty( $jb_widgets_recent_jobs['posts'] ) ) {
 							if ( JB()->options()->get( 'job-salary' ) ) {
 								if ( ! empty( $job_data['salary'] ) ) {
 									?>
-									<div class="salary">
-										<?php echo esc_html__( 'Salary:', 'jobboardwp' ) . wp_kses( $job_data['salary'], JB()->get_allowed_html( 'templates' ) ); ?>
+									<div class="jb-job-salary">
+										<i class="far fa-money-bill-alt"></i>
+										<?php echo esc_html( $job_data['salary'] ); ?>
 									</div>
 									<?php
 								}

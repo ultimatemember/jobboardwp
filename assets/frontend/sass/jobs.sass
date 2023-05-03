@@ -253,12 +253,14 @@
         margin: 0
 
 .jb-salary-filter
-  .range-slider
+  +flex( column, center, center, nowrap )
+  width: 50%
+  .jb-double-range
     position: relative
     width: 100%
-    height: 40px
+    height: 18px
     text-align: center
-    input[type=range]
+    input[type="range"]
       pointer-events: none
       position: absolute
       -webkit-appearance: none
@@ -270,54 +272,53 @@
       -webkit-box-shadow: inset 0 1px 0 0 #cdc6c6, inset 0 -1px 0 0 #d9d4d4
       overflow: hidden
       left: 0
-      top: 30px
       width: 100%
       outline: none
-      height: 20px
+      height: 14px
       margin: 0
       padding: 0
-    input[type=range]::-webkit-slider-thumb
+    input[type="range"]::-webkit-slider-thumb
       pointer-events: all
       position: relative
       z-index: 1
       outline: 0
       -webkit-appearance: none
-      width: 20px
-      height: 20px
+      width: 14px
+      height: 14px
       border: none
       border-radius: 14px
       background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dad8da), color-stop(100%, #413F41))
       background-image: -webkit-linear-gradient(top, #dad8da 0, #413F41 100%)
       background-image: linear-gradient(to bottom, #dad8da 0, #413F41 100%)
-    input[type=range]::-moz-range-thumb
+    input[type="range"]::-moz-range-thumb
       pointer-events: all
       position: relative
       z-index: 10
       -moz-appearance: none
-      width: 20px
-      height: 20px
+      width: 14px
+      height: 14px
       border: none
       border-radius: 14px
       background-image: linear-gradient(to bottom, #dad8da 0, #413F41 100%)
-    input[type=range]::-ms-thumb
+    input[type="range"]::-ms-thumb
       pointer-events: all
       position: relative
       z-index: 10
       -ms-appearance: none
-      width: 20px
-      height: 20px
+      width: 14px
+      height: 14px
       border-radius: 14px
       border: 0
       background-image: linear-gradient(to bottom, #dad8da 0, #413F41 100%)
-    input[type=range]::-moz-range-track
+    input[type="range"]::-moz-range-track
       position: relative
       z-index: -1
       background-color: black
       border: 0
-    input[type=range]:last-of-type
+    input[type="range"]:last-of-type
       &::-moz-range-track
         -moz-appearance: none
         background: none transparent
         border: 0
-    input[type=range]::-moz-focus-outer
+    input[type="range"]::-moz-focus-outer
       border: 0

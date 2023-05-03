@@ -758,7 +758,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 						}
 
 						if ( JB()->options()->get( 'job-salary' ) ) {
-							if ( empty( $_POST['job_salary_type'] ) ) {
+							if ( JB()->options()->get( 'required-job-salary' ) && empty( $_POST['job_salary_type'] ) ) {
 								$posting_form->add_error( 'job_salary_type', __( 'Job salary type is required', 'jobboardwp' ) );
 							} else {
 								$salary_type = sanitize_key( $_POST['job_salary_type'] );
@@ -768,29 +768,32 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									} else {
 										$salary_amount_type = sanitize_key( $_POST['job_salary_amount_type'] );
 										if ( 'numeric' === $salary_amount_type ) {
-											if ( ! ctype_digit( $_POST['job_salary_amount'] ) ) {
-												$posting_form->add_error( 'job_salary_amount', __( 'Job amount must be integer', 'jobboardwp' ) );
+											if ( empty( $_POST['job_salary_amount'] ) ) {
+												$posting_form->add_error( 'job_salary_amount', __( 'Job salary amount is required and must be more than 0', 'jobboardwp' ) );
 											} else {
-												if ( empty( $_POST['job_salary_amount'] ) ) {
-													$posting_form->add_error( 'job_salary_amount', __( 'Job amount is required and must be more than 0', 'jobboardwp' ) );
+												if ( ! is_numeric( $_POST['job_salary_amount'] ) ) {
+													$posting_form->add_error( 'job_salary_amount', __( 'Job salary amount must be numeric', 'jobboardwp' ) );
+												} else {
+													$job_amount = absint( $_POST['job_salary_amount'] );
 												}
-												$job_amount = absint( $_POST['job_salary_amount'] );
 											}
 										} else {
-											if ( empty( $_POST['job_salary_min_amount'] ) ) {
-												$posting_form->add_error( 'job_salary_min_amount', __( 'Job amount is required and must be more than 0', 'jobboardwp' ) );
+											if ( empty( $_POST['job_salary_min_amount'] ) && empty( $_POST['job_salary_max_amount'] ) ) {
+												$posting_form->add_error( 'job_salary_min_amount', __( 'Job salary amount is required', 'jobboardwp' ) );
+												$posting_form->add_error( 'job_salary_max_amount', __( 'Job salary amount is required', 'jobboardwp' ) );
 											} else {
-												if ( ! ctype_digit( $_POST['job_salary_min_amount'] ) ) {
-													$posting_form->add_error( 'job_salary_min_amount', __( 'Job amount must be integer', 'jobboardwp' ) );
+												if ( ! is_numeric( $_POST['job_salary_min_amount'] ) ) {
+													$posting_form->add_error( 'job_salary_min_amount', __( 'Job salary amount must be numeric', 'jobboardwp' ) );
+												} elseif ( absint( $_POST['job_salary_min_amount'] ) >= absint( $_POST['job_salary_max_amount'] ) ) {
+													$posting_form->add_error( 'job_salary_min_amount', __( 'Job minimum salary must be lower than maximum salary', 'jobboardwp' ) );
 												} else {
 													$job_min_amount = absint( $_POST['job_salary_min_amount'] );
 												}
-											}
-											if ( empty( $_POST['job_salary_max_amount'] ) ) {
-												$posting_form->add_error( 'job_salary_max_amount', __( 'Job amount is required and must be more than 0', 'jobboardwp' ) );
-											} else {
-												if ( ! ctype_digit( $_POST['job_salary_max_amount'] ) ) {
-													$posting_form->add_error( 'job_salary_max_amount', __( 'Job amount must be integer', 'jobboardwp' ) );
+
+												if ( ! is_numeric( $_POST['job_salary_max_amount'] ) ) {
+													$posting_form->add_error( 'job_salary_max_amount', __( 'Job salary amount must be numeric', 'jobboardwp' ) );
+												} elseif ( absint( $_POST['job_salary_max_amount'] ) <= absint( $_POST['job_salary_mix_amount'] ) ) {
+													$posting_form->add_error( 'job_salary_max_amount', __( 'Job maximum salary must be higher than minimum salary', 'jobboardwp' ) );
 												} else {
 													$job_max_amount = absint( $_POST['job_salary_max_amount'] );
 												}
@@ -799,7 +802,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									}
 									if ( 'recurring' === $salary_type ) {
 										if ( empty( $_POST['job_salary_period'] ) ) {
-											$posting_form->add_error( 'job_salary_period', __( 'Job period is required', 'jobboardwp' ) );
+											$posting_form->add_error( 'job_salary_period', __( 'Job salary period is required', 'jobboardwp' ) );
 										} else {
 											$job_period = sanitize_key( $_POST['job_salary_period'] );
 										}
@@ -845,6 +848,76 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							);
 
 							if ( JB()->options()->get( 'job-salary' ) ) {
+								$skip_meta_update = array();
+								if ( empty( $salary_type ) ) {
+									$skip_meta_update = array_merge(
+										$skip_meta_update,
+										array(
+											'jb-salary-type',
+											'jb-salary-amount-type',
+											'jb-salary-amount',
+											'jb-salary-min-amount',
+											'jb-salary-max-amount',
+											'jb-salary-period',
+										)
+									);
+								} else {
+									if ( 'fixed' === $salary_type ) {
+										$skip_meta_update = array_merge(
+											$skip_meta_update,
+											array(
+												'jb-salary-period',
+											)
+										);
+									}
+								}
+
+								if ( ! empty( $salary_amount_type ) ) {
+									if ( 'numeric' === $salary_amount_type ) {
+										$skip_meta_update = array_merge(
+											$skip_meta_update,
+											array(
+												'jb-salary-min-amount',
+												'jb-salary-max-amount',
+											)
+										);
+									} elseif ( 'range' === $salary_amount_type ) {
+										$skip_meta_update = array_merge(
+											$skip_meta_update,
+											array(
+												'jb-salary-amount',
+											)
+										);
+									}
+								}
+
+								if ( $is_edited ) {
+									if ( ! empty( $_GET['job-id'] ) ) {
+										$job_id = absint( $_GET['job-id'] );
+										if ( empty( $salary_type ) ) {
+											delete_post_meta( $job_id, 'jb-salary-type' );
+											delete_post_meta( $job_id, 'jb-salary-amount-type' );
+											delete_post_meta( $job_id, 'jb-salary-amount' );
+											delete_post_meta( $job_id, 'jb-salary-min-amount' );
+											delete_post_meta( $job_id, 'jb-salary-max-amount' );
+											delete_post_meta( $job_id, 'jb-salary-period' );
+										} else {
+											if ( 'fixed' === $salary_type ) {
+												delete_post_meta( $job_id, 'jb-salary-period' );
+											}
+										}
+
+										if ( ! empty( $salary_amount_type ) ) {
+											if ( 'numeric' === $salary_amount_type ) {
+												delete_post_meta( $job_id, 'jb-salary-min-amount' );
+												delete_post_meta( $job_id, 'jb-salary-max-amount' );
+											} elseif ( 'range' === $salary_amount_type ) {
+												delete_post_meta( $job_id, 'jb-salary-amount' );
+											}
+										}
+									}
+								}
+
 								if ( ! empty( $salary_type ) ) {
 									$meta_input['jb-salary-type'] = $salary_type;
 								}
@@ -862,6 +935,12 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								}
 								if ( ! empty( $job_period ) ) {
 									$meta_input['jb-salary-period'] = $job_period;
+								}
+
+								foreach ( $meta_input as $metakey => $metavalue ) {
+									if ( in_array( $metakey, $skip_meta_update, true ) ) {
+										unset( $meta_input[ $metakey ] );
+									}
 								}
 							}
 

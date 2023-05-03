@@ -86,8 +86,9 @@
 
 							<?php if ( JB()->options()->get( 'job-salary' ) ) { ?>
 								<# if ( job.salary ) { #>
-									<div class="salary">
-										<?php echo esc_html__( 'Salary:', 'jobboardwp' ); ?> {{{job.salary}}}
+									<div class="jb-job-salary">
+										<i class="far fa-money-bill-alt"></i>
+										{{{job.salary}}}
 									</div>
 								<# } #>
 							<?php } ?>

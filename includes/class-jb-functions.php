@@ -920,22 +920,22 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 *
 		 * @return string
 		 */
-		public function get_job_salary_format() {
+		public function get_job_salary_format( $context = '' ) {
 			$currency_pos = JB()->options()->get( 'job-salary-currency-pos' );
 
 			switch ( $currency_pos ) {
 				case 'right':
-					$format = '%2$s%1$s';
+					$format = ( 'js' === $context ) ? '${salary}${symbol}' : '%2$s%1$s';
 					break;
 				case 'left_space':
-					$format = '%1$s&nbsp;%2$s';
+					$format = ( 'js' === $context ) ? '${symbol} ${salary}' : '%1$s&nbsp;%2$s';
 					break;
 				case 'right_space':
-					$format = '%2$s&nbsp;%1$s';
+					$format = ( 'js' === $context ) ? '${salary} ${symbol}' : '%2$s&nbsp;%1$s';
 					break;
 				case 'left':
 				default:
-					$format = '%1$s%2$s';
+					$format = ( 'js' === $context ) ? '${symbol}${salary}' : '%1$s%2$s';
 					break;
 			}
 

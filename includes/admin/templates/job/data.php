@@ -332,27 +332,23 @@ if ( JB()->options()->get( 'job-salary' ) ) {
 		$job_details_fields,
 		array(
 			array(
-				'type'     => 'select',
-				'label'    => __( 'Salary', 'jobboardwp' ),
-				'data'     => array(
-					'placeholder' => __( 'Please select salary', 'jobboardwp' ),
-				),
-				'size'     => 'small',
-				'id'       => 'jb-salary-type',
-				'options'  => array(
+				'type'        => 'select',
+				'label'       => __( 'Salary', 'jobboardwp' ),
+				'placeholder' => __( 'Please select salary', 'jobboardwp' ),
+				'size'        => 'small',
+				'id'          => 'jb-salary-type',
+				'options'     => array(
 					''          => __( 'Not specified', 'jobboardwp' ),
 					'fixed'     => __( 'Fixed', 'jobboardwp' ),
 					'recurring' => __( 'Recurring', 'jobboardwp' ),
 				),
-				'required' => ! empty( JB()->options()->get( 'required-job-salary' ) ),
-				'value'    => $salary_type,
+				'required'    => ! empty( JB()->options()->get( 'required-job-salary' ) ),
+				'value'       => $salary_type,
 			),
 			array(
 				'type'        => 'select',
-				'label'       => __( 'Amount type', 'jobboardwp' ),
-				'data'        => array(
-					'placeholder' => __( 'Please select amount type', 'jobboardwp' ),
-				),
+				'label'       => __( 'Salary amount type', 'jobboardwp' ),
+				'placeholder' => __( 'Please select amount type', 'jobboardwp' ),
 				'id'          => 'jb-salary-amount-type',
 				'options'     => array(
 					'numeric' => __( 'Numeric', 'jobboardwp' ),
@@ -368,7 +364,8 @@ if ( JB()->options()->get( 'job-salary' ) ) {
 				'step'        => 1,
 				'size'        => 'small',
 				'required'    => true,
-				'label'       => __( 'Amount', 'jobboardwp' ) . ' ' . $currency_symbol,
+				// translators: %s - Currency symbol
+				'label'       => sprintf( __( 'Salary Amount %s', 'jobboardwp' ), $currency_symbol ),
 				'id'          => 'jb-salary-amount',
 				'value'       => $salary_amount,
 				'conditional' => array( 'jb-salary-amount-type', '=', 'numeric' ),
@@ -379,7 +376,9 @@ if ( JB()->options()->get( 'job-salary' ) ) {
 				'step'        => 1,
 				'size'        => 'small',
 				'required'    => true,
-				'label'       => __( 'Min Amount', 'jobboardwp' ) . ' ' . $currency_symbol,
+				// translators: %s - Currency symbol
+				'label'       => sprintf( __( 'Salary Min Amount %s', 'jobboardwp' ), $currency_symbol ),
+				'description' => __( 'Set to "0" for displaying only max amount. (E.g. "Salary is up to {max_amount}")', 'jobboardwp' ),
 				'id'          => 'jb-salary-min-amount',
 				'value'       => $salary_min_amount,
 				'conditional' => array( 'jb-salary-amount-type', '=', 'range' ),
@@ -390,7 +389,9 @@ if ( JB()->options()->get( 'job-salary' ) ) {
 				'step'        => 1,
 				'size'        => 'small',
 				'required'    => true,
-				'label'       => __( 'Max Amount', 'jobboardwp' ) . ' ' . $currency_symbol,
+				// translators: %s - Currency symbol
+				'label'       => sprintf( __( 'Salary Max Amount %s', 'jobboardwp' ), $currency_symbol ),
+				'description' => __( 'Set to "0" for displaying only min amount. (E.g. "Salary starts from {min_amount}")', 'jobboardwp' ),
 				'id'          => 'jb-salary-max-amount',
 				'value'       => $salary_max_amount,
 				'conditional' => array( 'jb-salary-amount-type', '=', 'range' ),
@@ -399,7 +400,7 @@ if ( JB()->options()->get( 'job-salary' ) ) {
 				'type'        => 'select',
 				'required'    => true,
 				'size'        => 'small',
-				'label'       => __( 'Period', 'jobboardwp' ),
+				'label'       => __( 'Salary Period', 'jobboardwp' ),
 				'id'          => 'jb-salary-period',
 				'options'     => array(
 					'hour'  => __( 'Hour', 'jobboardwp' ),

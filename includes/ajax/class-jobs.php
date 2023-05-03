@@ -171,10 +171,14 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				if ( ! empty( $_POST['salary'] ) ) {
 					global $wpdb;
 					$salary = explode( '-', $_POST['salary'] );
-					$min    = intval( $salary[0] );
-					$max    = intval( $salary[1] );
+					$min    = absint( $salary[0] );
+					$max    = absint( $salary[1] );
 
-					$sql['join'] .= "
+					$default_min = 0;
+					$default_max = JB()->common()->job()->get_maximum_salary();
+
+					if ( ! ( $default_min === $min && $default_max === $max ) ) {
+						$sql['join'] .= "
 						LEFT JOIN $wpdb->postmeta AS jb_salary_type ON ( $wpdb->posts.ID = jb_salary_type.post_id AND jb_salary_type.meta_key = 'jb-salary-type' )
 						LEFT JOIN $wpdb->postmeta AS jb_amount_type ON ( $wpdb->posts.ID = jb_amount_type.post_id AND jb_amount_type.meta_key = 'jb-salary-amount-type' )
 						LEFT JOIN $wpdb->postmeta AS jb_amount ON ( $wpdb->posts.ID = jb_amount.post_id AND jb_amount.meta_key = 'jb-salary-amount' )
@@ -182,12 +186,13 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						LEFT JOIN $wpdb->postmeta AS jb_max_amount ON ( $wpdb->posts.ID = jb_max_amount.post_id AND jb_max_amount.meta_key = 'jb-salary-max-amount' )
 					";
 
-					$sql['where'] .= " AND (
-							(jb_salary_type.meta_key IS NULL) OR
-							(jb_salary_type.meta_value = '') OR
-							(jb_salary_type.meta_value != '' AND jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'numeric' AND jb_amount.meta_value BETWEEN $min AND $max) OR
-							(jb_salary_type.meta_value != '' AND jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'range' AND ( jb_min_amount.meta_value BETWEEN $min AND $max OR jb_max_amount.meta_value BETWEEN $min AND $max) )
+						$sql['where'] .= " AND (
+							(jb_salary_type.meta_key IS NOT NULL) AND
+							(jb_salary_type.meta_value != '') AND
+							(jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'numeric' AND jb_amount.meta_value BETWEEN $min AND $max) OR
+							(jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'range' AND ( jb_min_amount.meta_value BETWEEN $min AND $max OR jb_max_amount.meta_value BETWEEN $min AND $max) )
 					)";
+					}
 				}
 			}
 			// phpcs:enable WordPress.Security.NonceVerification
@@ -626,36 +631,9 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						$job_data['category'] = wp_kses( JB()->common()->job()->get_job_category( $job_post->ID ), JB()->get_allowed_html( 'templates' ) );
 					}
 
-					if ( JB()->options()->get( 'job-salary' ) ) {
-						$amount_output = '';
-						$salary_type   = get_post_meta( $job_post->ID, 'jb-salary-type', true );
-						if ( '' !== $salary_type ) {
-							$currency         = JB()->options()->get( 'job-salary-currency' );
-							$currency_symbols = JB()->config()->get( 'currencies' );
-							$currency_symbol  = $currency_symbols[ $currency ][1];
-
-							$salary_amount_type = get_post_meta( $job_post->ID, 'jb-salary-amount-type', true );
-							if ( 'numeric' === $salary_amount_type ) {
-								$salary_amount = get_post_meta( $job_post->ID, 'jb-salary-amount', true );
-
-								if ( ! empty( $salary_amount ) ) {
-									$amount_output = sprintf( JB()->get_job_salary_format(), $currency_symbol, $salary_amount );
-								}
-							} else {
-								$salary_min_amount = get_post_meta( $job_post->ID, 'jb-salary-min-amount', true );
-								$salary_max_amount = get_post_meta( $job_post->ID, 'jb-salary-max-amount', true );
-								if ( ! empty( $salary_min_amount ) && ! empty( $salary_max_amount ) ) {
-									$amount_output = sprintf( JB()->get_job_salary_format(), $currency_symbol, $salary_min_amount . '-' . $salary_max_amount );
-								}
-							}
-							if ( 'recurring' === $salary_type ) {
-								$salary_period         = get_post_meta( $job_post->ID, 'jb-salary-period', true );
-								$amount_output .= ' ' . esc_html__( 'per', 'jobboardwp' ) . ' ' . $salary_period;
-							}
-						}
-						if ( '' !== $amount_output ) {
-							$job_data['salary'] = wp_kses( $amount_output, JB()->get_allowed_html( 'templates' ) );
-						}
+					$amount_output = JB()->common()->job()->get_formatted_salary( $job_post->ID );
+					if ( '' !== $amount_output ) {
+						$job_data['salary'] = esc_html( $amount_output );
 					}
 
 					/**
@@ -1297,6 +1275,48 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 					$job_type = absint( $_POST['data']['jb-job-type'] );
 					if ( empty( $job_type ) ) {
 						$errors['empty'][] = 'jb-job-type';
+					}
+				}
+			}
+
+			if ( JB()->options()->get( 'required-job-salary' ) ) {
+				if ( empty( $_POST['data']['jb-salary-type'] ) ) {
+					$errors['empty'][] = 'jb-salary-type';
+				}
+			}
+
+			if ( ! empty( $_POST['data']['jb-salary-type'] ) ) {
+				if ( empty( $_POST['data']['jb-salary-amount-type'] ) ) {
+					$errors['empty'][] = 'jb-salary-amount-type';
+				} else {
+					if ( 'numeric' === $_POST['data']['jb-salary-amount-type'] ) {
+						if ( empty( $_POST['data']['jb-salary-amount'] ) ) {
+							$errors['empty'][] = 'jb-salary-amount';
+						} elseif ( ! is_numeric( $_POST['data']['jb-salary-amount'] ) ) {
+							$errors['wrong'][] = 'jb-salary-amount';
+						}
+					} elseif ( 'range' === $_POST['data']['jb-salary-amount-type'] ) {
+						if ( empty( $_POST['data']['jb-salary-min-amount'] ) && empty( $_POST['data']['jb-salary-max-amount'] ) ) {
+							$errors['empty'][] = 'jb-salary-min-amount';
+						} else {
+							if ( ! is_numeric( $_POST['data']['jb-salary-min-amount'] ) ) {
+								$errors['wrong'][] = 'jb-salary-min-amount';
+							} elseif ( absint( $_POST['data']['jb-salary-min-amount'] ) >= absint( $_POST['data']['jb-salary-max-amount'] ) ) {
+								$errors['wrong'][] = 'jb-salary-min-amount';
+							}
+
+							if ( ! is_numeric( $_POST['data']['jb-salary-max-amount'] ) ) {
+								$errors['wrong'][] = 'jb-salary-max-amount';
+							} elseif ( absint( $_POST['data']['jb-salary-max-amount'] ) <= absint( $_POST['data']['jb-salary-min-amount'] ) ) {
+								$errors['wrong'][] = 'jb-salary-max-amount';
+							}
+						}
+					}
+				}
+
+				if ( 'recurring' === $_POST['data']['jb-salary-type'] ) {
+					if ( empty( $_POST['data']['jb-salary-period'] ) ) {
+						$errors['empty'][] = 'jb-salary-period';
 					}
 				}
 			}

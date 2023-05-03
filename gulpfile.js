@@ -4,12 +4,10 @@
  * @type {Gulp}
  */
 const { src, dest, parallel } = require( 'gulp' );
-const sass        = require( 'gulp-sass' );
+const sass        = require( 'gulp-sass' )( require( 'node-sass' ) );
 const uglify      = require( 'gulp-uglify' );
 const cleanCSS    = require( 'gulp-clean-css' );
 const rename      = require( 'gulp-rename' );
-
-//sass.compiler = require( 'node-sass' );
 
 function exclude_css( path ) {
 	var exclude = ['assets/' + path + '/sass/*.sass'];

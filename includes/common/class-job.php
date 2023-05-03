@@ -576,6 +576,93 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			return $can_applied;
 		}
 
+		/**
+		 * Getting formatted job salary.
+		 *
+		 * @param int $job_id Job ID.
+		 *
+		 * @return string Formatted salary string. Empty string in the case when invalid salary data in meta
+		 */
+		public function get_formatted_salary( $job_id ) {
+			$amount_output = '';
+			if ( ! JB()->options()->get( 'job-salary' ) ) {
+				return $amount_output;
+			}
+
+			$salary_type = get_post_meta( $job_id, 'jb-salary-type', true );
+			if ( '' === $salary_type ) {
+				return $amount_output;
+			}
+
+			$currency         = JB()->options()->get( 'job-salary-currency' );
+			$currency_symbols = JB()->config()->get( 'currencies' );
+			$currency_symbol  = $currency_symbols[ $currency ]['symbol'];
+
+			$salary_amount_type = get_post_meta( $job_id, 'jb-salary-amount-type', true );
+			if ( 'numeric' === $salary_amount_type ) {
+				$salary_amount = get_post_meta( $job_id, 'jb-salary-amount', true );
+				if ( empty( $salary_amount ) ) {
+					return $amount_output;
+				}
+
+				$amount_output = sprintf( JB()->get_job_salary_format(), $currency_symbol, $salary_amount );
+			} else {
+				$salary_min_amount = get_post_meta( $job_id, 'jb-salary-min-amount', true );
+				$salary_max_amount = get_post_meta( $job_id, 'jb-salary-max-amount', true );
+				if ( empty( $salary_min_amount ) && empty( $salary_max_amount ) ) {
+					return $amount_output;
+				}
+
+				if ( empty( $salary_min_amount ) && ! empty( $salary_max_amount ) ) {
+					$amount = sprintf( JB()->get_job_salary_format(), $currency_symbol, $salary_max_amount );
+
+					// translators: %s is maximum job salary amount.
+					$amount_output = sprintf( __( 'Up to %s', 'jobboardwp' ), $amount );
+				} elseif ( ! empty( $salary_min_amount ) && empty( $salary_max_amount ) ) {
+					$amount = sprintf( JB()->get_job_salary_format(), $currency_symbol, $salary_min_amount );
+
+					// translators: %s is minimum job salary amount.
+					$amount_output = sprintf( __( 'Starts from %s', 'jobboardwp' ), $amount );
+				} else {
+					$amount_output = sprintf( JB()->get_job_salary_format(), $currency_symbol, $salary_min_amount . '-' . $salary_max_amount );
+				}
+			}
+
+			if ( 'recurring' === $salary_type ) {
+				$salary_period = get_post_meta( $job_id, 'jb-salary-period', true );
+				if ( empty( $salary_period ) ) {
+					return $amount_output;
+				}
+
+				// translators: %1$s is a job's salary amount or range; %2$s is a job's salary period.
+				$amount_output = sprintf( __( '%1$s per %2$s', 'jobboardwp' ), $amount_output, $salary_period );
+			}
+
+			return $amount_output;
+		}
+
+		/**
+		 * @return int
+		 */
+		public function get_maximum_salary() {
+			global $wpdb;
+			$max_values = $wpdb->get_results(
+				"SELECT DISTINCT meta_value
+				FROM {$wpdb->postmeta}
+				WHERE meta_key = 'jb-salary-max-amount' OR
+				      meta_key = 'jb-salary-amount'",
+				ARRAY_A
+			);
+
+			$max_value = 0;
+			foreach ( $max_values as $value ) {
+				if ( null !== $value['meta_value'] && ( 0 === $max_value || $max_value < $value['meta_value'] ) ) {
+					$max_value = absint( $value['meta_value'] );
+				}
+			}
+
+			return $max_value;
+		}
 
 		/**
 		 * Get job RAW data

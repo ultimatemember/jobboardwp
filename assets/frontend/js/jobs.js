@@ -232,18 +232,17 @@ wp.JB.jobs_list = {
 			return order;
 		},
 		get_salary:  function( jobs_list ) {
-			var min, max, salary;
-
-			if ( jobs_list.find('.range-slider').length ) {
-				if ( 1 === jobs_list.find('.range-slider').data( 'search' ) ) {
-					min = jobs_list.find('.range-slider').data( 'min' );
-					max = jobs_list.find('.range-slider').data( 'max' );
-					salary = min + ' - ' + max;
+			let salary;
+			if ( jobs_list.find('.jb-double-range').length ) {
+				if ( 1 === jobs_list.find('.jb-double-range').data( 'search' ) ) {
+					let min = jobs_list.find('.jb-double-range').data( 'min' );
+					let max = jobs_list.find('.jb-double-range').data( 'max' );
+					salary = min + '-' + max;
 				} else {
-					salary = '';
+					salary = jobs_list.data('salary');
 				}
 			} else {
-				salary = '';
+				salary = jobs_list.data('salary');
 			}
 
 			return salary;
@@ -331,6 +330,34 @@ wp.JB.jobs_list = {
 				jobs_list.find( '.jb-do-search' ).removeClass('disabled');
 			}
 		});
+	},
+	filters: {
+		slider: {
+			getValues: function() {
+				var parent = jQuery(this).parent();
+
+				var symbol = parent.data('symbol');
+				var slides = parent.find('input');
+				var slide1 = parseFloat( slides[0].value );
+				var slide2 = parseFloat( slides[1].value );
+				if ( slide1 > slide2 ) {
+					var tmp = slide2;
+					slide2 = slide1;
+					slide1 = tmp;
+				}
+				var displayElement = jQuery(this).parents('.jb-salary-filter').find('.jb-double-range-values');
+
+				let templateStr = parent.data('format');
+
+				templateStr = templateStr.replace( /\$\{salary\}/gi, slide1 + ' - ' + slide2 );
+				templateStr = templateStr.replace( /\$\{symbol\}/gi, symbol );
+
+				displayElement.html( templateStr );
+				parent.data('min', slide1);
+				parent.data('max', slide2);
+				parent.data('search', 1);
+			}
+		}
 	}
 };
 
@@ -493,8 +520,7 @@ jQuery( document ).ready( function($) {
 		wp.JB.jobs_list.ajax( jobs_list, true );
 	});
 
-	// window.onload = function(){
-	$( document.body ).on( 'change', '.range-slider input', function() {
+	$( document.body ).on( 'change', '.jb-double-range input', function() {
 		var jobs_list = $(this).parents( '.jb-jobs' );
 
 		if ( wp.JB.jobs_list.is_busy( jobs_list ) ) {
@@ -506,20 +532,20 @@ jQuery( document ).ready( function($) {
 		wp.JB.jobs_list.preloader.show( jobs_list );
 
 		// Initialize Sliders
-		var sliderSections = document.getElementsByClassName('range-slider');
+		var sliderSections = document.getElementsByClassName('jb-double-range');
 		for( var x = 0; x < sliderSections.length; x++ ){
 			var sliders = sliderSections[x].getElementsByTagName('input');
 			for( var y = 0; y < sliders.length; y++ ){
-				if( sliders[y].type === 'range' ){
-					sliders[y].oninput = getVals;
+				if ( sliders[y].type === 'range' ) {
+					sliders[y].oninput = wp.JB.jobs_list.filters.slider.getValues;
 					// Manually trigger event first time to display values
 					sliders[y].oninput();
 				}
 			}
 		}
 
-		var min = $(this).parents( '.range-slider' ).data('min');
-		var max = $(this).parents( '.range-slider' ).data('max');
+		var min = $(this).parents( '.jb-double-range' ).data('min');
+		var max = $(this).parents( '.jb-double-range' ).data('max');
 
 		jobs_list.data( 'page', 1 );
 
@@ -535,23 +561,4 @@ jQuery( document ).ready( function($) {
 			});
 		}
 	});
-
-
-	function getVals(){
-		var parent = $(this).parent();
-		var symbol = parent.data('symbol');
-		var slides = parent.find('input');
-		var slide1 = parseFloat( slides[0].value );
-		var slide2 = parseFloat( slides[1].value );
-		if ( slide1 > slide2 ) {
-			var tmp = slide2;
-			slide2 = slide1;
-			slide1 = tmp;
-		}
-		var displayElement = parent.find('.rangeValues');
-		displayElement.html( slide1 + ' - ' + slide2 + ' ' + symbol );
-		parent.data('min', slide1);
-		parent.data('max', slide2);
-		parent.data('search', 1);
-	}
 });

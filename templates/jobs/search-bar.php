@@ -186,43 +186,34 @@ global $jb_jobs_shortcode_index;
 
 		<?php
 		if ( JB()->options()->get( 'job-salary' ) ) {
-			global $wpdb;
-			$max_values    = $wpdb->get_results( "SELECT meta_value FROM $wpdb->postmeta WHERE `meta_key` LIKE 'jb-salary-max-amount'", ARRAY_A );
-			$amount_values = $wpdb->get_results( "SELECT meta_value FROM $wpdb->postmeta WHERE `meta_key` LIKE 'jb-salary-amount'", ARRAY_A );
+			$max_value = JB()->common()->job()->get_maximum_salary();
 
-			$values = array_merge( $max_values, $amount_values );
-
-			$max_value = 0;
-			foreach ( $values as $value ) {
-				if ( null !== $value['meta_value'] && ( null === $max_value || $max_value < $value['meta_value'] ) ) {
-					$max_value = ceil( $value['meta_value'] );
-				}
-			}
-
-			if ( ! empty( $_GET['jb-salary'] ) ) {
-				$salary      = explode( '-', $_GET['jb-salary'][1] );
-				$min         = absint( $salary[0] );
-				$max         = absint( $salary[1] );
-				$data_search = 'data-search=1';
-			} else {
+			if ( $max_value > 0 ) {
 				$min         = 0;
 				$max         = $max_value;
 				$data_search = '';
-			}
+				if ( ! empty( $_GET['jb-salary'][ $jb_jobs_shortcode_index ] ) ) {
+					$salary      = explode( '-', $_GET['jb-salary'][ $jb_jobs_shortcode_index ] );
+					$min         = isset( $salary[0] ) ? absint( $salary[0] ) : 0;
+					$max         = isset( $salary[1] ) ? absint( $salary[1] ) : $max_value;
+					$data_search = 'data-search="1"';
+				}
 
-			$currency         = JB()->options()->get( 'job-salary-currency' );
-			$currency_symbols = JB()->config()->get( 'currencies' );
-			$currency_symbol  = $currency_symbols[ $currency ][1];
-			?>
-			<div class="jb-salary-filter">
-				<p><?php esc_attr_e( 'Salary range', 'jobboardwp' ); ?></p>
-				<div class="range-slider" data-symbol="<?php echo esc_attr( $currency_symbol ); ?>" data-min="<?php echo esc_attr( $min ); ?>" data-max="<?php echo esc_attr( $max ); ?>" <?php echo esc_attr( $data_search ); ?>>
-					<span class="rangeValues"><?php echo absint( $min ); ?> - <?php echo absint( $max ); ?> <?php echo esc_html( $currency_symbol ); ?></span>
-					<input value="<?php echo esc_attr( $min ); ?>" min="0" max="<?php echo esc_attr( $max_value ); ?>" step="1" type="range">
-					<input value="<?php echo esc_attr( $max ); ?>" min="0" max="<?php echo esc_attr( $max_value ); ?>" step="1" type="range">
+				$currency         = JB()->options()->get( 'job-salary-currency' );
+				$currency_symbols = JB()->config()->get( 'currencies' );
+				$currency_symbol  = $currency_symbols[ $currency ]['symbol'];
+				?>
+				<div class="jb-jobs-header-row jb-jobs-filters-row">
+					<label class="jb-salary-filter">
+						<span class="jb-double-range" data-format="<?php echo esc_attr( JB()->get_job_salary_format( 'js' ) ); ?>" data-symbol="<?php echo esc_attr( $currency_symbol ); ?>" data-min="<?php echo esc_attr( $min ); ?>" data-max="<?php echo esc_attr( $max ); ?>" <?php echo $data_search; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped above ?>>
+							<input value="<?php echo esc_attr( $min ); ?>" min="0" max="<?php echo esc_attr( $max_value ); ?>" step="1" type="range">
+							<input value="<?php echo esc_attr( $max ); ?>" min="0" max="<?php echo esc_attr( $max_value ); ?>" step="1" type="range">
+						</span>
+						<span><?php esc_html_e( 'Salary range: ', 'jobboardwp' ); ?><span class="jb-double-range-values"><?php echo esc_html( sprintf( JB()->get_job_salary_format(), $currency_symbol, absint( $min ) . ' - ' . absint( $max ) ) ); ?></span></span>
+					</label>
 				</div>
-			</div>
-			<?php
+				<?php
+			}
 		}
 	}
 
