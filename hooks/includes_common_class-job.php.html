@@ -1020,6 +1020,42 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				}
 			}
 
+			if ( JB()->options()->get( 'job-salary' ) ) {
+				$salary_type = get_post_meta( $job->ID, 'jb-salary-type', true );
+				if ( '' !== $salary_type ) {
+					$salary_amount_type = get_post_meta( $job->ID, 'jb-salary-amount-type', true );
+					$currency           = JB()->options()->get( 'job-salary-currency' );
+
+					$data['baseSalary']             = array();
+					$data['baseSalary']['@type']    = 'MonetaryAmount';
+					$data['baseSalary']['currency'] = $currency;
+
+					$data['baseSalary']['value']['@type'] = 'QuantitativeValue';
+					if ( 'numeric' === $salary_amount_type ) {
+						$salary_amount = get_post_meta( $job->ID, 'jb-salary-amount', true );
+						if ( ! empty( $salary_amount ) ) {
+							$data['baseSalary']['value']['value'] = number_format( $salary_amount, 2, '.', '' );
+						}
+					} else {
+						$salary_min_amount = get_post_meta( $job->ID, 'jb-salary-min-amount', true );
+						$salary_max_amount = get_post_meta( $job->ID, 'jb-salary-max-amount', true );
+						if ( '' !== $salary_min_amount ) {
+							$data['baseSalary']['value']['maxValue'] = number_format( $salary_max_amount, 2, '.', '' );
+						}
+						if ( '' !== $salary_max_amount ) {
+							$data['baseSalary']['value']['maxValue'] = number_format( $salary_max_amount, 2, '.', '' );
+						}
+					}
+
+					if ( 'recurring' === $salary_type ) {
+						$salary_period = get_post_meta( $job->ID, 'jb-salary-period', true );
+						if ( ! empty( $salary_period ) ) {
+							$data['baseSalary']['value']['unitText'] = strtoupper( $salary_period );
+						}
+					}
+				}
+			}
+
 			/**
 			 * Filters the job structured data.
 			 *

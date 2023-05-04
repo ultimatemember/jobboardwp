@@ -747,8 +747,8 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			$placeholder_attr = ! empty( $field_data['placeholder'] ) ? ' placeholder="' . $field_data['placeholder'] . '"' : '';
 			$required         = ! empty( $field_data['required'] ) ? ' required' : '';
-			$min              = ! empty( $field_data['min'] ) ? ' min="' . esc_attr( $field_data['min'] ) . '"' : '';
-			$max              = ! empty( $field_data['max'] ) ? ' max="' . esc_attr( $field_data['max'] ) . '"' : '';
+			$min              = isset( $field_data['min'] ) ? ' min="' . esc_attr( $field_data['min'] ) . '"' : '';
+			$max              = isset( $field_data['max'] ) ? ' max="' . esc_attr( $field_data['max'] ) . '"' : '';
 			$step             = ! empty( $field_data['step'] ) ? ' step="' . esc_attr( $field_data['step'] ) . '"' : '';
 
 			$name      = isset( $field_data['name'] ) ? $field_data['name'] : $field_data['id'];
