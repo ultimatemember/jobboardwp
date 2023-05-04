@@ -1006,8 +1006,10 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 					} else {
 						$salary_min_amount = get_post_meta( $job->ID, 'jb-salary-min-amount', true );
 						$salary_max_amount = get_post_meta( $job->ID, 'jb-salary-max-amount', true );
-						if ( ! empty( $salary_min_amount ) && ! empty( $salary_max_amount ) ) {
-							$data['baseSalary']['value']['minValue'] = number_format( $salary_min_amount, 2, '.', '' );
+						if ( '' !== $salary_min_amount ) {
+							$data['baseSalary']['value']['maxValue'] = number_format( $salary_max_amount, 2, '.', '' );
+						}
+						if ( '' !== $salary_max_amount ) {
 							$data['baseSalary']['value']['maxValue'] = number_format( $salary_max_amount, 2, '.', '' );
 						}
 					}
