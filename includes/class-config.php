@@ -291,17 +291,21 @@ if ( ! class_exists( 'jb\Config' ) ) {
 		 */
 		public function init_predefined_pages() {
 			$this->predefined_pages = array(
-				'jobs'           => array(
+				'jobs'               => array(
 					'title'   => __( 'Jobs', 'jobboardwp' ),
 					'content' => '[jb_jobs /]',
 				),
-				'job-post'       => array(
+				'job-post'           => array(
 					'title'   => __( 'Post Job', 'jobboardwp' ),
 					'content' => '[jb_post_job /]',
 				),
-				'jobs-dashboard' => array(
+				'jobs-dashboard'     => array(
 					'title'   => __( 'Jobs Dashboard', 'jobboardwp' ),
 					'content' => '[jb_jobs_dashboard /]',
+				),
+				'jb-company-details' => array(
+					'title'   => __( 'Company Details', 'jobboardwp' ),
+					'content' => '[jb_company_details /]',
 				),
 			);
 		}
