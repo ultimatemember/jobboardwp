@@ -233,14 +233,10 @@ wp.JB.jobs_list = {
 		},
 		get_salary:  function( jobs_list ) {
 			let salary;
-			if ( jobs_list.find('.jb-double-range').length ) {
-				if ( 1 === jobs_list.find('.jb-double-range').data( 'search' ) ) {
-					let min = jobs_list.find('.jb-double-range').data( 'min' );
-					let max = jobs_list.find('.jb-double-range').data( 'max' );
-					salary = min + '-' + max;
-				} else {
-					salary = jobs_list.data('salary');
-				}
+			if ( jobs_list.find('.jb-double-range').length && jobs_list.find( '.jb-only-salary' ).is(':checked') ) {
+				let min = jobs_list.find('.jb-double-range').data( 'min' );
+				let max = jobs_list.find('.jb-double-range').data( 'max' );
+				salary = min + '-' + max;
 			} else {
 				salary = jobs_list.data('salary');
 			}
@@ -459,6 +455,39 @@ jQuery( document ).ready( function($) {
 	});
 
 
+	$( document.body ).on( 'click', '.jb-only-salary', function() {
+		if ( $(this).is(':checked') ) {
+			$('.jb-salary-filter').show();
+		} else {
+			$('.jb-salary-filter').hide();
+		}
+
+		var jobs_list = $(this).parents( '.jb-jobs' );
+
+		if ( wp.JB.jobs_list.is_busy( jobs_list ) ) {
+			return;
+		}
+
+		jobs_list.find( '.jb-do-search' ).addClass('disabled');
+
+		wp.JB.jobs_list.preloader.show( jobs_list );
+
+		jobs_list.data( 'page', 1 );
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-page', '' );
+
+		var min = jobs_list.find( '.jb-double-range' ).data('min');
+		var max = jobs_list.find( '.jb-double-range' ).data('max');
+
+		if ( jobs_list.find( '.jb-only-salary' ).is(':checked') ) {
+			wp.JB.jobs_list.url.set(jobs_list, 'jb-salary', min + '-' + max);
+		} else {
+			wp.JB.jobs_list.url.set( jobs_list, 'jb-salary', '' );
+		}
+
+		wp.JB.jobs_list.ajax( jobs_list );
+	});
+
+
 	$( document.body ).on( 'change', '.jb-job-type-filter', function() {
 		var jobs_list = $(this).parents( '.jb-jobs' );
 
@@ -551,7 +580,7 @@ jQuery( document ).ready( function($) {
 
 		wp.JB.jobs_list.url.set( jobs_list, 'jb-salary', min + '-' + max );
 
-		wp.JB.jobs_list.ajax( jobs_list );
+			wp.JB.jobs_list.ajax( jobs_list );
 	});
 
 	window.addEventListener( 'popstate', function(e) {

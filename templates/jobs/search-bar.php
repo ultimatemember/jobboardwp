@@ -189,14 +189,18 @@ global $jb_jobs_shortcode_index;
 			$max_value = JB()->common()->job()->get_maximum_salary();
 
 			if ( $max_value > 0 ) {
-				$min         = 0;
-				$max         = $max_value;
-				$data_search = '';
+				$min            = 0;
+				$max            = $max_value;
+				$data_search    = '';
+				$salary_checked = '';
+				$salary_hide    = 'none';
 				if ( ! empty( $_GET['jb-salary'][ $jb_jobs_shortcode_index ] ) ) {
-					$salary      = explode( '-', $_GET['jb-salary'][ $jb_jobs_shortcode_index ] );
-					$min         = isset( $salary[0] ) ? absint( $salary[0] ) : 0;
-					$max         = isset( $salary[1] ) ? absint( $salary[1] ) : $max_value;
-					$data_search = 'data-search="1"';
+					$salary         = explode( '-', $_GET['jb-salary'][ $jb_jobs_shortcode_index ] );
+					$min            = isset( $salary[0] ) ? absint( $salary[0] ) : 0;
+					$max            = isset( $salary[1] ) ? absint( $salary[1] ) : $max_value;
+					$data_search    = 'data-search="1"';
+					$salary_hide    = 'show';
+					$salary_checked = 'checked';
 				}
 
 				$currency         = JB()->options()->get( 'job-salary-currency' );
@@ -204,7 +208,10 @@ global $jb_jobs_shortcode_index;
 				$currency_symbol  = $currency_symbols[ $currency ]['symbol'];
 				?>
 				<div class="jb-jobs-header-row jb-jobs-filters-row">
-					<label class="jb-salary-filter">
+					<label>
+						<input type="checkbox" class="jb-only-salary" value="1" <?php echo esc_attr( $salary_checked ); ?> />&nbsp;<?php esc_attr_e( 'Show only jobs with selary', 'jobboardwp' ); ?>
+					</label>
+					<label class="jb-salary-filter" style="display: <?php echo esc_html( $salary_hide ); ?>" >
 						<span class="jb-double-range" data-format="<?php echo esc_attr( JB()->get_job_salary_format( 'js' ) ); ?>" data-symbol="<?php echo esc_attr( $currency_symbol ); ?>" data-min="<?php echo esc_attr( $min ); ?>" data-max="<?php echo esc_attr( $max ); ?>" <?php echo $data_search; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already escaped above ?>>
 							<input value="<?php echo esc_attr( $min ); ?>" min="0" max="<?php echo esc_attr( $max_value ); ?>" step="1" type="range">
 							<input value="<?php echo esc_attr( $max ); ?>" min="0" max="<?php echo esc_attr( $max_value ); ?>" step="1" type="range">
