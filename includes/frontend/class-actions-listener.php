@@ -792,7 +792,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 
 												if ( ! is_numeric( $_POST['job_salary_max_amount'] ) ) {
 													$posting_form->add_error( 'job_salary_max_amount', __( 'Job salary amount must be numeric', 'jobboardwp' ) );
-												} elseif ( absint( $_POST['job_salary_max_amount'] ) <= absint( $_POST['job_salary_mix_amount'] ) ) {
+												} elseif ( absint( $_POST['job_salary_max_amount'] ) <= absint( $_POST['job_salary_min_amount'] ) ) {
 													$posting_form->add_error( 'job_salary_max_amount', __( 'Job maximum salary must be higher than minimum salary', 'jobboardwp' ) );
 												} else {
 													$job_max_amount = absint( $_POST['job_salary_max_amount'] );
