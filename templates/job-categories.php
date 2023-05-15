@@ -1,4 +1,14 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Template for the Job's categories
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/job-categories.php
+ *
+ * @version 1.2.6
+ *
+ * @var array $jb_job_categories
+ */
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 

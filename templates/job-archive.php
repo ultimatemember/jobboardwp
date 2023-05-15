@@ -1,4 +1,13 @@
 <?php
+/**
+ * Template for the single job archive
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/job-archive.php
+ *
+ * Page: "Job's Archive"
+ *
+ * @version 1.2.6
+ */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

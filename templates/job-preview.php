@@ -1,4 +1,14 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Template for the Job's preview
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/job-preview.php
+ *
+ * @version 1.2.6
+ *
+ * @var array $jb_job_preview
+ */
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 

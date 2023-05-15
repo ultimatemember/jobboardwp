@@ -102,6 +102,28 @@ body.taxonomy-jb_job_type
       width: 74px
       text-align: center
 
+body.job-board_page_jb-settings
+  .wp-list-table
+    #core_version
+      width: 100px
+      text-align: center
+    #theme_version
+      width: 100px
+      text-align: center
+    #status
+      width: 260px
+    .#{$prefix}notification-status
+      margin-right: 18px
+      font-size: 28px
+      line-height: 22px
+      color: #a00
+      float: left
+      box-sizing: border-box
+      -moz-box-sizing: border-box
+      -webkit-box-sizing: border-box
+      &.#{$prefix}notification-is-active
+        color: #46b450
+
 @media screen and (max-width: 782px)
   body.taxonomy-jb_job_type
     table.wp-list-table

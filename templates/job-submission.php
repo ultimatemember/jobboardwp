@@ -1,4 +1,14 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Template for the Job's submission
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/job-submission.php
+ *
+ * @version 1.2.6
+ *
+ * @var array $jb_job_submission
+ */
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } ?>
 

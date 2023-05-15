@@ -1421,14 +1421,14 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 			foreach ( $scan_files as $key => $files ) {
 				foreach ( $files as $file ) {
-					if ( ! str_contains( $file, 'email/' ) ) {
+					if ( ! str_contains( $file, 'emails/' ) ) {
 						$located = array();
 						$located = apply_filters( "jb_override_templates_get_template_path__{$key}", $located, $file );
 
 						if ( ! empty( $located ) ) {
 							$theme_file = $located['theme'];
-						} elseif ( file_exists( get_stylesheet_directory() . '/jobboardwp/templates/' . $file ) ) {
-							$theme_file = get_stylesheet_directory() . '/jobboardwp/templates/' . $file;
+						} elseif ( file_exists( get_stylesheet_directory() . '/jobboardwp/' . $file ) ) {
+							$theme_file = get_stylesheet_directory() . '/jobboardwp/' . $file;
 						} else {
 							$theme_file = false;
 						}
