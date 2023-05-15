@@ -1,4 +1,14 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Template for the job breadcrumbs template
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/job/breadcrumbs.php
+ *
+ * @version 1.2.6
+ *
+ * @var array $jb_job_breadcrumbs
+ */
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 

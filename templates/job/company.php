@@ -1,4 +1,14 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Template for the job company information template
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/job/company.php
+ *
+ * @version 1.2.6
+ *
+ * @var array $jb_job_company
+ */
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 

@@ -1,4 +1,16 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Template for the Recent Jobs widget
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/widget/recent-jobs.php
+ *
+ * Widget: "Recent Jobs"
+ *
+ * @version 1.2.6
+ *
+ * @var array $jb_widgets_recent_jobs
+ */
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
