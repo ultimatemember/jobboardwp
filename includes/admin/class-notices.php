@@ -44,6 +44,7 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 		public function create_list() {
 			$this->install_predefined_page_notice();
 			$this->show_update_messages();
+			$this->template_version();
 			/**
 			 * Fires when admin notices list is generated.
 			 * Note: It's an internal hook that you could use for adding admin notices to JobBoardWP admin notices list.
@@ -312,6 +313,37 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 						20
 					);
 				}
+			}
+		}
+
+
+		/**
+		 * Check Templates Versions notice
+		 */
+		public function template_version() {
+			if ( true === (bool) get_option( 'jb_override_templates_outdated' ) ) {
+				$link = admin_url( 'admin.php?page=jb-settings&tab=override_templates' );
+				ob_start();
+				?>
+
+				<p>
+					<?php
+					// translators: %s override templates page link.
+					echo wp_kses( sprintf( __( 'Your templates are out of date. Please visit <a href="%s">override templates status page</a> and update templates.', 'jobboardwp' ), $link ), JB()->get_allowed_html( 'wp-admin' ) );
+					?>
+				</p>
+
+				<?php
+				$message = ob_get_clean();
+				$this->add(
+					'jb_override_templates_notice',
+					array(
+						'class'       => 'error',
+						'message'     => $message,
+						'dismissible' => false,
+					),
+					10
+				);
 			}
 		}
 	}
