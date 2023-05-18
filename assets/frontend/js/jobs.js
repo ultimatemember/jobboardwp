@@ -345,13 +345,17 @@ wp.JB.jobs_list = {
 
 				let templateStr = parent.data('format');
 
+				console.log( displayElement );
+				console.log( templateStr );
+				console.log( slide1 );
+				console.log( slide2 );
+
 				templateStr = templateStr.replace( /\$\{salary\}/gi, slide1 + ' - ' + slide2 );
 				templateStr = templateStr.replace( /\$\{symbol\}/gi, symbol );
 
 				displayElement.html( templateStr );
 				parent.data('min', slide1);
 				parent.data('max', slide2);
-				parent.data('search', 1);
 			}
 		}
 	}
@@ -361,7 +365,19 @@ wp.JB.jobs_list = {
 jQuery( document ).ready( function($) {
 	if ( wp.JB.jobs_list.objects.wrapper.length ) {
 		wp.JB.jobs_list.objects.wrapper.each( function () {
-			wp.JB.jobs_list.ajax( $(this) );
+			let jobs_list = $(this);
+
+			// Initialize Sliders
+			let sliderSection = jobs_list.find( '.jb-double-range' );
+			if ( sliderSection.length > 0 ) {
+				sliderSection.find('input[type="range"]').each( function () {
+					let slider = $(this)[0];
+					slider.oninput = wp.JB.jobs_list.filters.slider.getValues;
+				});
+			}
+
+			// Run first request
+			wp.JB.jobs_list.ajax( jobs_list );
 		});
 	}
 
@@ -456,16 +472,37 @@ jQuery( document ).ready( function($) {
 
 
 	$( document.body ).on( 'click', '.jb-only-salary', function() {
-		if ( $(this).is(':checked') ) {
-			$('.jb-salary-filter').show();
-		} else {
-			$('.jb-salary-filter').hide();
-		}
-
-		var jobs_list = $(this).parents( '.jb-jobs' );
+		let jobs_list = $(this).parents( '.jb-jobs' );
 
 		if ( wp.JB.jobs_list.is_busy( jobs_list ) ) {
 			return;
+		}
+
+		if ( $(this).is(':checked') ) {
+			jobs_list.find('.jb-salary-filter').show();
+			let min = jobs_list.find( '.jb-double-range' ).data('min');
+			let max = jobs_list.find( '.jb-double-range' ).data('max');
+			wp.JB.jobs_list.url.set( jobs_list, 'jb-salary', min + '-' + max);
+		} else {
+			jobs_list.find('.jb-salary-filter').hide();
+
+			let min = jobs_list.find( '.jb-double-range > input:first' ).attr('min');
+			let max = jobs_list.find( '.jb-double-range > input:first' ).attr('max');
+
+			jobs_list.find( '.jb-double-range' ).data('min',min).data('max',max);
+
+			jobs_list.find( '.jb-double-range input' )[0].value = min;
+			jobs_list.find( '.jb-double-range input' )[1].value = max;
+
+			jobs_list.find( '.jb-double-range input' ).each( function(i) {
+				let val = max;
+				if ( 0 === i ) {
+					val = min;
+				}
+				$(this).val( val ).trigger('change');
+			})
+
+			wp.JB.jobs_list.url.set( jobs_list, 'jb-salary', '' );
 		}
 
 		jobs_list.find( '.jb-do-search' ).addClass('disabled');
@@ -474,15 +511,6 @@ jQuery( document ).ready( function($) {
 
 		jobs_list.data( 'page', 1 );
 		wp.JB.jobs_list.url.set( jobs_list, 'jb-page', '' );
-
-		var min = jobs_list.find( '.jb-double-range' ).data('min');
-		var max = jobs_list.find( '.jb-double-range' ).data('max');
-
-		if ( jobs_list.find( '.jb-only-salary' ).is(':checked') ) {
-			wp.JB.jobs_list.url.set(jobs_list, 'jb-salary', min + '-' + max);
-		} else {
-			wp.JB.jobs_list.url.set( jobs_list, 'jb-salary', '' );
-		}
 
 		wp.JB.jobs_list.ajax( jobs_list );
 	});
@@ -561,26 +589,20 @@ jQuery( document ).ready( function($) {
 		wp.JB.jobs_list.preloader.show( jobs_list );
 
 		// Initialize Sliders
-		var sliderSections = document.getElementsByClassName('jb-double-range');
-		for( var x = 0; x < sliderSections.length; x++ ){
-			var sliders = sliderSections[x].getElementsByTagName('input');
-			for( var y = 0; y < sliders.length; y++ ){
-				if ( sliders[y].type === 'range' ) {
-					sliders[y].oninput = wp.JB.jobs_list.filters.slider.getValues;
-					// Manually trigger event first time to display values
-					sliders[y].oninput();
-				}
-			}
-		}
+		let sliderSection = jobs_list.find( '.jb-double-range' );
+		sliderSection.find('input[type="range"]').each( function () {
+			let slider = $(this)[0];
+			slider.oninput();
+		});
 
-		var min = $(this).parents( '.jb-double-range' ).data('min');
-		var max = $(this).parents( '.jb-double-range' ).data('max');
+		var min = sliderSection.data('min');
+		var max = sliderSection.data('max');
 
 		jobs_list.data( 'page', 1 );
 
 		wp.JB.jobs_list.url.set( jobs_list, 'jb-salary', min + '-' + max );
 
-			wp.JB.jobs_list.ajax( jobs_list );
+		wp.JB.jobs_list.ajax( jobs_list );
 	});
 
 	window.addEventListener( 'popstate', function(e) {

@@ -121,6 +121,12 @@
         flex-wrap: wrap; }
         .jb-jobs .jb-jobs-header .jb-jobs-header-row.jb-jobs-filters-row label {
           margin: 0 10px 7px 0; }
+        .jb-jobs .jb-jobs-header .jb-jobs-header-row.jb-jobs-filters-row.jb-salary-filters-row {
+          justify-content: space-between;
+          column-gap: 7px; }
+          .jb-jobs .jb-jobs-header .jb-jobs-header-row.jb-jobs-filters-row.jb-salary-filters-row label {
+            margin-left: 0;
+            margin-right: 0; }
   .jb-jobs .jb-jobs-wrapper {
     display: flex;
     flex-direction: column;

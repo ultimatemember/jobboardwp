@@ -188,7 +188,6 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						(jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'numeric' AND jb_amount.meta_value BETWEEN $min AND $max) OR
 						(jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'range' AND ( jb_min_amount.meta_value BETWEEN $min AND $max OR jb_max_amount.meta_value BETWEEN $min AND $max) )
 					)";
-
 				}
 			}
 			// phpcs:enable WordPress.Security.NonceVerification
