@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-18T20:38:48+00:00\n"
+"POT-Creation-Date: 2023-05-18T23:06:56+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: jobboardwp\n"
@@ -29,12 +29,12 @@ msgstr ""
 msgid "Add a modern job board to your website. Display job listings and allow employers to submit and manage jobs all from the front-end"
 msgstr ""
 
-#: includes/admin/class-actions-listener.php:135
-#: includes/admin/class-actions-listener.php:174
-#: includes/admin/class-actions-listener.php:213
+#: includes/admin/class-actions-listener.php:158
+#: includes/admin/class-actions-listener.php:197
+#: includes/admin/class-actions-listener.php:236
 #: includes/admin/class-modules-list-table.php:362
-#: includes/admin/class-settings.php:77
-#: includes/admin/class-settings.php:783
+#: includes/admin/class-settings.php:85
+#: includes/admin/class-settings.php:799
 msgid "Modules"
 msgstr ""
 
@@ -103,13 +103,14 @@ msgid "(#ID) Position"
 msgstr ""
 
 #: includes/admin/class-columns.php:333
+#: includes/admin/templates/settings/version-template-list-table.php:30
 #: includes/frontend/class-shortcodes.php:528
 msgid "Status"
 msgstr ""
 
 #: includes/admin/class-columns.php:334
 #: includes/admin/templates/job/data.php:240
-#: templates/job-submission.php:325
+#: templates/job-submission.php:335
 msgid "Location"
 msgstr ""
 
@@ -119,24 +120,24 @@ msgid "Type"
 msgstr ""
 
 #: includes/admin/class-columns.php:337
-#: templates/job-categories.php:14
+#: templates/job-categories.php:24
 msgid "Category"
 msgstr ""
 
 #: includes/admin/class-columns.php:338
 #: includes/frontend/class-shortcodes.php:529
-#: templates/js/jobs-list.php:75
-#: templates/js/jobs-list.php:77
-#: templates/js/jobs-list.php:97
-#: templates/widgets/recent-jobs.php:65
-#: templates/widgets/recent-jobs.php:67
-#: templates/widgets/recent-jobs.php:90
+#: templates/js/jobs-list.php:85
+#: templates/js/jobs-list.php:87
+#: templates/js/jobs-list.php:107
+#: templates/widgets/recent-jobs.php:77
+#: templates/widgets/recent-jobs.php:79
+#: templates/widgets/recent-jobs.php:102
 msgid "Posted"
 msgstr ""
 
 #: includes/admin/class-columns.php:339
-#: templates/js/jobs-list.php:81
-#: templates/widgets/recent-jobs.php:71
+#: templates/js/jobs-list.php:91
+#: templates/widgets/recent-jobs.php:83
 msgid "Expires"
 msgstr ""
 
@@ -156,16 +157,19 @@ msgstr ""
 
 #: includes/admin/class-emails-list-table.php:44
 #: includes/admin/class-modules-list-table.php:53
+#: includes/admin/class-version-template-list-table.php:39
 msgid "item"
 msgstr ""
 
 #: includes/admin/class-emails-list-table.php:45
 #: includes/admin/class-modules-list-table.php:54
+#: includes/admin/class-version-template-list-table.php:40
 msgid "items"
 msgstr ""
 
 #: includes/admin/class-emails-list-table.php:50
 #: includes/admin/class-modules-list-table.php:59
+#: includes/admin/class-version-template-list-table.php:45
 msgid "not found."
 msgstr ""
 
@@ -204,7 +208,7 @@ msgstr ""
 
 #: includes/admin/class-forms.php:1039
 #: includes/frontend/class-forms.php:551
-#: templates/job/footer.php:68
+#: templates/job/footer.php:78
 msgid "Cancel"
 msgstr ""
 
@@ -261,8 +265,8 @@ msgstr ""
 #: includes/admin/class-menu.php:97
 #: includes/class-config.php:295
 #: includes/common/class-cpt.php:60
-#: templates/job-categories.php:15
-#: templates/js/job-categories-list.php:19
+#: templates/job-categories.php:25
+#: templates/js/job-categories-list.php:27
 msgid "Jobs"
 msgstr ""
 
@@ -277,7 +281,7 @@ msgid "Job Types"
 msgstr ""
 
 #: includes/admin/class-menu.php:102
-#: includes/admin/class-settings.php:589
+#: includes/admin/class-settings.php:597
 #: includes/admin/class-site-health.php:252
 #: includes/common/class-cpt.php:180
 #: includes/common/class-cpt.php:199
@@ -333,8 +337,8 @@ msgid "Flush module data"
 msgstr ""
 
 #: includes/admin/class-modules-list-table.php:379
-#: templates/job-submission.php:463
-#: templates/job/content.php:10
+#: templates/job-submission.php:473
+#: templates/job/content.php:20
 msgid "Description"
 msgstr ""
 
@@ -360,24 +364,29 @@ msgid "Click <a href=\"%s\" target=\"_blank\">here</a> to view our different pla
 msgstr ""
 
 #. translators: %1$s: plugin name, %2$s: list of pre-defined pages
-#: includes/admin/class-notices.php:255
+#: includes/admin/class-notices.php:256
 msgid "To add job board functionality to your website %1$s needs to create the following pages: %2$s."
 msgstr ""
 
-#: includes/admin/class-notices.php:263
+#: includes/admin/class-notices.php:264
 msgid "Create Pages"
 msgstr ""
 
-#: includes/admin/class-notices.php:267
+#: includes/admin/class-notices.php:268
 msgid "No thanks"
 msgstr ""
 
-#: includes/admin/class-notices.php:299
+#: includes/admin/class-notices.php:300
 msgid "Settings updated successfully."
 msgstr ""
 
+#. translators: %s override templates page link.
+#: includes/admin/class-notices.php:332
+msgid "Your templates are out of date. Please visit <a href=\"%s\">override templates status page</a> and update templates."
+msgstr ""
+
 #. translators: %1$s is a post title; %2$s is a post ID.
-#: includes/admin/class-settings.php:301
+#: includes/admin/class-settings.php:309
 #: includes/ajax/class-settings.php:75
 #: includes/integrations/polylang/integration.php:193
 #: includes/integrations/polylang/integration.php:233
@@ -387,247 +396,247 @@ msgid "%1$s (ID: %2$s)"
 msgstr ""
 
 #. translators: %s: page title
-#: includes/admin/class-settings.php:321
+#: includes/admin/class-settings.php:329
 msgid "%s page"
 msgstr ""
 
-#: includes/admin/class-settings.php:324
+#: includes/admin/class-settings.php:332
 msgid "Choose a page..."
 msgstr ""
 
-#: includes/admin/class-settings.php:332
+#: includes/admin/class-settings.php:340
 #: includes/admin/class-site-health.php:197
 msgid "Wordpress native post template"
 msgstr ""
 
-#: includes/admin/class-settings.php:333
+#: includes/admin/class-settings.php:341
 #: includes/admin/class-site-health.php:198
 msgid "Default job template"
 msgstr ""
 
-#: includes/admin/class-settings.php:342
+#: includes/admin/class-settings.php:350
 msgid "Wordpress native post archive template"
 msgstr ""
 
-#: includes/admin/class-settings.php:343
+#: includes/admin/class-settings.php:351
 msgid "Default job archive template"
 msgstr ""
 
-#: includes/admin/class-settings.php:428
+#: includes/admin/class-settings.php:436
 #: includes/admin/class-site-health.php:280
 msgid "Account Needed"
 msgstr ""
 
-#: includes/admin/class-settings.php:429
+#: includes/admin/class-settings.php:437
 msgid "Require users to be logged-in before they can submit a job."
 msgstr ""
 
-#: includes/admin/class-settings.php:434
+#: includes/admin/class-settings.php:442
 #: includes/admin/class-site-health.php:284
 msgid "User Registration"
 msgstr ""
 
-#: includes/admin/class-settings.php:435
+#: includes/admin/class-settings.php:443
 msgid "Allow users to create an account when submitting a job listing."
 msgstr ""
 
-#: includes/admin/class-settings.php:440
+#: includes/admin/class-settings.php:448
 #: includes/admin/class-site-health.php:319
 msgid "Use email addresses as usernames"
 msgstr ""
 
-#: includes/admin/class-settings.php:441
+#: includes/admin/class-settings.php:449
 msgid "Hide the username field on the submission form and set the username as the user's email address."
 msgstr ""
 
-#: includes/admin/class-settings.php:447
+#: includes/admin/class-settings.php:455
 #: includes/admin/class-site-health.php:323
 msgid "Email password link"
 msgstr ""
 
-#: includes/admin/class-settings.php:448
+#: includes/admin/class-settings.php:456
 msgid "Hide password field on submission form and send users an email with a link to set password."
 msgstr ""
 
-#: includes/admin/class-settings.php:454
+#: includes/admin/class-settings.php:462
 #: includes/admin/class-site-health.php:334
 msgid "\"Your Details\" for logged in users"
 msgstr ""
 
-#: includes/admin/class-settings.php:456
+#: includes/admin/class-settings.php:464
 #: includes/admin/class-site-health.php:335
 msgid "Hidden"
 msgstr ""
 
-#: includes/admin/class-settings.php:457
+#: includes/admin/class-settings.php:465
 #: includes/admin/class-site-health.php:335
 msgid "Visible with editable email, first/last name fields"
 msgstr ""
 
-#: includes/admin/class-settings.php:459
+#: includes/admin/class-settings.php:467
 msgid "Select if the \"Your Details\" section is shown for logged in users."
 msgstr ""
 
-#: includes/admin/class-settings.php:465
+#: includes/admin/class-settings.php:473
 #: includes/admin/class-site-health.php:338
 msgid "First and Last names required"
 msgstr ""
 
-#: includes/admin/class-settings.php:466
+#: includes/admin/class-settings.php:474
 msgid "Make the first and last name fields required."
 msgstr ""
 
-#: includes/admin/class-settings.php:472
+#: includes/admin/class-settings.php:480
 #: includes/admin/class-site-health.php:342
 msgid "User Role"
 msgstr ""
 
-#: includes/admin/class-settings.php:474
+#: includes/admin/class-settings.php:482
 msgid "New registered users who are created during submission will be assigned this role."
 msgstr ""
 
-#: includes/admin/class-settings.php:481
+#: includes/admin/class-settings.php:489
 #: includes/admin/class-site-health.php:346
 msgid "Set submissions as Pending"
 msgstr ""
 
-#: includes/admin/class-settings.php:482
+#: includes/admin/class-settings.php:490
 msgid "New job submissions will not appear on the jobs list until approved by admin."
 msgstr ""
 
-#: includes/admin/class-settings.php:487
+#: includes/admin/class-settings.php:495
 #: includes/admin/class-site-health.php:357
 msgid "Pending Job Edits"
 msgstr ""
 
-#: includes/admin/class-settings.php:488
+#: includes/admin/class-settings.php:496
 msgid "Allow users to edit their pending jobs until they are approved by an admin."
 msgstr ""
 
-#: includes/admin/class-settings.php:494
+#: includes/admin/class-settings.php:502
 #: includes/admin/class-site-health.php:424
 msgid "Job submitted notice"
 msgstr ""
 
-#: includes/admin/class-settings.php:495
+#: includes/admin/class-settings.php:503
 msgid "The text that appears after a job has been submitted."
 msgstr ""
 
-#: includes/admin/class-settings.php:502
+#: includes/admin/class-settings.php:510
 #: includes/admin/class-site-health.php:368
 msgid "Published Job Edits"
 msgstr ""
 
-#: includes/admin/class-settings.php:504
+#: includes/admin/class-settings.php:512
 #: includes/admin/class-site-health.php:207
 msgid "Users cannot edit their published job listings"
 msgstr ""
 
-#: includes/admin/class-settings.php:505
+#: includes/admin/class-settings.php:513
 #: includes/admin/class-site-health.php:208
 msgid "Users can edit their published job listings but edits require approval by admin"
 msgstr ""
 
-#: includes/admin/class-settings.php:506
+#: includes/admin/class-settings.php:514
 #: includes/admin/class-site-health.php:209
 msgid "Users can edit their published job listing without approval by admin"
 msgstr ""
 
-#: includes/admin/class-settings.php:508
+#: includes/admin/class-settings.php:516
 msgid "Select if users can edit their published jobs and if edits require admin approval."
 msgstr ""
 
-#: includes/admin/class-settings.php:514
+#: includes/admin/class-settings.php:522
 #: includes/admin/class-site-health.php:372
 msgid "Show individual expiry date"
 msgstr ""
 
-#: includes/admin/class-settings.php:515
+#: includes/admin/class-settings.php:523
 msgid "Allow users to set the job expiry date on the job posting form."
 msgstr ""
 
-#: includes/admin/class-settings.php:520
+#: includes/admin/class-settings.php:528
 #: includes/admin/class-site-health.php:383
 msgid "Job duration"
 msgstr ""
 
-#: includes/admin/class-settings.php:521
+#: includes/admin/class-settings.php:529
 msgid "Set how long you want jobs to appear on the jobs list. After the set duration jobs will set to expired. If you do not want jobs to have an expiration date, leave this field blank."
 msgstr ""
 
-#: includes/admin/class-settings.php:528
+#: includes/admin/class-settings.php:536
 msgid "Send expiration reminder to the author?"
 msgstr ""
 
-#: includes/admin/class-settings.php:529
+#: includes/admin/class-settings.php:537
 msgid "Enable notification to the job author about the job expiration."
 msgstr ""
 
-#: includes/admin/class-settings.php:534
+#: includes/admin/class-settings.php:542
 #: includes/admin/class-site-health.php:405
 msgid "Reminder time for \"X\" days"
 msgstr ""
 
-#: includes/admin/class-settings.php:535
+#: includes/admin/class-settings.php:543
 msgid "Set the number of days before expiration when the job author receives an email."
 msgstr ""
 
-#: includes/admin/class-settings.php:536
+#: includes/admin/class-settings.php:544
 msgid "Job duration must be longer than \"X\" days."
 msgstr ""
 
-#: includes/admin/class-settings.php:543
+#: includes/admin/class-settings.php:551
 #: includes/admin/class-site-health.php:416
 msgid "Required job type"
 msgstr ""
 
-#: includes/admin/class-settings.php:544
+#: includes/admin/class-settings.php:552
 msgid "Job type is required."
 msgstr ""
 
-#: includes/admin/class-settings.php:552
+#: includes/admin/class-settings.php:560
 #: includes/admin/class-site-health.php:307
 msgid "Required job salary"
 msgstr ""
 
-#: includes/admin/class-settings.php:553
+#: includes/admin/class-settings.php:561
 msgid "Job salary is required."
 msgstr ""
 
-#: includes/admin/class-settings.php:563
+#: includes/admin/class-settings.php:571
 #: includes/admin/class-site-health.php:420
 msgid "How to apply"
 msgstr ""
 
-#: includes/admin/class-settings.php:565
+#: includes/admin/class-settings.php:573
 #: includes/admin/class-site-health.php:213
 msgid "Email addresses"
 msgstr ""
 
-#: includes/admin/class-settings.php:566
+#: includes/admin/class-settings.php:574
 #: includes/admin/class-site-health.php:214
 msgid "Website URL"
 msgstr ""
 
-#: includes/admin/class-settings.php:567
+#: includes/admin/class-settings.php:575
 #: includes/admin/class-site-health.php:215
 msgid "Email address or website URL"
 msgstr ""
 
-#: includes/admin/class-settings.php:569
+#: includes/admin/class-settings.php:577
 msgid "Select whether employers have to provide an email address, website URL or either for their job listing, so job seekers can apply for the job."
 msgstr ""
 
-#: includes/admin/class-settings.php:577
+#: includes/admin/class-settings.php:585
 msgid "General"
 msgstr ""
 
-#: includes/admin/class-settings.php:580
+#: includes/admin/class-settings.php:588
 #: includes/admin/class-site-health.php:248
 msgid "Pages"
 msgstr ""
 
-#: includes/admin/class-settings.php:584
+#: includes/admin/class-settings.php:592
 #: includes/common/class-cpt.php:61
 #: includes/common/class-cpt.php:365
 #: includes/blocks/jb-job/build/index.js:1
@@ -636,184 +645,184 @@ msgstr ""
 msgid "Job"
 msgstr ""
 
-#: includes/admin/class-settings.php:590
+#: includes/admin/class-settings.php:598
 msgid "Enable categories for jobs."
 msgstr ""
 
-#: includes/admin/class-settings.php:596
+#: includes/admin/class-settings.php:604
 #: includes/admin/class-site-health.php:256
 msgid "Job Template"
 msgstr ""
 
-#: includes/admin/class-settings.php:597
+#: includes/admin/class-settings.php:605
 msgid "Select which template you would like applied to the job CPT."
 msgstr ""
 
-#: includes/admin/class-settings.php:604
+#: includes/admin/class-settings.php:612
 msgid "Jobs Archive Template"
 msgstr ""
 
-#: includes/admin/class-settings.php:605
+#: includes/admin/class-settings.php:613
 msgid "Select which template you would like applied to the jobs archives by job type and job category."
 msgstr ""
 
-#: includes/admin/class-settings.php:612
+#: includes/admin/class-settings.php:620
 #: includes/admin/class-site-health.php:202
 msgid "Relative to the posting date (e.g., 1 hour, 1 day, 1 week ago)"
 msgstr ""
 
-#: includes/admin/class-settings.php:613
+#: includes/admin/class-settings.php:621
 #: includes/admin/class-site-health.php:203
 msgid "Default date format set via WP > Settings > General"
 msgstr ""
 
-#: includes/admin/class-settings.php:615
+#: includes/admin/class-settings.php:623
 #: includes/admin/class-site-health.php:260
 msgid "Date format"
 msgstr ""
 
-#: includes/admin/class-settings.php:616
+#: includes/admin/class-settings.php:624
 msgid "Select the date format used for jobs on the front-end."
 msgstr ""
 
-#: includes/admin/class-settings.php:621
+#: includes/admin/class-settings.php:629
 #: includes/admin/class-site-health.php:264
 msgid "Show breadcrumbs on the job page"
 msgstr ""
 
-#: includes/admin/class-settings.php:627
+#: includes/admin/class-settings.php:635
 msgid "Enable salary"
 msgstr ""
 
-#: includes/admin/class-settings.php:628
+#: includes/admin/class-settings.php:636
 msgid "Allow users to set job salary data."
 msgstr ""
 
-#: includes/admin/class-settings.php:633
+#: includes/admin/class-settings.php:641
 #: includes/admin/class-site-health.php:303
 msgid "Currency"
 msgstr ""
 
-#: includes/admin/class-settings.php:634
+#: includes/admin/class-settings.php:642
 msgid "What currency will be used for salary."
 msgstr ""
 
-#: includes/admin/class-settings.php:641
+#: includes/admin/class-settings.php:649
 msgid "Currency position"
 msgstr ""
 
-#: includes/admin/class-settings.php:642
+#: includes/admin/class-settings.php:650
 msgid "This controls the position of the currency symbol."
 msgstr ""
 
-#: includes/admin/class-settings.php:644
+#: includes/admin/class-settings.php:652
 msgid "Left"
 msgstr ""
 
-#: includes/admin/class-settings.php:645
+#: includes/admin/class-settings.php:653
 msgid "Right"
 msgstr ""
 
-#: includes/admin/class-settings.php:646
+#: includes/admin/class-settings.php:654
 msgid "Left with space"
 msgstr ""
 
-#: includes/admin/class-settings.php:647
+#: includes/admin/class-settings.php:655
 msgid "Right with space"
 msgstr ""
 
-#: includes/admin/class-settings.php:654
+#: includes/admin/class-settings.php:662
 #: includes/admin/class-site-health.php:272
 msgid "GoogleMaps API key"
 msgstr ""
 
-#: includes/admin/class-settings.php:655
+#: includes/admin/class-settings.php:663
 msgid "Enable using GoogleMaps API for getting extended data about job location."
 msgstr ""
 
-#: includes/admin/class-settings.php:661
+#: includes/admin/class-settings.php:669
 #: includes/admin/class-site-health.php:276
 msgid "Disable Google structured data"
 msgstr ""
 
-#: includes/admin/class-settings.php:662
+#: includes/admin/class-settings.php:670
 msgid "Disable parsing an individual job page as \"Google JobPosting\" data by the robots."
 msgstr ""
 
-#: includes/admin/class-settings.php:668
+#: includes/admin/class-settings.php:676
 msgid "Job Submission"
 msgstr ""
 
-#: includes/admin/class-settings.php:672
+#: includes/admin/class-settings.php:680
 msgid "Jobs List"
 msgstr ""
 
-#: includes/admin/class-settings.php:677
+#: includes/admin/class-settings.php:685
 #: includes/admin/class-site-health.php:428
 msgid "Jobs per page"
 msgstr ""
 
-#: includes/admin/class-settings.php:678
+#: includes/admin/class-settings.php:686
 msgid "How many jobs would you like to appear on initial load and after clicking load more button."
 msgstr ""
 
-#: includes/admin/class-settings.php:684
+#: includes/admin/class-settings.php:692
 #: includes/admin/class-site-health.php:432
 msgid "Hide Logos"
 msgstr ""
 
-#: includes/admin/class-settings.php:685
+#: includes/admin/class-settings.php:693
 msgid "If selected company logos will not appear on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:690
+#: includes/admin/class-settings.php:698
 #: includes/admin/class-site-health.php:436
 msgid "Hide filled jobs"
 msgstr ""
 
-#: includes/admin/class-settings.php:691
+#: includes/admin/class-settings.php:699
 msgid "If selected jobs that have been marked as filled will not appear on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:696
+#: includes/admin/class-settings.php:704
 #: includes/admin/class-site-health.php:440
 msgid "Hide expired jobs"
 msgstr ""
 
-#: includes/admin/class-settings.php:697
+#: includes/admin/class-settings.php:705
 msgid "If selected jobs that have expired will not appear in jobs list or in archive/search."
 msgstr ""
 
-#: includes/admin/class-settings.php:702
+#: includes/admin/class-settings.php:710
 #: includes/admin/class-site-health.php:444
 msgid "Hide search field"
 msgstr ""
 
-#: includes/admin/class-settings.php:703
+#: includes/admin/class-settings.php:711
 msgid "If selected the search field will not be displayed on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:708
+#: includes/admin/class-settings.php:716
 #: includes/admin/class-site-health.php:448
 msgid "Hide location field"
 msgstr ""
 
-#: includes/admin/class-settings.php:709
+#: includes/admin/class-settings.php:717
 msgid "If selected the location search field will not be displayed on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:714
+#: includes/admin/class-settings.php:722
 #: includes/admin/class-site-health.php:452
 #: includes/blocks/jb-jobs-list/build/index.js:1
 #: includes/blocks/jb-jobs-list/src/index.js:305
 msgid "Hide filters"
 msgstr ""
 
-#: includes/admin/class-settings.php:715
+#: includes/admin/class-settings.php:723
 msgid "If selected the filters section will not be displayed on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:720
+#: includes/admin/class-settings.php:728
 #: includes/admin/class-site-health.php:456
 #: includes/widgets/class-recent-jobs.php:192
 #: includes/blocks/jb-jobs-list/build/index.js:1
@@ -823,102 +832,136 @@ msgstr ""
 msgid "Hide job types"
 msgstr ""
 
-#: includes/admin/class-settings.php:721
+#: includes/admin/class-settings.php:729
 msgid "If selected the job types filter will not be displayed on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:728
+#: includes/admin/class-settings.php:736
 #: includes/admin/templates/settings/emails-list-table.php:26
-#: templates/job-submission.php:153
-#: templates/job-submission.php:177
+#: templates/job-submission.php:163
+#: templates/job-submission.php:187
 msgid "Email"
 msgstr ""
 
-#: includes/admin/class-settings.php:733
+#: includes/admin/class-settings.php:741
 #: includes/admin/class-site-health.php:492
 msgid "Admin E-mail Address"
 msgstr ""
 
-#: includes/admin/class-settings.php:734
-#: includes/admin/class-settings.php:746
+#: includes/admin/class-settings.php:742
+#: includes/admin/class-settings.php:754
 msgid "e.g. admin@companyname.com"
 msgstr ""
 
-#: includes/admin/class-settings.php:739
+#: includes/admin/class-settings.php:747
 #: includes/admin/class-site-health.php:496
 msgid "Mail appears from"
 msgstr ""
 
-#: includes/admin/class-settings.php:740
+#: includes/admin/class-settings.php:748
 msgid "e.g. Site Name"
 msgstr ""
 
-#: includes/admin/class-settings.php:745
+#: includes/admin/class-settings.php:753
 #: includes/admin/class-site-health.php:500
 msgid "Mail appears from address"
 msgstr ""
 
-#: includes/admin/class-settings.php:751
+#: includes/admin/class-settings.php:759
 msgid "Styles"
 msgstr ""
 
-#: includes/admin/class-settings.php:756
+#: includes/admin/class-settings.php:764
 #: includes/admin/class-site-health.php:460
 msgid "Disable styles"
 msgstr ""
 
-#: includes/admin/class-settings.php:757
+#: includes/admin/class-settings.php:765
 msgid "Check this to disable all included styling of buttons, and all other elements."
 msgstr ""
 
-#: includes/admin/class-settings.php:762
+#: includes/admin/class-settings.php:770
 #: includes/admin/class-site-health.php:464
 msgid "Disable FontAwesome styles"
 msgstr ""
 
-#: includes/admin/class-settings.php:763
+#: includes/admin/class-settings.php:771
 msgid "To avoid duplicates if you have enqueued FontAwesome styles you could disable it."
 msgstr ""
 
-#: includes/admin/class-settings.php:768
+#: includes/admin/class-settings.php:776
 msgid "Misc"
 msgstr ""
 
-#: includes/admin/class-settings.php:773
+#: includes/admin/class-settings.php:781
 #: includes/admin/class-site-health.php:468
 msgid "Delete settings on uninstall"
 msgstr ""
 
-#: includes/admin/class-settings.php:774
+#: includes/admin/class-settings.php:782
 msgid "Once removed, this data cannot be restored."
 msgstr ""
 
-#: includes/admin/class-settings.php:868
+#: includes/admin/class-settings.php:787
+msgid "Override templates"
+msgstr ""
+
+#: includes/admin/class-settings.php:884
 msgid "Subject Line"
 msgstr ""
 
-#: includes/admin/class-settings.php:869
+#: includes/admin/class-settings.php:885
 msgid "This is the subject line of the e-mail"
 msgstr ""
 
-#: includes/admin/class-settings.php:875
+#: includes/admin/class-settings.php:891
 msgid "Message Body"
 msgstr ""
 
-#: includes/admin/class-settings.php:876
+#: includes/admin/class-settings.php:892
 msgid "This is the content of the e-mail"
 msgstr ""
 
-#: includes/admin/class-settings.php:905
+#: includes/admin/class-settings.php:921
 msgid "Job base"
 msgstr ""
 
-#: includes/admin/class-settings.php:912
+#: includes/admin/class-settings.php:928
 msgid "Job type base"
 msgstr ""
 
-#: includes/admin/class-settings.php:921
+#: includes/admin/class-settings.php:937
 msgid "Job category base"
+msgstr ""
+
+#: includes/admin/class-settings.php:1378
+msgid "Re-check templates"
+msgstr ""
+
+#. translators: %s: Last checking templates time.
+#: includes/admin/class-settings.php:1383
+msgid "Last update: %s. You could re-check changes manually."
+msgstr ""
+
+#: includes/admin/class-settings.php:1385
+msgid "Templates haven't check yet. You could check changes manually."
+msgstr ""
+
+#. translators: %s: Link to the docs article.
+#: includes/admin/class-settings.php:1393
+msgid "You may get more details about overriding templates <a href=\"%s\" target=\"_blank\">here</a>."
+msgstr ""
+
+#: includes/admin/class-settings.php:1479
+msgid "Theme version up to date"
+msgstr ""
+
+#: includes/admin/class-settings.php:1482
+msgid "Theme version is out of date"
+msgstr ""
+
+#: includes/admin/class-settings.php:1486
+msgid "Theme version is empty"
 msgstr ""
 
 #: includes/admin/class-site-health.php:73
@@ -1024,6 +1067,14 @@ msgstr ""
 msgid "Active modules"
 msgstr ""
 
+#: includes/admin/class-version-template-list-table.php:141
+msgid "Core path - "
+msgstr ""
+
+#: includes/admin/class-version-template-list-table.php:143
+msgid "Theme path - "
+msgstr ""
+
 #: includes/admin/templates/job-type/styling-create.php:23
 #: includes/admin/templates/job-type/styling-edit.php:12
 msgid "Tag Color"
@@ -1051,8 +1102,8 @@ msgstr ""
 
 #: includes/admin/templates/job/data.php:57
 #: includes/admin/templates/job/data.php:182
-#: templates/job-submission.php:33
-#: templates/job-submission.php:52
+#: templates/job-submission.php:43
+#: templates/job-submission.php:62
 msgid "(None)"
 msgstr ""
 
@@ -1071,7 +1122,7 @@ msgstr ""
 #: includes/admin/templates/job/data.php:164
 #: includes/common/class-cpt.php:134
 #: includes/frontend/class-jobs-directory.php:69
-#: templates/job-submission.php:361
+#: templates/job-submission.php:371
 msgid "Job Type"
 msgstr ""
 
@@ -1095,7 +1146,7 @@ msgstr ""
 
 #: includes/admin/templates/job/data.php:230
 #: includes/common/class-job.php:243
-#: templates/job-submission.php:317
+#: templates/job-submission.php:327
 msgid "Onsite"
 msgstr ""
 
@@ -1103,7 +1154,7 @@ msgstr ""
 #: includes/common/class-job.php:246
 #: includes/common/class-job.php:290
 #: includes/common/class-job.php:315
-#: templates/job-submission.php:318
+#: templates/job-submission.php:328
 msgid "Remote"
 msgstr ""
 
@@ -1117,8 +1168,8 @@ msgid "Required for onsite jobs."
 msgstr ""
 
 #: includes/admin/templates/job/data.php:250
-#: templates/job-submission.php:337
-#: templates/job-submission.php:348
+#: templates/job-submission.php:347
+#: templates/job-submission.php:358
 msgid "Preferred Location"
 msgstr ""
 
@@ -1175,7 +1226,7 @@ msgid "Featured Order"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:336
-#: templates/job-submission.php:383
+#: templates/job-submission.php:393
 msgid "Salary"
 msgstr ""
 
@@ -1184,37 +1235,37 @@ msgid "Please select salary"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:341
-#: templates/job-submission.php:387
+#: templates/job-submission.php:397
 msgid "Not specified"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:342
-#: templates/job-submission.php:388
+#: templates/job-submission.php:398
 msgid "Fixed"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:343
-#: templates/job-submission.php:389
+#: templates/job-submission.php:399
 msgid "Recurring"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:350
-#: templates/job-submission.php:395
+#: templates/job-submission.php:405
 msgid "Salary amount type"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:351
-#: templates/job-submission.php:396
+#: templates/job-submission.php:406
 msgid "Please select amount type"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:354
-#: templates/job-submission.php:399
+#: templates/job-submission.php:409
 msgid "Numeric"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:355
-#: templates/job-submission.php:400
+#: templates/job-submission.php:410
 msgid "Range (min-max)"
 msgstr ""
 
@@ -1225,7 +1276,7 @@ msgstr ""
 
 #. translators: %s - Currency symbol
 #: includes/admin/templates/job/data.php:380
-#: templates/job-submission.php:419
+#: templates/job-submission.php:429
 msgid "Salary Min Amount %s"
 msgstr ""
 
@@ -1235,7 +1286,7 @@ msgstr ""
 
 #. translators: %s - Currency symbol
 #: includes/admin/templates/job/data.php:393
-#: templates/job-submission.php:429
+#: templates/job-submission.php:439
 msgid "Salary Max Amount %s"
 msgstr ""
 
@@ -1244,27 +1295,27 @@ msgid "Set to \"0\" for displaying only min amount. (E.g. \"Salary starts from {
 msgstr ""
 
 #: includes/admin/templates/job/data.php:403
-#: templates/job-submission.php:438
+#: templates/job-submission.php:448
 msgid "Salary Period"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:406
-#: templates/job-submission.php:442
+#: templates/job-submission.php:452
 msgid "Hour"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:407
-#: templates/job-submission.php:443
+#: templates/job-submission.php:453
 msgid "Day"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:408
-#: templates/job-submission.php:444
+#: templates/job-submission.php:454
 msgid "Week"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:409
-#: templates/job-submission.php:445
+#: templates/job-submission.php:455
 msgid "Month"
 msgstr ""
 
@@ -1286,6 +1337,23 @@ msgstr ""
 
 #: includes/admin/templates/settings/settings.php:49
 msgid "Save Changes"
+msgstr ""
+
+#: includes/admin/templates/settings/version-template-list-table.php:8
+#: includes/admin/templates/settings/version-template-list-table.php:27
+msgid "Template"
+msgstr ""
+
+#: includes/admin/templates/settings/version-template-list-table.php:9
+msgid "Templates"
+msgstr ""
+
+#: includes/admin/templates/settings/version-template-list-table.php:28
+msgid "Core version"
+msgstr ""
+
+#: includes/admin/templates/settings/version-template-list-table.php:29
+msgid "Theme version"
 msgstr ""
 
 #: includes/ajax/class-employer.php:56
@@ -1411,7 +1479,7 @@ msgid "Jobs Dashboard"
 msgstr ""
 
 #: includes/class-config.php:307
-#: templates/job-submission.php:496
+#: templates/job-submission.php:506
 msgid "Company Details"
 msgstr ""
 
@@ -2116,11 +2184,11 @@ msgid "Zambian kwacha"
 msgstr ""
 
 #. translators: %s template
-#: includes/class-jb-functions.php:610
+#: includes/class-jb-functions.php:613
 msgid "<code>%s</code> does not exist."
 msgstr ""
 
-#: includes/class-jb-functions.php:629
+#: includes/class-jb-functions.php:632
 msgid "`action_args` should not be overwritten when calling `jb_get_template()`."
 msgstr ""
 
@@ -3057,7 +3125,7 @@ msgid "Username or Email Address"
 msgstr ""
 
 #: includes/frontend/class-shortcodes.php:347
-#: templates/job-submission.php:216
+#: templates/job-submission.php:226
 msgid "Password"
 msgstr ""
 
@@ -3089,8 +3157,8 @@ msgid "Title"
 msgstr ""
 
 #: includes/frontend/class-shortcodes.php:530
-#: templates/js/jobs-list.php:83
-#: templates/widgets/recent-jobs.php:73
+#: templates/js/jobs-list.php:93
+#: templates/widgets/recent-jobs.php:85
 msgid "Closing on"
 msgstr ""
 
@@ -3154,52 +3222,52 @@ msgid "Hide logos"
 msgstr ""
 
 #: templates/company-details.php:43
-#: templates/job-submission.php:500
+#: templates/job-submission.php:510
 msgid "Name"
 msgstr ""
 
 #: templates/company-details.php:47
-#: templates/job-submission.php:504
+#: templates/job-submission.php:514
 msgid "Enter the name of the company"
 msgstr ""
 
 #: templates/company-details.php:51
-#: templates/job-submission.php:508
+#: templates/job-submission.php:518
 msgid "Website"
 msgstr ""
 
 #: templates/company-details.php:57
-#: templates/job-submission.php:514
+#: templates/job-submission.php:524
 msgid "Tagline"
 msgstr ""
 
 #: templates/company-details.php:60
-#: templates/job-submission.php:517
+#: templates/job-submission.php:527
 msgid "Briefly describe your company"
 msgstr ""
 
 #: templates/company-details.php:64
-#: templates/job-submission.php:521
+#: templates/job-submission.php:531
 msgid "Twitter username"
 msgstr ""
 
 #: templates/company-details.php:70
-#: templates/job-submission.php:527
+#: templates/job-submission.php:537
 msgid "Facebook username"
 msgstr ""
 
 #: templates/company-details.php:76
-#: templates/job-submission.php:533
+#: templates/job-submission.php:543
 msgid "Instagram username"
 msgstr ""
 
 #: templates/company-details.php:82
-#: templates/job-submission.php:539
+#: templates/job-submission.php:549
 msgid "Logo"
 msgstr ""
 
 #: templates/company-details.php:85
-#: templates/job-submission.php:542
+#: templates/job-submission.php:552
 msgid "Company logo image"
 msgstr ""
 
@@ -3208,235 +3276,235 @@ msgid "Save"
 msgstr ""
 
 #. translators: %s: login link
-#: templates/dashboard/jobs.php:15
+#: templates/dashboard/jobs.php:25
 msgid "<a href=\"%s\">Sign in</a> to view your job listings."
 msgstr ""
 
-#: templates/job-preview.php:9
-#: templates/job-submission.php:245
+#: templates/job-preview.php:19
+#: templates/job-submission.php:255
 msgid "Preview"
 msgstr ""
 
-#: templates/job-preview.php:44
+#: templates/job-preview.php:54
 msgid "Continue Editing"
 msgstr ""
 
-#: templates/job-preview.php:51
+#: templates/job-preview.php:61
 msgid "Submit Job"
 msgstr ""
 
-#: templates/job-submission.php:12
+#: templates/job-submission.php:22
 msgid "You must sign in to create a new job."
 msgstr ""
 
-#: templates/job-submission.php:13
+#: templates/job-submission.php:23
 msgid "Sign in"
 msgstr ""
 
-#: templates/job-submission.php:160
-#: templates/job-submission.php:197
+#: templates/job-submission.php:170
+#: templates/job-submission.php:207
 msgid "First name"
 msgstr ""
 
-#: templates/job-submission.php:167
-#: templates/job-submission.php:203
+#: templates/job-submission.php:177
+#: templates/job-submission.php:213
 msgid "Last name"
 msgstr ""
 
-#: templates/job-submission.php:186
+#: templates/job-submission.php:196
 msgid "Username"
 msgstr ""
 
-#: templates/job-submission.php:222
+#: templates/job-submission.php:232
 msgid "Confirm Password"
 msgstr ""
 
-#: templates/job-submission.php:235
+#: templates/job-submission.php:245
 msgid "Your account details will be confirmed via email."
 msgstr ""
 
-#: templates/job-submission.php:255
+#: templates/job-submission.php:265
 msgid "Save Draft"
 msgstr ""
 
-#: templates/job-submission.php:295
+#: templates/job-submission.php:305
 msgid "Your Details"
 msgstr ""
 
-#: templates/job-submission.php:307
+#: templates/job-submission.php:317
 msgid "Job Title"
 msgstr ""
 
-#: templates/job-submission.php:314
+#: templates/job-submission.php:324
 msgid "Job Location"
 msgstr ""
 
-#: templates/job-submission.php:319
+#: templates/job-submission.php:329
 msgid "Onsite or Remote"
 msgstr ""
 
-#: templates/job-submission.php:326
-#: templates/job-submission.php:338
-#: templates/job-submission.php:349
+#: templates/job-submission.php:336
+#: templates/job-submission.php:348
+#: templates/job-submission.php:359
 msgid "City, State, or Country"
 msgstr ""
 
-#: templates/job-submission.php:363
+#: templates/job-submission.php:373
 msgid "Please select job type"
 msgstr ""
 
-#: templates/job-submission.php:384
+#: templates/job-submission.php:394
 msgid "Please select salary type"
 msgstr ""
 
 #. translators: %s - Currency symbol
-#: templates/job-submission.php:409
+#: templates/job-submission.php:419
 msgid "Salary amount %s"
 msgstr ""
 
-#: templates/job-submission.php:410
+#: templates/job-submission.php:420
 msgid "Enter salary amount"
 msgstr ""
 
-#: templates/job-submission.php:420
+#: templates/job-submission.php:430
 msgid "Enter salary min amount"
 msgstr ""
 
-#: templates/job-submission.php:430
+#: templates/job-submission.php:440
 msgid "Enter salary max amount"
 msgstr ""
 
-#: templates/job-submission.php:439
+#: templates/job-submission.php:449
 msgid "Please select salary period"
 msgstr ""
 
-#: templates/job-submission.php:454
+#: templates/job-submission.php:464
 msgid "Enter an email address or website URL"
 msgstr ""
 
-#: templates/job-submission.php:456
+#: templates/job-submission.php:466
 msgid "Enter an email address"
 msgstr ""
 
-#: templates/job-submission.php:458
+#: templates/job-submission.php:468
 msgid "Enter a website URL"
 msgstr ""
 
-#: templates/job-submission.php:472
+#: templates/job-submission.php:482
 msgid "Expired date"
 msgstr ""
 
-#: templates/job-submission.php:480
+#: templates/job-submission.php:490
 msgid "Application Contact"
 msgstr ""
 
-#: templates/job-submission.php:492
+#: templates/job-submission.php:502
 msgid "Job Details"
 msgstr ""
 
-#: templates/job/breadcrumbs.php:16
+#: templates/job/breadcrumbs.php:26
 msgid "All jobs"
 msgstr ""
 
-#: templates/job/footer.php:21
+#: templates/job/footer.php:31
 msgid "Apply for job"
 msgstr ""
 
 #. translators: %1$s: application type, %2$s: home URL
-#: templates/job/footer.php:29
+#: templates/job/footer.php:39
 msgid "Application via %1$s job on %2$s"
 msgstr ""
 
 #. translators: %1$s: mailto URL, %2$s: contact email
-#: templates/job/footer.php:39
+#: templates/job/footer.php:49
 msgid "To apply for this job <strong>email your details to</strong> <a href=\"%1$s\">%2$s</a>."
 msgstr ""
 
 #. translators: %1$s: application's website URL, %2$s: application's website URL text
-#: templates/job/footer.php:60
+#: templates/job/footer.php:70
 msgid "To apply for this job please visit <a href=\"%1$s\">%2$s</a>."
 msgstr ""
 
-#: templates/job/notices.php:12
+#: templates/job/notices.php:22
 msgid "This job has been filled"
 msgstr ""
 
-#: templates/job/notices.php:18
+#: templates/job/notices.php:28
 msgid "This job has been expired"
 msgstr ""
 
-#: templates/jobs/search-bar.php:39
-#: templates/jobs/search-bar.php:70
+#: templates/jobs/search-bar.php:49
+#: templates/jobs/search-bar.php:80
 msgid "Find Jobs:"
 msgstr ""
 
-#: templates/jobs/search-bar.php:51
+#: templates/jobs/search-bar.php:61
 msgid "Job title, keywords, or company"
 msgstr ""
 
-#: templates/jobs/search-bar.php:53
+#: templates/jobs/search-bar.php:63
 msgid "Find Jobs by title"
 msgstr ""
 
-#: templates/jobs/search-bar.php:71
+#: templates/jobs/search-bar.php:81
 msgid "City, State or Country"
 msgstr ""
 
-#: templates/jobs/search-bar.php:71
+#: templates/jobs/search-bar.php:81
 msgid "Find Jobs by location"
 msgstr ""
 
-#: templates/jobs/search-bar.php:91
+#: templates/jobs/search-bar.php:101
 msgid "Find Jobs"
 msgstr ""
 
-#: templates/jobs/search-bar.php:106
+#: templates/jobs/search-bar.php:116
 msgid "Show only remote jobs"
 msgstr ""
 
-#: templates/jobs/search-bar.php:134
+#: templates/jobs/search-bar.php:144
 msgid "Select job type"
 msgstr ""
 
-#: templates/jobs/search-bar.php:174
+#: templates/jobs/search-bar.php:184
 msgid "Select job category"
 msgstr ""
 
-#: templates/jobs/search-bar.php:210
+#: templates/jobs/search-bar.php:220
 msgid "Show only jobs with salary"
 msgstr ""
 
-#: templates/jobs/search-bar.php:217
+#: templates/jobs/search-bar.php:227
 msgid "Salary range: "
 msgstr ""
 
-#: templates/js/job-categories-list.php:20
+#: templates/js/job-categories-list.php:28
 msgid "Jobs:"
 msgstr ""
 
-#: templates/js/jobs-dashboard.php:40
+#: templates/js/jobs-dashboard.php:48
 msgid "Status: "
 msgstr ""
 
-#: templates/js/jobs-dashboard.php:51
+#: templates/js/jobs-dashboard.php:59
 msgid "Posted: "
 msgstr ""
 
-#: templates/js/jobs-dashboard.php:60
+#: templates/js/jobs-dashboard.php:68
 msgid "Expires: "
 msgstr ""
 
-#: templates/js/jobs-dashboard.php:70
+#: templates/js/jobs-dashboard.php:78
 msgid "More Actions"
 msgstr ""
 
 #. translators: %s: Post a job URL
-#: templates/js/jobs-dashboard.php:92
+#: templates/js/jobs-dashboard.php:100
 msgid "No created jobs yet. <a href=\"%s\">Create</a> new one."
 msgstr ""
 
-#: templates/js/jobs-list.php:34
-#: templates/js/jobs-list.php:102
+#: templates/js/jobs-list.php:44
+#: templates/js/jobs-list.php:112
 msgid "Featured"
 msgstr ""
 
