@@ -1376,10 +1376,9 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							}
 						}
 
-						$company_logo   = '';
-						$set_attachment = false;
+						$company_logo = '';
 						if ( ! empty( $_POST['company_logo'] ) && ! empty( $_POST['company_logo_hash'] ) ) {
-							// new company logo has been uploaded so we need to update current user logo
+							// The new company logo has been uploaded, so we need to update the current user logo
 							if ( md5( sanitize_file_name( $_POST['company_logo'] ) . '_jb_uploader_security_salt' ) !== sanitize_key( $_POST['company_logo_hash'] ) ) {
 								// invalid salt for company logo, it's for the security enhancements
 								$posting_form->add_error( 'company_logo', __( 'Something wrong with image, please re-upload', 'jobboardwp' ) );
@@ -1411,16 +1410,15 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								$oldname = wp_normalize_path( JB()->common()->filesystem()->temp_upload_dir . DIRECTORY_SEPARATOR . $company_logo_temp );
 
 								if ( file_exists( $oldname ) && rename( $oldname, $newname ) ) {
-									$company_logo   = trailingslashit( $logos_url ) . $user_id . '.' . $type['ext'];
-									$set_attachment = true;
+									$company_logo = trailingslashit( $logos_url ) . $user_id . '.' . $type['ext'];
 								}
 							}
 						} elseif ( ! empty( $_POST['company_logo'] ) ) {
-							// post a job with regular company logo that hasn't been changed when posting a job
-							$company_logo_post = ! empty( $_POST['company_logo'] ) ? sanitize_text_field( $_POST['company_logo'] ) : '';
+							// post a job with a regular company logo that hasn't been changed when posting a job
+							$company_logo_post = sanitize_text_field( $_POST['company_logo'] );
 
 							if ( ! filter_var( $company_logo_post, FILTER_VALIDATE_URL ) ) {
-								// company logo must be an URL
+								// company logo must be a URL
 								$posting_form->add_error( 'company_logo', __( 'Wrong image URL. Invalid URL', 'jobboardwp' ) );
 
 							} else {
@@ -1450,7 +1448,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 										$posting_form->add_error( 'company_logo', __( 'Wrong image URL. Invalid job', 'jobboardwp' ) );
 
 									} else {
-										// case when job has own thumbnail
+										// case when a job has own thumbnail
 										$attachment_id = get_post_thumbnail_id( absint( $_GET['job-id'] ) );
 										if ( ! $attachment_id ) {
 
@@ -1469,8 +1467,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									}
 								} else {
 									// case when we get the company logo from the employer image
-									$company_logo   = $company_logo_post;
-									$set_attachment = true;
+									$company_logo = $company_logo_post;
 								}
 							}
 						}
@@ -1481,12 +1478,12 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 						 * Note: Use this hook for adding custom validations to your Company Details.
 						 *
 						 * @since 1.2.6
-						 * @hook jb-company-details-validation
+						 * @hook jb_company_details_validation
 						 *
 						 * @param {object} $posting_form Frontend form class (\jb\frontend\Forms) instance.
 						 * @param {int}    $user_id      Job author ID.
 						 */
-						do_action( 'jb-company-details-validation', $posting_form, $user_id ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+						do_action( 'jb_company_details_validation', $posting_form, $user_id );
 
 						if ( ! $posting_form->has_errors() ) {
 							update_user_meta( $user_id, 'jb_company_name', $company_name );

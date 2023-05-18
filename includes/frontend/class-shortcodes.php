@@ -797,6 +797,10 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 		public function company_details( $atts = array() ) {
 			$atts = shortcode_atts( array(), $atts, 'jb_company_details' );
 
+			if ( ! is_user_logged_in() ) {
+				return '';
+			}
+
 			wp_enqueue_script( 'jb-front-forms' );
 			wp_enqueue_style( 'jb-forms' );
 
