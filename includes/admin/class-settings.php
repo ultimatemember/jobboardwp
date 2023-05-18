@@ -4,9 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\admin\Settings' ) ) {
-
 
 	/**
 	 * Class Settings
@@ -53,6 +51,16 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			add_filter( 'jb_settings_section_modules__content', array( $this, 'settings_modules_section' ), 20 );
 
 			add_filter( 'jb_settings', array( $this, 'sorting_modules_options' ), 9999, 1 );
+
+			//custom content for override templates tab
+			add_action( 'plugins_loaded', array( $this, 'jb_check_template_version' ), 10 );
+			add_filter( 'jb_settings_custom_tabs', array( $this, 'add_custom_content_tab' ), 10 );
+			add_filter( 'jb_settings_section_override_templates__content', array( $this, 'override_templates_list_table' ), 10, 1 );
+		}
+
+		public function add_custom_content_tab( $custom_array ) {
+			$custom_array[] = 'override_templates';
+			return $custom_array;
 		}
 
 		/**
@@ -87,7 +95,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		}
 
 		/**
-		 * Set Modules > Modules subtab as settings pages with custom content without standard settings form.
+		 * Set Modules > Modules subtab as settings pages with custom content without a standard settings form.
 		 *
 		 * @since 1.2.2
 		 *
@@ -573,7 +581,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			);
 
 			$settings = array(
-				'general' => array(
+				'general'            => array(
 					'title'    => __( 'General', 'jobboardwp' ),
 					'sections' => array(
 						'pages'          => array(
@@ -724,7 +732,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 						),
 					),
 				),
-				'email'   => array(
+				'email'              => array(
 					'title'  => __( 'Email', 'jobboardwp' ),
 					'fields' => array(
 						array(
@@ -747,7 +755,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 						),
 					),
 				),
-				'styles'  => array(
+				'styles'             => array(
 					'title'  => __( 'Styles', 'jobboardwp' ),
 					'fields' => array(
 						array(
@@ -764,7 +772,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 						),
 					),
 				),
-				'misc'    => array(
+				'misc'               => array(
 					'title'  => __( 'Misc', 'jobboardwp' ),
 					'fields' => array(
 						array(
@@ -772,6 +780,14 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 							'type'    => 'checkbox',
 							'label'   => __( 'Delete settings on uninstall', 'jobboardwp' ),
 							'helptip' => __( 'Once removed, this data cannot be restored.', 'jobboardwp' ),
+						),
+					),
+				),
+				'override_templates' => array(
+					'title'  => __( 'Override templates', 'jobboardwp' ),
+					'fields' => array(
+						array(
+							'type' => 'override_templates',
 						),
 					),
 				),
@@ -1112,7 +1128,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * @param string $current_tab
 		 * @param string $current_subtab
 		 *
-		 * @return false|string
+		 * @return string
 		 *
 		 * @since 1.0
 		 */
@@ -1350,6 +1366,211 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			}
 
 			return $settings;
+		}
+
+		public function override_templates_list_table( $section_content ) {
+			$jb_check_version = get_transient( 'jb_check_template_versions' );
+			ob_start();
+			?>
+
+			<p class="description" style="margin: 20px 0 0 0;">
+				<a href="<?php echo esc_url( add_query_arg( 'jb_adm_action', 'check_templates_version' ) ); ?>" class="button" style="margin-right: 10px;">
+					<?php esc_html_e( 'Re-check templates', 'jobboardwp' ); ?>
+				</a>
+				<?php
+				if ( false !== $jb_check_version ) {
+					// translators: %s: Last checking templates time.
+					echo esc_html( sprintf( __( 'Last update: %s. You could re-check changes manually.', 'jobboardwp' ), wp_date( get_option( 'date_format', 'Y-m-d' ) . ' ' . get_option( 'time_format', 'H:i:s' ), $jb_check_version ) ) );
+				} else {
+					esc_html_e( 'Templates haven\'t check yet. You could check changes manually.', 'jobboardwp' );
+				}
+				?>
+			</p>
+			<p class="description" style="margin: 20px 0 0 0;">
+				<?php
+				/** @noinspection HtmlUnknownTarget */
+				// translators: %s: Link to the docs article.
+				echo wp_kses( sprintf( __( 'You may get more details about overriding templates <a href="%s" target="_blank">here</a>.', 'jobboardwp' ), 'https://docs.jobboardwp.com/article/1570-templates-structure' ), JB()->get_allowed_html( 'admin_notice' ) );
+				?>
+			</p>
+			<?php
+			include_once JB_PATH . 'includes/admin/templates/settings/version-template-list-table.php';
+
+			$section_content = ob_get_clean();
+			return $section_content;
+		}
+
+		/**
+		 * Periodically checking the versions of templates.
+		 *
+		 * @since 1.2.6
+		 *
+		 * @return void
+		 */
+		public function jb_check_template_version() {
+			$jb_check_version = get_transient( 'jb_check_template_versions' );
+			if ( false === $jb_check_version ) {
+				$this->get_override_templates();
+			}
+		}
+
+		/**
+		 * @param $get_list boolean
+		 *
+		 * @return array|void
+		 */
+		public function get_override_templates( $get_list = false ) {
+			$outdated_files   = array();
+			$scan_files['jb'] = $this->scan_template_files( JB_PATH . '/templates/' );
+
+			/**
+			 * Filters JobBoardWP templates files for scan versions and overriding.
+			 *
+			 * @since 1.2.6
+			 * @hook jb_override_templates_scan_files
+			 *
+			 * @param {array} $scan_files The list of template files for scanning.
+			 *
+			 * @return {array} The list of template files for scanning.
+			 */
+			$scan_files = apply_filters( 'jb_override_templates_scan_files', $scan_files );
+			$out_date   = false;
+
+			set_transient( 'jb_check_template_versions', time(), 12 * HOUR_IN_SECONDS );
+
+			foreach ( $scan_files as $key => $files ) {
+				foreach ( $files as $file ) {
+					if ( ! str_contains( $file, 'emails/' ) ) {
+						$located = array();
+						/**
+						 * Filters JobBoardWP templates locations for override templates table.
+						 *
+						 * @since 1.2.6
+						 * @hook jb_override_templates_get_template_path__{$key}
+						 *
+						 * @param {array} $located Locations for override templates table.
+						 * @param {array} $file    Template filename.
+						 *
+						 * @return {array} The list of template locations.
+						 */
+						$located = apply_filters( "jb_override_templates_get_template_path__{$key}", $located, $file );
+
+						if ( ! empty( $located ) ) {
+							$theme_file = $located['theme'];
+						} elseif ( file_exists( get_stylesheet_directory() . '/jobboardwp/' . $file ) ) {
+							$theme_file = get_stylesheet_directory() . '/jobboardwp/' . $file;
+						} else {
+							$theme_file = false;
+						}
+
+						if ( ! empty( $theme_file ) ) {
+							$core_file = $file;
+
+							if ( ! empty( $located ) ) {
+								$core_path      = $located['core'];
+								$core_file_path = stristr( $core_path, 'wp-content' );
+							} else {
+								$core_path      = JB_PATH . '/templates/' . $core_file;
+								$core_file_path = stristr( JB_PATH . 'templates/' . $core_file, 'wp-content' );
+							}
+							$core_version  = $this->get_file_version( $core_path );
+							$theme_version = $this->get_file_version( $theme_file );
+
+							$status      = esc_html__( 'Theme version up to date', 'jobboardwp' );
+							$status_code = 1;
+							if ( version_compare( $theme_version, $core_version, '<' ) ) {
+								$status      = esc_html__( 'Theme version is out of date', 'jobboardwp' );
+								$status_code = 0;
+							}
+							if ( '' === $theme_version ) {
+								$status      = esc_html__( 'Theme version is empty', 'jobboardwp' );
+								$status_code = 0;
+							}
+							if ( 0 === $status_code ) {
+								$out_date = true;
+								update_option( 'jb_override_templates_outdated', true );
+							}
+							$outdated_files[] = array(
+								'core_version'  => $core_version,
+								'theme_version' => $theme_version,
+								'core_file'     => $core_file_path,
+								'theme_file'    => stristr( $theme_file, 'wp-content' ),
+								'status'        => $status,
+								'status_code'   => $status_code,
+							);
+						}
+					}
+				}
+			}
+
+			if ( false === $out_date ) {
+				delete_option( 'jb_override_templates_outdated' );
+			}
+			update_option( 'jb_template_statuses', $outdated_files );
+			if ( true === $get_list ) {
+				return $outdated_files;
+			}
+		}
+
+		/**
+		 * @param $file string
+		 *
+		 * @return string
+		 */
+		public static function get_file_version( $file ) {
+			// Avoid notices if file does not exist.
+			if ( ! file_exists( $file ) ) {
+				return '';
+			}
+
+			// We don't need to write to the file, so just open for reading.
+			$fp = fopen( $file, 'r' ); // @codingStandardsIgnoreLine.
+
+			// Pull only the first 8kiB of the file in.
+			$file_data = fread( $fp, 8192 ); // @codingStandardsIgnoreLine.
+
+			// PHP will close a file handle, but we are good citizens.
+			fclose( $fp ); // @codingStandardsIgnoreLine.
+
+			// Make sure we catch CR-only line endings.
+			$file_data = str_replace( "\r", "\n", $file_data );
+			$version   = '';
+
+			if ( preg_match( '/^[ \t\/*#@]*' . preg_quote( '@version', '/' ) . '(.*)$/mi', $file_data, $match ) && $match[1] ) {
+				$version = _cleanup_header_comment( $match[1] );
+			}
+
+			return $version;
+		}
+
+		/**
+		 * Scan the template files.
+		 *
+		 * @param  string $template_path Path to the template directory.
+		 * @return array
+		 */
+		public static function scan_template_files( $template_path ) {
+			$files  = @scandir( $template_path ); // @codingStandardsIgnoreLine.
+			$result = array();
+
+			if ( ! empty( $files ) ) {
+
+				foreach ( $files as $value ) {
+
+					if ( ! in_array( $value, array( '.', '..' ), true ) ) {
+
+						if ( is_dir( $template_path . DIRECTORY_SEPARATOR . $value ) ) {
+							$sub_files = self::scan_template_files( $template_path . DIRECTORY_SEPARATOR . $value );
+							foreach ( $sub_files as $sub_file ) {
+								$result[] = $value . DIRECTORY_SEPARATOR . $sub_file;
+							}
+						} else {
+							$result[] = $value;
+						}
+					}
+				}
+			}
+			return $result;
 		}
 	}
 }

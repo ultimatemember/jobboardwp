@@ -1,4 +1,11 @@
 <?php // phpcs:ignore WordPress.Files.FileName.NotHyphenatedLowercase -- todo changing email notifications keys
+/**
+ * Template for the job submitted email template
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/emails/job_submitted.php
+ *
+ * @version 1.2.0
+ */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } ?>

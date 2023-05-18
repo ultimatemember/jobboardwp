@@ -109,6 +109,29 @@ body.taxonomy-jb_job_type table.wp-list-table .column-ID {
   width: 74px;
   text-align: center; }
 
+body.job-board_page_jb-settings .wp-list-table .column-core_version {
+  width: 100px;
+  text-align: center; }
+
+body.job-board_page_jb-settings .wp-list-table .column-theme_version {
+  width: 100px;
+  text-align: center; }
+
+body.job-board_page_jb-settings .wp-list-table .column-status {
+  width: 260px; }
+
+body.job-board_page_jb-settings .wp-list-table .jb-notification-status {
+  margin-right: 18px;
+  font-size: 28px;
+  line-height: 22px;
+  color: #a00;
+  float: left;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box; }
+  body.job-board_page_jb-settings .wp-list-table .jb-notification-status.jb-notification-is-active {
+    color: #46b450; }
+
 @media screen and (max-width: 782px) {
   body.taxonomy-jb_job_type table.wp-list-table .column-ID {
     text-align: left; }
@@ -123,4 +146,8 @@ body.taxonomy-jb_job_type table.wp-list-table .column-ID {
     justify-content: flex-start;
     align-items: baseline;
     flex-wrap: wrap;
-    margin-bottom: 2px; } }
+    margin-bottom: 2px; }
+  body.job-board_page_jb-settings .wp-list-table .column-core_version {
+    text-align: left; }
+  body.job-board_page_jb-settings .wp-list-table .column-theme_version {
+    text-align: left; } }

@@ -1,4 +1,14 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Template for the Search bar template
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/jobs/search-bar.php
+ *
+ * @version 1.2.6
+ *
+ * @var array $jb_jobs_search_bar
+ */
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 

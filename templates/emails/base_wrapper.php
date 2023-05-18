@@ -1,4 +1,13 @@
 <?php // phpcs:ignore WordPress.Files.FileName.NotHyphenatedLowercase -- todo changing email notifications keys
+/**
+ * Template for the base wrapper email template
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/emails/base_wrapper.php
+ *
+ * @version 1.1.0
+ *
+ * @var array $jb_emails_base_wrapper
+ */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

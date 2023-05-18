@@ -1,4 +1,14 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Template for the job notices template
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/job/notices.php
+ *
+ * @version 1.1.0
+ *
+ * @var array $jb_job_notices
+ */
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 

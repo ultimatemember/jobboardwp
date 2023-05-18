@@ -1,4 +1,14 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Template for the job content template
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/job/content.php
+ *
+ * @version 1.2.4
+ *
+ * @var array $jb_job_content
+ */
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 

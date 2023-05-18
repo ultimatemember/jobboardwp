@@ -1,4 +1,14 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Template for the Jobs list JS template
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/js/jobs-list.php
+ *
+ * @version 1.2.6
+ *
+ * @var array $jb_js_jobs_list
+ */
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 // phpcs:disable VariableAnalysis

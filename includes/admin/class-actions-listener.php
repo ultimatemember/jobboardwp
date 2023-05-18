@@ -89,6 +89,29 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 						}
 
 						break;
+					case 'check_templates_version':
+						$templates = JB()->admin()->settings()->get_override_templates( true );
+						$out_date  = false;
+						foreach ( $templates as $template ) {
+							if ( 0 === $template['status_code'] ) {
+								$out_date = true;
+								break;
+							}
+						}
+
+						if ( false === $out_date ) {
+							delete_option( 'jb_override_templates_outdated' );
+						}
+
+						$url = add_query_arg(
+							array(
+								'page' => 'jb-settings',
+								'tab'  => 'override_templates',
+							),
+							admin_url( 'admin.php' )
+						);
+						wp_safe_redirect( $url );
+						break;
 				}
 			}
 		}

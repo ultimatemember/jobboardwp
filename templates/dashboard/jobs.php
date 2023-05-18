@@ -1,4 +1,14 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Template for the job dashboard template
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/dashboard/content.php
+ *
+ * @version 1.2.1
+ *
+ * @var array $jb_dashboard_jobs
+ */
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 

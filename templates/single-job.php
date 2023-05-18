@@ -1,4 +1,16 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Template for the single job page
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/single-job.php
+ *
+ * Page: "Single Job"
+ *
+ * @version 1.2.4
+ *
+ * @var array $jb_single_job
+ */
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
