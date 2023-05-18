@@ -2,9 +2,9 @@
 /**
  * Template for the Jobs categories JS template
  *
- * This template can be overridden by copying it to yourtheme/jobboardwp/js/job-categories.php
+ * This template can be overridden by copying it to yourtheme/jobboardwp/js/job-categories-list.php
  *
- * @version 1.2.6
+ * @version 1.1.0
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

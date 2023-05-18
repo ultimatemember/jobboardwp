@@ -104,13 +104,13 @@ body.taxonomy-jb_job_type
 
 body.job-board_page_jb-settings
   .wp-list-table
-    #core_version
+    .core_version
       width: 100px
       text-align: center
-    #theme_version
+    .theme_version
       width: 100px
       text-align: center
-    #status
+    .status
       width: 260px
     .#{$prefix}notification-status
       margin-right: 18px
@@ -139,3 +139,9 @@ body.job-board_page_jb-settings
       .#{$job}types
         +flex( row, flex-start, baseline, wrap )
         margin-bottom: 2px
+  body.job-board_page_jb-settings
+    .wp-list-table
+      .core_version
+        text-align: left
+      .theme_version
+        text-align: left

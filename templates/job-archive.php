@@ -6,7 +6,7 @@
  *
  * Page: "Job's Archive"
  *
- * @version 1.2.6
+ * @version 1.2.3
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

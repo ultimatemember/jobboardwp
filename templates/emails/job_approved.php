@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName.NotHyphenatedLowercase -- todo changing email notifications keys
 /**
  * Template for the job approved email template
  *
@@ -6,7 +6,6 @@
  *
  * @version 1.2.6
  */
-// phpcs:ignore WordPress.Files.FileName.NotHyphenatedLowercase -- todo changing email notifications keys
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } ?>

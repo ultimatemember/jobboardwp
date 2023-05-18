@@ -4,9 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\admin\Settings' ) ) {
-
 
 	/**
 	 * Class Settings
@@ -91,7 +89,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		}
 
 		/**
-		 * Set Modules > Modules subtab as settings pages with custom content without standard settings form.
+		 * Set Modules > Modules subtab as settings pages with custom content without a standard settings form.
 		 *
 		 * @since 1.2.2
 		 *
@@ -1124,7 +1122,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 * @param string $current_tab
 		 * @param string $current_subtab
 		 *
-		 * @return false|string
+		 * @return string
 		 *
 		 * @since 1.0
 		 */
@@ -1414,8 +1412,19 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		public function get_override_templates( $get_list = false ) {
 			$outdated_files   = array();
 			$scan_files['jb'] = $this->scan_template_files( JB_PATH . '/templates/' );
-			$scan_files       = apply_filters( 'jb_override_templates_scan_files', $scan_files );
-			$out_date         = false;
+
+			/**
+			 * Filters JobBoardWP templates files for scan versions and overriding.
+			 *
+			 * @since 1.2.6
+			 * @hook jb_override_templates_scan_files
+			 *
+			 * @param {array} $scan_files The list of template files for scanning.
+			 *
+			 * @return {array} The list of template files for scanning.
+			 */
+			$scan_files = apply_filters( 'jb_override_templates_scan_files', $scan_files );
+			$out_date   = false;
 
 			set_transient( 'jb_check_template_versions', time(), 12 * HOUR_IN_SECONDS );
 
@@ -1423,6 +1432,17 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				foreach ( $files as $file ) {
 					if ( ! str_contains( $file, 'emails/' ) ) {
 						$located = array();
+						/**
+						 * Filters JobBoardWP templates locations for override templates table.
+						 *
+						 * @since 1.2.6
+						 * @hook jb_override_templates_get_template_path__{$key}
+						 *
+						 * @param {array} $located Locations for override templates table.
+						 * @param {array} $file    Template filename.
+						 *
+						 * @return {array} The list of template locations.
+						 */
 						$located = apply_filters( "jb_override_templates_get_template_path__{$key}", $located, $file );
 
 						if ( ! empty( $located ) ) {
@@ -1499,7 +1519,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			// Pull only the first 8kiB of the file in.
 			$file_data = fread( $fp, 8192 ); // @codingStandardsIgnoreLine.
 
-			// PHP will close file handle, but we are good citizens.
+			// PHP will close a file handle, but we are good citizens.
 			fclose( $fp ); // @codingStandardsIgnoreLine.
 
 			// Make sure we catch CR-only line endings.

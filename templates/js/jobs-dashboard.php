@@ -4,7 +4,7 @@
  *
  * This template can be overridden by copying it to yourtheme/jobboardwp/js/jobs-dashboard.php
  *
- * @version 1.2.6
+ * @version 1.2.0
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

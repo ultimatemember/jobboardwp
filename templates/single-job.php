@@ -6,7 +6,7 @@
  *
  * Page: "Single Job"
  *
- * @version 1.2.6
+ * @version 1.2.4
  *
  * @var array $jb_single_job
  */

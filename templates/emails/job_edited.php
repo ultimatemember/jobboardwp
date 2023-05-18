@@ -1,12 +1,11 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName.NotHyphenatedLowercase -- todo changing email notifications keys
 /**
  * Template for the job edited email template
  *
  * This template can be overridden by copying it to yourtheme/jobboardwp/emails/job_edited.php
  *
- * @version 1.2.6
+ * @version 1.2.0
  */
-// phpcs:ignore WordPress.Files.FileName.NotHyphenatedLowercase -- todo changing email notifications keys
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } ?>
