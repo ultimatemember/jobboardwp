@@ -14,7 +14,7 @@ Add a modern job board to your website. Display job listings and allow employers
 
 == Description ==
 
-JobBoardWP is an easy to use and lightweight plugin that enables you to add job board functionality to your website. With a clean, modern UI, job seekers can view and search for jobs, whilst employers can submit jobs to your job board and manage their jobs from the jobs dashboard.
+JobBoardWP is an easy-to-use and lightweight plugin that enables you to add job board functionality to your website. With a clean, modern UI, job seekers can view and search for jobs, whilst employers can submit jobs to your job board and manage their jobs from the jobs dashboard.
 
 = FRONT-END FEATURES: =
 
@@ -110,6 +110,8 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Added: Salary job field and filter for the job list
 * Added: Company details form shortcode and predefined page for it
 * Added: Override templates versioning utility for wp-admin
+* Added: input type="number" for frontend and backend forms classes
+* Fixed: Marking a job as expired at the start of the expired day
 
 * Templates required update:
   - jobs/search-bar.php
