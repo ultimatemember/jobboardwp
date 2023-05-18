@@ -265,6 +265,9 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 							'charoff' => true,
 							'valign'  => true,
 						),
+						'button'   => array(
+							'type' => true,
+						),
 					);
 					break;
 				case 'templates':

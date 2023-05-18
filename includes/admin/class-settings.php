@@ -54,7 +54,13 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 
 			//custom content for override templates tab
 			add_action( 'plugins_loaded', array( $this, 'jb_check_template_version' ), 10 );
-			add_action( 'jb_settings_section_override_templates__content', array( $this, 'override_templates_list_table' ), 10 );
+			add_filter( 'jb_settings_custom_tabs', array( $this, 'add_custom_content_tab' ), 10 );
+			add_filter( 'jb_settings_section_override_templates__content', array( $this, 'override_templates_list_table' ), 10, 1 );
+		}
+
+		public function add_custom_content_tab( $custom_array ) {
+			$custom_array[] = 'override_templates';
+			return $custom_array;
 		}
 
 		/**
@@ -1362,8 +1368,9 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			return $settings;
 		}
 
-		public function override_templates_list_table() {
+		public function override_templates_list_table( $section_content ) {
 			$jb_check_version = get_transient( 'jb_check_template_versions' );
+			ob_start();
 			?>
 
 			<p class="description" style="margin: 20px 0 0 0;">
@@ -1383,11 +1390,14 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				<?php
 				/** @noinspection HtmlUnknownTarget */
 				// translators: %s: Link to the docs article.
-				echo wp_kses( sprintf( __( 'You may get more details about overriding templates <a href="%s" target="_blank">here</a>.', 'jobboardwp' ), 'https://#' ), UM()->get_allowed_html( 'admin_notice' ) );
+				echo wp_kses( sprintf( __( 'You may get more details about overriding templates <a href="%s" target="_blank">here</a>.', 'jobboardwp' ), 'https://docs.jobboardwp.com/article/1570-templates-structure' ), JB()->get_allowed_html( 'admin_notice' ) );
 				?>
 			</p>
 			<?php
 			include_once JB_PATH . 'includes/admin/templates/settings/version-template-list-table.php';
+
+			$section_content = ob_get_clean();
+			return $section_content;
 		}
 
 		/**

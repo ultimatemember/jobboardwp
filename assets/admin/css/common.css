@@ -109,15 +109,15 @@ body.taxonomy-jb_job_type table.wp-list-table .column-ID {
   width: 74px;
   text-align: center; }
 
-body.job-board_page_jb-settings .wp-list-table .core_version {
+body.job-board_page_jb-settings .wp-list-table .column-core_version {
   width: 100px;
   text-align: center; }
 
-body.job-board_page_jb-settings .wp-list-table .theme_version {
+body.job-board_page_jb-settings .wp-list-table .column-theme_version {
   width: 100px;
   text-align: center; }
 
-body.job-board_page_jb-settings .wp-list-table .status {
+body.job-board_page_jb-settings .wp-list-table .column-status {
   width: 260px; }
 
 body.job-board_page_jb-settings .wp-list-table .jb-notification-status {
@@ -147,7 +147,7 @@ body.job-board_page_jb-settings .wp-list-table .jb-notification-status {
     align-items: baseline;
     flex-wrap: wrap;
     margin-bottom: 2px; }
-  body.job-board_page_jb-settings .wp-list-table .core_version {
+  body.job-board_page_jb-settings .wp-list-table .column-core_version {
     text-align: left; }
-  body.job-board_page_jb-settings .wp-list-table .theme_version {
+  body.job-board_page_jb-settings .wp-list-table .column-theme_version {
     text-align: left; } }
