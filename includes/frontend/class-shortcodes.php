@@ -32,6 +32,8 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			add_shortcode( 'jb_job_categories_list', array( &$this, 'job_categories_list' ) );
 
 			add_shortcode( 'jb_recent_jobs', array( &$this, 'recent_jobs' ) );
+
+			add_shortcode( 'jb_company_details', array( &$this, 'company_details' ) );
 		}
 
 		public function add_login_form_hidden( $content, $args ) {
@@ -780,6 +782,33 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 			remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 			return $content;
+		}
+
+
+		/**
+		 * The "Company detailds" shortcode
+		 * [jb_company_details /]
+		 *
+		 * @since  1.2.6
+		 *
+		 * @param  array $atts An array of attributes.
+		 * @return string
+		 */
+		public function company_details( $atts = array() ) {
+			$atts = shortcode_atts( array(), $atts, 'jb_company_details' );
+
+			if ( ! is_user_logged_in() ) {
+				return '';
+			}
+
+			wp_enqueue_script( 'jb-front-forms' );
+			wp_enqueue_style( 'jb-forms' );
+
+			ob_start();
+
+			JB()->get_template_part( 'company-details', $atts );
+
+			return ob_get_clean();
 		}
 	}
 }

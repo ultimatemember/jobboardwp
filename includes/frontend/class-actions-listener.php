@@ -1296,6 +1296,206 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 						}
 
 						break;
+					case 'company-details':
+						global $posting_form;
+
+						$user_id = get_current_user_id();
+
+						$posting_form = JB()->frontend()->forms( array( 'id' => 'jb-company-details' ) );
+
+						$posting_form->flush_errors();
+
+						if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['nonce'] ), 'jb-company-details' ) ) {
+							$posting_form->add_error( 'global', __( 'Security issue, Please try again', 'jobboardwp' ) );
+						}
+
+						// handle company details
+						$company_name = '';
+						if ( empty( $_POST['company_name'] ) ) {
+							$posting_form->add_error( 'company_name', __( 'Company name cannot be empty', 'jobboardwp' ) );
+						} else {
+							$company_name = sanitize_text_field( $_POST['company_name'] );
+							if ( empty( $company_name ) ) {
+								$posting_form->add_error( 'company_name', __( 'Company name cannot be empty', 'jobboardwp' ) );
+							}
+						}
+
+						$company_website = ! empty( $_POST['company_website'] ) ? sanitize_text_field( $_POST['company_website'] ) : '';
+						if ( ! empty( $company_website ) ) {
+							// Prefix http if needed.
+							if ( ! strstr( $company_website, 'http:' ) && ! strstr( $company_website, 'https:' ) ) {
+								$company_website = 'http://' . $company_website;
+							}
+							if ( ! filter_var( $company_website, FILTER_VALIDATE_URL ) ) {
+								$posting_form->add_error( 'company_website', __( 'Company website is invalid', 'jobboardwp' ) );
+							}
+						}
+
+						$company_tagline = ! empty( $_POST['company_tagline'] ) ? sanitize_text_field( $_POST['company_tagline'] ) : '';
+
+						$company_twitter = ! empty( $_POST['company_twitter'] ) ? sanitize_text_field( $_POST['company_twitter'] ) : '';
+						if ( ! empty( $company_twitter ) ) {
+							if ( 0 === strpos( $company_twitter, '@' ) ) {
+								$company_twitter = substr( $company_twitter, 1 );
+							}
+
+							if ( ! empty( $company_twitter ) ) {
+
+								$validate_company_twitter = $company_twitter;
+								if ( ! strstr( $company_twitter, 'https://twitter.com/' ) ) {
+									$validate_company_twitter = 'https://twitter.com/' . $company_twitter;
+								}
+
+								if ( ! filter_var( $validate_company_twitter, FILTER_VALIDATE_URL ) ) {
+									$posting_form->add_error( 'company_twitter', __( 'Company Twitter is invalid', 'jobboardwp' ) );
+								}
+							}
+						}
+
+						$company_facebook = ! empty( $_POST['company_facebook'] ) ? sanitize_text_field( $_POST['company_facebook'] ) : '';
+						if ( ! empty( $company_facebook ) ) {
+							$validate_company_facebook = $company_facebook;
+							if ( ! strstr( $company_facebook, 'https://facebook.com/' ) ) {
+								$validate_company_facebook = 'https://facebook.com/' . $company_facebook;
+							}
+
+							if ( ! filter_var( $validate_company_facebook, FILTER_VALIDATE_URL ) ) {
+								$posting_form->add_error( 'company_facebook', __( 'Company Facebook is invalid', 'jobboardwp' ) );
+							}
+						}
+
+						$company_instagram = ! empty( $_POST['company_instagram'] ) ? sanitize_text_field( $_POST['company_instagram'] ) : '';
+						if ( ! empty( $company_instagram ) ) {
+							$validate_company_instagram = $company_instagram;
+							if ( ! strstr( $company_instagram, 'https://instagram.com/' ) ) {
+								$validate_company_instagram = 'https://instagram.com/' . $company_instagram;
+							}
+
+							if ( ! filter_var( $validate_company_instagram, FILTER_VALIDATE_URL ) ) {
+								$posting_form->add_error( 'company_instagram', __( 'Company Instagram is invalid', 'jobboardwp' ) );
+							}
+						}
+
+						$company_logo = '';
+						if ( ! empty( $_POST['company_logo'] ) && ! empty( $_POST['company_logo_hash'] ) ) {
+							// The new company logo has been uploaded, so we need to update the current user logo
+							if ( md5( sanitize_file_name( $_POST['company_logo'] ) . '_jb_uploader_security_salt' ) !== sanitize_key( $_POST['company_logo_hash'] ) ) {
+								// invalid salt for company logo, it's for the security enhancements
+								$posting_form->add_error( 'company_logo', __( 'Something wrong with image, please re-upload', 'jobboardwp' ) );
+							} else {
+								$company_logo_temp = sanitize_file_name( $_POST['company_logo'] );
+
+								if ( is_multisite() ) {
+									$main_blog = get_network()->site_id;
+
+									$current_blog_url = get_bloginfo( 'url' );
+									switch_to_blog( $main_blog );
+									$main_blog_url = get_bloginfo( 'url' );
+									restore_current_blog();
+
+									$logos_dir = JB()->common()->filesystem()->get_upload_dir( 'jobboardwp/logos', $main_blog );
+
+									$logos_url = JB()->common()->filesystem()->get_upload_url( 'jobboardwp/logos', $main_blog );
+									if ( $current_blog_url !== $main_blog_url ) {
+										$logos_url = str_replace( $current_blog_url, $main_blog_url, $logos_url );
+									}
+								} else {
+									$logos_dir = JB()->common()->filesystem()->get_upload_dir( 'jobboardwp/logos' );
+									$logos_url = JB()->common()->filesystem()->get_upload_url( 'jobboardwp/logos' );
+								}
+
+								// replace the company logo inside user logos dir to the uploaded to the temp upload folder image
+								$type    = wp_check_filetype( $company_logo_temp );
+								$newname = wp_normalize_path( $logos_dir . DIRECTORY_SEPARATOR . $user_id . '.' . $type['ext'] );
+								$oldname = wp_normalize_path( JB()->common()->filesystem()->temp_upload_dir . DIRECTORY_SEPARATOR . $company_logo_temp );
+
+								if ( file_exists( $oldname ) && rename( $oldname, $newname ) ) {
+									$company_logo = trailingslashit( $logos_url ) . $user_id . '.' . $type['ext'];
+								}
+							}
+						} elseif ( ! empty( $_POST['company_logo'] ) ) {
+							// post a job with a regular company logo that hasn't been changed when posting a job
+							$company_logo_post = sanitize_text_field( $_POST['company_logo'] );
+
+							if ( ! filter_var( $company_logo_post, FILTER_VALIDATE_URL ) ) {
+								// company logo must be a URL
+								$posting_form->add_error( 'company_logo', __( 'Wrong image URL. Invalid URL', 'jobboardwp' ) );
+
+							} else {
+
+								$type = wp_check_filetype( $company_logo_post );
+								if ( is_multisite() ) {
+									$main_blog = get_network()->site_id;
+
+									$current_blog_url = get_bloginfo( 'url' );
+									switch_to_blog( $main_blog );
+									$main_blog_url = get_bloginfo( 'url' );
+									restore_current_blog();
+
+									$logos_url = JB()->common()->filesystem()->get_upload_url( 'jobboardwp/logos', $main_blog );
+									if ( $current_blog_url !== $main_blog_url ) {
+										$logos_url = str_replace( $current_blog_url, $main_blog_url, $logos_url );
+									}
+								} else {
+									$logos_url = JB()->common()->filesystem()->get_upload_url( 'jobboardwp/logos' );
+								}
+
+								// check if the company logo gets from the job post attachment
+								if ( trailingslashit( $logos_url ) . $user_id . '.' . $type['ext'] !== $company_logo_post ) {
+
+									if ( empty( $_GET['job-id'] ) ) {
+
+										$posting_form->add_error( 'company_logo', __( 'Wrong image URL. Invalid job', 'jobboardwp' ) );
+
+									} else {
+										// case when a job has own thumbnail
+										$attachment_id = get_post_thumbnail_id( absint( $_GET['job-id'] ) );
+										if ( ! $attachment_id ) {
+
+											$posting_form->add_error( 'company_logo', __( 'Wrong image URL. Invalid attachment ID', 'jobboardwp' ) );
+
+										} else {
+
+											$image = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
+
+											if ( ! isset( $image[0] ) || $company_logo_post !== $image[0] ) {
+												$posting_form->add_error( 'company_logo', __( 'Wrong image URL. Invalid attachment path', 'jobboardwp' ) );
+											} else {
+												$company_logo = $company_logo_post;
+											}
+										}
+									}
+								} else {
+									// case when we get the company logo from the employer image
+									$company_logo = $company_logo_post;
+								}
+							}
+						}
+
+						/**
+						 * Fires after JobBoardWP native company details validations are completed.
+						 *
+						 * Note: Use this hook for adding custom validations to your Company Details.
+						 *
+						 * @since 1.2.6
+						 * @hook jb_company_details_validation
+						 *
+						 * @param {object} $posting_form Frontend form class (\jb\frontend\Forms) instance.
+						 * @param {int}    $user_id      Job author ID.
+						 */
+						do_action( 'jb_company_details_validation', $posting_form, $user_id );
+
+						if ( ! $posting_form->has_errors() ) {
+							update_user_meta( $user_id, 'jb_company_name', $company_name );
+							update_user_meta( $user_id, 'jb_company_website', $company_website );
+							update_user_meta( $user_id, 'jb_company_tagline', $company_tagline );
+							update_user_meta( $user_id, 'jb_company_twitter', $company_twitter );
+							update_user_meta( $user_id, 'jb_company_facebook', $company_facebook );
+							update_user_meta( $user_id, 'jb_company_instagram', $company_instagram );
+							update_user_meta( $user_id, 'jb_company_logo', $company_logo );
+						}
+
+						break;
 				}
 			}
 		}
