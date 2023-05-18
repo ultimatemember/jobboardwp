@@ -207,11 +207,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 					$min    = absint( $salary[0] );
 					$max    = absint( $salary[1] );
 
-					$default_min = 0;
-					$default_max = JB()->common()->job()->get_maximum_salary();
-
-					if ( ! ( $default_min === $min &amp;&amp; $default_max === $max ) ) {
-						$sql['join'] .= "
+					$sql['join'] .= "
 						LEFT JOIN $wpdb->postmeta AS jb_salary_type ON ( $wpdb->posts.ID = jb_salary_type.post_id AND jb_salary_type.meta_key = 'jb-salary-type' )
 						LEFT JOIN $wpdb->postmeta AS jb_amount_type ON ( $wpdb->posts.ID = jb_amount_type.post_id AND jb_amount_type.meta_key = 'jb-salary-amount-type' )
 						LEFT JOIN $wpdb->postmeta AS jb_amount ON ( $wpdb->posts.ID = jb_amount.post_id AND jb_amount.meta_key = 'jb-salary-amount' )
@@ -219,13 +215,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						LEFT JOIN $wpdb->postmeta AS jb_max_amount ON ( $wpdb->posts.ID = jb_max_amount.post_id AND jb_max_amount.meta_key = 'jb-salary-max-amount' )
 					";
 
-						$sql['where'] .= " AND (
-							(jb_salary_type.meta_key IS NOT NULL) AND
-							(jb_salary_type.meta_value != '') AND
-							(jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'numeric' AND jb_amount.meta_value BETWEEN $min AND $max) OR
-							(jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'range' AND ( jb_min_amount.meta_value BETWEEN $min AND $max OR jb_max_amount.meta_value BETWEEN $min AND $max) )
+					$sql['where'] .= " AND (
+						(jb_salary_type.meta_key IS NOT NULL) AND
+						(jb_salary_type.meta_value != '') AND
+						(jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'numeric' AND jb_amount.meta_value BETWEEN $min AND $max) OR
+						(jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'range' AND ( jb_min_amount.meta_value BETWEEN $min AND $max OR jb_max_amount.meta_value BETWEEN $min AND $max) )
 					)";
-					}
 				}
 			}
 			// phpcs:enable WordPress.Security.NonceVerification
