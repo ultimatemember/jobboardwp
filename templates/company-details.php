@@ -1,4 +1,13 @@
 <?php
+/**
+ * Template for the company details form.
+ *
+ * This template can be overridden by copying it to yourtheme/jobboardwp/company-details.php
+ *
+ * Page: "Company Details"
+ *
+ * @version 1.2.6
+ */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

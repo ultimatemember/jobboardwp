@@ -105,6 +105,20 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 == Changelog ==
 
+= 1.2.6: May 24, 2023 =
+
+* Added: Salary job field and filter for the job list
+* Added: Company details form shortcode and predefined page for it
+* Added: Override templates versioning utility for wp-admin
+
+* Templates required update:
+  - jobs/search-bar.php
+  - jobs/wrapper.php
+  - js/jobs-list.php
+  - widgets/recent-jobs.php
+
+* Cached and optimized/minified assets(JS/CSS) must be flushed/re-generated after upgrade
+
 = 1.2.5: March 28, 2023 =
 
 * Added: Some labels for Job Category and Job Type taxonomies on register
