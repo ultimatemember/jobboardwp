@@ -150,6 +150,21 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				<?php } ?>
 			</select>
 			<?php
+			$featured_options = array(
+				''  => __( 'Select Featured', 'jobboardwp' ),
+				'1' => __( 'Featured', 'jobboardwp' ),
+				'0' => __( 'Not Featured', 'jobboardwp' ),
+			);
+			?>
+			<label class="screen-reader-text" for="dropdown_jb-is-featured"><?php echo esc_html_e( 'Filter by featured jobs', 'jobboardwp' ); ?></label>
+			<select name="jb-is-featured" id="dropdown_jb-is-featured">
+				<?php foreach ( $featured_options as $k => $v ) { ?>
+					<option value="<?php echo esc_attr( $k ); ?>" <?php selected( $k, $selected ); ?>>
+						<?php echo esc_html( $v ); ?>
+					</option>
+				<?php } ?>
+			</select>
+			<?php
 		}
 
 
@@ -333,6 +348,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 					'status'   => __( 'Status', 'jobboardwp' ),
 					'location' => __( 'Location', 'jobboardwp' ),
 					'filled'   => __( 'Filled', 'jobboardwp' ),
+					'featured' => __( 'Featured', 'jobboardwp' ),
 					'type'     => __( 'Type', 'jobboardwp' ),
 					'category' => __( 'Category', 'jobboardwp' ),
 					'posted'   => __( 'Posted', 'jobboardwp' ),
@@ -460,6 +476,13 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 						echo '&ndash;';
 					}
 					break;
+				case 'featured':
+					if ( JB()->common()->job()->is_featured( $id ) ) {
+						echo '&#10004;';
+					} else {
+						echo '&ndash;';
+					}
+					break;
 			}
 		}
 
@@ -562,6 +585,40 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 						),
 						array(
 							'key'     => 'jb-is-filled',
+							'compare' => 'NOT EXISTS',
+						),
+					);
+				}
+			}
+
+			// Filter on featured meta.
+			$is_featured = isset( $_GET['jb-is-featured'] ) && '' !== $_GET['jb-is-featured'] ? (bool) $_GET['jb-is-featured'] : ''; // phpcs:ignore WordPress.Security.NonceVerification -- just get filled status
+			if ( '' !== $is_featured ) {
+				if ( $is_featured ) {
+					$meta_query[] = array(
+						'relation' => 'OR',
+						array(
+							'key'   => 'jb-is-featured',
+							'value' => true,
+						),
+						array(
+							'key'   => 'jb-is-featured',
+							'value' => 1,
+						),
+					);
+				} else {
+					$meta_query[] = array(
+						'relation' => 'OR',
+						array(
+							'key'   => 'jb-is-featured',
+							'value' => false,
+						),
+						array(
+							'key'   => 'jb-is-featured',
+							'value' => 0,
+						),
+						array(
+							'key'     => 'jb-is-featured',
 							'compare' => 'NOT EXISTS',
 						),
 					);
