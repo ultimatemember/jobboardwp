@@ -110,6 +110,7 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Added: Salary job field and filter for the job list
 * Added: Company details form shortcode and predefined page for it
 * Added: Override templates versioning utility for wp-admin
+* Added: Filter by a featured option in jobs list wp-admin
 * Added: input type="number" for frontend and backend forms classes
 * Fixed: Marking a job as expired at the start of the expired day
 
