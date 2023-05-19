@@ -348,6 +348,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 					'status'   => __( 'Status', 'jobboardwp' ),
 					'location' => __( 'Location', 'jobboardwp' ),
 					'filled'   => __( 'Filled', 'jobboardwp' ),
+					'featured' => __( 'Featured', 'jobboardwp' ),
 					'type'     => __( 'Type', 'jobboardwp' ),
 					'category' => __( 'Category', 'jobboardwp' ),
 					'posted'   => __( 'Posted', 'jobboardwp' ),
