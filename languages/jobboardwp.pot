@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-18T23:24:03+00:00\n"
+"POT-Creation-Date: 2023-05-19T23:01:16+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: jobboardwp\n"
@@ -56,7 +56,7 @@ msgid "Select Filled"
 msgstr ""
 
 #: includes/admin/class-columns.php:140
-#: includes/admin/class-columns.php:335
+#: includes/admin/class-columns.php:350
 #: includes/ajax/class-jobs.php:1028
 msgid "Filled"
 msgstr ""
@@ -69,62 +69,81 @@ msgstr ""
 msgid "Filter by filled type"
 msgstr ""
 
+#: includes/admin/class-columns.php:154
+msgid "Select Featured"
+msgstr ""
+
+#: includes/admin/class-columns.php:155
+#: includes/admin/class-columns.php:351
+#: templates/js/jobs-list.php:44
+#: templates/js/jobs-list.php:112
+msgid "Featured"
+msgstr ""
+
+#: includes/admin/class-columns.php:156
+msgid "Not Featured"
+msgstr ""
+
+#: includes/admin/class-columns.php:159
+msgid "Filter by featured jobs"
+msgstr ""
+
 #. translators: %s is the count of approved jobs.
-#: includes/admin/class-columns.php:171
+#: includes/admin/class-columns.php:186
 msgid "%s job is approved."
 msgid_plural "%s jobs are approved."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s is the count of deleted jobs.
-#: includes/admin/class-columns.php:188
+#: includes/admin/class-columns.php:203
 msgid "%s job is deleted."
 msgid_plural "%s jobs are deleted."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s is a job title.
-#: includes/admin/class-columns.php:246
-#: includes/admin/class-columns.php:307
+#: includes/admin/class-columns.php:261
+#: includes/admin/class-columns.php:322
 msgid "Approve"
 msgstr ""
 
-#: includes/admin/class-columns.php:247
+#: includes/admin/class-columns.php:262
 msgid "Delete permanently"
 msgstr ""
 
 #. translators: %s is a job title.
-#: includes/admin/class-columns.php:307
+#: includes/admin/class-columns.php:322
 msgid "Approve %s"
 msgstr ""
 
-#: includes/admin/class-columns.php:332
+#: includes/admin/class-columns.php:347
 msgid "(#ID) Position"
 msgstr ""
 
-#: includes/admin/class-columns.php:333
+#: includes/admin/class-columns.php:348
 #: includes/admin/templates/settings/version-template-list-table.php:30
 #: includes/frontend/class-shortcodes.php:528
 msgid "Status"
 msgstr ""
 
-#: includes/admin/class-columns.php:334
+#: includes/admin/class-columns.php:349
 #: includes/admin/templates/job/data.php:240
 #: templates/job-submission.php:335
 msgid "Location"
 msgstr ""
 
-#: includes/admin/class-columns.php:336
+#: includes/admin/class-columns.php:352
 #: includes/admin/class-modules-list-table.php:378
 msgid "Type"
 msgstr ""
 
-#: includes/admin/class-columns.php:337
+#: includes/admin/class-columns.php:353
 #: templates/job-categories.php:24
 msgid "Category"
 msgstr ""
 
-#: includes/admin/class-columns.php:338
+#: includes/admin/class-columns.php:354
 #: includes/frontend/class-shortcodes.php:529
 #: templates/js/jobs-list.php:85
 #: templates/js/jobs-list.php:87
@@ -135,23 +154,23 @@ msgstr ""
 msgid "Posted"
 msgstr ""
 
-#: includes/admin/class-columns.php:339
+#: includes/admin/class-columns.php:355
 #: templates/js/jobs-list.php:91
 #: templates/widgets/recent-jobs.php:83
 msgid "Expires"
 msgstr ""
 
 #. translators: %1$s is a location type; %2$s is a location.
-#: includes/admin/class-columns.php:380
+#: includes/admin/class-columns.php:396
 #: includes/common/class-job.php:323
 msgid "%1$s (%2$s)"
 msgstr ""
 
-#: includes/admin/class-columns.php:441
+#: includes/admin/class-columns.php:457
 msgid "by "
 msgstr ""
 
-#: includes/admin/class-columns.php:442
+#: includes/admin/class-columns.php:458
 msgid "Filter by author"
 msgstr ""
 
@@ -3501,11 +3520,6 @@ msgstr ""
 #. translators: %s: Post a job URL
 #: templates/js/jobs-dashboard.php:100
 msgid "No created jobs yet. <a href=\"%s\">Create</a> new one."
-msgstr ""
-
-#: templates/js/jobs-list.php:44
-#: templates/js/jobs-list.php:112
-msgid "Featured"
 msgstr ""
 
 #: assets/admin/js/forms.js:45
