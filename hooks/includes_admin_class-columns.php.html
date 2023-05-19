@@ -174,7 +174,7 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				'0' => __( 'Not Filled', 'jobboardwp' ),
 			); ?>
 
-			&lt;label class="screen-reader-text" for="dropdown_jb-is-filled">&lt;?php echo esc_html_e( 'Filter by filled type', 'jobboardwp' ); ?>&lt;/label>
+			&lt;label class="screen-reader-text" for="dropdown_jb-is-filled">&lt;?php esc_html_e( 'Filter by filled type', 'jobboardwp' ); ?>&lt;/label>
 			&lt;select name="jb-is-filled" id="dropdown_jb-is-filled">
 				&lt;?php foreach ( $options as $k => $v ) { ?>
 					&lt;option value="&lt;?php echo esc_attr( $k ); ?>" &lt;?php selected( $k, $selected ); ?>>
@@ -183,13 +183,15 @@ if ( ! class_exists( 'jb\admin\Columns' ) ) {
 				&lt;?php } ?>
 			&lt;/select>
 			&lt;?php
+			$selected = isset( $_GET['jb-is-featured'] ) ? sanitize_text_field( wp_unslash( $_GET['jb-is-featured'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+
 			$featured_options = array(
 				''  => __( 'Select Featured', 'jobboardwp' ),
 				'1' => __( 'Featured', 'jobboardwp' ),
 				'0' => __( 'Not Featured', 'jobboardwp' ),
 			);
 			?>
-			&lt;label class="screen-reader-text" for="dropdown_jb-is-featured">&lt;?php echo esc_html_e( 'Filter by featured jobs', 'jobboardwp' ); ?>&lt;/label>
+			&lt;label class="screen-reader-text" for="dropdown_jb-is-featured">&lt;?php esc_html_e( 'Filter by featured jobs', 'jobboardwp' ); ?>&lt;/label>
 			&lt;select name="jb-is-featured" id="dropdown_jb-is-featured">
 				&lt;?php foreach ( $featured_options as $k => $v ) { ?>
 					&lt;option value="&lt;?php echo esc_attr( $k ); ?>" &lt;?php selected( $k, $selected ); ?>>
