@@ -6,7 +6,7 @@ Tags: job, job board, job portal, job listing, job manager
 Requires PHP: 5.6
 Requires at least: 5.5
 Tested up to: 6.2
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -114,12 +114,7 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Added: input type="number" for frontend and backend forms classes
 * Fixed: Marking a job as expired at the start of the expired day
 
-* Templates required update:
-  - jobs/search-bar.php
-  - jobs/wrapper.php
-  - js/jobs-list.php
-  - widgets/recent-jobs.php
-
+* All templates required update
 * Cached and optimized/minified assets(JS/CSS) must be flushed/re-generated after upgrade
 
 = 1.2.5: March 28, 2023 =
