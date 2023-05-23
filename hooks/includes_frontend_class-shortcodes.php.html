@@ -834,6 +834,25 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				return '';
 			}
 
+			$company_details_form = JB()->frontend()->forms(
+				array(
+					'id' => 'jb-company-details',
+				)
+			);
+
+			// phpcs:disable WordPress.Security.NonceVerification -- getting value from GET line
+			if ( ! empty( $_GET['msg'] ) ) {
+				switch ( sanitize_key( $_GET['msg'] ) ) {
+					case 'updated':
+						$company_details_form->add_notice(
+							__( 'Company details are updated successfully.', 'jobboardwp' ),
+							'updated'
+						);
+						break;
+				}
+			}
+			// phpcs:enable WordPress.Security.NonceVerification -- getting value from GET line
+
 			wp_enqueue_script( 'jb-front-forms' );
 			wp_enqueue_style( 'jb-forms' );
 
