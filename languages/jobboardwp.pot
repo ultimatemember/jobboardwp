@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-23T19:19:24+00:00\n"
+"POT-Creation-Date: 2023-05-23T20:35:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: jobboardwp\n"
@@ -2203,11 +2203,11 @@ msgid "Zambian kwacha"
 msgstr ""
 
 #. translators: %s template
-#: includes/class-jb-functions.php:613
+#: includes/class-jb-functions.php:645
 msgid "<code>%s</code> does not exist."
 msgstr ""
 
-#: includes/class-jb-functions.php:632
+#: includes/class-jb-functions.php:664
 msgid "`action_args` should not be overwritten when calling `jb_get_template()`."
 msgstr ""
 
