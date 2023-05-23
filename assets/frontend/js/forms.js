@@ -326,4 +326,13 @@ jQuery( document ).ready( function($) {
 
 	// First load hide unconditional fields.
 	wp.JB.forms.conditionalFields.trigger();
+
+	// Submit company details
+	$( document.body ).on('submit', '.jb-form[name="jb-company-details"]', function() {
+		console.log( window.location.pathname );
+		if ( window.history ) {
+			window.history.replaceState({}, document.title, window.location.pathname );
+		}
+		$(this).find('.jb-form-button').attr('disabled', true).prop('disabled', true);
+	});
 });

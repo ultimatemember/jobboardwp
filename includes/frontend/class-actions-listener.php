@@ -4,9 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
-
 
 	/**
 	 * Class Actions_Listener
@@ -15,7 +13,6 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 	 */
 	class Actions_Listener {
 
-
 		/**
 		 * Actions_Listener constructor.
 		 */
@@ -23,7 +20,6 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 			add_action( 'wp_loaded', array( $this, 'actions_listener' ), 10 );
 			add_filter( 'jb_job_submitted_data', array( $this, 'add_location_data' ), 10, 1 );
 		}
-
 
 		/**
 		 * Parse and save location data
@@ -84,9 +80,8 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 			// phpcs:enable WordPress.Security.NonceVerification -- already verified here
 		}
 
-
 		/**
-		 * Handle posting job form and maybe create user if the form data is proper
+		 * Handle posting a job form and maybe create user if the form data is proper
 		 * $_POST validation on form submission
 		 *
 		 * @return int|\WP_Error
@@ -426,8 +421,6 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 			// phpcs:enable WordPress.Security.NonceVerification -- already verified here
 		}
 
-
-
 		/**
 		 * Allows for immediate access to the logged in cookie after mid-request login.
 		 *
@@ -438,7 +431,6 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 		public function update_global_login_cookie( $logged_in_cookie ) {
 			$_COOKIE[ LOGGED_IN_COOKIE ] = $logged_in_cookie;
 		}
-
 
 		/**
 		 * Main frontend action listener
@@ -1084,7 +1076,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									// redirect user to the preview page
 									$url = JB()->common()->job()->get_preview_link( $job_id );
 								} else {
-									// redirect to empty form and let the user know about draft job is created
+									// redirect to an empty form and let the user know about a draft job is created
 									$url = add_query_arg( array( 'msg' => 'draft' ), JB()->common()->permalinks()->get_predefined_page_link( 'job-post' ) );
 								}
 								wp_safe_redirect( $url );
@@ -1448,7 +1440,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 										$posting_form->add_error( 'company_logo', __( 'Wrong image URL. Invalid job', 'jobboardwp' ) );
 
 									} else {
-										// case when a job has own thumbnail
+										// case when does a job have own thumbnail
 										$attachment_id = get_post_thumbnail_id( absint( $_GET['job-id'] ) );
 										if ( ! $attachment_id ) {
 
@@ -1493,6 +1485,14 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							update_user_meta( $user_id, 'jb_company_facebook', $company_facebook );
 							update_user_meta( $user_id, 'jb_company_instagram', $company_instagram );
 							update_user_meta( $user_id, 'jb_company_logo', $company_logo );
+
+							$company_details_page_url = JB()->common()->permalinks()->get_predefined_page_link( 'jb-company-details' );
+							$company_details_page_url = add_query_arg(
+								array( 'msg' => 'updated' ),
+								$company_details_page_url
+							);
+							wp_safe_redirect( $company_details_page_url );
+							exit;
 						}
 
 						break;
