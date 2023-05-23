@@ -464,6 +464,38 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			setcookie( $name, $value, $expire, $path, COOKIE_DOMAIN, is_ssl(), true );
 		}
 
+		/**
+		 * Get the current URL anywhere.
+		 *
+		 * @param bool $no_query_params
+		 *
+		 * @return mixed|void
+		 */
+		public function get_current_url( $no_query_params = false ) {
+			//use WP native function for fill $_SERVER variables by correct values
+			wp_fix_server_vars();
+
+			$host = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : 'localhost';
+			$url  = ( is_ssl() ? 'https://' : 'http://' ) . $host . $_SERVER['REQUEST_URI'];
+
+			if ( true === $no_query_params ) {
+				$url = strtok( $url, '?' );
+			}
+
+			/**
+			 * Filters the current URL.
+			 *
+			 * @since 1.2.6
+			 * @hook jb_get_current_url
+			 *
+			 * @param {string} $url             Current URL.
+			 * @param {bool}   $no_query_params Set to `true` if needed clear URL without $_GET attributes. It's `false` by default.
+			 *
+			 * @return {string} Filtered current URL.
+			 */
+			return apply_filters( 'jb_get_current_url', $url, $no_query_params );
+		}
+
 
 		/**
 		 * Easy merge arrays based on parent array key. Insert after selected key

@@ -878,29 +878,35 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * @since 1.0
 		 */
 		public function get_preview_link( $job_id ) {
-			$post_job_page = JB()->common()->permalinks()->get_predefined_page_link( 'job-post' );
+			$current_url = JB()->get_current_url( true );
+
 			return add_query_arg(
 				array(
 					'jb-preview' => 1,
 					'job-id'     => $job_id,
 					'nonce'      => wp_create_nonce( 'jb-job-preview' . $job_id ),
 				),
-				$post_job_page
+				$current_url
 			);
 		}
-
 
 		/**
 		 * Get job edit link
 		 *
-		 * @param $job_id
+		 * @param int         $job_id
+		 * @param null|string $base_url
 		 *
 		 * @return string
 		 *
 		 * @since 1.0
 		 */
-		public function get_edit_link( $job_id ) {
-			$post_job_page = JB()->common()->permalinks()->get_predefined_page_link( 'job-post' );
+		public function get_edit_link( $job_id, $base_url = null ) {
+			if ( empty( $base_url ) ) {
+				$post_job_page = JB()->common()->permalinks()->get_predefined_page_link( 'job-post' );
+			} else {
+				$post_job_page = $base_url;
+			}
+
 			return add_query_arg(
 				array(
 					'job-id' => $job_id,

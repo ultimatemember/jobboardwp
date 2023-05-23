@@ -1249,7 +1249,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 									do_action( 'jb_job_published', $job_id, $job );
 								}
 
-								$job_post_page_url = JB()->common()->permalinks()->get_predefined_page_link( 'job-post' );
+								$job_post_page_url = JB()->get_current_url( true );
 								if ( empty( $is_edited ) && JB()->options()->get( 'job-moderation' ) && ! current_user_can( 'administrator' ) ) {
 									$url = add_query_arg( array( 'msg' => 'on-moderation' ), $job_post_page_url );
 								} elseif ( ! empty( $is_edited ) && 1 === (int) JB()->options()->get( 'published-job-editing' ) && ! current_user_can( 'administrator' ) ) {
@@ -1281,7 +1281,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								);
 
 								//redirect to job's draft
-								$url = JB()->common()->job()->get_edit_link( $job_id );
+								$url = JB()->common()->job()->get_edit_link( $job_id, JB()->get_current_url( true ) );
 								wp_safe_redirect( $url );
 								exit;
 							}
