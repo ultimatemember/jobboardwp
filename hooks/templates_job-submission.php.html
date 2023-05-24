@@ -453,6 +453,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							'recurring' => __( 'Recurring', 'jobboardwp' ),
 						),
 						'value'       => $salary_type,
+						'required'    => ! empty( JB()->options()->get( 'required-job-salary' ) ),
 					),
 					array(
 						'type'        => 'select',
