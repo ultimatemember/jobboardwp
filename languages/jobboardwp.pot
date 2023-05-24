@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-23T20:35:02+00:00\n"
+"POT-Creation-Date: 2023-05-24T11:59:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: jobboardwp\n"
@@ -129,7 +129,7 @@ msgstr ""
 
 #: includes/admin/class-columns.php:351
 #: includes/admin/templates/job/data.php:240
-#: templates/job-submission.php:335
+#: templates/job-submission.php:337
 msgid "Location"
 msgstr ""
 
@@ -356,7 +356,7 @@ msgid "Flush module data"
 msgstr ""
 
 #: includes/admin/class-modules-list-table.php:379
-#: templates/job-submission.php:473
+#: templates/job-submission.php:494
 #: templates/job/content.php:20
 msgid "Description"
 msgstr ""
@@ -857,8 +857,8 @@ msgstr ""
 
 #: includes/admin/class-settings.php:736
 #: includes/admin/templates/settings/emails-list-table.php:26
-#: templates/job-submission.php:163
-#: templates/job-submission.php:187
+#: templates/job-submission.php:165
+#: templates/job-submission.php:189
 msgid "Email"
 msgstr ""
 
@@ -1122,7 +1122,7 @@ msgstr ""
 #: includes/admin/templates/job/data.php:57
 #: includes/admin/templates/job/data.php:182
 #: templates/job-submission.php:43
-#: templates/job-submission.php:62
+#: templates/job-submission.php:63
 msgid "(None)"
 msgstr ""
 
@@ -1141,12 +1141,13 @@ msgstr ""
 #: includes/admin/templates/job/data.php:164
 #: includes/common/class-cpt.php:134
 #: includes/frontend/class-jobs-directory.php:69
-#: templates/job-submission.php:371
+#: templates/job-submission.php:373
 msgid "Job Type"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:196
 #: includes/common/class-cpt.php:181
+#: templates/job-submission.php:391
 msgid "Job Category"
 msgstr ""
 
@@ -1165,7 +1166,7 @@ msgstr ""
 
 #: includes/admin/templates/job/data.php:230
 #: includes/common/class-job.php:243
-#: templates/job-submission.php:327
+#: templates/job-submission.php:329
 msgid "Onsite"
 msgstr ""
 
@@ -1173,7 +1174,7 @@ msgstr ""
 #: includes/common/class-job.php:246
 #: includes/common/class-job.php:290
 #: includes/common/class-job.php:315
-#: templates/job-submission.php:328
+#: templates/job-submission.php:330
 msgid "Remote"
 msgstr ""
 
@@ -1187,8 +1188,8 @@ msgid "Required for onsite jobs."
 msgstr ""
 
 #: includes/admin/templates/job/data.php:250
-#: templates/job-submission.php:347
-#: templates/job-submission.php:358
+#: templates/job-submission.php:349
+#: templates/job-submission.php:360
 msgid "Preferred Location"
 msgstr ""
 
@@ -1245,7 +1246,7 @@ msgid "Featured Order"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:336
-#: templates/job-submission.php:393
+#: templates/job-submission.php:414
 msgid "Salary"
 msgstr ""
 
@@ -1254,37 +1255,37 @@ msgid "Please select salary"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:341
-#: templates/job-submission.php:397
+#: templates/job-submission.php:418
 msgid "Not specified"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:342
-#: templates/job-submission.php:398
+#: templates/job-submission.php:419
 msgid "Fixed"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:343
-#: templates/job-submission.php:399
+#: templates/job-submission.php:420
 msgid "Recurring"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:350
-#: templates/job-submission.php:405
+#: templates/job-submission.php:426
 msgid "Salary amount type"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:351
-#: templates/job-submission.php:406
+#: templates/job-submission.php:427
 msgid "Please select amount type"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:354
-#: templates/job-submission.php:409
+#: templates/job-submission.php:430
 msgid "Numeric"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:355
-#: templates/job-submission.php:410
+#: templates/job-submission.php:431
 msgid "Range (min-max)"
 msgstr ""
 
@@ -1295,7 +1296,7 @@ msgstr ""
 
 #. translators: %s - Currency symbol
 #: includes/admin/templates/job/data.php:380
-#: templates/job-submission.php:429
+#: templates/job-submission.php:450
 msgid "Salary Min Amount %s"
 msgstr ""
 
@@ -1305,7 +1306,7 @@ msgstr ""
 
 #. translators: %s - Currency symbol
 #: includes/admin/templates/job/data.php:393
-#: templates/job-submission.php:439
+#: templates/job-submission.php:460
 msgid "Salary Max Amount %s"
 msgstr ""
 
@@ -1314,27 +1315,27 @@ msgid "Set to \"0\" for displaying only min amount. (E.g. \"Salary starts from {
 msgstr ""
 
 #: includes/admin/templates/job/data.php:403
-#: templates/job-submission.php:448
+#: templates/job-submission.php:469
 msgid "Salary Period"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:406
-#: templates/job-submission.php:452
+#: templates/job-submission.php:473
 msgid "Hour"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:407
-#: templates/job-submission.php:453
+#: templates/job-submission.php:474
 msgid "Day"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:408
-#: templates/job-submission.php:454
+#: templates/job-submission.php:475
 msgid "Week"
 msgstr ""
 
 #: includes/admin/templates/job/data.php:409
-#: templates/job-submission.php:455
+#: templates/job-submission.php:476
 msgid "Month"
 msgstr ""
 
@@ -1498,7 +1499,7 @@ msgid "Jobs Dashboard"
 msgstr ""
 
 #: includes/class-config.php:307
-#: templates/job-submission.php:506
+#: templates/job-submission.php:527
 msgid "Company Details"
 msgstr ""
 
@@ -3144,7 +3145,7 @@ msgid "Username or Email Address"
 msgstr ""
 
 #: includes/frontend/class-shortcodes.php:347
-#: templates/job-submission.php:226
+#: templates/job-submission.php:228
 msgid "Password"
 msgstr ""
 
@@ -3245,52 +3246,52 @@ msgid "Hide logos"
 msgstr ""
 
 #: templates/company-details.php:52
-#: templates/job-submission.php:510
+#: templates/job-submission.php:531
 msgid "Name"
 msgstr ""
 
 #: templates/company-details.php:56
-#: templates/job-submission.php:514
+#: templates/job-submission.php:535
 msgid "Enter the name of the company"
 msgstr ""
 
 #: templates/company-details.php:60
-#: templates/job-submission.php:518
+#: templates/job-submission.php:539
 msgid "Website"
 msgstr ""
 
 #: templates/company-details.php:66
-#: templates/job-submission.php:524
+#: templates/job-submission.php:545
 msgid "Tagline"
 msgstr ""
 
 #: templates/company-details.php:69
-#: templates/job-submission.php:527
+#: templates/job-submission.php:548
 msgid "Briefly describe your company"
 msgstr ""
 
 #: templates/company-details.php:73
-#: templates/job-submission.php:531
+#: templates/job-submission.php:552
 msgid "Twitter username"
 msgstr ""
 
 #: templates/company-details.php:79
-#: templates/job-submission.php:537
+#: templates/job-submission.php:558
 msgid "Facebook username"
 msgstr ""
 
 #: templates/company-details.php:85
-#: templates/job-submission.php:543
+#: templates/job-submission.php:564
 msgid "Instagram username"
 msgstr ""
 
 #: templates/company-details.php:91
-#: templates/job-submission.php:549
+#: templates/job-submission.php:570
 msgid "Logo"
 msgstr ""
 
 #: templates/company-details.php:94
-#: templates/job-submission.php:552
+#: templates/job-submission.php:573
 msgid "Company logo image"
 msgstr ""
 
@@ -3304,7 +3305,7 @@ msgid "<a href=\"%s\">Sign in</a> to view your job listings."
 msgstr ""
 
 #: templates/job-preview.php:19
-#: templates/job-submission.php:255
+#: templates/job-submission.php:257
 msgid "Preview"
 msgstr ""
 
@@ -3324,104 +3325,108 @@ msgstr ""
 msgid "Sign in"
 msgstr ""
 
-#: templates/job-submission.php:170
-#: templates/job-submission.php:207
+#: templates/job-submission.php:172
+#: templates/job-submission.php:209
 msgid "First name"
 msgstr ""
 
-#: templates/job-submission.php:177
-#: templates/job-submission.php:213
+#: templates/job-submission.php:179
+#: templates/job-submission.php:215
 msgid "Last name"
 msgstr ""
 
-#: templates/job-submission.php:196
+#: templates/job-submission.php:198
 msgid "Username"
 msgstr ""
 
-#: templates/job-submission.php:232
+#: templates/job-submission.php:234
 msgid "Confirm Password"
 msgstr ""
 
-#: templates/job-submission.php:245
+#: templates/job-submission.php:247
 msgid "Your account details will be confirmed via email."
 msgstr ""
 
-#: templates/job-submission.php:265
+#: templates/job-submission.php:267
 msgid "Save Draft"
 msgstr ""
 
-#: templates/job-submission.php:305
+#: templates/job-submission.php:307
 msgid "Your Details"
 msgstr ""
 
-#: templates/job-submission.php:317
+#: templates/job-submission.php:319
 msgid "Job Title"
 msgstr ""
 
-#: templates/job-submission.php:324
+#: templates/job-submission.php:326
 msgid "Job Location"
 msgstr ""
 
-#: templates/job-submission.php:329
+#: templates/job-submission.php:331
 msgid "Onsite or Remote"
 msgstr ""
 
-#: templates/job-submission.php:336
-#: templates/job-submission.php:348
-#: templates/job-submission.php:359
+#: templates/job-submission.php:338
+#: templates/job-submission.php:350
+#: templates/job-submission.php:361
 msgid "City, State, or Country"
 msgstr ""
 
-#: templates/job-submission.php:373
+#: templates/job-submission.php:375
 msgid "Please select job type"
 msgstr ""
 
-#: templates/job-submission.php:394
+#: templates/job-submission.php:393
+msgid "Please select job category"
+msgstr ""
+
+#: templates/job-submission.php:415
 msgid "Please select salary type"
 msgstr ""
 
 #. translators: %s - Currency symbol
-#: templates/job-submission.php:419
+#: templates/job-submission.php:440
 msgid "Salary amount %s"
 msgstr ""
 
-#: templates/job-submission.php:420
+#: templates/job-submission.php:441
 msgid "Enter salary amount"
 msgstr ""
 
-#: templates/job-submission.php:430
+#: templates/job-submission.php:451
 msgid "Enter salary min amount"
 msgstr ""
 
-#: templates/job-submission.php:440
+#: templates/job-submission.php:461
 msgid "Enter salary max amount"
 msgstr ""
 
-#: templates/job-submission.php:449
+#: templates/job-submission.php:470
 msgid "Please select salary period"
 msgstr ""
 
-#: templates/job-submission.php:464
+#: templates/job-submission.php:485
 msgid "Enter an email address or website URL"
 msgstr ""
 
-#: templates/job-submission.php:466
+#: templates/job-submission.php:487
 msgid "Enter an email address"
 msgstr ""
 
-#: templates/job-submission.php:468
+#: templates/job-submission.php:489
 msgid "Enter a website URL"
 msgstr ""
 
-#: templates/job-submission.php:482
+#: templates/job-submission.php:503
 msgid "Expired date"
 msgstr ""
 
-#: templates/job-submission.php:490
+#: templates/job-submission.php:511
 msgid "Application Contact"
 msgstr ""
 
-#: templates/job-submission.php:502
+#: templates/job-submission.php:523
 msgid "Job Details"
 msgstr ""
 
