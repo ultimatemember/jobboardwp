@@ -1296,7 +1296,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						} else {
 							if ( ! is_numeric( $_POST['data']['jb-salary-min-amount'] ) ) {
 								$errors['wrong'][] = 'jb-salary-min-amount';
-							} elseif ( 0 !== absint( $_POST['data']['jb-salary-min-amount'] ) && absint( $_POST['data']['jb-salary-min-amount'] ) >= absint( $_POST['data']['jb-salary-max-amount'] ) ) {
+							} elseif ( 0 !== absint( $_POST['data']['jb-salary-max-amount'] ) && absint( $_POST['data']['jb-salary-min-amount'] ) >= absint( $_POST['data']['jb-salary-max-amount'] ) ) {
 								$errors['wrong'][] = 'jb-salary-min-amount';
 							}
 
