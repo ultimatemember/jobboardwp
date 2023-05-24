@@ -92,9 +92,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			$categories = JB()->common()->job()->prepare_categories_options( $categories, $cat_children );
 
-			$categories_options[''] = __( '(None)', 'jobboardwp' );
-			foreach ( $categories as $category ) {
-				$categories_options[ $category->term_id ] = str_repeat( '&amp;#8211;', $category->level ) . ' ' . $category->name;
+			if ( ! empty( $categories ) ) {
+				$categories_options[''] = __( '(None)', 'jobboardwp' );
+				foreach ( $categories as $category ) {
+					$categories_options[ $category->term_id ] = str_repeat( '&amp;#8211;', $category->level ) . ' ' . $category->name;
+				}
 			}
 		}
 
@@ -412,6 +414,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 				'required' => ! empty( JB()->options()->get( 'required-job-type' ) ),
 			),
 		);
+
+		if ( JB()->options()->get( 'job-categories' ) &amp;&amp; ! empty( $categories_options ) ) {
+			$job_details_fields = array_merge(
+				$job_details_fields,
+				array(
+					array(
+						'type'    => 'select',
+						'label'   => __( 'Job Category', 'jobboardwp' ),
+						'data'    => array(
+							'placeholder' => __( 'Please select job category', 'jobboardwp' ),
+						),
+						'id'      => 'job_category',
+						'class'   => 'jb-s1',
+						'options' => $categories_options,
+						'value'   => $job_category,
+					),
+				)
+			);
+		}
 
 		if ( JB()->options()->get( 'job-salary' ) ) {
 			$currency         = JB()->options()->get( 'job-salary-currency' );
