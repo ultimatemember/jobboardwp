@@ -776,7 +776,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 											} else {
 												if ( ! is_numeric( $_POST['job_salary_min_amount'] ) ) {
 													$posting_form->add_error( 'job_salary_min_amount', __( 'Job salary amount must be numeric', 'jobboardwp' ) );
-												} elseif ( absint( $_POST['job_salary_min_amount'] ) >= absint( $_POST['job_salary_max_amount'] ) ) {
+												} elseif ( 0 !== absint( $_POST['job_salary_max_amount'] ) && absint( $_POST['job_salary_min_amount'] ) >= absint( $_POST['job_salary_max_amount'] ) ) {
 													$posting_form->add_error( 'job_salary_min_amount', __( 'Job minimum salary must be lower than maximum salary', 'jobboardwp' ) );
 												} else {
 													$job_min_amount = absint( $_POST['job_salary_min_amount'] );
@@ -784,7 +784,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 
 												if ( ! is_numeric( $_POST['job_salary_max_amount'] ) ) {
 													$posting_form->add_error( 'job_salary_max_amount', __( 'Job salary amount must be numeric', 'jobboardwp' ) );
-												} elseif ( absint( $_POST['job_salary_max_amount'] ) <= absint( $_POST['job_salary_min_amount'] ) ) {
+												} elseif ( 0 !== absint( $_POST['job_salary_max_amount'] ) && absint( $_POST['job_salary_max_amount'] ) <= absint( $_POST['job_salary_min_amount'] ) ) {
 													$posting_form->add_error( 'job_salary_max_amount', __( 'Job maximum salary must be higher than minimum salary', 'jobboardwp' ) );
 												} else {
 													$job_max_amount = absint( $_POST['job_salary_max_amount'] );
@@ -919,10 +919,10 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								if ( ! empty( $job_amount ) ) {
 									$meta_input['jb-salary-amount'] = $job_amount;
 								}
-								if ( ! empty( $job_min_amount ) ) {
+								if ( isset( $job_min_amount ) ) {
 									$meta_input['jb-salary-min-amount'] = $job_min_amount;
 								}
-								if ( ! empty( $job_max_amount ) ) {
+								if ( isset( $job_max_amount ) ) {
 									$meta_input['jb-salary-max-amount'] = $job_max_amount;
 								}
 								if ( ! empty( $job_period ) ) {

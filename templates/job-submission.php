@@ -435,7 +435,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						'conditional' => array( 'job_salary_type', '!=', '' ),
 					),
 					array(
-						'type'        => 'text',
+						'type'        => 'number',
 						'required'    => true,
 						// translators: %s - Currency symbol
 						'label'       => sprintf( __( 'Salary amount %s', 'jobboardwp' ), $currency_symbol ),
@@ -443,9 +443,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 						'id'          => 'job_salary_amount',
 						'value'       => $salary_amount,
 						'conditional' => array( 'job_salary_amount_type', '=', 'numeric' ),
+						'min'         => 0,
 					),
 					array(
-						'type'        => 'text',
+						'type'        => 'number',
 						'required'    => true,
 						// translators: %s - Currency symbol
 						'label'       => sprintf( __( 'Salary Min Amount %s', 'jobboardwp' ), $currency_symbol ),
@@ -453,9 +454,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 						'id'          => 'job_salary_min_amount',
 						'value'       => $salary_min_amount,
 						'conditional' => array( 'job_salary_amount_type', '=', 'range' ),
+						'min'         => 0,
 					),
 					array(
-						'type'        => 'text',
+						'type'        => 'number',
 						'required'    => true,
 						// translators: %s - Currency symbol
 						'label'       => sprintf( __( 'Salary Max Amount %s', 'jobboardwp' ), $currency_symbol ),
@@ -463,6 +465,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						'id'          => 'job_salary_max_amount',
 						'value'       => $salary_max_amount,
 						'conditional' => array( 'job_salary_amount_type', '=', 'range' ),
+						'min'         => 0,
 					),
 					array(
 						'type'        => 'select',
