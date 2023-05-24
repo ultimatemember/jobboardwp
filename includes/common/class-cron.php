@@ -66,18 +66,19 @@ if ( ! class_exists( 'jb\common\Cron' ) ) {
 		 */
 		public function maybe_schedule_tasks() {
 			$recurrence = ( defined( 'JB_CRON_DEBUG' ) && JB_CRON_DEBUG ) ? 'jb_minutely' : 'hourly';
+			$time       = mktime( 0, 0, 0, wp_date( 'm' ), wp_date( 'd' ), wp_date( 'Y' ) );
 
 			if ( ! wp_next_scheduled( 'jb_check_for_expired_jobs' ) ) {
-				wp_schedule_event( time(), $recurrence, 'jb_check_for_expired_jobs' );
+				wp_schedule_event( $time, $recurrence, 'jb_check_for_expired_jobs' );
 			}
 			if ( ! wp_next_scheduled( 'jb_check_for_reminder_expired_jobs' ) ) {
-				wp_schedule_event( time(), $recurrence, 'jb_check_for_reminder_expired_jobs' );
+				wp_schedule_event( $time, $recurrence, 'jb_check_for_reminder_expired_jobs' );
 			}
 			if ( ! wp_next_scheduled( 'jb_delete_old_previews' ) ) {
-				wp_schedule_event( time(), 'daily', 'jb_delete_old_previews' );
+				wp_schedule_event( $time, 'daily', 'jb_delete_old_previews' );
 			}
 			if ( ! wp_next_scheduled( 'jb_delete_temp_files' ) ) {
-				wp_schedule_event( time(), 'daily', 'jb_delete_temp_files' );
+				wp_schedule_event( $time, 'daily', 'jb_delete_temp_files' );
 			}
 		}
 	}
