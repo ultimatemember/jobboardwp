@@ -634,6 +634,9 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			&lt;span class="&lt;?php echo esc_attr( $wrapper_classes ); ?>">
 				&lt;span class="jb-uploaded-content-wrapper jb-&lt;?php echo esc_attr( $id ); ?>-image-wrapper" style="&lt;?php echo esc_attr( $styles ); ?>">
 					&lt;?php
+					if ( JB()->options()->get( 'disable-company-logo-cache' ) ) {
+						$field_data['value'] = add_query_arg( array( 't' => time() ), $field_data['value'] );
+					}
 					$output = '&lt;img src="' . ( ! empty( $field_data['value'] ) ? esc_url( $field_data['value'] ) : '' ) . '" alt="' . esc_attr( $img_alt ) . '" ' . $img_style . ' />';
 					/**
 					 * Filters the preview media output.
