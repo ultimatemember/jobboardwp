@@ -276,6 +276,10 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 						'label' => __( 'Disable Google structured data', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'disable-structured-data' ) ? $labels['yes'] : $labels['no'],
 					),
+					'disable-logo-cache'      => array(
+						'label' => __( 'Disable Google structured data', 'jobboardwp' ),
+						'value' => JB()->options()->get( 'disable-company-logo-cache' ) ? $labels['yes'] : $labels['no'],
+					),
 					'account-required'        => array(
 						'label' => __( 'Account Needed', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'account-required' ) ? $labels['yes'] : $labels['no'],
