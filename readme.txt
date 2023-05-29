@@ -105,6 +105,10 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 == Changelog ==
 
+= 1.2.7: June xx, 2023 =
+
+* Fixed: Caching company logo image URL in the form fields
+
 = 1.2.6: May 24, 2023 =
 
 * Added: Salary job field and filter for the job list
