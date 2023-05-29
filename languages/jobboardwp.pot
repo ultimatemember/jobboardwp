@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-24T19:50:59+00:00\n"
+"POT-Creation-Date: 2023-05-29T18:10:30+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: jobboardwp\n"
@@ -34,7 +34,7 @@ msgstr ""
 #: includes/admin/class-actions-listener.php:236
 #: includes/admin/class-modules-list-table.php:362
 #: includes/admin/class-settings.php:85
-#: includes/admin/class-settings.php:799
+#: includes/admin/class-settings.php:806
 msgid "Modules"
 msgstr ""
 
@@ -202,7 +202,7 @@ msgid "Required"
 msgstr ""
 
 #: includes/admin/class-forms.php:822
-#: includes/frontend/class-forms.php:901
+#: includes/frontend/class-forms.php:904
 msgid "Please select..."
 msgstr ""
 
@@ -236,12 +236,12 @@ msgid "File"
 msgstr ""
 
 #: includes/admin/class-forms.php:1095
-#: includes/frontend/class-forms.php:627
+#: includes/frontend/class-forms.php:630
 msgid "Drop file to upload"
 msgstr ""
 
 #: includes/admin/class-forms.php:1096
-#: includes/frontend/class-forms.php:628
+#: includes/frontend/class-forms.php:631
 msgid "or"
 msgstr ""
 
@@ -282,7 +282,7 @@ msgid "Dashboard"
 msgstr ""
 
 #: includes/admin/class-menu.php:97
-#: includes/class-config.php:295
+#: includes/class-config.php:296
 #: includes/common/class-cpt.php:60
 #: templates/job-categories.php:25
 #: templates/js/job-categories-list.php:27
@@ -442,7 +442,7 @@ msgid "Default job archive template"
 msgstr ""
 
 #: includes/admin/class-settings.php:436
-#: includes/admin/class-site-health.php:280
+#: includes/admin/class-site-health.php:284
 msgid "Account Needed"
 msgstr ""
 
@@ -451,7 +451,7 @@ msgid "Require users to be logged-in before they can submit a job."
 msgstr ""
 
 #: includes/admin/class-settings.php:442
-#: includes/admin/class-site-health.php:284
+#: includes/admin/class-site-health.php:288
 msgid "User Registration"
 msgstr ""
 
@@ -460,7 +460,7 @@ msgid "Allow users to create an account when submitting a job listing."
 msgstr ""
 
 #: includes/admin/class-settings.php:448
-#: includes/admin/class-site-health.php:319
+#: includes/admin/class-site-health.php:323
 msgid "Use email addresses as usernames"
 msgstr ""
 
@@ -469,7 +469,7 @@ msgid "Hide the username field on the submission form and set the username as th
 msgstr ""
 
 #: includes/admin/class-settings.php:455
-#: includes/admin/class-site-health.php:323
+#: includes/admin/class-site-health.php:327
 msgid "Email password link"
 msgstr ""
 
@@ -478,17 +478,17 @@ msgid "Hide password field on submission form and send users an email with a lin
 msgstr ""
 
 #: includes/admin/class-settings.php:462
-#: includes/admin/class-site-health.php:334
+#: includes/admin/class-site-health.php:338
 msgid "\"Your Details\" for logged in users"
 msgstr ""
 
 #: includes/admin/class-settings.php:464
-#: includes/admin/class-site-health.php:335
+#: includes/admin/class-site-health.php:339
 msgid "Hidden"
 msgstr ""
 
 #: includes/admin/class-settings.php:465
-#: includes/admin/class-site-health.php:335
+#: includes/admin/class-site-health.php:339
 msgid "Visible with editable email, first/last name fields"
 msgstr ""
 
@@ -497,7 +497,7 @@ msgid "Select if the \"Your Details\" section is shown for logged in users."
 msgstr ""
 
 #: includes/admin/class-settings.php:473
-#: includes/admin/class-site-health.php:338
+#: includes/admin/class-site-health.php:342
 msgid "First and Last names required"
 msgstr ""
 
@@ -506,7 +506,7 @@ msgid "Make the first and last name fields required."
 msgstr ""
 
 #: includes/admin/class-settings.php:480
-#: includes/admin/class-site-health.php:342
+#: includes/admin/class-site-health.php:346
 msgid "User Role"
 msgstr ""
 
@@ -515,7 +515,7 @@ msgid "New registered users who are created during submission will be assigned t
 msgstr ""
 
 #: includes/admin/class-settings.php:489
-#: includes/admin/class-site-health.php:346
+#: includes/admin/class-site-health.php:350
 msgid "Set submissions as Pending"
 msgstr ""
 
@@ -524,7 +524,7 @@ msgid "New job submissions will not appear on the jobs list until approved by ad
 msgstr ""
 
 #: includes/admin/class-settings.php:495
-#: includes/admin/class-site-health.php:357
+#: includes/admin/class-site-health.php:361
 msgid "Pending Job Edits"
 msgstr ""
 
@@ -533,7 +533,7 @@ msgid "Allow users to edit their pending jobs until they are approved by an admi
 msgstr ""
 
 #: includes/admin/class-settings.php:502
-#: includes/admin/class-site-health.php:424
+#: includes/admin/class-site-health.php:428
 msgid "Job submitted notice"
 msgstr ""
 
@@ -542,7 +542,7 @@ msgid "The text that appears after a job has been submitted."
 msgstr ""
 
 #: includes/admin/class-settings.php:510
-#: includes/admin/class-site-health.php:368
+#: includes/admin/class-site-health.php:372
 msgid "Published Job Edits"
 msgstr ""
 
@@ -566,7 +566,7 @@ msgid "Select if users can edit their published jobs and if edits require admin 
 msgstr ""
 
 #: includes/admin/class-settings.php:522
-#: includes/admin/class-site-health.php:372
+#: includes/admin/class-site-health.php:376
 msgid "Show individual expiry date"
 msgstr ""
 
@@ -575,7 +575,7 @@ msgid "Allow users to set the job expiry date on the job posting form."
 msgstr ""
 
 #: includes/admin/class-settings.php:528
-#: includes/admin/class-site-health.php:383
+#: includes/admin/class-site-health.php:387
 msgid "Job duration"
 msgstr ""
 
@@ -592,7 +592,7 @@ msgid "Enable notification to the job author about the job expiration."
 msgstr ""
 
 #: includes/admin/class-settings.php:542
-#: includes/admin/class-site-health.php:405
+#: includes/admin/class-site-health.php:409
 msgid "Reminder time for \"X\" days"
 msgstr ""
 
@@ -605,7 +605,7 @@ msgid "Job duration must be longer than \"X\" days."
 msgstr ""
 
 #: includes/admin/class-settings.php:551
-#: includes/admin/class-site-health.php:416
+#: includes/admin/class-site-health.php:420
 msgid "Required job type"
 msgstr ""
 
@@ -614,7 +614,7 @@ msgid "Job type is required."
 msgstr ""
 
 #: includes/admin/class-settings.php:560
-#: includes/admin/class-site-health.php:307
+#: includes/admin/class-site-health.php:311
 msgid "Required job salary"
 msgstr ""
 
@@ -623,7 +623,7 @@ msgid "Job salary is required."
 msgstr ""
 
 #: includes/admin/class-settings.php:571
-#: includes/admin/class-site-health.php:420
+#: includes/admin/class-site-health.php:424
 msgid "How to apply"
 msgstr ""
 
@@ -718,7 +718,7 @@ msgid "Allow users to set job salary data."
 msgstr ""
 
 #: includes/admin/class-settings.php:641
-#: includes/admin/class-site-health.php:303
+#: includes/admin/class-site-health.php:307
 msgid "Currency"
 msgstr ""
 
@@ -761,6 +761,7 @@ msgstr ""
 
 #: includes/admin/class-settings.php:669
 #: includes/admin/class-site-health.php:276
+#: includes/admin/class-site-health.php:280
 msgid "Disable Google structured data"
 msgstr ""
 
@@ -769,80 +770,88 @@ msgid "Disable parsing an individual job page as \"Google JobPosting\" data by t
 msgstr ""
 
 #: includes/admin/class-settings.php:676
+msgid "Disable company logo cache"
+msgstr ""
+
+#: includes/admin/class-settings.php:677
+msgid "Use this option if you have a problem with a company logo cache."
+msgstr ""
+
+#: includes/admin/class-settings.php:683
 msgid "Job Submission"
 msgstr ""
 
-#: includes/admin/class-settings.php:680
+#: includes/admin/class-settings.php:687
 msgid "Jobs List"
-msgstr ""
-
-#: includes/admin/class-settings.php:685
-#: includes/admin/class-site-health.php:428
-msgid "Jobs per page"
-msgstr ""
-
-#: includes/admin/class-settings.php:686
-msgid "How many jobs would you like to appear on initial load and after clicking load more button."
 msgstr ""
 
 #: includes/admin/class-settings.php:692
 #: includes/admin/class-site-health.php:432
-msgid "Hide Logos"
+msgid "Jobs per page"
 msgstr ""
 
 #: includes/admin/class-settings.php:693
-msgid "If selected company logos will not appear on the jobs list."
-msgstr ""
-
-#: includes/admin/class-settings.php:698
-#: includes/admin/class-site-health.php:436
-msgid "Hide filled jobs"
+msgid "How many jobs would you like to appear on initial load and after clicking load more button."
 msgstr ""
 
 #: includes/admin/class-settings.php:699
-msgid "If selected jobs that have been marked as filled will not appear on the jobs list."
+#: includes/admin/class-site-health.php:436
+msgid "Hide Logos"
 msgstr ""
 
-#: includes/admin/class-settings.php:704
-#: includes/admin/class-site-health.php:440
-msgid "Hide expired jobs"
+#: includes/admin/class-settings.php:700
+msgid "If selected company logos will not appear on the jobs list."
 msgstr ""
 
 #: includes/admin/class-settings.php:705
-msgid "If selected jobs that have expired will not appear in jobs list or in archive/search."
+#: includes/admin/class-site-health.php:440
+msgid "Hide filled jobs"
 msgstr ""
 
-#: includes/admin/class-settings.php:710
-#: includes/admin/class-site-health.php:444
-msgid "Hide search field"
+#: includes/admin/class-settings.php:706
+msgid "If selected jobs that have been marked as filled will not appear on the jobs list."
 msgstr ""
 
 #: includes/admin/class-settings.php:711
-msgid "If selected the search field will not be displayed on the jobs list."
+#: includes/admin/class-site-health.php:444
+msgid "Hide expired jobs"
 msgstr ""
 
-#: includes/admin/class-settings.php:716
-#: includes/admin/class-site-health.php:448
-msgid "Hide location field"
+#: includes/admin/class-settings.php:712
+msgid "If selected jobs that have expired will not appear in jobs list or in archive/search."
 msgstr ""
 
 #: includes/admin/class-settings.php:717
+#: includes/admin/class-site-health.php:448
+msgid "Hide search field"
+msgstr ""
+
+#: includes/admin/class-settings.php:718
+msgid "If selected the search field will not be displayed on the jobs list."
+msgstr ""
+
+#: includes/admin/class-settings.php:723
+#: includes/admin/class-site-health.php:452
+msgid "Hide location field"
+msgstr ""
+
+#: includes/admin/class-settings.php:724
 msgid "If selected the location search field will not be displayed on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:722
-#: includes/admin/class-site-health.php:452
+#: includes/admin/class-settings.php:729
+#: includes/admin/class-site-health.php:456
 #: includes/blocks/jb-jobs-list/build/index.js:1
 #: includes/blocks/jb-jobs-list/src/index.js:305
 msgid "Hide filters"
 msgstr ""
 
-#: includes/admin/class-settings.php:723
+#: includes/admin/class-settings.php:730
 msgid "If selected the filters section will not be displayed on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:728
-#: includes/admin/class-site-health.php:456
+#: includes/admin/class-settings.php:735
+#: includes/admin/class-site-health.php:460
 #: includes/widgets/class-recent-jobs.php:192
 #: includes/blocks/jb-jobs-list/build/index.js:1
 #: includes/blocks/jb-jobs-list/src/index.js:314
@@ -851,135 +860,135 @@ msgstr ""
 msgid "Hide job types"
 msgstr ""
 
-#: includes/admin/class-settings.php:729
+#: includes/admin/class-settings.php:736
 msgid "If selected the job types filter will not be displayed on the jobs list."
 msgstr ""
 
-#: includes/admin/class-settings.php:736
+#: includes/admin/class-settings.php:743
 #: includes/admin/templates/settings/emails-list-table.php:26
 #: templates/job-submission.php:165
 #: templates/job-submission.php:189
 msgid "Email"
 msgstr ""
 
-#: includes/admin/class-settings.php:741
-#: includes/admin/class-site-health.php:492
+#: includes/admin/class-settings.php:748
+#: includes/admin/class-site-health.php:496
 msgid "Admin E-mail Address"
 msgstr ""
 
-#: includes/admin/class-settings.php:742
-#: includes/admin/class-settings.php:754
+#: includes/admin/class-settings.php:749
+#: includes/admin/class-settings.php:761
 msgid "e.g. admin@companyname.com"
 msgstr ""
 
-#: includes/admin/class-settings.php:747
-#: includes/admin/class-site-health.php:496
+#: includes/admin/class-settings.php:754
+#: includes/admin/class-site-health.php:500
 msgid "Mail appears from"
 msgstr ""
 
-#: includes/admin/class-settings.php:748
+#: includes/admin/class-settings.php:755
 msgid "e.g. Site Name"
 msgstr ""
 
-#: includes/admin/class-settings.php:753
-#: includes/admin/class-site-health.php:500
+#: includes/admin/class-settings.php:760
+#: includes/admin/class-site-health.php:504
 msgid "Mail appears from address"
 msgstr ""
 
-#: includes/admin/class-settings.php:759
+#: includes/admin/class-settings.php:766
 msgid "Styles"
 msgstr ""
 
-#: includes/admin/class-settings.php:764
-#: includes/admin/class-site-health.php:460
+#: includes/admin/class-settings.php:771
+#: includes/admin/class-site-health.php:464
 msgid "Disable styles"
 msgstr ""
 
-#: includes/admin/class-settings.php:765
+#: includes/admin/class-settings.php:772
 msgid "Check this to disable all included styling of buttons, and all other elements."
 msgstr ""
 
-#: includes/admin/class-settings.php:770
-#: includes/admin/class-site-health.php:464
+#: includes/admin/class-settings.php:777
+#: includes/admin/class-site-health.php:468
 msgid "Disable FontAwesome styles"
 msgstr ""
 
-#: includes/admin/class-settings.php:771
+#: includes/admin/class-settings.php:778
 msgid "To avoid duplicates if you have enqueued FontAwesome styles you could disable it."
 msgstr ""
 
-#: includes/admin/class-settings.php:776
+#: includes/admin/class-settings.php:783
 msgid "Misc"
 msgstr ""
 
-#: includes/admin/class-settings.php:781
-#: includes/admin/class-site-health.php:468
+#: includes/admin/class-settings.php:788
+#: includes/admin/class-site-health.php:472
 msgid "Delete settings on uninstall"
 msgstr ""
 
-#: includes/admin/class-settings.php:782
+#: includes/admin/class-settings.php:789
 msgid "Once removed, this data cannot be restored."
 msgstr ""
 
-#: includes/admin/class-settings.php:787
+#: includes/admin/class-settings.php:794
 msgid "Override templates"
 msgstr ""
 
-#: includes/admin/class-settings.php:884
+#: includes/admin/class-settings.php:891
 msgid "Subject Line"
 msgstr ""
 
-#: includes/admin/class-settings.php:885
+#: includes/admin/class-settings.php:892
 msgid "This is the subject line of the e-mail"
 msgstr ""
 
-#: includes/admin/class-settings.php:891
+#: includes/admin/class-settings.php:898
 msgid "Message Body"
 msgstr ""
 
-#: includes/admin/class-settings.php:892
+#: includes/admin/class-settings.php:899
 msgid "This is the content of the e-mail"
 msgstr ""
 
-#: includes/admin/class-settings.php:921
+#: includes/admin/class-settings.php:928
 msgid "Job base"
 msgstr ""
 
-#: includes/admin/class-settings.php:928
+#: includes/admin/class-settings.php:935
 msgid "Job type base"
 msgstr ""
 
-#: includes/admin/class-settings.php:937
+#: includes/admin/class-settings.php:944
 msgid "Job category base"
 msgstr ""
 
-#: includes/admin/class-settings.php:1378
+#: includes/admin/class-settings.php:1385
 msgid "Re-check templates"
 msgstr ""
 
 #. translators: %s: Last checking templates time.
-#: includes/admin/class-settings.php:1383
+#: includes/admin/class-settings.php:1390
 msgid "Last update: %s. You could re-check changes manually."
 msgstr ""
 
-#: includes/admin/class-settings.php:1385
+#: includes/admin/class-settings.php:1392
 msgid "Templates haven't check yet. You could check changes manually."
 msgstr ""
 
 #. translators: %s: Link to the docs article.
-#: includes/admin/class-settings.php:1393
+#: includes/admin/class-settings.php:1400
 msgid "You may get more details about overriding templates <a href=\"%s\" target=\"_blank\">here</a>."
 msgstr ""
 
-#: includes/admin/class-settings.php:1479
+#: includes/admin/class-settings.php:1486
 msgid "Theme version up to date"
 msgstr ""
 
-#: includes/admin/class-settings.php:1482
+#: includes/admin/class-settings.php:1489
 msgid "Theme version is out of date"
 msgstr ""
 
-#: includes/admin/class-settings.php:1486
+#: includes/admin/class-settings.php:1493
 msgid "Theme version is empty"
 msgstr ""
 
@@ -1038,51 +1047,51 @@ msgstr ""
 msgid "Job Salary"
 msgstr ""
 
-#: includes/admin/class-site-health.php:293
+#: includes/admin/class-site-health.php:297
 msgid "Invalid"
 msgstr ""
 
-#: includes/admin/class-site-health.php:394
+#: includes/admin/class-site-health.php:398
 msgid "Send expiration reminder to the author? "
 msgstr ""
 
-#: includes/admin/class-site-health.php:472
+#: includes/admin/class-site-health.php:476
 msgid "All publish jobs count"
 msgstr ""
 
-#: includes/admin/class-site-health.php:476
+#: includes/admin/class-site-health.php:480
 msgid "Expired jobs count"
 msgstr ""
 
-#: includes/admin/class-site-health.php:480
+#: includes/admin/class-site-health.php:484
 msgid "Filled jobs count"
 msgstr ""
 
-#: includes/admin/class-site-health.php:484
+#: includes/admin/class-site-health.php:488
 msgid "Jobs categories"
 msgstr ""
 
-#: includes/admin/class-site-health.php:488
+#: includes/admin/class-site-health.php:492
 msgid "Jobs types"
 msgstr ""
 
-#: includes/admin/class-site-health.php:512
+#: includes/admin/class-site-health.php:516
 msgid " Subject"
 msgstr ""
 
-#: includes/admin/class-site-health.php:516
+#: includes/admin/class-site-health.php:520
 msgid "Template "
 msgstr ""
 
-#: includes/admin/class-site-health.php:516
+#: includes/admin/class-site-health.php:520
 msgid " in theme?"
 msgstr ""
 
-#: includes/admin/class-site-health.php:527
+#: includes/admin/class-site-health.php:531
 msgid "No (0)"
 msgstr ""
 
-#: includes/admin/class-site-health.php:535
+#: includes/admin/class-site-health.php:539
 msgid "Active modules"
 msgstr ""
 
@@ -1482,724 +1491,724 @@ msgstr ""
 msgid " Description is required"
 msgstr ""
 
-#: includes/class-config.php:168
+#: includes/class-config.php:169
 msgid "Thank you for submitting your job. It will be appear on the website once approved."
 msgstr ""
 
-#: includes/class-config.php:195
+#: includes/class-config.php:196
 msgid "Employer"
 msgstr ""
 
-#: includes/class-config.php:299
+#: includes/class-config.php:300
 msgid "Post Job"
 msgstr ""
 
-#: includes/class-config.php:303
+#: includes/class-config.php:304
 msgid "Jobs Dashboard"
 msgstr ""
 
-#: includes/class-config.php:307
+#: includes/class-config.php:308
 #: templates/job-submission.php:531
 msgid "Company Details"
 msgstr ""
 
-#: includes/class-config.php:323
+#: includes/class-config.php:324
 msgid "Job submitted"
 msgstr ""
 
-#: includes/class-config.php:324
+#: includes/class-config.php:325
 msgid "New Job Submission - {site_name}"
 msgstr ""
 
-#: includes/class-config.php:325
+#: includes/class-config.php:326
 msgid "Whether to send the admin an email when new job is posted on website."
 msgstr ""
 
-#: includes/class-config.php:331
+#: includes/class-config.php:332
 msgid "Job listing approved"
 msgstr ""
 
-#: includes/class-config.php:332
+#: includes/class-config.php:333
 msgid "Job listing is now live - {site_name}"
 msgstr ""
 
-#: includes/class-config.php:333
+#: includes/class-config.php:334
 msgid "Whether to send the job's author an email when job is approved."
 msgstr ""
 
-#: includes/class-config.php:339
+#: includes/class-config.php:340
 msgid "Job has been edited"
 msgstr ""
 
-#: includes/class-config.php:340
+#: includes/class-config.php:341
 msgid "A job listing has been edited - {site_name}"
 msgstr ""
 
-#: includes/class-config.php:341
+#: includes/class-config.php:342
 msgid "Whether to send the admin an email when new job is edited on website."
 msgstr ""
 
-#: includes/class-config.php:347
+#: includes/class-config.php:348
 msgid "Job expiration reminder"
 msgstr ""
 
-#: includes/class-config.php:348
+#: includes/class-config.php:349
 msgid "Your job will expire in {job_expiration_days} days - {site_name}"
 msgstr ""
 
-#: includes/class-config.php:349
+#: includes/class-config.php:350
 msgid "Whether to send the job's author an email before job is expired."
 msgstr ""
 
-#: includes/class-config.php:364
+#: includes/class-config.php:365
 msgid "United Arab Emirates dirham"
 msgstr ""
 
-#: includes/class-config.php:368
+#: includes/class-config.php:369
 msgid "Afghan afghani"
 msgstr ""
 
-#: includes/class-config.php:372
+#: includes/class-config.php:373
 msgid "Albanian lek"
 msgstr ""
 
-#: includes/class-config.php:376
+#: includes/class-config.php:377
 msgid "Armenian dram"
 msgstr ""
 
-#: includes/class-config.php:380
+#: includes/class-config.php:381
 msgid "Netherlands Antillean guilder"
 msgstr ""
 
-#: includes/class-config.php:384
+#: includes/class-config.php:385
 msgid "Angolan kwanza"
 msgstr ""
 
-#: includes/class-config.php:388
+#: includes/class-config.php:389
 msgid "Argentine peso"
 msgstr ""
 
-#: includes/class-config.php:392
+#: includes/class-config.php:393
 msgid "Australian dollar"
 msgstr ""
 
-#: includes/class-config.php:396
+#: includes/class-config.php:397
 msgid "Aruban florin"
 msgstr ""
 
-#: includes/class-config.php:400
+#: includes/class-config.php:401
 msgid "Azerbaijani manat"
 msgstr ""
 
-#: includes/class-config.php:404
+#: includes/class-config.php:405
 msgid "Bosnia and Herzegovina convertible mark"
 msgstr ""
 
-#: includes/class-config.php:408
+#: includes/class-config.php:409
 msgid "Barbadian dollar"
 msgstr ""
 
-#: includes/class-config.php:412
+#: includes/class-config.php:413
 msgid "Bangladeshi taka"
 msgstr ""
 
-#: includes/class-config.php:416
+#: includes/class-config.php:417
 msgid "Bulgarian lev"
 msgstr ""
 
-#: includes/class-config.php:420
+#: includes/class-config.php:421
 msgid "Bahraini dinar"
 msgstr ""
 
-#: includes/class-config.php:424
+#: includes/class-config.php:425
 msgid "Burundian franc"
 msgstr ""
 
-#: includes/class-config.php:428
+#: includes/class-config.php:429
 msgid "Bermudian dollar"
 msgstr ""
 
-#: includes/class-config.php:432
+#: includes/class-config.php:433
 msgid "Brunei dollar"
 msgstr ""
 
-#: includes/class-config.php:436
+#: includes/class-config.php:437
 msgid "Bolivian boliviano"
 msgstr ""
 
-#: includes/class-config.php:440
+#: includes/class-config.php:441
 msgid "Brazilian real"
 msgstr ""
 
-#: includes/class-config.php:444
+#: includes/class-config.php:445
 msgid "Bahamian dollar"
 msgstr ""
 
-#: includes/class-config.php:448
+#: includes/class-config.php:449
 msgid "Bitcoin"
 msgstr ""
 
-#: includes/class-config.php:452
+#: includes/class-config.php:453
 msgid "Bhutanese ngultrum"
 msgstr ""
 
-#: includes/class-config.php:456
+#: includes/class-config.php:457
 msgid "Botswana pula"
 msgstr ""
 
-#: includes/class-config.php:460
+#: includes/class-config.php:461
 msgid "Belarusian ruble (old)"
 msgstr ""
 
-#: includes/class-config.php:464
+#: includes/class-config.php:465
 msgid "Belarusian ruble"
 msgstr ""
 
-#: includes/class-config.php:468
+#: includes/class-config.php:469
 msgid "Belize dollar"
 msgstr ""
 
-#: includes/class-config.php:472
+#: includes/class-config.php:473
 msgid "Canadian dollar"
 msgstr ""
 
-#: includes/class-config.php:476
+#: includes/class-config.php:477
 msgid "Congolese franc"
 msgstr ""
 
-#: includes/class-config.php:480
+#: includes/class-config.php:481
 msgid "Swiss franc"
 msgstr ""
 
-#: includes/class-config.php:484
+#: includes/class-config.php:485
 msgid "Chilean peso"
 msgstr ""
 
-#: includes/class-config.php:488
+#: includes/class-config.php:489
 msgid "Chinese yuan"
 msgstr ""
 
-#: includes/class-config.php:492
+#: includes/class-config.php:493
 msgid "Colombian peso"
 msgstr ""
 
-#: includes/class-config.php:496
+#: includes/class-config.php:497
 msgid "Costa Rican col&oacute;n"
 msgstr ""
 
-#: includes/class-config.php:500
+#: includes/class-config.php:501
 msgid "Cuban convertible peso"
 msgstr ""
 
-#: includes/class-config.php:504
+#: includes/class-config.php:505
 msgid "Cuban peso"
 msgstr ""
 
-#: includes/class-config.php:508
+#: includes/class-config.php:509
 msgid "Cape Verdean escudo"
 msgstr ""
 
-#: includes/class-config.php:512
+#: includes/class-config.php:513
 msgid "Czech koruna"
 msgstr ""
 
-#: includes/class-config.php:516
+#: includes/class-config.php:517
 msgid "Djiboutian franc"
 msgstr ""
 
-#: includes/class-config.php:520
+#: includes/class-config.php:521
 msgid "Danish krone"
 msgstr ""
 
-#: includes/class-config.php:524
+#: includes/class-config.php:525
 msgid "Dominican peso"
 msgstr ""
 
-#: includes/class-config.php:528
+#: includes/class-config.php:529
 msgid "Algerian dinar"
 msgstr ""
 
-#: includes/class-config.php:532
+#: includes/class-config.php:533
 msgid "Egyptian pound"
 msgstr ""
 
-#: includes/class-config.php:536
+#: includes/class-config.php:537
 msgid "Eritrean nakfa"
 msgstr ""
 
-#: includes/class-config.php:540
+#: includes/class-config.php:541
 msgid "Ethiopian birr"
 msgstr ""
 
-#: includes/class-config.php:544
+#: includes/class-config.php:545
 msgid "Euro"
 msgstr ""
 
-#: includes/class-config.php:548
+#: includes/class-config.php:549
 msgid "Fijian dollar"
 msgstr ""
 
-#: includes/class-config.php:552
+#: includes/class-config.php:553
 msgid "Falkland Islands pound"
 msgstr ""
 
-#: includes/class-config.php:556
+#: includes/class-config.php:557
 msgid "Pound sterling"
 msgstr ""
 
-#: includes/class-config.php:560
+#: includes/class-config.php:561
 msgid "Georgian lari"
 msgstr ""
 
-#: includes/class-config.php:564
+#: includes/class-config.php:565
 msgid "Guernsey pound"
 msgstr ""
 
-#: includes/class-config.php:568
+#: includes/class-config.php:569
 msgid "Ghana cedi"
 msgstr ""
 
-#: includes/class-config.php:572
+#: includes/class-config.php:573
 msgid "Gibraltar pound"
 msgstr ""
 
-#: includes/class-config.php:576
+#: includes/class-config.php:577
 msgid "Gambian dalasi"
 msgstr ""
 
-#: includes/class-config.php:580
+#: includes/class-config.php:581
 msgid "Guinean franc"
 msgstr ""
 
-#: includes/class-config.php:584
+#: includes/class-config.php:585
 msgid "Guatemalan quetzal"
 msgstr ""
 
-#: includes/class-config.php:588
+#: includes/class-config.php:589
 msgid "Guyanese dollar"
 msgstr ""
 
-#: includes/class-config.php:592
+#: includes/class-config.php:593
 msgid "Hong Kong dollar"
 msgstr ""
 
-#: includes/class-config.php:596
+#: includes/class-config.php:597
 msgid "Honduran lempira"
 msgstr ""
 
-#: includes/class-config.php:600
+#: includes/class-config.php:601
 msgid "Croatian kuna"
 msgstr ""
 
-#: includes/class-config.php:604
+#: includes/class-config.php:605
 msgid "Haitian gourde"
 msgstr ""
 
-#: includes/class-config.php:608
+#: includes/class-config.php:609
 msgid "Hungarian forint"
 msgstr ""
 
-#: includes/class-config.php:612
+#: includes/class-config.php:613
 msgid "Indonesian rupiah"
 msgstr ""
 
-#: includes/class-config.php:616
+#: includes/class-config.php:617
 msgid "Israeli new shekel"
 msgstr ""
 
-#: includes/class-config.php:620
+#: includes/class-config.php:621
 msgid "Manx pound"
 msgstr ""
 
-#: includes/class-config.php:624
+#: includes/class-config.php:625
 msgid "Indian rupee"
 msgstr ""
 
-#: includes/class-config.php:628
+#: includes/class-config.php:629
 msgid "Iraqi dinar"
 msgstr ""
 
-#: includes/class-config.php:632
+#: includes/class-config.php:633
 msgid "Iranian rial"
 msgstr ""
 
-#: includes/class-config.php:636
+#: includes/class-config.php:637
 msgid "Iranian toman"
 msgstr ""
 
-#: includes/class-config.php:640
+#: includes/class-config.php:641
 msgid "Icelandic kr&oacute;na"
 msgstr ""
 
-#: includes/class-config.php:644
+#: includes/class-config.php:645
 msgid "Jersey pound"
 msgstr ""
 
-#: includes/class-config.php:648
+#: includes/class-config.php:649
 msgid "Jamaican dollar"
 msgstr ""
 
-#: includes/class-config.php:652
+#: includes/class-config.php:653
 msgid "Jordanian dinar"
 msgstr ""
 
-#: includes/class-config.php:656
+#: includes/class-config.php:657
 msgid "Japanese yen"
 msgstr ""
 
-#: includes/class-config.php:660
+#: includes/class-config.php:661
 msgid "Kenyan shilling"
 msgstr ""
 
-#: includes/class-config.php:664
+#: includes/class-config.php:665
 msgid "Kyrgyzstani som"
 msgstr ""
 
-#: includes/class-config.php:668
+#: includes/class-config.php:669
 msgid "Cambodian riel"
 msgstr ""
 
-#: includes/class-config.php:672
+#: includes/class-config.php:673
 msgid "Comorian franc"
 msgstr ""
 
-#: includes/class-config.php:676
+#: includes/class-config.php:677
 msgid "North Korean won"
 msgstr ""
 
-#: includes/class-config.php:680
+#: includes/class-config.php:681
 msgid "South Korean won"
 msgstr ""
 
-#: includes/class-config.php:684
+#: includes/class-config.php:685
 msgid "Kuwaiti dinar"
 msgstr ""
 
-#: includes/class-config.php:688
+#: includes/class-config.php:689
 msgid "Cayman Islands dollar"
 msgstr ""
 
-#: includes/class-config.php:692
+#: includes/class-config.php:693
 msgid "Kazakhstani tenge"
 msgstr ""
 
-#: includes/class-config.php:696
+#: includes/class-config.php:697
 msgid "Lao kip"
 msgstr ""
 
-#: includes/class-config.php:700
+#: includes/class-config.php:701
 msgid "Lebanese pound"
 msgstr ""
 
-#: includes/class-config.php:704
+#: includes/class-config.php:705
 msgid "Sri Lankan rupee"
 msgstr ""
 
-#: includes/class-config.php:708
+#: includes/class-config.php:709
 msgid "Liberian dollar"
 msgstr ""
 
-#: includes/class-config.php:712
+#: includes/class-config.php:713
 msgid "Lesotho loti"
 msgstr ""
 
-#: includes/class-config.php:716
+#: includes/class-config.php:717
 msgid "Libyan dinar"
 msgstr ""
 
-#: includes/class-config.php:720
+#: includes/class-config.php:721
 msgid "Moroccan dirham"
 msgstr ""
 
-#: includes/class-config.php:724
+#: includes/class-config.php:725
 msgid "Moldovan leu"
 msgstr ""
 
-#: includes/class-config.php:728
+#: includes/class-config.php:729
 msgid "Malagasy ariary"
 msgstr ""
 
-#: includes/class-config.php:732
+#: includes/class-config.php:733
 msgid "Macedonian denar"
 msgstr ""
 
-#: includes/class-config.php:736
+#: includes/class-config.php:737
 msgid "Burmese kyat"
 msgstr ""
 
-#: includes/class-config.php:740
+#: includes/class-config.php:741
 msgid "Mongolian t&ouml;gr&ouml;g"
 msgstr ""
 
-#: includes/class-config.php:744
+#: includes/class-config.php:745
 msgid "Macanese pataca"
 msgstr ""
 
-#: includes/class-config.php:748
+#: includes/class-config.php:749
 msgid "Mauritanian ouguiya"
 msgstr ""
 
-#: includes/class-config.php:752
+#: includes/class-config.php:753
 msgid "Mauritian rupee"
 msgstr ""
 
-#: includes/class-config.php:756
+#: includes/class-config.php:757
 msgid "Maldivian rufiyaa"
 msgstr ""
 
-#: includes/class-config.php:760
+#: includes/class-config.php:761
 msgid "Malawian kwacha"
 msgstr ""
 
-#: includes/class-config.php:764
+#: includes/class-config.php:765
 msgid "Mexican peso"
 msgstr ""
 
-#: includes/class-config.php:768
+#: includes/class-config.php:769
 msgid "Malaysian ringgit"
 msgstr ""
 
-#: includes/class-config.php:772
+#: includes/class-config.php:773
 msgid "Mozambican metical"
 msgstr ""
 
-#: includes/class-config.php:776
+#: includes/class-config.php:777
 msgid "Namibian dollar"
 msgstr ""
 
-#: includes/class-config.php:780
+#: includes/class-config.php:781
 msgid "Nigerian naira"
 msgstr ""
 
-#: includes/class-config.php:784
+#: includes/class-config.php:785
 msgid "Nicaraguan c&oacute;rdoba"
 msgstr ""
 
-#: includes/class-config.php:788
+#: includes/class-config.php:789
 msgid "Norwegian krone"
 msgstr ""
 
-#: includes/class-config.php:792
+#: includes/class-config.php:793
 msgid "Nepalese rupee"
 msgstr ""
 
-#: includes/class-config.php:796
+#: includes/class-config.php:797
 msgid "New Zealand dollar"
 msgstr ""
 
-#: includes/class-config.php:800
+#: includes/class-config.php:801
 msgid "Omani rial"
 msgstr ""
 
-#: includes/class-config.php:804
+#: includes/class-config.php:805
 msgid "Panamanian balboa"
 msgstr ""
 
-#: includes/class-config.php:808
+#: includes/class-config.php:809
 msgid "Sol"
 msgstr ""
 
-#: includes/class-config.php:812
+#: includes/class-config.php:813
 msgid "Papua New Guinean kina"
 msgstr ""
 
-#: includes/class-config.php:816
+#: includes/class-config.php:817
 msgid "Philippine peso"
 msgstr ""
 
-#: includes/class-config.php:820
+#: includes/class-config.php:821
 msgid "Pakistani rupee"
 msgstr ""
 
-#: includes/class-config.php:824
+#: includes/class-config.php:825
 msgid "Polish z&#x142;oty"
 msgstr ""
 
-#: includes/class-config.php:828
+#: includes/class-config.php:829
 msgid "Transnistrian ruble"
 msgstr ""
 
-#: includes/class-config.php:832
+#: includes/class-config.php:833
 msgid "Paraguayan guaran&iacute;"
 msgstr ""
 
-#: includes/class-config.php:836
+#: includes/class-config.php:837
 msgid "Qatari riyal"
 msgstr ""
 
-#: includes/class-config.php:840
+#: includes/class-config.php:841
 msgid "Romanian leu"
 msgstr ""
 
-#: includes/class-config.php:844
+#: includes/class-config.php:845
 msgid "Serbian dinar"
 msgstr ""
 
-#: includes/class-config.php:848
+#: includes/class-config.php:849
 msgid "Russian ruble"
 msgstr ""
 
-#: includes/class-config.php:852
+#: includes/class-config.php:853
 msgid "Rwandan franc"
 msgstr ""
 
-#: includes/class-config.php:856
+#: includes/class-config.php:857
 msgid "Saudi riyal"
 msgstr ""
 
-#: includes/class-config.php:860
+#: includes/class-config.php:861
 msgid "Solomon Islands dollar"
 msgstr ""
 
-#: includes/class-config.php:864
+#: includes/class-config.php:865
 msgid "Seychellois rupee"
 msgstr ""
 
-#: includes/class-config.php:868
+#: includes/class-config.php:869
 msgid "Sudanese pound"
 msgstr ""
 
-#: includes/class-config.php:872
+#: includes/class-config.php:873
 msgid "Swedish krona"
 msgstr ""
 
-#: includes/class-config.php:876
+#: includes/class-config.php:877
 msgid "Singapore dollar"
 msgstr ""
 
-#: includes/class-config.php:881
+#: includes/class-config.php:882
 msgid "Saint Helena pound"
 msgstr ""
 
-#: includes/class-config.php:886
+#: includes/class-config.php:887
 msgid "Sierra Leonean leone"
 msgstr ""
 
-#: includes/class-config.php:891
+#: includes/class-config.php:892
 msgid "Somali shilling"
 msgstr ""
 
-#: includes/class-config.php:896
+#: includes/class-config.php:897
 msgid "Surinamese dollar"
 msgstr ""
 
-#: includes/class-config.php:901
+#: includes/class-config.php:902
 msgid "South Sudanese pound"
 msgstr ""
 
-#: includes/class-config.php:906
+#: includes/class-config.php:907
 msgid "S&atilde;o Tom&eacute; and Pr&iacute;ncipe dobra"
 msgstr ""
 
-#: includes/class-config.php:911
+#: includes/class-config.php:912
 msgid "Syrian pound"
 msgstr ""
 
-#: includes/class-config.php:916
+#: includes/class-config.php:917
 msgid "Swazi lilangeni"
 msgstr ""
 
-#: includes/class-config.php:921
+#: includes/class-config.php:922
 msgid "Thai baht"
 msgstr ""
 
-#: includes/class-config.php:926
+#: includes/class-config.php:927
 msgid "Tajikistani somoni"
 msgstr ""
 
-#: includes/class-config.php:931
+#: includes/class-config.php:932
 msgid "Turkmenistan manat"
 msgstr ""
 
-#: includes/class-config.php:936
+#: includes/class-config.php:937
 msgid "Tunisian dinar"
 msgstr ""
 
-#: includes/class-config.php:941
+#: includes/class-config.php:942
 msgid "Tongan pa&#x2bb;anga"
 msgstr ""
 
-#: includes/class-config.php:946
+#: includes/class-config.php:947
 msgid "Turkish lira"
 msgstr ""
 
-#: includes/class-config.php:951
+#: includes/class-config.php:952
 msgid "Trinidad and Tobago dollar"
 msgstr ""
 
-#: includes/class-config.php:956
+#: includes/class-config.php:957
 msgid "New Taiwan dollar"
 msgstr ""
 
-#: includes/class-config.php:961
+#: includes/class-config.php:962
 msgid "Tanzanian shilling"
 msgstr ""
 
-#: includes/class-config.php:966
+#: includes/class-config.php:967
 msgid "Ukrainian hryvnia"
 msgstr ""
 
-#: includes/class-config.php:971
+#: includes/class-config.php:972
 msgid "Ugandan shilling"
 msgstr ""
 
-#: includes/class-config.php:976
+#: includes/class-config.php:977
 msgid "United States (US) dollar"
 msgstr ""
 
-#: includes/class-config.php:981
+#: includes/class-config.php:982
 msgid "Uruguayan peso"
 msgstr ""
 
-#: includes/class-config.php:986
+#: includes/class-config.php:987
 msgid "Uzbekistani som"
 msgstr ""
 
-#: includes/class-config.php:991
+#: includes/class-config.php:992
 msgid "Venezuelan bol&iacute;var"
 msgstr ""
 
-#: includes/class-config.php:996
+#: includes/class-config.php:997
 msgid "Bol&iacute;var soberano"
 msgstr ""
 
-#: includes/class-config.php:1001
+#: includes/class-config.php:1002
 msgid "Vietnamese &#x111;&#x1ed3;ng"
 msgstr ""
 
-#: includes/class-config.php:1006
+#: includes/class-config.php:1007
 msgid "Vanuatu vatu"
 msgstr ""
 
-#: includes/class-config.php:1011
+#: includes/class-config.php:1012
 msgid "Samoan t&#x101;l&#x101;"
 msgstr ""
 
-#: includes/class-config.php:1016
+#: includes/class-config.php:1017
 msgid "Central African CFA franc"
 msgstr ""
 
-#: includes/class-config.php:1021
+#: includes/class-config.php:1022
 msgid "East Caribbean dollar"
 msgstr ""
 
-#: includes/class-config.php:1026
+#: includes/class-config.php:1027
 msgid "West African CFA franc"
 msgstr ""
 
-#: includes/class-config.php:1031
+#: includes/class-config.php:1032
 msgid "CFP franc"
 msgstr ""
 
-#: includes/class-config.php:1036
+#: includes/class-config.php:1037
 msgid "Yemeni rial"
 msgstr ""
 
-#: includes/class-config.php:1041
+#: includes/class-config.php:1042
 msgid "South African rand"
 msgstr ""
 
-#: includes/class-config.php:1046
+#: includes/class-config.php:1047
 msgid "Zambian kwacha"
 msgstr ""
 
