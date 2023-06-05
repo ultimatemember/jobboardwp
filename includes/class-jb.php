@@ -18,7 +18,7 @@ if ( ! class_exists( 'JB' ) ) {
 		/**
 		 * @var self The single instance of the class
 		 */
-		private static $instance = null;
+		private static $instance;
 
 
 		/**

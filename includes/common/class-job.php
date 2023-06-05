@@ -1607,8 +1607,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			 * @param {int}     $post_id Post ID.
 			 * @param {WP_Post} $post    The post object.
 			 *
-			 * @example <caption>Example usage of hook.</caption>
-			 * // Updates job post meta after approving.
+			 * @example <caption>Updates job post meta after approving.</caption>
 			 * function my_custom_jb_job_is_approved( $job_id, $job ) {
 			 *     update_post_meta( $job_id, 'set_some_meta_key_after_approve', true );
 			 * }
