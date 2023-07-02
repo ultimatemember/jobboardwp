@@ -444,7 +444,11 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 			JB()->get_template_part( 'single-job', $atts );
 
-			return ob_get_clean();
+			$content = ob_get_clean();
+
+			remove_filter( 'the_content', array( JB()->frontend()->templates(), 'cpt_content' ) );
+
+			return $content;
 		}
 
 
