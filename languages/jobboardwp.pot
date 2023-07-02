@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-06-05T12:48:33+00:00\n"
+"POT-Creation-Date: 2023-07-02T23:27:41+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: jobboardwp\n"
 
 #. Plugin Name of the plugin
@@ -123,7 +123,7 @@ msgstr ""
 
 #: includes/admin/class-columns.php:350
 #: includes/admin/templates/settings/version-template-list-table.php:30
-#: includes/frontend/class-shortcodes.php:528
+#: includes/frontend/class-shortcodes.php:532
 msgid "Status"
 msgstr ""
 
@@ -144,7 +144,7 @@ msgid "Category"
 msgstr ""
 
 #: includes/admin/class-columns.php:356
-#: includes/frontend/class-shortcodes.php:529
+#: includes/frontend/class-shortcodes.php:533
 #: templates/js/jobs-list.php:85
 #: templates/js/jobs-list.php:87
 #: templates/js/jobs-list.php:107
@@ -1416,7 +1416,7 @@ msgstr ""
 
 #: includes/ajax/class-jobs.php:603
 #: includes/ajax/class-jobs.php:1033
-#: includes/frontend/class-shortcodes.php:728
+#: includes/frontend/class-shortcodes.php:732
 msgid "(no title)"
 msgstr ""
 
@@ -2282,7 +2282,7 @@ msgid "Search Jobs"
 msgstr ""
 
 #: includes/common/class-cpt.php:71
-#: includes/frontend/class-shortcodes.php:481
+#: includes/frontend/class-shortcodes.php:485
 msgid "No Jobs found"
 msgstr ""
 
@@ -3171,27 +3171,27 @@ msgstr ""
 msgid "<a href=\"%s\">Sign in</a> to post a job or to do that as a guest."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:480
+#: includes/frontend/class-shortcodes.php:484
 msgid "No Jobs"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:482
+#: includes/frontend/class-shortcodes.php:486
 msgid "Load more jobs"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:527
+#: includes/frontend/class-shortcodes.php:531
 #: includes/blocks/jb-jobs-list/build/index.js:1
 #: includes/blocks/jb-jobs-list/src/index.js:45
 msgid "Title"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:530
+#: includes/frontend/class-shortcodes.php:534
 #: templates/js/jobs-list.php:93
 #: templates/widgets/recent-jobs.php:85
 msgid "Closing on"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:815
+#: includes/frontend/class-shortcodes.php:819
 msgid "Company details are updated successfully."
 msgstr ""
 
