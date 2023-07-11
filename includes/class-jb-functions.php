@@ -665,7 +665,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 					unset( $args['action_args'] );
 				}
 
-				extract( $args ); // @codingStandardsIgnoreLine
+				extract( $args, EXTR_SKIP ); // @codingStandardsIgnoreLine
 			}
 
 			/**
