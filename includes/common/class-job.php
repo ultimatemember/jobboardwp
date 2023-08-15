@@ -596,7 +596,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 			$currency         = JB()->options()->get( 'job-salary-currency' );
 			$currency_symbols = JB()->config()->get( 'currencies' );
-			$currency_symbol  = $currency_symbols[ $currency ]['symbol'];
+			$currency_symbol  = apply_filters( 'jb_currency_symbol', $currency_symbols[ $currency ]['symbol'], $job_id );
 
 			$salary_amount_type = get_post_meta( $job_id, 'jb-salary-amount-type', true );
 			if ( 'numeric' === $salary_amount_type ) {
