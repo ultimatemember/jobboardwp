@@ -331,7 +331,7 @@ if ( JB()->options()->get( 'job-salary' ) ) {
 	$job_details_fields = array_merge(
 		$job_details_fields,
 		array(
-			array(
+			'jb-salary-type'      => array(
 				'type'        => 'select',
 				'label'       => __( 'Salary', 'jobboardwp' ),
 				'placeholder' => __( 'Please select salary', 'jobboardwp' ),
@@ -345,7 +345,7 @@ if ( JB()->options()->get( 'job-salary' ) ) {
 				'required'    => ! empty( JB()->options()->get( 'required-job-salary' ) ),
 				'value'       => $salary_type,
 			),
-			array(
+			'jb-salary-amount-type' => array(
 				'type'        => 'select',
 				'label'       => __( 'Salary amount type', 'jobboardwp' ),
 				'placeholder' => __( 'Please select amount type', 'jobboardwp' ),
@@ -358,7 +358,7 @@ if ( JB()->options()->get( 'job-salary' ) ) {
 				'size'        => 'small',
 				'conditional' => array( 'jb-salary-type', '!=', '' ),
 			),
-			array(
+			'jb-salary-amount'      => array(
 				'type'        => 'number',
 				'min'         => 0,
 				'step'        => 1,
@@ -370,7 +370,7 @@ if ( JB()->options()->get( 'job-salary' ) ) {
 				'value'       => $salary_amount,
 				'conditional' => array( 'jb-salary-amount-type', '=', 'numeric' ),
 			),
-			array(
+			'jb-salary-min-amount'  => array(
 				'type'        => 'number',
 				'min'         => 0,
 				'step'        => 1,
@@ -383,7 +383,7 @@ if ( JB()->options()->get( 'job-salary' ) ) {
 				'value'       => $salary_min_amount,
 				'conditional' => array( 'jb-salary-amount-type', '=', 'range' ),
 			),
-			array(
+			'jb-salary-max-amount'  => array(
 				'type'        => 'number',
 				'min'         => 0,
 				'step'        => 1,
@@ -396,7 +396,7 @@ if ( JB()->options()->get( 'job-salary' ) ) {
 				'value'       => $salary_max_amount,
 				'conditional' => array( 'jb-salary-amount-type', '=', 'range' ),
 			),
-			array(
+			'jb-salary-period'      => array(
 				'type'        => 'select',
 				'required'    => true,
 				'size'        => 'small',
