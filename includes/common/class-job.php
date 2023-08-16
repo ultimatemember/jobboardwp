@@ -659,9 +659,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			$max_value = 0;
 			foreach ( $max_values as $value ) {
 				if ( null !== $value['meta_value'] && ( 0 === $max_value || $max_value < $value['meta_value'] ) ) {
-					$max_value = absint( $value['meta_value'] );
-					$max_value = apply_filters( 'jb_maximum_salary', $value );
-					$max_value = absint( $max_value );
+					$max_value = apply_filters( 'jb_maximum_salary', absint( $value['meta_value'] ), $value );
 				}
 			}
 
