@@ -638,6 +638,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				$amount_output = sprintf( __( '%1$s per %2$s', 'jobboardwp' ), $amount_output, $salary_period );
 			}
 
+			$amount_output = apply_filters( 'jb_formatted_salary', $amount_output, $job_id );
+
 			return $amount_output;
 		}
 
@@ -647,7 +649,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		public function get_maximum_salary() {
 			global $wpdb;
 			$max_values = $wpdb->get_results(
-				"SELECT DISTINCT meta_value
+				"SELECT DISTINCT post_id, meta_value
 				FROM {$wpdb->postmeta}
 				WHERE meta_key = 'jb-salary-max-amount' OR
 				      meta_key = 'jb-salary-amount'",
@@ -657,6 +659,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			$max_value = 0;
 			foreach ( $max_values as $value ) {
 				if ( null !== $value['meta_value'] && ( 0 === $max_value || $max_value < $value['meta_value'] ) ) {
+					$max_value = apply_filters( 'jb_maximum_salary', $value );
 					$max_value = absint( $value['meta_value'] );
 				}
 			}
@@ -1013,7 +1016,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 						$salary_min_amount = get_post_meta( $job->ID, 'jb-salary-min-amount', true );
 						$salary_max_amount = get_post_meta( $job->ID, 'jb-salary-max-amount', true );
 						if ( '' !== $salary_min_amount ) {
-							$data['baseSalary']['value']['maxValue'] = number_format( $salary_max_amount, 2, '.', '' );
+							$data['baseSalary']['value']['minValue'] = number_format( $salary_min_amount, 2, '.', '' );
 						}
 						if ( '' !== $salary_max_amount ) {
 							$data['baseSalary']['value']['maxValue'] = number_format( $salary_max_amount, 2, '.', '' );
