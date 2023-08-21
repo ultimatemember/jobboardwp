@@ -331,7 +331,7 @@ if ( JB()->options()->get( 'job-salary' ) ) {
 	$job_details_fields = array_merge(
 		$job_details_fields,
 		array(
-			'jb-salary-type'      => array(
+			'jb-salary-type'        => array(
 				'type'        => 'select',
 				'label'       => __( 'Salary', 'jobboardwp' ),
 				'placeholder' => __( 'Please select salary', 'jobboardwp' ),
