@@ -648,11 +648,13 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 */
 		public function get_maximum_salary() {
 			global $wpdb;
+
 			$max_values = $wpdb->get_results(
-				"SELECT DISTINCT post_id, meta_value
-				FROM {$wpdb->postmeta}
-				WHERE meta_key = 'jb-salary-max-amount' OR
-				      meta_key = 'jb-salary-amount'",
+				"SELECT DISTINCT pm.post_id, pm.meta_value
+					FROM {$wpdb->postmeta} AS pm
+					INNER JOIN {$wpdb->posts} AS p ON pm.post_id = p.ID
+					WHERE (pm.meta_key = 'jb-salary-max-amount' OR pm.meta_key = 'jb-salary-amount')
+					AND p.post_status = 'publish'",
 				ARRAY_A
 			);
 
