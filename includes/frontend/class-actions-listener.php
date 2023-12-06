@@ -321,24 +321,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 							$password = wp_generate_password();
 							$notify   = 'both';
 
-							/**
-							 * Filter change email recipients - admin or both.
-							 *
-							 * @since 1.2.7
-							 * @hook jb_job_email_notify
-							 *
-							 * @param {string}     $notify recipients.
-							 *
-							 * @return {string}    $notify new recipients.
-							 *
-							 * @example <caption>Set email recipients.</caption>
-							 * function my_jb_job_email_notify( $notify ) {
-							 *     $notify = 'admin';
-							 *
-							 *     return $notify;
-							 * }
-							 * add_filter( 'jb_job_email_notify', 'my_jb_job_email_notify', 10, 1 );
-							 */
+							/** This filter is documented in includes/frontend/class-actions-listener.php */
 							$notify = apply_filters( 'jb_job_email_notify', $notify );
 						}
 
