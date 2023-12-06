@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-07-11T12:40:56+00:00\n"
+"POT-Creation-Date: 2023-12-06T15:26:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.8.1\n"
+"X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: jobboardwp\n"
 
 #. Plugin Name of the plugin
@@ -1449,9 +1449,9 @@ msgstr ""
 
 #: includes/ajax/class-jobs.php:922
 #: includes/ajax/class-jobs.php:976
-#: includes/frontend/class-actions-listener.php:973
-#: includes/frontend/class-actions-listener.php:1093
-#: includes/frontend/class-actions-listener.php:1107
+#: includes/frontend/class-actions-listener.php:996
+#: includes/frontend/class-actions-listener.php:1116
+#: includes/frontend/class-actions-listener.php:1130
 #: includes/frontend/class-shortcodes.php:149
 #: includes/frontend/class-shortcodes.php:172
 #: includes/frontend/class-shortcodes.php:191
@@ -2860,46 +2860,46 @@ msgid "Company tagline:"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:123
-#: includes/frontend/class-actions-listener.php:273
-#: includes/frontend/class-actions-listener.php:368
+#: includes/frontend/class-actions-listener.php:293
+#: includes/frontend/class-actions-listener.php:391
 msgid "Please fill the first name field."
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:127
-#: includes/frontend/class-actions-listener.php:277
-#: includes/frontend/class-actions-listener.php:372
+#: includes/frontend/class-actions-listener.php:297
+#: includes/frontend/class-actions-listener.php:395
 msgid "Please fill the last name field."
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:132
-#: includes/frontend/class-actions-listener.php:377
+#: includes/frontend/class-actions-listener.php:400
 msgid "Please fill email address"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:137
-#: includes/frontend/class-actions-listener.php:259
-#: includes/frontend/class-actions-listener.php:383
+#: includes/frontend/class-actions-listener.php:279
+#: includes/frontend/class-actions-listener.php:406
 msgid "Wrong email address format"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:141
-#: includes/frontend/class-actions-listener.php:263
-#: includes/frontend/class-actions-listener.php:387
+#: includes/frontend/class-actions-listener.php:283
+#: includes/frontend/class-actions-listener.php:410
 msgid "Please use another email address"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:149
-#: includes/frontend/class-actions-listener.php:285
+#: includes/frontend/class-actions-listener.php:305
 msgid "Password is required"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:153
-#: includes/frontend/class-actions-listener.php:289
+#: includes/frontend/class-actions-listener.php:309
 msgid "Please confirm the password"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:162
-#: includes/frontend/class-actions-listener.php:296
+#: includes/frontend/class-actions-listener.php:316
 msgid "Your passwords do not match"
 msgstr ""
 
@@ -2915,164 +2915,164 @@ msgstr ""
 msgid "Your password must contain at least one lowercase letter, one capital letter and one number"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:186
+#: includes/frontend/class-actions-listener.php:206
 msgid "Username is required"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:190
-#: includes/frontend/class-actions-listener.php:309
+#: includes/frontend/class-actions-listener.php:210
+#: includes/frontend/class-actions-listener.php:332
 msgid "Please use another username"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:452
-#: includes/frontend/class-actions-listener.php:1097
-#: includes/frontend/class-actions-listener.php:1301
+#: includes/frontend/class-actions-listener.php:475
+#: includes/frontend/class-actions-listener.php:1120
+#: includes/frontend/class-actions-listener.php:1324
 msgid "Security issue, Please try again"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:456
+#: includes/frontend/class-actions-listener.php:479
 msgid "You cannot save draft jobs, Please try again"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:482
-#: includes/frontend/class-actions-listener.php:487
-#: includes/frontend/class-actions-listener.php:1112
-#: includes/frontend/class-actions-listener.php:1116
-#: includes/frontend/class-actions-listener.php:1121
+#: includes/frontend/class-actions-listener.php:505
+#: includes/frontend/class-actions-listener.php:510
+#: includes/frontend/class-actions-listener.php:1135
+#: includes/frontend/class-actions-listener.php:1139
+#: includes/frontend/class-actions-listener.php:1144
 msgid "Security action, Please try again with another job."
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:500
-#: includes/frontend/class-actions-listener.php:504
+#: includes/frontend/class-actions-listener.php:523
+#: includes/frontend/class-actions-listener.php:527
 msgid "Job title cannot be empty"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:509
-#: includes/frontend/class-actions-listener.php:513
+#: includes/frontend/class-actions-listener.php:532
+#: includes/frontend/class-actions-listener.php:536
 msgid "Job description cannot be empty"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:518
+#: includes/frontend/class-actions-listener.php:541
 msgid "Application contact cannot be empty"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:524
+#: includes/frontend/class-actions-listener.php:547
 msgid "Job application must be an email address"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:534
+#: includes/frontend/class-actions-listener.php:557
 msgid "Job application must be an URL"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:546
+#: includes/frontend/class-actions-listener.php:569
 msgid "Job application must be an email address or URL"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:556
+#: includes/frontend/class-actions-listener.php:579
 msgid "Job location type invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:561
+#: includes/frontend/class-actions-listener.php:584
 msgid "Location for onsite job is required"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:572
+#: includes/frontend/class-actions-listener.php:595
 msgid "Job type is required"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:578
-#: includes/frontend/class-actions-listener.php:582
-#: includes/frontend/class-actions-listener.php:1307
-#: includes/frontend/class-actions-listener.php:1311
+#: includes/frontend/class-actions-listener.php:601
+#: includes/frontend/class-actions-listener.php:605
+#: includes/frontend/class-actions-listener.php:1330
+#: includes/frontend/class-actions-listener.php:1334
 msgid "Company name cannot be empty"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:593
-#: includes/frontend/class-actions-listener.php:1322
+#: includes/frontend/class-actions-listener.php:616
+#: includes/frontend/class-actions-listener.php:1345
 msgid "Company website is invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:613
-#: includes/frontend/class-actions-listener.php:1342
+#: includes/frontend/class-actions-listener.php:636
+#: includes/frontend/class-actions-listener.php:1365
 msgid "Company Twitter is invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:626
-#: includes/frontend/class-actions-listener.php:1355
+#: includes/frontend/class-actions-listener.php:649
+#: includes/frontend/class-actions-listener.php:1378
 msgid "Company Facebook is invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:638
-#: includes/frontend/class-actions-listener.php:1367
+#: includes/frontend/class-actions-listener.php:661
+#: includes/frontend/class-actions-listener.php:1390
 msgid "Company Instagram is invalid"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:653
-#: includes/frontend/class-actions-listener.php:1376
+#: includes/frontend/class-actions-listener.php:676
+#: includes/frontend/class-actions-listener.php:1399
 msgid "Something wrong with image, please re-upload"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:698
-#: includes/frontend/class-actions-listener.php:1414
+#: includes/frontend/class-actions-listener.php:721
+#: includes/frontend/class-actions-listener.php:1437
 msgid "Wrong image URL. Invalid URL"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:724
-#: includes/frontend/class-actions-listener.php:1440
+#: includes/frontend/class-actions-listener.php:747
+#: includes/frontend/class-actions-listener.php:1463
 msgid "Wrong image URL. Invalid job"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:731
-#: includes/frontend/class-actions-listener.php:1447
+#: includes/frontend/class-actions-listener.php:754
+#: includes/frontend/class-actions-listener.php:1470
 msgid "Wrong image URL. Invalid attachment ID"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:738
-#: includes/frontend/class-actions-listener.php:1454
+#: includes/frontend/class-actions-listener.php:761
+#: includes/frontend/class-actions-listener.php:1477
 msgid "Wrong image URL. Invalid attachment path"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:754
-#: includes/frontend/class-actions-listener.php:759
+#: includes/frontend/class-actions-listener.php:777
+#: includes/frontend/class-actions-listener.php:782
 msgid "Job salary type is required"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:764
+#: includes/frontend/class-actions-listener.php:787
 msgid "Job salary amount is required and must be more than 0"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:767
-#: includes/frontend/class-actions-listener.php:778
-#: includes/frontend/class-actions-listener.php:786
+#: includes/frontend/class-actions-listener.php:790
+#: includes/frontend/class-actions-listener.php:801
+#: includes/frontend/class-actions-listener.php:809
 msgid "Job salary amount must be numeric"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:774
-#: includes/frontend/class-actions-listener.php:775
+#: includes/frontend/class-actions-listener.php:797
+#: includes/frontend/class-actions-listener.php:798
 msgid "Job salary amount is required"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:780
+#: includes/frontend/class-actions-listener.php:803
 msgid "Job minimum salary must be lower than maximum salary"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:788
+#: includes/frontend/class-actions-listener.php:811
 msgid "Job maximum salary must be higher than minimum salary"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:797
+#: includes/frontend/class-actions-listener.php:820
 msgid "Job salary period is required"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:986
+#: includes/frontend/class-actions-listener.php:1009
 msgid "Job submission issue, Please try again"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:1101
+#: includes/frontend/class-actions-listener.php:1124
 msgid "Wrong action, Please try again"
 msgstr ""
 
-#: includes/frontend/class-actions-listener.php:1132
+#: includes/frontend/class-actions-listener.php:1155
 msgid "Security action, Please try again."
 msgstr ""
 
