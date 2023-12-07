@@ -596,7 +596,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 			$currency         = JB()->options()->get( 'job-salary-currency' );
 			$currency_symbols = JB()->config()->get( 'currencies' );
-			$currency_symbol  = $currency_symbols[ $currency ]['symbol'];
+			$currency_symbol  = apply_filters( 'jb_currency_symbol', $currency_symbols[ $currency ]['symbol'], $job_id );
 
 			$salary_amount_type = get_post_meta( $job_id, 'jb-salary-amount-type', true );
 			if ( 'numeric' === $salary_amount_type ) {
@@ -638,6 +638,8 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				$amount_output = sprintf( __( '%1$s per %2$s', 'jobboardwp' ), $amount_output, $salary_period );
 			}
 
+			$amount_output = apply_filters( 'jb_formatted_salary', $amount_output, $job_id );
+
 			return $amount_output;
 		}
 
@@ -646,18 +648,20 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 */
 		public function get_maximum_salary() {
 			global $wpdb;
+
 			$max_values = $wpdb->get_results(
-				"SELECT DISTINCT meta_value
-				FROM {$wpdb->postmeta}
-				WHERE meta_key = 'jb-salary-max-amount' OR
-				      meta_key = 'jb-salary-amount'",
+				"SELECT DISTINCT pm.post_id, pm.meta_value
+					FROM {$wpdb->postmeta} AS pm
+					INNER JOIN {$wpdb->posts} AS p ON pm.post_id = p.ID
+					WHERE (pm.meta_key = 'jb-salary-max-amount' OR pm.meta_key = 'jb-salary-amount')
+					AND p.post_status = 'publish'",
 				ARRAY_A
 			);
 
 			$max_value = 0;
 			foreach ( $max_values as $value ) {
 				if ( null !== $value['meta_value'] && ( 0 === $max_value || $max_value < $value['meta_value'] ) ) {
-					$max_value = absint( $value['meta_value'] );
+					$max_value = apply_filters( 'jb_maximum_salary', absint( $value['meta_value'] ), $value );
 				}
 			}
 
@@ -1013,7 +1017,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 						$salary_min_amount = get_post_meta( $job->ID, 'jb-salary-min-amount', true );
 						$salary_max_amount = get_post_meta( $job->ID, 'jb-salary-max-amount', true );
 						if ( '' !== $salary_min_amount ) {
-							$data['baseSalary']['value']['maxValue'] = number_format( $salary_max_amount, 2, '.', '' );
+							$data['baseSalary']['value']['minValue'] = number_format( $salary_min_amount, 2, '.', '' );
 						}
 						if ( '' !== $salary_max_amount ) {
 							$data['baseSalary']['value']['maxValue'] = number_format( $salary_max_amount, 2, '.', '' );

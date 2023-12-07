@@ -213,7 +213,7 @@ global $jb_jobs_shortcode_index;
 
 				$currency         = JB()->options()->get( 'job-salary-currency' );
 				$currency_symbols = JB()->config()->get( 'currencies' );
-				$currency_symbol  = $currency_symbols[ $currency ]['symbol'];
+				$currency_symbol  = apply_filters( 'jb_search_currency_symbol', $currency_symbols[ $currency ]['symbol'] );
 				?>
 				<div class="jb-jobs-header-row jb-jobs-filters-row jb-salary-filters-row">
 					<label>

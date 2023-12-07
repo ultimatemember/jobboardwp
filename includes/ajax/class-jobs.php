@@ -170,11 +170,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			if ( JB()->options()->get( 'job-salary' ) ) {
 				if ( ! empty( $_POST['salary'] ) ) {
 					global $wpdb;
+
 					$salary = explode( '-', $_POST['salary'] );
 					$min    = absint( $salary[0] );
 					$max    = absint( $salary[1] );
 
-					$sql['join'] .= "
+					$join = "
 						LEFT JOIN $wpdb->postmeta AS jb_salary_type ON ( $wpdb->posts.ID = jb_salary_type.post_id AND jb_salary_type.meta_key = 'jb-salary-type' )
 						LEFT JOIN $wpdb->postmeta AS jb_amount_type ON ( $wpdb->posts.ID = jb_amount_type.post_id AND jb_amount_type.meta_key = 'jb-salary-amount-type' )
 						LEFT JOIN $wpdb->postmeta AS jb_amount ON ( $wpdb->posts.ID = jb_amount.post_id AND jb_amount.meta_key = 'jb-salary-amount' )
@@ -182,15 +183,23 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						LEFT JOIN $wpdb->postmeta AS jb_max_amount ON ( $wpdb->posts.ID = jb_max_amount.post_id AND jb_max_amount.meta_key = 'jb-salary-max-amount' )
 					";
 
-					$sql['where'] .= " AND (
+					$sql['join'] .= apply_filters( 'jb_change_meta_join', $join, $min, $max );
+
+					$where = " AND (
 						(jb_salary_type.meta_key IS NOT NULL) AND
 						(jb_salary_type.meta_value != '') AND
 						(jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'numeric' AND jb_amount.meta_value BETWEEN $min AND $max) OR
 						(jb_salary_type.meta_value IN ('fixed', 'recurring') AND jb_amount_type.meta_value = 'range' AND ( jb_min_amount.meta_value BETWEEN $min AND $max OR jb_max_amount.meta_value BETWEEN $min AND $max) )
 					)";
+
+					$where = apply_filters( 'jb_change_meta_where', $where, $min, $max );
+
+					$sql['where'] .= $where;
 				}
 			}
 			// phpcs:enable WordPress.Security.NonceVerification
+
+			$sql = apply_filters( 'jb_change_meta_sql', $sql, $min, $max );
 
 			return $sql;
 		}
