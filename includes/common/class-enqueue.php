@@ -194,8 +194,9 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 		 */
 		public function block_editor() {
 			global $current_screen, $pagenow;
+			$pages = array( 'post.php', 'post-new.php', 'widgets.php' );
 
-			if ( 'post.php' === $pagenow ) {
+			if ( in_array( $pagenow, $pages, true ) ) {
 
 				// todo enqueue scripts|styles for block editor properly
 
