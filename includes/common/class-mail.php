@@ -288,7 +288,7 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 
 
 		/**
-		 * Get admin e-mails
+		 * Get admin emails
 		 *
 		 * @return array
 		 *

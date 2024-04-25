@@ -493,7 +493,7 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 						'value' => $this->get_types(),
 					),
 					'admin_email'                    => array(
-						'label' => __( 'Admin E-mail Address', 'jobboardwp' ),
+						'label' => __( 'Admin Email Address', 'jobboardwp' ),
 						'value' => JB()->options()->get( 'admin_email' ),
 					),
 					'mail_from'                      => array(
