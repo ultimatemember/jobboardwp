@@ -1,4 +1,4 @@
-# Copyright (C) 2023 JobBoardWP
+# Copyright (C) 2024 JobBoardWP
 # This file is distributed under the same license as the JobBoardWP plugin.
 msgid ""
 msgstr ""
@@ -9,23 +9,26 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-12-06T15:26:59+00:00\n"
+"POT-Creation-Date: 2024-04-25T14:59:14+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.9.0\n"
+"X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: jobboardwp\n"
 
 #. Plugin Name of the plugin
 #. Author of the plugin
+#: jobboardwp.php
 #: includes/admin/class-site-health.php:244
 #: includes/common/class-enqueue.php:186
 msgid "JobBoardWP"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: jobboardwp.php
 msgid "https://jobboardwp.com/"
 msgstr ""
 
 #. Description of the plugin
+#: jobboardwp.php
 msgid "Add a modern job board to your website. Display job listings and allow employers to submit and manage jobs all from the front-end"
 msgstr ""
 
@@ -873,7 +876,7 @@ msgstr ""
 
 #: includes/admin/class-settings.php:748
 #: includes/admin/class-site-health.php:496
-msgid "Admin E-mail Address"
+msgid "Admin Email Address"
 msgstr ""
 
 #: includes/admin/class-settings.php:749
@@ -939,7 +942,7 @@ msgid "Subject Line"
 msgstr ""
 
 #: includes/admin/class-settings.php:892
-msgid "This is the subject line of the e-mail"
+msgid "This is the subject line of the email"
 msgstr ""
 
 #: includes/admin/class-settings.php:898
@@ -947,7 +950,7 @@ msgid "Message Body"
 msgstr ""
 
 #: includes/admin/class-settings.php:899
-msgid "This is the content of the e-mail"
+msgid "This is the content of the email"
 msgstr ""
 
 #: includes/admin/class-settings.php:928
