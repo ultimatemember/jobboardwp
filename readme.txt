@@ -107,7 +107,7 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 = 1.2.7: May 7, 2024 =
 
-* Added: Hook 'jb_job_email_notify' to change new user registration recipients
+* Added: Hook `jb_job_email_notify` to change new user registration recipients
 * Fixed: Caching company logo image URL in the form fields
 * Fixed: Typo "e-mail" to proper "email"
 * Fixed: Extract for more security

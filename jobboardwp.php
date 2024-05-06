@@ -1,13 +1,15 @@
 <?php
-/*
-Plugin Name: JobBoardWP
-Plugin URI: https://jobboardwp.com/
-Description: Add a modern job board to your website. Display job listings and allow employers to submit and manage jobs all from the front-end
-Version: 1.2.7
-Author: JobBoardWP
-Text Domain: jobboardwp
-Domain Path: /languages
-*/
+/**
+ * Plugin Name: JobBoardWP
+ * Plugin URI: https://jobboardwp.com/
+ * Description: Add a modern job board to your website. Display job listings and allow employers to submit and manage jobs all from the front-end
+ * Version: 1.2.7
+ * Author: JobBoardWP
+ * Text Domain: jobboardwp
+ * Domain Path: /languages
+ *
+ * @package JB
+ */
 
 defined( 'ABSPATH' ) || exit;
 
