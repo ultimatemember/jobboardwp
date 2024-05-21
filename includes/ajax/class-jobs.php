@@ -321,31 +321,52 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			} else {
 				// regular logic
 				if ( ! empty( $_POST['hide_filled'] ) ) {
-					if ( ! isset( $query_args['meta_query'] ) ) {
-						$query_args['meta_query'] = array();
-					}
+					if ( is_user_logged_in() ) {
+						$employer = get_current_user_id();
 
-					$query_args['meta_query'] = array_merge(
-						$query_args['meta_query'],
-						array(
-							'relation' => 'AND',
-							array(
+						$args = array(
+							'author__not_in' => array( $employer ),
+							'post_type'      => 'jb-job',
+							'post_status'    => array( 'publish', 'draft', 'pending', 'jb-preview', 'jb-expired' ),
+							'posts_per_page' => -1,
+							'meta_query'     => array(
 								'relation' => 'OR',
 								array(
 									'key'   => 'jb-is-filled',
-									'value' => false,
+									'value' => true,
 								),
 								array(
 									'key'   => 'jb-is-filled',
-									'value' => 0,
-								),
-								array(
-									'key'     => 'jb-is-filled',
-									'compare' => 'NOT EXISTS',
+									'value' => 1,
 								),
 							),
-						)
-					);
+							'fields'         => 'ids',
+						);
+					} else {
+						$args = array(
+							'post_type'      => 'jb-job',
+							'post_status'    => array( 'publish', 'draft', 'pending', 'jb-preview', 'jb-expired' ),
+							'posts_per_page' => -1,
+							'meta_query'     => array(
+								'relation' => 'OR',
+								array(
+									'key'   => 'jb-is-filled',
+									'value' => true,
+								),
+								array(
+									'key'   => 'jb-is-filled',
+									'value' => 1,
+								),
+							),
+							'fields'         => 'ids',
+						);
+					}
+					$filled_ids = get_posts( $args );
+
+					if ( ! empty( $filled_ids ) ) {
+						$post__not_in               = ! empty( $query_args['post__not_in'] ) ? $query_args['post__not_in'] : array();
+						$query_args['post__not_in'] = array_merge( $post__not_in, $filled_ids );
+					}
 				}
 
 				if ( empty( $_POST['hide_expired'] ) ) {
