@@ -136,12 +136,14 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 				$exclude_posts = array();
 				$hide_filled   = JB()->options()->get( 'jobs-list-hide-filled' );
 				if ( ! empty( $hide_filled ) ) {
-					$filled_ids    = get_posts(
-						array(
+					if ( is_user_logged_in() ) {
+						$employer = get_current_user_id();
+
+						$args = array(
+							'author__not_in' => array( $employer ),
 							'post_type'      => 'jb-job',
-							'post_status'    => 'publish',
-							'fields'         => 'ids',
-							'posts_per_page' => - 1,
+							'post_status'    => array( 'publish', 'draft', 'pending', 'jb-preview', 'jb-expired' ),
+							'posts_per_page' => -1,
 							'meta_query'     => array(
 								'relation' => 'OR',
 								array(
@@ -153,8 +155,28 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 									'value' => 1,
 								),
 							),
-						)
-					);
+							'fields'         => 'ids',
+						);
+					} else {
+						$args = array(
+							'post_type'      => 'jb-job',
+							'post_status'    => array( 'publish', 'draft', 'pending', 'jb-preview', 'jb-expired' ),
+							'posts_per_page' => -1,
+							'meta_query'     => array(
+								'relation' => 'OR',
+								array(
+									'key'   => 'jb-is-filled',
+									'value' => true,
+								),
+								array(
+									'key'   => 'jb-is-filled',
+									'value' => 1,
+								),
+							),
+							'fields'         => 'ids',
+						);
+					}
+					$filled_ids    = get_posts( $args );
 					$exclude_posts = array_merge( $exclude_posts, $filled_ids );
 				}
 
