@@ -138,7 +138,9 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		public function get_upload_dir( $dir = '', $blog_id = null ) {
 			/** @var $wp_filesystem \WP_Filesystem_Base */
 			global $wp_filesystem;
-
+			// if you need to fix this issue on the localhost
+			// https://stackoverflow.com/questions/30688431/wordpress-needs-the-ftp-credentials-to-update-plugins
+			// Please add define('FS_METHOD', 'direct'); to avoid question about FTP.
 			if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
 				/** @noinspection PhpIncludeInspection */
 				require_once ABSPATH . 'wp-admin/includes/file.php';
