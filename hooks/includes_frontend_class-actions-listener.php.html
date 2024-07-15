@@ -882,6 +882,15 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 								$expiry = JB()->common()->job()->calculate_expiry();
 							}
 
+							if ( $is_edited &amp;&amp; ! empty( $_GET['job-id'] ) ) {
+								// Reset expiration reminder marker as soon as expiration date is changed.
+								$job_id     = absint( $_GET['job-id'] );
+								$old_expiry = get_post_meta( $job_id, 'jb-expiry-date', true );
+								if ( $expiry !== $old_expiry ) {
+									delete_post_meta( $job_id, 'jb-is-expiration-reminded' );
+								}
+							}
+
 							$meta_input = array(
 								'jb-location-type'       => $location_type,
 								'jb-location'            => $location,
