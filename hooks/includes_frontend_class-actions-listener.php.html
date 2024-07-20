@@ -1242,12 +1242,14 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 										foreach ( $emails as $email ) {
 											$user         = get_user_by( 'email', $email );
 											$current_user = $user; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- is needed for getting correct job links in email content
+											$author       = get_userdata( $job->post_author );
 											JB()->common()->mail()->send(
 												$email,
 												'job_edited',
 												array(
 													'job_id'          => $job_id,
 													'job_title'       => $job->post_title,
+													'job_author'      => ! empty( $author ) ? $author->display_name : __( 'Guest', 'jobboardwp' ),
 													'job_details'     => JB()->common()->mail()->get_job_details( $job ),
 													'view_job_url'    => get_permalink( $job ),
 													'approve_job_url' => $approve_job_url,
@@ -1288,12 +1290,14 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 										foreach ( $emails as $email ) {
 											$user         = get_user_by( 'email', $email );
 											$current_user = $user; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- is needed for getting correct job content
+											$author       = get_userdata( $job->post_author );
 											JB()->common()->mail()->send(
 												$email,
 												'job_submitted',
 												array(
 													'job_id'          => $job_id,
 													'job_title'       => $job->post_title,
+													'job_author'      => ! empty( $author ) ? $author->display_name : __( 'Guest', 'jobboardwp' ),
 													'job_details'     => JB()->common()->mail()->get_job_details( $job ),
 													'view_job_url'    => get_permalink( $job ),
 													'approve_job_url' => $approve_job_url,
