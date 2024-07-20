@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-07-20T16:34:51+00:00\n"
+"POT-Creation-Date: 2024-07-20T16:46:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: jobboardwp\n"
@@ -1128,6 +1128,8 @@ msgstr ""
 
 #: includes/admin/templates/job/data.php:35
 #: includes/common/class-job.php:215
+#: includes/frontend/class-actions-listener.php:1219
+#: includes/frontend/class-actions-listener.php:1267
 msgid "Guest"
 msgstr ""
 
@@ -2929,7 +2931,7 @@ msgstr ""
 
 #: includes/frontend/class-actions-listener.php:475
 #: includes/frontend/class-actions-listener.php:1129
-#: includes/frontend/class-actions-listener.php:1334
+#: includes/frontend/class-actions-listener.php:1338
 msgid "Security issue, Please try again"
 msgstr ""
 
@@ -2985,53 +2987,53 @@ msgstr ""
 
 #: includes/frontend/class-actions-listener.php:601
 #: includes/frontend/class-actions-listener.php:605
-#: includes/frontend/class-actions-listener.php:1340
 #: includes/frontend/class-actions-listener.php:1344
+#: includes/frontend/class-actions-listener.php:1348
 msgid "Company name cannot be empty"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:616
-#: includes/frontend/class-actions-listener.php:1355
+#: includes/frontend/class-actions-listener.php:1359
 msgid "Company website is invalid"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:636
-#: includes/frontend/class-actions-listener.php:1375
+#: includes/frontend/class-actions-listener.php:1379
 msgid "Company Twitter is invalid"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:649
-#: includes/frontend/class-actions-listener.php:1388
+#: includes/frontend/class-actions-listener.php:1392
 msgid "Company Facebook is invalid"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:661
-#: includes/frontend/class-actions-listener.php:1400
+#: includes/frontend/class-actions-listener.php:1404
 msgid "Company Instagram is invalid"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:676
-#: includes/frontend/class-actions-listener.php:1409
+#: includes/frontend/class-actions-listener.php:1413
 msgid "Something wrong with image, please re-upload"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:721
-#: includes/frontend/class-actions-listener.php:1447
+#: includes/frontend/class-actions-listener.php:1451
 msgid "Wrong image URL. Invalid URL"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:747
-#: includes/frontend/class-actions-listener.php:1473
+#: includes/frontend/class-actions-listener.php:1477
 msgid "Wrong image URL. Invalid job"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:754
-#: includes/frontend/class-actions-listener.php:1480
+#: includes/frontend/class-actions-listener.php:1484
 msgid "Wrong image URL. Invalid attachment ID"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:761
-#: includes/frontend/class-actions-listener.php:1487
+#: includes/frontend/class-actions-listener.php:1491
 msgid "Wrong image URL. Invalid attachment path"
 msgstr ""
 
