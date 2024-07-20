@@ -103,6 +103,20 @@ if ( ! class_exists( 'jb\common\Mail' ) ) {
 
 			$this->sending = true;
 
+			/**
+			 * Filters the email notification placeholders.
+			 *
+			 * @since 1.2.8
+			 * @hook jb_email_sending_placeholders
+			 *
+			 * @param {array}  $args     Passed into the `send()` function arguments. There can be data to replace placeholders.
+			 * @param {string} $email    Recipient email address.
+			 * @param {string} $template Email notification key.
+			 *
+			 * @return {array} Passed into the `send()` function arguments.
+			 */
+			$args = apply_filters( 'jb_email_sending_placeholders', $args, $email, $template );
+
 			add_filter(
 				'jb_template_locations_base_user_id_for_locale',
 				function( $user_id ) use ( $email ) {
