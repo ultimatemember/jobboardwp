@@ -1293,6 +1293,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 												'job_submitted',
 												array(
 													'job_id'          => $job_id,
+													'job_title'       => $job->post_title,
 													'job_details'     => JB()->common()->mail()->get_job_details( $job ),
 													'view_job_url'    => get_permalink( $job ),
 													'approve_job_url' => $approve_job_url,
