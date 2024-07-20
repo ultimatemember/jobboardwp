@@ -1391,6 +1391,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 							array(
 								'job_id'              => $job_id,
 								'job_title'           => get_the_title( $job_id ),
+								'job_author'          => $user->display_name,
 								'job_expiration_days' => $interval->format( '%a' ),
 								'view_job_url'        => get_permalink( $job_id ),
 							)
@@ -1593,6 +1594,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				$email_args = array(
 					'job_id'       => $job_id,
 					'job_title'    => $job->post_title,
+					'job_author'   => $user->display_name,
 					'view_job_url' => get_permalink( $job ),
 				);
 				JB()->common()->mail()->send( $user->user_email, 'job_approved', $email_args );
