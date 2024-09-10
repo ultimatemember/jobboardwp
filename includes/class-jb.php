@@ -1,7 +1,8 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+// phpcs:disable Universal.Files.SeparateFunctionsFromOO
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 
 if ( ! class_exists( 'JB' ) ) {
 
@@ -408,8 +409,9 @@ if ( ! class_exists( 'JB' ) ) {
  *
  * @since 1.0
  *
- * @return \JB
+ * @return JB
  */
 function JB() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	return JB::instance();
 }
+// phpcs:enable Universal.Files.SeparateFunctionsFromOO
