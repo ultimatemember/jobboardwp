@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-07-20T16:55:44+00:00\n"
+"POT-Creation-Date: 2024-09-10T11:11:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.10.0\n"
+"X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: jobboardwp\n"
 
 #. Plugin Name of the plugin
@@ -2226,11 +2226,11 @@ msgstr ""
 msgid "`action_args` should not be overwritten when calling `jb_get_template()`."
 msgstr ""
 
-#: includes/class-jb.php:56
+#: includes/class-jb.php:57
 msgid "Cloning is forbidden."
 msgstr ""
 
-#: includes/class-jb.php:66
+#: includes/class-jb.php:67
 msgid "Unserializing instances of this class is forbidden."
 msgstr ""
 
