@@ -5,9 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\admin\Notices' ) ) {
-
 
 	/**
 	 * Class Notices
@@ -15,7 +13,6 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 	 * @package jb\admin
 	 */
 	class Notices {
-
 
 		/**
 		 * Notices list
@@ -26,15 +23,13 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 		 */
 		public $list = array();
 
-
 		/**
 		 * Notices constructor.
 		 */
 		public function __construct() {
-			add_action( 'admin_init', array( &$this, 'create_list' ), 10 );
+			add_action( 'admin_init', array( &$this, 'create_list' ) );
 			add_action( 'admin_notices', array( &$this, 'render' ), 1 );
 		}
-
 
 		/**
 		 * Initialize all admin notices
@@ -54,7 +49,6 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 			 */
 			do_action( 'jb_admin_create_notices' );
 		}
-
 
 		/**
 		 * Render all admin notices
@@ -87,7 +81,6 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 			do_action( 'jb_admin_after_main_notices' );
 		}
 
-
 		/**
 		 * Getting all admin notices
 		 *
@@ -98,7 +91,6 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 		public function get_admin_notices() {
 			return $this->list;
 		}
-
 
 		/**
 		 * Set admin notices variable
@@ -111,14 +103,13 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 			$this->list = $admin_notices;
 		}
 
-
 		/**
 		 * Sorting notices in predefined priority
 		 *
 		 * @param array $a
 		 * @param array $b
 		 *
-		 * @return mixed
+		 * @return int
 		 *
 		 * @since 1.0
 		 */
@@ -128,7 +119,6 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 			}
 			return ( $a['priority'] < $b['priority'] ) ? -1 : 1;
 		}
-
 
 		/**
 		 * Add notice to JB notices array
@@ -148,7 +138,6 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 			}
 		}
 
-
 		/**
 		 * Remove notice from JB notices array
 		 *
@@ -165,18 +154,17 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 			}
 		}
 
-
 		/**
 		 * Display single admin notice
 		 *
 		 * @param string $key
-		 * @param bool $echo
+		 * @param bool   $display
 		 *
 		 * @return string
 		 *
 		 * @since 1.0
 		 */
-		public function display( $key, $echo = true ) {
+		public function display( $key, $display = true ) {
 			$admin_notices = $this->get_admin_notices();
 
 			if ( empty( $admin_notices[ $key ] ) ) {
@@ -200,15 +188,13 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 			</div>
 
 			<?php
-			if ( $echo ) {
+			if ( $display ) {
 				ob_end_flush();
 				return '';
-			} else {
-				$notice = ob_get_clean();
-				return $notice;
 			}
-		}
 
+			return ob_get_clean();
+		}
 
 		/**
 		 * Dismiss notices by key
@@ -223,19 +209,18 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 			JB()->options()->update( 'hidden_admin_notices', array_unique( $hidden_notices ) );
 		}
 
-
 		/**
 		 * Regarding page setup
 		 *
 		 * @since 1.0
 		 */
 		public function install_predefined_page_notice() {
-			if ( JB()->common()->permalinks()->are_pages_installed() || ! current_user_can( 'manage_options' ) ) {
+			if ( ! current_user_can( 'manage_options' ) || JB()->common()->permalinks()->are_pages_installed() ) {
 				return;
 			}
 
 			$page_titles = array();
-			foreach ( JB()->config()->get( 'predefined_pages' ) as $slug => $array ) {
+			foreach ( JB()->config()->get( 'predefined_pages' ) as $array ) {
 				$page_titles[] = $array['title'];
 			}
 
@@ -283,7 +268,6 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 			);
 		}
 
-
 		/**
 		 * Notices
 		 *
@@ -315,7 +299,6 @@ if ( ! class_exists( 'jb\admin\Notices' ) ) {
 				}
 			}
 		}
-
 
 		/**
 		 * Check Templates Versions notice

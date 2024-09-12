@@ -4,9 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
-
 
 	/**
 	 * Class Actions_Listener
@@ -19,7 +17,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 		 * Actions_Listener constructor.
 		 */
 		public function __construct() {
-			add_action( 'admin_init', array( $this, 'actions_listener' ), 10 );
+			add_action( 'admin_init', array( $this, 'actions_listener' ) );
 			add_action( 'load-job-board_page_jb-settings', array( &$this, 'handle_modules_actions_options' ) );
 		}
 
@@ -167,7 +165,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 						$results = 0;
 						foreach ( $slugs as $slug ) {
 							if ( JB()->modules()->activate( $slug ) ) {
-								$results++;
+								++$results;
 							}
 						}
 
@@ -206,7 +204,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 						$results = 0;
 						foreach ( $slugs as $slug ) {
 							if ( JB()->modules()->deactivate( $slug ) ) {
-								$results++;
+								++$results;
 							}
 						}
 
@@ -245,7 +243,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 						$results = 0;
 						foreach ( $slugs as $slug ) {
 							if ( JB()->modules()->flush_data( $slug ) ) {
-								$results++;
+								++$results;
 							}
 						}
 

@@ -1,7 +1,7 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 
 /**
  * Get default and current locales.
@@ -23,7 +23,6 @@ function jb_translatepress_get_languages_codes() {
 	);
 }
 
-
 /**
  * @param int $page_id
  *
@@ -33,8 +32,7 @@ function jb_get_predefined_page_id_translatepress( $page_id ) {
 	// just empty method, but works properly
 	return $page_id;
 }
-add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_translatepress', 10, 1 );
-
+add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_translatepress' );
 
 /**
  * @param array $variables
@@ -45,8 +43,7 @@ function jb_common_js_variables_translatepress( $variables ) {
 	$variables['locale'] = get_locale();
 	return $variables;
 }
-add_filter( 'jb_common_js_variables', 'jb_common_js_variables_translatepress', 10, 1 );
-
+add_filter( 'jb_common_js_variables', 'jb_common_js_variables_translatepress' );
 
 /**
  *
@@ -61,7 +58,7 @@ add_filter( 'jb_common_js_variables', 'jb_common_js_variables_translatepress', 1
  * @return array
  */
 function jb_pre_template_locations_translatepress( $template_locations, $template_name, $module, $template_path ) {
-	if ( JB()->common()->mail()->is_sending() && 0 === strpos( $template_name, 'emails/' ) ) {
+	if ( 0 === strpos( $template_name, 'emails/' ) && JB()->common()->mail()->is_sending() ) {
 		return $template_locations;
 	}
 
@@ -71,7 +68,7 @@ function jb_pre_template_locations_translatepress( $template_locations, $templat
 		$lang = $language_codes['current'];
 
 		$ml_template_locations = array_map(
-			function( $item ) use ( $template_path, $lang ) {
+			function ( $item ) use ( $template_path, $lang ) {
 				return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $lang . '/', $item );
 			},
 			$template_locations

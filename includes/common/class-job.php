@@ -1112,7 +1112,6 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			global $wp_filesystem;
 
 			if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
-				/** @noinspection PhpIncludeInspection */
 				require_once ABSPATH . 'wp-admin/includes/file.php';
 
 				$credentials = request_filesystem_credentials( site_url() );

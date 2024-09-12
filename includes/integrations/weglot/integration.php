@@ -1,7 +1,7 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 
 /**
  * @return array
@@ -102,14 +102,13 @@ function jb_weglot_get_languages_codes() {
 /**
  * @param int $page_id
  *
- * @return mixed
+ * @return int
  */
 function jb_get_predefined_page_id_weglot( $page_id ) {
 	// just empty method, but works properly
 	return $page_id;
 }
-add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_weglot', 10, 1 );
-
+add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_weglot' );
 
 /**
  * @param array $variables
@@ -123,8 +122,7 @@ function jb_common_js_variables_weglot( $variables ) {
 	$variables['locale'] = $codes['current'];
 	return $variables;
 }
-add_filter( 'jb_common_js_variables', 'jb_common_js_variables_weglot', 10, 1 );
-
+add_filter( 'jb_common_js_variables', 'jb_common_js_variables_weglot' );
 
 /**
  * @since 1.1.1
@@ -149,7 +147,7 @@ function jb_pre_template_locations_weglot( $template_locations, $template_name, 
 		$lang = $language_codes['current'];
 
 		$ml_template_locations = array_map(
-			function( $item ) use ( $template_path, $lang ) {
+			function ( $item ) use ( $template_path, $lang ) {
 				return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $lang . '/', $item );
 			},
 			$template_locations

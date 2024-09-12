@@ -6,40 +6,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
-	/** @noinspection PhpIncludeInspection */
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
-
 
 /**
  * Class Modules_List_Table
  */
 class Modules_List_Table extends \WP_List_Table {
 
-
 	/**
 	 * @var string
 	 */
 	public $no_items_message = '';
-
 
 	/**
 	 * @var array
 	 */
 	public $actions = array();
 
-
 	/**
 	 * @var array
 	 */
 	public $bulk_actions = array();
 
-
 	/**
 	 * @var array
 	 */
 	public $columns = array();
-
 
 	/**
 	 * JB_Roles_List_Table constructor.
@@ -60,7 +53,6 @@ class Modules_List_Table extends \WP_List_Table {
 
 		parent::__construct( $args );
 	}
-
 
 	/**
 	 *
@@ -112,7 +104,6 @@ class Modules_List_Table extends \WP_List_Table {
 		return ( strtolower( $a['title'] ) < strtolower( $b['title'] ) ) ? -1 : 1;
 	}
 
-
 	/**
 	 * Generates content for a single row of the table.
 	 *
@@ -127,11 +118,10 @@ class Modules_List_Table extends \WP_List_Table {
 		$class  = $is_disabled ? 'disabled ' : 'enabled ';
 		$class .= $is_active ? 'active' : 'inactive';
 
-		echo sprintf( '<tr class="%s">', esc_attr( $class ) );
+		printf( '<tr class="%s">', esc_attr( $class ) );
 		$this->single_row_columns( $item );
 		echo '</tr>';
 	}
-
 
 	public function single_row_columns( $item ) {
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
@@ -184,7 +174,6 @@ class Modules_List_Table extends \WP_List_Table {
 		}
 	}
 
-
 	/**
 	 * @param object $item
 	 * @param string $column_name
@@ -199,14 +188,12 @@ class Modules_List_Table extends \WP_List_Table {
 		}
 	}
 
-
 	/**
 	 *
 	 */
 	public function no_items() {
 		echo esc_html( $this->no_items_message );
 	}
-
 
 	/**
 	 * @param array $args
@@ -221,14 +208,12 @@ class Modules_List_Table extends \WP_List_Table {
 		return $this;
 	}
 
-
 	/**
 	 * @return array
 	 */
 	public function get_columns() {
 		return $this->columns;
 	}
-
 
 	/**
 	 * @param array $args
@@ -240,14 +225,12 @@ class Modules_List_Table extends \WP_List_Table {
 		return $this;
 	}
 
-
 	/**
 	 * @return array
 	 */
 	public function get_actions() {
 		return $this->actions;
 	}
-
 
 	/**
 	 * @param array $args
@@ -259,7 +242,6 @@ class Modules_List_Table extends \WP_List_Table {
 		return $this;
 	}
 
-
 	/**
 	 * @return array
 	 */
@@ -267,11 +249,9 @@ class Modules_List_Table extends \WP_List_Table {
 		return $this->bulk_actions;
 	}
 
-
 	public function get_table_classes() {
 		return array( 'widefat', $this->_args['plural'] );
 	}
-
 
 	/**
 	 * @param object $item
@@ -281,7 +261,6 @@ class Modules_List_Table extends \WP_List_Table {
 	public function column_cb( $item ) {
 		return sprintf( '<input type="checkbox" name="item[]" value="%s" />', $item['key'] );
 	}
-
 
 	/**
 	 * @param object $item
@@ -304,7 +283,6 @@ class Modules_List_Table extends \WP_List_Table {
 
 		return $type;
 	}
-
 
 	/**
 	 * @param $item
@@ -355,7 +333,6 @@ class Modules_List_Table extends \WP_List_Table {
 	}
 }
 
-
 $list_table = new Modules_List_Table(
 	array(
 		'singular' => __( 'Module', 'jobboardwp' ),
@@ -394,7 +371,8 @@ if ( ! empty( $_GET['msg'] ) ) {
 			echo '<div class="clear"></div><div id="message" class="updated fade"><p>' . wp_kses( __( 'Module\'s data is <strong>flushed</strong> successfully.', 'jobboardwp' ), JB()->get_allowed_html( 'templates' ) ) . '</p></div>';
 			break;
 	}
-} ?>
+}
+?>
 
 <div class="clear"></div>
 

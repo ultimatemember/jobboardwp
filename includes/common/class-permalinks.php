@@ -1,12 +1,13 @@
 <?php namespace jb\common;
 
+use WP_Error;
+use WP_Post;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\common\Permalinks' ) ) {
-
 
 	/**
 	 * Class Permalinks
@@ -15,7 +16,6 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 	 */
 	class Permalinks {
 
-
 		/**
 		 * Permalinks constructor.
 		 */
@@ -23,7 +23,6 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			add_action( 'wp_login_failed', array( &$this, 'login_failed' ), 10, 2 );
 			add_filter( 'authenticate', array( &$this, 'verify_username_password' ), 1, 3 );
 		}
-
 
 		/**
 		 * Verifies username and password. Redirects visitor
@@ -34,7 +33,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 		 * @param string $username
 		 * @param string $password
 		 *
-		 * @return \WP_Error
+		 * @return WP_Error
 		 *
 		 * @since 1.0
 		 */
@@ -47,7 +46,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 
 				if ( ! empty( $postid ) && $postid === $this->get_predefined_page_id( 'job-post' ) ) {
 					if ( null === $user && ( '' === $username || '' === $password ) ) {
-						return new \WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: Invalid username, email address or incorrect password.' ) );
+						return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: Invalid username, email address or incorrect password.' ) );
 					}
 				}
 			}
@@ -55,13 +54,12 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			return $user;
 		}
 
-
 		/**
 		 * Redirects visitor to the login page with login
 		 * failed status.
 		 *
 		 * @param string    $username Username or email address.
-		 * @param \WP_Error $error    A WP_Error object with the authentication failure details.
+		 * @param WP_Error $error    A WP_Error object with the authentication failure details.
 		 *
 		 * @return void
 		 *
@@ -93,7 +91,6 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			}
 		}
 
-
 		/**
 		 * Get page slug
 		 *
@@ -117,7 +114,6 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			return $slug;
 		}
 
-
 		/**
 		 * @param string $slug
 		 *
@@ -127,7 +123,6 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			$predefined_pages = JB()->config()->get( 'predefined_pages' );
 			return array_key_exists( $slug, $predefined_pages );
 		}
-
 
 		/**
 		 * Get predefined page ID
@@ -171,29 +166,26 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			return (int) $page_id;
 		}
 
-
 		/**
 		 *
 		 * @param string $slug
-		 * @param null|int|\WP_Post $post
+		 * @param null|int|WP_Post|array $post
 		 *
 		 * @return bool
 		 */
 		public function is_predefined_page( $slug, $post = null ) {
-			// handle $post inside, just we need make $post as \WP_Post. Otherwise something is wrong and return false
+			// handle $post inside, just we need make $post as WP_Post. Otherwise, something is wrong and return false
 			if ( ! $post ) {
 				global $post;
 
 				if ( empty( $post ) ) {
 					return false;
 				}
-			} else {
-				if ( is_numeric( $post ) ) {
-					$post = get_post( $post ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- internal variable
+			} elseif ( is_numeric( $post ) ) {
+				$post = get_post( $post ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- internal variable
 
-					if ( empty( $post ) ) {
-						return false;
-					}
+				if ( empty( $post ) ) {
+					return false;
 				}
 			}
 
@@ -224,7 +216,6 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			return apply_filters( 'jb_is_predefined_page', $condition, $post, $predefined_page_id, $slug );
 		}
 
-
 		/**
 		 * Get predefined page URL
 		 *
@@ -244,7 +235,6 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 
 			return $url;
 		}
-
 
 		/**
 		 * Are JB pages installed
@@ -281,40 +271,6 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			}
 
 			return $installed;
-		}
-
-
-		/**
-		 * Get preset page ID
-		 *
-		 * @deprecated 1.1.1
-		 *
-		 * @param string $key
-		 *
-		 * @return int
-		 *
-		 * @since 1.0
-		 */
-		public function get_preset_page_id( $key ) {
-			_deprecated_function( __METHOD__, '1.1.1', 'JB()->common()->permalinks()->get_predefined_page_id( $slug )' );
-			return $this->get_predefined_page_id( $key );
-		}
-
-
-		/**
-		 * Get preset page link
-		 *
-		 * @deprecated 1.1.1
-		 *
-		 * @param string $key
-		 *
-		 * @return false|string
-		 *
-		 * @since 1.0
-		 */
-		public function get_preset_page_link( $key ) {
-			_deprecated_function( __METHOD__, '1.1.1', 'JB()->common()->permalinks()->get_predefined_page_link( $slug )' );
-			return $this->get_predefined_page_link( $key );
 		}
 	}
 }

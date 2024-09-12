@@ -1,5 +1,10 @@
 <?php namespace jb\frontend;
 
+use WP_Block_Template;
+use WP_Filesystem_Base;
+use WP_Post;
+use function WP_Filesystem;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -29,7 +34,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			 * Handlers for single job template
 			 */
 			add_filter( 'single_template', array( &$this, 'cpt_template' ) );
-			add_filter( 'archive_template', array( &$this, 'cpt_archive_template' ), 100, 3 );
+			add_filter( 'archive_template', array( &$this, 'cpt_archive_template' ), 100, 2 );
 			add_action( 'wp_footer', array( $this, 'output_structured_data' ) );
 		}
 
@@ -188,24 +193,21 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 *
 		 * @param string $template
 		 * @param string $type
-		 * @param array  $templates
 		 *
 		 * @return string
 		 *
 		 * @since 1.0
 		 */
-		public function cpt_archive_template( $template, $type, $templates ) {
+		public function cpt_archive_template( $template, $type ) {
 			if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
 				if ( isset( get_queried_object()->taxonomy ) && ( 'jb-job-type' === get_queried_object()->taxonomy || 'jb-job-category' === get_queried_object()->taxonomy ) ) {
-					if ( 'default' === JB()->options()->get( 'job-archive-template' ) && 'archive' === $type ) {
-						add_filter( 'render_block_data', array( $this, 'jb_change_archive_template' ), 10, 3 );
+					if ( 'archive' === $type && 'default' === JB()->options()->get( 'job-archive-template' ) ) {
+						add_filter( 'render_block_data', array( $this, 'jb_change_archive_template' ), 10, 2 );
 					}
 				}
-			} else {
-				if ( isset( get_queried_object()->taxonomy ) && ( 'jb-job-type' === get_queried_object()->taxonomy || 'jb-job-category' === get_queried_object()->taxonomy ) ) {
-					if ( 'default' === JB()->options()->get( 'job-archive-template' ) && 'archive' === $type ) {
-						$template = untrailingslashit( JB_PATH ) . '/templates/job-archive.php';
-					}
+			} elseif ( isset( get_queried_object()->taxonomy ) && ( 'jb-job-type' === get_queried_object()->taxonomy || 'jb-job-category' === get_queried_object()->taxonomy ) ) {
+				if ( 'archive' === $type && 'default' === JB()->options()->get( 'job-archive-template' ) ) {
+					$template = untrailingslashit( JB_PATH ) . '/templates/job-archive.php';
 				}
 			}
 
@@ -215,11 +217,10 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		/**
 		 * @param $pre_render
 		 * @param $parsed_block
-		 * @param $parent_block
 		 *
 		 * @return mixed
 		 */
-		public function jb_change_archive_template( $pre_render, $parsed_block, $parent_block ) {
+		public function jb_change_archive_template( $pre_render, $parsed_block ) {
 			$tax_id = get_queried_object_id();
 			$attrs  = array();
 
@@ -250,15 +251,15 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		}
 
 		/**
-		 * @param string $path
-		 * @param array $array
-		 * @param null $value
+		 * @param string|array $path
+		 * @param array        $parsed_block
+		 * @param null         $value
 		 *
 		 * @return array|mixed|null
 		 */
-		private function set( $path, &$array = array(), $value = null ) {
+		private function set( $path, &$parsed_block = array(), $value = null ) {
 			$path = explode( '_', $path );
-			$temp = &$array;
+			$temp = &$parsed_block;
 
 			foreach ( $path as $key ) {
 				$temp = &$temp[ $key ];
@@ -282,7 +283,9 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 			foreach ( $haystack as $key => $value ) {
 				if ( 'core/query' === $value && $value === $needle ) {
 					return $key;
-				} elseif ( is_array( $value ) ) {
+				}
+
+				if ( is_array( $value ) ) {
 					$key_result = $this->search_path( $needle, $value );
 					if ( false !== $key_result ) {
 						return $key . '_' . $key_result;
@@ -311,7 +314,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		 * Hide job thumbnail
 		 *
 		 * @param bool $has_thumbnail
-		 * @param int|\WP_Post $post
+		 * @param int|WP_Post|array $post
 		 *
 		 * @return bool
 		 *
@@ -405,7 +408,7 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		/**
 		 * Change block template for single job
 		 *
-		 * @param \WP_Block_Template[] $query_result Array of found block templates.
+		 * @param WP_Block_Template[] $query_result Array of found block templates.
 		 *
 		 * @return array
 		 *
@@ -414,22 +417,29 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 		public function jb_change_single_job_block_templates( $query_result ) {
 			$theme = wp_get_theme();
 
-			/** @var $wp_filesystem \WP_Filesystem_Base */
 			global $wp_filesystem;
 
-			if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
-				/** @noinspection PhpIncludeInspection */
+			if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 				require_once ABSPATH . 'wp-admin/includes/file.php';
 
 				$credentials = request_filesystem_credentials( site_url() );
-				\WP_Filesystem( $credentials );
+				WP_Filesystem( $credentials );
 			}
 
 			$template_contents = $wp_filesystem->get_contents( wp_normalize_path( JB_PATH . 'templates/block-templates/single.html' ) );
-			$template_contents = str_replace( '~theme~', $theme->get_stylesheet(), $template_contents );
-			$template_contents = str_replace( '~jb_single_job_content~', '[jb_job id="' . get_the_ID() . '" /]', $template_contents );
+			$template_contents = str_replace(
+				array(
+					'~theme~',
+					'~jb_single_job_content~',
+				),
+				array(
+					$theme->get_stylesheet(),
+					'[jb_job id="' . get_the_ID() . '" /]',
+				),
+				$template_contents
+			);
 
-			$new_block                 = new \WP_Block_Template();
+			$new_block                 = new WP_Block_Template();
 			$new_block->type           = 'wp_template';
 			$new_block->theme          = $theme->get_stylesheet();
 			$new_block->slug           = 'single';

@@ -2,7 +2,6 @@
 	exit;
 }
 
-
 /**
  * Get default and current locales.
  *
@@ -16,7 +15,6 @@ function jb_polylang_get_languages_codes() {
 		'current' => pll_current_language( 'locale' ),
 	);
 }
-
 
 /**
  * @param int $page_id
@@ -32,7 +30,6 @@ function jb_get_predefined_page_id_polylang( $page_id ) {
 	return $page_id;
 }
 add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_polylang', 10, 1 );
-
 
 /**
  * @param bool $condition
@@ -73,7 +70,6 @@ function jb_is_predefined_page_polylang( $condition, $post, $predefined_page_id 
 	return $condition;
 }
 add_filter( 'jb_is_predefined_page', 'jb_is_predefined_page_polylang', 10, 3 );
-
 
 /**
  * @return array
@@ -201,7 +197,6 @@ function jb_admin_settings_get_pages_list_polylang() {
 }
 add_filter( 'jb_admin_settings_get_pages_list', 'jb_admin_settings_get_pages_list_polylang', 10 );
 
-
 /**
  * @param false $pre_result
  * @param int $page_id
@@ -240,7 +235,6 @@ function jb_admin_settings_pages_list_value_polylang( $pre_result, $page_id ) {
 }
 add_filter( 'jb_admin_settings_pages_list_value', 'jb_admin_settings_pages_list_value_polylang', 10, 2 );
 
-
 /**
  * @param array $variables
  *
@@ -252,7 +246,6 @@ function jb_common_js_variables_polylang( $variables ) {
 }
 add_filter( 'jb_common_js_variables', 'jb_common_js_variables_polylang', 10, 1 );
 
-
 /**
  * @param string $locale
  */
@@ -261,7 +254,6 @@ function jb_admin_init_locale_polylang( $locale ) {
 	PLL()->curlang = $polylang->model->get_language( $locale );
 }
 add_action( 'jb_admin_init_locale', 'jb_admin_init_locale_polylang', 10, 1 );
-
 
 /**
  * @param $columns
@@ -288,7 +280,6 @@ function jb_add_email_templates_column_polylang( $columns ) {
 }
 add_filter( 'jb_email_templates_columns', 'jb_add_email_templates_column_polylang', 10, 1 );
 
-
 function jb_emails_list_table_custom_column_content_polylang( $content, $item, $column_name ) {
 	if ( 'translations' === $column_name ) {
 		$html = '';
@@ -306,7 +297,6 @@ function jb_emails_list_table_custom_column_content_polylang( $content, $item, $
 	return $content;
 }
 add_filter( 'jb_emails_list_table_custom_column_content', 'jb_emails_list_table_custom_column_content_polylang', 10, 3 );
-
 
 /**
  * @param $template
@@ -361,7 +351,7 @@ function jb_polylang_get_status_html( $template, $code ) {
 		$blog_id = get_current_blog_id();
 
 		$ms_template_locations = array_map(
-			function( $item ) use ( $template_path, $blog_id ) {
+			function ( $item ) use ( $template_path, $blog_id ) {
 				return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $blog_id . '/', $item );
 			},
 			$template_locations
@@ -428,7 +418,7 @@ function jb_pre_template_locations_polylang( $template_locations, $template_name
 		$lang = $language_codes['current'];
 
 		$ml_template_locations = array_map(
-			function( $item ) use ( $template_path, $lang ) {
+			function ( $item ) use ( $template_path, $lang ) {
 				return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $lang . '/', $item );
 			},
 			$template_locations
@@ -534,7 +524,7 @@ function jb_before_email_notification_sending_polylang( $email, $template, $args
 		$post_lang     = $polylang->model->get_language( pll_get_post_language( $args['job_id'] ) );
 		PLL()->curlang = $post_lang;
 
-		$function = function() {
+		$function = function () {
 			return PLL()->curlang->locale;
 		};
 
@@ -542,14 +532,14 @@ function jb_before_email_notification_sending_polylang( $email, $template, $args
 
 		add_action(
 			'jb_after_email_notification_sending',
-			function( $email, $template, $args ) use ( $current_language, $function ) {
+			function ( $email, $template ) use ( $current_language, $function ) {
 				if ( 'job_approved' === $template || 'job_expiration_reminder' === $template ) {
 					PLL()->curlang = $current_language;
 					remove_filter( 'locale', $function );
 				}
 			},
 			10,
-			3
+			2
 		);
 	}
 }

@@ -23,4 +23,32 @@
 		<include-pattern>*\.php$</include-pattern>
 	</rule>
 
+	<rule ref="WordPress.WP.Capabilities">
+		<properties>
+			<property name="custom_capabilities" type="array" extend="true">
+				<element value="edit_jb-job"/>
+				<element value="read_jb-job"/>
+				<element value="delete_jb-job"/>
+				<element value="edit_jb-jobs"/>
+				<element value="edit_others_jb-jobs"/>
+				<element value="publish_jb-jobs"/>
+				<element value="read_private_jb-jobs"/>
+				<element value="delete_jb-jobs"/>
+				<element value="delete_private_jb-jobs"/>
+				<element value="delete_published_jb-jobs"/>
+				<element value="delete_others_jb-jobs"/>
+				<element value="edit_private_jb-jobs"/>
+				<element value="edit_published_jb-jobs"/>
+				<element value="create_jb-jobs"/>
+				<element value="manage_jb-job-types"/>
+				<element value="edit_jb-job-types"/>
+				<element value="delete_jb-job-types"/>
+				<element value="edit_jb-job-types"/>
+				<element value="manage_jb-job-categories"/>
+				<element value="edit_jb-job-categories"/>
+				<element value="delete_jb-job-categories"/>
+				<element value="edit_jb-job-categories"/>
+			</property>
+		</properties>
+	</rule>
 </ruleset>

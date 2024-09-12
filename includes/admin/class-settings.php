@@ -130,7 +130,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			if ( empty( $modules ) ) {
 				return;
 			}
-			/** @noinspection PhpIncludeInspection */
 			include_once JB_PATH . 'includes/admin/class-modules-list-table.php';
 		}
 
@@ -832,7 +831,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			$email_notifications = JB()->config()->get( 'email_notifications' );
 
 			if ( empty( $email_key ) || empty( $email_notifications[ $email_key ] ) ) {
-				/** @noinspection PhpIncludeInspection */
 				include_once JB()->admin()->templates_path . 'settings' . DIRECTORY_SEPARATOR . 'emails-list-table.php';
 			}
 		}
@@ -1337,7 +1335,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			}
 
 			if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
-				/** @noinspection PhpIncludeInspection */
 				require_once ABSPATH . 'wp-admin/includes/file.php';
 
 				$credentials = request_filesystem_credentials( self_admin_url() );

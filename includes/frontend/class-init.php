@@ -4,9 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\frontend\Init' ) ) {
-
 
 	/**
 	 * Class Init
@@ -14,15 +12,6 @@ if ( ! class_exists( 'jb\frontend\Init' ) ) {
 	 * @package jb\frontend
 	 */
 	class Init {
-
-
-		/**
-		 * Init constructor.
-		 */
-		public function __construct() {
-
-		}
-
 
 		/**
 		 * @return bool
@@ -32,7 +21,6 @@ if ( ! class_exists( 'jb\frontend\Init' ) ) {
 		public function is_job_page() {
 			return is_singular( array( 'jb-job' ) );
 		}
-
 
 		/**
 		 * @since 1.0
@@ -44,7 +32,6 @@ if ( ! class_exists( 'jb\frontend\Init' ) ) {
 			$this->shortcodes();
 			$this->actions_listener();
 		}
-
 
 		/**
 		 * @since 1.0
@@ -59,7 +46,6 @@ if ( ! class_exists( 'jb\frontend\Init' ) ) {
 			return JB()->classes['jb\frontend\templates'];
 		}
 
-
 		/**
 		 * @since 1.0
 		 *
@@ -73,7 +59,6 @@ if ( ! class_exists( 'jb\frontend\Init' ) ) {
 			return JB()->classes['jb\frontend\shortcodes'];
 		}
 
-
 		/**
 		 * @since 1.0
 		 *
@@ -86,7 +71,6 @@ if ( ! class_exists( 'jb\frontend\Init' ) ) {
 
 			return JB()->classes['jb\frontend\enqueue'];
 		}
-
 
 		/**
 		 * @since 1.0
@@ -103,7 +87,6 @@ if ( ! class_exists( 'jb\frontend\Init' ) ) {
 			return JB()->classes[ 'jb\frontend\forms' . $data['id'] ];
 		}
 
-
 		/**
 		 * @since 1.0
 		 *
@@ -116,7 +99,6 @@ if ( ! class_exists( 'jb\frontend\Init' ) ) {
 
 			return JB()->classes['jb\frontend\jobs_directory'];
 		}
-
 
 		/**
 		 * @since 1.0

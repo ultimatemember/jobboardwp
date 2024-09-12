@@ -41,7 +41,7 @@ if ( JB()->options()->get( 'uninstall-delete-settings' ) ) {
 	// remove usermeta
 	global $wpdb;
 	$wpdb->query(
-		"DELETE 
+		"DELETE
         FROM {$wpdb->usermeta}
         WHERE meta_key LIKE 'jb_company_%'"
 	);
@@ -77,7 +77,6 @@ if ( JB()->options()->get( 'uninstall-delete-settings' ) ) {
 	global $wp_filesystem;
 
 	if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
-		/** @noinspection PhpIncludeInspection */
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 
 		$credentials = request_filesystem_credentials( site_url() );

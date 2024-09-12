@@ -1,12 +1,13 @@
 <?php namespace jb\common;
 
+use WP_Filesystem_Base;
+use function WP_Filesystem;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\common\Filesystem' ) ) {
-
 
 	/**
 	 * Class Filesystem
@@ -15,14 +16,12 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 	 */
 	class Filesystem {
 
-
 		/**
 		 * @var array
 		 *
 		 * @since 1.0
 		 */
 		public $upload_dir = array();
-
 
 		/**
 		 * @var array
@@ -31,14 +30,12 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 */
 		public $upload_url = array();
 
-
 		/**
 		 * @var string
 		 *
 		 * @since 1.0
 		 */
 		public $temp_upload_dir = '';
-
 
 		/**
 		 * @var string
@@ -47,14 +44,12 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 */
 		public $temp_upload_url = '';
 
-
 		/**
 		 * Filesystem constructor.
 		 */
 		public function __construct() {
 			$this->init_paths();
 		}
-
 
 		/**
 		 * Init uploading URL and directory
@@ -66,26 +61,23 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 			$this->temp_upload_url = $this->get_upload_url( 'jobboardwp/temp' );
 		}
 
-
 		/**
-		 * Remove all files, which are older then 24 hours
+		 * Remove all files, which are older than 24 hours
 		 *
 		 * @since 1.0
 		 */
 		public function clear_temp_dir() {
-			/** @var $wp_filesystem \WP_Filesystem_Base */
 			global $wp_filesystem;
 
-			if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
-				/** @noinspection PhpIncludeInspection */
+			if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 				require_once ABSPATH . 'wp-admin/includes/file.php';
 
 				$credentials = request_filesystem_credentials( site_url() );
-				\WP_Filesystem( $credentials );
+				WP_Filesystem( $credentials );
 			}
 
 			/**
-			 * Filters the maximum file age in the temp folder. By default it's 24 hours.
+			 * Filters the maximum file age in the temp folder. By default, it's 24 hours.
 			 *
 			 * @since 1.0
 			 * @hook jb_filesystem_max_file_age
@@ -106,7 +98,7 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 				return;
 			}
 
-			// phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition -- reading folder's content here
+			// phpcs:ignore Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition -- reading folder's content here
 			while ( false !== ( $file = readdir( $dir ) ) ) {
 				if ( '.' === $file || '..' === $file ) {
 					continue;
@@ -124,11 +116,10 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 			// phpcs:enable WordPress.PHP.NoSilencedErrors.Discouraged
 		}
 
-
 		/**
 		 * Get upload dir of plugin
 		 *
-		 * @param string $dir
+		 * @param string   $dir
 		 * @param int|null $blog_id
 		 *
 		 * @return string
@@ -136,25 +127,21 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		 * @since 1.0
 		 */
 		public function get_upload_dir( $dir = '', $blog_id = null ) {
-			/** @var $wp_filesystem \WP_Filesystem_Base */
 			global $wp_filesystem;
 			// if you need to fix this issue on the localhost
 			// https://stackoverflow.com/questions/30688431/wordpress-needs-the-ftp-credentials-to-update-plugins
 			// Please add define('FS_METHOD', 'direct'); to avoid question about FTP.
-			if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
-				/** @noinspection PhpIncludeInspection */
+			if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 				require_once ABSPATH . 'wp-admin/includes/file.php';
 
 				$credentials = request_filesystem_credentials( site_url() );
-				\WP_Filesystem( $credentials );
+				WP_Filesystem( $credentials );
 			}
 
 			if ( ! $blog_id ) {
 				$blog_id = get_current_blog_id();
-			} else {
-				if ( is_multisite() ) {
-					switch_to_blog( $blog_id );
-				}
+			} elseif ( is_multisite() ) {
+				switch_to_blog( $blog_id );
 			}
 
 			if ( empty( $this->upload_dir[ $blog_id ] ) ) {
@@ -176,7 +163,6 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 			return $upload_dir;
 		}
 
-
 		/**
 		 * Get upload url of plugin
 		 *
@@ -190,10 +176,8 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 		public function get_upload_url( $url = '', $blog_id = null ) {
 			if ( ! $blog_id ) {
 				$blog_id = get_current_blog_id();
-			} else {
-				if ( is_multisite() ) {
-					switch_to_blog( $blog_id );
-				}
+			} elseif ( is_multisite() ) {
+				switch_to_blog( $blog_id );
 			}
 
 			if ( empty( $this->upload_url[ $blog_id ] ) ) {
@@ -211,7 +195,6 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 			return $upload_url;
 		}
 
-
 		/**
 		 * Format Bytes
 		 *
@@ -227,7 +210,7 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 				$base     = log( $size, 1024 );
 				$suffixes = array( '', 'kb', 'MB', 'GB', 'TB' );
 
-				$computed_size = round( pow( 1024, $base - floor( $base ) ), $precision );
+				$computed_size = round( 1024 ** ( $base - floor( $base ) ), $precision );
 				$unit          = $suffixes[ absint( floor( $base ) ) ];
 
 				return $computed_size . ' ' . $unit;

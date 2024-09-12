@@ -1,12 +1,13 @@
 <?php namespace jb\admin;
 
+use WP_Post;
+use WP_Term;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\admin\Metabox' ) ) {
-
 
 	/**
 	 * Class Metabox
@@ -15,14 +16,12 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 	 */
 	class Metabox {
 
-
 		/**
 		 * @var array
 		 *
 		 * @since 1.0
 		 */
 		public $nonce = array();
-
 
 		/**
 		 * Metabox constructor.
@@ -33,10 +32,9 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 			add_action( 'jb-job-type_add_form_fields', array( &$this, 'job_type_create' ) );
 			add_action( 'jb-job-type_edit_form_fields', array( &$this, 'job_type_edit' ) );
-			add_action( 'create_jb-job-type', array( &$this, 'save_job_type_meta' ), 10, 1 );
-			add_action( 'edited_jb-job-type', array( &$this, 'save_job_type_meta' ), 10, 1 );
+			add_action( 'create_jb-job-type', array( &$this, 'save_job_type_meta' ) );
+			add_action( 'edited_jb-job-type', array( &$this, 'save_job_type_meta' ) );
 		}
-
 
 		/**
 		 * Add custom fields on Job Type Create form
@@ -44,17 +42,15 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 		 * @since 1.0
 		 */
 		public function job_type_create() {
-			/** @noinspection PhpIncludeInspection */
 			include_once JB()->admin()->templates_path . 'job-type' . DIRECTORY_SEPARATOR . 'styling-create.php';
 
 			wp_nonce_field( basename( __FILE__ ), 'jb_job_type_styling_nonce' );
 		}
 
-
 		/**
 		 * Add custom fields on Job Type Edit form
 		 *
-		 * @param \WP_Term $term
+		 * @param WP_Term $term
 		 *
 		 * @since 1.0
 		 */
@@ -65,12 +61,10 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			$data['jb-color']      = get_term_meta( $term_id, 'jb-color', true );
 			$data['jb-background'] = get_term_meta( $term_id, 'jb-background', true );
 
-			/** @noinspection PhpIncludeInspection */
 			include_once JB()->admin()->templates_path . 'job-type' . DIRECTORY_SEPARATOR . 'styling-edit.php';
 
 			wp_nonce_field( basename( __FILE__ ), 'jb_job_type_styling_nonce' );
 		}
-
 
 		/**
 		 * Save custom data for Job Type
@@ -106,7 +100,6 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			}
 		}
 
-
 		/**
 		 * Checking CPT screen
 		 *
@@ -121,19 +114,17 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			}
 		}
 
-
 		/**
 		 * Load a form metabox
 		 *
-		 * @param object $object Not used.
+		 * @param object $job Not used.
 		 * @param array $box
 		 *
 		 * @since 1.0
 		 */
-		public function load_metabox_job( /** @noinspection PhpUnusedParameterInspection */$object, $box ) {
+		public function load_metabox_job( /** @noinspection PhpUnusedParameterInspection */$job, $box ) {
 			$metabox = str_replace( 'jb-job-', '', $box['id'] );
 
-			/** @noinspection PhpIncludeInspection */
 			include_once JB()->admin()->templates_path . 'job' . DIRECTORY_SEPARATOR . $metabox . '.php';
 
 			if ( empty( $this->nonce['job'] ) ) {
@@ -141,7 +132,6 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				wp_nonce_field( basename( __FILE__ ), 'jb_job_save_metabox_nonce' );
 			}
 		}
-
 
 		/**
 		 * Add form metabox
@@ -152,12 +142,11 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			add_meta_box( 'jb-job-data', __( 'Job Data', 'jobboardwp' ), array( &$this, 'load_metabox_job' ), 'jb-job', 'normal', 'core' );
 		}
 
-
 		/**
 		 * Save job metabox
 		 *
 		 * @param int $post_id
-		 * @param \WP_Post $post
+		 * @param WP_Post $post
 		 *
 		 * @since 1.0
 		 */
@@ -172,8 +161,13 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				return;
 			}
 
-			// validate user
+			// validate post type object
 			$post_type = get_post_type_object( $post->post_type );
+			if ( null === $post_type ) {
+				return;
+			}
+
+			// validate user
 			if ( ! current_user_can( $post_type->cap->edit_post, $post_id ) ) {
 				return;
 			}
@@ -241,18 +235,16 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 			if ( empty( $_POST['jb-job-meta']['jb-is-featured'] ) ) {
 				unset( $_POST['jb-job-meta']['jb-featured-order'] );
-			} else {
-				if ( empty( $_POST['jb-job-meta']['jb-featured-order'] ) ) {
-					// workaround if user set featured option but doesn't the order
-					$_POST['jb-job-meta']['jb-featured-order'] = 1;
-				}
+			} elseif ( empty( $_POST['jb-job-meta']['jb-featured-order'] ) ) {
+				// workaround if user set featured option but doesn't the order
+				$_POST['jb-job-meta']['jb-featured-order'] = 1;
 			}
 
 			$skip_meta_update = array();
 
 			//save metadata
 			foreach ( $_POST['jb-job-meta'] as $k => $v ) {
-				if ( strstr( $k, 'jb-' ) ) {
+				if ( 0 === strpos( $k, 'jb-' ) ) {
 					if ( in_array( $k, $skip_meta_update, true ) ) {
 						continue;
 					}
@@ -307,11 +299,9 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 								/** This action is documented in includes/ajax/class-jobs.php */
 								do_action( 'jb_fill_job', $post_id, $post );
 							}
-						} else {
-							if ( JB()->common()->job()->is_filled( $post_id ) ) {
-								/** This action is documented in includes/ajax/class-jobs.php */
-								do_action( 'jb_unfill_job', $post_id, $post );
-							}
+						} elseif ( JB()->common()->job()->is_filled( $post_id ) ) {
+							/** This action is documented in includes/ajax/class-jobs.php */
+							do_action( 'jb_unfill_job', $post_id, $post );
 						}
 					}
 
@@ -352,7 +342,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 
 						update_post_meta( $post_id, 'jb-location-raw-data', $v );
 
-						if ( isset( $v->geometry ) && isset( $v->geometry->location ) ) {
+						if ( isset( $v->geometry, $v->geometry->location ) ) {
 							if ( isset( $v->geometry->location->lat ) ) {
 								update_post_meta( $post_id, 'jb-location-lat', sanitize_text_field( $v->geometry->location->lat ) );
 							}

@@ -4,9 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\ajax\Employer' ) ) {
-
 
 	/**
 	 * Class Employer
@@ -14,14 +12,6 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 	 * @package jb\ajax
 	 */
 	class Employer {
-
-
-		/**
-		 * Employer constructor.
-		 */
-		public function __construct() {
-		}
-
 
 		/**
 		 * Generate unique filename
@@ -36,11 +26,8 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 		 */
 		public function unique_filename( /** @noinspection PhpUnusedParameterInspection */$dir, $name, $ext ) {
 			$hashed = hash( 'ripemd160', time() . wp_rand( 10, 1000 ) );
-			$name   = "company_logo_{$hashed}{$ext}";
-
-			return $name;
+			return "company_logo_{$hashed}{$ext}";
 		}
-
 
 		/**
 		 * Uploading Logo AJAX process
@@ -153,7 +140,7 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 					$in = @fopen( $_FILES['file']['tmp_name'], 'rb' );
 
 					if ( $in ) {
-						// phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition -- reading buffer here
+						// phpcs:ignore Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition -- reading buffer here
 						while ( $buff = fread( $in, 4096 ) ) {
 							fwrite( $out, $buff );
 						}
@@ -181,13 +168,13 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 
 				}
 
-				// phpcs:enable WordPress.WP.AlternativeFunctions
 				// phpcs:enable WordPress.PHP.NoSilencedErrors.Discouraged
 
 				// Check if file has been uploaded
 				if ( $chunk === $chunks - 1 ) {
 					// Strip the temp .part suffix off
-					rename( "{$filepath}.part", $filepath ); // Strip the temp .part suffix off
+					rename( "{$filepath}.part", $filepath );
+					// phpcs:enable WordPress.WP.AlternativeFunctions
 
 					$fileinfo                = $_FILES['file'];
 					$fileinfo['file']        = $filepath;

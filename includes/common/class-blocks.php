@@ -1,5 +1,7 @@
 <?php namespace jb\common;
 
+use WP_Block_Type_Registry;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -154,7 +156,7 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 			}
 		}
 
-		public function jb_job_post_render( $atts ) {
+		public function jb_job_post_render() {
 			$shortcode = '[jb_post_job]';
 
 			return apply_shortcodes( $shortcode );
@@ -282,11 +284,13 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 
 		public function jb_allowed_block_types( $allowed_block_types, $block_editor_context ) {
 			if ( 'core/edit-widgets' === $block_editor_context->name ) {
-				$block_registry         = \WP_Block_Type_Registry::get_instance();
-				$registered_block_types = $block_registry->get_all_registered();
-				unset( $registered_block_types['jb-block/jb-job-post'] );
-				unset( $registered_block_types['jb-block/jb-job'] );
-				return array_keys( $registered_block_types );
+				$block_registry = WP_Block_Type_Registry::get_instance();
+				if ( null !== $block_registry ) {
+					$registered_block_types = $block_registry->get_all_registered();
+					unset( $registered_block_types['jb-block/jb-job-post'] );
+					unset( $registered_block_types['jb-block/jb-job'] );
+					return array_keys( $registered_block_types );
+				}
 			}
 
 			return $allowed_block_types;

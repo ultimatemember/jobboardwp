@@ -4,9 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\integrations\Init' ) ) {
-
 
 	/**
 	 * Class Init
@@ -14,7 +12,6 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 	 * @package jb\integrations
 	 */
 	class Init {
-
 
 		/**
 		 * Init constructor.
@@ -25,7 +22,6 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 
 			add_filter( 'jb_pre_template_locations', array( &$this, 'pre_template_locations_common_locale' ), 10, 4 );
 		}
-
 
 		/**
 		 *
@@ -47,7 +43,6 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 				require_once 'weglot/integration.php';
 			}
 		}
-
 
 		/**
 		 * Email notifications integration with `get_user_locale()`
@@ -90,7 +85,7 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 			$template_locations = apply_filters( 'jb_pre_template_locations_common_locale_integration', $template_locations, $template_name, $module, $template_path );
 
 			// use the user_locale only for email notifications templates
-			if ( JB()->common()->mail()->is_sending() && 0 === strpos( $template_name, 'emails/' ) ) {
+			if ( 0 === strpos( $template_name, 'emails/' ) && JB()->common()->mail()->is_sending() ) {
 				/**
 				 * Filters the user ID for getting it locale when getting individual multilingual template's location in the common integration function.
 				 *
@@ -109,7 +104,7 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 
 				// todo skip duplications e.g. "jobboardwp/ru_RU/uk/emails/job_approved.php" when current language = uk, but user locale is ru_RU. Must be only "jobboardwp/ru_RU/emails/job_approved.php" in this case
 				$locale_template_locations = array_map(
-					function( $item ) use ( $template_path, $current_user_locale ) {
+					function ( $item ) use ( $template_path, $current_user_locale ) {
 						return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $current_user_locale . '/', $item );
 					},
 					$template_locations_pre
@@ -120,7 +115,6 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 
 			return $template_locations;
 		}
-
 
 		/**
 		 * Check if WPML is active
@@ -136,7 +130,6 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 			return false;
 		}
 
-
 		/**
 		 * Check if Polylang is active
 		 *
@@ -151,7 +144,6 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 			return false;
 		}
 
-
 		/**
 		 * Check if TranslatePress is active
 		 *
@@ -160,7 +152,6 @@ if ( ! class_exists( 'jb\integrations\Init' ) ) {
 		public function is_translatepress_active() {
 			return defined( 'TRP_PLUGIN_VERSION' ) && class_exists( '\TRP_Translate_Press' );
 		}
-
 
 		/**
 		 * Check if Weglot is active

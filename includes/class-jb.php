@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'JB' ) ) {
 
-
 	/**
 	 * Main JB Class
 	 *
@@ -15,18 +14,15 @@ if ( ! class_exists( 'JB' ) ) {
 	 */
 	final class JB extends JB_Functions {
 
-
 		/**
 		 * @var self The single instance of the class
 		 */
 		private static $instance;
 
-
 		/**
 		 * @var array all plugin's classes
 		 */
 		public $classes = array();
-
 
 		/**
 		 * Main JB Instance
@@ -47,7 +43,6 @@ if ( ! class_exists( 'JB' ) ) {
 			return self::$instance;
 		}
 
-
 		/**
 		 * Cloning is forbidden.
 		 *
@@ -57,7 +52,6 @@ if ( ! class_exists( 'JB' ) ) {
 			_doing_it_wrong( __FUNCTION__, esc_html__( 'Cloning is forbidden.', 'jobboardwp' ), '1.0' );
 		}
 
-
 		/**
 		 * Unserializing instances of this class is forbidden.
 		 *
@@ -66,7 +60,6 @@ if ( ! class_exists( 'JB' ) ) {
 		public function __wakeup() {
 			_doing_it_wrong( __FUNCTION__, esc_html__( 'Unserializing instances of this class is forbidden.', 'jobboardwp' ), '1.0' );
 		}
-
 
 		/**
 		 * JB pseudo-constructor.
@@ -82,7 +75,7 @@ if ( ! class_exists( 'JB' ) ) {
 			if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 				// run activation
 				register_activation_hook( JB_PLUGIN, array( $this->install(), 'activation' ) );
-				if ( is_multisite() && ! defined( 'DOING_AJAX' ) ) {
+				if ( ! defined( 'DOING_AJAX' ) && is_multisite() ) {
 					add_action( 'wp_loaded', array( $this->install(), 'maybe_network_activation' ) );
 				}
 
@@ -105,7 +98,6 @@ if ( ! class_exists( 'JB' ) ) {
 			}
 		}
 
-
 		/**
 		 * Define JobBoardWP Constants.
 		 *
@@ -115,20 +107,19 @@ if ( ! class_exists( 'JB' ) ) {
 			$this->define( 'JB_TEMPLATE_CONFLICT_TEST', false );
 		}
 
-
 		/**
 		 * Autoload JB classes handler
 		 *
 		 * @since 1.0
 		 *
-		 * @param string $class
+		 * @param string $class_name
 		 */
-		public function jb__autoloader( $class ) {
-			if ( strpos( $class, 'jb' ) === 0 ) {
-				$array                        = explode( '\\', strtolower( $class ) );
+		public function jb__autoloader( $class_name ) {
+			if ( strpos( $class_name, 'jb' ) === 0 ) {
+				$array                        = explode( '\\', strtolower( $class_name ) );
 				$array[ count( $array ) - 1 ] = 'class-' . end( $array );
 
-				if ( strpos( $class, 'jbm' ) === 0 ) {
+				if ( strpos( $class_name, 'jbm' ) === 0 ) {
 					// module namespace
 					$module_slug = str_replace( '_', '-', $array[1] );
 					$module_data = $this->modules()->get_data( $module_slug );
@@ -141,14 +132,13 @@ if ( ! class_exists( 'JB' ) ) {
 						$path       = str_replace( '_', '-', $path );
 						$full_path .= $path . '.php';
 					}
-				} elseif ( strpos( $class, 'jb\\' ) === 0 ) {
-					$class     = implode( '\\', $array );
-					$path      = str_replace( array( 'jb\\', '_', '\\' ), array( DIRECTORY_SEPARATOR, '-', DIRECTORY_SEPARATOR ), $class );
-					$full_path = JB_PATH . 'includes' . $path . '.php';
+				} elseif ( strpos( $class_name, 'jb\\' ) === 0 ) {
+					$class_name = implode( '\\', $array );
+					$path       = str_replace( array( 'jb\\', '_', '\\' ), array( DIRECTORY_SEPARATOR, '-', DIRECTORY_SEPARATOR ), $class_name );
+					$full_path  = JB_PATH . 'includes' . $path . '.php';
 				}
 
 				if ( isset( $full_path ) && file_exists( $full_path ) ) {
-					/** @noinspection PhpIncludeInspection */
 					include_once $full_path;
 				}
 			}
@@ -256,16 +246,16 @@ if ( ! class_exists( 'JB' ) ) {
 			if ( ! empty( $data['path'] ) ) {
 				$slug = $this->undash( $slug );
 
-				$class = "jbm\\{$slug}\\Init";
+				$class_name = "jbm\\$slug\\Init";
 
-				if ( empty( $this->classes[ strtolower( $class ) ] ) ) {
-					$this->classes[ strtolower( $class ) ] = $class::instance();
+				if ( empty( $this->classes[ strtolower( $class_name ) ] ) ) {
+					$this->classes[ strtolower( $class_name ) ] = $class_name::instance();
 				}
 
-				return $this->classes[ strtolower( $class ) ];
-			} else {
-				return false;
+				return $this->classes[ strtolower( $class_name ) ];
 			}
+
+			return false;
 		}
 
 		/**
@@ -281,7 +271,6 @@ if ( ! class_exists( 'JB' ) ) {
 			do_action( 'jb_core_loaded' );
 		}
 
-
 		/**
 		 * @since 1.1.1
 		 *
@@ -290,7 +279,6 @@ if ( ! class_exists( 'JB' ) ) {
 		public function integrations() {
 			return $this->call_class( 'jb\integrations\Init' );
 		}
-
 
 		/**
 		 * Getting the Config class instance
@@ -303,9 +291,8 @@ if ( ! class_exists( 'JB' ) ) {
 			return $this->call_class( 'jb\Config' );
 		}
 
-
 		/**
-		 * Getting the Install class instance
+		 * Getting the "Install" class instance
 		 *
 		 * @since 1.0
 		 *
@@ -314,7 +301,6 @@ if ( ! class_exists( 'JB' ) ) {
 		public function install() {
 			return $this->call_class( 'jb\admin\Install' );
 		}
-
 
 		/**
 		 * Getting the Options class instance
@@ -327,7 +313,6 @@ if ( ! class_exists( 'JB' ) ) {
 			return $this->call_class( 'jb\common\Options' );
 		}
 
-
 		/**
 		 * Getting the Common class instance
 		 *
@@ -338,7 +323,6 @@ if ( ! class_exists( 'JB' ) ) {
 		public function common() {
 			return $this->call_class( 'jb\common\Init' );
 		}
-
 
 		/**
 		 * Getting the Admin class instance
@@ -351,7 +335,6 @@ if ( ! class_exists( 'JB' ) ) {
 			return $this->call_class( 'jb\admin\Init' );
 		}
 
-
 		/**
 		 * Getting the Frontend class instance
 		 *
@@ -362,7 +345,6 @@ if ( ! class_exists( 'JB' ) ) {
 		public function frontend() {
 			return $this->call_class( 'jb\frontend\Init' );
 		}
-
 
 		/**
 		 * Getting the AJAX class instance
@@ -375,24 +357,22 @@ if ( ! class_exists( 'JB' ) ) {
 			return $this->call_class( 'jb\ajax\Init' );
 		}
 
-
 		/**
-		 * @param string $class
+		 * @param string $class_name
 		 *
 		 * @return mixed
 		 *
 		 * @since 1.0
 		 */
-		public function call_class( $class ) {
-			$key = strtolower( $class );
+		public function call_class( $class_name ) {
+			$key = strtolower( $class_name );
 
 			if ( empty( $this->classes[ $key ] ) ) {
-				$this->classes[ $key ] = new $class();
+				$this->classes[ $key ] = new $class_name();
 			}
 
 			return $this->classes[ $key ];
 		}
-
 
 		/**
 		 * Init widgets.

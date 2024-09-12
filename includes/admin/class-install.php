@@ -1,12 +1,12 @@
 <?php namespace jb\admin;
 
+use WP_Roles;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\admin\Install' ) ) {
-
 
 	/**
 	 * Class Install
@@ -14,19 +14,10 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 	 */
 	class Install {
 
-
 		/**
 		 * @var bool
 		 */
 		public $install_process = false;
-
-
-		/**
-		 * Install constructor.
-		 */
-		public function __construct() {
-		}
-
 
 		/**
 		 * Plugin Activation
@@ -43,7 +34,6 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 
 			$this->install_process = false;
 		}
-
 
 		/**
 		 * Check if plugin is network activated make the first installation on all blogs
@@ -63,7 +53,7 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 					if ( ! empty( $blogs ) ) {
 						foreach ( $blogs as $blog ) {
 							switch_to_blog( $blog->blog_id );
-							//make activation script for each sites blog
+							//make activation script for each site's blog
 							$this->single_site_activation();
 							restore_current_blog();
 						}
@@ -71,7 +61,6 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 				}
 			}
 		}
-
 
 		/**
 		 * Single site plugin activation handler
@@ -104,7 +93,6 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 			JB()->common()->rewrite()->reset_rules();
 		}
 
-
 		/**
 		 * Set default JB settings
 		 *
@@ -120,7 +108,6 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 			}
 		}
 
-
 		/**
 		 * Parse user capabilities and set the proper capabilities for roles
 		 *
@@ -129,12 +116,12 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 		public function create_roles() {
 			global $wp_roles;
 
-			if ( ! class_exists( '\WP_Roles' ) ) {
+			if ( ! class_exists( 'WP_Roles' ) ) {
 				return;
 			}
 
 			if ( ! isset( $wp_roles ) ) {
-				$wp_roles = new \WP_Roles(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- only if ! isset
+				$wp_roles = new WP_Roles(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- only if ! isset
 			}
 
 			$all_caps         = JB()->config()->get( 'all_caps' );
@@ -161,7 +148,6 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 				}
 			}
 		}
-
 
 		/**
 		 * Create pre-defined Job Types
@@ -228,7 +214,6 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 			}
 		}
 
-
 		/**
 		 * Install all predefined pages
 		 *
@@ -239,7 +224,6 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 				$this->predefined_page( $slug );
 			}
 		}
-
 
 		/**
 		 * Install predefined page via the page slug
@@ -286,6 +270,5 @@ if ( ! class_exists( 'jb\admin\Install' ) ) {
 
 			JB()->options()->update( $option_key, $post_id );
 		}
-
 	}
 }

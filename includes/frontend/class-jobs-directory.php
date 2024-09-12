@@ -1,12 +1,13 @@
 <?php namespace jb\frontend;
 
+use WP_Error;
+use WP_Query;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
-
 
 	/**
 	 * Class Jobs_Directory
@@ -15,7 +16,6 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 	 */
 	class Jobs_Directory {
 
-
 		/**
 		 * @var array
 		 *
@@ -23,14 +23,12 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 		 */
 		public $filters = array();
 
-
 		/**
 		 * @var array
 		 *
 		 * @since 1.0
 		 */
 		public $filter_types = array();
-
 
 		/**
 		 * Jobs_Directory constructor.
@@ -43,7 +41,6 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 
 			add_action( 'pre_get_posts', array( &$this, 'jb_exclude_jobs' ), 99, 1 );
 		}
-
 
 		/**
 		 * Init jobs directory variables
@@ -92,11 +89,10 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 			);
 		}
 
-
 		/**
 		 * Hide filled and expired jobs from archive pages
 		 *
-		 * @param \WP_Query $query
+		 * @param WP_Query $query
 		 */
 		public function jb_exclude_jobs( $query ) {
 			if ( $query->is_main_query() ) {
@@ -165,13 +161,12 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 			}
 		}
 
-
 		/**
 		 * Get values from DB for build filter values
 		 *
 		 * @param string $filter
 		 *
-		 * @return array|int|\WP_Error
+		 * @return array|WP_Error
 		 *
 		 * @since 1.0
 		 */
@@ -204,7 +199,6 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 
 			return $values;
 		}
-
 
 		/**
 		 * Render HTML for filter
@@ -275,6 +269,5 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 
 			return $filter;
 		}
-
 	}
 }

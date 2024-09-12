@@ -4,9 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\common\Enqueue' ) ) {
-
 
 	/**
 	 * Class Enqueue
@@ -15,14 +13,12 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 	 */
 	class Enqueue {
 
-
 		/**
 		 * @var array JS URLs
 		 *
 		 * @since 1.0
 		 */
 		public $js_url = array();
-
 
 		/**
 		 * @var array CSS URLs
@@ -31,14 +27,12 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 		 */
 		public $css_url = array();
 
-
 		/**
 		 * @var array assets URLs
 		 *
 		 * @since 1.0
 		 */
 		public $url = array();
-
 
 		/**
 		 * @var array Google Autocomplete locales
@@ -47,7 +41,6 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 		 */
 		public $g_locales = array();
 
-
 		/**
 		 * @var string FontAwesome version
 		 *
@@ -55,9 +48,7 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 		 */
 		public $fa_version = '5.13.0';
 
-
 		public $common_localize = array();
-
 
 		/**
 		 * Enqueue constructor.
@@ -246,7 +237,6 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 			wp_enqueue_script( 'jb-post-job' );
 		}
 
-
 		/**
 		 * Getting current Google Autocomplete locale
 		 *
@@ -269,7 +259,6 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 
 			return $locale;
 		}
-
 
 		/**
 		 * Init variables for enqueue scripts
@@ -338,7 +327,6 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 			}
 		}
 
-
 		/**
 		 * Add FontAwesome style to dependencies if it's not disabled
 		 *
@@ -356,6 +344,5 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 			$styles[] = 'jb-font-awesome';
 			return $styles;
 		}
-
 	}
 }

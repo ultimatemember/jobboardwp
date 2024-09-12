@@ -1,5 +1,7 @@
 <?php namespace jb\admin;
 
+use WP_Post;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -7,14 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 
-
 	/**
 	 * Class List_Table
 	 *
 	 * @package jb\admin
 	 */
 	class List_Table extends \WP_Posts_List_Table {
-
 
 		// phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
 		/**
@@ -27,7 +27,6 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 		}
 		// phpcs:enable Generic.CodeAnalysis.UselessOverridingMethod
 
-
 		/**
 		 * @param array $args
 		 */
@@ -35,18 +34,16 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 			$this->set_pagination_args( $args );
 		}
 
-
 		/**
 		 * Change the title column content at wp-admin Jobs page
 		 *
-		 * @param \WP_Post $post
+		 * @param WP_Post $post
 		 *
 		 * @since 1.0
 		 */
 		public function column_title( $post ) {
-
-			$can_edit_post = current_user_can( 'edit_post', $post->ID ); ?>
-
+			$can_edit_post = current_user_can( 'edit_post', $post->ID );
+			?>
 			<div class="jb-job-data">
 				<div class="jb-job-title-company">
 					<strong>
@@ -116,7 +113,6 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 				<?php
 				echo "\n";
 			}
-
 		}
 	}
 }
