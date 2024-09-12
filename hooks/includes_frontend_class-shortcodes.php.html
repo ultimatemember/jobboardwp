@@ -119,7 +119,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				if ( ! empty( $_GET['msg'] ) ) {
 					switch ( sanitize_key( $_GET['msg'] ) ) {
 						case 'draft':
-							/** @noinspection HtmlUnknownTarget */
 							$posting_form->add_notice(
 								// translators: %s: jobs dashboard page link
 								sprintf( __( 'Job\'s draft was saved. You could resumed it from the &lt;a href="%s" title="Job Dashboard">job dashboard&lt;/a>', 'jobboardwp' ), $jobs_dashboard_link ),
@@ -140,7 +139,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						case 'published':
 							if ( ! empty( $_GET['published-id'] ) ) {
 								$job_permalink = get_permalink( absint( $_GET['published-id'] ) );
-								/** @noinspection HtmlUnknownTarget */
 								$posting_form->add_notice(
 									// translators: %s: link to the published job
 									sprintf( __( 'Job is posted successfully. To view your job &lt;a href="%s">click here&lt;/a>', 'jobboardwp' ), $job_permalink ),
@@ -189,7 +187,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 					&lt;p>
 						&lt;?php
-						/** @noinspection HtmlUnknownTarget */
 						// translators: %s: login link
 						echo wp_kses( sprintf( __( '&lt;a href="%s">Sign in&lt;/a> to post a job.', 'jobboardwp' ), esc_attr( wp_login_url( get_permalink() ) ) ), JB()->get_allowed_html( 'templates' ) );
 						?>
@@ -402,7 +399,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 						&lt;p>
 							&lt;?php
-							/** @noinspection HtmlUnknownTarget */
 							// translators: %s: login link
 							echo wp_kses( sprintf( __( '&lt;a href="%s">Sign in&lt;/a> to post a job.', 'jobboardwp' ), esc_attr( wp_login_url( get_permalink() ) ) ), JB()->get_allowed_html( 'templates' ) );
 							?>
@@ -414,7 +410,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 						&lt;p>
 							&lt;?php
-							/** @noinspection HtmlUnknownTarget */
 							// translators: %s: login link
 							echo wp_kses( sprintf( __( '&lt;a href="%s">Sign in&lt;/a> to post a job or to do that as a guest.', 'jobboardwp' ), esc_attr( wp_login_url( get_permalink() ) ) ), JB()->get_allowed_html( 'templates' ) );
 							?>
