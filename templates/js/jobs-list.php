@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<# } #>
 				<div class="jb-row-data">
 					<div class="jb-job-title">
-						<span class="jb-job-title-link-line"><a href="<?php /** @noinspection HtmlUnknownTarget */ ?>{{{job.permalink}}}" class="jb-job-title-link">{{{job.title}}}</a></span>
+						<span class="jb-job-title-link-line"><a href="{{{job.permalink}}}" class="jb-job-title-link">{{{job.title}}}</a></span>
 						<div class="jb-job-title-end jb-responsive jb-ui-m jb-ui-l jb-ui-xl">
 							<# if ( job.featured ) { #>
 								<div class="jb-job-featured"><?php esc_html_e( 'Featured', 'jobboardwp' ); ?></div>
@@ -132,7 +132,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<# if ( action.html ) { #>
 								{{{action.html}}}
 							<# } else { #>
-								<a href="<?php /** @noinspection HtmlUnknownTarget */ ?>{{{action.url}}}" class="{{{action.class}}}">
+								<a href="{{{action.url}}}" class="{{{action.class}}}">
 									<i class="{{{action.img}}}"></i>
 								</a>
 							<# } #>

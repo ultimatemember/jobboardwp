@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 					<div class="job_title">
 						<# if ( job.is_published ) { #>
-							<a href="<?php /** @noinspection HtmlUnknownTarget */ ?>{{{job.permalink}}}">{{{job.title}}}</a>
+							<a href="{{{job.permalink}}}">{{{job.title}}}</a>
 						<# } else { #>
 							{{{job.title}}}
 						<# } #>
@@ -80,7 +80,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<ul>
 									<# _.each( job.actions, function( action, act_key, act_list ) { #>
 										<li>
-											<a href="<?php /** @noinspection HtmlUnknownTarget */ ?><# if ( action.href ) { #>{{{action.href}}}<# } else { #>javascript:void(0);<# } #>" <# if ( ! action.href ) { #>data-job-id="{{{job.id}}}"<# } #> class="jb-jobs-action-{{{act_key}}}">
+											<a href="<# if ( action.href ) { #>{{{action.href}}}<# } else { #>javascript:void(0);<# } #>" <# if ( ! action.href ) { #>data-job-id="{{{job.id}}}"<# } #> class="jb-jobs-action-{{{act_key}}}">
 												{{{action.title}}}
 											</a>
 										</li>
@@ -95,7 +95,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<# } else { #>
 		<div class="jb-job-dashboard-empty-row">
 			<?php
-			/** @noinspection HtmlUnknownTarget */
 			// translators: %s: Post a job URL
 			echo wp_kses( sprintf( __( 'No created jobs yet. <a href="%s">Create</a> new one.', 'jobboardwp' ), JB()->common()->permalinks()->get_predefined_page_link( 'job-post' ) ), JB()->get_allowed_html() );
 			?>

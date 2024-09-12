@@ -355,7 +355,6 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			}
 
 			if ( ! empty( $company_website ) ) {
-				/** @noinspection HtmlUnknownTarget */
 				$company = sprintf( '<span title="%s"><a href="%s">%s</a></span>', $company_tagline, $company_website, $company_name );
 			} else {
 				$company = sprintf( '<span title="%s">%s</span>', $company_tagline, $company_name );

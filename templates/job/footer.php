@@ -44,7 +44,6 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 
 							<p>
 								<?php
-								/** @noinspection HtmlUnknownTarget */
 								// translators: %1$s: mailto URL, %2$s: contact email
 								$applying_text = sprintf( __( 'To apply for this job <strong>email your details to</strong> <a href="%1$s">%2$s</a>.', 'jobboardwp' ), esc_attr( $contact_mailto ), $contact );
 								/**
@@ -65,7 +64,6 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 						<?php } else { ?>
 							<p>
 								<?php
-								/** @noinspection HtmlUnknownTarget */
 								// translators: %1$s: application's website URL, %2$s: application's website URL text
 								$applying_text = sprintf( __( 'To apply for this job please visit <a href="%1$s">%2$s</a>.', 'jobboardwp' ), esc_attr( $contact ), $contact );
 								/** This filter is documented in templates/job/footer.php */

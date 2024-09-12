@@ -20,7 +20,6 @@ if ( ! is_user_logged_in() ) {
 
 	<p>
 		<?php
-		/** @noinspection HtmlUnknownTarget */
 		// translators: %s: login link
 		echo wp_kses( sprintf( __( '<a href="%s">Sign in</a> to view your job listings.', 'jobboardwp' ), wp_login_url( get_permalink() ) ), JB()->get_allowed_html( 'templates' ) );
 		?>

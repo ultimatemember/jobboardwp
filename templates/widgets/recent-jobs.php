@@ -34,7 +34,7 @@ if ( ! empty( $jb_widgets_recent_jobs['posts'] ) ) {
 				<div class="jb-row-data">
 					<div class="jb-job-title">
 							<span class="jb-job-title-link-line">
-								<a href="<?php /** @noinspection HtmlUnknownTarget */ ?><?php echo esc_url( $job_data['permalink'] ); ?>" class="jb-job-title-link"><?php echo esc_html( $job_data['title'] ); ?></a>
+								<a href="<?php echo esc_url( $job_data['permalink'] ); ?>" class="jb-job-title-link"><?php echo esc_html( $job_data['title'] ); ?></a>
 							</span>
 						<?php if ( ! $jb_widgets_recent_jobs['args']['no_job_types'] ) { ?>
 							<?php if ( ! empty( $job_data['types'] ) ) { ?>

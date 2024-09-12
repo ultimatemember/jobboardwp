@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="jb-job-category-list-row" style="padding-left: {{{category.level * <?php /** @noinspection CssInvalidPropertyValueInspection */ ?>10}}}px;">
 				<div class="jb-row-left-side">
 					<div class="jb-job-category-title <# if ( category.class ) { #>subcat<# } #>">
-						<a href="{{{category.permalink}}}<?php /** @noinspection HtmlUnknownTarget */ ?>">{{{category.name}}}</a>
+						<a href="{{{category.permalink}}}">{{{category.name}}}</a>
 					</div>
 					<# if ( category.description ) { #>
 						<div class="jb-job-category-description">

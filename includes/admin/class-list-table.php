@@ -54,7 +54,6 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 						$title = _draft_or_post_title();
 
 						if ( $can_edit_post && 'trash' !== $post->post_status ) {
-							/** @noinspection HtmlUnknownTarget */
 							printf(
 								'(#%1$s)&nbsp;<a class="row-title" href="%2$s" aria-label="%3$s">%4$s</a>',
 								esc_html( $post->ID ),
@@ -79,7 +78,6 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 					$company_website = get_post_meta( $post->ID, 'jb-company-website', true );
 
 					if ( ! empty( $company_website ) ) {
-						/** @noinspection HtmlUnknownTarget */
 						printf(
 							'<div class="company"><span title="%1$s"><a href="%2$s">%3$s</a></span></div>' . "\n",
 							esc_attr( $company_tagline ),

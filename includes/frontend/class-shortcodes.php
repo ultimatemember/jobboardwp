@@ -86,7 +86,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				if ( ! empty( $_GET['msg'] ) ) {
 					switch ( sanitize_key( $_GET['msg'] ) ) {
 						case 'draft':
-							/** @noinspection HtmlUnknownTarget */
 							$posting_form->add_notice(
 								// translators: %s: jobs dashboard page link
 								sprintf( __( 'Job\'s draft was saved. You could resumed it from the <a href="%s" title="Job Dashboard">job dashboard</a>', 'jobboardwp' ), $jobs_dashboard_link ),
@@ -107,7 +106,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 						case 'published':
 							if ( ! empty( $_GET['published-id'] ) ) {
 								$job_permalink = get_permalink( absint( $_GET['published-id'] ) );
-								/** @noinspection HtmlUnknownTarget */
 								$posting_form->add_notice(
 									// translators: %s: link to the published job
 									sprintf( __( 'Job is posted successfully. To view your job <a href="%s">click here</a>', 'jobboardwp' ), $job_permalink ),
@@ -156,7 +154,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 					<p>
 						<?php
-						/** @noinspection HtmlUnknownTarget */
 						// translators: %s: login link
 						echo wp_kses( sprintf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), esc_attr( wp_login_url( get_permalink() ) ) ), JB()->get_allowed_html( 'templates' ) );
 						?>
@@ -369,7 +366,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 						<p>
 							<?php
-							/** @noinspection HtmlUnknownTarget */
 							// translators: %s: login link
 							echo wp_kses( sprintf( __( '<a href="%s">Sign in</a> to post a job.', 'jobboardwp' ), esc_attr( wp_login_url( get_permalink() ) ) ), JB()->get_allowed_html( 'templates' ) );
 							?>
@@ -381,7 +377,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 						<p>
 							<?php
-							/** @noinspection HtmlUnknownTarget */
 							// translators: %s: login link
 							echo wp_kses( sprintf( __( '<a href="%s">Sign in</a> to post a job or to do that as a guest.', 'jobboardwp' ), esc_attr( wp_login_url( get_permalink() ) ) ), JB()->get_allowed_html( 'templates' ) );
 							?>

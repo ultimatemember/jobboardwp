@@ -214,7 +214,6 @@ if ( JB()->options()->get( 'individual-job-duration' ) ) {
 		admin_url( 'admin.php' )
 	);
 
-	/** @noinspection HtmlUnknownTarget */
 	// translators: %s: link to the settings section
 	$expiry_description = sprintf( __( 'If empty, then job will have an expiration date based on the <a href="%s#jb_options_job-duration">Job Duration</a> setting.', 'jobboardwp' ), $settings_link );
 }
