@@ -4,9 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\frontend\Forms' ) ) {
-
 
 	/**
 	 * Class Forms
@@ -89,12 +87,12 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		 * Render form
 		 *
 		 *
-		 * @param bool $echo
+		 * @param bool $display
 		 * @return string
 		 *
 		 * @since 1.0
 		 */
-		public function display( $echo = true ) {
+		public function display( $display = true ) {
 			if ( empty( $this->form_data['fields'] ) && empty( $this->form_data['sections'] ) && empty( $this->form_data['hiddens'] ) ) {
 				return '';
 			}
@@ -126,12 +124,10 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 					$fields .= $this->render_form_row( $data );
 				}
-			} else {
-				if ( ! empty( $this->form_data['sections'] ) ) {
-					foreach ( $this->form_data['sections'] as $section_key => $section_data ) {
-						$section_data['key'] = $section_key;
-						$fields             .= $this->render_section( $section_data );
-					}
+			} elseif ( ! empty( $this->form_data['sections'] ) ) {
+				foreach ( $this->form_data['sections'] as $section_key => $section_data ) {
+					$section_data['key'] = $section_key;
+					$fields             .= $this->render_section( $section_data );
 				}
 			}
 
@@ -199,12 +195,12 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			<?php
 			remove_all_filters( 'jb_forms_move_form_tag' );
 
-			if ( $echo ) {
+			if ( $display ) {
 				ob_get_flush();
 				return '';
-			} else {
-				return ob_get_clean();
 			}
+
+			return ob_get_clean();
 		}
 
 		/**
@@ -231,13 +227,15 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 		 */
 		public function get_field_value( $field_data, $i = '' ) {
 			// phpcs:disable WordPress.Security.NonceVerification -- there is already verified
-			$default = '';
-			$default = isset( $field_data[ 'default' . $i ] ) ? $field_data[ 'default' . $i ] : $default;
 
+			$default_index = 'default' . $i;
+			$default       = isset( $field_data[ $default_index ] ) ? $field_data[ $default_index ] : '';
+
+			$value_index = 'value' . $i;
 			if ( 'checkbox' === $field_data['type'] ) {
-				$value = ( isset( $field_data[ 'value' . $i ] ) && '' !== $field_data[ 'value' . $i ] ) ? $field_data[ 'value' . $i ] : $default;
+				$value = ( isset( $field_data[ $value_index ] ) && '' !== $field_data[ $value_index ] ) ? $field_data[ $value_index ] : $default;
 			} else {
-				$value = isset( $field_data[ 'value' . $i ] ) ? $field_data[ 'value' . $i ] : $default;
+				$value = isset( $field_data[ $value_index ] ) ? $field_data[ $value_index ] : $default;
 			}
 
 			$name = isset( $field_data['name'] ) ? $field_data['name'] : $field_data['id'];
@@ -249,13 +247,11 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 						$value = sanitize_text_field( $_POST[ $this->form_data['prefix_id'] ][ $name ] );
 					}
 				}
-			} else {
-				if ( isset( $_POST[ $name ] ) ) {
-					if ( is_array( $_POST[ $name ] ) ) {
-						$value = array_map( 'sanitize_text_field', $_POST[ $name ] );
-					} else {
-						$value = sanitize_text_field( $_POST[ $name ] );
-					}
+			} elseif ( isset( $_POST[ $name ] ) ) {
+				if ( is_array( $_POST[ $name ] ) ) {
+					$value = array_map( 'sanitize_text_field', $_POST[ $name ] );
+				} else {
+					$value = sanitize_text_field( $_POST[ $name ] );
 				}
 			}
 
@@ -266,10 +262,8 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 					if ( isset( $field_data['encode'] ) && ! isset( $_POST[ $this->form_data['prefix_id'] ][ $name ] ) ) {
 						$value = wp_json_encode( $value, JSON_UNESCAPED_UNICODE );
 					}
-				} else {
-					if ( isset( $field_data['encode'] ) && ! isset( $_POST[ $name ] ) ) {
-						$value = wp_json_encode( $value, JSON_UNESCAPED_UNICODE );
-					}
+				} elseif ( isset( $field_data['encode'] ) && ! isset( $_POST[ $name ] ) ) {
+					$value = wp_json_encode( $value, JSON_UNESCAPED_UNICODE );
 				}
 			}
 
@@ -331,8 +325,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			</div>
 
 			<?php
-			$html = ob_get_clean();
-			return $html;
+			return ob_get_clean();
 		}
 
 		/**
@@ -469,9 +462,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			$value_attr = ' value="' . esc_attr( $value ) . '" ';
 
-			$html = "<input type=\"hidden\" $id_attr $name_attr $data_attr $value_attr />";
-
-			return $html;
+			return "<input type=\"hidden\" $id_attr $name_attr $data_attr $value_attr />";
 		}
 
 		/**
@@ -509,7 +500,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			 */
 			$disable_star = apply_filters( 'jb_frontend_forms_required_star_disabled', false );
 			if ( ! empty( $data['required'] ) && ! $disable_star ) {
-				$label = $label . '<span class="jb-req" title="' . esc_attr__( 'Required', 'jobboardwp' ) . '">*</span>';
+				$label .= '<span class="jb-req" title="' . esc_attr__( 'Required', 'jobboardwp' ) . '">*</span>';
 			}
 
 			$helptip = ! empty( $data['helptip'] ) ? ' ' . JB()->helptip( $data['helptip'] ) : '';
@@ -586,13 +577,11 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			if ( 'jb-upload-company-logo' === $field_data['action'] ) {
 				$value = ! empty( $field_data['value'] ) ? $field_data['value'] : '';
-			} else {
+			} elseif ( count( $value_array ) > 1 && ! empty( end( $value_array ) ) ) {
 				// check if $field_data['value'] is a full path or only name
-				if ( count( $value_array ) > 1 && ! empty( end( $value_array ) ) ) {
-					$value = end( $value_array );
-				} else {
-					$value = ! empty( $field_data['value'] ) ? $field_data['value'] : '';
-				}
+				$value = end( $value_array );
+			} else {
+				$value = ! empty( $field_data['value'] ) ? $field_data['value'] : '';
 			}
 
 			ob_start();
@@ -640,8 +629,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			<input type="hidden" class="jb-media-value-hash" id="<?php echo esc_attr( $id ); ?>_hash" name="<?php echo esc_attr( $name ); ?>_hash" value="" />
 
 			<?php
-			$html = ob_get_clean();
-			return $html;
+			return ob_get_clean();
 		}
 
 		/**
@@ -682,9 +670,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$value      = $this->get_field_value( $field_data );
 			$value_attr = ' value="' . esc_attr( $value ) . '" ';
 
-			$html = "<input type=\"text\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $required />";
-
-			return $html;
+			return "<input type=\"text\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $required />";
 		}
 
 		/**
@@ -728,9 +714,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$value      = $this->get_field_value( $field_data );
 			$value_attr = ' value="' . esc_attr( $value ) . '" ';
 
-			$html = "<input type=\"number\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $required $min $max $step />";
-
-			return $html;
+			return "<input type=\"number\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $required $min $max $step />";
 		}
 
 		/**
@@ -770,9 +754,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			$value = esc_textarea( $this->get_field_value( $field_data ) );
 
-			$html = "<textarea $id_attr $class_attr $name_attr $data_attr $placeholder_attr $required >$value</textarea>";
-
-			return $html;
+			return "<textarea $id_attr $class_attr $name_attr $data_attr $placeholder_attr $required >$value</textarea>";
 		}
 
 		/**
@@ -911,7 +893,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$name             = $field_data['id'];
 			$name             = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
 			$hidden_name_attr = ' name="' . esc_attr( $name ) . '" ';
-			$name             = $name . ( ! empty( $field_data['multi'] ) ? '[]' : '' );
+			$name            .= ( ! empty( $field_data['multi'] ) ? '[]' : '' );
 			$name_attr        = ' name="' . esc_attr( $name ) . '" ';
 
 			$value = $this->get_field_value( $field_data );
@@ -930,10 +912,8 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			$options = '';
 			if ( ! empty( $field_data['options'] ) ) {
 				foreach ( $field_data['options'] as $key => $option ) {
-					if ( isset( $added_values ) ) {
-						if ( in_array( (string) $key, $value, true ) ) {
-							unset( $added_values[ array_search( (string) $key, $added_values, true ) ] );
-						}
+					if ( isset( $added_values ) && in_array( (string) $key, $value, true ) ) {
+						unset( $added_values[ array_search( (string) $key, $added_values, true ) ] );
 					}
 
 					if ( ! empty( $field_data['multi'] ) ) {
@@ -1143,13 +1123,6 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
 
-			$data = array( 'field_id' => $field_data['id'] );
-
-			$data_attr = '';
-			foreach ( $data as $key => $value ) {
-				$data_attr .= ' data-' . $key . '="' . esc_attr( $value ) . '" ';
-			}
-
 			$name = $field_data['id'];
 			$name = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
 
@@ -1159,7 +1132,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 
 			add_action(
 				'after_wp_tiny_mce',
-				function( $settings ) {
+				static function ( $settings ) {
 					if ( isset( $settings['_job_description']['plugins'] ) && false !== strpos( $settings['_job_description']['plugins'], 'wplink' ) ) {
 						?>
 						<script>
@@ -1237,9 +1210,7 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			 *
 			 * @return {array} TinyMCE buttons.
 			 */
-			$mce_buttons = apply_filters( 'jb_rich_text_editor_buttons', $mce_buttons, $editor_id, $this );
-
-			return $mce_buttons;
+			return apply_filters( 'jb_rich_text_editor_buttons', $mce_buttons, $editor_id, $this );
 		}
 
 		/**
@@ -1311,21 +1282,19 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 				 * @return {string} Custom singular global error.
 				 */
 				$this->errors['global'][] = apply_filters( 'jb_form_global_error', $text );
-			} else {
-				if ( ! isset( $this->errors[ $field ] ) ) {
-					/**
-					 * Filters the frontend form error related to the field.
-					 *
-					 * @since 1.0
-					 * @hook jb_form_error
-					 *
-					 * @param {string} $text  Error text.
-					 * @param {string} $field Field ID. E.g. 'company_name', etc.
-					 *
-					 * @return {string} Error text.
-					 */
-					$this->errors[ $field ] = apply_filters( 'jb_form_error', $text, $field );
-				}
+			} elseif ( ! isset( $this->errors[ $field ] ) ) {
+				/**
+				 * Filters the frontend form error related to the field.
+				 *
+				 * @since 1.0
+				 * @hook jb_form_error
+				 *
+				 * @param {string} $text  Error text.
+				 * @param {string} $field Field ID. E.g. 'company_name', etc.
+				 *
+				 * @return {string} Error text.
+				 */
+				$this->errors[ $field ] = apply_filters( 'jb_form_error', $text, $field );
 			}
 		}
 

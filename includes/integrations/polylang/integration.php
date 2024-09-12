@@ -1,4 +1,5 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
@@ -29,11 +30,11 @@ function jb_get_predefined_page_id_polylang( $page_id ) {
 
 	return $page_id;
 }
-add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_polylang', 10, 1 );
+add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_polylang' );
 
 /**
  * @param bool $condition
- * @param \WP_Post $post
+ * @param WP_Post $post
  * @param int $predefined_page_id
  *
  * @return bool
@@ -89,7 +90,7 @@ function jb_admin_settings_get_pages_list_polylang() {
 	$search_query = ! empty( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : '';
 	$paged        = ! empty( $_GET['page'] ) ? absint( $_GET['page'] ) : 1;
 
-	$current_lang_query = new \WP_Query(
+	$current_lang_query = new WP_Query(
 		array(
 			'post_type'           => 'page',
 			's'                   => $search_query, // the search query
@@ -107,7 +108,7 @@ function jb_admin_settings_get_pages_list_polylang() {
 	}
 
 	if ( pll_current_language() !== pll_default_language() ) {
-		$default_lang_query = new \WP_Query(
+		$default_lang_query = new WP_Query(
 			array(
 				'post_type'           => 'page',
 				's'                   => $search_query, // the search query
@@ -131,14 +132,14 @@ function jb_admin_settings_get_pages_list_polylang() {
 		}
 	}
 
-	$active_languages = pll_languages_list();
-
+	$active_languages   = pll_languages_list();
+	$active_langs_posts = array();
 	foreach ( $active_languages as $language_code ) {
 		if ( pll_current_language() === $language_code || pll_default_language() === $language_code ) {
 			continue;
 		}
 
-		$active_lang_query = new \WP_Query(
+		$active_lang_query = new WP_Query(
 			array(
 				'post_type'           => 'page',
 				's'                   => $search_query, // the search query
@@ -159,12 +160,18 @@ function jb_admin_settings_get_pages_list_polylang() {
 					unset( $active_lang_posts[ $k ] );
 				}
 			}
-			$posts = array_merge( $posts, array_values( $active_lang_posts ) );
+
+			$active_langs_posts[] = array_values( $active_lang_posts );
 		}
 	}
 
+	if ( ! empty( $active_langs_posts ) ) {
+		$active_langs_posts = array_merge( ...$active_langs_posts );
+		$posts              = array_merge( $posts, $active_langs_posts );
+	}
+
 	// you can use WP_Query, query_posts() or get_posts() here - it doesn't matter
-	$search_results = new \WP_Query(
+	$search_results = new WP_Query(
 		array(
 			'post_type'           => 'page',
 			's'                   => $search_query, // the search query
@@ -195,11 +202,11 @@ function jb_admin_settings_get_pages_list_polylang() {
 	return $return;
 	// phpcs:enable WordPress.Security.NonceVerification -- is verified in JB()->ajax()->settings()->get_pages_list()
 }
-add_filter( 'jb_admin_settings_get_pages_list', 'jb_admin_settings_get_pages_list_polylang', 10 );
+add_filter( 'jb_admin_settings_get_pages_list', 'jb_admin_settings_get_pages_list_polylang' );
 
 /**
- * @param false $pre_result
- * @param int $page_id
+ * @param false|array $pre_result
+ * @param int         $page_id
  *
  * @return array
  */
@@ -208,7 +215,7 @@ function jb_admin_settings_pages_list_value_polylang( $pre_result, $page_id ) {
 
 	if ( ! empty( $opt_value ) ) {
 		$lang = '';
-		if ( ( JB()->is_request( 'admin' ) || JB()->is_request( 'ajax' ) ) && false === pll_current_language( 'locale' ) ) {
+		if ( false === pll_current_language( 'locale' ) && ( JB()->is_request( 'admin' ) || JB()->is_request( 'ajax' ) ) ) {
 			$lang = pll_default_language();
 		}
 
@@ -244,7 +251,7 @@ function jb_common_js_variables_polylang( $variables ) {
 	$variables['locale'] = pll_current_language();
 	return $variables;
 }
-add_filter( 'jb_common_js_variables', 'jb_common_js_variables_polylang', 10, 1 );
+add_filter( 'jb_common_js_variables', 'jb_common_js_variables_polylang' );
 
 /**
  * @param string $locale
@@ -253,7 +260,7 @@ function jb_admin_init_locale_polylang( $locale ) {
 	global $polylang;
 	PLL()->curlang = $polylang->model->get_language( $locale );
 }
-add_action( 'jb_admin_init_locale', 'jb_admin_init_locale_polylang', 10, 1 );
+add_action( 'jb_admin_init_locale', 'jb_admin_init_locale_polylang' );
 
 /**
  * @param $columns
@@ -278,7 +285,7 @@ function jb_add_email_templates_column_polylang( $columns ) {
 
 	return $columns;
 }
-add_filter( 'jb_email_templates_columns', 'jb_add_email_templates_column_polylang', 10, 1 );
+add_filter( 'jb_email_templates_columns', 'jb_add_email_templates_column_polylang' );
 
 function jb_emails_list_table_custom_column_content_polylang( $content, $item, $column_name ) {
 	if ( 'translations' === $column_name ) {
@@ -319,14 +326,14 @@ function jb_polylang_get_status_html( $template, $code ) {
 
 	if ( $default_lang === $code ) {
 		// translators: %s is a language display name
-		$hint      = sprintf( __( 'Edit the translation in %s', 'polylang' ), $language->name );
-		$icon_html = sprintf(
+		$hint = sprintf( __( 'Edit the translation in %s', 'polylang' ), $language->name );
+
+		return sprintf(
 			'<a href="%1$s" title="%2$s" class="pll_icon_edit"><span class="screen-reader-text">%3$s</span></a>',
 			esc_url( $link ),
 			esc_html( $hint ),
 			esc_html( $hint )
 		);
-		return $icon_html;
 	}
 
 	$template_name = JB()->get_email_template( $template );
@@ -365,7 +372,7 @@ function jb_polylang_get_status_html( $template, $code ) {
 	$template_locations = array_map( 'wp_normalize_path', $template_locations );
 
 	foreach ( $template_locations as $k => $location ) {
-		if ( false === strstr( $location, wp_normalize_path( DIRECTORY_SEPARATOR . $language->locale . DIRECTORY_SEPARATOR ) ) ) {
+		if ( false === strpos( $location, wp_normalize_path( DIRECTORY_SEPARATOR . $language->locale . DIRECTORY_SEPARATOR ) ) ) {
 			unset( $template_locations[ $k ] );
 		}
 	}
@@ -406,9 +413,8 @@ function jb_polylang_get_status_html( $template, $code ) {
 	return $icon_html;
 }
 
-
 function jb_pre_template_locations_polylang( $template_locations, $template_name, $module, $template_path ) {
-	if ( JB()->common()->mail()->is_sending() && 0 === strpos( $template_name, 'emails/' ) ) {
+	if ( 0 === strpos( $template_name, 'emails/' ) && JB()->common()->mail()->is_sending() ) {
 		return $template_locations;
 	}
 
@@ -430,7 +436,6 @@ function jb_pre_template_locations_polylang( $template_locations, $template_name
 	return $template_locations;
 }
 add_filter( 'jb_pre_template_locations_common_locale_integration', 'jb_pre_template_locations_polylang', 10, 4 );
-
 
 /**
  * Adding endings to the "Subject Line" field, depending on the language.
@@ -459,7 +464,6 @@ function jb_settings_change_subject_field_polylang( $section_fields, $email_key 
 }
 add_filter( 'jb_settings_email_section_fields', 'jb_settings_change_subject_field_polylang', 10, 2 );
 
-
 /**
  * @param string $subject
  * @param string $template
@@ -483,12 +487,9 @@ function jb_change_email_subject_polylang( $subject, $template, $email ) {
 	$lang  = '_' . $current_locale;
 	$value = JB()->options()->get( $template . '_sub' . $lang );
 
-	$subject = ! empty( $value ) ? $value : $subject;
-
-	return $subject;
+	return ! empty( $value ) ? $value : $subject;
 }
 add_filter( 'jb_email_send_subject', 'jb_change_email_subject_polylang', 10, 3 );
-
 
 /**
  * @param array $template_locations
@@ -504,15 +505,14 @@ function jb_change_email_templates_locations_polylang( $template_locations ) {
 	}
 
 	foreach ( $template_locations as $k => $location ) {
-		if ( false === strstr( $location, wp_normalize_path( DIRECTORY_SEPARATOR . $code . DIRECTORY_SEPARATOR ) ) ) {
+		if ( false === strpos( $location, wp_normalize_path( DIRECTORY_SEPARATOR . $code . DIRECTORY_SEPARATOR ) ) ) {
 			unset( $template_locations[ $k ] );
 		}
 	}
 
 	return $template_locations;
 }
-add_filter( 'jb_save_email_templates_locations', 'jb_change_email_templates_locations_polylang', 10, 1 );
-
+add_filter( 'jb_save_email_templates_locations', 'jb_change_email_templates_locations_polylang' );
 
 function jb_before_email_notification_sending_polylang( $email, $template, $args ) {
 	if ( 'job_approved' === $template || 'job_expiration_reminder' === $template ) {
@@ -524,7 +524,7 @@ function jb_before_email_notification_sending_polylang( $email, $template, $args
 		$post_lang     = $polylang->model->get_language( pll_get_post_language( $args['job_id'] ) );
 		PLL()->curlang = $post_lang;
 
-		$function = function () {
+		$function = static function () {
 			return PLL()->curlang->locale;
 		};
 
@@ -532,7 +532,7 @@ function jb_before_email_notification_sending_polylang( $email, $template, $args
 
 		add_action(
 			'jb_after_email_notification_sending',
-			function ( $email, $template ) use ( $current_language, $function ) {
+			static function ( $email, $template ) use ( $current_language, $function ) {
 				if ( 'job_approved' === $template || 'job_expiration_reminder' === $template ) {
 					PLL()->curlang = $current_language;
 					remove_filter( 'locale', $function );
@@ -545,10 +545,10 @@ function jb_before_email_notification_sending_polylang( $email, $template, $args
 }
 add_action( 'jb_before_email_notification_sending', 'jb_before_email_notification_sending_polylang', 10, 3 );
 
-
 function jb_check_for_reminder_expired_jobs_job_ids_polylang( $job_ids, $args ) {
 	$active_languages = pll_languages_list();
 
+	$job_translations = array();
 	foreach ( $active_languages as $language_code ) {
 		if ( pll_current_language() === $language_code ) {
 			continue;
@@ -557,8 +557,13 @@ function jb_check_for_reminder_expired_jobs_job_ids_polylang( $job_ids, $args ) 
 
 		$lang_job_ids = get_posts( $args );
 		if ( ! empty( $lang_job_ids ) ) {
-			$job_ids = array_merge( $job_ids, $lang_job_ids );
+			$job_translations[] = $lang_job_ids;
 		}
+	}
+	$job_translations = array_merge( ...$job_translations );
+
+	if ( ! empty( $job_translations ) ) {
+		$job_ids = array_merge( $job_ids, $job_translations );
 	}
 
 	return $job_ids;

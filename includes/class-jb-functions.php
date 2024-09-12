@@ -1,16 +1,14 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'JB_Functions' ) ) {
-
 
 	/**
 	 * Class JB_Functions
 	 */
 	class JB_Functions {
-
 
 		/**
 		 * @var string
@@ -19,14 +17,12 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 */
 		public $templates_path;
 
-
 		/**
 		 * @var string
 		 *
 		 * @since 1.0
 		 */
 		public $theme_templates;
-
 
 		/**
 		 * @var bool CPU Links Structure
@@ -35,14 +31,12 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 */
 		public $is_permalinks;
 
-
 		/**
 		 * @var string Standard or Minified versions
 		 *
 		 * @since 1.0
 		 */
 		public $scrips_prefix = '';
-
 
 		/**
 		 * What type of request is this?
@@ -68,7 +62,6 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			return false;
 		}
 
-
 		/**
 		 * Define constant if not already set.
 		 *
@@ -83,7 +76,6 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 				define( $name, $value );
 			}
 		}
-
 
 		/**
 		 * Forms labels helptips
@@ -106,7 +98,6 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			<?php
 			return ob_get_clean();
 		}
-
 
 		/**
 		 * @param string $context
@@ -430,11 +421,8 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 *
 			 * @return {array} Allowed HTML tags with attributes.
 			 */
-			$allowed_html = apply_filters( 'jb_late_escaping_allowed_tags', $allowed_html, $context );
-
-			return $allowed_html;
+			return apply_filters( 'jb_late_escaping_allowed_tags', $allowed_html, $context );
 		}
-
 
 		/**
 		 * Disable page caching and set or clear cookie
@@ -496,29 +484,25 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			return apply_filters( 'jb_get_current_url', $url, $no_query_params );
 		}
 
-
 		/**
 		 * Easy merge arrays based on parent array key. Insert after selected key
 		 *
 		 * @since 1.1.1
 		 *
-		 * @param array $array
+		 * @param array $haystack
 		 * @param string $key
 		 * @param array $insert_array
 		 *
 		 * @return array
 		 */
-		public function array_insert_after( $array, $key, $insert_array ) {
-			$index = array_search( $key, array_keys( $array ), true );
+		public function array_insert_after( $haystack, $key, $insert_array ) {
+			$index = array_search( $key, array_keys( $haystack ), true );
 			if ( false === $index ) {
-				return $array;
+				return $haystack;
 			}
 
-			$array = array_slice( $array, 0, $index + 1, true ) + $insert_array + array_slice( $array, $index + 1, count( $array ) - 1, true );
-
-			return $array;
+			return array_slice( $haystack, 0, $index + 1, true ) + $insert_array + array_slice( $haystack, $index + 1, count( $haystack ) - 1, true );
 		}
-
 
 		/**
 		 * Get the template path inside theme or custom path
@@ -784,7 +768,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 				$blog_id = get_current_blog_id();
 
 				$ms_template_locations = array_map(
-					function( $item ) use ( $template_path, $blog_id ) {
+					static function ( $item ) use ( $template_path, $blog_id ) {
 						return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $blog_id . '/', $item );
 					},
 					$template_locations
@@ -839,7 +823,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			// Get default template in cases:
 			// 1. Conflict test constant is defined and TRUE
 			// 2. There aren't any proper template in custom or theme directories
-			if ( ! $template || JB_TEMPLATE_CONFLICT_TEST ) {
+			if ( ! $template || ( defined( 'JB_TEMPLATE_CONFLICT_TEST' ) && JB_TEMPLATE_CONFLICT_TEST ) ) {
 				// default path in plugin
 				if ( ! $default_path ) {
 					$default_path = $this->default_templates_path( $module );
@@ -951,10 +935,8 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 		 * @return string
 		 */
 		public function undash( $slug ) {
-			$slug = str_replace( '-', '_', $slug );
-			return $slug;
+			return str_replace( '-', '_', $slug );
 		}
-
 
 		/**
 		 * Get the price format depending on the currency position.

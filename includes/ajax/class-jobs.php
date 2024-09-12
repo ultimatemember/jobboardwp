@@ -1,12 +1,12 @@
 <?php namespace jb\ajax;
 
+use WP_Query;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
-
 
 	/**
 	 * Class Jobs
@@ -15,14 +15,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 	 */
 	class Jobs {
 
-
 		/**
 		 * @var int
 		 *
 		 * @since 1.0
 		 */
 		public $jobs_per_page;
-
 
 		/**
 		 * @var array
@@ -31,14 +29,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		 */
 		public $query_args = array();
 
-
 		/**
 		 * @var string
 		 *
 		 * @since 1.0
 		 */
 		public $search = '';
-
 
 		/**
 		 * @var string
@@ -47,14 +43,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 		 */
 		public $company_name_meta = '';
 
-
 		/**
 		 * Jobs constructor.
 		 */
 		public function __construct() {
-			add_action( 'wp_loaded', array( $this, 'init_variables' ), 10 );
+			add_action( 'wp_loaded', array( $this, 'init_variables' ) );
 		}
-
 
 		/**
 		 * Init variables
@@ -66,18 +60,16 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			$this->jobs_per_page = ! empty( $_POST['per_page'] ) ? absint( $_POST['per_page'] ) : JB()->options()->get( 'jobs-list-pagination' );
 		}
 
-
 		/**
 		 * Replace 'WHERE' by the searching request
 		 *
 		 * @param string $where
-		 * @param \WP_Query $query
 		 *
 		 * @return string
 		 *
 		 * @since 1.0
 		 */
-		public function change_where_posts( $where, /** @noinspection PhpUnusedParameterInspection */$query ) {
+		public function change_where_posts( $where ) {
 			// phpcs:ignore WordPress.Security.NonceVerification -- already verified here
 			if ( ! empty( $_POST['search'] ) ) {
 				$from  = '/' . preg_quote( $this->search, '/' ) . '/';
@@ -86,39 +78,31 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			return $where;
 		}
 
-
 		/**
 		 * Set class search variable
 		 *
 		 * @param string $search
-		 * @param \WP_Query $query
 		 *
 		 * @return string
 		 *
 		 * @since 1.0
 		 */
-		public function set_search( $search, /** @noinspection PhpUnusedParameterInspection */$query ) {
+		public function set_search( $search ) {
 			$this->search = $search;
 			return $search;
 		}
-
 
 		/**
 		 * Change mySQL meta query join attribute
 		 * for search by the company name
 		 *
 		 * @param array $sql Array containing the query's JOIN and WHERE clauses.
-		 * @param $queries
-		 * @param $type
-		 * @param $primary_table
-		 * @param $primary_id_column
-		 * @param \WP_Query $context
 		 *
 		 * @return array
 		 *
 		 * @since 1.0
 		 */
-		public function change_meta_sql( $sql, /** @noinspection PhpUnusedParameterInspection */$queries, /** @noinspection PhpUnusedParameterInspection */$type, /** @noinspection PhpUnusedParameterInspection */$primary_table, /** @noinspection PhpUnusedParameterInspection */$primary_id_column, /** @noinspection PhpUnusedParameterInspection */$context ) {
+		public function change_meta_sql( $sql ) {
 			// phpcs:disable WordPress.Security.NonceVerification
 			if ( ! empty( $_POST['search'] ) ) {
 				global $wpdb;
@@ -195,12 +179,11 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			return $sql;
 		}
 
-
 		/**
 		 * Searching by relevance
 		 *
 		 * @param string $search_orderby
-		 * @param \WP_Query $query
+		 * @param WP_Query $query
 		 *
 		 * @return string
 		 *
@@ -216,20 +199,20 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			$meta_value = '%' . $wpdb->esc_like( $search ) . '%';
 
 			// Sentence match in 'post_title'.
-			$search_orderby = '';
+			$new_search_orderby = '';
 			if ( $meta_value ) {
-				$search_orderby .= $wpdb->prepare( "WHEN {$wpdb->posts}.post_title LIKE %s THEN 1 ", $meta_value );
+				$new_search_orderby .= $wpdb->prepare( "WHEN {$wpdb->posts}.post_title LIKE %s THEN 1 ", $meta_value );
 				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $this->company_name_meta is static variable
-				$search_orderby .= $wpdb->prepare( "WHEN {$this->company_name_meta}.meta_value LIKE %s THEN 2 ", $meta_value );
-				$search_orderby .= $wpdb->prepare( "WHEN {$wpdb->posts}.post_content LIKE %s THEN 3 ", $meta_value );
+				$new_search_orderby .= $wpdb->prepare( "WHEN {$this->company_name_meta}.meta_value LIKE %s THEN 2 ", $meta_value );
+				$new_search_orderby .= $wpdb->prepare( "WHEN {$wpdb->posts}.post_content LIKE %s THEN 3 ", $meta_value );
 			}
 
 			$meta_clauses    = $query->meta_query->get_clauses();
 			$meta_clause     = $meta_clauses['featured'];
 			$orderby_array[] = "CAST({$meta_clause['alias']}.meta_value AS {$meta_clause['cast']}) DESC";
 
-			if ( ! empty( $search_orderby ) ) {
-				$orderby_array[] = '(CASE ' . $search_orderby . 'ELSE 4 END)';
+			if ( ! empty( $new_search_orderby ) ) {
+				$orderby_array[] = '(CASE ' . $new_search_orderby . 'ELSE 4 END)';
 			}
 
 			if ( isset( $_POST['orderby'] ) && 'title' === sanitize_key( $_POST['orderby'] ) ) {
@@ -245,11 +228,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			// phpcs:enable WordPress.Security.NonceVerification -- already verified here
 			$orderby_array[] = "{$wpdb->posts}.{$orderby} {$order}";
 
-			$search_orderby = implode( ', ', $orderby_array );
-
-			return $search_orderby;
+			return implode( ', ', $orderby_array );
 		}
-
 
 		/**
 		 * AJAX response for getting jobs
@@ -561,9 +541,9 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 
-			add_filter( 'get_meta_sql', array( &$this, 'change_meta_sql' ), 10, 6 );
-			add_filter( 'posts_search', array( &$this, 'set_search' ), 10, 2 );
-			add_filter( 'posts_where', array( &$this, 'change_where_posts' ), 10, 2 );
+			add_filter( 'get_meta_sql', array( &$this, 'change_meta_sql' ) );
+			add_filter( 'posts_search', array( &$this, 'set_search' ) );
+			add_filter( 'posts_where', array( &$this, 'change_where_posts' ) );
 
 			add_filter( 'posts_search_orderby', array( &$this, 'relevance_search' ), 10, 2 );
 
@@ -579,13 +559,13 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			 */
 			$query_args = apply_filters( 'jb_get_jobs_query_args', $query_args );
 
-			$get_posts  = new \WP_Query();
+			$get_posts  = new WP_Query();
 			$jobs_query = $get_posts->query( $query_args );
 
-			remove_filter( 'posts_where', array( &$this, 'change_where_posts' ), 10 );
-			remove_filter( 'posts_search', array( &$this, 'set_search' ), 10 );
-			remove_filter( 'get_meta_sql', array( &$this, 'change_meta_sql' ), 10 );
-			remove_filter( 'posts_search_orderby', array( &$this, 'relevance_search' ), 10 );
+			remove_filter( 'posts_where', array( &$this, 'change_where_posts' ) );
+			remove_filter( 'posts_search', array( &$this, 'set_search' ) );
+			remove_filter( 'get_meta_sql', array( &$this, 'change_meta_sql' ) );
+			remove_filter( 'posts_search_orderby', array( &$this, 'relevance_search' ) );
 
 			/**
 			 * Fires after Jobs List query get results.
@@ -694,39 +674,6 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			// phpcs:enable WordPress.Security.NonceVerification -- already verified here
 		}
 
-		/**
-		 * Recursive function for building categories tree
-		 *
-		 * @param array $terms
-		 * @param array $children Terms hierarchy
-		 * @param int $parent
-		 * @param int $level
-		 *
-		 * @return array
-		 */
-		public function build_categories_structure( $terms, $children, $parent = 0, $level = 0 ) {
-			$structured_terms = array();
-
-			foreach ( $terms as $key => $term ) {
-				if ( (int) $term->parent !== $parent ) {
-					continue;
-				}
-
-				$term->level = $level;
-
-				$structured_terms[] = $term;
-
-				unset( $terms[ $key ] );
-
-				if ( isset( $children[ $term->term_id ] ) ) {
-					$structured_terms = array_merge( $structured_terms, $this->build_categories_structure( array_values( $terms ), $children, $term->term_id, $level + 1 ) );
-				}
-			}
-
-			return array_values( $structured_terms );
-		}
-
-
 		public function count_jobs( $term_id ) {
 			$hide_filled  = JB()->options()->get( 'jobs-list-hide-filled' );
 			$hide_expired = JB()->options()->get( 'jobs-list-hide-expired' );
@@ -803,11 +750,10 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				);
 			}
 
-			$query = new \WP_Query( $query_args );
+			$query = new WP_Query( $query_args );
 
 			return $query->found_posts;
 		}
-
 
 		/**
 		 * Getting Job Categories Tree
@@ -843,7 +789,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			if ( is_taxonomy_hierarchical( 'jb-job-category' ) ) {
 				$children = _get_term_hierarchy( 'jb-job-category' );
 
-				$terms = $this->build_categories_structure( $terms, $children );
+				$terms = JB()->common()->job()->prepare_categories_options( $terms, $children );
 
 				foreach ( $terms as $key => $term ) {
 					$terms[ $key ]->count     = $this->count_jobs( $term->term_id );
@@ -877,7 +823,6 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			wp_send_json_success( $response );
 		}
-
 
 		/**
 		 * AJAX handler for job delete
@@ -1092,7 +1037,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			$employer = get_current_user_id();
 
-			$get_posts = new \WP_Query();
+			$get_posts = new WP_Query();
 
 			$args = array(
 				'author'         => $employer,
@@ -1237,11 +1182,11 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 					}
 				} elseif ( 'url' === $method ) {
 					$app_contact = sanitize_text_field( $_POST['data']['jb-application-contact'] );
-					if ( ! strstr( $app_contact, 'http:' ) && ! strstr( $app_contact, 'https:' ) ) {
-						$app_contact = 'http://' . $app_contact;
+					if ( false === strpos( $app_contact, 'http:' ) && false === strpos( $app_contact, 'https:' ) ) {
+						$app_contact = 'https://' . $app_contact;
 					}
 
-					if ( ! JB()->common()->job()->validate_url( $app_contact ) || is_email( $app_contact ) ) {
+					if ( is_email( $app_contact ) || ! JB()->common()->job()->validate_url( $app_contact ) ) {
 						$errors['wrong'][] = 'jb-application-contact';
 					}
 				} else {
@@ -1249,11 +1194,11 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 					if ( ! is_email( $app_contact ) ) {
 						$app_contact = sanitize_text_field( $_POST['data']['jb-application-contact'] );
 						// Prefix http if needed.
-						if ( ! strstr( $app_contact, 'http:' ) && ! strstr( $app_contact, 'https:' ) ) {
-							$app_contact = 'http://' . $app_contact;
+						if ( false === strpos( $app_contact, 'http:' ) && false === strpos( $app_contact, 'https:' ) ) {
+							$app_contact = 'https://' . $app_contact;
 						}
 					}
-					if ( ! JB()->common()->job()->validate_url( $app_contact ) && ! is_email( $app_contact ) ) {
+					if ( ! is_email( $app_contact ) && ! JB()->common()->job()->validate_url( $app_contact ) ) {
 						$errors['wrong'][] = 'jb-application-contact';
 					}
 				}
@@ -1295,45 +1240,39 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 
-			if ( JB()->options()->get( 'required-job-salary' ) ) {
-				if ( empty( $_POST['data']['jb-salary-type'] ) ) {
-					$errors['empty'][] = 'jb-salary-type';
-				}
+			if ( empty( $_POST['data']['jb-salary-type'] ) && JB()->options()->get( 'required-job-salary' ) ) {
+				$errors['empty'][] = 'jb-salary-type';
 			}
 
 			if ( ! empty( $_POST['data']['jb-salary-type'] ) ) {
 				if ( empty( $_POST['data']['jb-salary-amount-type'] ) ) {
 					$errors['empty'][] = 'jb-salary-amount-type';
-				} else {
-					if ( 'numeric' === $_POST['data']['jb-salary-amount-type'] ) {
-						if ( empty( $_POST['data']['jb-salary-amount'] ) ) {
-							$errors['empty'][] = 'jb-salary-amount';
-						} elseif ( ! is_numeric( $_POST['data']['jb-salary-amount'] ) ) {
-							$errors['wrong'][] = 'jb-salary-amount';
+				} elseif ( 'numeric' === $_POST['data']['jb-salary-amount-type'] ) {
+					if ( empty( $_POST['data']['jb-salary-amount'] ) ) {
+						$errors['empty'][] = 'jb-salary-amount';
+					} elseif ( ! is_numeric( $_POST['data']['jb-salary-amount'] ) ) {
+						$errors['wrong'][] = 'jb-salary-amount';
+					}
+				} elseif ( 'range' === $_POST['data']['jb-salary-amount-type'] ) {
+					if ( empty( $_POST['data']['jb-salary-min-amount'] ) && empty( $_POST['data']['jb-salary-max-amount'] ) ) {
+						$errors['empty'][] = 'jb-salary-min-amount';
+					} else {
+						if ( ! is_numeric( $_POST['data']['jb-salary-min-amount'] ) ) {
+							$errors['wrong'][] = 'jb-salary-min-amount';
+						} elseif ( 0 !== absint( $_POST['data']['jb-salary-max-amount'] ) && absint( $_POST['data']['jb-salary-min-amount'] ) >= absint( $_POST['data']['jb-salary-max-amount'] ) ) {
+							$errors['wrong'][] = 'jb-salary-min-amount';
 						}
-					} elseif ( 'range' === $_POST['data']['jb-salary-amount-type'] ) {
-						if ( empty( $_POST['data']['jb-salary-min-amount'] ) && empty( $_POST['data']['jb-salary-max-amount'] ) ) {
-							$errors['empty'][] = 'jb-salary-min-amount';
-						} else {
-							if ( ! is_numeric( $_POST['data']['jb-salary-min-amount'] ) ) {
-								$errors['wrong'][] = 'jb-salary-min-amount';
-							} elseif ( 0 !== absint( $_POST['data']['jb-salary-max-amount'] ) && absint( $_POST['data']['jb-salary-min-amount'] ) >= absint( $_POST['data']['jb-salary-max-amount'] ) ) {
-								$errors['wrong'][] = 'jb-salary-min-amount';
-							}
 
-							if ( ! is_numeric( $_POST['data']['jb-salary-max-amount'] ) ) {
-								$errors['wrong'][] = 'jb-salary-max-amount';
-							} elseif ( 0 !== absint( $_POST['data']['jb-salary-max-amount'] ) && absint( $_POST['data']['jb-salary-max-amount'] ) <= absint( $_POST['data']['jb-salary-min-amount'] ) ) {
-								$errors['wrong'][] = 'jb-salary-max-amount';
-							}
+						if ( ! is_numeric( $_POST['data']['jb-salary-max-amount'] ) ) {
+							$errors['wrong'][] = 'jb-salary-max-amount';
+						} elseif ( 0 !== absint( $_POST['data']['jb-salary-max-amount'] ) && absint( $_POST['data']['jb-salary-max-amount'] ) <= absint( $_POST['data']['jb-salary-min-amount'] ) ) {
+							$errors['wrong'][] = 'jb-salary-max-amount';
 						}
 					}
 				}
 
-				if ( 'recurring' === $_POST['data']['jb-salary-type'] ) {
-					if ( empty( $_POST['data']['jb-salary-period'] ) ) {
-						$errors['empty'][] = 'jb-salary-period';
-					}
+				if ( 'recurring' === $_POST['data']['jb-salary-type'] && empty( $_POST['data']['jb-salary-period'] ) ) {
+					$errors['empty'][] = 'jb-salary-period';
 				}
 			}
 

@@ -1,7 +1,7 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 
 /**
  * @return array
@@ -14,7 +14,6 @@ function jb_wpml_get_languages_codes() {
 		'current' => $sitepress->get_locale_from_language_code( $sitepress->get_current_language() ),
 	);
 }
-
 
 /**
  * @param $columns
@@ -30,7 +29,6 @@ function jb_admin_jobs_listtable_columns_wpml( $columns, $base_columns ) {
 }
 add_filter( 'jb_admin_jobs_listtable_columns', 'jb_admin_jobs_listtable_columns_wpml', 10, 2 );
 
-
 /**
  * @param $classes
  *
@@ -44,8 +42,7 @@ function jb_admin_body_class_wpml( $classes ) {
 	}
 	return $classes;
 }
-add_filter( 'admin_body_class', 'jb_admin_body_class_wpml', 10, 1 );
-
+add_filter( 'admin_body_class', 'jb_admin_body_class_wpml' );
 
 /**
  * Get predefined page translation for current language
@@ -57,16 +54,13 @@ add_filter( 'admin_body_class', 'jb_admin_body_class_wpml', 10, 1 );
 function jb_get_predefined_page_id_wpml( $page_id ) {
 	global $sitepress;
 
-	$page_id = wpml_object_id_filter( $page_id, 'page', true, $sitepress->get_current_language() );
-
-	return $page_id;
+	return wpml_object_id_filter( $page_id, 'page', true, $sitepress->get_current_language() );
 }
-add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_wpml', 10, 1 );
-
+add_filter( 'jb_get_predefined_page_id', 'jb_get_predefined_page_id_wpml' );
 
 /**
  * @param bool $condition
- * @param \WP_Post $post
+ * @param WP_Post $post
  * @param int $predefined_page_id
  *
  * @return bool
@@ -98,7 +92,6 @@ function jb_is_predefined_page_wpml( $condition, $post, $predefined_page_id ) {
 }
 add_filter( 'jb_is_predefined_page', 'jb_is_predefined_page_wpml', 10, 3 );
 
-
 /**
  * @return array
  */
@@ -109,7 +102,7 @@ function jb_admin_settings_get_pages_list_wpml() {
 	$search_query = ! empty( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : '';
 	$paged        = ! empty( $_GET['page'] ) ? absint( $_GET['page'] ) : 1;
 
-	$current_lang_query = new \WP_Query(
+	$current_lang_query = new WP_Query(
 		array(
 			'post_type'           => 'page',
 			's'                   => $search_query, // the search query
@@ -134,7 +127,7 @@ function jb_admin_settings_get_pages_list_wpml() {
 	if ( $code !== $code_default ) {
 		$sitepress->switch_lang( $code_default );
 
-		$default_lang_query = new \WP_Query(
+		$default_lang_query = new WP_Query(
 			array(
 				'post_type'           => 'page',
 				's'                   => $search_query, // the search query
@@ -157,8 +150,8 @@ function jb_admin_settings_get_pages_list_wpml() {
 		}
 	}
 
-	$active_languages = $sitepress->get_active_languages();
-
+	$active_languages   = $sitepress->get_active_languages();
+	$active_langs_posts = array();
 	foreach ( $active_languages as $language_code ) {
 		if ( $language_code['code'] === $code || $language_code['code'] === $code_default ) {
 			continue;
@@ -166,7 +159,7 @@ function jb_admin_settings_get_pages_list_wpml() {
 
 		$sitepress->switch_lang( $language_code['code'] );
 
-		$active_lang_query = new \WP_Query(
+		$active_lang_query = new WP_Query(
 			array(
 				'post_type'           => 'page',
 				's'                   => $search_query, // the search query
@@ -187,14 +180,19 @@ function jb_admin_settings_get_pages_list_wpml() {
 					unset( $active_lang_posts[ $k ] );
 				}
 			}
-			$posts = array_merge( $posts, array_values( $active_lang_posts ) );
+			$active_langs_posts[] = array_values( $active_lang_posts );
 		}
+	}
+
+	if ( ! empty( $active_langs_posts ) ) {
+		$active_langs_posts = array_merge( ...$active_langs_posts );
+		$posts              = array_merge( $posts, $active_langs_posts );
 	}
 
 	$sitepress->switch_lang( $code );
 
 	// you can use WP_Query, query_posts() or get_posts() here - it doesn't matter
-	$search_results = new \WP_Query(
+	$search_results = new WP_Query(
 		array(
 			'post_type'           => 'page',
 			's'                   => $search_query, // the search query
@@ -226,8 +224,7 @@ function jb_admin_settings_get_pages_list_wpml() {
 	return $return;
 	// phpcs:enable WordPress.Security.NonceVerification -- is verified in JB()->ajax()->settings()->get_pages_list()
 }
-add_filter( 'jb_admin_settings_get_pages_list', 'jb_admin_settings_get_pages_list_wpml', 10 );
-
+add_filter( 'jb_admin_settings_get_pages_list', 'jb_admin_settings_get_pages_list_wpml' );
 
 /**
  * @param false $pre_result
@@ -242,7 +239,7 @@ function jb_admin_settings_pages_list_value_wpml( $pre_result, $page_id ) {
 		global $sitepress;
 
 		$current_language = $sitepress->get_current_language();
-		if ( ( JB()->is_request( 'admin' ) || JB()->is_request( 'ajax' ) ) && 'all' === $current_language ) {
+		if ( 'all' === $current_language && ( JB()->is_request( 'admin' ) || JB()->is_request( 'ajax' ) ) ) {
 			$current_language = $sitepress->get_default_language();
 		}
 
@@ -269,7 +266,6 @@ function jb_admin_settings_pages_list_value_wpml( $pre_result, $page_id ) {
 }
 add_filter( 'jb_admin_settings_pages_list_value', 'jb_admin_settings_pages_list_value_wpml', 10, 2 );
 
-
 /**
  * @param array $variables
  *
@@ -281,8 +277,7 @@ function jb_common_js_variables_wpml( $variables ) {
 	$variables['locale'] = $sitepress->get_current_language();
 	return $variables;
 }
-add_filter( 'jb_common_js_variables', 'jb_common_js_variables_wpml', 10, 1 );
-
+add_filter( 'jb_common_js_variables', 'jb_common_js_variables_wpml' );
 
 /**
  * @param string $locale
@@ -291,8 +286,7 @@ function jb_admin_init_locale_wpml( $locale ) {
 	global $sitepress;
 	$sitepress->switch_lang( $locale );
 }
-add_action( 'jb_admin_init_locale', 'jb_admin_init_locale_wpml', 10, 1 );
-
+add_action( 'jb_admin_init_locale', 'jb_admin_init_locale_wpml' );
 
 /**
  * @param $columns
@@ -317,8 +311,7 @@ function jb_add_email_templates_column_wpml( $columns ) {
 
 	return $columns;
 }
-add_filter( 'jb_email_templates_columns', 'jb_add_email_templates_column_wpml', 10, 1 );
-
+add_filter( 'jb_email_templates_columns', 'jb_add_email_templates_column_wpml' );
 
 /**
  * @param $content
@@ -346,7 +339,6 @@ function jb_emails_list_table_custom_column_content_wpml( $content, $item, $colu
 	return $content;
 }
 add_filter( 'jb_emails_list_table_custom_column_content', 'jb_emails_list_table_custom_column_content_wpml', 10, 3 );
-
 
 /**
  * @param $template
@@ -404,7 +396,7 @@ function jb_wpml_get_status_html( $template, $code ) {
 		$blog_id = get_current_blog_id();
 
 		$ms_template_locations = array_map(
-			function( $item ) use ( $template_path, $blog_id ) {
+			static function ( $item ) use ( $template_path, $blog_id ) {
 				return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $blog_id . '/', $item );
 			},
 			$template_locations
@@ -418,7 +410,7 @@ function jb_wpml_get_status_html( $template, $code ) {
 	$template_locations = array_map( 'wp_normalize_path', $template_locations );
 
 	foreach ( $template_locations as $k => $location ) {
-		if ( false === strstr( $location, wp_normalize_path( DIRECTORY_SEPARATOR . $sitepress->get_locale_from_language_code( $code ) . DIRECTORY_SEPARATOR ) ) ) {
+		if ( false === strpos( $location, wp_normalize_path( DIRECTORY_SEPARATOR . $sitepress->get_locale_from_language_code( $code ) . DIRECTORY_SEPARATOR ) ) ) {
 			unset( $template_locations[ $k ] );
 		}
 	}
@@ -444,7 +436,6 @@ function jb_wpml_get_status_html( $template, $code ) {
 	return jb_wpml_render_status_icon( $link, $translation_map[ $status ]['text'], $translation_map[ $status ]['icon'] );
 }
 
-
 /**
  * @param $link
  * @param $text
@@ -460,7 +451,6 @@ function jb_wpml_render_status_icon( $link, $text, $img ) {
 	return $icon_html;
 }
 
-
 /**
  * @param array  $template_locations
  * @param string $template_name
@@ -470,7 +460,7 @@ function jb_wpml_render_status_icon( $link, $text, $img ) {
  * @return array
  */
 function jb_pre_template_locations_wpml( $template_locations, $template_name, $module, $template_path ) {
-	if ( JB()->common()->mail()->is_sending() && 0 === strpos( $template_name, 'emails/' ) ) {
+	if ( 0 === strpos( $template_name, 'emails/' ) && JB()->common()->mail()->is_sending() ) {
 		return $template_locations;
 	}
 
@@ -480,7 +470,7 @@ function jb_pre_template_locations_wpml( $template_locations, $template_name, $m
 		$lang = $language_codes['current'];
 
 		$ml_template_locations = array_map(
-			function( $item ) use ( $template_path, $lang ) {
+			static function ( $item ) use ( $template_path, $lang ) {
 				return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $lang . '/', $item );
 			},
 			$template_locations
@@ -492,7 +482,6 @@ function jb_pre_template_locations_wpml( $template_locations, $template_name, $m
 	return $template_locations;
 }
 add_filter( 'jb_pre_template_locations_common_locale_integration', 'jb_pre_template_locations_wpml', 10, 4 );
-
 
 /**
  * Adding endings to the "Subject Line" field, depending on the language.
@@ -545,12 +534,9 @@ function jb_change_email_subject_wpml( $subject, $template, $email ) {
 	$lang  = '_' . $current_locale;
 	$value = JB()->options()->get( $template . '_sub' . $lang );
 
-	$subject = ! empty( $value ) ? $value : $subject;
-
-	return $subject;
+	return ! empty( $value ) ? $value : $subject;
 }
 add_filter( 'jb_email_send_subject', 'jb_change_email_subject_wpml', 10, 3 );
-
 
 /**
  * @param array $template_locations
@@ -569,7 +555,7 @@ function jb_change_email_templates_locations_wpml( $template_locations ) {
 
 	$locale = $sitepress->get_locale_from_language_code( $code );
 	foreach ( $template_locations as $k => $location ) {
-		if ( false === strstr( $location, wp_normalize_path( DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR ) ) ) {
+		if ( false === strpos( $location, wp_normalize_path( DIRECTORY_SEPARATOR . $locale . DIRECTORY_SEPARATOR ) ) ) {
 			unset( $template_locations[ $k ] );
 		}
 	}
@@ -588,7 +574,7 @@ function jb_before_email_notification_sending_wpml( $email, $template, $args ) {
 		$post_lang = $sitepress->get_language_for_element( $args['job_id'], 'post_jb-job' );
 		$sitepress->switch_lang( $post_lang );
 
-		$function = function() {
+		$function = static function () {
 			global $sitepress;
 			$locale_lang_code = $sitepress->get_current_language();
 
@@ -599,7 +585,7 @@ function jb_before_email_notification_sending_wpml( $email, $template, $args ) {
 
 		add_action(
 			'jb_after_email_notification_sending',
-			function( $email, $template, $args ) use ( $current_language, $function ) {
+			static function ( $email, $template ) use ( $current_language, $function ) {
 				if ( 'job_approved' === $template || 'job_expiration_reminder' === $template ) {
 					global $sitepress;
 					$sitepress->switch_lang( $current_language );
@@ -607,18 +593,18 @@ function jb_before_email_notification_sending_wpml( $email, $template, $args ) {
 				}
 			},
 			10,
-			3
+			2
 		);
 	}
 }
 add_action( 'jb_before_email_notification_sending', 'jb_before_email_notification_sending_wpml', 10, 3 );
-
 
 function jb_check_for_reminder_expired_jobs_job_ids_wpml( $job_ids, $args ) {
 	global $sitepress;
 
 	$code = $sitepress->get_current_language();
 
+	$job_translations = array();
 	$active_languages = $sitepress->get_active_languages();
 	foreach ( $active_languages as $language_code ) {
 		if ( $language_code['code'] === $code ) {
@@ -629,8 +615,13 @@ function jb_check_for_reminder_expired_jobs_job_ids_wpml( $job_ids, $args ) {
 
 		$lang_job_ids = get_posts( $args );
 		if ( ! empty( $lang_job_ids ) ) {
-			$job_ids = array_merge( $job_ids, $lang_job_ids );
+			$job_translations[] = $lang_job_ids;
 		}
+	}
+
+	$job_translations = array_merge( ...$job_translations );
+	if ( ! empty( $job_translations ) ) {
+		$job_ids = array_merge( $job_ids, $job_translations );
 	}
 
 	$sitepress->switch_lang( $code );

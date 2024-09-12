@@ -1,13 +1,13 @@
 <?php
 namespace jb\admin;
 
+use WP_Query;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
-
 
 	/**
 	 * Class Site_Health
@@ -16,14 +16,12 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 	 */
 	class Site_Health {
 
-
 		/**
 		 * Site_Health constructor.
 		 */
 		public function __construct() {
-			add_filter( 'debug_information', array( $this, 'debug_information' ), 20, 1 );
+			add_filter( 'debug_information', array( $this, 'debug_information' ), 20 );
 		}
-
 
 		private function get_roles() {
 			global $wp_roles;
@@ -35,7 +33,6 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 
 			return $roles;
 		}
-
 
 		private function get_filled_jobs_count() {
 			$query_args = array(
@@ -58,7 +55,7 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 					),
 				),
 			);
-			$filled     = new \WP_Query( $query_args );
+			$filled     = new WP_Query( $query_args );
 
 			return $filled->found_posts;
 		}
@@ -73,8 +70,8 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 			$categories_text = __( 'None', 'jobboardwp' );
 
 			$categories = get_terms(
-				'jb-job-category',
 				array(
+					'taxonomy'   => 'jb-job-category',
 					'hide_empty' => false,
 				)
 			);
@@ -111,8 +108,8 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 			$types_text = __( 'None', 'jobboardwp' );
 
 			$types = get_terms(
-				'jb-job-type',
 				array(
+					'taxonomy'   => 'jb-job-type',
 					'hide_empty' => false,
 				)
 			);

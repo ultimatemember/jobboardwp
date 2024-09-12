@@ -4,9 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\admin\Forms' ) ) {
-
 
 	/**
 	 * Class Forms
@@ -15,14 +13,12 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 	 */
 	class Forms {
 
-
 		/**
 		 * @var bool|array Inited form data
 		 *
 		 * @since 1.0
 		 */
 		public $form_data;
-
 
 		/**
 		 * Forms constructor.
@@ -33,7 +29,6 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				$this->form_data = $form_data;
 			}
 		}
-
 
 		/**
 		 * Set Form Data
@@ -47,16 +42,15 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			return $this;
 		}
 
-
 		/**
 		 * Render form
 		 *
-		 * @param bool $echo
+		 * @param bool $display
 		 * @return string
 		 *
 		 * @since 1.0
 		 */
-		public function display( $echo = true ) {
+		public function display( $display = true ) {
 			if ( empty( $this->form_data['fields'] ) ) {
 				return '';
 			}
@@ -94,14 +88,13 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				echo wp_kses( $fields, JB()->get_allowed_html( 'wp-admin' ) );
 			}
 
-			if ( $echo ) {
+			if ( $display ) {
 				ob_get_flush();
 				return '';
-			} else {
-				return ob_get_clean();
 			}
-		}
 
+			return ob_get_clean();
+		}
 
 		/**
 		 * Render form field's row
@@ -151,55 +144,9 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 					$html .= '</div>';
 
-				} else {
+				} elseif ( ! empty( $data['without_label'] ) ) {
 
-					if ( ! empty( $data['without_label'] ) ) {
-
-						$html .= '<div class="form-field jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>';
-
-						if ( method_exists( $this, 'render_' . $data['type'] ) ) {
-
-							$html .= call_user_func( array( &$this, 'render_' . $data['type'] ), $data );
-
-						} else {
-
-							$html .= $this->render_field_by_hook( $data );
-
-						}
-
-						if ( ! empty( $data['description'] ) ) {
-							$html .= '<p class="description">' . $data['description'] . '</p>';
-						}
-
-						$html .= '</div>';
-
-					} else {
-
-						$html .= '<div class="form-field jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>' . $this->render_field_label( $data );
-
-						if ( method_exists( $this, 'render_' . $data['type'] ) ) {
-
-							$html .= call_user_func( array( &$this, 'render_' . $data['type'] ), $data );
-
-						} else {
-
-							$html .= $this->render_field_by_hook( $data );
-
-						}
-
-						if ( ! empty( $data['description'] ) ) {
-							$html .= '<p class="description">' . $data['description'] . '</p>';
-						}
-
-						$html .= '</div>';
-
-					}
-				}
-			} else {
-				if ( strpos( $this->form_data['class'], 'jb-top-label' ) !== false ) {
-
-					$html .= '<tr class="jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>
-					<td>' . $this->render_field_label( $data );
+					$html .= '<div class="form-field jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>';
 
 					if ( method_exists( $this, 'render_' . $data['type'] ) ) {
 
@@ -212,63 +159,100 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 					}
 
 					if ( ! empty( $data['description'] ) ) {
-						$html .= '<div class="clear"></div><p class="description">' . $data['description'] . '</p>';
+						$html .= '<p class="description">' . $data['description'] . '</p>';
 					}
 
-					$html .= '</td></tr>';
+					$html .= '</div>';
 
 				} else {
 
-					if ( ! empty( $data['without_label'] ) ) {
+					$html .= '<div class="form-field jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>' . $this->render_field_label( $data );
 
-						$html .= '<tr class="jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>
-						<td colspan="2">';
+					if ( method_exists( $this, 'render_' . $data['type'] ) ) {
 
-						if ( method_exists( $this, 'render_' . $data['type'] ) ) {
-
-							$html .= call_user_func( array( &$this, 'render_' . $data['type'] ), $data );
-
-						} else {
-
-							$html .= $this->render_field_by_hook( $data );
-
-						}
-
-						if ( ! empty( $data['description'] ) ) {
-							$html .= '<div class="clear"></div><p class="description">' . $data['description'] . '</p>';
-						}
-
-						$html .= '</td></tr>';
+						$html .= call_user_func( array( &$this, 'render_' . $data['type'] ), $data );
 
 					} else {
 
-						$html .= '<tr class="jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>
-						<th>' . $this->render_field_label( $data ) . '</th>
-						<td>';
-
-						if ( method_exists( $this, 'render_' . $data['type'] ) ) {
-
-							$html .= call_user_func( array( &$this, 'render_' . $data['type'] ), $data );
-
-						} else {
-
-							$html .= $this->render_field_by_hook( $data );
-
-						}
-
-						if ( ! empty( $data['description'] ) ) {
-							$html .= '<div class="clear"></div><p class="description">' . $data['description'] . '</p>';
-						}
-
-						$html .= '</td></tr>';
+						$html .= $this->render_field_by_hook( $data );
 
 					}
+
+					if ( ! empty( $data['description'] ) ) {
+						$html .= '<p class="description">' . $data['description'] . '</p>';
+					}
+
+					$html .= '</div>';
+
 				}
+			} elseif ( strpos( $this->form_data['class'], 'jb-top-label' ) !== false ) {
+
+				$html .= '<tr class="jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>
+				<td>' . $this->render_field_label( $data );
+
+				if ( method_exists( $this, 'render_' . $data['type'] ) ) {
+
+					$html .= call_user_func( array( &$this, 'render_' . $data['type'] ), $data );
+
+				} else {
+
+					$html .= $this->render_field_by_hook( $data );
+
+				}
+
+				if ( ! empty( $data['description'] ) ) {
+					$html .= '<div class="clear"></div><p class="description">' . $data['description'] . '</p>';
+				}
+
+				$html .= '</td></tr>';
+
+			} elseif ( ! empty( $data['without_label'] ) ) {
+
+				$html .= '<tr class="jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>
+				<td colspan="2">';
+
+				if ( method_exists( $this, 'render_' . $data['type'] ) ) {
+
+					$html .= call_user_func( array( &$this, 'render_' . $data['type'] ), $data );
+
+				} else {
+
+					$html .= $this->render_field_by_hook( $data );
+
+				}
+
+				if ( ! empty( $data['description'] ) ) {
+					$html .= '<div class="clear"></div><p class="description">' . $data['description'] . '</p>';
+				}
+
+				$html .= '</td></tr>';
+
+			} else {
+
+				$html .= '<tr class="jb-forms-line" ' . $conditional . $prefix_attr . $type_attr . '>
+				<th>' . $this->render_field_label( $data ) . '</th>
+				<td>';
+
+				if ( method_exists( $this, 'render_' . $data['type'] ) ) {
+
+					$html .= call_user_func( array( &$this, 'render_' . $data['type'] ), $data );
+
+				} else {
+
+					$html .= $this->render_field_by_hook( $data );
+
+				}
+
+				if ( ! empty( $data['description'] ) ) {
+					$html .= '<div class="clear"></div><p class="description">' . $data['description'] . '</p>';
+				}
+
+				$html .= '</td></tr>';
+
 			}
 
 			return $html;
 		}
-
 
 		/**
 		 * Render field by a hook
@@ -318,7 +302,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 			$label = $data['label'];
 			if ( ! empty( $data['required'] ) ) {
-				$label = $label . ' <span class="jb-req" title="' . esc_attr__( 'Required', 'jobboardwp' ) . '">*</span>';
+				$label .= ' <span class="jb-req" title="' . esc_attr__( 'Required', 'jobboardwp' ) . '">*</span>';
 			}
 
 			$helptip = ! empty( $data['helptip'] ) ? JB()->helptip( $data['helptip'] ) : '';
@@ -363,11 +347,8 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$value      = $this->get_field_value( $field_data );
 			$value_attr = ' value="' . esc_attr( $value ) . '" ';
 
-			$html = "<input type=\"hidden\" $id_attr $class_attr $name_attr $data_attr $value_attr />";
-
-			return $html;
+			return "<input type=\"hidden\" $id_attr $class_attr $name_attr $data_attr $value_attr />";
 		}
-
 
 		/**
 		 * Render text field
@@ -413,11 +394,8 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 			$disabled = ! empty( $field_data['disabled'] ) ? 'disabled' : '';
 
-			$html = "<input type=\"text\" $disabled $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $required />";
-
-			return $html;
+			return "<input type=\"text\" $disabled $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $required />";
 		}
-
 
 		/**
 		 * Render location autocomplete text
@@ -471,12 +449,9 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$value_data = $this->get_field_value( $field_data_data );
 			$value_data = esc_attr( $value_data );
 
-			$html = "<input type=\"text\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $required />
+			return "<input type=\"text\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $required />
 					 <input type=\"hidden\" $name_loco_data_attr class=\"jb-location-autocomplete-data\" value=\"$value_data\" />";
-
-			return $html;
 		}
-
 
 		/**
 		 * Render number field
@@ -520,11 +495,8 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$value      = $this->get_field_value( $field_data );
 			$value_attr = ' value="' . esc_attr( $value ) . '" ';
 
-			$html = "<input type=\"number\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $min $max $step />";
-
-			return $html;
+			return "<input type=\"number\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr $min $max $step />";
 		}
-
 
 		/**
 		 * Render color-picker field
@@ -566,11 +538,8 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$value      = $this->get_field_value( $field_data );
 			$value_attr = ' value="' . esc_attr( $value ) . '" ';
 
-			$html = "<input type=\"text\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr />";
-
-			return $html;
+			return "<input type=\"text\" $id_attr $class_attr $name_attr $data_attr $value_attr $placeholder_attr />";
 		}
-
 
 		/**
 		 * Render textarea field
@@ -612,9 +581,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 			$value = $this->get_field_value( $field_data );
 
-			$html = "<textarea $id_attr $class_attr $name_attr $data_attr $rows $disabled>" . esc_textarea( $value ) . '</textarea>';
-
-			return $html;
+			return "<textarea $id_attr $class_attr $name_attr $data_attr $rows $disabled>" . esc_textarea( $value ) . '</textarea>';
 		}
 
 		/**
@@ -634,13 +601,6 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 			$id = ( ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] : '' ) . '_' . $field_data['id'];
 
-			$data = array( 'field_id' => $field_data['id'] );
-
-			$data_attr = '';
-			foreach ( $data as $key => $value ) {
-				$data_attr .= ' data-' . $key . '="' . esc_attr( $value ) . '" ';
-			}
-
 			$name = $field_data['id'];
 			$name = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
 
@@ -650,7 +610,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 
 			add_action(
 				'after_wp_tiny_mce',
-				function( $settings ) {
+				static function ( $settings ) {
 					if ( isset( $settings['_job_description']['plugins'] ) && false !== strpos( $settings['_job_description']['plugins'], 'wplink' ) ) {
 						?>
 						<script>
@@ -727,9 +687,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			 *
 			 * @return {array} TinyMCE buttons.
 			 */
-			$mce_buttons = apply_filters( 'jb_rich_text_editor_buttons', $mce_buttons, $editor_id, $this );
-
-			return $mce_buttons;
+			return apply_filters( 'jb_rich_text_editor_buttons', $mce_buttons, $editor_id, $this );
 		}
 
 		/**
@@ -830,7 +788,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			$name             = ! empty( $this->form_data['prefix_id'] ) ? $this->form_data['prefix_id'] . '[' . $name . ']' : $name;
 			$hidden_name_attr = ' name="' . esc_attr( $name ) . '" ';
 
-			$name      = $name . ( ! empty( $field_data['multi'] ) ? '[]' : '' );
+			$name     .= ( ! empty( $field_data['multi'] ) ? '[]' : '' );
 			$name_attr = ' name="' . esc_attr( $name ) . '" ';
 
 			$disabled = ! empty( $field_data['disabled'] ) ? 'disabled' : '';
@@ -857,9 +815,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			if ( ! empty( $multiple ) ) {
 				$hidden = "<input type=\"hidden\" $hidden_name_attr value=\"\" />";
 			}
-			$html = "$hidden<select $disabled $multiple $id_attr $name_attr $class_attr $data_attr>$options</select>";
-
-			return $html;
+			return "$hidden<select $disabled $multiple $id_attr $name_attr $class_attr $data_attr>$options</select>";
 		}
 
 
@@ -942,9 +898,7 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				$button = '&nbsp;<a href="' . esc_url( $create_page_url ) . '" class="button button-primary">' . esc_html__( 'Create Default', 'jobboardwp' ) . '</a>';
 			}
 
-			$html = "$hidden<select $multiple $id_attr $name_attr $class_attr $data_attr>$options</select>$button";
-
-			return $html;
+			return "$hidden<select $multiple $id_attr $name_attr $class_attr $data_attr>$options</select>$button";
 		}
 
 
@@ -1105,10 +1059,8 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 			<input type="hidden" class="jb-media-value-hash" id="<?php echo esc_attr( $field_id ); ?>_hash" name="<?php echo esc_attr( $field_id ); ?>_hash" value="" />
 
 			<?php
-			$html = ob_get_clean();
-			return $html;
+			return ob_get_clean();
 		}
-
 
 		/**
 		 * Get field value
@@ -1120,21 +1072,20 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 		 * @since 1.0
 		 */
 		public function get_field_value( $field_data, $i = '' ) {
-			$default = '';
-			$default = isset( $field_data[ 'default' . $i ] ) ? $field_data[ 'default' . $i ] : $default;
+			$default_index = 'default' . $i;
+			$default       = isset( $field_data[ $default_index ] ) ? $field_data[ $default_index ] : '';
 
+			$value_index = 'value' . $i;
 			if ( 'checkbox' === $field_data['type'] ) {
-				$value = ( isset( $field_data[ 'value' . $i ] ) && '' !== $field_data[ 'value' . $i ] ) ? $field_data[ 'value' . $i ] : $default;
+				$value = ( isset( $field_data[ $value_index ] ) && '' !== $field_data[ $value_index ] ) ? $field_data[ $value_index ] : $default;
 			} else {
-				$value = isset( $field_data[ 'value' . $i ] ) ? $field_data[ 'value' . $i ] : $default;
+				$value = isset( $field_data[ $value_index ] ) ? $field_data[ $value_index ] : $default;
 			}
 
 			$value = is_string( $value ) ? stripslashes( $value ) : $value;
 
-			if ( ! empty( $value ) ) {
-				if ( isset( $field_data['encode'] ) ) {
-					$value = wp_json_encode( $value, JSON_UNESCAPED_UNICODE );
-				}
+			if ( ! empty( $value ) && isset( $field_data['encode'] ) ) {
+				$value = wp_json_encode( $value, JSON_UNESCAPED_UNICODE );
 			}
 
 			return $value;
