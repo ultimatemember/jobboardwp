@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-10T11:11:44+00:00\n"
+"POT-Creation-Date: 2024-09-12T12:30:13+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: jobboardwp\n"
@@ -126,12 +126,12 @@ msgstr ""
 
 #: includes/admin/class-columns.php:350
 #: includes/admin/templates/settings/version-template-list-table.php:30
-#: includes/frontend/class-shortcodes.php:532
+#: includes/frontend/class-shortcodes.php:527
 msgid "Status"
 msgstr ""
 
 #: includes/admin/class-columns.php:351
-#: includes/admin/templates/job/data.php:240
+#: includes/admin/templates/job/data.php:239
 #: templates/job-submission.php:337
 msgid "Location"
 msgstr ""
@@ -147,7 +147,7 @@ msgid "Category"
 msgstr ""
 
 #: includes/admin/class-columns.php:356
-#: includes/frontend/class-shortcodes.php:533
+#: includes/frontend/class-shortcodes.php:528
 #: templates/js/jobs-list.php:85
 #: templates/js/jobs-list.php:87
 #: templates/js/jobs-list.php:107
@@ -230,7 +230,7 @@ msgstr ""
 
 #: includes/admin/class-forms.php:1039
 #: includes/frontend/class-forms.php:551
-#: templates/job/footer.php:78
+#: templates/job/footer.php:76
 msgid "Cancel"
 msgstr ""
 
@@ -965,33 +965,33 @@ msgstr ""
 msgid "Job category base"
 msgstr ""
 
-#: includes/admin/class-settings.php:1385
+#: includes/admin/class-settings.php:1383
 msgid "Re-check templates"
 msgstr ""
 
 #. translators: %s: Last checking templates time.
-#: includes/admin/class-settings.php:1390
+#: includes/admin/class-settings.php:1388
 msgid "Last update: %s. You could re-check changes manually."
 msgstr ""
 
-#: includes/admin/class-settings.php:1392
+#: includes/admin/class-settings.php:1390
 msgid "Templates haven't check yet. You could check changes manually."
 msgstr ""
 
 #. translators: %s: Link to the docs article.
-#: includes/admin/class-settings.php:1400
+#: includes/admin/class-settings.php:1397
 msgid "You may get more details about overriding templates <a href=\"%s\" target=\"_blank\">here</a>."
 msgstr ""
 
-#: includes/admin/class-settings.php:1486
+#: includes/admin/class-settings.php:1481
 msgid "Theme version up to date"
 msgstr ""
 
-#: includes/admin/class-settings.php:1489
+#: includes/admin/class-settings.php:1484
 msgid "Theme version is out of date"
 msgstr ""
 
-#: includes/admin/class-settings.php:1493
+#: includes/admin/class-settings.php:1488
 msgid "Theme version is empty"
 msgstr ""
 
@@ -1170,21 +1170,21 @@ msgid "Leave empty to make this job un-expired."
 msgstr ""
 
 #. translators: %s: link to the settings section
-#: includes/admin/templates/job/data.php:219
+#: includes/admin/templates/job/data.php:218
 msgid "If empty, then job will have an expiration date based on the <a href=\"%s#jb_options_job-duration\">Job Duration</a> setting."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:228
+#: includes/admin/templates/job/data.php:227
 msgid "Location Type"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:230
+#: includes/admin/templates/job/data.php:229
 #: includes/common/class-job.php:243
 #: templates/job-submission.php:329
 msgid "Onsite"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:231
+#: includes/admin/templates/job/data.php:230
 #: includes/common/class-job.php:246
 #: includes/common/class-job.php:290
 #: includes/common/class-job.php:315
@@ -1192,163 +1192,163 @@ msgstr ""
 msgid "Remote"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:232
+#: includes/admin/templates/job/data.php:231
 #: includes/common/class-job.php:240
 msgid "Onsite or remote"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:241
+#: includes/admin/templates/job/data.php:240
 msgid "Required for onsite jobs."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:250
+#: includes/admin/templates/job/data.php:249
 #: templates/job-submission.php:349
 #: templates/job-submission.php:360
 msgid "Preferred Location"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:251
+#: includes/admin/templates/job/data.php:250
 msgid "Leave this blank if location is not important."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:259
+#: includes/admin/templates/job/data.php:258
 msgid "Company name"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:266
+#: includes/admin/templates/job/data.php:265
 msgid "Company website"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:272
+#: includes/admin/templates/job/data.php:271
 msgid "Company tagline"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:278
+#: includes/admin/templates/job/data.php:277
 msgid "Company twitter"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:284
+#: includes/admin/templates/job/data.php:283
 msgid "Company facebook"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:290
+#: includes/admin/templates/job/data.php:289
 msgid "Company instagram"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:296
+#: includes/admin/templates/job/data.php:295
 msgid "Position Filled"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:297
+#: includes/admin/templates/job/data.php:296
 msgid "Filled listings will no longer accept applications."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:303
+#: includes/admin/templates/job/data.php:302
 msgid "Expiry Date"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:311
+#: includes/admin/templates/job/data.php:310
 msgid "Is Featured?"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:314
+#: includes/admin/templates/job/data.php:313
 msgid "Add a feature option."
 msgstr ""
 
-#: includes/admin/templates/job/data.php:319
+#: includes/admin/templates/job/data.php:318
 msgid "Featured Order"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:336
+#: includes/admin/templates/job/data.php:335
 #: templates/job-submission.php:414
 msgid "Salary"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:337
+#: includes/admin/templates/job/data.php:336
 msgid "Please select salary"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:341
+#: includes/admin/templates/job/data.php:340
 #: templates/job-submission.php:418
 msgid "Not specified"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:342
+#: includes/admin/templates/job/data.php:341
 #: templates/job-submission.php:419
 msgid "Fixed"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:343
+#: includes/admin/templates/job/data.php:342
 #: templates/job-submission.php:420
 msgid "Recurring"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:350
+#: includes/admin/templates/job/data.php:349
 #: templates/job-submission.php:427
 msgid "Salary amount type"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:351
+#: includes/admin/templates/job/data.php:350
 #: templates/job-submission.php:428
 msgid "Please select amount type"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:354
+#: includes/admin/templates/job/data.php:353
 #: templates/job-submission.php:431
 msgid "Numeric"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:355
+#: includes/admin/templates/job/data.php:354
 #: templates/job-submission.php:432
 msgid "Range (min-max)"
 msgstr ""
 
 #. translators: %s - Currency symbol
-#: includes/admin/templates/job/data.php:368
+#: includes/admin/templates/job/data.php:367
 msgid "Salary Amount %s"
 msgstr ""
 
 #. translators: %s - Currency symbol
-#: includes/admin/templates/job/data.php:380
+#: includes/admin/templates/job/data.php:379
 #: templates/job-submission.php:452
 msgid "Salary Min Amount %s"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:381
+#: includes/admin/templates/job/data.php:380
 msgid "Set to \"0\" for displaying only max amount. (E.g. \"Salary is up to {max_amount}\")"
 msgstr ""
 
 #. translators: %s - Currency symbol
-#: includes/admin/templates/job/data.php:393
+#: includes/admin/templates/job/data.php:392
 #: templates/job-submission.php:463
 msgid "Salary Max Amount %s"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:394
+#: includes/admin/templates/job/data.php:393
 msgid "Set to \"0\" for displaying only min amount. (E.g. \"Salary starts from {min_amount}\")"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:403
+#: includes/admin/templates/job/data.php:402
 #: templates/job-submission.php:473
 msgid "Salary Period"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:406
+#: includes/admin/templates/job/data.php:405
 #: templates/job-submission.php:477
 msgid "Hour"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:407
+#: includes/admin/templates/job/data.php:406
 #: templates/job-submission.php:478
 msgid "Day"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:408
+#: includes/admin/templates/job/data.php:407
 #: templates/job-submission.php:479
 msgid "Week"
 msgstr ""
 
-#: includes/admin/templates/job/data.php:409
+#: includes/admin/templates/job/data.php:408
 #: templates/job-submission.php:480
 msgid "Month"
 msgstr ""
@@ -1421,7 +1421,7 @@ msgstr ""
 
 #: includes/ajax/class-jobs.php:624
 #: includes/ajax/class-jobs.php:1054
-#: includes/frontend/class-shortcodes.php:732
+#: includes/frontend/class-shortcodes.php:727
 msgid "(no title)"
 msgstr ""
 
@@ -1457,9 +1457,9 @@ msgstr ""
 #: includes/frontend/class-actions-listener.php:1005
 #: includes/frontend/class-actions-listener.php:1125
 #: includes/frontend/class-actions-listener.php:1139
-#: includes/frontend/class-shortcodes.php:149
-#: includes/frontend/class-shortcodes.php:172
-#: includes/frontend/class-shortcodes.php:191
+#: includes/frontend/class-shortcodes.php:147
+#: includes/frontend/class-shortcodes.php:169
+#: includes/frontend/class-shortcodes.php:188
 msgid "Wrong job"
 msgstr ""
 
@@ -2263,8 +2263,8 @@ msgid "Add New Job"
 msgstr ""
 
 #: includes/common/class-cpt.php:65
-#: includes/common/class-job.php:839
-#: includes/common/class-job.php:848
+#: includes/common/class-job.php:838
+#: includes/common/class-job.php:847
 msgid "Edit"
 msgstr ""
 
@@ -2287,7 +2287,7 @@ msgid "Search Jobs"
 msgstr ""
 
 #: includes/common/class-cpt.php:71
-#: includes/frontend/class-shortcodes.php:485
+#: includes/frontend/class-shortcodes.php:480
 msgid "No Jobs found"
 msgstr ""
 
@@ -2796,39 +2796,39 @@ msgid "Anywhere"
 msgstr ""
 
 #. translators: %s is maximum job salary amount.
-#: includes/common/class-job.php:620
+#: includes/common/class-job.php:619
 msgid "Up to %s"
 msgstr ""
 
 #. translators: %s is minimum job salary amount.
-#: includes/common/class-job.php:625
+#: includes/common/class-job.php:624
 msgid "Starts from %s"
 msgstr ""
 
 #. translators: %1$s is a job's salary amount or range; %2$s is a job's salary period.
-#: includes/common/class-job.php:638
+#: includes/common/class-job.php:637
 msgid "%1$s per %2$s"
 msgstr ""
 
-#: includes/common/class-job.php:811
+#: includes/common/class-job.php:810
 msgid "Submit again"
 msgstr ""
 
-#: includes/common/class-job.php:814
-#: includes/common/class-job.php:829
-#: includes/common/class-job.php:863
+#: includes/common/class-job.php:813
+#: includes/common/class-job.php:828
+#: includes/common/class-job.php:862
 msgid "Delete"
 msgstr ""
 
-#: includes/common/class-job.php:826
+#: includes/common/class-job.php:825
 msgid "Continue submission"
 msgstr ""
 
-#: includes/common/class-job.php:854
+#: includes/common/class-job.php:853
 msgid "Mark as filled"
 msgstr ""
 
-#: includes/common/class-job.php:858
+#: includes/common/class-job.php:857
 msgid "Mark as un-filled"
 msgstr ""
 
@@ -3094,109 +3094,109 @@ msgid "Company"
 msgstr ""
 
 #. translators: %s: jobs dashboard page link
-#: includes/frontend/class-shortcodes.php:92
+#: includes/frontend/class-shortcodes.php:91
 msgid "Job's draft was saved. You could resumed it from the <a href=\"%s\" title=\"Job Dashboard\">job dashboard</a>"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:99
+#: includes/frontend/class-shortcodes.php:98
 msgid "Job is submitted successfully. It will be visible once approved."
 msgstr ""
 
 #. translators: %s: link to the published job
-#: includes/frontend/class-shortcodes.php:113
+#: includes/frontend/class-shortcodes.php:111
 msgid "Job is posted successfully. To view your job <a href=\"%s\">click here</a>"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:118
+#: includes/frontend/class-shortcodes.php:116
 msgid "Job is posted successfully."
 msgstr ""
 
 #. translators: %s: login link
-#: includes/frontend/class-shortcodes.php:161
-#: includes/frontend/class-shortcodes.php:374
+#: includes/frontend/class-shortcodes.php:158
+#: includes/frontend/class-shortcodes.php:370
 msgid "<a href=\"%s\">Sign in</a> to post a job."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:181
-#: includes/frontend/class-shortcodes.php:215
+#: includes/frontend/class-shortcodes.php:178
+#: includes/frontend/class-shortcodes.php:212
 msgid "Security check wrong"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:196
+#: includes/frontend/class-shortcodes.php:193
 msgid "You haven't ability to edit this job."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:220
+#: includes/frontend/class-shortcodes.php:217
 msgid "Wrong job preview"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:297
+#: includes/frontend/class-shortcodes.php:294
 msgid "If you don't have an account you can create one below by entering your email address/username or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:299
+#: includes/frontend/class-shortcodes.php:296
 msgid "If you don't have an account you can create one below by entering your email address or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:303
+#: includes/frontend/class-shortcodes.php:300
 msgid "If you don't have an account you can optionally create one below by entering your email address/username or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:305
+#: includes/frontend/class-shortcodes.php:302
 msgid "If you don't have an account you can optionally create one below by entering your email address or <a href=\"#\" id=\"jb-show-login-form\">sign in</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:312
+#: includes/frontend/class-shortcodes.php:309
 msgid "You could login below or <a href=\"#\" id=\"jb-hide-login-form\">create account</a>."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:323
+#: includes/frontend/class-shortcodes.php:320
 msgid "Invalid username, email address or incorrect password."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:346
+#: includes/frontend/class-shortcodes.php:343
 msgid "Username or Email Address"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:347
+#: includes/frontend/class-shortcodes.php:344
 #: templates/job-submission.php:228
 msgid "Password"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:348
+#: includes/frontend/class-shortcodes.php:345
 msgid "Remember Me"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:349
+#: includes/frontend/class-shortcodes.php:346
 msgid "Log In"
 msgstr ""
 
 #. translators: %s: login link
-#: includes/frontend/class-shortcodes.php:386
+#: includes/frontend/class-shortcodes.php:381
 msgid "<a href=\"%s\">Sign in</a> to post a job or to do that as a guest."
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:484
+#: includes/frontend/class-shortcodes.php:479
 msgid "No Jobs"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:486
+#: includes/frontend/class-shortcodes.php:481
 msgid "Load more jobs"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:531
+#: includes/frontend/class-shortcodes.php:526
 #: includes/blocks/jb-jobs-list/build/index.js:1
 #: includes/blocks/jb-jobs-list/src/index.js:45
 msgid "Title"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:534
+#: includes/frontend/class-shortcodes.php:529
 #: templates/js/jobs-list.php:93
 #: templates/widgets/recent-jobs.php:85
 msgid "Closing on"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:819
+#: includes/frontend/class-shortcodes.php:814
 msgid "Company details are updated successfully."
 msgstr ""
 
@@ -3314,7 +3314,7 @@ msgid "Save"
 msgstr ""
 
 #. translators: %s: login link
-#: templates/dashboard/jobs.php:25
+#: templates/dashboard/jobs.php:24
 msgid "<a href=\"%s\">Sign in</a> to view your job listings."
 msgstr ""
 
@@ -3458,12 +3458,12 @@ msgid "Application via %1$s job on %2$s"
 msgstr ""
 
 #. translators: %1$s: mailto URL, %2$s: contact email
-#: templates/job/footer.php:49
+#: templates/job/footer.php:48
 msgid "To apply for this job <strong>email your details to</strong> <a href=\"%1$s\">%2$s</a>."
 msgstr ""
 
 #. translators: %1$s: application's website URL, %2$s: application's website URL text
-#: templates/job/footer.php:70
+#: templates/job/footer.php:68
 msgid "To apply for this job please visit <a href=\"%1$s\">%2$s</a>."
 msgstr ""
 
@@ -3541,7 +3541,7 @@ msgid "More Actions"
 msgstr ""
 
 #. translators: %s: Post a job URL
-#: templates/js/jobs-dashboard.php:100
+#: templates/js/jobs-dashboard.php:99
 msgid "No created jobs yet. <a href=\"%s\">Create</a> new one."
 msgstr ""
 
