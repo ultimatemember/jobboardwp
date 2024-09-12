@@ -33,6 +33,9 @@
         <article>
             <pre class="prettyprint source linenums"><code>&lt;?php namespace jb\admin;
 
+use WP_Filesystem_Base;
+use function WP_Filesystem;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -71,23 +74,23 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			add_action( 'current_screen', array( $this, 'conditional_includes' ) );
 			add_action( 'admin_init', array( $this, 'permalinks_save' ) );
 
-			add_action( 'jb_before_settings_email__content', array( $this, 'email_templates_list_table' ), 10 );
+			add_action( 'jb_before_settings_email__content', array( $this, 'email_templates_list_table' ) );
 			add_filter( 'jb_section_fields', array( $this, 'email_template_fields' ), 10, 2 );
 
-			add_action( 'init', array( $this, 'init' ), 10 );
+			add_action( 'init', array( $this, 'init' ) );
 
-			add_action( 'admin_init', array( $this, 'save_settings' ), 10 );
+			add_action( 'admin_init', array( $this, 'save_settings' ) );
 
 			add_filter( 'jb_change_settings_before_save', array( $this, 'save_email_templates' ) );
 
 			add_filter( 'jb_settings_custom_subtabs', array( $this, 'settings_custom_subtabs' ), 20, 2 );
 			add_filter( 'jb_settings_section_modules__content', array( $this, 'settings_modules_section' ), 20 );
 
-			add_filter( 'jb_settings', array( $this, 'sorting_modules_options' ), 9999, 1 );
+			add_filter( 'jb_settings', array( $this, 'sorting_modules_options' ), 9999 );
 
 			//custom content for override templates tab
-			add_action( 'plugins_loaded', array( $this, 'jb_check_template_version' ), 10 );
-			add_filter( 'jb_settings_custom_tabs', array( $this, 'add_custom_content_tab' ), 10 );
+			add_action( 'plugins_loaded', array( $this, 'jb_check_template_version' ) );
+			add_filter( 'jb_settings_custom_tabs', array( $this, 'add_custom_content_tab' ) );
 			add_filter( 'jb_settings_section_override_templates__content', array( $this, 'override_templates_list_table' ) );
 		}
 
@@ -169,7 +172,6 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		/**
 		 * Handler for settings forms when "Save Settings" button click.
 		 *
-		 *
 		 * @since 1.0
 		 */
 		public function save_settings() {
@@ -180,7 +182,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					return;
 				}
 
-				if ( 'save' !== sanitize_key( $_POST['jb-settings-action'] ) || empty( $_POST['jb_options'] ) ) {
+				if ( empty( $_POST['jb_options'] ) || 'save' !== sanitize_key( $_POST['jb-settings-action'] ) ) {
 					return;
 				}
 
@@ -1087,7 +1089,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					esc_html( $tab['title'] )
 				);
 
-				$i++;
+				++$i;
 			}
 
 			return '&lt;h2 class="nav-tab-wrapper jb-nav-tab-wrapper">' . $tabs . '&lt;/h2>';
@@ -1152,7 +1154,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					esc_html( $subtab['title'] )
 				);
 
-				$i++;
+				++$i;
 			}
 
 			return '&lt;div>&lt;ul class="subsubsub">' . substr( $subtabs, 0, -3 ) . '&lt;/ul>&lt;/div>';
@@ -1299,12 +1301,11 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		/**
 		 * @param $settings
 		 *
-		 * @global \WP_Filesystem_Base $wp_filesystem Subclass
+		 * @global WP_Filesystem_Base $wp_filesystem Subclass
 		 *
 		 * @return mixed
 		 */
 		public function save_email_templates( $settings ) {
-			/** @var $wp_filesystem \WP_Filesystem_Base */
 			global $wp_filesystem;
 
 			if ( empty( $settings['jb_email_template'] ) ) {
@@ -1331,7 +1332,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				$blog_id = get_current_blog_id();
 
 				$ms_template_locations = array_map(
-					function( $item ) use ( $template_path, $blog_id ) {
+					function ( $item ) use ( $template_path, $blog_id ) {
 						return str_replace( trailingslashit( $template_path ), trailingslashit( $template_path ) . $blog_id . '/', $item );
 					},
 					$template_locations
@@ -1367,11 +1368,11 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				$template_exists = JB()->locate_template_custom_path( $template_locations, $custom_path );
 			}
 
-			if ( ! is_a( $wp_filesystem, 'WP_Filesystem_Base' ) ) {
+			if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 				require_once ABSPATH . 'wp-admin/includes/file.php';
 
 				$credentials = request_filesystem_credentials( self_admin_url() );
-				\WP_Filesystem( $credentials );
+				WP_Filesystem( $credentials );
 			}
 
 			if ( empty( $template_exists ) ) {
@@ -1396,8 +1397,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			$result = $wp_filesystem->put_contents( $template_exists, $content );
 
 			if ( false !== $result ) {
-				unset( $settings['jb_email_template'] );
-				unset( $settings[ $template ] );
+				unset( $settings['jb_email_template'], $settings[ $template ] );
 			}
 
 			return $settings;
@@ -1453,7 +1453,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 */
 		public function get_override_templates( $get_list = false ) {
 			$outdated_files   = array();
-			$scan_files['jb'] = $this->scan_template_files( JB_PATH . '/templates/' );
+			$scan_files['jb'] = self::scan_template_files( JB_PATH . '/templates/' );
 
 			/**
 			 * Filters JobBoardWP templates files for scan versions and overriding.
@@ -1505,8 +1505,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 								$core_path      = JB_PATH . '/templates/' . $core_file;
 								$core_file_path = stristr( JB_PATH . 'templates/' . $core_file, 'wp-content' );
 							}
-							$core_version  = $this->get_file_version( $core_path );
-							$theme_version = $this->get_file_version( $theme_file );
+							$core_version  = self::get_file_version( $core_path );
+							$theme_version = self::get_file_version( $theme_file );
 
 							$status      = esc_html__( 'Theme version up to date', 'jobboardwp' );
 							$status_code = 1;
@@ -1556,7 +1556,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			}
 
 			// We don't need to write to the file, so just open for reading.
-			$fp = fopen( $file, 'r' ); // @codingStandardsIgnoreLine.
+			$fp = fopen( $file, 'rb' ); // @codingStandardsIgnoreLine.
 
 			// Pull only the first 8kiB of the file in.
 			$file_data = fread( $fp, 8192 ); // @codingStandardsIgnoreLine.
