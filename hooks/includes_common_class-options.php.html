@@ -37,9 +37,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\common\Options' ) ) {
-
 
 	/**
 	 * Class Options
@@ -47,21 +45,12 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 	 */
 	class Options {
 
-
 		/**
 		 * @var array
 		 *
 		 * @since 1.0
 		 */
 		public $options = array();
-
-
-		/**
-		 * Options constructor.
-		 */
-		public function __construct() {
-		}
-
 
 		/**
 		 * Returns options key
@@ -87,22 +76,21 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 			return apply_filters( 'jb_options_key', "jb_{$option}", $option );
 		}
 
-
 		/**
 		 * Get JB option value
 		 *
 		 * @param string $option_id
-		 * @param mixed $default
+		 * @param mixed  $default_value
 		 *
 		 * @return mixed
 		 *
 		 * @since 1.0
 		 */
-		public function get( $option_id, $default = false ) {
+		public function get( $option_id, $default_value = false ) {
 			if ( isset( $this->options[ $option_id ] ) ) {
 				$value = $this->options[ $option_id ];
 			} else {
-				$value = get_option( $this->get_key( $option_id ), $default );
+				$value = get_option( $this->get_key( $option_id ), $default_value );
 			}
 
 			/**
@@ -111,15 +99,14 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 			 * @since 1.0
 			 * @hook jb_options_get_{$option_id}
 			 *
-			 * @param {mixed}  $value     Option name. By default, it's a simplified option key with 'jb_' prefix.
-			 * @param {string} $option_id Simplified option key without prefix.
-			 * @param {string} $default   Default option value passed to a function.
+			 * @param {mixed}  $value         Option name. By default, it's a simplified option key with 'jb_' prefix.
+			 * @param {string} $option_id     Simplified option key without prefix.
+			 * @param {string} $default_value Default option value passed to a function.
 			 *
 			 * @return {mixed} Option value.
 			 */
-			return apply_filters( "jb_options_get_{$option_id}", $value, $option_id, $default );
+			return apply_filters( "jb_options_get_{$option_id}", $value, $option_id, $default_value );
 		}
-
 
 		/**
 		 * Add JB option value
@@ -136,7 +123,6 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 			add_option( $this->get_key( $option_id ), $value );
 		}
 
-
 		/**
 		 * Update JB option value
 		 *
@@ -149,7 +135,6 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 			$this->options[ $option_id ] = $value;
 			update_option( $this->get_key( $option_id ), $value );
 		}
-
 
 		/**
 		 * Delete JB option
@@ -165,7 +150,6 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 
 			delete_option( $this->get_key( $option_id ) );
 		}
-
 
 		/**
 		 * Get JB option default value
@@ -183,7 +167,6 @@ if ( ! class_exists( 'jb\common\Options' ) ) {
 
 			return $settings_defaults[ $option_id ];
 		}
-
 
 		/**
 		 * Get predefined page option key
