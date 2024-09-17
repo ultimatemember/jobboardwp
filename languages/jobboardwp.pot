@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-12T21:49:30+00:00\n"
+"POT-Creation-Date: 2024-09-17T08:47:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: jobboardwp\n"
@@ -199,51 +199,51 @@ msgstr ""
 msgid "Member"
 msgstr ""
 
-#: includes/admin/class-forms.php:305
+#: includes/admin/class-forms.php:306
 #: includes/frontend/class-forms.php:503
 msgid "Required"
 msgstr ""
 
-#: includes/admin/class-forms.php:780
+#: includes/admin/class-forms.php:781
 #: includes/frontend/class-forms.php:886
 msgid "Please select..."
 msgstr ""
 
-#: includes/admin/class-forms.php:898
+#: includes/admin/class-forms.php:899
 msgid "Create Default"
 msgstr ""
 
-#: includes/admin/class-forms.php:990
+#: includes/admin/class-forms.php:991
 #: includes/frontend/class-forms.php:539
 msgid "Select file"
 msgstr ""
 
-#: includes/admin/class-forms.php:991
+#: includes/admin/class-forms.php:992
 #: includes/frontend/class-forms.php:540
 msgid "Change"
 msgstr ""
 
-#: includes/admin/class-forms.php:992
+#: includes/admin/class-forms.php:993
 #: includes/frontend/class-forms.php:541
 msgid "Remove"
 msgstr ""
 
-#: includes/admin/class-forms.php:993
+#: includes/admin/class-forms.php:994
 #: includes/frontend/class-forms.php:542
 #: templates/job/footer.php:76
 msgid "Cancel"
 msgstr ""
 
-#: includes/admin/class-forms.php:1027
+#: includes/admin/class-forms.php:1028
 msgid "File"
 msgstr ""
 
-#: includes/admin/class-forms.php:1049
+#: includes/admin/class-forms.php:1050
 #: includes/frontend/class-forms.php:619
 msgid "Drop file to upload"
 msgstr ""
 
-#: includes/admin/class-forms.php:1050
+#: includes/admin/class-forms.php:1051
 #: includes/frontend/class-forms.php:620
 msgid "or"
 msgstr ""
