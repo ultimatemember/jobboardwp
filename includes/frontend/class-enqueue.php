@@ -1,12 +1,11 @@
-<?php namespace jb\frontend;
+<?php
+namespace jb\frontend;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
-
 
 	/**
 	 * Class Enqueue
@@ -14,7 +13,6 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 	 * @package jb\frontend
 	 */
 	class Enqueue extends \jb\common\Enqueue {
-
 
 		/**
 		 * Enqueue constructor.
@@ -30,7 +28,6 @@ if ( ! class_exists( 'jb\frontend\Enqueue' ) ) {
 			add_action( 'wp_enqueue_scripts', array( &$this, 'register_scripts' ), 20 );
 			add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_gmap' ), 19 );
 		}
-
 
 		/**
 		 * Google Maps enqueue
