@@ -1,4 +1,5 @@
-<?php namespace jb\frontend;
+<?php
+namespace jb\frontend;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -242,20 +243,18 @@ if ( ! class_exists( 'jb\frontend\Forms' ) ) {
 			if ( ! empty( $this->form_data['prefix_id'] ) ) {
 				if ( isset( $_POST[ $this->form_data['prefix_id'] ][ $name ] ) ) {
 					if ( is_array( $_POST[ $this->form_data['prefix_id'] ][ $name ] ) ) {
-						$value = array_map( 'sanitize_text_field', $_POST[ $this->form_data['prefix_id'] ][ $name ] );
+						$value = array_map( 'sanitize_text_field', array_map( 'wp_unslash', $_POST[ $this->form_data['prefix_id'] ][ $name ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- operate with value as array and array_map function
 					} else {
-						$value = sanitize_text_field( $_POST[ $this->form_data['prefix_id'] ][ $name ] );
+						$value = sanitize_text_field( wp_unslash( $_POST[ $this->form_data['prefix_id'] ][ $name ] ) );
 					}
 				}
 			} elseif ( isset( $_POST[ $name ] ) ) {
 				if ( is_array( $_POST[ $name ] ) ) {
-					$value = array_map( 'sanitize_text_field', $_POST[ $name ] );
+					$value = array_map( 'sanitize_text_field', array_map( 'wp_unslash', $_POST[ $name ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- operate with value as array and array_map function
 				} else {
-					$value = sanitize_text_field( $_POST[ $name ] );
+					$value = sanitize_text_field( wp_unslash( $_POST[ $name ] ) );
 				}
 			}
-
-			$value = is_string( $value ) ? stripslashes( $value ) : $value;
 
 			if ( ! empty( $value ) ) {
 				if ( ! empty( $this->form_data['prefix_id'] ) ) {

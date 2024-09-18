@@ -438,8 +438,8 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			if ( empty( $value ) ) {
 				$expire = time() - YEAR_IN_SECONDS;
 			}
-			if ( empty( $path ) ) {
-				list( $path ) = explode( '?', wp_unslash( $_SERVER['REQUEST_URI'] ) );
+			if ( empty( $path ) && isset( $_SERVER['REQUEST_URI'] ) ) {
+				list( $path ) = explode( '?', wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- REQUEST_URI ok
 			}
 
 			$levels = ob_get_level();
@@ -463,8 +463,9 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			//use WP native function for fill $_SERVER variables by correct values
 			wp_fix_server_vars();
 
-			$host = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : 'localhost';
-			$url  = ( is_ssl() ? 'https://' : 'http://' ) . $host . $_SERVER['REQUEST_URI'];
+			$host = isset( $_SERVER['HTTP_HOST'] ) ? wp_unslash( $_SERVER['HTTP_HOST'] ) : 'localhost'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- HTTP_HOST ok
+			$url  = ( is_ssl() ? 'https://' : 'http://' ) . $host;
+			$url .= ! empty( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- REQUEST_URI ok
 
 			if ( true === $no_query_params ) {
 				$url = strtok( $url, '?' );

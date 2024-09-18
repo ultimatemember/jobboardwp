@@ -1,11 +1,11 @@
-<?php namespace jb\common;
+<?php
+namespace jb\common;
 
 use WP_Block_Type_Registry;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 
 if ( ! class_exists( 'jb\common\Blocks' ) ) {
 

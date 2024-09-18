@@ -23,7 +23,6 @@ global $jb_jobs_shortcode_index;
 <div class="jb-jobs-header">
 
 	<?php
-	/** @noinspection PhpUndefinedVariableInspection */
 	/**
 	 * Fires before displaying Jobs List header with search bar and filters.
 	 *
@@ -42,7 +41,7 @@ global $jb_jobs_shortcode_index;
 
 				<?php
 				if ( ! $jb_jobs_search_bar['hide-search'] ) {
-					$search_from_url = ! empty( $_GET['jb-search'][ $jb_jobs_shortcode_index ] ) ? stripslashes( sanitize_text_field( $_GET['jb-search'][ $jb_jobs_shortcode_index ] ) ) : '';
+					$search_from_url = ! empty( $_GET['jb-search'][ $jb_jobs_shortcode_index ] ) ? sanitize_text_field( wp_unslash( $_GET['jb-search'][ $jb_jobs_shortcode_index ] ) ) : '';
 					?>
 
 					<label>
@@ -67,7 +66,7 @@ global $jb_jobs_shortcode_index;
 				}
 
 				if ( ! $jb_jobs_search_bar['hide-location-search'] ) {
-					$search_from_url2 = ! empty( $_GET['jb-location-search'][ $jb_jobs_shortcode_index ] ) ? stripslashes( sanitize_text_field( $_GET['jb-location-search'][ $jb_jobs_shortcode_index ] ) ) : '';
+					$search_from_url2 = ! empty( $_GET['jb-location-search'][ $jb_jobs_shortcode_index ] ) ? sanitize_text_field( wp_unslash( $_GET['jb-location-search'][ $jb_jobs_shortcode_index ] ) ) : '';
 
 					$classes = array( 'jb-search-location' );
 					$key     = JB()->options()->get( 'googlemaps-api-key' );
@@ -82,11 +81,11 @@ global $jb_jobs_shortcode_index;
 						<?php
 						if ( ! empty( $key ) ) {
 
-							$search_location_city          = ! empty( $_GET['jb-location-search-city'][ $jb_jobs_shortcode_index ] ) ? stripslashes( sanitize_text_field( $_GET['jb-location-search-city'][ $jb_jobs_shortcode_index ] ) ) : '';
-							$search_location_state_short   = ! empty( $_GET['jb-location-search-state-short'][ $jb_jobs_shortcode_index ] ) ? stripslashes( sanitize_text_field( $_GET['jb-location-search-state-short'][ $jb_jobs_shortcode_index ] ) ) : '';
-							$search_location_state_long    = ! empty( $_GET['jb-location-search-state-long'][ $jb_jobs_shortcode_index ] ) ? stripslashes( sanitize_text_field( $_GET['jb-location-search-state-long'][ $jb_jobs_shortcode_index ] ) ) : '';
-							$search_location_country_short = ! empty( $_GET['jb-location-search-country-short'][ $jb_jobs_shortcode_index ] ) ? stripslashes( sanitize_text_field( $_GET['jb-location-search-country-short'][ $jb_jobs_shortcode_index ] ) ) : '';
-							$search_location_country_long  = ! empty( $_GET['jb-location-search-country-long'][ $jb_jobs_shortcode_index ] ) ? stripslashes( sanitize_text_field( $_GET['jb-location-search-country-long'][ $jb_jobs_shortcode_index ] ) ) : '';
+							$search_location_city          = ! empty( $_GET['jb-location-search-city'][ $jb_jobs_shortcode_index ] ) ? sanitize_text_field( wp_unslash( $_GET['jb-location-search-city'][ $jb_jobs_shortcode_index ] ) ) : '';
+							$search_location_state_short   = ! empty( $_GET['jb-location-search-state-short'][ $jb_jobs_shortcode_index ] ) ? sanitize_text_field( wp_unslash( $_GET['jb-location-search-state-short'][ $jb_jobs_shortcode_index ] ) ) : '';
+							$search_location_state_long    = ! empty( $_GET['jb-location-search-state-long'][ $jb_jobs_shortcode_index ] ) ? sanitize_text_field( wp_unslash( $_GET['jb-location-search-state-long'][ $jb_jobs_shortcode_index ] ) ) : '';
+							$search_location_country_short = ! empty( $_GET['jb-location-search-country-short'][ $jb_jobs_shortcode_index ] ) ? sanitize_text_field( wp_unslash( $_GET['jb-location-search-country-short'][ $jb_jobs_shortcode_index ] ) ) : '';
+							$search_location_country_long  = ! empty( $_GET['jb-location-search-country-long'][ $jb_jobs_shortcode_index ] ) ? sanitize_text_field( wp_unslash( $_GET['jb-location-search-country-long'][ $jb_jobs_shortcode_index ] ) ) : '';
 							?>
 
 							<input type="hidden" class="jb-location-autocomplete-data jb-location-city" value="<?php echo esc_attr( $search_location_city ); ?>" />
@@ -108,7 +107,7 @@ global $jb_jobs_shortcode_index;
 	if ( ! $jb_jobs_search_bar['hide-filters'] ) {
 
 		$is_remote = ! empty( $_GET['jb-is-remote'][ $jb_jobs_shortcode_index ] );
-		$job_type  = ! empty( $_GET['jb-job-type'][ $jb_jobs_shortcode_index ] ) ? sanitize_text_field( $_GET['jb-job-type'][ $jb_jobs_shortcode_index ] ) : '';
+		$job_type  = ! empty( $_GET['jb-job-type'][ $jb_jobs_shortcode_index ] ) ? sanitize_text_field( wp_unslash( $_GET['jb-job-type'][ $jb_jobs_shortcode_index ] ) ) : '';
 		?>
 
 		<div class="jb-jobs-header-row jb-jobs-filters-row">
@@ -153,7 +152,7 @@ global $jb_jobs_shortcode_index;
 
 			if ( JB()->options()->get( 'job-categories' ) ) {
 				if ( empty( $jb_jobs_search_bar['category'] ) ) {
-					$job_category = ! empty( $_GET['jb-job-category'][ $jb_jobs_shortcode_index ] ) ? sanitize_text_field( $_GET['jb-job-category'][ $jb_jobs_shortcode_index ] ) : '';
+					$job_category = ! empty( $_GET['jb-job-category'][ $jb_jobs_shortcode_index ] ) ? sanitize_text_field( wp_unslash( $_GET['jb-job-category'][ $jb_jobs_shortcode_index ] ) ) : '';
 
 					/**
 					 * Filters the `get_terms()` arguments when displaying Job Categories dropdown on the Jobs List filters.
@@ -204,7 +203,7 @@ global $jb_jobs_shortcode_index;
 				$salary_checked = false;
 				$salary_hide    = 'display:none;';
 				if ( ! empty( $_GET['jb-salary'][ $jb_jobs_shortcode_index ] ) ) {
-					$salary         = explode( '-', $_GET['jb-salary'][ $jb_jobs_shortcode_index ] );
+					$salary         = explode( '-', wp_unslash( $_GET['jb-salary'][ $jb_jobs_shortcode_index ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized below via absint per value
 					$min            = isset( $salary[0] ) ? absint( $salary[0] ) : 0;
 					$max            = isset( $salary[1] ) ? absint( $salary[1] ) : $max_value;
 					$salary_hide    = '';

@@ -1,4 +1,5 @@
-<?php namespace jb\frontend;
+<?php
+namespace jb\frontend;
 
 use WP_Block_Template;
 use WP_Filesystem_Base;

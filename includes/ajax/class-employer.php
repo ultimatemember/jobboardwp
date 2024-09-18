@@ -1,4 +1,5 @@
-<?php namespace jb\ajax;
+<?php
+namespace jb\ajax;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -52,8 +53,8 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 
 			// Get a file name
 			if ( isset( $_REQUEST['name'] ) ) {
-				$filename = sanitize_file_name( $_REQUEST['name'] );
-			} elseif ( ! empty( $_FILES ) ) {
+				$filename = sanitize_file_name( wp_unslash( $_REQUEST['name'] ) );
+			} elseif ( ! empty( $_FILES['file']['name'] ) ) {
 				$filename = sanitize_file_name( $_FILES['file']['name'] );
 			} else {
 				$filename = uniqid( 'file_' );
@@ -95,7 +96,7 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 
 			JB()->common()->filesystem()->clear_temp_dir();
 
-			if ( empty( $_FILES ) || $_FILES['file']['error'] ) {
+			if ( empty( $_FILES ) || ! empty( $_FILES['file']['error'] ) ) {
 				wp_send_json(
 					array(
 						'OK'   => 0,
@@ -108,7 +109,7 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 			if ( $chunks ) {
 
 				if ( isset( $_COOKIE['jb-logo-upload'] ) && $chunks > 1 ) {
-					$unique_name = sanitize_file_name( $_COOKIE['jb-logo-upload'] );
+					$unique_name = sanitize_file_name( wp_unslash( $_COOKIE['jb-logo-upload'] ) );
 					$filepath    = JB()->common()->filesystem()->temp_upload_dir . DIRECTORY_SEPARATOR . $unique_name;
 
 					$image_type = wp_check_filetype( $unique_name, $mimes );
@@ -134,10 +135,12 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 				// Open temp file
 				$out = @fopen( "{$filepath}.part", 0 === $chunk ? 'wb' : 'ab' );
 
-				if ( $out ) {
+				if ( $out && ! empty( $_FILES['file']['tmp_name'] ) ) {
+
+					$tmp_name = sanitize_file_name( $_FILES['file']['tmp_name'] );
 
 					// Read binary input stream and append it to temp file
-					$in = @fopen( $_FILES['file']['tmp_name'], 'rb' );
+					$in = @fopen( $tmp_name, 'rb' );
 
 					if ( $in ) {
 						// phpcs:ignore Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition -- reading buffer here
@@ -155,7 +158,7 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 
 					fclose( $in );
 					fclose( $out );
-					unlink( $_FILES['file']['tmp_name'] );
+					unlink( $tmp_name );
 
 				} else {
 
@@ -176,7 +179,7 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 					rename( "{$filepath}.part", $filepath );
 					// phpcs:enable WordPress.WP.AlternativeFunctions
 
-					$fileinfo                = $_FILES['file'];
+					$fileinfo                = ! empty( $_FILES['file'] ) ? wp_unslash( $_FILES['file'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- don't need to sanitize
 					$fileinfo['file']        = $filepath;
 					$fileinfo['name_loaded'] = $filename;
 					$fileinfo['name_saved']  = wp_basename( $fileinfo['file'] );

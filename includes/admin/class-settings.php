@@ -1,4 +1,5 @@
-<?php namespace jb\admin;
+<?php
+namespace jb\admin;
 
 use WP_Filesystem_Base;
 use function WP_Filesystem;
@@ -175,7 +176,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				 *
 				 * @return {array} Job expiration date.
 				 */
-				$settings = apply_filters( 'jb_change_settings_before_save', $_POST['jb_options'] );
+				$settings = apply_filters( 'jb_change_settings_before_save', $_POST['jb_options'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- sanitized below in sanitize.
 
 				foreach ( $settings as $key => $value ) {
 					$key = sanitize_key( $key );
@@ -193,16 +194,16 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 								$value = absint( $value );
 								break;
 							case 'key':
-								$value = sanitize_key( $value );
+								$value = sanitize_key( wp_unslash( $value ) );
 								break;
 							case 'email':
-								$value = sanitize_email( $value );
+								$value = sanitize_email( wp_unslash( $value ) );
 								break;
 							case 'text':
-								$value = sanitize_text_field( $value );
+								$value = sanitize_text_field( wp_unslash( $value ) );
 								break;
 							case 'textarea':
-								$value = sanitize_textarea_field( $value );
+								$value = sanitize_textarea_field( wp_unslash( $value ) );
 								break;
 							default:
 								/**
@@ -217,7 +218,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 								 *
 								 * @return {mixed} Maybe sanitized option value.
 								 */
-								$value = apply_filters( 'jb_settings_sanitize_' . $key, $value );
+								$value = apply_filters( 'jb_settings_sanitize_' . $key, wp_unslash( $value ) );
 								break;
 						}
 					}
@@ -241,14 +242,13 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 					'update' => 'jb_settings_updated',
 				);
 				if ( ! empty( $_GET['tab'] ) ) {
-					$arg['tab'] = sanitize_key( $_GET['tab'] );
+					$arg['tab'] = sanitize_key( wp_unslash( $_GET['tab'] ) );
 				}
 				if ( ! empty( $_GET['section'] ) ) {
-					$arg['section'] = sanitize_key( $_GET['section'] );
+					$arg['section'] = sanitize_key( wp_unslash( $_GET['section'] ) );
 				}
 
-				// phpcs:ignore WordPress.Security.SafeRedirect -- admin screen redirect
-				wp_redirect( add_query_arg( $arg, admin_url( 'admin.php' ) ) );
+				wp_safe_redirect( add_query_arg( $arg, admin_url( 'admin.php' ) ) );
 				exit;
 			}
 		}
@@ -263,7 +263,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		public function multi_email_sanitize( $value ) {
 			$emails_array = explode( ',', $value );
 			if ( ! empty( $emails_array ) ) {
-				$emails_array = array_map( 'sanitize_email', array_map( 'trim', $emails_array ) );
+				$emails_array = array_map( 'sanitize_email', array_map( 'trim', array_map( 'wp_unslash', $emails_array ) ) );
 			}
 
 			$emails_array = array_filter( array_unique( $emails_array ) );
@@ -829,7 +829,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 */
 		public function email_templates_list_table() {
 			// phpcs:ignore WordPress.Security.NonceVerification
-			$email_key           = empty( $_GET['email'] ) ? '' : sanitize_key( urldecode( $_GET['email'] ) );
+			$email_key           = empty( $_GET['email'] ) ? '' : sanitize_key( wp_unslash( $_GET['email'] ) );
 			$email_notifications = JB()->config()->get( 'email_notifications' );
 
 			if ( empty( $email_key ) || empty( $email_notifications[ $email_key ] ) ) {
@@ -853,7 +853,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			}
 
 			// phpcs:ignore WordPress.Security.NonceVerification
-			$email_key           = empty( $_GET['email'] ) ? '' : sanitize_key( urldecode( $_GET['email'] ) );
+			$email_key           = empty( $_GET['email'] ) ? '' : sanitize_key( wp_unslash( $_GET['email'] ) );
 			$email_notifications = JB()->config()->get( 'email_notifications' );
 
 			if ( empty( $email_key ) || empty( $email_notifications[ $email_key ] ) ) {
@@ -1022,7 +1022,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 		 */
 		public function tabs_menu() {
 			// phpcs:ignore WordPress.Security.NonceVerification
-			$current_tab = empty( $_GET['tab'] ) ? '' : sanitize_key( urldecode( $_GET['tab'] ) );
+			$current_tab = empty( $_GET['tab'] ) ? '' : sanitize_key( wp_unslash( $_GET['tab'] ) );
 			if ( empty( $current_tab ) ) {
 				$all_tabs    = array_keys( $this->config );
 				$current_tab = $all_tabs[0];
@@ -1081,8 +1081,8 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 				return '';
 			}
 
-			$current_tab    = empty( $_GET['tab'] ) ? '' : sanitize_key( urldecode( $_GET['tab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
-			$current_subtab = empty( $_GET['section'] ) ? '' : sanitize_key( urldecode( $_GET['section'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			$current_tab    = empty( $_GET['tab'] ) ? '' : sanitize_key( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			$current_subtab = empty( $_GET['section'] ) ? '' : sanitize_key( wp_unslash( $_GET['section'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 			if ( empty( $current_subtab ) ) {
 				$sections       = array_keys( $this->config[ $tab ]['sections'] );
 				$current_subtab = $sections[0];
@@ -1280,7 +1280,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			}
 
 			$template = sanitize_key( $settings['jb_email_template'] );
-			$content  = stripslashes( sanitize_textarea_field( $settings[ $template ] ) );
+			$content  = sanitize_textarea_field( wp_unslash( $settings[ $template ] ) );
 
 			$template_name = JB()->get_email_template( $template );
 			$module        = JB()->get_email_template_module( $template );
@@ -1376,7 +1376,7 @@ if ( ! class_exists( 'jb\admin\Settings' ) ) {
 			?>
 
 			<p class="description" style="margin: 20px 0 0 0;">
-				<a href="<?php echo esc_url( add_query_arg( 'jb_adm_action', 'check_templates_version' ) ); ?>" class="button" style="margin-right: 10px;">
+				<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'jb_adm_action', 'check_templates_version' ), 'jb_check_templates_version' ) ); ?>" class="button" style="margin-right: 10px;">
 					<?php esc_html_e( 'Re-check templates', 'jobboardwp' ); ?>
 				</a>
 				<?php

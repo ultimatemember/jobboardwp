@@ -99,7 +99,7 @@ function jb_admin_settings_get_pages_list_wpml() {
 	// phpcs:disable WordPress.Security.NonceVerification -- is verified in JB()->ajax()->settings()->get_pages_list()
 	$return = array();
 
-	$search_query = ! empty( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : '';
+	$search_query = ! empty( $_GET['search'] ) ? sanitize_text_field( wp_unslash( $_GET['search'] ) ) : '';
 	$paged        = ! empty( $_GET['page'] ) ? absint( $_GET['page'] ) : 1;
 
 	$current_lang_query = new WP_Query(
@@ -200,7 +200,7 @@ function jb_admin_settings_get_pages_list_wpml() {
 			'ignore_sticky_posts' => 1,
 			'posts_per_page'      => 10, // how much to show at once
 			'paged'               => $paged,
-			'suppress_filters'    => true, // ignore WPML default filters for languages
+			'suppress_filters'    => true, // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.SuppressFilters_suppress_filters -- ignore WPML default filters for languages
 			'orderby'             => 'title',
 			'order'               => 'asc',
 			'post__in'            => $posts,

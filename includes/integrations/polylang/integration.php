@@ -87,7 +87,7 @@ function jb_admin_settings_get_pages_list_polylang() {
 	// phpcs:disable WordPress.Security.NonceVerification -- is verified in JB()->ajax()->settings()->get_pages_list()
 	$return = array();
 
-	$search_query = ! empty( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : '';
+	$search_query = ! empty( $_GET['search'] ) ? sanitize_text_field( wp_unslash( $_GET['search'] ) ) : '';
 	$paged        = ! empty( $_GET['page'] ) ? absint( $_GET['page'] ) : 1;
 
 	$current_lang_query = new WP_Query(

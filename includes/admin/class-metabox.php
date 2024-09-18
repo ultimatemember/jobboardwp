@@ -1,4 +1,5 @@
-<?php namespace jb\admin;
+<?php
+namespace jb\admin;
 
 use WP_Post;
 use WP_Term;
@@ -88,13 +89,13 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			}
 
 			if ( ! empty( $_REQUEST['jb-color'] ) ) {
-				update_term_meta( $term_id, 'jb-color', sanitize_hex_color( $_REQUEST['jb-color'] ) );
+				update_term_meta( $term_id, 'jb-color', sanitize_hex_color( wp_unslash( $_REQUEST['jb-color'] ) ) );
 			} else {
 				delete_term_meta( $term_id, 'jb-color' );
 			}
 
 			if ( ! empty( $_REQUEST['jb-background'] ) ) {
-				update_term_meta( $term_id, 'jb-background', sanitize_hex_color( $_REQUEST['jb-background'] ) );
+				update_term_meta( $term_id, 'jb-background', sanitize_hex_color( wp_unslash( $_REQUEST['jb-background'] ) ) );
 			} else {
 				delete_term_meta( $term_id, 'jb-background' );
 			}
@@ -188,7 +189,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 				if ( ! isset( $_POST['jb-job-meta']['jb-location-type'] ) ) {
 					return;
 				}
-				if ( sanitize_text_field( $_POST['jb-job-meta']['jb-location-type'] ) === '0' && empty( $_POST['jb-job-meta']['jb-location'] ) ) {
+				if ( empty( $_POST['jb-job-meta']['jb-location'] ) && sanitize_text_field( wp_unslash( $_POST['jb-job-meta']['jb-location-type'] ) ) === '0' ) {
 					return;
 				}
 			}
@@ -222,13 +223,13 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			$current_time = time();
 
 			// merge preferred location into location
-			if ( isset( $_POST['jb-job-meta']['jb-location-type'] ) && '0' !== sanitize_text_field( $_POST['jb-job-meta']['jb-location-type'] ) ) {
+			if ( isset( $_POST['jb-job-meta']['jb-location-type'] ) && '0' !== sanitize_text_field( wp_unslash( $_POST['jb-job-meta']['jb-location-type'] ) ) ) {
 				if ( isset( $_POST['jb-job-meta']['jb-location-preferred'] ) ) {
-					$_POST['jb-job-meta']['jb-location'] = $_POST['jb-job-meta']['jb-location-preferred'];
+					$_POST['jb-job-meta']['jb-location'] = wp_unslash( $_POST['jb-job-meta']['jb-location-preferred'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized below
 					unset( $_POST['jb-job-meta']['jb-location-preferred'] );
 				}
 				if ( isset( $_POST['jb-job-meta']['jb-location-preferred-data'] ) ) {
-					$_POST['jb-job-meta']['jb-location-data'] = $_POST['jb-job-meta']['jb-location-preferred-data'];
+					$_POST['jb-job-meta']['jb-location-data'] = wp_unslash( $_POST['jb-job-meta']['jb-location-preferred-data'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized below
 					unset( $_POST['jb-job-meta']['jb-location-preferred-data'] );
 				}
 			}
@@ -243,7 +244,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 			$skip_meta_update = array();
 
 			//save metadata
-			foreach ( $_POST['jb-job-meta'] as $k => $v ) {
+			foreach ( $_POST['jb-job-meta'] as $k => $v ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- sanitized below
 				if ( 0 === strpos( $k, 'jb-' ) ) {
 					if ( in_array( $k, $skip_meta_update, true ) ) {
 						continue;
@@ -257,7 +258,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 								$v = (bool) $v;
 								break;
 							case 'text':
-								$v = sanitize_text_field( $v );
+								$v = sanitize_text_field( wp_unslash( $v ) );
 								break;
 							case 'absint':
 								if ( is_array( $v ) ) {
@@ -337,7 +338,7 @@ if ( ! class_exists( 'jb\admin\Metabox' ) ) {
 					}
 
 					if ( 'jb-location-data' === $k ) {
-						$v = json_decode( stripslashes( $v ) );
+						$v = json_decode( wp_unslash( $v ) );
 						$v = JB()->common()->job()->sanitize_location_data( $v );
 
 						update_post_meta( $post_id, 'jb-location-raw-data', $v );

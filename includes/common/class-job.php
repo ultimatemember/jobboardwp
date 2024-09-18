@@ -1,4 +1,5 @@
-<?php namespace jb\common;
+<?php
+namespace jb\common;
 
 use WP_Filesystem_Base;
 use WP_Post;

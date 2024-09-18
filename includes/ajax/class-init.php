@@ -1,9 +1,9 @@
-<?php namespace jb\ajax;
+<?php
+namespace jb\ajax;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 
 if ( ! class_exists( 'jb\ajax\Init' ) ) {
 

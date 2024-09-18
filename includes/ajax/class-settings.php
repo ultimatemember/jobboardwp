@@ -1,9 +1,9 @@
-<?php namespace jb\ajax;
+<?php
+namespace jb\ajax;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 
 if ( ! class_exists( 'jb\ajax\Settings' ) ) {
 
@@ -33,7 +33,7 @@ if ( ! class_exists( 'jb\ajax\Settings' ) ) {
 			// we will pass post IDs and titles to this array
 			$return = array();
 
-			$search_query = ! empty( $_GET['search'] ) ? sanitize_text_field( $_GET['search'] ) : '';
+			$search_query = ! empty( $_GET['search'] ) ? sanitize_text_field( wp_unslash( $_GET['search'] ) ) : '';
 			$paged        = ! empty( $_GET['page'] ) ? absint( $_GET['page'] ) : 1;
 
 			/**

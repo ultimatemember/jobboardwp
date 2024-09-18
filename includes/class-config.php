@@ -1,4 +1,5 @@
-<?php namespace jb;
+<?php
+namespace jb;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

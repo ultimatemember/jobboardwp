@@ -1,4 +1,5 @@
-<?php namespace jb\admin;
+<?php
+namespace jb\admin;
 
 use WP_Roles;
 

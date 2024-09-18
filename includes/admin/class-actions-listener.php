@@ -1,4 +1,5 @@
-<?php namespace jb\admin;
+<?php
+namespace jb\admin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -34,35 +35,27 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 			if ( ! empty( $_REQUEST['jb_adm_action'] ) ) {
 				switch ( sanitize_key( $_REQUEST['jb_adm_action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification -- there is nonce verification below for each case
 					case 'install_predefined_pages':
-						if ( wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb_install_predefined_pages' ) ) {
-							JB()->install()->predefined_pages();
+						check_admin_referer( 'jb_install_predefined_pages', 'nonce' );
 
-							// phpcs:ignore WordPress.Security.SafeRedirect
-							wp_redirect( add_query_arg( array( 'page' => 'jb-settings' ), admin_url( 'admin.php' ) ) );
-							exit;
-						}
+						JB()->install()->predefined_pages();
 
-						break;
+						wp_safe_redirect( add_query_arg( array( 'page' => 'jb-settings' ), admin_url( 'admin.php' ) ) );
+						exit;
 					case 'install_predefined_page':
-						if ( wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb_install_predefined_page' ) ) {
-							$page_slug = array_key_exists( 'jb_page_key', $_REQUEST ) ? sanitize_key( $_REQUEST['jb_page_key'] ) : '';
+						check_admin_referer( 'jb_install_predefined_page', 'nonce' );
 
-							if ( empty( $page_slug ) || ! JB()->common()->permalinks()->predefined_page_slug_exists( $page_slug ) ) {
-								// phpcs:ignore WordPress.Security.SafeRedirect
-								wp_redirect( add_query_arg( array( 'page' => 'jb-settings' ), admin_url( 'admin.php' ) ) );
-								exit;
-							}
-
-							JB()->install()->predefined_page( $page_slug );
-
-							// phpcs:ignore WordPress.Security.SafeRedirect
-							wp_redirect( add_query_arg( array( 'page' => 'jb-settings' ), admin_url( 'admin.php' ) ) );
+						$page_slug = array_key_exists( 'jb_page_key', $_REQUEST ) ? sanitize_key( $_REQUEST['jb_page_key'] ) : '';
+						if ( empty( $page_slug ) || ! JB()->common()->permalinks()->predefined_page_slug_exists( $page_slug ) ) {
+							wp_safe_redirect( add_query_arg( array( 'page' => 'jb-settings' ), admin_url( 'admin.php' ) ) );
 							exit;
 						}
 
-						break;
+						JB()->install()->predefined_page( $page_slug );
+
+						wp_safe_redirect( add_query_arg( array( 'page' => 'jb-settings' ), admin_url( 'admin.php' ) ) );
+						exit;
 					case 'approve_job':
-						if ( ! empty( $_GET['job-id'] ) && wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-approve-job' . absint( $_GET['job-id'] ) ) ) {
+						if ( ! empty( $_GET['job-id'] ) && ! empty( $_GET['nonce'] ) && wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-approve-job' . absint( $_GET['job-id'] ) ) ) {
 
 							$job_id = absint( $_GET['job-id'] );
 							$job    = get_post( $job_id );
@@ -76,18 +69,19 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 							if ( ! empty( $job ) && ! is_wp_error( $job ) ) {
 								if ( JB()->common()->job()->approve_job( $job ) ) {
 									// phpcs:ignore WordPress.Security.SafeRedirect
-									wp_redirect( add_query_arg( array( 'jb-approved' => '1' ), $referrer ) );
+									wp_safe_redirect( add_query_arg( array( 'jb-approved' => '1' ), $referrer ) );
 									exit;
 								}
 							}
 
-							// phpcs:ignore WordPress.Security.SafeRedirect
-							wp_redirect( $referrer );
+							wp_safe_redirect( $referrer );
 							exit;
 						}
-
 						break;
+
 					case 'check_templates_version':
+						check_admin_referer( 'jb_check_templates_version' );
+
 						$templates = JB()->admin()->settings()->get_override_templates( true );
 						$out_date  = false;
 						foreach ( $templates as $template ) {
@@ -109,7 +103,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 							admin_url( 'admin.php' )
 						);
 						wp_safe_redirect( $url );
-						break;
+						exit;
 				}
 			}
 		}
@@ -129,7 +123,7 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 			}
 
 			if ( isset( $_REQUEST['_wp_http_referer'] ) ) {
-				$redirect = remove_query_arg( array( '_wp_http_referer' ), wp_unslash( $_REQUEST['_wp_http_referer'] ) );
+				$redirect = remove_query_arg( array( '_wp_http_referer' ), wp_unslash( $_REQUEST['_wp_http_referer'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- _wp_http_referer ok
 			} else {
 				$redirect = get_admin_url( null, 'admin.php?page=jb-settings&tab=modules' );
 			}
@@ -257,9 +251,9 @@ if ( ! class_exists( 'jb\admin\Actions_Listener' ) ) {
 				}
 			}
 
-			//remove extra query arg
-			if ( ! empty( $_GET['_wp_http_referer'] ) ) {
-				wp_safe_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
+			// Remove extra query arg
+			if ( ! empty( $_GET['_wp_http_referer'] ) && isset( $_SERVER['REQUEST_URI'] ) ) {
+				wp_safe_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- REQUEST_URI ok
 				exit;
 			}
 		}

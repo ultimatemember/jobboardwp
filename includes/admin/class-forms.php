@@ -1083,8 +1083,6 @@ if ( ! class_exists( 'jb\admin\Forms' ) ) {
 				$value = isset( $field_data[ $value_index ] ) ? $field_data[ $value_index ] : $default;
 			}
 
-			$value = is_string( $value ) ? stripslashes( $value ) : $value;
-
 			if ( ! empty( $value ) && isset( $field_data['encode'] ) ) {
 				$value = wp_json_encode( $value, JSON_UNESCAPED_UNICODE );
 			}

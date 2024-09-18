@@ -1,9 +1,9 @@
-<?php namespace jb\common;
+<?php
+namespace jb\common;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 
 if ( ! class_exists( 'jb\common\Init' ) ) {
 

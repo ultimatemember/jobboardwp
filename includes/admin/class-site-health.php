@@ -423,7 +423,7 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 					),
 					'job-submitted-notice'           => array(
 						'label' => __( 'Job submitted notice', 'jobboardwp' ),
-						'value' => stripslashes( JB()->options()->get( 'job-submitted-notice' ) ),
+						'value' => JB()->options()->get( 'job-submitted-notice' ),
 					),
 					'jobs-list-pagination'           => array(
 						'label' => __( 'Jobs per page', 'jobboardwp' ),
@@ -495,7 +495,7 @@ if ( ! class_exists( 'jb\admin\Site_Health' ) ) {
 					),
 					'mail_from'                      => array(
 						'label' => __( 'Mail appears from', 'jobboardwp' ),
-						'value' => stripslashes( JB()->options()->get( 'mail_from' ) ),
+						'value' => JB()->options()->get( 'mail_from' ),
 					),
 					'mail_from_addr'                 => array(
 						'label' => __( 'Mail appears from address', 'jobboardwp' ),

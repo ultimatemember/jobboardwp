@@ -1,19 +1,17 @@
-<?php namespace jb\common;
+<?php
+namespace jb\common;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 if ( ! class_exists( 'jb\common\CPT' ) ) {
-
 
 	/**
 	 * Class CPT
 	 * @package jb\common
 	 */
 	class CPT {
-
 
 		/**
 		 * CPT constructor.

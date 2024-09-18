@@ -1,4 +1,5 @@
-<?php namespace jb\ajax;
+<?php
+namespace jb\ajax;
 
 use WP_Query;
 
@@ -106,7 +107,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			// phpcs:disable WordPress.Security.NonceVerification
 			if ( ! empty( $_POST['search'] ) ) {
 				global $wpdb;
-				$search = trim( stripslashes( sanitize_text_field( $_POST['search'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification -- already verified here
+				$search = sanitize_text_field( wp_unslash( $_POST['search'] ) ); // phpcs:ignore WordPress.Security.NonceVerification -- already verified here
 				if ( ! empty( $search ) ) {
 
 					$meta_value  = '%' . $wpdb->esc_like( $search ) . '%';
@@ -154,7 +155,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			if ( JB()->options()->get( 'job-salary' ) ) {
 				if ( ! empty( $_POST['salary'] ) ) {
 					global $wpdb;
-					$salary = explode( '-', $_POST['salary'] );
+					$salary = explode( '-', wp_unslash( $_POST['salary'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized below via absint per value
 					$min    = absint( $salary[0] );
 					$max    = absint( $salary[1] );
 
@@ -195,7 +196,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			$orderby_array = array();
 
 			// phpcs:disable WordPress.Security.NonceVerification -- already verified here
-			$search     = trim( stripslashes( sanitize_text_field( $_POST['search'] ) ) );
+			$search     = ! empty( $_POST['search'] ) ? sanitize_text_field( wp_unslash( $_POST['search'] ) ) : '';
 			$meta_value = '%' . $wpdb->esc_like( $search ) . '%';
 
 			// Sentence match in 'post_title'.
@@ -215,12 +216,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				$orderby_array[] = '(CASE ' . $new_search_orderby . 'ELSE 4 END)';
 			}
 
-			if ( isset( $_POST['orderby'] ) && 'title' === sanitize_key( $_POST['orderby'] ) ) {
+			if ( isset( $_POST['orderby'] ) && 'title' === sanitize_key( wp_unslash( $_POST['orderby'] ) ) ) {
 				$orderby = 'post_title';
 			} else {
 				$orderby = 'post_date';
 			}
-			if ( isset( $_POST['order'] ) && 'ASC' === sanitize_text_field( $_POST['order'] ) ) {
+			if ( isset( $_POST['order'] ) && 'ASC' === sanitize_text_field( wp_unslash( $_POST['order'] ) ) ) {
 				$order = 'ASC';
 			} else {
 				$order = 'DESC';
@@ -354,12 +355,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 
-			if ( isset( $_POST['orderby'] ) && 'title' === sanitize_key( $_POST['orderby'] ) ) {
+			if ( isset( $_POST['orderby'] ) && 'title' === sanitize_key( wp_unslash( $_POST['orderby'] ) ) ) {
 				$orderby = 'title';
 			} else {
 				$orderby = 'date';
 			}
-			if ( isset( $_POST['order'] ) && 'ASC' === sanitize_text_field( $_POST['order'] ) ) {
+			if ( isset( $_POST['order'] ) && 'ASC' === sanitize_text_field( wp_unslash( $_POST['order'] ) ) ) {
 				$order = 'ASC';
 			} else {
 				$order = 'DESC';
@@ -387,7 +388,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			}
 
 			if ( ! empty( $_POST['search'] ) ) {
-				$search = trim( stripslashes( sanitize_text_field( $_POST['search'] ) ) );
+				$search = sanitize_text_field( wp_unslash( $_POST['search'] ) );
 				if ( ! empty( $search ) ) {
 					$query_args['s'] = $search;
 					// if search there is 'posts_search_orderby' hook used and order handler is moved to `$this->relevance_search()` function
@@ -412,7 +413,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			}
 
 			if ( ! empty( $_POST['location'] ) ) {
-				$location = trim( stripslashes( sanitize_text_field( $_POST['location'] ) ) );
+				$location = sanitize_text_field( wp_unslash( $_POST['location'] ) );
 				if ( ! empty( $location ) ) {
 					if ( ! isset( $query_args['meta_query'] ) ) {
 						$query_args['meta_query'] = array();
@@ -447,7 +448,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				if ( ! empty( $_POST['location-city'] ) ) {
 					$address_query[] = array(
 						'key'     => 'jb-location-city',
-						'value'   => sanitize_text_field( $_POST['location-city'] ),
+						'value'   => sanitize_text_field( wp_unslash( $_POST['location-city'] ) ),
 						'compare' => '=',
 					);
 				}
@@ -457,12 +458,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						'relation' => 'OR',
 						array(
 							'key'     => 'jb-location-state-short',
-							'value'   => sanitize_text_field( $_POST['location-state-short'] ),
+							'value'   => sanitize_text_field( wp_unslash( $_POST['location-state-short'] ) ),
 							'compare' => '=',
 						),
 						array(
 							'key'     => 'jb-location-state-long',
-							'value'   => sanitize_text_field( $_POST['location-state-long'] ),
+							'value'   => sanitize_text_field( wp_unslash( $_POST['location-state-long'] ) ),
 							'compare' => '=',
 						),
 					);
@@ -473,12 +474,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						'relation' => 'OR',
 						array(
 							'key'     => 'jb-location-country-short',
-							'value'   => sanitize_text_field( $_POST['location-country-short'] ),
+							'value'   => sanitize_text_field( wp_unslash( $_POST['location-country-short'] ) ),
 							'compare' => '=',
 						),
 						array(
 							'key'     => 'jb-location-country-long',
-							'value'   => sanitize_text_field( $_POST['location-country-long'] ),
+							'value'   => sanitize_text_field( wp_unslash( $_POST['location-country-long'] ) ),
 							'compare' => '=',
 						),
 					);
@@ -517,7 +518,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 			$types = array();
 			if ( ! empty( $_POST['type'] ) ) {
-				$types = array_map( 'absint', array_map( 'trim', explode( ',', $_POST['type'] ) ) );
+				$types = array_map( 'absint', array_map( 'trim', explode( ',', wp_unslash( $_POST['type'] ) ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- array_map ok
 			}
 			if ( ! empty( $types ) ) {
 				$query_args['tax_query'][] = array(
@@ -530,7 +531,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			if ( JB()->options()->get( 'job-categories' ) ) {
 				$categories = array();
 				if ( ! empty( $_POST['category'] ) ) {
-					$categories = array_map( 'absint', array_map( 'trim', explode( ',', $_POST['category'] ) ) );
+					$categories = array_map( 'absint', array_map( 'trim', explode( ',', wp_unslash( $_POST['category'] ) ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- array_map ok
 				}
 				if ( ! empty( $categories ) ) {
 					$query_args['tax_query'][] = array(
@@ -647,8 +648,8 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 
-			$hide_logo      = (bool) $_POST['no_logo'];
-			$hide_job_types = (bool) $_POST['hide_job_types'];
+			$hide_logo      = ! empty( $_POST['no_logo'] ) ? (bool) $_POST['no_logo'] : false;
+			$hide_job_types = ! empty( $_POST['hide_job_types'] ) ? (bool) $_POST['hide_job_types'] : false;
 
 			/**
 			 * Filters the AJAX response when getting jobs for the jobs list.
@@ -1165,7 +1166,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			if ( empty( $_POST['description'] ) ) {
 				$errors['empty'][] = 'description';
 			} else {
-				$description = wp_kses_post( $_POST['description'] );
+				$description = wp_kses_post( wp_unslash( $_POST['description'] ) );
 				if ( empty( $description ) ) {
 					$errors['empty'][] = 'description';
 				}
@@ -1176,12 +1177,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			} else {
 				$method = JB()->options()->get( 'application-method' );
 				if ( 'email' === $method ) {
-					$app_contact = sanitize_email( $_POST['data']['jb-application-contact'] );
+					$app_contact = sanitize_email( wp_unslash( $_POST['data']['jb-application-contact'] ) );
 					if ( ! is_email( $app_contact ) ) {
 						$errors['wrong'][] = 'jb-application-contact';
 					}
 				} elseif ( 'url' === $method ) {
-					$app_contact = sanitize_text_field( $_POST['data']['jb-application-contact'] );
+					$app_contact = sanitize_text_field( wp_unslash( $_POST['data']['jb-application-contact'] ) );
 					if ( false === strpos( $app_contact, 'http:' ) && false === strpos( $app_contact, 'https:' ) ) {
 						$app_contact = 'https://' . $app_contact;
 					}
@@ -1190,9 +1191,9 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						$errors['wrong'][] = 'jb-application-contact';
 					}
 				} else {
-					$app_contact = sanitize_email( $_POST['data']['jb-application-contact'] );
+					$app_contact = sanitize_email( wp_unslash( $_POST['data']['jb-application-contact'] ) );
 					if ( ! is_email( $app_contact ) ) {
-						$app_contact = sanitize_text_field( $_POST['data']['jb-application-contact'] );
+						$app_contact = sanitize_text_field( wp_unslash( $_POST['data']['jb-application-contact'] ) );
 						// Prefix http if needed.
 						if ( false === strpos( $app_contact, 'http:' ) && false === strpos( $app_contact, 'https:' ) ) {
 							$app_contact = 'https://' . $app_contact;
@@ -1207,12 +1208,12 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			if ( ! isset( $_POST['data']['jb-location-type'] ) ) {
 				$errors['wrong'][] = 'jb-location-type';
 			} else {
-				$location_type = sanitize_text_field( $_POST['data']['jb-location-type'] );
+				$location_type = sanitize_text_field( wp_unslash( $_POST['data']['jb-location-type'] ) );
 				if ( '0' === $location_type ) {
 					if ( empty( $_POST['data']['jb-location'] ) ) {
 						$errors['empty'][] = 'jb-location';
 					} else {
-						$location = sanitize_text_field( $_POST['data']['jb-location'] );
+						$location = sanitize_text_field( wp_unslash( $_POST['data']['jb-location'] ) );
 						if ( empty( $location ) ) {
 							$errors['empty'][] = 'jb-location';
 						}
@@ -1223,7 +1224,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			if ( empty( $_POST['data']['jb-company-name'] ) ) {
 				$errors['empty'][] = 'jb-company-name';
 			} else {
-				$company_name = sanitize_text_field( $_POST['data']['jb-company-name'] );
+				$company_name = sanitize_text_field( wp_unslash( $_POST['data']['jb-company-name'] ) );
 				if ( empty( $company_name ) ) {
 					$errors['empty'][] = 'jb-company-name';
 				}

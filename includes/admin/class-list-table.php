@@ -1,11 +1,11 @@
-<?php namespace jb\admin;
+<?php
+namespace jb\admin;
 
 use WP_Post;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 
 if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 

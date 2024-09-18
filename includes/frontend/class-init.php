@@ -1,4 +1,5 @@
-<?php namespace jb\frontend;
+<?php
+namespace jb\frontend;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

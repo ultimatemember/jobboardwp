@@ -1,4 +1,5 @@
-<?php namespace jb\common;
+<?php
+namespace jb\common;
 
 use WP_Error;
 use WP_Post;
@@ -41,13 +42,16 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			//use WP native function for fill $_SERVER variables by correct values
 			wp_fix_server_vars();
 
-			if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-				$postid = url_to_postid( $_SERVER['HTTP_REFERER'] );
+			$ref = wp_get_raw_referer();
+			if ( ! $ref ) {
+				return $user;
+			}
 
-				if ( ! empty( $postid ) && $postid === $this->get_predefined_page_id( 'job-post' ) ) {
-					if ( null === $user && ( '' === $username || '' === $password ) ) {
-						return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: Invalid username, email address or incorrect password.' ) );
-					}
+			$postid = url_to_postid( $ref );
+
+			if ( ! empty( $postid ) && $postid === $this->get_predefined_page_id( 'job-post' ) ) {
+				if ( null === $user && ( '' === $username || '' === $password ) ) {
+					return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: Invalid username, email address or incorrect password.' ) );
 				}
 			}
 
@@ -69,25 +73,28 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 			//use WP native function for fill $_SERVER variables by correct values
 			wp_fix_server_vars();
 
-			if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-				$postid = url_to_postid( $_SERVER['HTTP_REFERER'] );
+			$ref = wp_get_raw_referer();
+			if ( ! $ref ) {
+				return;
+			}
 
-				if ( ! empty( $postid ) && $postid === $this->get_predefined_page_id( 'job-post' ) ) {
-					// phpcs:ignore WordPress.Security.NonceVerification
-					if ( ! empty( $_GET['redirect_to'] ) && esc_url_raw( $_GET['redirect_to'] ) === $_SERVER['HTTP_REFERER'] ) {
-						$error->remove( 'authentication_failed' );
-						return;
-					}
+			$postid = url_to_postid( $ref );
 
-					// phpcs:ignore WordPress.Security.NonceVerification
-					if ( '' === $username && isset( $_GET['loggedout'] ) && 'true' === $_GET['loggedout'] ) {
-						return;
-					}
-
-					$logout_link = add_query_arg( array( 'login' => 'failed' ), $this->get_predefined_page_link( 'job-post' ) );
-					wp_safe_redirect( $logout_link );
-					exit;
+			if ( ! empty( $postid ) && $postid === $this->get_predefined_page_id( 'job-post' ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification
+				if ( ! empty( $_GET['redirect_to'] ) && esc_url_raw( wp_unslash( $_GET['redirect_to'] ) ) === $ref ) {
+					$error->remove( 'authentication_failed' );
+					return;
 				}
+
+				// phpcs:ignore WordPress.Security.NonceVerification
+				if ( '' === $username && isset( $_GET['loggedout'] ) && 'true' === $_GET['loggedout'] ) {
+					return;
+				}
+
+				$logout_link = add_query_arg( array( 'login' => 'failed' ), $this->get_predefined_page_link( 'job-post' ) );
+				wp_safe_redirect( $logout_link );
+				exit;
 			}
 		}
 

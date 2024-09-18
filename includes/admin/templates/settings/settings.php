@@ -2,8 +2,8 @@
 	exit;
 }
 
-$current_tab    = empty( $_GET['tab'] ) ? '' : sanitize_key( urldecode( $_GET['tab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
-$current_subtab = empty( $_GET['section'] ) ? '' : sanitize_key( urldecode( $_GET['section'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+$current_tab    = empty( $_GET['tab'] ) ? '' : sanitize_key( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+$current_subtab = empty( $_GET['section'] ) ? '' : sanitize_key( wp_unslash( $_GET['section'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 ?>
 
 <div id="jb-settings-wrap" class="wrap">

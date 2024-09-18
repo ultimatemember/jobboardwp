@@ -1,4 +1,5 @@
-<?php namespace jb\frontend;
+<?php
+namespace jb\frontend;
 
 use WP_Query;
 
@@ -169,7 +170,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			if ( empty( $_GET['jb-preview'] ) ) {
 
 				// edit job form
-				if ( ! wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-job-draft' . $job_id ) ) {
+				if ( empty( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-job-draft' . $job_id ) ) {
 					remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 					return __( 'Security check wrong', 'jobboardwp' );
 				}
@@ -203,7 +204,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			}
 
 			// preview job
-			if ( ! wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-job-preview' . $job_id ) ) {
+			if ( empty( $_GET['nonce'] ) ||  ! wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-job-preview' . $job_id ) ) {
 				remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ) );
 				return __( 'Security check wrong', 'jobboardwp' );
 			}
@@ -259,7 +260,11 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 					//use WP native function for fill $_SERVER variables by correct values
 					wp_fix_server_vars();
 
-					$redirect = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+					$redirect = '';
+					if ( ! empty( $_SERVER['HTTP_HOST'] ) ) {
+						$redirect = ( is_ssl() ? 'https://' : 'http://' ) . wp_unslash( $_SERVER['HTTP_HOST'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- HTTP_HOST ok
+					}
+					$redirect .= ! empty( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- REQUEST_URI ok
 
 					ob_start();
 

@@ -1,4 +1,5 @@
-<?php namespace jb\admin;
+<?php
+namespace jb\admin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -139,12 +140,12 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 			global $submenu, $pagenow;
 
 			if ( isset( $submenu[ $this->slug ] ) ) {
-				if ( isset( $_GET['post_type'] ) && 'jb-job' === sanitize_key( $_GET['post_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+				if ( isset( $_GET['post_type'] ) && 'jb-job' === sanitize_key( wp_unslash( $_GET['post_type'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 					add_filter( 'parent_file', array( &$this, 'change_parent_file' ), 200 );
 				}
 
 				// phpcs:ignore WordPress.Security.NonceVerification
-				if ( 'post.php' === $pagenow && ( isset( $_GET['post'] ) && 'jb-job' === get_post_type( sanitize_text_field( $_GET['post'] ) ) ) ) {
+				if ( 'post.php' === $pagenow && ( isset( $_GET['post'] ) && 'jb-job' === get_post_type( sanitize_text_field( wp_unslash( $_GET['post'] ) ) ) ) ) {
 					add_filter( 'parent_file', array( &$this, 'change_parent_file' ), 200 );
 				}
 
@@ -215,9 +216,9 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 			global $pagenow;
 
 			// phpcs:ignore WordPress.Security.NonceVerification
-			if ( 'admin.php' === $pagenow && isset( $_GET['page'] ) && 'jb-settings' === sanitize_key( $_GET['page'] ) ) {
-				$current_tab    = empty( $_GET['tab'] ) ? '' : sanitize_key( urldecode( $_GET['tab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
-				$current_subtab = empty( $_GET['section'] ) ? '' : sanitize_key( urldecode( $_GET['section'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			if ( 'admin.php' === $pagenow && isset( $_GET['page'] ) && 'jb-settings' === sanitize_key( wp_unslash( $_GET['page'] ) ) ) {
+				$current_tab    = empty( $_GET['tab'] ) ? '' : sanitize_key( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+				$current_subtab = empty( $_GET['section'] ) ? '' : sanitize_key( wp_unslash( $_GET['section'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 
 				$settings_struct = JB()->admin()->settings()->get_settings( $current_tab, $current_subtab );
 				$custom_section  = JB()->admin()->settings()->section_is_custom( $current_tab, $current_subtab );
@@ -228,13 +229,13 @@ if ( ! class_exists( 'jb\admin\Menu' ) ) {
 				}
 
 				//remove extra query arg for Email list table
-				$email_key           = empty( $_GET['email'] ) ? '' : sanitize_key( urldecode( $_GET['email'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+				$email_key           = empty( $_GET['email'] ) ? '' : sanitize_key( wp_unslash( $_GET['email'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 				$email_notifications = JB()->config()->get( 'email_notifications' );
 
 				if ( empty( $email_key ) || empty( $email_notifications[ $email_key ] ) ) {
 					// phpcs:ignore WordPress.Security.NonceVerification
-					if ( ! empty( $_GET['_wp_http_referer'] ) && 'email' === $current_tab ) {
-						wp_safe_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
+					if ( ! empty( $_GET['_wp_http_referer'] ) && ! empty( $_SERVER['REQUEST_URI'] ) && 'email' === $current_tab ) {
+						wp_safe_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- REQUEST_URI ok
 						exit;
 					}
 				}
