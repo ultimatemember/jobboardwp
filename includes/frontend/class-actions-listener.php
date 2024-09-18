@@ -475,7 +475,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 
 						$posting_form->flush_errors();
 
-						if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field(  wp_unslash( $_POST['nonce'] ) ), 'jb-job-submission' ) ) {
+						if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'jb-job-submission' ) ) {
 							$posting_form->add_error( 'global', __( 'Security issue, Please try again', 'jobboardwp' ) );
 						}
 
