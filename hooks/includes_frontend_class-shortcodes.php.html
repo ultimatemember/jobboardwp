@@ -237,7 +237,7 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			}
 
 			// preview job
-			if ( empty( $_GET['nonce'] ) ||  ! wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-job-preview' . $job_id ) ) {
+			if ( empty( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'jb-job-preview' . $job_id ) ) {
 				remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ) );
 				return __( 'Security check wrong', 'jobboardwp' );
 			}
