@@ -1526,7 +1526,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 
 				$term->level = $level;
 
-				$structured_terms[] = $term;
+				$structured_terms[] = array( $term );
 
 				unset( $terms[ $key ] );
 
