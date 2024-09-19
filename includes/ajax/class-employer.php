@@ -36,15 +36,7 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 		 * @since 1.0
 		 */
 		public function upload_logo() {
-			$nonce = isset( $_REQUEST['nonce'] ) ? sanitize_key( $_REQUEST['nonce'] ) : '';
-			if ( ! wp_verify_nonce( $nonce, 'jb-frontend-nonce' ) ) {
-				wp_send_json(
-					array(
-						'OK'   => 0,
-						'info' => __( 'Wrong nonce.', 'jobboardwp' ),
-					)
-				);
-			}
+			check_ajax_referer( 'jb-frontend-nonce', 'nonce' );
 
 			$files = array();
 
@@ -136,8 +128,7 @@ if ( ! class_exists( 'jb\ajax\Employer' ) ) {
 				$out = @fopen( "{$filepath}.part", 0 === $chunk ? 'wb' : 'ab' );
 
 				if ( $out && ! empty( $_FILES['file']['tmp_name'] ) ) {
-
-					$tmp_name = sanitize_file_name( $_FILES['file']['tmp_name'] );
+					$tmp_name = $_FILES['file']['tmp_name']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- sanitized below in sanitize.
 
 					// Read binary input stream and append it to temp file
 					$in = @fopen( $tmp_name, 'rb' );
