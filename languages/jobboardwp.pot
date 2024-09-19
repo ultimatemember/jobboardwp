@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-18T14:48:55+00:00\n"
+"POT-Creation-Date: 2024-09-19T09:02:41+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: jobboardwp\n"
@@ -1389,28 +1389,24 @@ msgstr ""
 msgid "Theme version"
 msgstr ""
 
-#: includes/ajax/class-employer.php:44
-msgid "Wrong nonce."
-msgstr ""
-
-#: includes/ajax/class-employer.php:92
-#: includes/ajax/class-employer.php:120
+#: includes/ajax/class-employer.php:84
+#: includes/ajax/class-employer.php:112
 msgid "Wrong filetype."
 msgstr ""
 
-#: includes/ajax/class-employer.php:103
+#: includes/ajax/class-employer.php:95
 msgid "Failed to move uploaded file."
 msgstr ""
 
-#: includes/ajax/class-employer.php:154
+#: includes/ajax/class-employer.php:145
 msgid "Failed to open input stream."
 msgstr ""
 
-#: includes/ajax/class-employer.php:168
+#: includes/ajax/class-employer.php:159
 msgid "Failed to open output stream."
 msgstr ""
 
-#: includes/ajax/class-employer.php:202
+#: includes/ajax/class-employer.php:193
 msgid "Upload successful."
 msgstr ""
 
