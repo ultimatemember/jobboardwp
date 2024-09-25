@@ -1010,7 +1010,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		/**
 		 * Gets the job location data.
 		 *
-		 * @see http://schema.org/PostalAddress
+		 * @see https://schema.org/PostalAddress
 		 *
 		 * @param WP_Post $job
 		 * @return array|bool
