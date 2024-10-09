@@ -146,7 +146,11 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 			}
 
 			if ( empty( $this->upload_dir[ $blog_id ] ) ) {
-				$uploads                      = wp_upload_dir();
+				$uploads = wp_upload_dir();
+				if ( ! empty( $uploads['error'] ) ) {
+					return '';
+				}
+
 				$this->upload_dir[ $blog_id ] = $uploads['basedir'];
 			}
 
@@ -182,7 +186,11 @@ if ( ! class_exists( 'jb\common\Filesystem' ) ) {
 			}
 
 			if ( empty( $this->upload_url[ $blog_id ] ) ) {
-				$uploads                      = wp_upload_dir();
+				$uploads = wp_upload_dir();
+				if ( ! empty( $uploads['error'] ) ) {
+					return '';
+				}
+
 				$this->upload_url[ $blog_id ] = $uploads['baseurl'];
 			}
 
