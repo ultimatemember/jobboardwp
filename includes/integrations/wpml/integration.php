@@ -361,12 +361,12 @@ function jb_wpml_get_status_html( $template, $code ) {
 		'edit' => array(
 			'icon' => 'edit_translation.png',
 			// translators: %s is a language display name
-			'text' => sprintf( __( 'Edit the %s translation', 'sitepress' ), $active_languages[ $code ]['display_name'] ),
+			'text' => sprintf( __( 'Edit the %s translation', 'jobboardwp' ), $active_languages[ $code ]['display_name'] ),
 		),
 		'add'  => array(
 			'icon' => 'add_translation.png',
 			// translators: %s is a language display name
-			'text' => sprintf( __( 'Add translation to %s', 'sitepress' ), $active_languages[ $code ]['display_name'] ),
+			'text' => sprintf( __( 'Add translation to %s', 'jobboardwp' ), $active_languages[ $code ]['display_name'] ),
 		),
 	);
 

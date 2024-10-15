@@ -56,7 +56,7 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 								esc_html( $post->ID ),
 								esc_attr( get_edit_post_link( $post->ID ) ),
 								// translators: %s: Post title.
-								esc_attr( sprintf( __( '&#8220;%s&#8221; (Edit)' ), $title ) ),
+								esc_attr( sprintf( __( '&#8220;%s&#8221; (Edit)', 'jobboardwp' ), $title ) ),
 								$title // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped  -- already escaped via `_draft_or_post_title()`
 							);
 						} else {
@@ -100,7 +100,7 @@ if ( ! class_exists( 'jb\admin\List_Table' ) ) {
 					$lock_holder   = get_userdata( $lock_holder );
 					$locked_avatar = get_avatar( $lock_holder->ID, 18 );
 					// translators: %s: User's display name.
-					$locked_text = sprintf( __( '%s is currently editing' ), $lock_holder->display_name );
+					$locked_text = sprintf( __( '%s is currently editing', 'jobboardwp' ), $lock_holder->display_name );
 				} else {
 					$locked_avatar = '';
 					$locked_text   = '';

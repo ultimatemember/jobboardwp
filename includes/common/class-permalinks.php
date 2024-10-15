@@ -51,7 +51,7 @@ if ( ! class_exists( 'jb\common\Permalinks' ) ) {
 
 			if ( ! empty( $postid ) && $postid === $this->get_predefined_page_id( 'job-post' ) ) {
 				if ( null === $user && ( '' === $username || '' === $password ) ) {
-					return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: Invalid username, email address or incorrect password.' ) );
+					return new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: Invalid username, email address or incorrect password.', 'jobboardwp' ) );
 				}
 			}
 

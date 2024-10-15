@@ -326,7 +326,7 @@ function jb_polylang_get_status_html( $template, $code ) {
 
 	if ( $default_lang === $code ) {
 		// translators: %s is a language display name
-		$hint = sprintf( __( 'Edit the translation in %s', 'polylang' ), $language->name );
+		$hint = sprintf( __( 'Edit the translation in %s', 'jobboardwp' ), $language->name );
 
 		return sprintf(
 			'<a href="%1$s" title="%2$s" class="pll_icon_edit"><span class="screen-reader-text">%3$s</span></a>',
@@ -392,7 +392,7 @@ function jb_polylang_get_status_html( $template, $code ) {
 	// 2. There aren't any proper template in custom or theme directories
 	if ( ! empty( $template_exists ) ) {
 		// translators: %s is a language display name
-		$hint      = sprintf( __( 'Edit the translation in %s', 'polylang' ), $language->name );
+		$hint      = sprintf( __( 'Edit the translation in %s', 'jobboardwp' ), $language->name );
 		$icon_html = sprintf(
 			'<a href="%1$s" title="%2$s" class="pll_icon_edit"><span class="screen-reader-text">%3$s</span></a>',
 			esc_url( $link ),
@@ -401,7 +401,7 @@ function jb_polylang_get_status_html( $template, $code ) {
 		);
 	} else {
 		// translators: %s is a language display name
-		$hint      = sprintf( __( 'Add a translation in %s', 'polylang' ), $language->name );
+		$hint      = sprintf( __( 'Add a translation in %s', 'jobboardwp' ), $language->name );
 		$icon_html = sprintf(
 			'<a href="%1$s" title="%2$s" class="pll_icon_add"><span class="screen-reader-text">%3$s</span></a>',
 			esc_url( $link ),
