@@ -4,7 +4,7 @@
  *
  * This template can be overridden by copying it to yourtheme/jobboardwp/dashboard/content.php
  *
- * @version 1.2.1
+ * @version 1.2.8
  *
  * @var array $jb_dashboard_jobs
  */

@@ -4,7 +4,7 @@
  *
  * This template can be overridden by copying it to yourtheme/jobboardwp/js/jobs-list.php
  *
- * @version 1.2.6
+ * @version 1.2.8
  *
  * @var array $jb_js_jobs_list
  */

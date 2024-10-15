@@ -4,7 +4,7 @@
  *
  * This template can be overridden by copying it to yourtheme/jobboardwp/js/job-categories-list.php
  *
- * @version 1.1.0
+ * @version 1.2.8
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

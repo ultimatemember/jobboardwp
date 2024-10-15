@@ -6,7 +6,7 @@
  *
  * Widget: "Recent Jobs"
  *
- * @version 1.2.6
+ * @version 1.2.8
  *
  * @var array $jb_widgets_recent_jobs
  */
