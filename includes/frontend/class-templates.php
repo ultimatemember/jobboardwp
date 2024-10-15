@@ -348,6 +348,9 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 				$template_setting = JB()->options()->get( 'job-template' );
 				if ( 'default' === $template_setting ) {
 					if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+						// add scripts and styles, but later because wp_loaded is earlier
+						add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_single_job' ), 9999 );
+
 						add_filter( 'the_content', array( &$this, 'before_job_content' ), 99999 );
 						add_filter( 'the_content', array( &$this, 'after_job_content' ), 99999 );
 						return $template;

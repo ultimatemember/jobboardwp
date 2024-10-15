@@ -145,7 +145,7 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 							$sql['where'],
 							1
 						);
-						if ( $matches[0][0] ) {
+						if ( $matches[0][0] && ! empty( $sql['where'] ) ) {
 							$sql['where'] = str_replace( '#%&', '{' . $matches[0][0] . '}', $sql['where'] );
 						}
 						// phpcs:enable Squiz.Strings.DoubleQuoteUsage.NotRequired -- don't remove regex indentation
