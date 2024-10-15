@@ -105,6 +105,30 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 == Changelog ==
 
+= 1.2.8: October 16, 2024 =
+
+* Added: `jb_email_sending_placeholders` filter hook
+* Added: `{job_author}` placeholder to email notifications
+* Fixed: `{job_title}` placeholder in job submitted email notification
+* Fixed: Using "/" or "@" symbols in search jobs field
+* Fixed: wp-admin job data validation related to job salary
+* Fixed: Default job template when block theme is active
+* Fixed: Filesystem initialization when errors
+* Fixed: Resetting expiration reminder marker as soon as expiration date is changed
+* Fixed: Displaying filled job for the author if filled jobs are hidden in the jobs list
+* Tweak: Updated PHPCS + WPCS for getting better code experience
+
+* Templates required update:
+  - dashboard/jobs.php
+  - job/footer.php
+  - jobs/search-bar.php
+  - js/job-categories-list.php
+  - js/jobs-dashboard.php
+  - js/jobs-list.php
+  - widgets/recent-jobs.php
+
+* Cached and optimized/minified assets(JS/CSS) must be flushed/re-generated after upgrade
+
 = 1.2.7: May 7, 2024 =
 
 * Added: Hook `jb_job_email_notify` to change new user registration recipients
