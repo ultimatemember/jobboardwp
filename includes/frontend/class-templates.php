@@ -348,6 +348,8 @@ if ( ! class_exists( 'jb\frontend\Templates' ) ) {
 				$template_setting = JB()->options()->get( 'job-template' );
 				if ( 'default' === $template_setting ) {
 					if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+						add_filter( 'the_content', array( &$this, 'before_job_content' ), 99999 );
+						add_filter( 'the_content', array( &$this, 'after_job_content' ), 99999 );
 						return $template;
 					}
 
