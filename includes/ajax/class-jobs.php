@@ -1241,39 +1241,41 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 				}
 			}
 
-			if ( empty( $_POST['data']['jb-salary-type'] ) && JB()->options()->get( 'required-job-salary' ) ) {
-				$errors['empty'][] = 'jb-salary-type';
-			}
-
-			if ( ! empty( $_POST['data']['jb-salary-type'] ) ) {
-				if ( empty( $_POST['data']['jb-salary-amount-type'] ) ) {
-					$errors['empty'][] = 'jb-salary-amount-type';
-				} elseif ( 'numeric' === $_POST['data']['jb-salary-amount-type'] ) {
-					if ( empty( $_POST['data']['jb-salary-amount'] ) ) {
-						$errors['empty'][] = 'jb-salary-amount';
-					} elseif ( ! is_numeric( $_POST['data']['jb-salary-amount'] ) ) {
-						$errors['wrong'][] = 'jb-salary-amount';
-					}
-				} elseif ( 'range' === $_POST['data']['jb-salary-amount-type'] ) {
-					if ( empty( $_POST['data']['jb-salary-min-amount'] ) && empty( $_POST['data']['jb-salary-max-amount'] ) ) {
-						$errors['empty'][] = 'jb-salary-min-amount';
-					} else {
-						if ( ! is_numeric( $_POST['data']['jb-salary-min-amount'] ) ) {
-							$errors['wrong'][] = 'jb-salary-min-amount';
-						} elseif ( 0 !== absint( $_POST['data']['jb-salary-max-amount'] ) && absint( $_POST['data']['jb-salary-min-amount'] ) >= absint( $_POST['data']['jb-salary-max-amount'] ) ) {
-							$errors['wrong'][] = 'jb-salary-min-amount';
-						}
-
-						if ( ! is_numeric( $_POST['data']['jb-salary-max-amount'] ) ) {
-							$errors['wrong'][] = 'jb-salary-max-amount';
-						} elseif ( 0 !== absint( $_POST['data']['jb-salary-max-amount'] ) && absint( $_POST['data']['jb-salary-max-amount'] ) <= absint( $_POST['data']['jb-salary-min-amount'] ) ) {
-							$errors['wrong'][] = 'jb-salary-max-amount';
-						}
-					}
+			if ( JB()->options()->get( 'job-salary' ) ) {
+				if ( empty( $_POST['data']['jb-salary-type'] ) && JB()->options()->get( 'required-job-salary' ) ) {
+					$errors['empty'][] = 'jb-salary-type';
 				}
 
-				if ( 'recurring' === $_POST['data']['jb-salary-type'] && empty( $_POST['data']['jb-salary-period'] ) ) {
-					$errors['empty'][] = 'jb-salary-period';
+				if ( ! empty( $_POST['data']['jb-salary-type'] ) ) {
+					if ( empty( $_POST['data']['jb-salary-amount-type'] ) ) {
+						$errors['empty'][] = 'jb-salary-amount-type';
+					} elseif ( 'numeric' === $_POST['data']['jb-salary-amount-type'] ) {
+						if ( empty( $_POST['data']['jb-salary-amount'] ) ) {
+							$errors['empty'][] = 'jb-salary-amount';
+						} elseif ( ! is_numeric( $_POST['data']['jb-salary-amount'] ) ) {
+							$errors['wrong'][] = 'jb-salary-amount';
+						}
+					} elseif ( 'range' === $_POST['data']['jb-salary-amount-type'] ) {
+						if ( empty( $_POST['data']['jb-salary-min-amount'] ) && empty( $_POST['data']['jb-salary-max-amount'] ) ) {
+							$errors['empty'][] = 'jb-salary-min-amount';
+						} else {
+							if ( ! is_numeric( $_POST['data']['jb-salary-min-amount'] ) ) {
+								$errors['wrong'][] = 'jb-salary-min-amount';
+							} elseif ( 0 !== absint( $_POST['data']['jb-salary-max-amount'] ) && absint( $_POST['data']['jb-salary-min-amount'] ) >= absint( $_POST['data']['jb-salary-max-amount'] ) ) {
+								$errors['wrong'][] = 'jb-salary-min-amount';
+							}
+
+							if ( ! is_numeric( $_POST['data']['jb-salary-max-amount'] ) ) {
+								$errors['wrong'][] = 'jb-salary-max-amount';
+							} elseif ( 0 !== absint( $_POST['data']['jb-salary-max-amount'] ) && absint( $_POST['data']['jb-salary-max-amount'] ) <= absint( $_POST['data']['jb-salary-min-amount'] ) ) {
+								$errors['wrong'][] = 'jb-salary-max-amount';
+							}
+						}
+					}
+
+					if ( 'recurring' === $_POST['data']['jb-salary-type'] && empty( $_POST['data']['jb-salary-period'] ) ) {
+						$errors['empty'][] = 'jb-salary-period';
+					}
 				}
 			}
 
