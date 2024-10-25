@@ -22,7 +22,7 @@ To disclose a security issue to our team, [please submit a report here](https://
 
 ## Support
 
-[Our community forum on wp.org](https://wordpress.org/support/plugin/jobboardwp/) which is available for all Ultimate Member users.
+[Our community forum on wp.org](https://wordpress.org/support/plugin/jobboardwp/) which is available for all JobBoardWP users.
 
 ## License
 
