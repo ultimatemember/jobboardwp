@@ -10,14 +10,14 @@
     "url": "https://ultimatemember.com"
   },
   "devDependencies": {
-    "@wordpress/block-editor": "^11.5.0",
-    "@wordpress/blocks": "^12.5.0",
-    "@wordpress/components": "^23.5.0",
-    "@wordpress/i18n": "^4.28.0",
-    "@wordpress/scripts": "^25.5.1",
-    "@wordpress/server-side-render": "^4.5.0",
+    "@wordpress/block-editor": "^14.5.0",
+    "@wordpress/blocks": "^13.10.0",
+    "@wordpress/components": "^28.10.0",
+    "@wordpress/i18n": "^5.10.0",
+    "@wordpress/scripts": "^30.3.0",
+    "@wordpress/server-side-render": "^5.10.0",
     "gulp": "^4.0.2",
-    "node-sass": "^7.0.3",
+    "sass": "^1.80.4",
     "gulp-clean-css": "^4.3.0",
     "gulp-cli": "^2.3.0",
     "gulp-rename": "^2.0.0",
@@ -30,13 +30,9 @@
   "scripts": {
     "build:docs": "rm -rf docs/hooks/ && jsdoc -c hookdoc-conf.json",
     "build": "npm-run-all build:*",
-    "build:all-blocks": "npm-run-all --parallel build-block-*",
-    "build-block-jb-job": "cd includes/blocks/jb-job && wp-scripts build src/index.js",
-    "build-block-jb-job-post": "cd includes/blocks/jb-job-post && wp-scripts build src/index.js",
-    "build-block-jb-jobs-categories-list": "cd includes/blocks/jb-jobs-categories-list && wp-scripts build src/index.js",
-    "build-block-jb-jobs-dashboard": "cd includes/blocks/jb-jobs-dashboard && wp-scripts build src/index.js",
-    "build-block-jb-jobs-list": "cd includes/blocks/jb-jobs-list && wp-scripts build src/index.js",
-    "build-block-jb-recent-jobs": "cd includes/blocks/jb-recent-jobs && wp-scripts build src/index.js"
+    "build-blocks": "wp-scripts build --webpack-src-dir=includes/blocks --output-path=build",
+    "build-manifest": "wp-scripts build-blocks-manifest",
+    "build:all-blocks": "npm-run-all build-blocks build-manifest"
   },
   "dependencies": {
     "react": "^18.2.0",

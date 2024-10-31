@@ -21,11 +21,16 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 		 * Blocks constructor.
 		 */
 		public function __construct() {
-			add_action( 'init', array( &$this, 'block_editor_render' ), 11 );
+			add_action( 'init', array( &$this, 'wp_register_block_metadata_collection' ), 11 );
 			add_filter( 'allowed_block_types_all', array( &$this, 'jb_allowed_block_types' ), 10, 2 );
 		}
 
-		public function block_editor_render() {
+		public function wp_register_block_metadata_collection() {
+			wp_register_block_metadata_collection(
+				JB_PATH . 'build',
+				JB_PATH . 'build/blocks-manifest.php'
+			);
+
 			$blocks = array(
 				'jb-block/jb-job-post'             => array(
 					'render_callback' => array( $this, 'jb_job_post_render' ),
@@ -152,7 +157,7 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 
 			foreach ( $blocks as $k => $block_data ) {
 				$block_type = str_replace( 'jb-block/', '', $k );
-				register_block_type_from_metadata( JB_PATH . 'includes/blocks/' . $block_type, $block_data );
+				register_block_type_from_metadata( JB_PATH . 'build/' . $block_type, $block_data );
 			}
 		}
 

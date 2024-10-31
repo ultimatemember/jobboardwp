@@ -6,14 +6,16 @@ import { registerBlockType } from "@wordpress/blocks";
 
 registerBlockType('jb-block/jb-job', {
 	edit: function (props) {
-		let { job_id, setAttributes } = props.attributes;
+		const { attributes, setAttributes } = props;
+		const { job_id } = attributes;
 		const blockProps = useBlockProps();
+
 		const posts = useSelect((select) => {
 			return select('core').getEntityRecords('postType', 'jb-job', {
 				per_page: -1,
 				_fields: ['id', 'title']
 			});
-		});
+		}, []);
 
 		if (!posts) {
 			return (
@@ -25,31 +27,19 @@ registerBlockType('jb-block/jb-job', {
 		}
 
 		if (posts.length === 0) {
-			return 'No posts found.';
+			return <p>{wp.i18n.__('Jobs not found', 'jobboardwp')}</p>;
 		}
 
-		let posts_data = [{ id: '', title: '' }].concat(posts);
-
-		let get_post = posts_data.map((post) => {
-			return {
+		const get_post = [{ label: '', value: '' }].concat(
+			posts.map((post) => ({
 				label: post.title.rendered,
 				value: post.id
-			};
-		});
-
-		function jbShortcode(value) {
-			let shortcode = '';
-			if (value !== undefined && value !== '') {
-				shortcode = '[jb_job id="' + value + '"]';
-			} else {
-				shortcode = '[jb_job]';
-			}
-			return shortcode;
-		}
+			}))
+		);
 
 		return (
 			<div {...blockProps}>
-				<ServerSideRender block="jb-block/jb-job" attributes={props.attributes} />
+				<ServerSideRender block="jb-block/jb-job" attributes={attributes} />
 				<InspectorControls>
 					<PanelBody title={wp.i18n.__('Job', 'jobboardwp')}>
 						<SelectControl
@@ -57,20 +47,34 @@ registerBlockType('jb-block/jb-job', {
 							className="jb_select_job"
 							value={job_id}
 							options={get_post}
-							style={{ height: '35px', lineHeight: '20px', padding: '0 7px' }}
-							onChange={(value) => {
-								props.setAttributes({ job_id: value });
-								jbShortcode(value);
-							}}
+							onChange={(value) => setAttributes({ job_id: value })}
 						/>
 					</PanelBody>
 				</InspectorControls>
 			</div>
 		);
-	}, // end edit
+	},
 
-	save: function save(props) {
-		return null;
-	}
+	save: () => null
+});
 
+jQuery(window).on( 'load', function($) {
+	var observer = new MutationObserver(function(mutations) {
+		mutations.forEach(function(mutation) {
+			jQuery(mutation.addedNodes).find('.jb-single-job-wrapper').each(function() {
+				const wrapper = document.querySelector('.jb-single-job-wrapper');
+
+				if (wrapper) {
+					wrapper.addEventListener('click', (event) => {
+						if (event.target !== wrapper) {
+							event.preventDefault();
+							event.stopPropagation();
+						}
+					});
+				}
+			});
+		});
+	});
+
+	observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
 });

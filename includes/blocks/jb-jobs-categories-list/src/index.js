@@ -7,10 +7,30 @@ jQuery(window).on( 'load', function($) {
 				if ( wp.JB.job_categories_list.objects.wrapper.length ) {
 					wp.JB.job_categories_list.ajax();
 				}
+				const wrapper = document.querySelector('.jb-job-categories');
+
+				if (wrapper) {
+					wrapper.addEventListener('click', (event) => {
+						if (event.target !== wrapper) {
+							event.preventDefault();
+							event.stopPropagation();
+						}
+					});
+				}
 			});
 
 			jQuery(mutation.addedNodes).find('.jb').each(function() {
 				jb_responsive();
+				const wrapper = document.querySelector('.jb-job-categories');
+
+				if (wrapper) {
+					wrapper.addEventListener('click', (event) => {
+						if (event.target !== wrapper) {
+							event.preventDefault();
+							event.stopPropagation();
+						}
+					});
+				}
 			});
 		});
 	});
