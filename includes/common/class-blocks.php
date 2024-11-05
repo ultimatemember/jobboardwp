@@ -9,7 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'jb\common\Blocks' ) ) {
 
-
 	/**
 	 * Class Blocks
 	 *
@@ -21,15 +20,14 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 		 * Blocks constructor.
 		 */
 		public function __construct() {
-			add_action( 'init', array( &$this, 'wp_register_block_metadata_collection' ), 11 );
+			add_action( 'init', array( &$this, 'block_editor_render' ), 11 );
 			add_filter( 'allowed_block_types_all', array( &$this, 'jb_allowed_block_types' ), 10, 2 );
 		}
 
-		public function wp_register_block_metadata_collection() {
-			wp_register_block_metadata_collection(
-				JB_PATH . 'build',
-				JB_PATH . 'build/blocks-manifest.php'
-			);
+		public function block_editor_render() {
+			if ( function_exists( 'wp_register_block_metadata_collection' ) ) {
+				wp_register_block_metadata_collection( JB_PATH . 'build', JB_PATH . 'build/blocks-manifest.php' );
+			}
 
 			$blocks = array(
 				'jb-block/jb-job-post'             => array(
