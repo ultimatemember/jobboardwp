@@ -6,6 +6,7 @@
 /assets/common/sass export-ignore
 /assets/frontend/sass export-ignore
 /docs export-ignore
+/blocks-src export-ignore
 
 # Files
 /.editorconfig export-ignore

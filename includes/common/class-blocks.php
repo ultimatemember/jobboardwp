@@ -9,7 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'jb\common\Blocks' ) ) {
 
-
 	/**
 	 * Class Blocks
 	 *
@@ -26,6 +25,10 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 		}
 
 		public function block_editor_render() {
+			if ( function_exists( 'wp_register_block_metadata_collection' ) ) {
+				wp_register_block_metadata_collection( JB_PATH . 'includes/blocks', JB_PATH . 'includes/blocks/blocks-manifest.php' );
+			}
+
 			$blocks = array(
 				'jb-block/jb-job-post'             => array(
 					'render_callback' => array( $this, 'jb_job_post_render' ),
