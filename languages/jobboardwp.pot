@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the JobBoardWP plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: JobBoardWP 1.2.8\n"
+"Project-Id-Version: JobBoardWP 1.2.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jobboardwp\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-10-25T11:27:45+00:00\n"
+"POT-Creation-Date: 2024-11-06T12:27:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: jobboardwp\n"
@@ -671,9 +671,9 @@ msgstr ""
 #: includes/admin/class-settings.php:593
 #: includes/common/class-cpt.php:59
 #: includes/common/class-cpt.php:363
-#: includes/blocks/jb-job/build/index.js:1
-#: includes/blocks/jb-job/src/index.js:54
-#: includes/blocks/jb-job/src/index.js:56
+#: blocks-src/jb-job/src/index.js:44
+#: blocks-src/jb-job/src/index.js:46
+#: includes/blocks/jb-job/src/index.js:1
 msgid "Job"
 msgstr ""
 
@@ -854,8 +854,8 @@ msgstr ""
 
 #: includes/admin/class-settings.php:730
 #: includes/admin/class-site-health.php:453
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:305
+#: blocks-src/jb-jobs-list/src/index.js:91
+#: includes/blocks/jb-jobs-list/src/index.js:1
 msgid "Hide filters"
 msgstr ""
 
@@ -866,10 +866,10 @@ msgstr ""
 #: includes/admin/class-settings.php:736
 #: includes/admin/class-site-health.php:457
 #: includes/widgets/class-recent-jobs.php:192
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:314
-#: includes/blocks/jb-recent-jobs/build/index.js:1
-#: includes/blocks/jb-recent-jobs/src/index.js:190
+#: blocks-src/jb-jobs-list/src/index.js:96
+#: blocks-src/jb-recent-jobs/src/index.js:56
+#: includes/blocks/jb-jobs-list/src/index.js:1
+#: includes/blocks/jb-recent-jobs/src/index.js:1
 msgid "Hide job types"
 msgstr ""
 
@@ -3194,8 +3194,8 @@ msgid "Load more jobs"
 msgstr ""
 
 #: includes/frontend/class-shortcodes.php:522
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:45
+#: blocks-src/jb-jobs-list/src/index.js:134
+#: includes/blocks/jb-jobs-list/src/index.js:1
 msgid "Title"
 msgstr ""
 
@@ -3256,16 +3256,16 @@ msgid "Job Type:"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:169
-#: includes/blocks/jb-recent-jobs/build/index.js:1
-#: includes/blocks/jb-recent-jobs/src/index.js:236
+#: blocks-src/jb-recent-jobs/src/index.js:84
+#: includes/blocks/jb-recent-jobs/src/index.js:1
 msgid "Remote only"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:174
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:269
-#: includes/blocks/jb-recent-jobs/build/index.js:1
-#: includes/blocks/jb-recent-jobs/src/index.js:181
+#: blocks-src/jb-jobs-list/src/index.js:71
+#: blocks-src/jb-recent-jobs/src/index.js:51
+#: includes/blocks/jb-jobs-list/src/index.js:1
+#: includes/blocks/jb-recent-jobs/src/index.js:1
 msgid "Hide filled"
 msgstr ""
 
@@ -3274,14 +3274,14 @@ msgid "Order by:"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:180
-#: includes/blocks/jb-recent-jobs/build/index.js:1
-#: includes/blocks/jb-recent-jobs/src/index.js:29
+#: blocks-src/jb-recent-jobs/src/index.js:79
+#: includes/blocks/jb-recent-jobs/src/index.js:1
 msgid "Expiry date"
 msgstr ""
 
 #: includes/widgets/class-recent-jobs.php:181
-#: includes/blocks/jb-recent-jobs/build/index.js:1
-#: includes/blocks/jb-recent-jobs/src/index.js:28
+#: blocks-src/jb-recent-jobs/src/index.js:78
+#: includes/blocks/jb-recent-jobs/src/index.js:1
 msgid "Posting date"
 msgstr ""
 
@@ -3600,178 +3600,200 @@ msgstr ""
 msgid "Are you sure that you want to delete this job?"
 msgstr ""
 
-#: includes/blocks/jb-job/build/index.js:1
-#: includes/blocks/jb-job/src/index.js:22
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:216
-#: includes/blocks/jb-recent-jobs/build/index.js:1
-#: includes/blocks/jb-recent-jobs/src/index.js:139
+#: blocks-src/jb-job/src/index.js:24
+#: blocks-src/jb-jobs-list/src/index.js:36
+#: blocks-src/jb-recent-jobs/src/index.js:28
+#: includes/blocks/jb-job/src/index.js:1
+#: includes/blocks/jb-jobs-list/src/index.js:1
+#: includes/blocks/jb-recent-jobs/src/index.js:1
 msgid "Loading..."
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:44
-msgid "Date"
+#: blocks-src/jb-job/src/index.js:30
+#: includes/blocks/jb-job/src/index.js:1
+msgid "Jobs not found"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:48
-msgid "Ascending"
-msgstr ""
-
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:49
-msgid "Descending"
-msgstr ""
-
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:233
+#: blocks-src/jb-jobs-list/src/index.js:45
+#: includes/blocks/jb-jobs-list/src/index.js:1
 msgid "Jobs list"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:235
+#: blocks-src/jb-jobs-list/src/index.js:47
+#: includes/blocks/jb-jobs-list/src/index.js:1
 msgid "Select employer"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:246
+#: blocks-src/jb-jobs-list/src/index.js:50
+#: includes/blocks/jb-jobs-list/src/index.js:1
+msgid "Select a User"
+msgstr ""
+
+#: blocks-src/jb-jobs-list/src/index.js:59
+#: includes/blocks/jb-jobs-list/src/index.js:1
 msgid "Per page"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:260
-#: includes/blocks/jb-recent-jobs/build/index.js:1
-#: includes/blocks/jb-recent-jobs/src/index.js:172
+#: blocks-src/jb-jobs-list/src/index.js:66
+#: blocks-src/jb-recent-jobs/src/index.js:46
+#: includes/blocks/jb-jobs-list/src/index.js:1
+#: includes/blocks/jb-recent-jobs/src/index.js:1
 msgid "Hide logo"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:278
+#: blocks-src/jb-jobs-list/src/index.js:76
+#: includes/blocks/jb-jobs-list/src/index.js:1
 msgid "Hide expired"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:287
+#: blocks-src/jb-jobs-list/src/index.js:81
+#: includes/blocks/jb-jobs-list/src/index.js:1
 msgid "Hide search"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:296
+#: blocks-src/jb-jobs-list/src/index.js:86
+#: includes/blocks/jb-jobs-list/src/index.js:1
 msgid "Hide location search"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:323
+#: blocks-src/jb-jobs-list/src/index.js:101
+#: includes/blocks/jb-jobs-list/src/index.js:1
 msgid "No jobs text"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:333
+#: blocks-src/jb-jobs-list/src/index.js:106
+#: includes/blocks/jb-jobs-list/src/index.js:1
 msgid "No job search text"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:343
+#: blocks-src/jb-jobs-list/src/index.js:111
+#: includes/blocks/jb-jobs-list/src/index.js:1
 msgid "Load more text"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:353
-#: includes/blocks/jb-recent-jobs/build/index.js:1
-#: includes/blocks/jb-recent-jobs/src/index.js:199
+#: blocks-src/jb-jobs-list/src/index.js:116
+#: blocks-src/jb-recent-jobs/src/index.js:61
+#: includes/blocks/jb-jobs-list/src/index.js:1
+#: includes/blocks/jb-recent-jobs/src/index.js:1
 msgid "Select category"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:366
-#: includes/blocks/jb-recent-jobs/build/index.js:1
-#: includes/blocks/jb-recent-jobs/src/index.js:212
+#: blocks-src/jb-jobs-list/src/index.js:123
+#: blocks-src/jb-recent-jobs/src/index.js:68
+#: includes/blocks/jb-jobs-list/src/index.js:1
+#: includes/blocks/jb-recent-jobs/src/index.js:1
 msgid "Select type"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:379
-#: includes/blocks/jb-recent-jobs/build/index.js:1
-#: includes/blocks/jb-recent-jobs/src/index.js:225
+#: blocks-src/jb-jobs-list/src/index.js:130
+#: blocks-src/jb-recent-jobs/src/index.js:75
+#: includes/blocks/jb-jobs-list/src/index.js:1
+#: includes/blocks/jb-recent-jobs/src/index.js:1
 msgid "Select order by"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:390
+#: blocks-src/jb-jobs-list/src/index.js:133
+#: includes/blocks/jb-jobs-list/src/index.js:1
+msgid "Date"
+msgstr ""
+
+#: blocks-src/jb-jobs-list/src/index.js:139
+#: includes/blocks/jb-jobs-list/src/index.js:1
 msgid "Select order"
 msgstr ""
 
-#: includes/blocks/jb-jobs-list/build/index.js:1
-#: includes/blocks/jb-jobs-list/src/index.js:401
+#: blocks-src/jb-jobs-list/src/index.js:142
+#: includes/blocks/jb-jobs-list/src/index.js:1
+msgid "Ascending"
+msgstr ""
+
+#: blocks-src/jb-jobs-list/src/index.js:143
+#: includes/blocks/jb-jobs-list/src/index.js:1
+msgid "Descending"
+msgstr ""
+
+#: blocks-src/jb-jobs-list/src/index.js:148
+#: includes/blocks/jb-jobs-list/src/index.js:1
 msgid "Filled only"
 msgstr ""
 
-#: includes/blocks/jb-recent-jobs/build/index.js:1
-#: includes/blocks/jb-recent-jobs/src/index.js:156
+#: blocks-src/jb-recent-jobs/src/index.js:37
+#: includes/blocks/jb-recent-jobs/src/index.js:1
 msgid "Recent jobs"
 msgstr ""
 
-#: includes/blocks/jb-recent-jobs/build/index.js:1
-#: includes/blocks/jb-recent-jobs/src/index.js:158
+#: blocks-src/jb-recent-jobs/src/index.js:39
+#: includes/blocks/jb-recent-jobs/src/index.js:1
 msgid "Number"
 msgstr ""
 
+#: blocks-src/jb-job-post/block.json
 #: includes/blocks/jb-job-post/block.json
 msgctxt "block title"
 msgid "Post job"
 msgstr ""
 
+#: blocks-src/jb-job-post/block.json
 #: includes/blocks/jb-job-post/block.json
 msgctxt "block description"
 msgid "Displaying jobs posting form"
 msgstr ""
 
+#: blocks-src/jb-job/block.json
 #: includes/blocks/jb-job/block.json
 msgctxt "block title"
 msgid "Single job"
 msgstr ""
 
+#: blocks-src/jb-job/block.json
 #: includes/blocks/jb-job/block.json
 msgctxt "block description"
 msgid "Displaying a single job"
 msgstr ""
 
+#: blocks-src/jb-jobs-categories-list/block.json
 #: includes/blocks/jb-jobs-categories-list/block.json
 msgctxt "block title"
 msgid "Jobs categories list"
 msgstr ""
 
+#: blocks-src/jb-jobs-categories-list/block.json
 #: includes/blocks/jb-jobs-categories-list/block.json
 msgctxt "block description"
 msgid "Displaying jobs categories list"
 msgstr ""
 
+#: blocks-src/jb-jobs-dashboard/block.json
 #: includes/blocks/jb-jobs-dashboard/block.json
 msgctxt "block title"
 msgid "Jobs dashboard"
 msgstr ""
 
+#: blocks-src/jb-jobs-dashboard/block.json
 #: includes/blocks/jb-jobs-dashboard/block.json
 msgctxt "block description"
 msgid "Displaying jobs dashboard"
 msgstr ""
 
+#: blocks-src/jb-jobs-list/block.json
 #: includes/blocks/jb-jobs-list/block.json
 msgctxt "block title"
 msgid "Jobs list"
 msgstr ""
 
+#: blocks-src/jb-jobs-list/block.json
 #: includes/blocks/jb-jobs-list/block.json
 msgctxt "block description"
 msgid "Displaying jobs list"
 msgstr ""
 
+#: blocks-src/jb-recent-jobs/block.json
 #: includes/blocks/jb-recent-jobs/block.json
 msgctxt "block title"
 msgid "Recent Jobs"
 msgstr ""
 
+#: blocks-src/jb-recent-jobs/block.json
 #: includes/blocks/jb-recent-jobs/block.json
 msgctxt "block description"
 msgid "Displaying recent jobs"
