@@ -26,7 +26,7 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 
 		public function block_editor_render() {
 			if ( function_exists( 'wp_register_block_metadata_collection' ) ) {
-				wp_register_block_metadata_collection( JB_PATH . 'build', JB_PATH . 'build/blocks-manifest.php' );
+				wp_register_block_metadata_collection( JB_PATH . 'includes/blocks', JB_PATH . 'includes/blocks/blocks-manifest.php' );
 			}
 
 			$blocks = array(
@@ -155,7 +155,7 @@ if ( ! class_exists( 'jb\common\Blocks' ) ) {
 
 			foreach ( $blocks as $k => $block_data ) {
 				$block_type = str_replace( 'jb-block/', '', $k );
-				register_block_type_from_metadata( JB_PATH . 'build/' . $block_type, $block_data );
+				register_block_type_from_metadata( JB_PATH . 'includes/blocks/' . $block_type, $block_data );
 			}
 		}
 
