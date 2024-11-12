@@ -107,7 +107,7 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 = 1.2.9: November 12, 2024 =
 
-* Added: Gutenberg blocks associated with ForumWP shortcodes
+* Added: Gutenberg blocks associated with JobBoardWP shortcodes
 
 * Cached and optimized/minified assets(JS/CSS) must be flushed/re-generated after upgrade
 
