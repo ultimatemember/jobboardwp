@@ -3,7 +3,7 @@
  * Plugin Name: JobBoardWP
  * Plugin URI: https://jobboardwp.com/
  * Description: Add a modern job board to your website. Display job listings and allow employers to submit and manage jobs all from the front-end
- * Version: 1.2.9
+ * Version: 1.3.0
  * Author: JobBoardWP
  * Text Domain: jobboardwp
  * Domain Path: /languages
@@ -14,7 +14,7 @@
 defined( 'ABSPATH' ) || exit;
 
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
-$plugin_data = get_plugin_data( __FILE__ );
+$plugin_data = get_plugin_data( __FILE__, true, false );
 
 define( 'JB_URL', plugin_dir_url( __FILE__ ) );
 define( 'JB_PATH', plugin_dir_path( __FILE__ ) );
