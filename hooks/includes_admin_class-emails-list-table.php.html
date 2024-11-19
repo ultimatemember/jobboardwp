@@ -198,7 +198,7 @@ if ( ! class_exists( 'jb\admin\Emails_List_Table' ) ) {
 		protected function column_email( $item ) {
 			$active = JB()->options()->get( $item['key'] . '_on' );
 
-			return '&lt;span class="dashicons jb-notification-status ' . ( ! empty( $active ) ? 'jb-notification-is-active dashicons-yes' : 'dashicons-no-alt' ) . '">&lt;/span>&lt;a href="' . add_query_arg( array( 'email' => $item['key'] ) ) . '">&lt;strong>' . esc_html( $item['title'] ) . '&lt;/strong>&lt;/a>';
+			return '&lt;span class="dashicons jb-notification-status ' . ( ! empty( $active ) ? 'jb-notification-is-active dashicons-yes' : 'dashicons-no-alt' ) . '">&lt;/span>&lt;a href="' . esc_url( add_query_arg( array( 'email' => $item['key'] ) ) ) . '">&lt;strong>' . esc_html( $item['title'] ) . '&lt;/strong>&lt;/a>';
 		}
 
 
@@ -222,7 +222,7 @@ if ( ! class_exists( 'jb\admin\Emails_List_Table' ) ) {
 		 * @return string
 		 */
 		protected function column_configure( $item ) {
-			return '&lt;a class="button jb-email-configure" href="' . add_query_arg( array( 'email' => $item['key'] ) ) . '">&lt;span class="dashicons dashicons-admin-generic">&lt;/span>&lt;/a>';
+			return '&lt;a class="button jb-email-configure" href="' . esc_url( add_query_arg( array( 'email' => $item['key'] ) ) ) . '">&lt;span class="dashicons dashicons-admin-generic">&lt;/span>&lt;/a>';
 		}
 	}
 }
