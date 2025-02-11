@@ -602,6 +602,10 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			 */
 			do_action_ref_array( 'jb_change_template_part', array( &$template_name, &$args, &$module, &$template_path, &$default_path ) );
 
+			if ( empty( $template_name ) ) {
+				return;
+			}
+
 			$template = $this->locate_template( $template_name, $module, $template_path, $default_path );
 
 			/**
