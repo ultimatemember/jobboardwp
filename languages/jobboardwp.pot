@@ -1,4 +1,4 @@
-# Copyright (C) 2024 JobBoardWP
+# Copyright (C) 2025 JobBoardWP
 # This file is distributed under the same license as the JobBoardWP plugin.
 msgid ""
 msgstr ""
@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-11-19T23:34:33+00:00\n"
+"POT-Creation-Date: 2025-02-11T11:09:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: jobboardwp\n"
@@ -126,7 +126,7 @@ msgstr ""
 
 #: includes/admin/class-columns.php:351
 #: includes/admin/templates/settings/version-template-list-table.php:30
-#: includes/frontend/class-shortcodes.php:523
+#: includes/frontend/class-shortcodes.php:533
 msgid "Status"
 msgstr ""
 
@@ -147,7 +147,7 @@ msgid "Category"
 msgstr ""
 
 #: includes/admin/class-columns.php:357
-#: includes/frontend/class-shortcodes.php:524
+#: includes/frontend/class-shortcodes.php:534
 #: templates/js/jobs-list.php:85
 #: templates/js/jobs-list.php:87
 #: templates/js/jobs-list.php:107
@@ -1426,7 +1426,7 @@ msgstr ""
 
 #: includes/ajax/class-jobs.php:624
 #: includes/ajax/class-jobs.php:1019
-#: includes/frontend/class-shortcodes.php:723
+#: includes/frontend/class-shortcodes.php:733
 msgid "(no title)"
 msgstr ""
 
@@ -3193,19 +3193,19 @@ msgstr ""
 msgid "Load more jobs"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:522
+#: includes/frontend/class-shortcodes.php:532
 #: blocks-src/jb-jobs-list/src/index.js:134
 #: includes/blocks/jb-jobs-list/src/index.js:1
 msgid "Title"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:525
+#: includes/frontend/class-shortcodes.php:535
 #: templates/js/jobs-list.php:93
 #: templates/widgets/recent-jobs.php:85
 msgid "Closing on"
 msgstr ""
 
-#: includes/frontend/class-shortcodes.php:810
+#: includes/frontend/class-shortcodes.php:820
 msgid "Company details are updated successfully."
 msgstr ""
 
