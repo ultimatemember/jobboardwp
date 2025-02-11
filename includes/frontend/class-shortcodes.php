@@ -496,6 +496,16 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			wp_enqueue_script( 'jb-jobs' );
 			wp_enqueue_style( 'jb-jobs' );
 
+			/**
+			 * Fires before render Jobs List shortcode.
+			 *
+			 * @since 1.3.2
+			 * @hook jb_before_jobs_list_shortcode
+			 *
+			 * @param {array} $atts Arguments passed into shortcode.
+			 */
+			do_action( 'jb_before_jobs_list_shortcode', $atts );
+
 			ob_start();
 
 			JB()->get_template_part( 'jobs/wrapper', $atts );
