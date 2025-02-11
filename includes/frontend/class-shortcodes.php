@@ -542,6 +542,16 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			wp_enqueue_script( 'jb-jobs-dashboard' );
 			wp_enqueue_style( 'jb-jobs-dashboard' );
 
+			/**
+			 * Fires before render Jobs Dashboard shortcode.
+			 *
+			 * @since 1.3.2
+			 * @hook jb_before_jobs_dashboard_shortcode
+			 *
+			 * @param {array} $atts Arguments passed into shortcode.
+			 */
+			do_action( 'jb_before_jobs_dashboard_shortcode', $atts );
+
 			ob_start();
 
 			JB()->get_template_part( 'dashboard/jobs', $atts );
