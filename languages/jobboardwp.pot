@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-11T12:51:43+00:00\n"
+"POT-Creation-Date: 2025-05-21T13:19:09+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: jobboardwp\n"
 
 #. Plugin Name of the plugin
@@ -43,6 +43,7 @@ msgstr ""
 
 #. translators: %s is a pre-defined page title.
 #: includes/admin/class-columns.php:59
+#, php-format
 msgid "JB %s"
 msgstr ""
 
@@ -93,6 +94,7 @@ msgstr ""
 
 #. translators: %s is the count of approved jobs.
 #: includes/admin/class-columns.php:189
+#, php-format
 msgid "%s job is approved."
 msgid_plural "%s jobs are approved."
 msgstr[0] ""
@@ -100,6 +102,7 @@ msgstr[1] ""
 
 #. translators: %s is the count of deleted jobs.
 #: includes/admin/class-columns.php:206
+#, php-format
 msgid "%s job is deleted."
 msgid_plural "%s jobs are deleted."
 msgstr[0] ""
@@ -117,6 +120,7 @@ msgstr ""
 
 #. translators: %s is a job title.
 #: includes/admin/class-columns.php:325
+#, php-format
 msgid "Approve %s"
 msgstr ""
 
@@ -166,6 +170,7 @@ msgstr ""
 #. translators: %1$s is a location type; %2$s is a location.
 #: includes/admin/class-columns.php:399
 #: includes/common/class-job.php:304
+#, php-format
 msgid "%1$s (%2$s)"
 msgstr ""
 
@@ -278,11 +283,13 @@ msgstr ""
 
 #. translators: %s: Post title.
 #: includes/admin/class-list-table.php:59
+#, php-format
 msgid "&#8220;%s&#8221; (Edit)"
 msgstr ""
 
 #. translators: %s: User's display name.
 #: includes/admin/class-list-table.php:103
+#, php-format
 msgid "%s is currently editing"
 msgstr ""
 
@@ -392,11 +399,13 @@ msgstr ""
 
 #. translators: %s: plans link
 #: includes/admin/class-modules-list-table.php:392
+#, php-format
 msgid "Click <a href=\"%s\" target=\"_blank\">here</a> to view our different plans for JobBoardWP Pro."
 msgstr ""
 
 #. translators: %1$s: plugin name, %2$s: list of pre-defined pages
 #: includes/admin/class-notices.php:241
+#, php-format
 msgid "To add job board functionality to your website %1$s needs to create the following pages: %2$s."
 msgstr ""
 
@@ -414,6 +423,7 @@ msgstr ""
 
 #. translators: %s override templates page link.
 #: includes/admin/class-notices.php:315
+#, php-format
 msgid "Your templates are out of date. Please visit <a href=\"%s\">override templates status page</a> and update templates."
 msgstr ""
 
@@ -424,11 +434,13 @@ msgstr ""
 #: includes/integrations/polylang/integration.php:235
 #: includes/integrations/wpml/integration.php:218
 #: includes/integrations/wpml/integration.php:259
+#, php-format
 msgid "%1$s (ID: %2$s)"
 msgstr ""
 
 #. translators: %s: page title
 #: includes/admin/class-settings.php:330
+#, php-format
 msgid "%s page"
 msgstr ""
 
@@ -981,6 +993,7 @@ msgstr ""
 
 #. translators: %s: Last checking templates time.
 #: includes/admin/class-settings.php:1385
+#, php-format
 msgid "Last update: %s. You could re-check changes manually."
 msgstr ""
 
@@ -990,6 +1003,7 @@ msgstr ""
 
 #. translators: %s: Link to the docs article.
 #: includes/admin/class-settings.php:1394
+#, php-format
 msgid "You may get more details about overriding templates <a href=\"%s\" target=\"_blank\">here</a>."
 msgstr ""
 
@@ -1180,6 +1194,7 @@ msgstr ""
 
 #. translators: %s: link to the settings section
 #: includes/admin/templates/job/data.php:218
+#, php-format
 msgid "If empty, then job will have an expiration date based on the <a href=\"%s#jb_options_job-duration\">Job Duration</a> setting."
 msgstr ""
 
@@ -1314,12 +1329,14 @@ msgstr ""
 
 #. translators: %s - Currency symbol
 #: includes/admin/templates/job/data.php:367
+#, php-format
 msgid "Salary Amount %s"
 msgstr ""
 
 #. translators: %s - Currency symbol
 #: includes/admin/templates/job/data.php:379
 #: templates/job-submission.php:452
+#, php-format
 msgid "Salary Min Amount %s"
 msgstr ""
 
@@ -1330,6 +1347,7 @@ msgstr ""
 #. translators: %s - Currency symbol
 #: includes/admin/templates/job/data.php:392
 #: templates/job-submission.php:463
+#, php-format
 msgid "Salary Max Amount %s"
 msgstr ""
 
@@ -2224,6 +2242,7 @@ msgstr ""
 
 #. translators: %s template
 #: includes/class-jb-functions.php:634
+#, php-format
 msgid "<code>%s</code> does not exist."
 msgstr ""
 
@@ -2245,6 +2264,7 @@ msgstr ""
 
 #. translators: %s: activate notice
 #: includes/class-modules.php:86
+#, php-format
 msgid "Module cannot be activated until %s plugin is installed and activated."
 msgid_plural "Module cannot be activated until %s plugins are installed and activated."
 msgstr[0] ""
@@ -2252,6 +2272,7 @@ msgstr[1] ""
 
 #. translators: %s: activate notice
 #: includes/class-modules.php:99
+#, php-format
 msgid "Module cannot be activated until %s plugin is activated."
 msgid_plural "Module cannot be activated until %s plugins are activated."
 msgstr[0] ""
@@ -2454,6 +2475,7 @@ msgstr ""
 
 #. translators: %s: posts count
 #: includes/common/class-cpt.php:249
+#, php-format
 msgid "Expired <span class=\"count\">(%s)</span>"
 msgid_plural "Expired <span class=\"count\">(%s)</span>"
 msgstr[0] ""
@@ -2466,6 +2488,7 @@ msgstr ""
 
 #. translators: %s: posts count
 #: includes/common/class-cpt.php:258
+#, php-format
 msgid "Preview <span class=\"count\">(%s)</span>"
 msgid_plural "Preview <span class=\"count\">(%s)</span>"
 msgstr[0] ""
@@ -2802,16 +2825,19 @@ msgstr ""
 
 #. translators: %s is maximum job salary amount.
 #: includes/common/class-job.php:591
+#, php-format
 msgid "Up to %s"
 msgstr ""
 
 #. translators: %s is minimum job salary amount.
 #: includes/common/class-job.php:596
+#, php-format
 msgid "Starts from %s"
 msgstr ""
 
 #. translators: %1$s is a job's salary amount or range; %2$s is a job's salary period.
 #: includes/common/class-job.php:609
+#, php-format
 msgid "%1$s per %2$s"
 msgstr ""
 
@@ -3104,6 +3130,7 @@ msgstr ""
 
 #. translators: %s: jobs dashboard page link
 #: includes/frontend/class-shortcodes.php:89
+#, php-format
 msgid "Job's draft was saved. You could resumed it from the <a href=\"%s\" title=\"Job Dashboard\">job dashboard</a>"
 msgstr ""
 
@@ -3113,6 +3140,7 @@ msgstr ""
 
 #. translators: %s: link to the published job
 #: includes/frontend/class-shortcodes.php:109
+#, php-format
 msgid "Job is posted successfully. To view your job <a href=\"%s\">click here</a>"
 msgstr ""
 
@@ -3123,6 +3151,7 @@ msgstr ""
 #. translators: %s: login link
 #: includes/frontend/class-shortcodes.php:155
 #: includes/frontend/class-shortcodes.php:366
+#, php-format
 msgid "<a href=\"%s\">Sign in</a> to post a job."
 msgstr ""
 
@@ -3182,6 +3211,7 @@ msgstr ""
 
 #. translators: %s: login link
 #: includes/frontend/class-shortcodes.php:377
+#, php-format
 msgid "<a href=\"%s\">Sign in</a> to post a job or to do that as a guest."
 msgstr ""
 
@@ -3212,21 +3242,25 @@ msgstr ""
 #. translators: %s is a language display name
 #: includes/integrations/polylang/integration.php:329
 #: includes/integrations/polylang/integration.php:395
+#, php-format
 msgid "Edit the translation in %s"
 msgstr ""
 
 #. translators: %s is a language display name
 #: includes/integrations/polylang/integration.php:404
+#, php-format
 msgid "Add a translation in %s"
 msgstr ""
 
 #. translators: %s is a language display name
 #: includes/integrations/wpml/integration.php:364
+#, php-format
 msgid "Edit the %s translation"
 msgstr ""
 
 #. translators: %s is a language display name
 #: includes/integrations/wpml/integration.php:369
+#, php-format
 msgid "Add translation to %s"
 msgstr ""
 
@@ -3345,6 +3379,7 @@ msgstr ""
 
 #. translators: %s: login link
 #: templates/dashboard/jobs.php:24
+#, php-format
 msgid "<a href=\"%s\">Sign in</a> to view your job listings."
 msgstr ""
 
@@ -3431,6 +3466,7 @@ msgstr ""
 
 #. translators: %s - Currency symbol
 #: templates/job-submission.php:441
+#, php-format
 msgid "Salary amount %s"
 msgstr ""
 
@@ -3484,16 +3520,19 @@ msgstr ""
 
 #. translators: %1$s: application type, %2$s: home URL
 #: templates/job/footer.php:39
+#, php-format
 msgid "Application via %1$s job on %2$s"
 msgstr ""
 
 #. translators: %1$s: mailto URL, %2$s: contact email
 #: templates/job/footer.php:48
+#, php-format
 msgid "To apply for this job <strong>email your details to</strong> <a href=\"%1$s\">%2$s</a>."
 msgstr ""
 
 #. translators: %1$s: application's website URL, %2$s: application's website URL text
 #: templates/job/footer.php:68
+#, php-format
 msgid "To apply for this job please visit <a href=\"%1$s\">%2$s</a>."
 msgstr ""
 
@@ -3572,6 +3611,7 @@ msgstr ""
 
 #. translators: %s: Post a job URL
 #: templates/js/jobs-dashboard.php:99
+#, php-format
 msgid "No created jobs yet. <a href=\"%s\">Create</a> new one."
 msgstr ""
 
@@ -3593,6 +3633,7 @@ msgstr ""
 #. translators: %s is the error status code.
 #: assets/admin/js/forms.js:101
 #: assets/frontend/js/forms.js:294
+#, js-format
 msgid "File was not loaded, Status Code %s"
 msgstr ""
 
