@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-05-28T15:45:29+00:00\n"
+"POT-Creation-Date: 2025-05-28T16:07:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: jobboardwp\n"
@@ -18,7 +18,7 @@ msgstr ""
 #. Author of the plugin
 #: jobboardwp.php
 #: includes/admin/class-site-health.php:241
-#: includes/common/class-enqueue.php:178
+#: includes/common/class-enqueue.php:94
 msgid "JobBoardWP"
 msgstr ""
 
@@ -2498,323 +2498,323 @@ msgstr[1] ""
 msgid "Once Minute"
 msgstr ""
 
-#: includes/common/class-enqueue.php:64
+#: includes/common/class-enqueue.php:207
 msgid "Afrikaans"
 msgstr ""
 
-#: includes/common/class-enqueue.php:65
+#: includes/common/class-enqueue.php:208
 msgid "Albanian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:66
+#: includes/common/class-enqueue.php:209
 msgid "Amharic"
 msgstr ""
 
-#: includes/common/class-enqueue.php:67
+#: includes/common/class-enqueue.php:210
 msgid "Arabic"
 msgstr ""
 
-#: includes/common/class-enqueue.php:68
+#: includes/common/class-enqueue.php:211
 msgid "Armenian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:69
+#: includes/common/class-enqueue.php:212
 msgid "Azerbaijani"
 msgstr ""
 
-#: includes/common/class-enqueue.php:70
+#: includes/common/class-enqueue.php:213
 msgid "Basque"
 msgstr ""
 
-#: includes/common/class-enqueue.php:71
+#: includes/common/class-enqueue.php:214
 msgid "Belarusian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:72
+#: includes/common/class-enqueue.php:215
 msgid "Bengali"
 msgstr ""
 
-#: includes/common/class-enqueue.php:73
+#: includes/common/class-enqueue.php:216
 msgid "Bosnian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:74
+#: includes/common/class-enqueue.php:217
 msgid "Burmese"
 msgstr ""
 
-#: includes/common/class-enqueue.php:75
+#: includes/common/class-enqueue.php:218
 msgid "Catalan"
 msgstr ""
 
-#: includes/common/class-enqueue.php:76
+#: includes/common/class-enqueue.php:219
 msgid "Chinese"
 msgstr ""
 
-#: includes/common/class-enqueue.php:77
+#: includes/common/class-enqueue.php:220
 msgid "Chinese (Simplified)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:78
+#: includes/common/class-enqueue.php:221
 msgid "Chinese (Hong Kong)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:79
+#: includes/common/class-enqueue.php:222
 msgid "Chinese (Traditional)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:80
+#: includes/common/class-enqueue.php:223
 msgid "Croatian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:81
+#: includes/common/class-enqueue.php:224
 msgid "Czech"
 msgstr ""
 
-#: includes/common/class-enqueue.php:82
+#: includes/common/class-enqueue.php:225
 msgid "Danish"
 msgstr ""
 
-#: includes/common/class-enqueue.php:83
+#: includes/common/class-enqueue.php:226
 msgid "Dutch"
 msgstr ""
 
-#: includes/common/class-enqueue.php:84
+#: includes/common/class-enqueue.php:227
 msgid "English"
 msgstr ""
 
-#: includes/common/class-enqueue.php:85
+#: includes/common/class-enqueue.php:228
 msgid "English (Australian)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:86
+#: includes/common/class-enqueue.php:229
 msgid "English (Great Britain)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:87
+#: includes/common/class-enqueue.php:230
 msgid "Estonian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:88
+#: includes/common/class-enqueue.php:231
 msgid "Farsi"
 msgstr ""
 
-#: includes/common/class-enqueue.php:89
+#: includes/common/class-enqueue.php:232
 msgid "Finnish"
 msgstr ""
 
-#: includes/common/class-enqueue.php:90
+#: includes/common/class-enqueue.php:233
 msgid "Filipino"
 msgstr ""
 
-#: includes/common/class-enqueue.php:91
+#: includes/common/class-enqueue.php:234
 msgid "French"
 msgstr ""
 
-#: includes/common/class-enqueue.php:92
+#: includes/common/class-enqueue.php:235
 msgid "French (Canada)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:93
+#: includes/common/class-enqueue.php:236
 msgid "Galician"
 msgstr ""
 
-#: includes/common/class-enqueue.php:94
+#: includes/common/class-enqueue.php:237
 msgid "Kartuli"
 msgstr ""
 
-#: includes/common/class-enqueue.php:95
+#: includes/common/class-enqueue.php:238
 msgid "German"
 msgstr ""
 
-#: includes/common/class-enqueue.php:96
+#: includes/common/class-enqueue.php:239
 msgid "Greek"
 msgstr ""
 
-#: includes/common/class-enqueue.php:97
+#: includes/common/class-enqueue.php:240
 msgid "Gujarati"
 msgstr ""
 
-#: includes/common/class-enqueue.php:98
+#: includes/common/class-enqueue.php:241
 msgid "Hebrew"
 msgstr ""
 
-#: includes/common/class-enqueue.php:99
+#: includes/common/class-enqueue.php:242
 msgid "Hindi"
 msgstr ""
 
-#: includes/common/class-enqueue.php:100
+#: includes/common/class-enqueue.php:243
 msgid "Hungarian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:101
+#: includes/common/class-enqueue.php:244
 msgid "Icelandic"
 msgstr ""
 
-#: includes/common/class-enqueue.php:102
+#: includes/common/class-enqueue.php:245
 msgid "Indonesian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:103
+#: includes/common/class-enqueue.php:246
 msgid "Italian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:104
+#: includes/common/class-enqueue.php:247
 msgid "Japanese"
 msgstr ""
 
-#: includes/common/class-enqueue.php:105
+#: includes/common/class-enqueue.php:248
 msgid "Kannada"
 msgstr ""
 
-#: includes/common/class-enqueue.php:106
+#: includes/common/class-enqueue.php:249
 msgid "Kazakh"
 msgstr ""
 
-#: includes/common/class-enqueue.php:107
+#: includes/common/class-enqueue.php:250
 msgid "Khmer"
 msgstr ""
 
-#: includes/common/class-enqueue.php:108
+#: includes/common/class-enqueue.php:251
 msgid "Korean"
 msgstr ""
 
-#: includes/common/class-enqueue.php:109
+#: includes/common/class-enqueue.php:252
 msgid "Kyrgyz"
 msgstr ""
 
-#: includes/common/class-enqueue.php:110
+#: includes/common/class-enqueue.php:253
 msgid "Lao"
 msgstr ""
 
-#: includes/common/class-enqueue.php:111
+#: includes/common/class-enqueue.php:254
 msgid "Latvian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:112
+#: includes/common/class-enqueue.php:255
 msgid "Lithuanian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:113
+#: includes/common/class-enqueue.php:256
 msgid "Macedonian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:114
+#: includes/common/class-enqueue.php:257
 msgid "Malay"
 msgstr ""
 
-#: includes/common/class-enqueue.php:115
+#: includes/common/class-enqueue.php:258
 msgid "Malayalam"
 msgstr ""
 
-#: includes/common/class-enqueue.php:116
+#: includes/common/class-enqueue.php:259
 msgid "Marathi"
 msgstr ""
 
-#: includes/common/class-enqueue.php:117
+#: includes/common/class-enqueue.php:260
 msgid "Mongolian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:118
+#: includes/common/class-enqueue.php:261
 msgid "Nepali"
 msgstr ""
 
-#: includes/common/class-enqueue.php:119
+#: includes/common/class-enqueue.php:262
 msgid "Norwegian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:120
+#: includes/common/class-enqueue.php:263
 msgid "Polish"
 msgstr ""
 
-#: includes/common/class-enqueue.php:121
+#: includes/common/class-enqueue.php:264
 msgid "Portuguese"
 msgstr ""
 
-#: includes/common/class-enqueue.php:122
+#: includes/common/class-enqueue.php:265
 msgid "Portuguese (Brazil)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:123
+#: includes/common/class-enqueue.php:266
 msgid "Portuguese (Portugal)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:124
+#: includes/common/class-enqueue.php:267
 msgid "Punjabi"
 msgstr ""
 
-#: includes/common/class-enqueue.php:125
+#: includes/common/class-enqueue.php:268
 msgid "Romanian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:126
+#: includes/common/class-enqueue.php:269
 msgid "Russian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:127
+#: includes/common/class-enqueue.php:270
 msgid "Serbian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:128
+#: includes/common/class-enqueue.php:271
 msgid "Sinhalese"
 msgstr ""
 
-#: includes/common/class-enqueue.php:129
+#: includes/common/class-enqueue.php:272
 msgid "Slovak"
 msgstr ""
 
-#: includes/common/class-enqueue.php:130
+#: includes/common/class-enqueue.php:273
 msgid "Slovenian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:131
+#: includes/common/class-enqueue.php:274
 msgid "Spanish"
 msgstr ""
 
-#: includes/common/class-enqueue.php:132
+#: includes/common/class-enqueue.php:275
 msgid "Spanish (Latin America)"
 msgstr ""
 
-#: includes/common/class-enqueue.php:133
+#: includes/common/class-enqueue.php:276
 msgid "Swahili"
 msgstr ""
 
-#: includes/common/class-enqueue.php:134
+#: includes/common/class-enqueue.php:277
 msgid "Swedish"
 msgstr ""
 
-#: includes/common/class-enqueue.php:135
+#: includes/common/class-enqueue.php:278
 msgid "Tamil"
 msgstr ""
 
-#: includes/common/class-enqueue.php:136
+#: includes/common/class-enqueue.php:279
 msgid "Telugu"
 msgstr ""
 
-#: includes/common/class-enqueue.php:137
+#: includes/common/class-enqueue.php:280
 msgid "Thai"
 msgstr ""
 
-#: includes/common/class-enqueue.php:138
+#: includes/common/class-enqueue.php:281
 msgid "Turkish"
 msgstr ""
 
-#: includes/common/class-enqueue.php:139
+#: includes/common/class-enqueue.php:282
 msgid "Ukrainian"
 msgstr ""
 
-#: includes/common/class-enqueue.php:140
+#: includes/common/class-enqueue.php:283
 msgid "Urdu"
 msgstr ""
 
-#: includes/common/class-enqueue.php:141
+#: includes/common/class-enqueue.php:284
 msgid "Uzbek"
 msgstr ""
 
-#: includes/common/class-enqueue.php:142
+#: includes/common/class-enqueue.php:285
 msgid "Vietnamese"
 msgstr ""
 
-#: includes/common/class-enqueue.php:143
+#: includes/common/class-enqueue.php:286
 msgid "Zulu"
 msgstr ""
 
