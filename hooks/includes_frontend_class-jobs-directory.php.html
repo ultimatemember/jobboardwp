@@ -69,10 +69,6 @@ if ( ! class_exists( 'jb\frontend\Jobs_Directory' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'init', array( $this, 'init_variables' ) );
-			if ( empty( $this->filter_types ) || empty( $this->filters ) ) {
-				$this->init_variables();
-			}
-
 			add_action( 'pre_get_posts', array( &amp;$this, 'jb_exclude_jobs' ), 99, 1 );
 		}
 
