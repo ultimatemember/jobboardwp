@@ -15,7 +15,7 @@
             "step": "installPlugin",
             "pluginZipFile": {
                 "resource": "url",
-                "url": "https:\/\/downloads.wordpress.org\/plugin\/jobboardwp.1.2.7.zip"
+                "url": "https:\/\/downloads.wordpress.org\/plugin\/jobboardwp.1.3.2.zip"
             },
             "options": {
                 "activate": true

@@ -109,6 +109,7 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 * Added: 'jb_before_jobs_dashboard_shortcode' action shortcode.
 * Added: 'jb_before_jobs_list_shortcode' action shortcode.
+* Fixed: Loading textdomain for compatibility with WordPress 6.7 and 6.8.
 
 = 1.3.1: November 21, 2024 =
 
