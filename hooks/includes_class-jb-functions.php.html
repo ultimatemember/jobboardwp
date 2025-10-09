@@ -500,7 +500,7 @@ if ( ! class_exists( 'JB_Functions' ) ) {
 			$url  = ( is_ssl() ? 'https://' : 'http://' ) . $host;
 			$url .= ! empty( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- REQUEST_URI ok
 
-			if ( true === $no_query_params ) {
+			if ( true === $no_query_params &amp;&amp; $this->is_permalinks ) {
 				$url = strtok( $url, '?' );
 			}
 
