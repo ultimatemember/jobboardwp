@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-09T11:44:01+00:00\n"
+"POT-Creation-Date: 2025-10-09T12:00:29+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: jobboardwp\n"
@@ -2966,7 +2966,7 @@ msgstr ""
 
 #: includes/frontend/class-actions-listener.php:479
 #: includes/frontend/class-actions-listener.php:1123
-#: includes/frontend/class-actions-listener.php:1295
+#: includes/frontend/class-actions-listener.php:1297
 msgid "Security issue, Please try again"
 msgstr ""
 
@@ -3022,53 +3022,53 @@ msgstr ""
 
 #: includes/frontend/class-actions-listener.php:603
 #: includes/frontend/class-actions-listener.php:607
-#: includes/frontend/class-actions-listener.php:1301
-#: includes/frontend/class-actions-listener.php:1305
+#: includes/frontend/class-actions-listener.php:1303
+#: includes/frontend/class-actions-listener.php:1307
 msgid "Company name cannot be empty"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:618
-#: includes/frontend/class-actions-listener.php:1316
+#: includes/frontend/class-actions-listener.php:1318
 msgid "Company website is invalid"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:638
-#: includes/frontend/class-actions-listener.php:1336
+#: includes/frontend/class-actions-listener.php:1338
 msgid "Company Twitter is invalid"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:651
-#: includes/frontend/class-actions-listener.php:1349
+#: includes/frontend/class-actions-listener.php:1351
 msgid "Company Facebook is invalid"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:663
-#: includes/frontend/class-actions-listener.php:1361
+#: includes/frontend/class-actions-listener.php:1363
 msgid "Company Instagram is invalid"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:678
-#: includes/frontend/class-actions-listener.php:1370
+#: includes/frontend/class-actions-listener.php:1372
 msgid "Something wrong with image, please re-upload"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:730
-#: includes/frontend/class-actions-listener.php:1415
+#: includes/frontend/class-actions-listener.php:1417
 msgid "Wrong image URL. Invalid URL"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:756
-#: includes/frontend/class-actions-listener.php:1441
+#: includes/frontend/class-actions-listener.php:1443
 msgid "Wrong image URL. Invalid job"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:763
-#: includes/frontend/class-actions-listener.php:1448
+#: includes/frontend/class-actions-listener.php:1450
 msgid "Wrong image URL. Invalid attachment ID"
 msgstr ""
 
 #: includes/frontend/class-actions-listener.php:770
-#: includes/frontend/class-actions-listener.php:1455
+#: includes/frontend/class-actions-listener.php:1457
 msgid "Wrong image URL. Invalid attachment path"
 msgstr ""
 
