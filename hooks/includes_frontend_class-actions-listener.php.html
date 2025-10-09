@@ -1069,7 +1069,9 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 										require_once ABSPATH . 'wp-admin/includes/media.php';
 
 										$image_id = media_sideload_image( $company_logo, $job_id, null, 'id' );
-										set_post_thumbnail( $job_id, $image_id );
+										if ( ! is_wp_error( $image_id ) ) {
+											set_post_thumbnail( $job_id, $image_id );
+										}
 									}
 								} elseif ( $is_edited ) {
 									if ( has_post_thumbnail( $job_id ) ) {
