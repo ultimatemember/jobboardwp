@@ -198,7 +198,7 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				return __( 'Guest', 'jobboardwp' );
 			}
 
-			return $author->display_name;
+			return ! empty( $author->display_name ) ? $author->display_name : $author->user_login;
 		}
 
 
