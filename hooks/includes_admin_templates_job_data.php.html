@@ -75,7 +75,7 @@ $users_query = get_users(
 );
 
 foreach ( $users_query as $user ) {
-	$users[ $user->ID ] = $user->display_name;
+	$users[ $user->ID ] = ! empty( $user->display_name ) ? $user->display_name : $user->user_login;
 }
 
 $types = get_terms(
