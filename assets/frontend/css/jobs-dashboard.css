@@ -178,7 +178,10 @@
       width: 100%;
       margin: 0;
       padding: 12px 10px;
-      border-bottom: 1px solid #dddddd; }
+      border-bottom: 1px solid #dddddd;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box; }
       .jb-job-dashboard .jb-job-dashboard-rows .jb-job-dashboard-row .jb-row-data {
         display: flex;
         flex-direction: row;
