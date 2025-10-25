@@ -170,7 +170,7 @@ jQuery( document ).ready( function($) {
 	});
 
 
-	$(document.body).on('click', '.jb-jobs-action-fill', function() {
+	$(document.body).on('click', '.jb-jobs-action-fill', function(e) {
 		var job_id = $(this).data('job-id');
 
 		var request = {
@@ -191,7 +191,7 @@ jQuery( document ).ready( function($) {
 		} );
 	});
 
-	$(document.body).on('click', '.jb-jobs-action-un-fill', function() {
+	$(document.body).on('click', '.jb-jobs-action-un-fill', function(e) {
 		var job_id = $(this).data('job-id');
 
 		var request = {
@@ -212,8 +212,7 @@ jQuery( document ).ready( function($) {
 		} );
 	});
 
-	$(document.body).on('click', '.jb-jobs-action-delete', function() {
-
+	$(document.body).on('click', '.jb-jobs-action-delete', function(e) {
 		if ( ! confirm( wp.i18n.__( 'Are you sure that you want to delete this job?', 'jobboardwp' ) ) ) {
 			return false;
 		}

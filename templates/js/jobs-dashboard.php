@@ -4,7 +4,7 @@
  *
  * This template can be overridden by copying it to yourtheme/jobboardwp/js/jobs-dashboard.php
  *
- * @version 1.2.8
+ * @version 1.3.3
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -80,9 +80,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<ul>
 									<# _.each( job.actions, function( action, act_key, act_list ) { #>
 										<li>
-											<a href="<# if ( action.href ) { #>{{{action.href}}}<# } else { #>javascript:void(0);<# } #>" <# if ( ! action.href ) { #>data-job-id="{{{job.id}}}"<# } #> class="jb-jobs-action-{{{act_key}}}">
-												{{{action.title}}}
-											</a>
+											<# if ( action.href ) { #>
+												<a href="{{{action.href}}}" class="jb-jobs-action-{{{act_key}}}">
+													{{{action.title}}}
+												</a>
+											<# } else { #>
+												<span data-job-id="{{{job.id}}}" class="jb-jobs-action-{{{act_key}}}">
+													{{{action.title}}}
+												</span>
+											<# } #>
 										</li>
 									<# }); #>
 								</ul>

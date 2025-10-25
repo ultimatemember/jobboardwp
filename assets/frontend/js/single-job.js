@@ -5,6 +5,7 @@ jQuery( document ).ready( function($) {
 	});
 
 	$( document.body ).on( 'click', '.jb-job-apply-hide', function(e) {
+		e.preventDefault();
 		$(this).parents('.jb-job-apply-description').siblings('.jb-job-apply').show();
 		$(this).parents('.jb-job-apply-description').hide();
 	});

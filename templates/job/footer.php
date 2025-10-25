@@ -4,7 +4,7 @@
  *
  * This template can be overridden by copying it to yourtheme/jobboardwp/job/footer.php
  *
- * @version 1.2.8
+ * @version 1.3.3
  *
  * @var array $jb_job_footer
  */
@@ -73,7 +73,7 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 							</p>
 						<?php } ?>
 
-						<a href="javascript:void(0);" class="jb-job-apply-hide"><?php esc_html_e( 'Cancel', 'jobboardwp' ); ?></a>
+						<input type="button" class="jb-button jb-job-apply-hide" value="<?php esc_attr_e( 'Cancel', 'jobboardwp' ); ?>" />
 					</div>
 				</div>
 				<div class="jb-job-after-apply-wrapper">

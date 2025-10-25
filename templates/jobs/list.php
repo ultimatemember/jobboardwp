@@ -4,7 +4,7 @@
  *
  * This template can be overridden by copying it to yourtheme/jobboardwp/jobs/list.php
  *
- * @version 1.2.0
+ * @version 1.3.3
  *
  * @var array $jb_jobs_list
  */
@@ -22,7 +22,5 @@ JB()->get_template_part( 'js/jobs-list', $jb_jobs_list );
 <div class="jb-jobs-wrapper"></div>
 
 <div class="jb-jobs-pagination-box">
-	<a href="javascript:void(0);" class="jb-load-more-jobs">
-		<?php echo esc_html( $jb_jobs_list['load-more-text'] ); ?>
-	</a>
+	<input type="button" class="jb-button jb-load-more-jobs" value="<?php echo esc_attr( $jb_jobs_list['load-more-text'] ); ?>" />
 </div>

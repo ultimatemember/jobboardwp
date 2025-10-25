@@ -35,6 +35,19 @@
         box-shadow: none; }
         .jb-dropdown ul li a:hover, .jb-dropdown ul li a:focus, .jb-dropdown ul li a:active {
           color: rgba(0, 0, 0, 0.8); }
+      .jb-dropdown ul li span {
+        display: block;
+        padding: 8px 12px;
+        font-size: 0.8em;
+        line-height: 1;
+        color: #000;
+        text-decoration: none;
+        outline: none;
+        cursor: pointer;
+        transition: 0.2s;
+        box-shadow: none; }
+        .jb-dropdown ul li span:hover, .jb-dropdown ul li span:focus, .jb-dropdown ul li span:active {
+          color: rgba(0, 0, 0, 0.8); }
 
 .jb-dropdown-arr {
   position: absolute;

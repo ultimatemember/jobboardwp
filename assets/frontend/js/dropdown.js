@@ -21,7 +21,8 @@
                     self.$menu = $('div.jb-dropdown[data-element="' + self.data.element + '"]').first();
                 }
                 self.$dropdown = self.$menu.clone();
-                self.$dropdown.on('click', 'li a', self.itemHandler); /* add the handler for menu items */
+                self.$dropdown.on('click', 'li a', self.itemHandlerA); /* add the handler for menu items */
+                self.$dropdown.on('click', 'li span', self.itemHandlerSpan); /* add the handler for menu items */
                 $(window).on('resize', self.updatePosition); /* update the position on window resize */
                 $(document.body).append(self.$dropdown);
 
@@ -41,6 +42,8 @@
             },
 
             hide: function () {
+				console.log( self.$dropdown )
+				console.log( self.$dropdown && self.$dropdown.is(':visible') )
                 if ( self.$dropdown && self.$dropdown.is(':visible') ) {
                     $(window).off('resize', self.updatePosition);
                     self.$dropdown.remove();
@@ -115,7 +118,7 @@
                 return self;
             },
 
-            itemHandler: function (e) {
+			itemHandlerA: function (e) {
                 e.stopPropagation();
 
                 /* trigger 'click' in the original menu */
@@ -124,6 +127,15 @@
 
                 /* hide dropdown */
                 self.hide();
+            },
+			itemHandlerSpan: function (e) {
+				e.stopPropagation();
+				// /* trigger 'click' in the original menu */
+                var attrClass = $(e.currentTarget).attr('class');
+				self.$menu.find('li span[class="' + attrClass + '"]').trigger('click');
+
+                /* hide dropdown */
+                self.hideAll();
             },
 
             triggerHandler: function (e) {
