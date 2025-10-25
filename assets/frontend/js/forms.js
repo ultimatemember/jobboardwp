@@ -329,7 +329,6 @@ jQuery( document ).ready( function($) {
 
 	// Submit company details
 	$( document.body ).on('submit', '.jb-form[name="jb-company-details"]', function() {
-		console.log( window.location.pathname );
 		if ( window.history ) {
 			window.history.replaceState({}, document.title, window.location.pathname );
 		}

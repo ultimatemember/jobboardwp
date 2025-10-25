@@ -42,8 +42,6 @@
             },
 
             hide: function () {
-				console.log( self.$dropdown )
-				console.log( self.$dropdown && self.$dropdown.is(':visible') )
                 if ( self.$dropdown && self.$dropdown.is(':visible') ) {
                     $(window).off('resize', self.updatePosition);
                     self.$dropdown.remove();

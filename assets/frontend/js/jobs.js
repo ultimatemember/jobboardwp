@@ -345,11 +345,6 @@ wp.JB.jobs_list = {
 
 				let templateStr = parent.data('format');
 
-				console.log( displayElement );
-				console.log( templateStr );
-				console.log( slide1 );
-				console.log( slide2 );
-
 				templateStr = templateStr.replace( /\$\{salary\}/gi, slide1 + ' - ' + slide2 );
 				templateStr = templateStr.replace( /\$\{symbol\}/gi, symbol );
 
