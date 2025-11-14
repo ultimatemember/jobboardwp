@@ -1,0 +1,25 @@
+# Directories
+/.wordpress-org
+/.git
+/.github
+/assets/admin/sass
+/assets/common/libs/fontawesome/scss
+/assets/common/sass
+/assets/frontend/sass
+/docs
+/node_modules
+/blocks-src
+
+# Files
+/.distignore
+/.editorconfig
+/.gitattributes
+/.gitignore
+/composer.json
+/gulpfile.js
+/hookdoc-conf.json
+/package.json
+/package-lock.json
+/phpcs.xml
+/phpdoc.dist.xml
+/README.md
