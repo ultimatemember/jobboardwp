@@ -36,7 +36,7 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 							$contact_mailto = add_query_arg(
 								array(
 									// translators: %1$s: application type, %2$s: home URL
-									'subject' => esc_html__( sprintf( __( 'Application via %1$s job on %2$s', 'jobboardwp' ), $job_title, home_url() ), 'jobboardwp' ), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+									'subject' => esc_html( sprintf( __( 'Application via %1$s job on %2$s', 'jobboardwp' ), $job_title, home_url() ) ),
 								),
 								'mailto:' . $contact
 							);
