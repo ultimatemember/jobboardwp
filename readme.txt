@@ -5,8 +5,8 @@ Contributors: ultimatemember, nsinelnikov
 Tags: job, job board, job portal, job listing, job manager
 Requires PHP: 5.6
 Requires at least: 5.5
-Tested up to: 6.8
-Stable tag: 1.3.2
+Tested up to: 6.9
+Stable tag: 1.3.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -104,6 +104,20 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 10. Screenshot 10
 
 == Changelog ==
+
+= 1.3.3: December 2, 2025 =
+
+* Fixed: Deprecate using `javascript:void(0);` in the link href attribute for JS-handled buttons.
+* Fixed: The `get_current_url()` function when permalinks are enabled.
+* Fixed: Handle wp_error case when job posting with invalid post thumbnail.
+* Fixed: Redirect to the job's edit page after draft job has been posted.
+
+* Templates required update:
+  - job/footer.php
+  - jobs/list.php
+  - js/jobs-dashboard.php
+
+* Cached and optimized/minified assets(JS/CSS) must be flushed/re-generated after upgrade
 
 = 1.3.2: June 4, 2025 =
 
