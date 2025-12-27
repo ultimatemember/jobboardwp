@@ -101,57 +101,61 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 		 * Enqueue Gutenberg Block Editor assets
 		 */
 		public function block_editor() {
-			global $current_screen;
+			global $current_screen, $pagenow;
+			$pages = array( 'post.php', 'post-new.php', 'widgets.php' );
 
-			// todo enqueue scripts|styles for block editor properly
+			if ( in_array( $pagenow, $pages, true ) ) {
 
-			wp_register_style( 'jb_admin_blocks_shortcodes', $this->css_url['admin'] . 'blocks' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
-			wp_enqueue_style( 'jb_admin_blocks_shortcodes' );
-			wp_register_script( 'jb_admin_blocks_shortcodes', $this->js_url['admin'] . 'blocks' . JB()->scrips_prefix . '.js', array( 'wp-i18n', 'wp-blocks', 'wp-components' ), JB_VERSION, true );
+				// todo enqueue scripts|styles for block editor properly
 
-			wp_set_script_translations( 'jb_admin_blocks_shortcodes', 'jobboardwp' );
+				wp_register_style( 'jb_admin_blocks_shortcodes', $this->css_url['admin'] . 'blocks' . JB()->scrips_prefix . '.css', array(), JB_VERSION );
+				wp_enqueue_style( 'jb_admin_blocks_shortcodes' );
+				wp_register_script( 'jb_admin_blocks_shortcodes', $this->js_url['admin'] . 'blocks' . JB()->scrips_prefix . '.js', array( 'wp-i18n', 'wp-blocks', 'wp-components' ), JB_VERSION, true );
 
-			$jb_options = array();
-			if ( isset( $current_screen->id ) && 'jb-job' === $current_screen->id ) {
-				$jb_options['exclude_blocks'] = 1;
-			} elseif ( isset( $current_screen->id ) && 'widgets' === $current_screen->id ) {
-				$jb_options['exclude_blocks'] = 2;
-			} else {
-				$jb_options['exclude_blocks'] = 0;
+				wp_set_script_translations( 'jb_admin_blocks_shortcodes', 'jobboardwp' );
+
+				$jb_options = array();
+				if ( isset( $current_screen->id ) && 'jb-job' === $current_screen->id ) {
+					$jb_options['exclude_blocks'] = 1;
+				} elseif ( isset( $current_screen->id ) && 'widgets' === $current_screen->id ) {
+					$jb_options['exclude_blocks'] = 2;
+				} else {
+					$jb_options['exclude_blocks'] = 0;
+				}
+
+				wp_localize_script( 'jb_admin_blocks_shortcodes', 'jb_blocks_options', $jb_options );
+
+				wp_enqueue_script( 'jb_admin_blocks_shortcodes' );
+
+				// render blocks
+				wp_enqueue_style( 'jb-common' );
+				wp_enqueue_style( 'jb-jobs-widget' );
+				wp_enqueue_style( 'jb-font-awesome' );
+				wp_enqueue_style( 'jb-job' );
+				wp_enqueue_style( 'jb-forms-preview' );
+				wp_enqueue_style( 'jb-job-categories' );
+				wp_enqueue_style( 'jb-jobs-dashboard' );
+				wp_enqueue_style( 'jb-jobs' );
+
+				if ( isset( $current_screen->id ) ) {
+					wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', array( 'jb-helptip' ), JB_VERSION, true );
+					wp_enqueue_script( 'jb-helptip' );
+					wp_localize_script(
+						'jb-front-global',
+						'jb_front_data',
+						array(
+							'nonce' => wp_create_nonce( 'jb-frontend-nonce' ),
+						)
+					);
+				}
+
+				wp_enqueue_script( 'jb-front-global' );
+				wp_enqueue_script( 'jb-job-categories' );
+				wp_enqueue_script( 'jb-dropdown' );
+				wp_enqueue_script( 'jb-jobs-dashboard' );
+				wp_enqueue_script( 'jb-jobs' );
+				wp_enqueue_script( 'jb-post-job' );
 			}
-
-			wp_localize_script( 'jb_admin_blocks_shortcodes', 'jb_blocks_options', $jb_options );
-
-			wp_enqueue_script( 'jb_admin_blocks_shortcodes' );
-
-			// render blocks
-			wp_enqueue_style( 'jb-common' );
-			wp_enqueue_style( 'jb-jobs-widget' );
-			wp_enqueue_style( 'jb-font-awesome' );
-			wp_enqueue_style( 'jb-job' );
-			wp_enqueue_style( 'jb-forms-preview' );
-			wp_enqueue_style( 'jb-job-categories' );
-			wp_enqueue_style( 'jb-jobs-dashboard' );
-			wp_enqueue_style( 'jb-jobs' );
-
-			if ( isset( $current_screen->id ) ) {
-				wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', array( 'jb-helptip' ), JB_VERSION, true );
-				wp_enqueue_script( 'jb-helptip' );
-				wp_localize_script(
-					'jb-front-global',
-					'jb_front_data',
-					array(
-						'nonce' => wp_create_nonce( 'jb-frontend-nonce' ),
-					)
-				);
-			}
-
-			wp_enqueue_script( 'jb-front-global' );
-			wp_enqueue_script( 'jb-job-categories' );
-			wp_enqueue_script( 'jb-dropdown' );
-			wp_enqueue_script( 'jb-jobs-dashboard' );
-			wp_enqueue_script( 'jb-jobs' );
-			wp_enqueue_script( 'jb-post-job' );
 		}
 
 		/**
