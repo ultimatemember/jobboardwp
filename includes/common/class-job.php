@@ -1246,6 +1246,14 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 		 * @since 1.0
 		 */
 		public function check_for_reminder_expired_jobs() {
+			/**
+			 * Fires before WP_CRON handler for sending email notifications about job expiration.
+			 *
+			 * @since 1.3.4
+			 * @hook jb_before_check_for_reminder_expired_jobs
+			 */
+			do_action( 'jb_before_check_for_reminder_expired_jobs' );
+
 			$duration = JB()->options()->get( 'job-duration' );
 			$reminder = JB()->options()->get( 'job-expiration-reminder' );
 			$days     = absint( JB()->options()->get( 'job-expiration-reminder-time' ) );
@@ -1350,6 +1358,14 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 					}
 				}
 			}
+
+			/**
+			 * Fires after WP_CRON handler for sending email notifications about job expiration.
+			 *
+			 * @since 1.3.4
+			 * @hook jb_after_check_for_reminder_expired_jobs
+			 */
+			do_action( 'jb_after_check_for_reminder_expired_jobs' );
 		}
 
 		/**
