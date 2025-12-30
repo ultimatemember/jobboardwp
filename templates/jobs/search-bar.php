@@ -107,7 +107,7 @@ global $jb_jobs_shortcode_index;
 	if ( ! $jb_jobs_search_bar['hide-filters'] ) {
 
 		$is_remote = ! empty( $_GET['jb-is-remote'][ $jb_jobs_shortcode_index ] );
-		$job_type  = ! empty( $_GET['jb-job-type'][ $jb_jobs_shortcode_index ] ) ? sanitize_text_field( wp_unslash( $_GET['jb-job-type'][ $jb_jobs_shortcode_index ] ) ) : '';
+		$job_type  = ! empty( $_GET['jb-type'][ $jb_jobs_shortcode_index ] ) ? sanitize_text_field( wp_unslash( $_GET['jb-type'][ $jb_jobs_shortcode_index ] ) ) : '';
 		?>
 
 		<div class="jb-jobs-header-row jb-jobs-filters-row">

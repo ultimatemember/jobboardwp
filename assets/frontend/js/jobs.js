@@ -525,7 +525,7 @@ jQuery( document ).ready( function($) {
 		jobs_list.data( 'page', 1 );
 		wp.JB.jobs_list.url.set( jobs_list, 'jb-page', '' );
 
-		wp.JB.jobs_list.url.set( jobs_list, 'jb-job-type', $(this).val() );
+		wp.JB.jobs_list.url.set( jobs_list, 'jb-type', $(this).val() );
 
 		wp.JB.jobs_list.ajax( jobs_list );
 	});

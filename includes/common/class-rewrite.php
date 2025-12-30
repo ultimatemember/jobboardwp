@@ -7,13 +7,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'jb\common\Rewrite' ) ) {
 
-
 	/**
 	 * Class Rewrite
 	 * @package jb\common
 	 */
 	class Rewrite {
-
 
 		/**
 		 * Rewrite constructor.
@@ -23,9 +21,8 @@ if ( ! class_exists( 'jb\common\Rewrite' ) ) {
 				add_filter( 'wp_loaded', array( $this, 'maybe_flush_rewrite_rules' ) );
 			}
 
-			add_action( 'plugins_loaded', array( $this, 'init_variables' ), 10 );
+			add_action( 'plugins_loaded', array( $this, 'init_variables' ) );
 		}
-
 
 		/**
 		 * Init variables for permalinks
@@ -38,7 +35,6 @@ if ( ! class_exists( 'jb\common\Rewrite' ) ) {
 			}
 		}
 
-
 		/**
 		 * Update "flush" option for reset rules on wp_loaded hook
 		 *
@@ -47,7 +43,6 @@ if ( ! class_exists( 'jb\common\Rewrite' ) ) {
 		public function reset_rules() {
 			JB()->options()->update( 'flush_rewrite_rules', true );
 		}
-
 
 		/**
 		 * Reset Rewrite rules if need it.
