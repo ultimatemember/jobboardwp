@@ -74,7 +74,7 @@ wp.JB.jobs_list = {
 
 			var query_strings = [];
 			jQuery.each( new_data, function( data_key ) {
-				query_strings.push( data_key + '=' + new_data[ data_key ] );
+				query_strings.push( encodeURIComponent( data_key ) + '=' + encodeURIComponent( new_data[ data_key ] ) );
 			});
 
 			query_strings = wp.hooks.applyFilters( 'jb_job_dashboard_url_attrs', query_strings );
@@ -93,7 +93,7 @@ wp.JB.jobs_list = {
 
 			jQuery.each( url_data, function( key ) {
 				if ( url_data[ key ] !== '' ) {
-					data[ key ] = url_data[ key ];
+					data[ decodeURIComponent( key ) ] = url_data[ key ];
 				}
 			});
 
