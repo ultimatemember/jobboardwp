@@ -107,9 +107,9 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 = 1.3.4: February 18, 2026 =
 
-* Added: Action hooks `jb_before_check_for_reminder_expired_jobs` and `jb_after_check_for_reminder_expired_jobs`.
-* Added: `encodeURIComponent` and `decodeURIComponent` to ensure URL parameters are properly encoded and decoded in job board scripts.
-* Fixed: Conflict with using 'jb-job-type' job type parameter for search filters on homepage. Replaced 'jb-job-type' with 'jb-type'.
+* Added: The action hooks `jb_before_check_for_reminder_expired_jobs` and `jb_after_check_for_reminder_expired_jobs`.
+* Added: Utilized `encodeURIComponent` and `decodeURIComponent` in job board scripts to ensure URL parameters are correctly encoded and decoded.
+* Fixed: Addressed a conflict where the 'jb-job-type' parameter was being used for search filters on the homepage. The 'jb-job-type' parameter has been replaced with 'jb-type'.
 
 * Templates Requiring Update:
 
