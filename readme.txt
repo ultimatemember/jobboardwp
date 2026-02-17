@@ -6,7 +6,7 @@ Tags: job, job board, job portal, job listing, job manager
 Requires PHP: 5.6
 Requires at least: 5.5
 Tested up to: 6.9
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -105,6 +105,18 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 == Changelog ==
 
+= 1.3.4: February 18, 2026 =
+
+* Added: Action hooks `jb_before_check_for_reminder_expired_jobs` and `jb_after_check_for_reminder_expired_jobs`.
+* Added: `encodeURIComponent` and `decodeURIComponent` to ensure URL parameters are properly encoded and decoded in job board scripts.
+* Fixed: Conflict with using 'jb-job-type' job type parameter for search filters on homepage. Replaced 'jb-job-type' with 'jb-type'.
+
+* Templates Requiring Update:
+
+  - jobs/search-bar.php
+
+* Cached and optimized/minified assets(JS/CSS) must be flushed/re-generated after upgrade
+
 = 1.3.3: December 2, 2025 =
 
 * Fixed: Deprecate using `javascript:void(0);` in the link href attribute for JS-handled buttons.
@@ -112,7 +124,8 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Fixed: Handle wp_error case when job posting with invalid post thumbnail.
 * Fixed: Redirect to the job's edit page after draft job has been posted.
 
-* Templates required update:
+* Templates Requiring Update:
+
   - job/footer.php
   - jobs/list.php
   - js/jobs-dashboard.php
@@ -152,7 +165,8 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Fixed: Displaying filled job for the author if filled jobs are hidden in the jobs list
 * Tweak: Updated PHPCS + WPCS for getting better code experience
 
-* Templates required update:
+* Templates Requiring Update:
+
   - dashboard/jobs.php
   - job/footer.php
   - jobs/search-bar.php
@@ -189,7 +203,8 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Added: Hook `jb_before_jobs_list` for 3rd-party integrations and add content above the jobs list and below the search bar
 * Tweak: Changes the structure for the Gutenberg blocks' scripts and way of registration
 
-* Templates required update:
+* Templates Requiring Update:
+
   - jobs/wrapper.php
 
 * Cached and optimized/minified assets(JS/CSS) must be flushed/re-generated after upgrade
@@ -200,7 +215,8 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Added: Hooks and handlers for 3rd-party integration
 * Fixed: Using default single job template on the block themes
 
-* Templates required update:
+* Templates Requiring Update:
+
   - jobs/js/jobs-list.php
   - job/content.php
   - single-job.php
@@ -221,7 +237,8 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Fixed: Security issue with job posting process
 * Fixed: Function for rendering media field for uploads in JobBoardWP wp-admin forms
 
-* Templates required update:
+* Templates Requiring Update:
+
   - job-submission.php
   - jobs/search-bar.php
   - jobs/wrapper.php
@@ -240,7 +257,8 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Fixed: Duplicate image notice in uploader
 * Tweak: Added new field-types for frontend and backend forms for 3rd-party integrations
 
-* Templates required update:
+* Templates Requiring Update:
+
   - emails/base_wrapper.php
   - job-submission.php
   - job/company.php
@@ -258,7 +276,9 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Fixed: Integrations with translations plugins
 * Fixed: Job Category jobs counter when the "Hide filled jobs" option is enabled
 * Fixed: Dropdown.js custom attributes using
-* Templates required update:
+
+* Templates Requiring Update:
+
   - dashboard/jobs.php
   - jobs/wrapper.php
   - js/jobs-list.php
@@ -283,7 +303,9 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Fixed: Issue with category attribute in the jobs list shortcode
 * Fixed: Dropdown.js library and
 * Fixed: Logo uploader button for iPhones
-* Templates required update:
+
+* Templates Requiring Update:
+
   - dashboard/jobs.php
   - emails/base_wrapper.php
   - emails/job_edited.php
@@ -327,7 +349,8 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Added: `jb_get_jobs_query_args` hook for 3rd-party integrations to jobs query attributes array
 * Fixed: Responsive JS scripts for some themes and screen width
 
-* Templates required update:
+* Templates Requiring Update:
+
   - jobs/wrapper.php
 
 = 1.0.5: May 4, 2021 =

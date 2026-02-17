@@ -3,7 +3,7 @@
  * Plugin Name: JobBoardWP
  * Plugin URI: https://jobboardwp.com/
  * Description: Add a modern job board to your website. Display job listings and allow employers to submit and manage jobs all from the front-end
- * Version: 1.3.4-alpha
+ * Version: 1.3.4
  * Author: JobBoardWP
  * License: GPLv3
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
