@@ -135,6 +135,7 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 			wp_enqueue_style( 'jb-jobs' );
 
 			if ( isset( $current_screen->id ) ) {
+				wp_register_script( 'jb-helptip', $this->js_url['common'] . 'helptip' . JB()->scrips_prefix . '.js', array( 'jquery', 'jquery-ui-tooltip' ), JB_VERSION, true );
 				wp_register_script( 'jb-front-global', $this->js_url['frontend'] . 'global' . JB()->scrips_prefix . '.js', array( 'jb-helptip' ), JB_VERSION, true );
 				wp_enqueue_script( 'jb-helptip' );
 				wp_localize_script(
