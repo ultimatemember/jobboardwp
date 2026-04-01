@@ -105,7 +105,7 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 == Changelog ==
 
-= 1.3.5: March 26, 2026 =
+= 1.3.5: April 01, 2026 =
 
 * Fixed: PHP Notice: Function WP_Scripts::add was called incorrectly.
 
