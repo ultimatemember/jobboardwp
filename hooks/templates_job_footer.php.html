@@ -37,7 +37,7 @@
  *
  * This template can be overridden by copying it to yourtheme/jobboardwp/job/footer.php
  *
- * @version 1.3.3
+ * @version 1.3.6
  *
  * @var array $jb_job_footer
  */
@@ -51,7 +51,7 @@ if ( ! empty( $jb_job_footer['job_id'] ) ) {
 	$job_title = ! empty( $jb_job_footer['title'] ) ? $jb_job_footer['title'] : '';
 	?>
 
-	&lt;div class="jb-job-footer">
+	&lt;div class="jb-job-footer" data-job_id="&lt;?php echo esc_attr( $job_id ); ?>">
 		&lt;div class="jb-job-footer-row">
 			&lt;?php
 			if ( JB()->common()->job()->can_applied( $job_id ) ) {
