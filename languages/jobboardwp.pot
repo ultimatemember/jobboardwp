@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-13T22:11:54+00:00\n"
+"POT-Creation-Date: 2026-04-25T09:57:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: jobboardwp\n"
@@ -61,7 +61,7 @@ msgstr ""
 
 #: includes/admin/class-columns.php:141
 #: includes/admin/class-columns.php:353
-#: includes/ajax/class-jobs.php:1014
+#: includes/common/class-job.php:473
 msgid "Filled"
 msgstr ""
 
@@ -1442,41 +1442,41 @@ msgstr ""
 msgid "Wrong AJAX Nonce"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:624
-#: includes/ajax/class-jobs.php:1019
+#: includes/ajax/class-jobs.php:625
+#: includes/ajax/class-jobs.php:1014
 #: includes/frontend/class-shortcodes.php:743
 msgid "(no title)"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:806
+#: includes/ajax/class-jobs.php:807
 msgid "Invalid taxonomy registration"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:857
+#: includes/ajax/class-jobs.php:858
 msgid "Wrong job ID."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:864
+#: includes/ajax/class-jobs.php:865
 msgid "Wrong job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:868
+#: includes/ajax/class-jobs.php:869
 msgid "You haven't ability to delete this job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:886
-#: includes/ajax/class-jobs.php:940
-#: includes/ajax/class-jobs.php:994
+#: includes/ajax/class-jobs.php:887
+#: includes/ajax/class-jobs.php:941
+#: includes/ajax/class-jobs.php:995
 msgid "Something went wrong."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:901
-#: includes/ajax/class-jobs.php:955
+#: includes/ajax/class-jobs.php:902
+#: includes/ajax/class-jobs.php:956
 msgid "Wrong job ID"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:908
-#: includes/ajax/class-jobs.php:962
+#: includes/ajax/class-jobs.php:909
+#: includes/ajax/class-jobs.php:963
 #: includes/frontend/class-actions-listener.php:1004
 #: includes/frontend/class-actions-listener.php:1121
 #: includes/frontend/class-actions-listener.php:1135
@@ -1486,36 +1486,32 @@ msgstr ""
 msgid "Wrong job"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:912
+#: includes/ajax/class-jobs.php:913
 msgid "You haven't ability to fill this job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:916
+#: includes/ajax/class-jobs.php:917
 msgid "Job is already filled."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:966
+#: includes/ajax/class-jobs.php:967
 msgid "You haven't ability to un-fill this job."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:970
+#: includes/ajax/class-jobs.php:971
 msgid "Job isn't filled yet."
 msgstr ""
 
-#: includes/ajax/class-jobs.php:1014
-msgid "Not-filled"
-msgstr ""
-
-#: includes/ajax/class-jobs.php:1180
+#: includes/ajax/class-jobs.php:1175
 #: includes/ajax/class-notices.php:32
 msgid "Wrong Data"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:1321
+#: includes/ajax/class-jobs.php:1316
 msgid "Wrong Job's data"
 msgstr ""
 
-#: includes/ajax/class-jobs.php:1323
+#: includes/ajax/class-jobs.php:1318
 msgid " Description is required"
 msgstr ""
 
@@ -2289,8 +2285,8 @@ msgid "Add New Job"
 msgstr ""
 
 #: includes/common/class-cpt.php:63
-#: includes/common/class-job.php:806
-#: includes/common/class-job.php:814
+#: includes/common/class-job.php:820
+#: includes/common/class-job.php:828
 msgid "Edit"
 msgstr ""
 
@@ -2823,43 +2819,47 @@ msgstr ""
 msgid "Anywhere"
 msgstr ""
 
+#: includes/common/class-job.php:473
+msgid "Not-filled"
+msgstr ""
+
 #. translators: %s is maximum job salary amount.
-#: includes/common/class-job.php:591
+#: includes/common/class-job.php:605
 #, php-format
 msgid "Up to %s"
 msgstr ""
 
 #. translators: %s is minimum job salary amount.
-#: includes/common/class-job.php:596
+#: includes/common/class-job.php:610
 #, php-format
 msgid "Starts from %s"
 msgstr ""
 
 #. translators: %1$s is a job's salary amount or range; %2$s is a job's salary period.
-#: includes/common/class-job.php:609
+#: includes/common/class-job.php:623
 #, php-format
 msgid "%1$s per %2$s"
 msgstr ""
 
-#: includes/common/class-job.php:779
+#: includes/common/class-job.php:793
 msgid "Submit again"
 msgstr ""
 
-#: includes/common/class-job.php:782
-#: includes/common/class-job.php:797
-#: includes/common/class-job.php:829
+#: includes/common/class-job.php:796
+#: includes/common/class-job.php:811
+#: includes/common/class-job.php:843
 msgid "Delete"
 msgstr ""
 
-#: includes/common/class-job.php:794
+#: includes/common/class-job.php:808
 msgid "Continue submission"
 msgstr ""
 
-#: includes/common/class-job.php:820
+#: includes/common/class-job.php:834
 msgid "Mark as filled"
 msgstr ""
 
-#: includes/common/class-job.php:824
+#: includes/common/class-job.php:838
 msgid "Mark as un-filled"
 msgstr ""
 
