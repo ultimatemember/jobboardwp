@@ -34,6 +34,7 @@
             <pre class="prettyprint source linenums"><code>&lt;?php
 namespace jb\ajax;
 
+use WP_Post;
 use WP_Query;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -1029,24 +1030,18 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 			// phpcs:enable WordPress.Security.NonceVerification -- already verified here
 		}
 
-
 		/**
 		 * Prepare job data for AJAX response
 		 *
-		 * @param \WP_Post $job_post
+		 * @param WP_Post $job_post
 		 *
 		 * @return array
 		 *
 		 * @since 1.0
 		 */
 		public function get_job_data( $job_post ) {
-			if ( 'publish' !== $job_post->post_status ) {
-				$status_label = JB()->common()->job()->get_status( $job_post->ID );
-				$status       = 'jb-preview' === $job_post->post_status ? 'draft' : $job_post->post_status;
-			} else {
-				$status_label = JB()->common()->job()->is_filled( $job_post->ID ) ? __( 'Filled', 'jobboardwp' ) : __( 'Not-filled', 'jobboardwp' );
-				$status       = JB()->common()->job()->is_filled( $job_post->ID ) ? 'filled' : 'not-filled';
-			}
+			$status       = JB()->common()->job()->get_status( $job_post->ID, true );
+			$status_label = JB()->common()->job()->get_status( $job_post->ID );
 
 			$title = esc_html( get_the_title( $job_post ) );
 			$title = ! empty( $title ) ? $title : esc_html__( '(no title)', 'jobboardwp' );
