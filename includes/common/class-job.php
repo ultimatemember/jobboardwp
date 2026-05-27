@@ -460,6 +460,17 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				if ( 'publish' === $job->post_status ) {
 					$status = $this->is_filled( $job->ID ) ? 'filled' : 'not-filled';
 				}
+				/**
+				 * Filters the job status slug.
+				 *
+				 * @since 1.3.6
+				 * @hook jb_job_status_raw
+				 *
+				 * @param {string} $status Job status slug.
+				 * @param {object} $job    Job WP_Post object.
+				 *
+				 * @return {string} Job status slug.
+				 */
 				return apply_filters( 'jb_job_status_raw', $status, $job );
 			}
 
@@ -472,6 +483,17 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 			if ( 'publish' === $job->post_status ) {
 				$status_label = $this->is_filled( $job->ID ) ? __( 'Filled', 'jobboardwp' ) : __( 'Not-filled', 'jobboardwp' );
 			}
+			/**
+			 * Filters the job status label.
+			 *
+			 * @since 1.3.6
+			 * @hook jb_job_status_label
+			 *
+			 * @param {string} $status_label Job status label.
+			 * @param {object} $job          Job WP_Post object.
+			 *
+			 * @return {string} Job status label.
+			 */
 			return apply_filters( 'jb_job_status_label', $status_label, $job );
 		}
 
