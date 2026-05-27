@@ -75,7 +75,7 @@ if ( ! class_exists( 'jb\common\Enqueue' ) ) {
 			$this->css_url['admin']   = JB_URL . 'assets/admin/css/';
 			$this->js_url['admin']    = JB_URL . 'assets/admin/js/';
 			$this->js_url['frontend'] = JB_URL . 'assets/frontend/js/';
-			add_action( 'enqueue_block_assets', array( &$this, 'block_editor' ), 11 );
+			add_action( 'enqueue_block_editor_assets', array( &$this, 'block_editor' ), 11 );
 		}
 
 		/**

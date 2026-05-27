@@ -109,6 +109,7 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 
 * Added: Filter hooks 'jb_job_status_raw' and 'jb_job_status_label' for 3rd-party integrations.
 * Tweak: Refactor job status handling in AJAX and common functions.
+* Fixed: Enqueue block editor scripts/styles on the frontend. Changed `enqueue_block_assets` hook to a proper one `enqueue_block_editor_assets`.
 
 * Templates Requiring Update:
 
