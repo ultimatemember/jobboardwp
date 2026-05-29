@@ -866,7 +866,18 @@ if ( ! class_exists( 'jb\common\Job' ) ) {
 				);
 			}
 
-			return $actions;
+			/**
+			 * Filters the job actions.
+			 *
+			 * @since 1.3.7
+			 * @hook jb_job_actions_list
+			 *
+			 * @param {array}   $actions Job's actions.
+			 * @param {WP_Post} $job     Job post object.
+			 *
+			 * @return {array} Job actions.
+			 */
+			return apply_filters( 'jb_job_actions_list', $actions, $job );
 		}
 
 		/**
