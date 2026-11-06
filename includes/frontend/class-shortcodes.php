@@ -388,7 +388,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			return $html;
 		}
 
-
 		/**
 		 * Single job shortcode
 		 * [jb_job /]
@@ -413,6 +412,9 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			if ( empty( $atts['id'] ) ) {
 				return '';
 			}
+
+			// sanitize attributes.
+			$atts['id'] = absint( $atts['id'] );
 
 			$job = get_post( $atts['id'] );
 			if ( empty( $job ) || is_wp_error( $job ) ) {
@@ -441,7 +443,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 			return $content;
 		}
-
 
 		/**
 		 * Jobs shortcode
@@ -493,6 +494,43 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				'jb_jobs'
 			);
 
+			// sanitize attributes.
+			foreach ( $atts as $key => &$value ) {
+				switch ( $key ) {
+					case 'employer-id':
+					case 'per-page':
+					case 'type':
+					case 'category':
+						$value = absint( $value );
+						break;
+
+					case 'no-logo':
+					case 'hide-filled':
+					case 'hide-expired':
+					case 'hide-search':
+					case 'hide-location-search':
+					case 'hide-filters':
+					case 'hide-job-types':
+					case 'filled-only':
+						$value = (bool) $value;
+						break;
+
+					case 'no-jobs-text':
+					case 'no-jobs-search-text':
+					case 'load-more-text':
+					case 'order':
+					case 'salary':
+						$value = sanitize_text_field( $value );
+						break;
+
+					case 'orderby':
+						$value = sanitize_key( $value );
+						break;
+
+				}
+			}
+			unset( $value );
+
 			wp_enqueue_script( 'jb-jobs' );
 			wp_enqueue_style( 'jb-jobs' );
 
@@ -512,7 +550,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 			return ob_get_clean();
 		}
-
 
 		/**
 		 * Jobs dashboard shortcode
@@ -539,6 +576,13 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 				'jb_jobs_dashboard'
 			);
 
+			// sanitize attributes.
+			$sanitized = array();
+			foreach ( $atts['columns'] as $key => $value ) {
+				$sanitized[ sanitize_key( $key ) ] = sanitize_text_field( $value );
+			}
+			$atts['columns'] = $sanitized;
+
 			wp_enqueue_script( 'jb-jobs-dashboard' );
 			wp_enqueue_style( 'jb-jobs-dashboard' );
 
@@ -558,7 +602,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 			return ob_get_clean();
 		}
-
 
 		/**
 		 * Jobs dashboard shortcode
@@ -587,7 +630,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 
 			return ob_get_clean();
 		}
-
 
 		/**
 		 * The "Recent Jobs" shortcode
@@ -798,7 +840,6 @@ if ( ! class_exists( 'jb\frontend\Shortcodes' ) ) {
 			remove_filter( 'safe_style_css', array( $this, 'add_display_css_attr' ), 10 );
 			return $content;
 		}
-
 
 		/**
 		 * The "Company detailds" shortcode

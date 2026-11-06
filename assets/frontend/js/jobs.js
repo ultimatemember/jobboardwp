@@ -303,9 +303,9 @@ wp.JB.jobs_list = {
 
 					if ( ! append ) {
 						if ( wp.JB.jobs_list.is_search ) {
-							jobs_list.find('.jb-jobs-wrapper').html( jobs_list.data('no-jobs-search') );
+							jobs_list.find('.jb-jobs-wrapper').text( jobs_list.data('no-jobs-search') );
 						} else {
-							jobs_list.find('.jb-jobs-wrapper').html( jobs_list.data('no-jobs') );
+							jobs_list.find('.jb-jobs-wrapper').text( jobs_list.data('no-jobs') );
 						}
 					}
 
