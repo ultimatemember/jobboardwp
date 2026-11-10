@@ -13,10 +13,24 @@
    "minimum-stability": "stable",
    "prefer-stable" : true,
    "config": {
-      "allow-plugins": {
-         "symfony/flex": true,
-         "dealerdirect/phpcodesniffer-composer-installer": true
-      }
+     "allow-plugins": {
+       "symfony/flex": true,
+       "dealerdirect/phpcodesniffer-composer-installer": true
+     },
+     "audit": {
+       "ignore": [
+         "PKSA-w9tt-7782-78jx",
+         "PKSA-pwh8-d4fr-nywn"
+       ]
+     },
+     "policy": {
+       "advisories": {
+         "ignore-id": [
+           "PKSA-w9tt-7782-78jx",
+           "PKSA-pwh8-d4fr-nywn"
+         ]
+       }
+     }
    },
    "require": {
       "ext-json": "*",

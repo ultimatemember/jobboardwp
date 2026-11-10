@@ -535,7 +535,7 @@ if ( ! class_exists( 'jb\frontend\Actions_Listener' ) ) {
 						if ( empty( $_POST['job_description'] ) ) {
 							$posting_form->add_error( 'job_description', __( 'Job description cannot be empty', 'jobboardwp' ) );
 						} else {
-							$content = wp_kses_post( wp_unslash( $_POST['job_description'] ) );
+							$content = wp_kses_post( strip_shortcodes( wp_unslash( $_POST['job_description'] ) ) );
 							if ( empty( $content ) ) {
 								$posting_form->add_error( 'job_description', __( 'Job description cannot be empty', 'jobboardwp' ) );
 							}
