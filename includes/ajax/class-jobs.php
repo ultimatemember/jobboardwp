@@ -130,11 +130,11 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 
 						$this->company_name_meta = $meta_join_for_search;
 
-						$meta_search = "( $meta_join_for_search.meta_key = 'jb-company-name' AND $meta_join_for_search.meta_value LIKE $search_meta )";
+						$meta_search     = "( $meta_join_for_search.meta_key = 'jb-company-name' AND $meta_join_for_search.meta_value LIKE $search_meta )";
 						$search_position = stripos( $sql['where'], $meta_search );
 						if ( false !== $search_position ) {
 							$meta_search_inner = substr( $sql['where'], $search_position + 2, strlen( $meta_search ) - 4 );
-							$replacement      = "( $meta_search_inner $search_query )";
+							$replacement       = "( $meta_search_inner $search_query )";
 							$sql['where']      = substr_replace( $sql['where'], $replacement, $search_position, strlen( $meta_search ) );
 						}
 					}
