@@ -119,56 +119,24 @@ if ( ! class_exists( 'jb\ajax\Jobs' ) ) {
 						$join_matches
 					);
 
-					$from         = '/' . preg_quote( ' AND ', '/' ) . '/';
-					$search_query = preg_replace( $from, ' OR ', $this->search, 1 );
+					$search_query = $this->search;
+					$and_position = strpos( $search_query, ' AND ' );
+					if ( false !== $and_position ) {
+						$search_query = substr_replace( $search_query, ' OR ', $and_position, 5 );
+					}
 
-					if ( isset( $join_matches[1] ) ) {
+					if ( isset( $join_matches[1] ) && preg_match( '/^[A-Za-z0-9_]+$/D', trim( $join_matches[1] ) ) ) {
 						$meta_join_for_search = trim( $join_matches[1] );
 
 						$this->company_name_meta = $meta_join_for_search;
 
-						preg_match( '~(?<=\{)(.*?)(?=\})~', $search_meta, $matches, PREG_OFFSET_CAPTURE, 0 );
-
-						// workaround for standard mySQL hashes which are used by $wpdb->prepare instead of the %symbol
-						// sometimes it breaks error for strings like that wp_postmeta.meta_value LIKE '{12f209b48a89eeab33424902879d05d503f251ca8812dde03b59484a2991dc74}AMS{12f209b48a89eeab33424902879d05d503f251ca8812dde03b59484a2991dc74}'
-						// {12f209b48a89eeab33424902879d05d503f251ca8812dde03b59484a2991dc74} isn't applied by the `preg_replace()` below
-						if ( $matches[0][0] ) {
-							$search_meta  = str_replace(
-								array(
-									'{' . $matches[0][0] . '}',
-									'/', // it's required for line 161 - preg_replace
-								),
-								array(
-									'#%&',
-									'\/', // it's required for line 161 - preg_replace
-								),
-								$search_meta
-							);
-							$search_query = str_replace(
-								array(
-									'{' . $matches[0][0] . '}',
-									'/', // it's required for line 161 - preg_replace
-								),
-								array(
-									'#%&',
-									'\/', // it's required for line 161 - preg_replace
-								),
-								$search_query
-							);
-							$sql['where'] = str_replace( '{' . $matches[0][0] . '}', '#%&', $sql['where'] );
+						$meta_search = "( $meta_join_for_search.meta_key = 'jb-company-name' AND $meta_join_for_search.meta_value LIKE $search_meta )";
+						$search_position = stripos( $sql['where'], $meta_search );
+						if ( false !== $search_position ) {
+							$meta_search_inner = substr( $sql['where'], $search_position + 2, strlen( $meta_search ) - 4 );
+							$replacement      = "( $meta_search_inner $search_query )";
+							$sql['where']      = substr_replace( $sql['where'], $replacement, $search_position, strlen( $meta_search ) );
 						}
-
-						// phpcs:disable Squiz.Strings.DoubleQuoteUsage.NotRequired -- don't remove regex indentation
-						$sql['where'] = preg_replace(
-							"/\( (" . $meta_join_for_search . ".meta_key = 'jb-company-name' AND " . $meta_join_for_search . ".meta_value LIKE " . $search_meta . ") \)/im",
-							"( $1 " . $search_query . " )",
-							$sql['where'],
-							1
-						);
-						if ( $matches[0][0] && ! empty( $sql['where'] ) ) {
-							$sql['where'] = str_replace( '#%&', '{' . $matches[0][0] . '}', $sql['where'] );
-						}
-						// phpcs:enable Squiz.Strings.DoubleQuoteUsage.NotRequired -- don't remove regex indentation
 					}
 				}
 			}

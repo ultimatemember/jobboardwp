@@ -16,6 +16,7 @@
 /docs export-ignore
 /blocks-src export-ignore
 /node_modules export-ignore
+/tests export-ignore
 
 # Files
 /.distignore export-ignore

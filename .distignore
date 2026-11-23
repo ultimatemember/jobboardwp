@@ -9,6 +9,7 @@
 /docs
 /node_modules
 /blocks-src
+/tests
 
 # Files
 /.distignore
