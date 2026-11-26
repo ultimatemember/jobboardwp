@@ -17,6 +17,7 @@
 	<exclude-pattern>\.idea/*</exclude-pattern>
 	<exclude-pattern>includes/blocks/*</exclude-pattern>
 	<exclude-pattern>blocks-src/*</exclude-pattern>
+	<exclude-pattern>tests/*</exclude-pattern>
 
 	<rule ref="WordPress-Extra"/>
 

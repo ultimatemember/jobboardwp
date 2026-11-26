@@ -6,7 +6,7 @@ Tags: job, job board, job portal, job listing, job manager
 Requires PHP: 5.6
 Requires at least: 5.5
 Tested up to: 7.1
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -104,6 +104,10 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 10. Screenshot 10
 
 == Changelog ==
+
+= 1.3.8: November 25, 2026 =
+
+* Fixed: CVE-2026-132617 security issue. Changed the way on how to modify SQL query for searching by the `company_name` postmeta.
 
 = 1.3.7: November 10, 2026 =
 
@@ -414,6 +418,9 @@ Yes! JobBoardWP is WordPress Multisite compatible.
 * Initial Release
 
 == Upgrade Notice ==
+
+= 1.3.8 =
+This version fixes a security related bug. Upgrade immediately.
 
 = 1.3.7 =
 This version fixes a security related bug. Upgrade immediately.
